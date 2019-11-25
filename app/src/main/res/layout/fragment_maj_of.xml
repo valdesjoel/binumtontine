@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightGray">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_update_Of"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:textAlignment="center"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </com.google.android.material.appbar.AppBarLayout>
+     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:app="http://schemas.android.com/apk/res-auto"
+         android:background="@color/colorBackground"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_marginTop="?attr/actionBarSize"
+         android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+            <!--android:theme="@style/TextInputLayoutStyle"
+             style="@style/Widget.AppTheme.TextInputLayoutList"-->
+         <!--   <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_sigle_of"
+                style="@style/Widget.AppTheme.TextInputLayoutList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorGreen"
+                android:theme="@style/TextInputLayoutStyle"
+                app:boxStrokeColor="@color/colorGreen"
+                app:errorEnabled="true"
+
+
+                >
+
+                <EditText
+                    android:id="@+id/input_txt_sigle_of"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_sigle_of"
+                    android:singleLine="true"
+                    android:text="BT"
+
+                    android:textColor="@color/jrspinner_color_default"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout> -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_sigle_of"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_sigle_of"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_sigle_of"
+                    android:singleLine="true"
+                    android:layout_marginTop="20dp"
+                    style="@style/modifiedEditText"
+
+
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_denominationOF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_denominationOF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_denomination"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_num_agrement_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_num_agrement_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_num_agrement"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_dateAgrementOF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_dateAgrementOF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_date_agrement"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_BP_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_BP_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_BP"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_Ville_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_Ville_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_ville"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_Pays_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_Pays_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_pays"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_Adresse_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_Adresse_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_adresse"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPostalAddress"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_Tel1_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_Tel1_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_telephone1"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:inputType="phone"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_Tel2_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_Tel2_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_telephone2"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:inputType="phone"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_Tel3_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_Tel3_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_telephone3"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_NomPCA_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_NomPCA_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_nomPCA"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_NomVPCA_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_NomVPCA_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_nomVPCA"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_NomDG_OF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_NomDG_OF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_nomDG"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_siege_of"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/parent"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true"
+                >
+
+                <EditText
+                    android:id="@+id/input_txt_siege_of"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_siege_of"
+                    android:singleLine="true"
+
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_update_of"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                style="@style/loginButton"
+                android:text="@string/btn_update_of"/>
+
+
+        </LinearLayout>
+
+          <!--   <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/btn_update_of"
+                android:textColor="@android:color/white" /> -->
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

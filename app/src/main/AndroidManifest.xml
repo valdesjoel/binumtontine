@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.binumtontine">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/MyMaterialTheme">
+        <activity
+            android:name=".activity.parametrageGuichet.ParamGuichetActivity"
+            android:label="@string/title_activity_param_guichet"
+            android:theme="@style/MyMaterialTheme.NoActionBar"></activity>
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.CreateCaisse" />
+        <activity android:name=".activity.CreateGuichet" />
+        <activity android:name=".activity.GuichetNewActivity" />
+        <activity android:name=".activity.UserGuichetActivity" />
+        <activity android:name=".activity.CreateUser" />
+        <activity android:name=".activity.CreateUserGuichet" />
+        <activity android:name=".activity.UpdateEAV" />
+        <activity android:name=".activity.UpdateEAP" />
+        <activity android:name=".activity.UpdateCaisse" />
+        <activity android:name=".activity.UpdateGuichet" />
+        <activity android:name=".activity.UpdateUser" />
+        <activity android:name=".activity.UpdateUserGuichet" />
+        <activity android:name=".activity.UserActivity" />
+        <activity android:name=".activity.UpdateOrganeFaitier" />
+        <activity android:name=".activity.parametreGenerauxOF.ParametreGenerauxOFActivity" />
+        <activity android:name=".activity.parametreGenerauxCx.ParametreGenerauxCxActivity" />
+        <activity android:name=".activity.parametreGenerauxOF.CreatePieceToFournirOf" />
+        <activity android:name=".activity.parametreGenerauxCx.CreatePieceToFournirCx" />
+        <activity android:name=".activity.parametreGenerauxOF.CreateFraisToPayerOf" />
+        <activity android:name=".activity.parametreGenerauxCx.CreateFraisToPayerCx" />
+        <activity android:name=".activity.jourOuvert.JourOuvert" />
+        <activity android:name=".activity.parametrageGuichet.ListGuichetActivity" />
+        <activity android:name=".activity.parametrageGuichet.ProduitGuichetFragment" />
+        <activity android:name=".activity.parametrageGuichet.ProduitEAVGuichetActivity" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity android:name=".remotemysqlconnection.AddMovieActivity" />
+        <activity android:name=".remotemysqlconnection.MovieUpdateDeleteActivity" />
+        <activity android:name=".remotemysqlconnection.MovieListingActivity" />
+        <activity android:name=".remotemysqlconnection.RemoteMySQLActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".activity.CreateProduitEAV" />
+        <activity
+            android:name=".activity.ProduitEAVActivity"
+            android:label="@string/title_activity_produit_eav"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity android:name=".activity.CreateProduitEAP" />
+        <activity android:name=".activity.CreateProduitEAT" />
+        <activity android:name=".activity.CreateProduitCpteCourant" />
+        <activity
+            android:name=".activity.ProduitEAPActivity"
+            android:label="@string/title_activity_produit_eap"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ProduitEATActivity"
+            android:label="@string/title_activity_produit_eat"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ProduitCpteCourantActivity"
+            android:label="@string/title_activity_produit_cc"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ProduitCreditActivity"
+            android:label="@string/title_activity_produit_credit"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/MyMaterialTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.UsersCaisseActivity"
+            android:label="@string/title_activity_users_caisse"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity
+            android:name=".activity.CaisseActivity"
+            android:label="@string/title_activity_caisse"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity android:name=".activity.PrivacyPolicyActivity" />
+        <activity android:name=".activity.AboutUsActivity" /> <!-- <activity android:name=".activity.MainActivityBackup"></activity> -->
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivityAdminCaisse" />
+        <activity android:name=".activity.ParametrageProduitCaisseActivity" />
+        <activity android:name=".activity.GuichetActivity" />
+    </application>
+
+</manifest>

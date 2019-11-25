@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.PrivacyPolicyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="true">
+
+            <com.example.binumtontine.JRSpinner
+                android:id="@+id/spn_my_spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/my_products"
+                android:textColor="@color/colorPrimary"
+                app:backgroundTint="@color/colorPrimary"
+                app:jrs_title="Choose"
+                app:jrs_icon_tint="@color/colorPrimary"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".activity.PrivacyPolicyActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_preParam_Produit"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+   <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sélectionner les produits de votre réseau: "
+        android:textColor="#f00"
+        android:textSize="20sp"
+        android:textStyle="bold" />-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#e0e0e0"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
+
+        <CheckBox
+            android:id="@+id/eavCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="50dp"
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/produit_eav"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/eapCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_eap"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/eatCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_eat"
+            android:textColor="#444"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/cptecourantCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/produit_cc"
+            android:layout_marginLeft="50dp"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/creditCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_credit"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_classique"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="15sp"
+            android:text="@string/produit_transfert_classique"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_to_mtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:text="@string/produit_transfert_to_mtn"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_to_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_transfert_to_orange"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_to_eu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_transfert_to_eu"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/chkOp_ext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/op_ext"
+            android:onClick="onCheckboxClicked"/>
+       <!-- <CheckBox
+            android:id="@+id/chkAppellation_produit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/appellation_produit"
+            android:onClick="onCheckboxClicked"/> -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblTypeNouveauTxInteretRuptureEAP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/appellation_produit"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupEpTypeNouveauTxInteretRuptureEAP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblTypeNouveauTxInteretRuptureEAP"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:showDividers="middle|end">
+
+                <RadioButton
+                    android:id="@+id/rbEpargne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Epargne" />
+
+                <RadioButton
+                    android:id="@+id/rbDepot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Dépôt" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- <Button
+            android:id="@+id/btn_save_PreParamOf"
+            style="@style/loginButton"
+            android:text="@string/btn_enregistrer"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>-->
+
+       <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_save_PreParamOf"
+            style="@style/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginBottom="70dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="12dp"
+            android:text="@string/btn_enregistrer"/>
+        <!--<Button
+            android:id="@+id/getBtn"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="Get Details" />-->
+
+    </LinearLayout>
+</ScrollView>
+</RelativeLayout>

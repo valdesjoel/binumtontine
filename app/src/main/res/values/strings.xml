@@ -1,0 +1,277 @@
+<resources>
+    <string name="app_name">binumtontine</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_friends">Friends</string>
+    <string name="nav_item_notifications">Messages</string>
+
+    <!-- for server address -->
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/menu_network</item>
+        <item>@string/menu_produit</item>
+        <item>@string/menu_operation_externe</item>
+        <item>@string/menu_activation_zone_activite</item>
+    </string-array>
+    <!-- <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_home</item>
+        <item>@string/nav_item_friends</item>
+        <item>@string/nav_item_notifications</item>
+    </string-array> -->
+    <string name="menu_network">Mise en place du réseau</string>
+    <string name="menu_produit">Mise en place des produits</string>
+    <string name="menu_operation_externe">Oprérations externes</string>
+    <string name="menu_activation_zone_activite">Zones d\'activités</string>
+
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_home">Home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_home">Mise en place du réseau</string>
+    <string name="nav_photos">Mise en place des produits</string>
+    <string name="nav_movies">Oprérations externes</string>
+    <string name="nav_notifications">Notifications</string>
+    <string name="nav_settings">Zones d\'activités</string>
+    <string name="nav_about_us">About Us</string>
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Réseau</item>
+        <item>Produits</item>
+        <item>Oprérations externes</item>
+        <item>Notifications</item>
+        <item>Zones d\'activités</item>
+    </string-array>
+
+    <string name="activity_title_about_us">About Us</string>
+    <string name="activity_title_privacy_policy">Privacy Policy</string>
+    <string name="action_clear_all">Clear All</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_mark_all_read">Mark All as Read</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+
+    <!-- For TextFieldsFloating -->
+
+
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+    <string name="hint_localite_caisse">Localité</string>
+    <string name="hint_num_agrement">Numéro d\'agrément</string>
+    <string name="hint_date_agrement">Date d\'agrément:</string>
+    <string name="hint_date_debut_caisse">Date de debut des activités</string>
+    <string name="hint_adresse">Adresse :</string>
+    <string name="hint_telephone1">Téléphone 1 :</string>
+    <string name="hint_telephone2">Téléphone 2 :</string>
+    <string name="hint_telephone3">Téléphone 3 :</string>
+    <string name="hint_nomPCA">Nom du PCA :</string>
+    <string name="hint_nomVPCA">Nom du vice PCA :</string>
+    <string name="hint_nomDG">Nom du DG :</string>
+    <string name="hint_denominationCx_caisse">Dénomination</string>
+    <string name="hint_nomCx_user">Caisse :</string>
+    <string name="hint_profil_user">Profil</string>
+    <string name="hint_Nom_user">Nom:</string>
+    <string name="hint_Prenom_user">Prénom:</string>
+    <string name="hint_login_user">Login :</string>
+    <string name="hint_confirm_password">Confirmer votre mot de passe</string>
+    <string name="hint_sigle_of">Sigle :</string>
+    <string name="hint_denomination">Dénomination</string>
+    <string name="hint_BP">Boite postale :</string>
+    <string name="hint_ville">Ville :</string>
+    <string name="hint_pays">Pays :</string>
+    <string name="hint_siege_of">Siège :</string>
+    <string name="btn_update_of">ENREGISTRER</string>
+    <string name="hint_nomEpargne_of">EPARGNE/DEPOT</string>
+    <string name="choose">Choisir</string>
+    <string name="my_hint">Choisir votre caisse</string>
+    <string name="my_products">Choisir vos produits</string>
+    <string name="my_locality">Choisir votre localité</string>
+    <string name="my_guichet">Choisir votre guichet</string>
+
+
+    <!--<string-array name="array_pre_parametrage">
+        <item>Usager</item>
+        <item>Administrateur OF</item>
+        <item>Administrateur caisse</item>
+        <item>Administrateur guichet</item>
+
+    </string-array>
+    -->
+    <string-array name="array_pre_parametrage">
+        <item>Produit EAV</item>
+        <item>Produit EAP</item>
+        <item>Produit EAT</item>
+        <item>Produit compte courant</item>
+        <item>Produit Crédit</item>
+        <item>Produit Transfert classique</item>
+        <item>Produit Transfert vers MTN</item>
+        <item>Produit Transfert vers ORANGE</item>
+        <item>Produit Transfert vers EXPRESS UNION</item>
+        <item>Opérations externes</item>
+
+    </string-array>
+
+    <!-- String of product-->
+    <string name="produit_eav">Produit EAV</string>
+    <string name="produit_eap">Produit EAP</string>
+    <string name="produit_eat">Produit EAT</string>
+    <string name="produit_cc">Produit compte courant</string>
+    <string name="produit_credit">Produit Crédit</string>
+    <string name="produit_transfert_classique">Produit Transfert classique</string>
+    <string name="produit_transfert_to_mtn">Produit Transfert vers MTN</string>
+    <string name="produit_transfert_to_orange">Produit Transfert vers ORANGE</string>
+    <string name="produit_transfert_to_eu">Produit Transfert vers EXPRESS UNION</string>
+    <string name="op_ext">Opérations externes</string>
+    <string-array name="type_admin">
+        <item>Usager</item>
+        <item>Administrateur OF</item>
+        <item>Administrateur caisse</item>
+    </string-array>
+    <string-array name="array_caisse">
+        <item>SALAK</item>
+        <item>MBOUA</item>
+        <item>MAROUA</item>
+        <item>CMEC BALOUMGOU</item>
+        <item>CMEC BAMEKA</item>
+        <item>CMEC BATIE</item>
+
+        <item>CMEC MABOMBE</item>
+        <item>CMEC DIDIPE</item>
+        <item>CMEC LAKO CREDIT</item>
+        <item>CMEC BAFANG</item>
+        <item>CMEC PENKA MICHEL</item>
+        <item>CMEC BACHUA</item>
+        <item>CMEC BAMOUGOUM</item>
+        <item>BANFELOUK</item>
+        <item>CMEC BAFOUSSAM</item>
+        <item>CMEC BINUM TONTINE</item>
+
+    </string-array>
+
+
+    <string-array name="array_localite">
+        <item>BAFOUSSAM</item>
+        <item>BALAIN</item>
+        <item>BANDJOUN</item>
+        <item>BANGOU</item>
+
+    </string-array>
+    <string-array name="array_guichet">
+        <item>TEST</item>
+
+
+    </string-array>
+
+    <string-array name="array_produit">
+        <item>DAV</item>
+        <item>DAP</item>
+        <item>DAT</item>
+        <item>Gérer les produits DAV</item>
+        <item>Gérer les produits DAP</item>
+        <item>Gérer les produits DAT</item>
+        <item>Transfert MTN</item>
+        <item>Transfert ORANGE</item>
+        <item>Transfert EU</item>
+        <item>Opération externe</item>
+    </string-array>
+
+    <string name="title_activity_caisse">Gestion des caisses</string>
+    <string name="tab_text_1">Créer une caisse</string>
+    <string name="tab_text_2">Liste des caisses</string>
+
+    <string name="title_activity_users_caisse">Responsables de caisses</string>
+    <string name="tab_title_create_user_caisse">Créer un utilisateur</string>
+    <string name="tab_title_list_user_caisse">Liste des utilisateurs</string>
+
+    <string name="title_activity_guichet">Gestion des guichets</string>
+    <string name="tab_title_create_guichet">Créer un guichet</string>
+    <string name="tab_title_list_pieces">Liste des pièces à fournir</string>
+    <string name="tab_title_list_frais">Liste des frais à payer</string>
+    <string name="tab_title_param1">Paramètres 1</string>
+    <string name="tab_title_param2">Paramètres 2</string>
+    <string name="tab_title_list_guichet">Liste des guichets</string>
+    <string name="tab_title_param_generaux">Paramètres Généraux</string>
+
+    <string name="nav_create_guichet">Mise en place des guichets</string>
+    <string name="nav_create_produit">Mise en place des produits</string>
+    <string name="nav_create_user_on_guichet">Ajouter des usagers</string>
+    <string name="nav_parametrage_general_caisse">Paramétrage général</string>
+
+    <string name="title_activity_produit_caisse">Paramétrage des produits</string>
+    <string name="tab_title_param_produit_eav_caisse">EAV</string>
+    <string name="tab_title_param_produit_eap_caisse">EAP</string>
+    <string name="tab_title_param_produit_eat_caisse">EAT</string>
+    <string name="tab_title_param_produit_cc_caisse">Compte courant</string>
+    <string name="tab_title_param_produit_transfert_caisse">Transfert</string>
+    <string name="tab_title_param_produit_credit_caisse">Crédit</string>
+    <string name="hint_taux_annuel">Taux interêt annuel</string>
+    <string name="hint_code_EAV">Code EAV</string>
+    <string name="hint_Libelle_EAV">Libellé</string>
+    <string name="hint_Libelle_piece">Libellé de la pièce:</string>
+    <string name="hint_Libelle_frais">Libellé du frais:</string>
+    <string name="hint_Min_compte_eav">Minimum compte:</string>
+    <string name="hint_code_EAP">Code EAP</string>
+    <string name="hint_Min_Mt_Mise_eav">Montant minimum mise</string>
+    <string name="select_caisse">Choisir une caisse</string>
+    <string name="title_activity_produit_eav">Liste des produits EAV</string>
+    <string name="title_activity_produit_eap">Liste des produits EAP</string>
+    <string name="title_activity_produit_eat">Liste des produits EAT</string>
+    <string name="title_activity_produit_cc">Liste des comptes courants</string>
+    <string name="title_activity_produit_credit">Liste des produits crédits</string>
+
+
+    <!-- begin remotemysqlconnection-->
+
+    <string name="view_all">View All Movies</string>
+    <string name="add_new">Add New Movie</string>
+    <string name="title_activity_movie_update_delete">MovieUpdateDeleteActivity</string>
+    <string name="movieName">Movie Name</string>
+    <string name="genre">Genre</string>
+    <string name="year">Year</string>
+    <string name="rating">Rating</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
+    <string name="btn_enregistrer">ENREGISTRER</string>
+    <string name="meat">meat</string>
+    <string name="cheese">cheese</string>
+    <string name="btn_supprimer">SUPPRIMER</string>
+    <string name="appellation_produit">APPELLATION DES PRODUITS</string>
+    <string name="hint_type_de_date">Type de date</string>
+
+    <!--end remotemysqlconnection -->
+
+    <string name="register">REGISTER</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
+    <string name="hint_heure_cloture">Heure de clôture</string>
+    <string name="hint_code_EAT">Code EAT</string>
+    <string name="hint_code_Cpte_Courant">Code Compte Courant</string>
+    <string name="hint_code_piece">Code de la pièce:</string>
+    <string name="hint_code_frais">Code du frais:</string>
+    <string name="btn_annuler">ANNULER</string>
+    <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
+
+</resources>
+
