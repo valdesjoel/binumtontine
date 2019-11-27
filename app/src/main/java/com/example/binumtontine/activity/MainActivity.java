@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NotificationsFrag
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fab = (FloatingActionButton) findViewById(R.id.fab); // It's not visible for now (it's GONE)
+        fab.hide();
 
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);

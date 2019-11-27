@@ -1,0 +1,80 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_membre"
+        android:title="@string/action_membre"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_usager"
+        android:title="@string/action_usager"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_salarie"
+        android:title="@string/action_salarie"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_affilie"
+        android:title="@string/action_affilie"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_entreprise"
+        android:title="@string/action_entreprise"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_gic"
+        android:title="@string/action_gic"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_cooperative"
+        android:title="@string/action_cooperative"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_association"
+        android:title="@string/action_association"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_jeune"
+        android:title="@string/action_groupe_jeune"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_groupe_femme"
+        android:title="@string/action_groupe_femme"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+     <item
+        android:id="@+id/action_groupe_homme"
+        android:title="@string/action_groupe_homme"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+ <item
+        android:id="@+id/action_groupe_mixte"
+        android:title="@string/action_groupe_mixte"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+<item
+        android:id="@+id/action_organisation_paysanne"
+        android:title="@string/action_organisation_paysanne"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+
+</menu>

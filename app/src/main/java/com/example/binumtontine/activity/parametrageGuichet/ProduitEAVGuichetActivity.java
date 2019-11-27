@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -42,10 +43,12 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
     private static final String KEY_EAV_ID = "ev_numero";
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
     private static final String KEY_CAISSE_ID = "ev_caisse_id";
+    private static final String KEY_GX_NUMERO = "ev_gx_numero";
 
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
     private ProgressDialog pDialog;
+    private Boolean action_to_affect=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +59,18 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
         movieListView = (ListView) findViewById(R.id.movieList);
         new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
 
+
         /* end*/
 
         Toolbar toolbar = findViewById(R.id.toolbar_produitEAV);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Produits du guichet") ;
+        //this.setCheckedItem(R.id.nav_new);
+
 
         FloatingActionButton fab = findViewById(R.id.fab_produitEAV);
+        fab.hide(); //to hide FloatingActionButton
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,10 +84,33 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
             }
         });
     }
+
+    /* To manage Menu*/
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_produit_guichet, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_all:
+               // new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+               // startActivity(new Intent(this, About.class));
+                return true;
+            case R.id.action_to_affect:
+                action_to_affect = false;
+                new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+               // startActivity(new Intent(this, Help.class));
+                return true;
+                case R.id.action_already_affect:
+                    action_to_affect = true;
+                     new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+               // startActivity(new Intent(this, Help.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -101,9 +133,13 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         HttpJsonParser httpJsonParser = new HttpJsonParser();
         Map<String, String> httpParams = new HashMap<>();
-        httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
-        JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                BASE_URL + "fetch_all_eav.php", "GET", httpParams);
+            httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+            httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject =(action_to_affect)? httpJsonParser.makeHttpRequest(
+                    BASE_URL + "fetch_all_eav_by_guichet.php", "GET", httpParams): httpJsonParser.makeHttpRequest(
+                    BASE_URL + "fetch_all_eav_not_affect_on_guichet.php", "GET", httpParams);
+
+
         try {
             int success = jsonObject.getInt(KEY_SUCCESS);
             JSONArray movies;

@@ -2,6 +2,9 @@ package com.example.binumtontine.activity.parametreGenerauxOF;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.StringRes;
@@ -34,6 +37,7 @@ public class ParametreGenerauxOFActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
         vp_param_guichet.setAdapter(pagerAdapter);
 
+
         TabLayout tbl_guichet= (TabLayout) findViewById(R.id.tabs_guichet);
         tbl_guichet.setupWithViewPager(vp_param_guichet);
         tbl_guichet.setTabMode(TabLayout.MODE_SCROLLABLE); // to make tabs_param_produit_caisse scrollable
@@ -53,6 +57,34 @@ public class ParametreGenerauxOFActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+    /* To manage Menu*/
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_produit_guichet, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_all:
+                // new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+                // startActivity(new Intent(this, About.class));
+                return true;
+            case R.id.action_to_affect:
+               // action_to_affect = false;
+             //   new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+                // startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.action_already_affect:
+                //action_to_affect = true;
+              //  new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+                // startActivity(new Intent(this, Help.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

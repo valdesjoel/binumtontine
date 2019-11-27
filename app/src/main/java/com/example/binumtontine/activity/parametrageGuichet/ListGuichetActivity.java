@@ -151,6 +151,7 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
+                    MyData.GUICHET_ID= Integer.parseInt(movieId);
                     Intent intent = new Intent(getApplicationContext(),
                             ParamGuichetActivity.class);
                     intent.putExtra(KEY_GUICHET_ID, movieId);

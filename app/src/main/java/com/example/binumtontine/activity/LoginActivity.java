@@ -432,6 +432,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 // your stuff here
                 if (caisseListID.size()>0)
                 MyData.CAISSE_ID = caisseListID.get(position);//pour recuperer l'ID de la caisse selectionnée
+                MyData.CAISSE_NAME = caisseList.get(position).getName();//pour recuperer l'ID de la caisse selectionnée
                 break;
             case R.id.spinnerGuichet:
                 // your stuff here

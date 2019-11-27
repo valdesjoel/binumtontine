@@ -79,13 +79,13 @@
     <string name="hint_num_agrement">Numéro d\'agrément</string>
     <string name="hint_date_agrement">Date d\'agrément:</string>
     <string name="hint_date_debut_caisse">Date de debut des activités</string>
-    <string name="hint_adresse">Adresse :</string>
-    <string name="hint_telephone1">Téléphone 1 :</string>
-    <string name="hint_telephone2">Téléphone 2 :</string>
-    <string name="hint_telephone3">Téléphone 3 :</string>
+    <string name="hint_adresse">Adresse:</string>
+    <string name="hint_telephone1">Téléphone 1</string>
+    <string name="hint_telephone2">Téléphone 2</string>
+    <string name="hint_telephone3">Téléphone 3</string>
     <string name="hint_nomPCA">Nom du PCA :</string>
-    <string name="hint_nomVPCA">Nom du vice PCA :</string>
-    <string name="hint_nomDG">Nom du DG :</string>
+    <string name="hint_nomVPCA">Nom du vice PCA:</string>
+    <string name="hint_nomDG">Nom du DG:</string>
     <string name="hint_denominationCx_caisse">Dénomination</string>
     <string name="hint_nomCx_user">Caisse :</string>
     <string name="hint_profil_user">Profil</string>
@@ -272,6 +272,23 @@
     <string name="hint_code_frais">Code du frais:</string>
     <string name="btn_annuler">ANNULER</string>
     <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
+    <string name="action_all">Tous</string>
+    <string name="action_to_affect">Produit à affecter au guichet</string>
+    <string name="action_already_affect">Produit déjà affecté au guichet</string>
+    <string name="action_membre">MEMBRE</string>
+    <string name="action_usager">USAGER</string>
+    <string name="action_salarie">SALARIE</string>
+    <string name="action_affilie">AFFILIE COLLECTE</string>
+    <string name="action_entreprise">ENTREPRISE</string>
+    <string name="action_gic">GIC</string>
+    <string name="action_cooperative">COOPERATIVE</string>
+    <string name="action_association">ASSOCIATION</string>
+    <string name="action_groupe_jeune">GROUPE JEUNE</string>
+    <string name="action_groupe_femme">GROUPE FEMME</string>
+    <string name="action_groupe_homme">GROUPE HOMME</string>
+    <string name="action_groupe_mixte">GROUPE MIXTE</string>
+    <string name="action_organisation_paysanne">ORGANISATION PAYSANNE</string>
+    <string name="my_caisse_name">Caisse:</string>
 
 </resources>
 

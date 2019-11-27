@@ -153,8 +153,7 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
         setDateTimeField();
 
-        textInputLayoutCaisse = (TextInputLayout) findViewById(R.id.til_caisse);
-        textInputLayoutCaisse.setVisibility(View.GONE);
+
 
         mySpinnerCaisse = (JRSpinner)findViewById(R.id.spn_my_spinner_select_caisse);
         mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_my_spinner_localite_guichet);
@@ -185,12 +184,13 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
         Intent intent = getIntent();
         headerGuichetTextView = (TextView) findViewById(R.id.header_user_guichet);
         headerGuichetTextView.setText("Mise à jour Guichet");
+
         gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
         gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
         gx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseGx);
-        gx_tel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_GX);
+        /*gx_tel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_GX);
         gx_tel2EditText = (EditText) findViewById(R.id.input_txt_Tel2_GX);
-        gx_tel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_GX);
+        gx_tel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_GX);*/
         gx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Gx);
         gx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Gx);
         gx_is_forcer_clotSwitch = (Switch) findViewById(R.id.SwitchForcer_la_clotureGx);

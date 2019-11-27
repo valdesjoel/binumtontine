@@ -22,18 +22,29 @@
             style="@style/headerTextPrimary"
             android:text="Création d'un guichet"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
+        <TextView android:id="@+id/tv_caisse_name"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_width="fill_parent"
+            android:text="@string/my_caisse_name"
+            style="@style/parent"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+        <!-- GONE -->
         <TextView android:id="@+id/tv_caisse"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:layout_width="fill_parent"
             android:text="@string/my_hint"
             style="@style/parent"
+            android:textSize="16sp"
             android:layout_height="wrap_content"/>
+        <!-- GONE -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
-
+            android:visibility="gone"
 
             app:errorEnabled="true" >
             <Spinner android:id="@+id/spn_my_spinner_caisse1"
@@ -43,7 +54,10 @@
                 android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
+
+
+
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_caisse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,11 +73,12 @@
                 android:hint="@string/select_caisse"
                 app:jrs_title="Choose"
                 app:jrs_multiple="false"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/modifiedEditText"
             app:errorEnabled="true" >
@@ -73,7 +88,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/my_locality"
+                android:textSize="16sp"
                 app:jrs_title="Choose"
+                android:textStyle="bold"
                 app:jrs_multiple="false"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -84,28 +101,12 @@
                 android:id="@+id/input_denomination_guichet"
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
+                android:textAllCaps="true"
                 android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:hint="@string/hint_denominationCx_caisse"/>
         </com.google.android.material.textfield.TextInputLayout>
-       <!-- <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="15dp"
-            android:text="Address" />
-        <EditText
-            android:id="@+id/edtAddress"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/layout_bg"
-            android:gravity="start"
-            android:hint="TEST"
-            android:inputType="textPostalAddress"
-            android:maxLength="30"
-            android:paddingLeft="15dp" /> -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_dateDebut_guichet"
             style="@style/parent"
@@ -115,6 +116,8 @@
                 style="@style/modifiedEditText"
                 android:inputType="date"
                 android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:hint="@string/hint_date_debut_caisse"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -125,48 +128,101 @@
                 android:id="@+id/input_txt_AdresseGx"
                 style="@style/modifiedEditText"
                 android:gravity="start"
-
+                android:textSize="16sp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:inputType="textPostalAddress"
                 android:maxLines="1"
                 android:maxLength="30"
+                android:textStyle="bold"
                 android:hint="@string/hint_adresse"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_Tel1_Gx"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
+        <!-- <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ccp_autoDetectLanguage="true"
+            app:ccp_defaultNameCode="CM"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_showFullName="true"
+            app:ccp_showPhoneCode="false"
+            app:ccp_showNameCode="false"/> -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
             <EditText
-                android:id="@+id/input_txt_Tel1_GX"
-                style="@style/modifiedEditText"
+                android:id="@+id/editText_carrierPhone1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone1"
                 android:inputType="phone"
-                android:maxLines="1"
-                android:hint="@string/hint_telephone1"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_Tel2_Gx"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
             <EditText
-                android:id="@+id/input_txt_Tel2_GX"
-                style="@style/modifiedEditText"
+                android:id="@+id/editText_carrierPhone2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone2"
                 android:inputType="phone"
-                android:maxLines="1"
-                android:hint="@string/hint_telephone2"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_Tel3_Gx"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+
+                />
+
             <EditText
-                android:id="@+id/input_txt_Tel3_GX"
-                style="@style/modifiedEditText"
+                android:id="@+id/editText_carrierPhone3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone3"
                 android:inputType="phone"
-                android:maxLines="1"
-                android:hint="@string/hint_telephone3"/>
-        </com.google.android.material.textfield.TextInputLayout>
+
+                android:singleLine="true" />
+        </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NomPCA_Gx"
             style="@style/parent"
@@ -176,6 +232,8 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:hint="@string/hint_nomPCA"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -185,8 +243,9 @@
             <EditText
                 android:id="@+id/input_txt_NomDG_Gx"
                 style="@style/modifiedEditText"
-                android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:hint="@string/hint_nomDG"/>
         </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
@@ -199,6 +258,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:text="Forcer la cloture" />
 
             <Switch
@@ -222,6 +283,9 @@
                 style="@style/modifiedEditText"
                 android:inputType="time"
                 android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:ems="10"
                 android:hint="@string/hint_heure_cloture"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -235,6 +299,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:text="Opération après clôture" />
 
             <Switch
@@ -258,6 +323,8 @@
                 style="@style/modifiedEditText"
                 android:inputType="number"
                 android:maxLines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:hint="Nombre de rappel par jour"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -269,6 +336,8 @@
                 style="@style/modifiedEditText"
                 android:inputType="number"
                 android:maxLines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:hint="Nombre de jour avant rappel"/>
         </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
@@ -281,6 +350,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:text="semaine à 8 jour" />
 
             <Switch
@@ -305,6 +375,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:text="Crédit par objet" />
 
             <Switch
@@ -329,6 +400,8 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:hint="Premier jour"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -340,6 +413,8 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:hint="GuFreqReunComCred"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -354,6 +429,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:text="GuIsRappNetMsgCredOn" />
 
             <Switch
@@ -390,8 +466,8 @@
              android:onClick="viewForgotPAssword"
              android:layout_marginTop="10dp"/> -->
 
-        <!--<br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/cirLoginButton"
+       <!-- <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btn_save_guichet"
             style="@style/loginButton"
             android:text="Login"
             android:layout_gravity="center_horizontal"
@@ -410,8 +486,41 @@
 
             android:layout_below="@+id/input_txt_email_user">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_save_guichet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_delete_guichet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+
+        </LinearLayout>
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+
+            android:layout_below="@+id/input_txt_email_user">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_guichet1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -434,7 +543,7 @@
                 android:padding="12dp"
                 android:text="@string/btn_supprimer" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
       <!--  <Button android:id="@+id/btn_save_eav"
             android:layout_width="match_parent"
