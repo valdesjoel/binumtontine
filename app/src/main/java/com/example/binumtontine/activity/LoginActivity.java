@@ -17,11 +17,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.adherent.CreateAdherent;
+import com.example.binumtontine.activity.adherent.MainActivityUsager;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.activity.jourOuvert.JourOuvert;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
-import com.example.binumtontine.helper.HttpJsonParser;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.apache.http.NameValuePair;
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
 
     private Spinner spinnerProfil;
+    private Spinner spinnerCaisse;
     private Spinner spinnerGuichet;
     private Button connect;
     private EditText pseudo;
@@ -56,11 +58,11 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     private ArrayList<Category> guichetList;
     List<Integer> caisseListID = new ArrayList<Integer>();
     List<Integer> guichetListID = new ArrayList<Integer>();
-    //private int CAISSE_ID=0;
-    //private int GUICHET_ID;
-    private Spinner spinnerCaisse;
+
+
     private TextInputLayout textInputLayoutCaisse;
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialogFectchCaisse;
+    private ProgressDialog pDialogFectchGuichet;
     /*end manage*/
 
     @Override
@@ -88,37 +90,15 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProfil.setAdapter(adapter);
 
-/*
-        ArrayAdapter<CharSequence> adapterCaisse = ArrayAdapter.createFromResource(
-                this, R.array.array_caisse,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCaisse.setAdapter(adapterCaisse);
-
-        ArrayAdapter<CharSequence> adapterGuichet = ArrayAdapter.createFromResource(
-                this, R.array.array_guichet,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerGuichet.setAdapter(adapterGuichet);*/
-
-       /* if (spinnerProfil.getSelectedItem().toString().equals("Administrateur OF")){
-            spinnerCaisse.setVisibility(View.GONE);
-            spinnerGuichet.setVisibility(View.GONE);
-        }else{
-            spinnerCaisse.setVisibility(View.VISIBLE);
-            spinnerGuichet.setVisibility(View.VISIBLE);
-        } */
-       /* textInputLayoutCaisse = (TextInputLayout) findViewById(R.id.til_caisse);
-        textInputLayoutCaisse.setVisibility(View.GONE);*/
-
-
-
-
         caisseList = new ArrayList<Category>();
         guichetList = new ArrayList<Category>();
         // spinner item select listener
+        //new LoginActivity.GetCaisses().execute();
         spinnerProfil.setOnItemSelectedListener(LoginActivity.this);
         spinnerCaisse.setOnItemSelectedListener(LoginActivity.this);
         spinnerGuichet.setOnItemSelectedListener(LoginActivity.this);
-        new LoginActivity.GetCategories().execute();
+
+
 
         //recupération des attributs de la page d'authentification
         pseudo = (EditText)findViewById(R.id.txtPseudo);
@@ -179,7 +159,9 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         }else if((pseudo.equals("")) && (password.equals(""))
                 && (spinnerProfil.getSelectedItem().toString().equals("Usager"))){
 
-            Intent i = new Intent(this, JourOuvert.class);
+            //Intent i = new Intent(this, JourOuvert.class);
+            //Intent i = new Intent(this, CreateAdherent.class);
+            Intent i = new Intent(this, MainActivityUsager.class);
             startActivity(i);
         } else{
             attemptConnection--;
@@ -192,80 +174,20 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
-    /* Begin */
-    /**
-     * Fetches single preParamProduit details from the server
-     */
-    private class FetchMovieDetailsAsyncTask extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //Display progress bar
-            btn.startAnimation();
-           /* pDialog = new ProgressDialog(PrivacyPolicyActivity.this);
-            pDialog.setMessage("Loading Pre Paramètres Details. Please wait...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();*/
-        }
 
-        @Override
-        protected String doInBackground(String... params) {
-            validate(params[0],params[1]);
-
-
-
-            //  HttpJsonParser httpJsonParser = new HttpJsonParser();
-            /*JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_user.php", "GET", null);*/
-            /*JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "get_pre_parametrage_details.php", "GET", null);*/
-
-
-            try {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onPostExecute(String result) {
-            //pDialog.dismiss();
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    //Populate the Edit Texts once the network activity is finished executing
-                    btn.revertAnimation();
-                    //startActivity(i);
-
-                }
-            });
-        }
-
-
-    }
-
-    /* end */
     /**
      * Adding spinner data
      * */
-    private void populateSpinner() {
+    private void populateSpinnerCaisses() {
         List<String> lables = new ArrayList<String>(); //for caisses
-        List<String> lablesGuichet = new ArrayList<String>(); //for guichets
 
-        //tvCaisse.setText("");
 
         for (int i = 0; i < caisseList.size(); i++) {
             lables.add(caisseList.get(i).getName());//recupère les noms de caisses
             caisseListID.add(caisseList.get(i).getId()); //recupère les Id
         }
 
-        for (int i = 0; i < guichetList.size(); i++) {
-            if (guichetList.get(i).getFk()==CAISSE_ID) {
-                lablesGuichet.add(guichetList.get(i).getName());//recupère les noms de guichets
-                guichetListID.add(guichetList.get(i).getId()); //recupère les Id de guichet
-            }
-        }
+
 
         // Creating adapter for spinner
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(LoginActivity.this,
@@ -274,6 +196,22 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         // Drop down layout style - list view with radio button
         spinnerAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerAdapter.notifyDataSetChanged();
+        // attaching data adapter to spinner caisse
+        spinnerCaisse.setAdapter(spinnerAdapter);
+    }
+
+    private void populateSpinnerGuichets() {
+        List<String> lablesGuichet = new ArrayList<String>(); //for guichets
+
+
+        for (int i = 0; i < guichetList.size(); i++) {
+                lablesGuichet.add(guichetList.get(i).getName());//recupère les noms de guichets
+                guichetListID.add(guichetList.get(i).getId()); //recupère les Id de guichet
+
+        }
+
 
         // Creating adapter for spinner guichet
         ArrayAdapter<String> spinnerGuichetAdapter = new ArrayAdapter<String>(LoginActivity.this,
@@ -284,23 +222,22 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        spinnerCaisse.setAdapter(spinnerAdapter);
         spinnerGuichet.setAdapter(spinnerGuichetAdapter);
     }
 
     /**
      * Async task to get all food categories
      * */
-    private class GetCategories extends AsyncTask<Void, Void, Void> {
+    private class GetCaisses extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                pDialog = new ProgressDialog(LoginActivity.this);
-                pDialog.setMessage("Fetching parameters's list..");
-                pDialog.setCancelable(false);
-                pDialog.show();
+                pDialogFectchCaisse = new ProgressDialog(LoginActivity.this);
+                pDialogFectchCaisse.setMessage("Fetching parameters's list..");
+                pDialogFectchCaisse.setCancelable(false);
+                pDialogFectchCaisse.show();
             } else {
                 Toast.makeText(LoginActivity.this,
                         "Impossible de se connecter à Internet",
@@ -314,27 +251,11 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         @Override
         protected Void doInBackground(Void... arg0) {
             ServiceHandler jsonParser = new ServiceHandler();
-            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add(new BasicNameValuePair(KEY_GX_CX_NUMERO, "1"));
-            //httpParams.add(new BasicNameValuePair(KEY_GX_CX_NUMERO, String.valueOf(CAISSE_ID)));
-
 
             String json = jsonParser.makeServiceCall(URL_CATEGORIES, ServiceHandler.GET);
-            HttpJsonParser httpJsonParser = new HttpJsonParser();
-            //String jsonGuichet = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET,httpParams);
-            String jsonGuichet = (String) jsonParser.makeServiceCall( BASE_URL + "get_guichets_by_caisse_id.php", ServiceHandler.GET, httpParams);
-           // JSONObject jsonGuichet =  httpJsonParser.makeHttpRequest( BASE_URL + "get_guichets_by_caisse_id.php", "GET", httpParams);
 
-/*
-            HttpJsonParser httpJsonParser = new HttpJsonParser();
-            Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_GUICHET_ID, guichetId);
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "get_guichet_details.php", "GET", httpParams);*/
-
-
+            caisseList.clear(); // pour vider la liste
             Log.e("Response: ", "> " + json);
-            Log.e("Response: ", "> " + jsonGuichet);
 
             if (json != null) {
                 try {
@@ -359,18 +280,71 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 Log.e("JSON Data", "Didn't receive any data from server!");
             }
 
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialogFectchCaisse !=null && pDialogFectchCaisse.isShowing()){
+                pDialogFectchCaisse.dismiss();
+             populateSpinnerCaisses();
+            }
+        }
+
+    }
+    private class GetGuichets extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                pDialogFectchGuichet = new ProgressDialog(LoginActivity.this);
+                pDialogFectchGuichet.setMessage("Fetching guichets's list..");
+                pDialogFectchGuichet.setCancelable(true);
+                pDialogFectchGuichet.show();
+            } else {
+                Toast.makeText(LoginActivity.this,
+                        "Impossible de se connecter à Internet",
+                        Toast.LENGTH_LONG).show();
+
+            }
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add(new BasicNameValuePair(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID)));
+            //httpParams.add(new BasicNameValuePair(KEY_GX_CX_NUMERO, String.valueOf(CAISSE_ID)));
+
+
+           // HttpJsonParser httpJsonParser = new HttpJsonParser();
+            //String jsonGuichet = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET,httpParams);
+            String jsonGuichet = (String) jsonParser.makeServiceCall( BASE_URL + "get_guichets_by_caisse_id.php", ServiceHandler.GET, httpParams);
+
+
+
+
+            Log.e("Response: ", "> " + jsonGuichet);
+
+            guichetList.clear(); //pour vider la liste de guichets
+
             //for manage list of guichet
             if (jsonGuichet != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonGuichet);
-                  //  JSONObject jsonObj = jsonGuichet.getJSONObject("categories");
                     if (jsonObj != null) {
                         JSONArray categories = jsonObj.getJSONArray("categories");
 
 
                         for (int i = 0; i < categories.length(); i++) {
                             JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt("id"),catObj.getInt("fk"),
+                            Category cat = new Category(catObj.getInt("id"),
                                     catObj.getString("name"));
                             guichetList.add(cat);
                         }
@@ -387,13 +361,15 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             return null;
         }
 
+
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            if (pDialog!=null &&pDialog.isShowing()){
-                pDialog.dismiss();
-             populateSpinner();
+            if (pDialogFectchGuichet !=null && pDialogFectchGuichet.isShowing()){
+                pDialogFectchGuichet.dismiss();
+                populateSpinnerGuichets();
             }
+
         }
 
     }
@@ -406,6 +382,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 parent.getItemAtPosition(position).toString() + " Selected" ,
                 Toast.LENGTH_LONG).show();*/
         int idSpinner = parent.getId();
+
         switch (idSpinner)
         {
             case R.id.spinner1:
@@ -415,11 +392,18 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                     tv_guichet.setVisibility(View.GONE);
                     spinnerCaisse.setVisibility(View.VISIBLE);
                     spinnerGuichet.setVisibility(View.GONE);
+                    //spinnerCaisse.setOnItemSelectedListener(LoginActivity.this);
+                    new LoginActivity.GetCaisses().execute();
                 }else if(spinnerProfil.getSelectedItem().toString().equals("Usager")){
                     tv_caisse.setVisibility(View.VISIBLE);
                     tv_guichet.setVisibility(View.VISIBLE);
                     spinnerCaisse.setVisibility(View.VISIBLE);
                     spinnerGuichet.setVisibility(View.VISIBLE);
+                   // spinnerCaisse.setOnItemSelectedListener(LoginActivity.this);
+                    //spinnerGuichet.setOnItemSelectedListener(LoginActivity.this);
+                    new LoginActivity.GetCaisses().execute();
+                    //spinnerCaisse.performClick();
+                   // new LoginActivity.GetGuichets().execute();
                 }
                 else{
                     tv_caisse.setVisibility(View.GONE);
@@ -432,12 +416,15 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 // your stuff here
                 if (caisseListID.size()>0)
                 MyData.CAISSE_ID = caisseListID.get(position);//pour recuperer l'ID de la caisse selectionnée
-                MyData.CAISSE_NAME = caisseList.get(position).getName();//pour recuperer l'ID de la caisse selectionnée
+               // new LoginActivity.GetCaisses().execute();
+                new LoginActivity.GetGuichets().execute();
+                MyData.CAISSE_NAME = caisseList.get(position).getName();//pour recuperer le nom de la caisse selectionnée
                 break;
             case R.id.spinnerGuichet:
                 // your stuff here
                 if (guichetListID.size()>0)
                 MyData.GUICHET_ID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionnée
+                MyData.GUICHET_NAME = guichetList.get(position).getName();//pour recuperer le nom du guichet selectionné
                 break;
         }
 

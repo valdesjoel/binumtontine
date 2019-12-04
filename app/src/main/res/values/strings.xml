@@ -142,9 +142,9 @@
     <string name="produit_transfert_to_eu">Produit Transfert vers EXPRESS UNION</string>
     <string name="op_ext">Opérations externes</string>
     <string-array name="type_admin">
-        <item>Usager</item>
         <item>Administrateur OF</item>
         <item>Administrateur caisse</item>
+        <item>Usager</item>
     </string-array>
     <string-array name="array_caisse">
         <item>SALAK</item>
@@ -289,6 +289,38 @@
     <string name="action_groupe_mixte">GROUPE MIXTE</string>
     <string name="action_organisation_paysanne">ORGANISATION PAYSANNE</string>
     <string name="my_caisse_name">Caisse:</string>
+    <string name="produit_title">Produit épargne</string>
+    <string name="produit_name">DAV ORDINAIRE</string>
+    <string name="nom_adherent">Nom adhérent (*)</string>
+    <string name="prenom_adherent">Prenom adherent</string>
+    <string name="lieu_naiss_adherent">Lieu de naissance</string>
+    <string name="nom_conjoint_adherent">Nom complet du conjoint</string>
+    <string name="numero_manuel_adherent">Numéro manuel</string>
+    <string name="hint_type_piece">Type de pièce</string>
+    <string name="numero_piece_adherent">Numéro de la pièce</string>
+    <string name="personne_a_contacter_adherent">Personne à contacter</string>
+    <string name="hint_profession">Profession</string>
+    <string name="nationalite">Nationalité</string>
+    <string name="autre_statut1_adherent">Autre statut 1</string>
+    <string name="autre_statut2_adherent">Autre statut 2</string>
+    <string name="domicile_adherent">Domicile</string>
+    <string name="distance_adherent">Distance</string>
+    <string name="hint_fax">Fax</string>
+    <string name="hint_date_naiss_adherent">Date de naissance</string>
+    <string name="nbre_enfant_adherent">Nombre d\'enfant</string>
+    <string name="action_situation_guichet">Situation du guichet</string>
+    <string name="action_brouillard_de_caisse">Brouillard de caisse</string>
+    <string name="action_cloturer_la_journee">Cloturer la journée</string>
+    <string name="action_operation_externe">Opérations externes</string>
+    <string name="action_cotisations_annuelle">Cotisations annuelle</string>
+    <string name="action_jour_anterieur">Jour antérieur</string>
+    <string name="action_nouveaux_adherent">Nouveaux adhérents</string>
+    <string name="action_transfert">Transfert</string>
+    <string name="action_person_add">Ajouter un adherent</string>
+    <string name="hint_montant_demarrage">Montant de démarrage</string>
+    <string name="btn_valider">VALIDER</string>
+    <string name="hint_montant_piece_monnaie">Montant pièces de monnaie</string>
+    <string name="my_town">Ville:</string>
 
 </resources>
 

@@ -1,6 +1,4 @@
-package com.example.binumtontine.activity;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.binumtontine.activity.parametrageGuichet;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,7 +15,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.binumtontine.R;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -29,11 +30,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+
+public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADDRESS {
     private static String STRING_EMPTY = "";
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
-    private static final String KEY_EAV_ID = "ev_numero";
+    private static final String KEY_EAV_ID = "ev_numero"; //to get intent.extra
+    private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to get intent.extra
     private static final String KEY_EAV_CODE = "ev_code";
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
     private static final String KEY_EAV_MIN_CPTE = "ev_min_cpte";
@@ -50,9 +54,12 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_EAV_PLAGE_AGIOS_TO = "ev_plage_agios_to";
     private static final String KEY_EAV_IS_CHEQUE_ON = "ev_is_cheque_on";
     private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
+    private static final String KEY_CAISSE_ID = "ev_caisse_id";
+    private static final String KEY_GX_NUMERO = "ev_gx_numero";
 
 
     private String eavId;
+    private Boolean action_to_affect;
     private TextView headerEAVTextView;
 
     private EditText ev_codeEditText;
@@ -97,6 +104,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private TextInputLayout layout_TauxAPreleveCpteEAV;
 
     private Button deleteButton;
+    private br.com.simplepass.loadingbutton.customViews.CircularProgressButton annulerButton;
     private Button updateButton;
     private int success;
     private ProgressDialog pDialog;
@@ -113,7 +121,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 
         Intent intent = getIntent();
         headerEAVTextView = (TextView) findViewById(R.id.header_eav);
-        headerEAVTextView.setText("Mise à jour EAV");
+
 
         ev_codeEditText = (EditText) findViewById(R.id.input_txt_Code_EAV);
         ev_libelleEditText = (EditText) findViewById(R.id.input_txt_LibelleEAV);
@@ -142,16 +150,38 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 
 
         eavId = intent.getStringExtra(KEY_EAV_ID);
+        action_to_affect = getIntent().getExtras().getBoolean(KEY_EXTRA_ACTION_TO_AFFECT);
+
         new FetchEavDetailsAsyncTask().execute();
         deleteButton = (Button) findViewById(R.id.btn_delete_eav);
-        deleteButton.setVisibility(View.VISIBLE);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmDelete();
-            }
-        });
+
         updateButton = (Button) findViewById(R.id.btn_save_eav);
+        annulerButton = (CircularProgressButton) findViewById(R.id.btn_clean);
+        if (action_to_affect){
+            headerEAVTextView.setText("Affectation du produit au guichet ");
+            updateButton.setText("AFFECTER");
+            deleteButton.setVisibility(View.GONE);
+            annulerButton.setVisibility(View.VISIBLE);
+            annulerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+
+                }
+            });
+        }else{
+            headerEAVTextView.setText("Mise à jour du produit ");
+            updateButton.setText("MODIFIER");
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    confirmDelete();
+                }
+            });
+        }
+
+
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,7 +189,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     updateEAV();
 
                 } else {
-                    Toast.makeText(UpdateEAV.this,
+                    Toast.makeText(UpdateEAVForGuichet.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
 
@@ -223,7 +253,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         protected void onPreExecute() {
             super.onPreExecute();
             //Display progress bar
-            pDialog = new ProgressDialog(UpdateEAV.this);
+            pDialog = new ProgressDialog(UpdateEAVForGuichet.this);
             pDialog.setMessage("Loading EAV Details. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -308,7 +338,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
      */
     private void confirmDelete() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                UpdateEAV.this);
+                UpdateEAVForGuichet.this);
         alertDialogBuilder.setMessage("Are you sure, you want to delete this EAV?");
         alertDialogBuilder.setPositiveButton("Delete",
                 new DialogInterface.OnClickListener() {
@@ -316,9 +346,9 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     public void onClick(DialogInterface arg0, int arg1) {
                         if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                             //If the user confirms deletion, execute DeleteMovieAsyncTask
-                            new UpdateEAV.DeleteMovieAsyncTask().execute();
+                            new UpdateEAVForGuichet.DeleteMovieAsyncTask().execute();
                         } else {
-                            Toast.makeText(UpdateEAV.this,
+                            Toast.makeText(UpdateEAVForGuichet.this,
                                     "Unable to connect to internet",
                                     Toast.LENGTH_LONG).show();
 
@@ -340,7 +370,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         protected void onPreExecute() {
             super.onPreExecute();
             //Display progress bar
-            pDialog = new ProgressDialog(UpdateEAV.this);
+            pDialog = new ProgressDialog(UpdateEAVForGuichet.this);
             pDialog.setMessage("Deleting EAV. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -369,7 +399,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                 public void run() {
                     if (success == 1) {
                         //Display success message
-                        Toast.makeText(UpdateEAV.this,
+                        Toast.makeText(UpdateEAVForGuichet.this,
                                 "EAV Deleted", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie deletion
@@ -377,7 +407,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                         finish();
 
                     } else {
-                        Toast.makeText(UpdateEAV.this,
+                        Toast.makeText(UpdateEAVForGuichet.this,
                                 "Some error occurred while deleting EAV",
                                 Toast.LENGTH_LONG).show();
 
@@ -420,7 +450,7 @@ if(true){
 
             new UpdateEavAsyncTask().execute();
         } else {
-            Toast.makeText(UpdateEAV.this,
+            Toast.makeText(UpdateEAVForGuichet.this,
                     "One or more fields left empty!",
                     Toast.LENGTH_LONG).show();
 
@@ -437,8 +467,13 @@ if(true){
         protected void onPreExecute() {
             super.onPreExecute();
             //Display progress bar
-            pDialog = new ProgressDialog(UpdateEAV.this);
-            pDialog.setMessage("Updating EAV. Please wait...");
+            pDialog = new ProgressDialog(UpdateEAVForGuichet.this);
+            if (action_to_affect){
+                pDialog.setMessage("Assigning to guichet. Please wait...");
+            }else{
+                pDialog.setMessage("Updating. Please wait...");
+            }
+
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -466,8 +501,16 @@ if(true){
             httpParams.put(KEY_EAV_PLAGE_AGIOS_TO, ev_plage_agios_to);
             httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on.toString());
             httpParams.put(KEY_EAV_FRAIS_CLOT_CPT, ev_frais_clot_cpt);
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "update_eav.php", "POST", httpParams);
+            httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+            httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+
+
+            JSONObject jsonObject =(action_to_affect)?
+                    httpJsonParser.makeHttpRequest(
+                    BASE_URL + "assign_eav_to_guichet.php", "POST", httpParams)
+                    :
+                    httpJsonParser.makeHttpRequest(
+                            BASE_URL + "update_eav.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -481,17 +524,28 @@ if(true){
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (success == 1) {
-                        //Display success message
-                        Toast.makeText(UpdateEAV.this,
-                                "EAV Updated", Toast.LENGTH_LONG).show();
-                        Intent i = getIntent();
-                        //send result code 20 to notify about movie update
-                        setResult(20, i);
-                        finish();
+                        if (action_to_affect){
+                            //Display success message
+                            Toast.makeText(UpdateEAVForGuichet.this,
+                                    "Successful assigning", Toast.LENGTH_LONG).show();
+                            Intent i = getIntent();
+                            //send result code 20 to notify about movie update
+                            setResult(20, i);
+                            finish();
+                        }else{
+                            //Display success message
+                            Toast.makeText(UpdateEAVForGuichet.this,
+                                    "Update success", Toast.LENGTH_LONG).show();
+                            Intent i = getIntent();
+                            //send result code 20 to notify about movie update
+                            setResult(20, i);
+                            finish();
+                        }
+
 
                     } else {
-                        Toast.makeText(UpdateEAV.this,
-                                "Some error occurred while updating",
+                        Toast.makeText(UpdateEAVForGuichet.this,
+                                "Some error occurred, check and retry ",
                                 Toast.LENGTH_LONG).show();
 
                     }

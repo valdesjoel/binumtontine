@@ -497,6 +497,16 @@
                 android:padding="12dp"
                 android:layout_marginRight="12dp"
                 android:text="@string/btn_enregistrer" />
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_clean"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
 
             <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_delete_guichet"
@@ -505,7 +515,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
-                style="@style/loginButton"
+                style="@style/cancelButton"
 
                 android:padding="12dp"
                 android:text="@string/btn_supprimer" />

@@ -9,18 +9,19 @@ import com.example.binumtontine.R;
 import com.example.binumtontine.controleur.OrganeFaitierControler;
 import com.example.binumtontine.dao.AccesHTTP;
 import com.example.binumtontine.dao.AsyncResponse;
+import com.example.binumtontine.dao.SERVER_ADDRESS;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class AccesDistant implements AsyncResponse {
+public class AccesDistant implements AsyncResponse, SERVER_ADDRESS {
 //    private static final String SERVER = Context.getString(R.string.server_address);
     //propriétés
 //private static final String BASE_URL = "http://binumt.diff-itc.net/binumTontine/";
    // private static final String SERVEUR_ADDR = "http://192.168.1.102/binumTontine/serveurBinumt.php";
-    private static final String SERVEUR_ADDR = "http://binumt.diff-itc.net/binumTontine/serveurBinumt.php";
+   // private static final String SERVEUR_ADDR = "http://binumt.diff-itc.net/binumTontine/serveurBinumt.php";
     private OrganeFaitierControler organeFaitierControler;
 
     public AccesDistant(){
@@ -57,6 +58,8 @@ public class AccesDistant implements AsyncResponse {
                         String pays_of = info.getString("OfPays");
                         String adresse_of = info.getString("OfAdresse");
                         String telephone1_of = info.getString("OfTel1");
+                        String telephone2_of = info.getString("OfTel2");
+                        String telephone3_of = info.getString("OfTel3");
                         String siege_of = info.getString("OfSiege");
                         String nom_pca_of = info.getString("OfNomPCA");
                         String nom_vpca_of = info.getString("OfNomVPCA");
@@ -64,7 +67,7 @@ public class AccesDistant implements AsyncResponse {
 
                         OrganeFaitier_modele organeFaitier_modele = new OrganeFaitier_modele(numero_of,
                                 sigle,libelle,num_agrement,date_agrement,boite_postale,ville_of,
-                                pays_of, adresse_of, telephone1_of, siege_of, nom_pca_of, nom_vpca_of, nom_dg_of
+                                pays_of, adresse_of, telephone1_of,telephone2_of,telephone3_of, siege_of, nom_pca_of, nom_vpca_of, nom_dg_of
                         );
                         organeFaitierControler.setOrganeFaitier_modele(organeFaitier_modele);
 

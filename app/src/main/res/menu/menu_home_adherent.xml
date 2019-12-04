@@ -1,0 +1,62 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_search"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_person_add"
+        android:title="@string/action_person_add"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_person_add"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_situation_guichet"
+        android:title="@string/action_situation_guichet"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_brouillard_de_caisse"
+        android:orderInCategory="100"
+        android:title="@string/action_brouillard_de_caisse"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_nouveaux_adherent"
+        android:orderInCategory="100"
+        android:title="@string/action_nouveaux_adherent"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_cloturer_la_journee"
+        android:orderInCategory="100"
+        android:title="@string/action_cloturer_la_journee"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_transfert"
+        android:orderInCategory="100"
+        android:title="@string/action_transfert"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_operation_externe"
+        android:orderInCategory="100"
+        android:title="@string/action_operation_externe"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_cotisations_annuelle"
+        android:orderInCategory="100"
+        android:title="@string/action_cotisations_annuelle"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_jour_anterieur"
+        android:orderInCategory="100"
+        android:title="@string/action_jour_anterieur"
+        app:showAsAction="never" />
+
+
+</menu>

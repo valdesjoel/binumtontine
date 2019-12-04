@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_user_guichet"
+            style="@style/headerTextPrimary"
+            android:text="Adhésion d'un nouvel adhérent"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <!-- produit title-->
+        <TextView android:id="@+id/tv_caisse_name"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_width="fill_parent"
+            android:text="@string/produit_title"
+            style="@style/parent"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+
+        <!-- produit name-->
+        <TextView android:id="@+id/tv_produit_name"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_width="fill_parent"
+            android:text="@string/produit_name"
+            style="@style/parent"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+
+        <!-- Nom adherent-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_nom_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_nom_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/nom_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Prenom adherent-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_prenom_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_prenom_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/prenom_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Date de naissance-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_date_naiss_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_date_naiss_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_date_naiss_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Lieu de naissance adherent-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_lieu_naiss_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_lieu_naiss_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/lieu_naiss_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Sexe-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_sexe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Sexe: " />
+
+            <Spinner
+                android:id="@+id/spn_sexe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <!--Nationalité -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tv_nationalite_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nationalite"
+                android:textSize="18sp"
+                />
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_nationalite_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA,CF,CG,CD,GQ"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                app:ccp_showFullName="true"
+                app:ccp_showPhoneCode="false"
+                app:ccp_showNameCode="false"/>
+        </LinearLayout>
+
+        <!-- Situation matrimoniale-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_situation_matrimoiale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Situation matrimoiale: " />
+
+            <Spinner
+                android:id="@+id/spn_situation_matrimoiale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <!-- Nombre d'enfants-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_nbre_enfant_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_nbre_enfant_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/nbre_enfant_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Telephones-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierPhone1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone1"
+                android:inputType="phone"
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierPhone2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone2"
+                android:inputType="phone"
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierPhone3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone3"
+                android:inputType="phone"
+
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <!--Email-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_email_adherent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/input_txt_email_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:inputType="textEmailAddress"
+                android:hint="@string/hint_email"
+                style="@style/modifiedEditText"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Profession -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/modifiedEditText"
+            app:errorEnabled="true" >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_profession_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_profession"
+                android:textSize="16sp"
+                app:jrs_title="Choose"
+                android:textStyle="bold"
+                app:jrs_multiple="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Domicile -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_domicile_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_domicile_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/domicile_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Type de pièce -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/modifiedEditText"
+            app:errorEnabled="true" >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_type_piece_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_type_piece"
+                android:textSize="16sp"
+                app:jrs_title="Choose"
+                android:textStyle="bold"
+                app:jrs_multiple="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Numéro de la pièce-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_numero_piece_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_numero_piece_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/numero_piece_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Civilité-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_civilite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Civilité: " />
+
+            <Spinner
+                android:id="@+id/spn_civilite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <!-- Nom complet du conjoint-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_nom_conjoint_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_nom_conjoint_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/nom_conjoint_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Numéro manuel-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_numero_manuel_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_numero_manuel_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/numero_manuel_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Personne à contacter-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_personne_a_contacter_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_personne_a_contacter_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/personne_a_contacter_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Autre statut 1-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_autre_statut1_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_autre_statut1_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/autre_statut1_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Autre statut 2-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_autre_statut2_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_autre_statut2_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/autre_statut2_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Distance -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_distance_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_distance_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/distance_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--BP-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_bp_adherentAdresseGx"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_bp_adherent"
+                style="@style/modifiedEditText"
+                android:gravity="start"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:inputType="textPostalAddress"
+                android:maxLines="1"
+                android:maxLength="30"
+                android:textStyle="bold"
+                android:hint="@string/hint_BP"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Localisation-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_Localisation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Localisation: " />
+
+            <Spinner
+                android:id="@+id/spn_localisation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <!--ville-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_ville_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_ville_adherent"
+                style="@style/modifiedEditText"
+                android:gravity="start"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:maxLength="30"
+                android:textStyle="bold"
+                android:hint="@string/hint_ville"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Fax-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_fax_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_fax_adherent"
+                style="@style/modifiedEditText"
+                android:gravity="start"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:maxLength="30"
+                android:textStyle="bold"
+                android:hint="@string/hint_fax"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Co titulaire-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_co_titulaire_adherent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:text="Co-Titulaire" />
+
+            <Switch
+                android:id="@+id/Switch_co_titulaire_adherent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+
+            android:layout_below="@+id/input_txt_email_user">
+
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_save_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_clean"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_delete_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

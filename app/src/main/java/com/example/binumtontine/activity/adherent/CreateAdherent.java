@@ -1,5 +1,5 @@
 
-package com.example.binumtontine.activity;
+package com.example.binumtontine.activity.adherent;
 
 
 import android.app.DatePickerDialog;
@@ -14,8 +14,6 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -32,9 +30,9 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,15 +40,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class CreateGuichet extends AppCompatActivity implements View.OnClickListener, SERVER_ADDRESS {
+public class CreateAdherent extends AppCompatActivity implements View.OnClickListener, SERVER_ADDRESS {
 
-    
+
     private static final String KEY_SUCCESS = "success";
 
     private static final String KEY_GX_CX_NUMERO = "cx_numero";
@@ -134,9 +131,9 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
 
 
     //private Button addButton;
-    private br.com.simplepass.loadingbutton.customViews.CircularProgressButton addButton;
-    private br.com.simplepass.loadingbutton.customViews.CircularProgressButton annulerButton;
-    private br.com.simplepass.loadingbutton.customViews.CircularProgressButton delButton;
+    private CircularProgressButton addButton;
+    private CircularProgressButton annulerButton;
+    private CircularProgressButton delButton;
    // private Button delButton;
     private int success;
     private ProgressDialog pDialog;
@@ -155,7 +152,7 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         // setContentView(R.layout.activity_add_movie);
         //setContentView(R.layout.fragment_caisses);spn_my_spinner_localite_caisse
-        setContentView(R.layout.activity_create_guichet);
+        setContentView(R.layout.activity_create_adherent);
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_caisse);
         setSupportActionBar(toolbar);
         setToolbarTitle();*/
@@ -163,6 +160,7 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         /*end manage*/
 
         /* Begin manage country*/
+
         cxTitle = (TextView) findViewById(R.id.tv_caisse_name);
         cxName= MyData.CAISSE_NAME.toUpperCase();
         cxTitle.setTypeface(null, Typeface.BOLD);
@@ -189,13 +187,13 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-        findViewsById();
+        //findViewsById();
 
-        setDateTimeField();
+      //  setDateTimeField();
        // mySpinnerCaisse = (JRSpinner)findViewById(R.id.spn_my_spinner_select_caisse);
        // textInputLayoutCaisse = (TextInputLayout) findViewById(R.id.til_caisse);
        // textInputLayoutCaisse.setVisibility(View.GONE);
-        mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_my_spinner_localite_guichet);
+        mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_profession_adherent);
 
        // mySpinnerCaisse.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
         mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_localite)); //this is important, you must set it to set the item list
@@ -218,6 +216,7 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
 
             }
         });
+     /*
         gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
         alreadyUpperCase(gx_denominationEditText);
         gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
@@ -236,7 +235,7 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
                 // time picker dialog
-                picker = new TimePickerDialog(CreateGuichet.this,
+                picker = new TimePickerDialog(CreateAdherent.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
@@ -254,21 +253,24 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         gx_first_jr_onEditText = (EditText) findViewById(R.id.input_txt_GuFirstJrOn);
         gx_freq_reun_com_credEditText = (EditText) findViewById(R.id.input_txt_GuFreqReunComCred);
         gx_is_rapp_net_msg_cred_onSwitch = (Switch) findViewById(R.id.Switch_GuIsRappNetMsgCredOn);
-
+*/
 
         // spinner item select listener
-        addButton = (CircularProgressButton) findViewById(R.id.btn_save_guichet);
+        addButton = (CircularProgressButton) findViewById(R.id.btn_save_adherent);
         annulerButton = (CircularProgressButton) findViewById(R.id.btn_clean);
-        delButton = (CircularProgressButton) findViewById(R.id.btn_delete_guichet);
+        delButton = (CircularProgressButton) findViewById(R.id.btn_delete_adherent);
         delButton.setVisibility(View.GONE);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addGuichet();
+                    //addGuichet();
+                    Intent intent = new Intent(CreateAdherent.this,GetPieceAdherent.class);
+                   // Intent intent = new Intent(CreateAdherent.this,GetFraisAdherent.class);
+                    startActivity(intent);
                 } else {
-                    Toast.makeText(CreateGuichet.this,
+                    Toast.makeText(CreateAdherent.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
 
@@ -363,7 +365,7 @@ if (true){
 
             new AddGuichetAsyncTask().execute();
         } else {
-            Toast.makeText(CreateGuichet.this,
+            Toast.makeText(CreateAdherent.this,
                     "Un ou plusieurs champs sont vides!",
                     Toast.LENGTH_LONG).show();
 
@@ -418,7 +420,7 @@ if (true){
             super.onPreExecute();
             addButton.startAnimation() ;// to start animation on button save
             //Display proggress bar
-            pDialog = new ProgressDialog(CreateGuichet.this);
+            pDialog = new ProgressDialog(CreateAdherent.this);
             pDialog.setMessage("Adding Guichet. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -470,7 +472,7 @@ if (true){
                 public void run() {
                     if (success == 1) {
                         //Display success message
-                        Toast.makeText(CreateGuichet.this,
+                        Toast.makeText(CreateAdherent.this,
                                 "Guichet Ajouté", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
@@ -479,7 +481,7 @@ if (true){
                         finish();
 
                     } else {
-                        Toast.makeText(CreateGuichet.this,
+                        Toast.makeText(CreateAdherent.this,
                                 "Some error occurred while adding Guichet",
                                 Toast.LENGTH_LONG).show();
 
@@ -488,4 +490,6 @@ if (true){
             });
         }
     }
+
+
 }

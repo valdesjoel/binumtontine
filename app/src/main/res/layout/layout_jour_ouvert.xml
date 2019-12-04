@@ -23,75 +23,89 @@
             android:text="Montant de démarrage"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_CodeFrais_of"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_CodeFrais_of"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:maxLines="1"
+        <LinearLayout
+            android:id="@+id/ll_montant_coffre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/title_montant_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text="Montant du coffre: "
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/tv_montant_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text=""
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textSize="16sp"
-                android:hint="@string/hint_code_frais"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_LibelleFrais_of"
-            style="@style/parent"
-            android:textStyle="bold"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_LibelleFrais_of"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:maxLines="1"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_piece_monnaie_coffre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/title_piece_monnaie_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text="Pièces de monnaie: "
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/tv_piece_monnaie_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text=""
                 android:textStyle="bold"
-                android:textSize="16sp"
-                android:hint="@string/hint_Libelle_frais"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- radioGroup nature frais-->
-        <!-- radiogroup -->
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tv_NatureFrais_fp"
+                android:id="@+id/tv_que_voulez_vous_faire_usager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="Nature du frais"
+                android:text="Que voulez-vous faire ?"
                 android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_NatureFrais_fp"
+                android:layout_below="@+id/tv_que_voulez_vous_faire_usager"
                 android:layout_centerHorizontal="true"
                 android:orientation="vertical"
                 android:showDividers="beginning|middle|end"
                 android:layout_marginTop="10dp"
-                android:id="@+id/rg_NatureFrais_fp" >
+                android:id="@+id/rg_que_voulez_vous_faire_usager" >
 
                 <RadioButton
-                    android:id="@+id/rb_NatureFraisFixe_fp"
+                    android:id="@+id/rb_que_voulez_vous_faire_NewDay_usager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fixe"
+                    android:text="Démarrer une nouvelle journée"
                     android:onClick="onRadioButtonClicked"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:checked="true" />
                 <RadioButton
-                    android:id="@+id/rb_NatureFraisTaux_fp"
+                    android:id="@+id/rb_que_voulez_vous_faire_OldDay_usager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Taux"
-                    android:textSize="16sp"
+                    android:text="Se connecter à une date antérieure"
+                    android:textSize="18sp"
                     android:onClick="onRadioButtonClicked"
                     android:checked="false" />
 
@@ -99,96 +113,35 @@
 
             </RadioGroup>
         </LinearLayout>
-        <!-- valeur type frais -->
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_ValeurFrais_fp"
+            android:id="@+id/input_layout_montant_demarrage_usager"
             style="@style/parent"
-            android:textStyle="bold"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
-                android:id="@+id/input_txt_ValeurFrais_fp"
+                android:id="@+id/input_txt_montant_demarrage_usager"
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:hint="Valeur:"/>
+                android:hint="@string/hint_montant_demarrage"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
-            android:id="@+id/ll_base_frais_of"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-        <TextView android:id="@+id/tv_baseFrais_fp"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:layout_width="fill_parent"
-            android:text="Base du frais:"
-            android:textSize="16sp"
-            style="@style/parent"
-            android:layout_height="wrap_content"/>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
+            android:id="@+id/input_layout_montant_piece_monnaie_usager"
             style="@style/parent"
-            app:errorEnabled="true" >
-            <Spinner android:id="@+id/spn_baseFrais_fp"
-                android:layout_width="match_parent"
-                android:hint="@string/my_hint"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_montant_piece_monnaie_usager"
                 style="@style/modifiedEditText"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <!-- radiogroup type membre -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_type_adherent_pg_frais_of"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="Type d'adhérent"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
                 android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_type_adherent_pg_frais_of"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:showDividers="beginning|middle|end"
-                android:layout_marginTop="10dp"
-                android:id="@+id/radioGroupEpTypTxInter" >
-
-                <RadioButton
-                    android:id="@+id/rb_type_adherent_pg_frais_of_physique"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Personne physique"
-                    android:onClick="onRadioButtonClicked"
-                    android:textSize="16sp"
-                    android:checked="true" />
-                <RadioButton
-                    android:id="@+id/rb_type_adherent_pg_frais_of_morale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Personne morale"
-                    android:textSize="16sp"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
+                android:textSize="16sp"
+                android:hint="@string/hint_montant_piece_monnaie"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-
-            </RadioGroup>
-        </LinearLayout>
 
 
         <LinearLayout
@@ -201,7 +154,7 @@
             android:layout_marginTop="30dp">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_save_pg_frais_of"
+                android:id="@+id/btn_save_montant_demarrage"
                 style="@style/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,7 +163,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:padding="12dp"
-                android:text="@string/btn_enregistrer" />
+                android:text="@string/btn_valider" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_clean"
                 style="@style/loginButton"
@@ -222,37 +175,8 @@
                 android:padding="12dp"
                 android:text="@string/btn_annuler" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_delete_pg_frais_of"
-                style="@style/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
 
-                android:padding="12dp"
-                android:text="@string/btn_supprimer" />
         </LinearLayout>
-      <!--  <Button android:id="@+id/btn_save_eav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:text="ENREGISTRER"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="5dp"
-            android:textColor="@android:color/white"/> -->
-
-       <!-- <TextView
-            style="@style/parent"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:textColor="@color/primaryTextColor"
-            android:text="@string/login_signup_hint"
-            android:onClick="viewRegisterClicked"
-            android:layout_marginTop="@dimen/loginViewsMargin"/> -->
-
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

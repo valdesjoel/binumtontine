@@ -47,6 +47,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.Category;
 import com.example.binumtontine.activity.ServiceHandler;
+import com.example.binumtontine.activity.adherent.MainActivityUsager;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -64,26 +66,32 @@ import java.util.Map;
 public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, AdapterView.OnItemSelectedListener {
     private static final String KEY_SUCCESS = "success";
 
-    private static final String KEY_FP_CODE = "FpCode";
-    private static final String KEY_FP_LIBELLE = "FpLibelle";
-    private static final String KEY_FP_NATURE_FRAIS = "FpNature";
+    private static final String KEY_JO_MT_DEMARRAGE = "JoMtDemarr";
+    private static final String KEY_JO_MT_PIECE_MONNAIE = "JoMtPMonnaie";
+    private static final String KEY_JO_IS_CLOSED = "JoIsClosed";
+    private static final String KEY_JO_GUICHET = "JoGuichet";
+
     private static final String KEY_FP_VALEUR = "FpVal";
     private static final String KEY_FP_BASE = "FpBase";
     private static final String KEY_FP_TYPE_ADH = "FpTypeAdh";
 
 
-    private EditText FpCodeEditText;
-    private EditText FpLibelleEditText;
+    private EditText JoMtDemarrEditText;
+    private EditText JoMtPMonnaieEditText;
+
     private EditText FpValEditText;
 
-    private RadioButton rbTypeAdherentPhysique;
-    private RadioButton rbTypeAdherentMorale;
+    private RadioButton rbStartNewDay;
+    private RadioButton rbStartOldDay;
+
     private RadioButton rbNatureFraisFixe;
     private RadioButton rbNatureFraisTaux;
 
 
-    private String FpCode;
-    private String FpLibelle;
+    private String JoMtDemarr;
+    private String JoMtPMonnaie;
+    private Boolean JoIsClosed;
+
     private String FpNature;
     private String FpVal;
     private String FpBase;
@@ -112,7 +120,7 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
 
 
     private Button addButton;
-    private Button deleteButton;
+    private Button cancelButton;
     private int success;
     private ProgressDialog pDialog;
 
@@ -128,18 +136,19 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
 
 
 
-        FpCodeEditText = (EditText) findViewById(R.id.input_txt_CodeFrais_of);
-        FpLibelleEditText = (EditText) findViewById(R.id.input_txt_LibelleFrais_of);
-        rbNatureFraisFixe = (RadioButton) findViewById(R.id.rb_NatureFraisFixe_fp);
+        JoMtDemarrEditText = (EditText) findViewById(R.id.input_txt_montant_demarrage_usager);
+        JoMtPMonnaieEditText = (EditText) findViewById(R.id.input_txt_montant_piece_monnaie_usager);
+
+        rbStartNewDay = (RadioButton) findViewById(R.id.rb_que_voulez_vous_faire_NewDay_usager);
+        rbStartOldDay = (RadioButton) findViewById(R.id.rb_que_voulez_vous_faire_OldDay_usager);
+
+
+
+/*
+  rbNatureFraisFixe = (RadioButton) findViewById(R.id.rb_NatureFraisFixe_fp);
         rbNatureFraisTaux = (RadioButton) findViewById(R.id.rb_NatureFraisTaux_fp);
         FpValEditText = (EditText) findViewById(R.id.input_txt_ValeurFrais_fp);
         //FpBaseEditText = (EditText) findViewById(R.id.Base);
-        rbTypeAdherentPhysique = (RadioButton) findViewById(R.id.rb_type_adherent_pg_frais_of_physique);
-        rbTypeAdherentMorale = (RadioButton) findViewById(R.id.rb_type_adherent_pg_frais_of_morale);
-
-
-
-
         rbEpTypTxInterFixe = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
         rbEpTypTxInterTaux = (RadioButton) findViewById(R.id.rbEpTypTxInterTaux);
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
@@ -159,12 +168,24 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
         // spinner item select listener
         spinnerCaisse.setOnItemSelectedListener(JourOuvert.this);
         new JourOuvert.GetCategories().execute();
-
-        deleteButton = (Button) findViewById(R.id.btn_delete_pg_frais_of);
-        deleteButton.setVisibility(View.GONE);
-        addButton = (Button) findViewById(R.id.btn_save_pg_frais_of);
+*/
+        cancelButton = (Button) findViewById(R.id.btn_clean);
+        addButton = (Button) findViewById(R.id.btn_save_montant_demarrage);
         //cirLoginButton
-        addButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+                } else {
+                    Toast.makeText(JourOuvert.this,
+                            "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        }); addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
@@ -178,6 +199,7 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
 
             }
         });
+
 
     }
     /**
@@ -277,6 +299,7 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
     }
+
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Ajout d'un frais à payer");
 
@@ -288,20 +311,22 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
         // Check which checkbox was clicked
         switch(view.getId()) {
 
-            case R.id.rb_NatureFraisFixe_fp:
-                if (rbNatureFraisFixe.isChecked()) {
-                    textInputLayoutCaisse.setVisibility(View.GONE);
-                    str = checked1?"Nature Fixe Selected":"Nature Fixe Deselected";
+            case R.id.rb_que_voulez_vous_faire_NewDay_usager:
+                if (rbStartNewDay.isChecked()) {
+                    JoIsClosed = false;
+                   // textInputLayoutCaisse.setVisibility(View.GONE);
+                    str = checked1?"Précisez le montant de démarrage":"";
                     //ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     //FpNature ="F";
 
                 }
 
                 break;
-            case R.id.rb_NatureFraisTaux_fp:
-                if (rbNatureFraisTaux.isChecked()){
-                    textInputLayoutCaisse.setVisibility(View.VISIBLE);
-                    str = checked1?"Nature Taux Selected":"Nature Taux Deselected";
+            case R.id.rb_que_voulez_vous_faire_OldDay_usager:
+                if (rbStartOldDay.isChecked()){
+                    JoIsClosed = true;
+                    //textInputLayoutCaisse.setVisibility(View.VISIBLE);
+                    str = checked1?"Choisissez une date antérieure":"";
                     //ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     //FpNature ="T";
 
@@ -340,21 +365,13 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
                 !STRING_EMPTY.equals(ev_min_cpteEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
 if (true){
-            FpCode = FpCodeEditText.getText().toString();
-            FpLibelle = FpLibelleEditText.getText().toString();
-    if (rbNatureFraisFixe.isChecked()){
-        FpNature ="F";
-        FpBase = null;
-    }else {
-        FpNature="T";
-        FpBase = String.valueOf(caisseID);
-    }
+            JoMtDemarr = JoMtDemarrEditText.getText().toString();
+            JoMtPMonnaie = JoMtPMonnaieEditText.getText().toString();
 
-            FpVal = FpValEditText.getText().toString();
 
-    if (rbTypeAdherentPhysique.isChecked()){
-        FpTypeAdh ="P";
-    }else FpTypeAdh="M";
+                if (rbStartNewDay.isChecked()){
+                    JoIsClosed =false;
+                }else JoIsClosed =true;
 
 
 
@@ -362,7 +379,7 @@ if (true){
 
 
             new AddEAVAsyncTask().execute();
-        } else {
+    } else {
             Toast.makeText(JourOuvert.this,
                     "Un ou plusieurs champs sont vides!",
                     Toast.LENGTH_LONG).show();
@@ -381,7 +398,9 @@ if (true){
             super.onPreExecute();
             //Display proggress bar
             pDialog = new ProgressDialog(JourOuvert.this);
-            pDialog.setMessage("Adding new Frais. Please wait...");
+            if(!JoIsClosed)
+            pDialog.setMessage("Démarrage d'une nouvelle journée . Please wait...");
+            else pDialog.setMessage("Connexion à une journée antérieure . Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -392,17 +411,16 @@ if (true){
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-            httpParams.put(KEY_FP_CODE, FpCode);
-            httpParams.put(KEY_FP_LIBELLE, FpLibelle);
-            httpParams.put(KEY_FP_NATURE_FRAIS, FpNature);
-            httpParams.put(KEY_FP_VALEUR, FpVal);
-            httpParams.put(KEY_FP_BASE, FpBase);
-            httpParams.put(KEY_FP_TYPE_ADH, FpTypeAdh);
+            httpParams.put(KEY_JO_MT_DEMARRAGE, JoMtDemarr);
+            httpParams.put(KEY_JO_MT_PIECE_MONNAIE, JoMtPMonnaie);
+            httpParams.put(KEY_JO_IS_CLOSED, JoIsClosed.toString());
+            httpParams.put(KEY_JO_GUICHET, String.valueOf(MyData.GUICHET_ID));
+
 
 
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_frais_of.php", "POST", httpParams);
+                    BASE_URL + "add_jour_ouvert.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -418,16 +436,20 @@ if (true){
                     if (success == 1) {
                         //Display success message
                         Toast.makeText(JourOuvert.this,
-                                "Frais Ajouté", Toast.LENGTH_LONG).show();
-                        Intent i = getIntent();
+                                "Journée ouverte", Toast.LENGTH_LONG).show();
+                      /*  Intent i = getIntent();*/
                         //send result code 20 to notify about movie update
-                        setResult(20, i);
+                        /* setResult(20, i); */
                         //Finish ths activity and go back to listing activity
+
+                        //Intent i = new Intent(this, CreateAdherent.class);
+                        Intent i = new Intent(JourOuvert.this, MainActivityUsager.class);
+                        startActivity(i);
                         finish();
 
                     } else {
                         Toast.makeText(JourOuvert.this,
-                                "Some error occurred while adding Frais",
+                                "Some error occurred while open day",
                                 Toast.LENGTH_LONG).show();
 
                     }

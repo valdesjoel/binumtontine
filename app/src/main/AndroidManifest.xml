@@ -14,18 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
+        <activity android:name=".activity.adherent.MainActivityUsager"></activity>
+        <activity android:name=".activity.adherent.NextActivity" />
         <activity
             android:name=".activity.parametrageGuichet.ParamGuichetActivity"
             android:label="@string/title_activity_param_guichet"
-            android:theme="@style/MyMaterialTheme.NoActionBar"></activity>
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.CreateCaisse" />
         <activity android:name=".activity.CreateGuichet" />
+        <activity android:name=".activity.adherent.CreateAdherent" />
+        <activity android:name=".activity.adherent.GetPieceAdherent" />
+        <activity android:name=".activity.adherent.GetFraisAdherent" />
         <activity android:name=".activity.GuichetNewActivity" />
         <activity android:name=".activity.UserGuichetActivity" />
         <activity android:name=".activity.CreateUser" />
         <activity android:name=".activity.CreateUserGuichet" />
         <activity android:name=".activity.UpdateEAV" />
+        <activity android:name=".activity.parametrageGuichet.UpdateEAVForGuichet" />
         <activity android:name=".activity.UpdateEAP" />
         <activity android:name=".activity.UpdateCaisse" />
         <activity android:name=".activity.UpdateGuichet" />

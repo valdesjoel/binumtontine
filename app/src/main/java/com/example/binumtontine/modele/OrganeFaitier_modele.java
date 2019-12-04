@@ -22,6 +22,8 @@ public class OrganeFaitier_modele implements Serializable {
     private String pays_of;
     private String adresse_of;
     private String telephone1_of;
+    private String telephone2_of;
+    private String telephone3_of;
     private String siege_of;
     private String nom_pca_of;
     private String nom_vpca_of;
@@ -29,7 +31,7 @@ public class OrganeFaitier_modele implements Serializable {
 
     public OrganeFaitier_modele(String sigle, String libelle, String num_agrement,
                                 String date_agrement, Integer boite_postale, String ville_of,
-                                String pays_of, String adresse_of, String telephone1_of,
+                                String pays_of, String adresse_of, String telephone1_of,String telephone2_of,String telephone3_of,
                                 String siege_of, String nom_pca_of, String nom_vpca_of, String nom_dg_of) {
         this.sigle = sigle;
         this.libelle = libelle;
@@ -40,6 +42,8 @@ public class OrganeFaitier_modele implements Serializable {
         this.pays_of = pays_of;
         this.adresse_of = adresse_of;
         this.telephone1_of = telephone1_of;
+        this.telephone2_of = telephone2_of;
+        this.telephone3_of = telephone3_of;
         this.siege_of = siege_of;
         this.nom_pca_of = nom_pca_of;
         this.nom_vpca_of = nom_vpca_of;
@@ -48,7 +52,7 @@ public class OrganeFaitier_modele implements Serializable {
 
     public OrganeFaitier_modele(Integer numero_of, String sigle, String libelle, String num_agrement,
                                 String date_agrement, Integer boite_postale, String ville_of,
-                                String pays_of, String adresse_of, String telephone1_of,
+                                String pays_of, String adresse_of, String telephone1_of,String telephone2_of,String telephone3_of,
                                 String siege_of, String nom_pca_of, String nom_vpca_of, String nom_dg_of) {
         this.numero = numero_of;
         this.sigle = sigle;
@@ -60,6 +64,8 @@ public class OrganeFaitier_modele implements Serializable {
         this.pays_of = pays_of;
         this.adresse_of = adresse_of;
         this.telephone1_of = telephone1_of;
+        this.telephone2_of = telephone2_of;
+        this.telephone3_of = telephone3_of;
         this.siege_of = siege_of;
         this.nom_pca_of = nom_pca_of;
         this.nom_vpca_of = nom_vpca_of;
@@ -106,6 +112,14 @@ public class OrganeFaitier_modele implements Serializable {
         return telephone1_of;
     }
 
+    public String getTelephone2_of() {
+        return telephone2_of;
+    }
+
+    public String getTelephone3_of() {
+        return telephone3_of;
+    }
+
     public String getSiege_of() {
         return siege_of;
     }
@@ -140,6 +154,8 @@ public class OrganeFaitier_modele implements Serializable {
         laListe.add(pays_of);
         laListe.add(adresse_of);
         laListe.add(telephone1_of);
+        laListe.add(telephone2_of);
+        laListe.add(telephone3_of);
         laListe.add(siege_of);
         laListe.add(nom_pca_of);
         laListe.add(nom_vpca_of);

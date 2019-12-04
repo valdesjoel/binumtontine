@@ -40,20 +40,20 @@
                 android:layout_alignParentTop="true"
                 android:orientation="vertical"
                 android:layout_marginTop="40dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp">
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp">
 
 
                 <TextView
                     style="@style/headerText"
                     android:layout_gravity="center"
-                    android:text="Connexion au guichet "
+                    android:text="ADHERENT"
                     android:layout_marginTop="40dp"/>
                 <include
-                    layout="@layout/layout_jour_ouvert"/>
+                    layout="@layout/layout_create_adherent"/>
 
             </LinearLayout>
-            <!--<ImageView
+       <!--     <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

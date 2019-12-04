@@ -3,11 +3,15 @@ package com.example.binumtontine.activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,16 +22,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 import com.google.android.material.textfield.TextInputLayout;
+import com.hbb20.CountryCodePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +48,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnItemSelectedListener, View.OnClickListener, SERVER_ADDRESS {
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+
+public class UpdateGuichet extends AppCompatActivity implements  View.OnClickListener, SERVER_ADDRESS {
     private static String STRING_EMPTY = "";
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
@@ -73,7 +82,15 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
 
 
-
+    private TextView cxTitle;
+    private String cxName;
+    private CountryCodePicker ccp_phone1;
+    private CountryCodePicker ccp_phone2;
+    private CountryCodePicker ccp_phone3;
+    private EditText editTextCarrierPhone1;
+    private EditText editTextCarrierPhone2;
+    private EditText editTextCarrierPhone3;
+    private TimePickerDialog picker;
     private String guichetId;
     private JRSpinner mySpinnerCaisse; //pour gérer le spinner contenant les caisses
     private JRSpinner mySpinnerLocalite; //pour gérer le spinner contenant les localités
@@ -133,8 +150,9 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
 
-    private Button deleteButton;
-    private Button updateButton;
+    private br.com.simplepass.loadingbutton.customViews.CircularProgressButton updateButton;
+    private br.com.simplepass.loadingbutton.customViews.CircularProgressButton annulerButton;
+    private br.com.simplepass.loadingbutton.customViews.CircularProgressButton deleteButton;
     private int success;
     private ProgressDialog pDialog;
 
@@ -146,32 +164,59 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_caisse);
         setSupportActionBar(toolbar);
         setToolbarTitle(); */
+        Intent intent = getIntent();
+        headerGuichetTextView = (TextView) findViewById(R.id.header_user_guichet);
+        headerGuichetTextView.setText("Mise à jour Guichet");
+
+        /* Begin manage country*/
+        cxTitle = (TextView) findViewById(R.id.tv_caisse_name);
+        cxName= MyData.CAISSE_NAME.toUpperCase();
+        cxTitle.setTypeface(null, Typeface.BOLD);
+        cxTitle.setText(cxTitle.getText()+" "+ cxName);
+
+        ccp_phone1 = (CountryCodePicker) findViewById(R.id.ccp_phone1);
+        editTextCarrierPhone1 = (EditText) findViewById(R.id.editText_carrierPhone1);
+        ccp_phone1.registerCarrierNumberEditText(editTextCarrierPhone1);
+        ccp_phone1.getFullNumberWithPlus();
+
+        ccp_phone2 = (CountryCodePicker) findViewById(R.id.ccp_phone2);
+        editTextCarrierPhone2 = (EditText) findViewById(R.id.editText_carrierPhone2);
+        ccp_phone2.registerCarrierNumberEditText(editTextCarrierPhone2);
+        ccp_phone2.getFullNumberWithPlus();
+        ccp_phone3 = (CountryCodePicker) findViewById(R.id.ccp_phone3);
+        editTextCarrierPhone3 = (EditText) findViewById(R.id.editText_carrierPhone3);
+        ccp_phone3.registerCarrierNumberEditText(editTextCarrierPhone3);
+        ccp_phone3.getFullNumberWithPlus();
+
+        /* End manage country*/
+
+
+
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         findViewsById();
 
         setDateTimeField();
-
-
-
-        mySpinnerCaisse = (JRSpinner)findViewById(R.id.spn_my_spinner_select_caisse);
+        // mySpinnerCaisse = (JRSpinner)findViewById(R.id.spn_my_spinner_select_caisse);
+        // textInputLayoutCaisse = (TextInputLayout) findViewById(R.id.til_caisse);
+        // textInputLayoutCaisse.setVisibility(View.GONE);
         mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_my_spinner_localite_guichet);
 
-        mySpinnerCaisse.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
+        // mySpinnerCaisse.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
         mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_localite)); //this is important, you must set it to set the item list
-        mySpinnerCaisse.setTitle("Sélectionner une caisse"); //change title of spinner-dialog programmatically
+//        mySpinnerCaisse.setTitle("Sélectionner une caisse"); //change title of spinner-dialog programmatically
         mySpinnerLocalite.setTitle("Sélectionner une localité"); //change title of spinner-dialog programmatically
-        mySpinnerCaisse.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        // mySpinnerCaisse.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerLocalite.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
 
-        mySpinnerCaisse.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+     /*   mySpinnerCaisse.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
                 //do what you want to the selected position
 
             }
-        });
+        });*/
         mySpinnerLocalite.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
@@ -179,22 +224,34 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
             }
         });
-
-
-        Intent intent = getIntent();
-        headerGuichetTextView = (TextView) findViewById(R.id.header_user_guichet);
-        headerGuichetTextView.setText("Mise à jour Guichet");
-
         gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
+        alreadyUpperCase(gx_denominationEditText);
         gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
         gx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseGx);
-        /*gx_tel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_GX);
-        gx_tel2EditText = (EditText) findViewById(R.id.input_txt_Tel2_GX);
-        gx_tel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_GX);*/
+
         gx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Gx);
+        alreadyUpperCase(gx_nom_pcaEditText);
         gx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Gx);
+        alreadyUpperCase(gx_nom_dgEditText);
         gx_is_forcer_clotSwitch = (Switch) findViewById(R.id.SwitchForcer_la_clotureGx);
         gx_heure_clotEditText = (EditText) findViewById(R.id.input_txt_heure_cloture_Gx);
+        gx_heure_clotEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                // time picker dialog
+                picker = new TimePickerDialog(UpdateGuichet.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                gx_heure_clotEditText.setText(sHour + ":" + sMinute);
+                            }
+                        }, hour, minutes, true);
+                picker.show();
+            }
+        });
         gx_is_oper_apres_clotSwitch = (Switch) findViewById(R.id.Switch_gx_is_oper_apres_clot);
         gx_nbre_rapp_by_jourEditText = (EditText) findViewById(R.id.input_txt_Nombre_de_rappel_par_jour);
         gx_nbre_jr_av_rappEditText = (EditText) findViewById(R.id.input_txt_Nombre_jour_av_rappel);
@@ -204,26 +261,21 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
         gx_freq_reun_com_credEditText = (EditText) findViewById(R.id.input_txt_GuFreqReunComCred);
         gx_is_rapp_net_msg_cred_onSwitch = (Switch) findViewById(R.id.Switch_GuIsRappNetMsgCredOn);
 
-        spinnerCaisse = (Spinner) findViewById(R.id.spn_my_spinner_caisse1);
-        tvCaisse = (TextView) findViewById(R.id.tv_caisse);
-
-        caisseList = new ArrayList<Category>();
-        // spinner item select listener
-        spinnerCaisse.setOnItemSelectedListener(UpdateGuichet.this);
-        new UpdateGuichet.GetCategories().execute();
 
 
         guichetId = intent.getStringExtra(KEY_GUICHET_ID);
         new FetchGuichetDetailsAsyncTask().execute();
-        deleteButton = (Button) findViewById(R.id.btn_delete_guichet);
+        deleteButton = (CircularProgressButton) findViewById(R.id.btn_delete_guichet);
         deleteButton.setVisibility(View.VISIBLE);
+        annulerButton = (CircularProgressButton) findViewById(R.id.btn_clean);
+        annulerButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 confirmDelete();
             }
         });
-        updateButton = (Button) findViewById(R.id.btn_save_guichet);
+        updateButton = (CircularProgressButton) findViewById(R.id.btn_save_guichet);
         updateButton.setText("MODIFIER");
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,6 +292,7 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
             }
         });
+
 
 
     }
@@ -277,30 +330,33 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
     }
 
-    /**
-     * Adding spinner data
-     * */
-    private void populateSpinner() {
-        List<String> lables = new ArrayList<String>();
+    private void alreadyUpperCase(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
 
-        //tvCaisse.setText("");
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 
-        for (int i = 0; i < caisseList.size(); i++) {
-            lables.add(caisseList.get(i).getName());//recupère les noms
-            caisseListID.add(caisseList.get(i).getId()); //recupère les Id
-        }
+            }
 
-        // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(UpdateGuichet.this,
-                android.R.layout.simple_spinner_item, lables);
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+            }
 
-        // Drop down layout style - list view with radio button
-        spinnerAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinnerCaisse.setAdapter(spinnerAdapter);
+            @Override
+            public void afterTextChanged(Editable et) {
+                String s = et.toString();
+                if (!s.equals(s.toUpperCase())) {
+                    s = s.toUpperCase();
+                    editText.setText(s);
+                    editText.setSelection(editText.length()); //fix reverse texting
+                }
+            }
+        });
     }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -309,78 +365,7 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
         }
     }
 
-    /**
-     * Async task to get all food categories
-     * */
-    private class GetCategories extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(UpdateGuichet.this);
-            pDialog.setMessage("Fetching caisse's list..");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            String json = jsonParser.makeServiceCall(URL_CATEGORIES, ServiceHandler.GET);
-
-            Log.e("Response: ", "> " + json);
-
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray("categories");
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt("id"),
-                                    catObj.getString("name"));
-                            caisseList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data", "Didn't receive any data from server!");
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-            populateSpinner();
-        }
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
-        Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        caisseID = caisseListID.get(position);//pour recuperer l'ID de la caisse selectionnée
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }
 
     /**
      * Fetches single movie details from the server
@@ -445,14 +430,17 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
 
-                    mySpinnerCaisse.setText(gxCaisse);
+                    //mySpinnerCaisse.setText(gxCaisse);
+
                     mySpinnerLocalite.setText(gxLocalite);
                     gx_denominationEditText.setText(gxDenomination);
                     gx_date_debutEditText.setText(gx_date_debut);
                     gx_adresseEditText.setText(gx_adresse);
-                    gx_tel1EditText.setText(gx_tel1);
-                    gx_tel2EditText.setText(gx_tel2);
-                    gx_tel3EditText.setText(gx_tel3);
+
+                    ccp_phone1.setFullNumber(gx_tel1);
+                    ccp_phone2.setFullNumber(gx_tel2);
+                    ccp_phone3.setFullNumber(gx_tel3);
+
                     gx_nom_pcaEditText.setText(gx_nom_pca);
                     gx_nom_dgEditText.setText(gx_nom_dg);
                     gx_is_forcer_clotSwitch.setChecked(gx_is_forcer_clot);
@@ -515,6 +503,7 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+            deleteButton.startAnimation() ;// to start animation on button delete
         }
 
         @Override
@@ -535,6 +524,7 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
         protected void onPostExecute(String result) {
             pDialog.dismiss();
+            deleteButton.startAnimation() ;// to stop animation on button delete
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (success == 1) {
@@ -581,9 +571,12 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
                 gxDenomination = gx_denominationEditText.getText().toString();
                 gx_date_debut = gx_date_debutEditText.getText().toString();
                 gx_adresse = gx_adresseEditText.getText().toString();
-                gx_tel1 = gx_tel1EditText.getText().toString();
+                gx_tel1 = ccp_phone1.getFullNumberWithPlus();
+                gx_tel2 = ccp_phone2.getFullNumberWithPlus();
+                gx_tel3 = ccp_phone3.getFullNumberWithPlus();
+                /*gx_tel1 = gx_tel1EditText.getText().toString();
                 gx_tel2 = gx_tel2EditText.getText().toString();
-                gx_tel3 = gx_tel3EditText.getText().toString();
+                gx_tel3 = gx_tel3EditText.getText().toString();*/
                 gx_nom_pca = gx_nom_pcaEditText.getText().toString();
                 gx_nom_dg = gx_nom_dgEditText.getText().toString();
                 gx_is_forcer_clot = gx_is_forcer_clotSwitch.isChecked();
@@ -622,6 +615,7 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+            updateButton.startAnimation() ;// to start animation on button update
         }
 
         @Override
@@ -630,8 +624,10 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
            // httpParams.put(KEY_GUICHET_ID, guichetId);
-            httpParams.put(KEY_GUICHET_ID, String.valueOf(caisseID));
-            httpParams.put(KEY_GX_CX_NUMERO, gxCaisse);
+            httpParams.put(KEY_GUICHET_ID, String.valueOf(guichetId));
+            httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
+            //httpParams.put(KEY_GX_CX_NUMERO, gxCaisse);
+
             httpParams.put(KEY_GX_LOCALITE, gxLocalite);
             httpParams.put(KEY_GX_DENOMINATION, gxDenomination);
             httpParams.put(KEY_GX_DATE_DEBUT, gx_date_debut);
@@ -663,6 +659,7 @@ public class UpdateGuichet extends AppCompatActivity implements  AdapterView.OnI
 
         protected void onPostExecute(String result) {
             pDialog.dismiss();
+            updateButton.startAnimation() ;// to stop animation on button update
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (success == 1) {

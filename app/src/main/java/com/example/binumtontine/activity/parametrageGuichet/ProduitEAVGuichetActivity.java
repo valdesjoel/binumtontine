@@ -41,6 +41,7 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     private static final String KEY_EAV_ID = "ev_numero";
+    private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to push intent.extra
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
     private static final String KEY_CAISSE_ID = "ev_caisse_id";
     private static final String KEY_GX_NUMERO = "ev_gx_numero";
@@ -194,8 +195,12 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
                     Intent intent = new Intent(getApplicationContext(),
-                            UpdateEAV.class);
+                            UpdateEAVForGuichet.class);
                     intent.putExtra(KEY_EAV_ID, movieId);
+                    intent.putExtra(KEY_EXTRA_ACTION_TO_AFFECT, !action_to_affect);
+
+                  //  intent.putExtra(KEY_GX_NUMERO, MyData.GUICHET_ID);
+
                     startActivityForResult(intent, 20);
 
                 } else {
