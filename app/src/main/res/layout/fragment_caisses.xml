@@ -1,82 +1,4 @@
-<!-- <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="60dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/input_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_name" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/hint_email" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/hint_password" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button android:id="@+id/btn_signup"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_sign_up"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="40dp"
-            android:textColor="@android:color/white"/>
-
-    </LinearLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout> -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -133,9 +55,9 @@
                 android:singleLine="true"
                 android:hint="@string/hint_denominationCx_caisse"
                 style="@style/modifiedEditText"
-
-
-                android:textSize="20sp"/>
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_LocaliteCx"
@@ -157,7 +79,9 @@
 
                 style="@style/modifiedEditText"
                 app:jrs_multiple="false"
-                android:textSize="20sp"/>
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
 
             <!--<EditText
                 android:id="@+id/input_txt_LocaliteCx"
@@ -186,7 +110,9 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/hint_num_agrement"
 
-                android:textSize="20sp"/>
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_dateAgrementCx"
@@ -203,7 +129,9 @@
                 android:singleLine="true"
                 android:hint="@string/hint_date_agrement"
                 style="@style/modifiedEditText"
-                android:textSize="20sp"/>
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_dateDebutCx"
@@ -221,7 +149,9 @@
             android:inputType="date"
             android:hint="@string/hint_date_debut_caisse"
             style="@style/modifiedEditText"
-            android:textSize="20sp"/>
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_AdresseCx"
@@ -239,8 +169,11 @@
                 android:hint="@string/hint_adresse"
                 android:inputType="textPostalAddress"
                 style="@style/modifiedEditText"
-                android:textSize="20sp"/>
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
+     <!--
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_Tel1_Cx"
             android:layout_width="match_parent"
@@ -297,13 +230,93 @@
 
                 android:textSize="20sp"/>
         </com.google.android.material.textfield.TextInputLayout>
+       -->
+        <!--Téléphones-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA,GQ,CG,CD"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierPhone1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone1"
+                android:inputType="phone"
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA,GQ,CG,CD"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierPhone2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone2"
+                android:inputType="phone"
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_phone3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA,GQ,CG,CD"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierPhone3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone3"
+                android:inputType="phone"
+
+                android:singleLine="true" />
+        </LinearLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NomPCA_Cx"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
 
             <EditText
                 android:id="@+id/input_txt_NomPCA_Cx"
@@ -314,7 +327,9 @@
                 android:hint="@string/hint_nomPCA"
                 style="@style/modifiedEditText"
 
-                android:textSize="20sp"/>
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NomDG_Cx"
@@ -333,7 +348,9 @@
                 android:hint="@string/hint_nomDG"
                 style="@style/modifiedEditText"
 
-                android:textSize="20sp"/>
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -346,29 +363,34 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save_Cx"
-                style="@style/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
-                android:background="@color/colorGreen"
+                style="@style/loginButton"
                 android:padding="12dp"
                 android:layout_marginRight="12dp"
-
-
-
-                android:text="@string/btn_enregistrer" />
+                android:text="@string/btn_enregistrer"  />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_delete_Cx"
+                style="@style/cancelButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
-                style="@style/loginButton"
-                android:background="@color/colorAccentNew"
                 android:padding="12dp"
                 android:text="@string/btn_supprimer" />
 

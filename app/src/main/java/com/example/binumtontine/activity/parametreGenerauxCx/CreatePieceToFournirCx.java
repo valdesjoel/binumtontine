@@ -27,7 +27,9 @@ public class CreateProduitEAV extends AppCompatActivity {
 package com.example.binumtontine.activity.parametreGenerauxCx;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +41,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +49,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.Category;
 import com.example.binumtontine.activity.ServiceHandler;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -59,16 +63,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+
 //public class CreatePieceToFournirCx extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
 public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
+    private static final String KEY_DATA = "data";
 
     private static final String KEY_FC_CAISSE_ID = "FcCaisse";
     private static final String KEY_FC_GUICHET_ID = "FcGuichet";
     private static final String KEY_FC_PIECE_ID = "FcFraisPiece";
     private static final String KEY_FC_LIBELLE = "FcNewLibelle";
+    private static final String KEY_FC_CODE = "FpCode";
     private static final String KEY_FC_Is_PIECE_OBLIG = "FcIsOblig";
     private static final String KEY_FC_CAT_ADH = "FcCategAdh";
+    private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to get intent.extra
+    private static final String KEY_FP_PIECE_ID = "FpNumero"; //to get intent.extra
 
 
 
@@ -76,11 +86,14 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
     private static String STRING_EMPTY = "";
 
     private EditText FpLibelleEditText;
+    private EditText FpCodeEditText;
     private RadioButton rbFpIsPieceObligOui;
     private RadioButton rbFpIsPieceObligNon;
 
 
     private String FpLibelle;
+    private String FpCode;
+    private String FcCategAdh;
     private boolean FpIsPieceOblig;
 
     /* manage spinner*/
@@ -89,8 +102,13 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
     private ArrayList<Category> pieceList;
     List<Integer> guichetListID = new ArrayList<Integer>();
     List<Integer> pieceListID = new ArrayList<Integer>();
-    private int guichetID;
+    private int guichetID = 0;
     private int pieceID;
+
+    private String eavId;
+    private Boolean action_to_affect;
+    private TextView headerEAVTextView;
+
     private Spinner spinnerGuichet;
     private Spinner spinnerPiece;
 
@@ -110,6 +128,13 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
         setSupportActionBar(toolbar);
         setToolbarTitle(); */
+
+        Intent intent = getIntent();
+
+        eavId = intent.getStringExtra(KEY_FP_PIECE_ID);
+        action_to_affect = getIntent().getExtras().getBoolean(KEY_EXTRA_ACTION_TO_AFFECT);
+        headerEAVTextView = (TextView) findViewById(R.id.header_eav);
+        new FetchPieceDetailsAsyncTask().execute();
 
         spinnerGuichet = (Spinner) findViewById(R.id.spn_select_guichet_fp);
         spinnerPiece = (Spinner) findViewById(R.id.spn_select_piece_fp);
@@ -149,7 +174,7 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
         // spinner item select listener
         //spinnerGuichet.setOnItemSelectedListener(CreatePieceToFournirCx.this);
         //spinnerPiece.setOnItemSelectedListener(CreatePieceToFournirCx.this);
-        new CreatePieceToFournirCx.GetCategories().execute();
+        //new CreatePieceToFournirCx.GetCategories().execute();
 
 
 
@@ -159,14 +184,51 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
         blkPlageEav = (LinearLayout) findViewById(R.id.blk_plage_eav);*/
 
+        FpCodeEditText = (EditText) findViewById(R.id.input_txt_Code_pg_piece_cx);
         FpLibelleEditText = (EditText) findViewById(R.id.input_txt_Libelle_pg_piece_cx);
         rbFpIsPieceObligOui = (RadioButton) findViewById(R.id.rb_isPieceObligatoire_fp_oui);
         rbFpIsPieceObligNon = (RadioButton) findViewById(R.id.rb_isPieceObligatoire_fp_non);
 
         annulerButton = (Button) findViewById(R.id.btn_clean);
         deleteButton = (Button) findViewById(R.id.btn_delete_eav);
-        deleteButton.setVisibility(View.GONE);
+       // deleteButton.setVisibility(View.GONE);
         addButton = (Button) findViewById(R.id.btn_save_eav);
+
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+
+            }
+        });
+
+
+
+        if (action_to_affect){
+            headerEAVTextView.setText("Affectation de la pièce à la caisse");
+            addButton.setText("AFFECTER");
+            deleteButton.setVisibility(View.GONE);
+            annulerButton.setVisibility(View.VISIBLE);
+           /* annulerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+
+                }
+            });*/
+        }else{
+            headerEAVTextView.setText("Mise à jour de la pièce");
+            addButton.setText("MODIFIER");
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    confirmDelete();
+                }
+            });
+        }
+
+
         //cirLoginButton
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,14 +244,202 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
 
             }
         });
-        annulerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
 
+
+    }
+
+    /**
+     * Fetches single movie details from the server
+     */
+    private class FetchPieceDetailsAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog = new ProgressDialog(CreatePieceToFournirCx.this);
+            pDialog.setMessage("\n" +
+                    "Chargement des détails de la pièce . SVP veuillez patienter...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_FP_PIECE_ID, eavId);
+//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                    BASE_URL + "get_piece_of_details.php", "GET", httpParams);
+
+            JSONObject jsonObject =(action_to_affect)?
+                    httpJsonParser.makeHttpRequest(
+                            BASE_URL + "get_piece_of_details.php", "GET", httpParams)
+                    :
+                    httpJsonParser.makeHttpRequest(
+                            BASE_URL + "get_piece_cx_details.php", "GET", httpParams);
+            try {
+                int success = jsonObject.getInt(KEY_SUCCESS);
+                JSONObject eav;
+                if (success == 1) {
+                    //Parse the JSON response
+                    eav = jsonObject.getJSONObject(KEY_DATA);
+
+
+                    if (action_to_affect){
+
+                        FpCode = eav.getString(KEY_FC_CODE);
+                        FpLibelle = eav.getString(KEY_FC_LIBELLE);
+                    }else{
+                        FpCode = eav.getString(KEY_FC_CODE);
+                        FpLibelle = eav.getString(KEY_FC_LIBELLE);
+                        FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
+//
+                    }
+//                    FpCode = eav.getString(KEY_FC_CODE);
+//                    FpLibelle = eav.getString(KEY_FC_LIBELLE);
+//                    FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
+//                  ev_is_min_cpte_oblig = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_MIN_CPTE_OBLIG));
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+            return null;
+        }
 
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    //Populate the Edit Texts once the network activity is finished executing
+
+
+                    FpCodeEditText.setText(FpCode);
+                    FpLibelleEditText.setText(FpLibelle);
+if (action_to_affect){
+    FpCodeEditText.setText(FpCode);
+    FpLibelleEditText.setText(FpLibelle);
+}else{
+    FpCodeEditText.setText(FpCode);
+    FpLibelleEditText.setText(FpLibelle);
+    rbFpIsPieceObligOui.setChecked(FpIsPieceOblig);
+    rbFpIsPieceObligNon.setChecked(!FpIsPieceOblig);
+
+}
+                    /*
+                    ev_libelleEditText.setText(ev_libelle);
+                    ev_min_cpteEditText.setText(ev_min_cpte);
+                    ev_is_min_cpte_obligSwitch.setChecked(ev_is_min_cpte_oblig);
+                    ev_tx_inter_anEditText.setText(ev_tx_inter_an);
+                    ev_is_tx_inter_an_obligSwitch.setChecked(ev_is_tx_inter_an_oblig);
+                    ev_typ_dat_valEditText.setText(ev_typ_dat_val);
+                    ev_is_multi_eav_onSwitch.setChecked(ev_is_multi_eav_on);
+                    ev_is_paie_ps_onSwitch.setChecked(ev_is_paie_ps_on);
+                    ev_is_agios_onSwitch.setChecked(ev_is_agios_on);
+                    if (ev_typ_fr_agios.equals("F")){
+                        rbEpTypTxInterFixe.setChecked(true);
+                    }else if (ev_typ_fr_agios.equals("T")){
+                        rbEpTypTxInterTaux.setChecked(true);
+                    }else rbEpTypTxInterPlage.setChecked(true);
+                    //ev_typ_fr_agiosEditText.setText(ev_typ_fr_agios);
+                    ev_mt_tx_agios_prelevEditText.setText(ev_mt_tx_agios_prelev);
+                    ev_plage_agios_fromEditText.setText(ev_plage_agios_from);
+                    ev_plage_agios_toEditText.setText(ev_plage_agios_to);
+                    ev_is_cheque_onSwitch.setChecked(ev_is_cheque_on);
+                    ev_frais_clot_cptEditText.setText(ev_frais_clot_cpt);
+                    */
+                }
+            });
+        }
+
+
+    }
+
+    /**
+     * Displays an alert dialogue to confirm the deletion
+     */
+    private void confirmDelete() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                CreatePieceToFournirCx.this);
+        alertDialogBuilder.setMessage("Êtes-vous sûr de vouloir supprimer cette pièce ?");
+        alertDialogBuilder.setPositiveButton("Supprimer",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                            //If the user confirms deletion, execute DeleteMovieAsyncTask
+                            new CreatePieceToFournirCx.DeleteMovieAsyncTask().execute();
+                        } else {
+                            Toast.makeText(CreatePieceToFournirCx.this,
+                                    "Impossible de se connecter à Internet",
+                                    Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel", null);
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * AsyncTask to delete a movie
+     */
+    private class DeleteMovieAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog = new ProgressDialog(CreatePieceToFournirCx.this);
+            pDialog.setMessage("Suppression de la pièce. SVP veuillez patienter...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            //Set movie_id parameter in request
+            httpParams.put(KEY_FP_PIECE_ID, eavId);
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "delete_eav.php", "POST", httpParams);
+            try {
+                success = jsonObject.getInt(KEY_SUCCESS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (success == 1) {
+                        //Display success message
+                        Toast.makeText(CreatePieceToFournirCx.this,
+                                "Pièce supprimée", Toast.LENGTH_LONG).show();
+                        Intent i = getIntent();
+                        //send result code 20 to notify about movie deletion
+                        setResult(20, i);
+                        finish();
+
+                    } else {
+                        Toast.makeText(CreatePieceToFournirCx.this,
+                                "\n" +
+                                        "Une erreur s'est produite lors de la suppression de la Pièce",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -400,7 +650,9 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
 
                 !STRING_EMPTY.equals(ev_min_cpteEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
-if (true){
+if (!STRING_EMPTY.equals(FpLibelleEditText.getText().toString()) &&
+        (rbFpIsPieceObligOui.isChecked() || rbFpIsPieceObligNon.isChecked() )
+){
 
 
 FpIsPieceOblig = rbFpIsPieceObligOui.isChecked();
@@ -443,10 +695,16 @@ FpIsPieceOblig = rbFpIsPieceObligOui.isChecked();
             super.onPreExecute();
             //Display proggress bar
             pDialog = new ProgressDialog(CreatePieceToFournirCx.this);
-            pDialog.setMessage("Adding new Piece. Please wait...");
+            if (action_to_affect){
+                pDialog.setMessage("Assigning to caisse. Please wait...");
+            }else{
+                pDialog.setMessage("Updating. Please wait...");
+            }
+
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+
         }
 
         @Override
@@ -454,15 +712,25 @@ FpIsPieceOblig = rbFpIsPieceObligOui.isChecked();
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-            httpParams.put(KEY_FC_CAISSE_ID, String.valueOf(guichetID)); // A modifier
-            httpParams.put(KEY_FC_GUICHET_ID, String.valueOf(guichetID));
-            httpParams.put(KEY_FC_PIECE_ID, String.valueOf(pieceID)); // A modifier
+            httpParams.put(KEY_FC_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)); // A modifier
+            //httpParams.put(KEY_FC_GUICHET_ID, String.valueOf(guichetID));
+            httpParams.put(KEY_FC_GUICHET_ID, String.valueOf(guichetID)); //I fix it to 0 to indicate that it's only for caisse
+            //httpParams.put(KEY_FC_PIECE_ID, String.valueOf(pieceID)); // A modifier
+            httpParams.put(KEY_FC_PIECE_ID, String.valueOf(eavId)); // A modifier
             httpParams.put(KEY_FC_LIBELLE, FpLibelle);
             httpParams.put(KEY_FC_Is_PIECE_OBLIG, String.valueOf(FpIsPieceOblig));
             httpParams.put(KEY_FC_CAT_ADH, String.valueOf(guichetID)); // A modifier
+            httpParams.put(KEY_FP_PIECE_ID, String.valueOf(eavId)); // A modifier car les noms sont un peu inversés
 
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_piece_cx.php", "POST", httpParams);
+//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                    BASE_URL + "add_piece_cx.php", "POST", httpParams);
+
+            JSONObject jsonObject =(action_to_affect)?
+                    httpJsonParser.makeHttpRequest(
+                            BASE_URL + "assign_piece_of_to_caisse.php", "POST", httpParams)
+                    :
+                    httpJsonParser.makeHttpRequest(
+                            BASE_URL + "update_piece_cx.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

@@ -69,8 +69,8 @@
 
 
     <string name="hint_name">Full Name</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
+    <string name="hint_email">Email: (*)</string>
+    <string name="hint_password">Password: (*)</string>
     <string name="btn_sign_up">Sign Up</string>
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_email">Enter valid email address</string>
@@ -79,8 +79,8 @@
     <string name="hint_num_agrement">Numéro d\'agrément</string>
     <string name="hint_date_agrement">Date d\'agrément:</string>
     <string name="hint_date_debut_caisse">Date de debut des activités</string>
-    <string name="hint_adresse">Adresse:</string>
-    <string name="hint_telephone1">Téléphone 1</string>
+    <string name="hint_adresse">Adresse: (*)</string>
+    <string name="hint_telephone1">Téléphone 1*</string>
     <string name="hint_telephone2">Téléphone 2</string>
     <string name="hint_telephone3">Téléphone 3</string>
     <string name="hint_nomPCA">Nom du PCA :</string>
@@ -88,11 +88,11 @@
     <string name="hint_nomDG">Nom du DG:</string>
     <string name="hint_denominationCx_caisse">Dénomination</string>
     <string name="hint_nomCx_user">Caisse :</string>
-    <string name="hint_profil_user">Profil</string>
-    <string name="hint_Nom_user">Nom:</string>
+    <string name="hint_profil_user">Profil: (*)</string>
+    <string name="hint_Nom_user">Nom:(*)</string>
     <string name="hint_Prenom_user">Prénom:</string>
-    <string name="hint_login_user">Login :</string>
-    <string name="hint_confirm_password">Confirmer votre mot de passe</string>
+    <string name="hint_login_user">Login : (*)</string>
+    <string name="hint_confirm_password">Confirmer votre mot de passe: (*)</string>
     <string name="hint_sigle_of">Sigle :</string>
     <string name="hint_denomination">Dénomination</string>
     <string name="hint_BP">Boite postale :</string>
@@ -102,10 +102,10 @@
     <string name="btn_update_of">ENREGISTRER</string>
     <string name="hint_nomEpargne_of">EPARGNE/DEPOT</string>
     <string name="choose">Choisir</string>
-    <string name="my_hint">Choisir votre caisse</string>
+    <string name="my_hint">Choisir votre caisse (*)</string>
     <string name="my_products">Choisir vos produits</string>
     <string name="my_locality">Choisir votre localité</string>
-    <string name="my_guichet">Choisir votre guichet</string>
+    <string name="my_guichet">Choisir votre guichet: (*)</string>
 
 
     <!--<string-array name="array_pre_parametrage">
@@ -116,6 +116,53 @@
 
     </string-array>
     -->
+    <string-array name="type_location">
+        <item>Propriétaire</item>
+        <item>Locataire</item>
+        <item>Crédit bail</item>
+    </string-array>
+    <string-array name="type_situation_matrimoniale">
+
+        <item>Célibataire</item>
+        <item>Marié</item>
+        <item>Divorcé</item>
+        <item>Veuf</item>
+        <item>Concubinage</item>
+    </string-array>
+    <string-array name="mode_paiement">
+        <item>Espèce</item>
+        <item>Chèque</item>
+        <item>Virement</item>
+    </string-array>
+    <string-array name="nombre_unite">
+
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string-array name="type_sexe">
+        <item>Masculin</item>
+        <item>Féminin</item>
+    </string-array>
+    <!-- Il serait mieux de gérer ces types plutot en BD pour faciliter la maintenance -->
+    <string-array name="fonction_frais">
+        <item>Frais d\'adhésion</item>
+        <item>Fonds de solidarité</item>
+        <item>Part sociale</item>
+        <item>Approvisionnement</item>
+        <item>Frais de fonctionnement</item>
+    </string-array>
+
     <string-array name="array_pre_parametrage">
         <item>Produit EAV</item>
         <item>Produit EAP</item>
@@ -134,6 +181,9 @@
     <string name="produit_eav">Produit EAV</string>
     <string name="produit_eap">Produit EAP</string>
     <string name="produit_eat">Produit EAT</string>
+    <string name="produit_dav">Produit DAV</string>
+    <string name="produit_dap">Produit DAP</string>
+    <string name="produit_dat">Produit DAT</string>
     <string name="produit_cc">Produit compte courant</string>
     <string name="produit_credit">Produit Crédit</string>
     <string name="produit_transfert_classique">Produit Transfert classique</string>
@@ -173,6 +223,33 @@
         <item>BALAIN</item>
         <item>BANDJOUN</item>
         <item>BANGOU</item>
+    </string-array>
+    <string-array name="array_type_piece">
+        <item>Carte nationale d\'identité</item>
+        <item>Carte de séjour</item>
+        <item>Carte consulaire</item>
+        <item>Carte professionnelle</item>
+        <item>Carte CNPS</item>
+        <item>Permis de conduire</item>
+        <item>Passeport </item>
+
+    </string-array>
+    <string-array name="array_pd_type_data">
+        <item>Taux d\'interet annuel</item>
+        <item>Taux d\'interet en cas de rupture anticipée</item>
+        <item>Nouveaux Taux d\'interet en cas de rupture anticipée</item>
+
+    </string-array>
+
+    <string-array name="array_list_profession">
+        <item>Agriculteur</item>
+        <item>Eleveur</item>
+        <item>Enseignant</item>
+        <item>Ménagère</item>
+        <item>Infirmière</item>
+        <item>Couturière</item>
+        <item>Bayam sellam</item>
+        <item>Autre</item>
 
     </string-array>
     <string-array name="array_guichet">
@@ -204,12 +281,12 @@
 
     <string name="title_activity_guichet">Gestion des guichets</string>
     <string name="tab_title_create_guichet">Créer un guichet</string>
-    <string name="tab_title_list_pieces">Liste des pièces à fournir</string>
-    <string name="tab_title_list_frais">Liste des frais à payer</string>
+    <string name="tab_title_list_pieces">Pièces à fournir</string>
+    <string name="tab_title_list_frais">Frais à payer</string>
     <string name="tab_title_param1">Paramètres 1</string>
     <string name="tab_title_param2">Paramètres 2</string>
     <string name="tab_title_list_guichet">Liste des guichets</string>
-    <string name="tab_title_param_generaux">Paramètres Généraux</string>
+    <string name="tab_title_param_generaux">PIECES ET FRAIS</string>
 
     <string name="nav_create_guichet">Mise en place des guichets</string>
     <string name="nav_create_produit">Mise en place des produits</string>
@@ -293,21 +370,21 @@
     <string name="produit_name">DAV ORDINAIRE</string>
     <string name="nom_adherent">Nom adhérent (*)</string>
     <string name="prenom_adherent">Prenom adherent</string>
-    <string name="lieu_naiss_adherent">Lieu de naissance</string>
+    <string name="lieu_naiss_adherent">Lieu de naissance (*)</string>
     <string name="nom_conjoint_adherent">Nom complet du conjoint</string>
-    <string name="numero_manuel_adherent">Numéro manuel</string>
-    <string name="hint_type_piece">Type de pièce</string>
-    <string name="numero_piece_adherent">Numéro de la pièce</string>
+    <string name="numero_manuel_adherent">Numéro manuel (*)</string>
+    <string name="hint_type_piece">Type de pièce (*)</string>
+    <string name="numero_piece_adherent">Numéro de la pièce (*)</string>
     <string name="personne_a_contacter_adherent">Personne à contacter</string>
-    <string name="hint_profession">Profession</string>
-    <string name="nationalite">Nationalité</string>
+    <string name="hint_profession">Profession (*)</string>
+    <string name="nationalite">Nationalité (*)</string>
     <string name="autre_statut1_adherent">Autre statut 1</string>
     <string name="autre_statut2_adherent">Autre statut 2</string>
     <string name="domicile_adherent">Domicile</string>
     <string name="distance_adherent">Distance</string>
     <string name="hint_fax">Fax</string>
-    <string name="hint_date_naiss_adherent">Date de naissance</string>
-    <string name="nbre_enfant_adherent">Nombre d\'enfant</string>
+    <string name="hint_date_naiss_adherent">Date de naissance (*)</string>
+    <string name="nbre_enfant_adherent">Nombre d\'enfant (*)</string>
     <string name="action_situation_guichet">Situation du guichet</string>
     <string name="action_brouillard_de_caisse">Brouillard de caisse</string>
     <string name="action_cloturer_la_journee">Cloturer la journée</string>
@@ -321,6 +398,23 @@
     <string name="btn_valider">VALIDER</string>
     <string name="hint_montant_piece_monnaie">Montant pièces de monnaie</string>
     <string name="my_town">Ville:</string>
+    <string name="lieu_travail_adherent">Lieu de travail:</string>
+    <string name="activite_principal_adherent">Activité principale:</string>
+    <string name="hint_validite_fin_adherent">Date d\'expiration: (*)</string>
+    <string name="hint_validite_debut_adherent">Date de délivrance: (*)</string>
+    <string name="enter_number">saisissez un montant valide</string>
+    <string name="hint_depot_minimum">Dépôt minimum</string>
+    <string name="produit_a_vue">Produit à vue:</string>
+    <string name="pd_type_data">Type frais</string>
+    <string name="hint_numero_dossier">Numéro de dossier</string>
+    <string name="produit_a_terme">Produit à terme</string>
+    <string name="produit_a_periodicite">Produit à périodicité</string>
+    <string name="duree_produit">Durée (en mois):</string>
+    <string name="hint_montant_mise">Montant mise</string>
+    <string name="hint_montant_initialisation">Montant d\'initialisation</string>
+    <string name="mode_paiement">Mode de paiement</string>
+    <string name="hint_numero_bordereau">Numéro de bordereau</string>
+    <string name="hint_montant_operation">Montant</string>
 
 </resources>
 

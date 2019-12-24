@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/tv_select_guichet_fp"
                 style="@style/parent"
-                android:layout_width="fill_parent"
+                android:layout_width="186dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:layout_weight="1"
@@ -98,7 +98,7 @@
             <TextView
                 android:id="@+id/tv_select_piece_fp"
                 style="@style/parent"
-                android:layout_width="fill_parent"
+                android:layout_width="139dp"
                 android:layout_height="wrap_content"
 
                 android:layout_weight="1"
@@ -229,7 +229,7 @@
             <TextView
                 android:id="@+id/tv_baseFrais_fp"
                 style="@style/parent"
-                android:layout_width="fill_parent"
+                android:layout_width="161dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Base du frais:"
@@ -252,6 +252,90 @@
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+
+        <!--Fonction du frais-->
+        <LinearLayout
+            android:id="@+id/ll_fonction_frais_cx"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView android:id="@+id/tv_fonctionFrais_fc"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text="Fonction du frais:"
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true" >
+                <Spinner android:id="@+id/spn_fonctionFrais_fc"
+                    android:layout_width="match_parent"
+                    android:hint="Choisir la fonction du frais"
+                    style="@style/modifiedEditText"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/fonction_frais"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!--Nombre Min de Part sociale-->
+        <LinearLayout
+            android:id="@+id/ll_NbrePartMin_cx"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_NbrePartMinJ_fc"
+                style="@style/parent"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_NbrePartMinJ_fc"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberSigned"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:hint="Nombre Min Part Sociale Jeune:"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_NbrePartMinF_fc"
+                style="@style/parent"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_NbrePartMinF_fc"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberSigned"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:hint="Nombre Min Part Sociale Femme:"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_NbrePartMinH_fc"
+                style="@style/parent"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_NbrePartMinH_fc"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberSigned"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:hint="Nombre Min Part Sociale Homme:"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
         <!-- radiogroup type membre -->
         <!--<LinearLayout
             android:layout_width="match_parent"

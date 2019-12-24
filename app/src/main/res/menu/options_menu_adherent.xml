@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:visible="false"
+        android:id="@+id/menu0"
+        android:title="Pièces et frais adhérent" />
+    <item
         android:id="@+id/menu1"
         android:title="Editer l'adhérent" />
 

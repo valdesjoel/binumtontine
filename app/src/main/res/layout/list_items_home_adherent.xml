@@ -18,29 +18,49 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/textViewHead"
+                android:id="@+id/textViewId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textAppearance="?android:textAppearanceLarge" />
+            <TextView
+                android:id="@+id/textViewNom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Your Heading"
                 android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/textViewDesc"
+                android:id="@+id/textViewNationalite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewHead"
+                android:layout_below="@id/textViewNom"
+                android:textColor="@color/colorAccent1"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi molestie nisi dui. "
                 android:textAppearance="?android:textAppearanceMedium" />
+<Button
+    android:visibility="gone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/textViewNationalite"
+    android:text="click"
+    android:id="@+id/btnClick"
+    />
 
             <TextView
                 android:id="@+id/textViewOptions"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="20dp"
+                android:width="30dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:text="&#8942;"
-                android:textAppearance="?android:textAppearanceLarge" />
+                android:textColor="@color/colorAccent1"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textSize="40sp" />
 
 
         </RelativeLayout>

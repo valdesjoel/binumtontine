@@ -1,12 +1,14 @@
 package com.example.binumtontine.activity.adherent;
 
+import java.io.Serializable;
+
 /**
  * Create a class file named Adherent.java
  * This model class will be useful to convert json data into objects.
  */
-public class Adherent {
+public class Adherent implements Serializable {
 
-    private int AdNumero;
+    private String AdNumero;
     private String AdCode;
     private String AdNumManuel;
     private String AdNom;
@@ -34,13 +36,14 @@ public class Adherent {
     private String AdPartiLe;
     private String AdRemplacePar;
     private int AdGuichet;
+    private String  AdNbreCompte;
 
 
 
 
     public Adherent(){}
 
-    public Adherent(int adNumero, String adCode, String adNumManuel, String adNom, String adPrenom,
+    public Adherent(String adNumero, String adCode, String adNumManuel, String adNom, String adPrenom,
                     String adDateNaiss, String adLieuNaiss, String adSexe, String adNationalite,
                     String adSitFam, String adNbreEnfACh, String adTel1, String adTel2, String adTel3,
                     String adEMail, String adProfess, String adDomicile, String adLieuTrav,
@@ -76,8 +79,81 @@ public class Adherent {
         this.AdRemplacePar = adRemplacePar;
         this.AdGuichet = adGuichet;
     }
+    public Adherent(String adCode, String adNumManuel, String adNom, String adPrenom,
+                    String adDateNaiss, String adLieuNaiss, String adSexe, String adNationalite,
+                    String adSitFam, String adNbreEnfACh, String adTel1, String adTel2, String adTel3,
+                    String adEMail, String adProfess, String adDomicile, String adLieuTrav,
+                    String adActivitePr, String adTypCarteID, String adNumCarteID,
+                    String adValideDu, String adValideAu, String adTypHabite, String adEstParti,
+                    String adPartiLe, String adRemplacePar, int adGuichet) {
+        this.AdCode = adCode;
+        this.AdNumManuel = adNumManuel;
+        this.AdNom = adNom;
+        this.AdPrenom = adPrenom;
+        this.AdDateNaiss = adDateNaiss;
+        this.AdLieuNaiss = adLieuNaiss;
+        this.AdSexe = adSexe;
+        this.AdNationalite = adNationalite;
+        this.AdSitFam = adSitFam;
+        this.AdNbreEnfACh = adNbreEnfACh;
+        this.AdTel1 = adTel1;
+        this.AdTel2 = adTel2;
+        this.AdTel3 = adTel3;
+        this.AdEMail = adEMail;
+        this.AdProfess = adProfess;
+        this.AdDomicile = adDomicile;
+        this.AdLieuTrav = adLieuTrav;
+        this.AdActivitePr = adActivitePr;
+        this.AdTypCarteID = adTypCarteID;
+        this.AdNumCarteID = adNumCarteID;
+        this.AdValideDu = adValideDu;
+        this.AdValideAu = adValideAu;
+        this.AdTypHabite = adTypHabite;
+        this.AdEstParti = adEstParti;
+        this.AdPartiLe = adPartiLe;
+        this.AdRemplacePar = adRemplacePar;
+        this.AdGuichet = adGuichet;
+    }
 
-    public int getAdNumero() {
+    public Adherent(String adNumero, String adCode, String adNumManuel, String adNom, String adPrenom,
+                    String adDateNaiss, String adLieuNaiss, String adSexe, String adNationalite,
+                    String adSitFam, String adNbreEnfACh, String adTel1, String adTel2, String adTel3,
+                    String adEMail, String adProfess, String adDomicile, String adLieuTrav,
+                    String adActivitePr, String adTypCarteID, String adNumCarteID,
+                    String adValideDu, String adValideAu, String adTypHabite, String adEstParti,
+                    String adPartiLe, String adRemplacePar, int adGuichet,String  adNbreCompte) {
+        this.AdNumero = adNumero;
+        this.AdCode = adCode;
+        this.AdNumManuel = adNumManuel;
+        this.AdNom = adNom;
+        this.AdPrenom = adPrenom;
+        this.AdDateNaiss = adDateNaiss;
+        this.AdLieuNaiss = adLieuNaiss;
+        this.AdSexe = adSexe;
+        this.AdNationalite = adNationalite;
+        this.AdSitFam = adSitFam;
+        this.AdNbreEnfACh = adNbreEnfACh;
+        this.AdTel1 = adTel1;
+        this.AdTel2 = adTel2;
+        this.AdTel3 = adTel3;
+        this.AdEMail = adEMail;
+        this.AdProfess = adProfess;
+        this.AdDomicile = adDomicile;
+        this.AdLieuTrav = adLieuTrav;
+        this.AdActivitePr = adActivitePr;
+        this.AdTypCarteID = adTypCarteID;
+        this.AdNumCarteID = adNumCarteID;
+        this.AdValideDu = adValideDu;
+        this.AdValideAu = adValideAu;
+        this.AdTypHabite = adTypHabite;
+        this.AdEstParti = adEstParti;
+        this.AdPartiLe = adPartiLe;
+        this.AdRemplacePar = adRemplacePar;
+        this.AdGuichet = adGuichet;
+        this.AdNbreCompte = adNbreCompte;
+    }
+
+    public String getAdNumero() {
         return this.AdNumero;
     }
 /*
@@ -300,5 +376,15 @@ public class Adherent {
 
     public void setAdGuichet(int adGuichet) {
         this.AdGuichet = adGuichet;
+    }
+
+
+
+    public String getAdNbreCompte() {
+        return this.AdNbreCompte;
+    }
+
+    public void setAdNbreCompte(String adNbreCompte) {
+        this.AdNbreCompte = adNbreCompte;
     }
 }

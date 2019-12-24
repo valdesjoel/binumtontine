@@ -5,7 +5,7 @@ android:layout_height="match_parent">
 
 <!-- Hidden TextView used to hold movieId -->
 <TextView
-    android:id="@+id/movieId"
+    android:id="@+id/pieceId"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:visibility="gone" />

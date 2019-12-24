@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NotificationsFrag
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fab = (FloatingActionButton) findViewById(R.id.fab); // It's not visible for now (it's GONE)
-        fab.hide();
+
 
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NotificationsFrag
                         .setAction("Action", null).show();
             }
         });
+        fab.hide();
 
         // load nav menu header data
         loadNavHeader();
@@ -400,7 +401,8 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
     // show or hide the fab
     private void toggleFab() {
         if (navItemIndex == 0)
-            fab.show();
+            //fab.show();
+            fab.hide(); //to hide every time
         else
             fab.hide();
     }

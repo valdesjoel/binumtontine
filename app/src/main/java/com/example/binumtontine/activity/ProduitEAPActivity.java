@@ -58,6 +58,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.binumtontine.controleur.MyData;
+import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 import com.example.binumtontine.remotemysqlconnection.MovieUpdateDeleteActivity;
@@ -83,17 +85,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
-public class ProduitEAPActivity extends AppCompatActivity  {
+public class ProduitEAPActivity extends AppCompatActivity implements SERVER_ADDRESS {
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
-    private static final String KEY_MOVIE_ID = "ep_numero";
-    private static final String KEY_MOVIE_NAME = "ep_libelle";
-   /* private static final String KEY_MOVIE_ID = "cx_numero";
-    private static final String KEY_MOVIE_NAME = "cx_localite";*/
-    //private static final String BASE_URL = "http://192.168.1.102/binumTontine/";
-    private static final String BASE_URL = "http://binumt.diff-itc.net/binumTontine/";
+    private static final String KEY_EAP_NUMERO = "EpNumero";
+    private static final String KEY_EAP_LIBELLE = "EpLibelle";
+    private static final String KEY_CAISSE_ID = "EpCaisseId";
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
     private ProgressDialog pDialog;
@@ -147,22 +147,25 @@ public class ProduitEAPActivity extends AppCompatActivity  {
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            //Populating request parameters
+            httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_eap.php", "GET", null);
+                    BASE_URL + "fetch_all_eap_by_caisse.php", "GET", httpParams);
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
-                JSONArray movies;
+                JSONArray EATs;
                 if (success == 1) {
                     movieList = new ArrayList<>();
-                    movies = jsonObject.getJSONArray(KEY_DATA);
+                    EATs = jsonObject.getJSONArray(KEY_DATA);
                     //Iterate through the response and populate movies list
-                    for (int i = 0; i < movies.length(); i++) {
-                        JSONObject movie = movies.getJSONObject(i);
-                        Integer movieId = movie.getInt(KEY_MOVIE_ID);
-                        String movieName = movie.getString(KEY_MOVIE_NAME);
+                    for (int i = 0; i < EATs.length(); i++) {
+                        JSONObject movie = EATs.getJSONObject(i);
+                        Integer movieId = movie.getInt(KEY_EAP_NUMERO);
+                        String movieName = movie.getString(KEY_EAP_LIBELLE);
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put(KEY_MOVIE_ID, movieId.toString());
-                        map.put(KEY_MOVIE_NAME, movieName);
+                        map.put(KEY_EAP_NUMERO, movieId.toString());
+                        map.put(KEY_EAP_LIBELLE, movieName);
                         movieList.add(map);
                     }
                 }
@@ -189,8 +192,8 @@ public class ProduitEAPActivity extends AppCompatActivity  {
     private void populateMovieList() {
         ListAdapter adapter = new SimpleAdapter(
                 ProduitEAPActivity.this, movieList,
-                R.layout.list_item, new String[]{KEY_MOVIE_ID,
-                KEY_MOVIE_NAME},
+                R.layout.list_item, new String[]{KEY_EAP_NUMERO,
+                KEY_EAP_LIBELLE},
                 new int[]{R.id.movieId, R.id.movieName});
         // updating listview
         movieListView.setAdapter(adapter);
@@ -204,7 +207,7 @@ public class ProduitEAPActivity extends AppCompatActivity  {
                             .getText().toString();
                     Intent intent = new Intent(getApplicationContext(),
                             MovieUpdateDeleteActivity.class);
-                    intent.putExtra(KEY_MOVIE_ID, movieId);
+                    intent.putExtra(KEY_EAP_NUMERO, movieId);
                     startActivityForResult(intent, 20);
 
                 } else {

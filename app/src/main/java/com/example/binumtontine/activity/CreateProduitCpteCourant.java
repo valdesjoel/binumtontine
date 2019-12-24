@@ -131,6 +131,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
     private LinearLayout blk_plage_CcValTxCommMvm;
 
     private Button addButton;
+    private Button cancelButton;
     private Button deleteButton;
     private int success;
     private ProgressDialog pDialog;
@@ -236,7 +237,22 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
         deleteButton = (Button) findViewById(R.id.btn_delete_cc);
         deleteButton.setVisibility(View.GONE);
         addButton = (Button) findViewById(R.id.btn_save_cc);
+        cancelButton = (Button) findViewById(R.id.btn_clean);
         //cirLoginButton
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+                } else {
+                    Toast.makeText(CreateProduitCpteCourant.this,
+                            "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

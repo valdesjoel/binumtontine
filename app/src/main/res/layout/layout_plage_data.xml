@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_initialisation_caisse_guichet"
+            style="@style/headerTextPrimary"
+            android:text="AJOUTER UN FRAIS A VOTRE PRODUIT"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <!-- Begin -->
+
+        <!--Nom Adherent-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_denomination_guichet"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Produit:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_denomination_guichet"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+        <!--Spinner PdTypeData-->
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:layout_marginTop="@dimen/loginViewsMargin"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:id="@+id/tv_title_PdTypeData"
+                  style="@style/parent"
+                  android:layout_width="205dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/pd_type_data"
+                  android:textSize="16sp" />
+
+              <Spinner
+                  android:id="@+id/spn_list_pd_type_data"
+                  style="@style/modifiedEditText"
+
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center_horizontal|center_vertical"
+                  android:hint="choisir un type"
+                  android:entries="@array/array_pd_type_data"/>
+
+          </LinearLayout>
+
+        <!-- EtTypTxInter-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblNatureTauxInteretEAT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="Nature du frais:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblNatureTauxInteretEAT"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:showDividers="middle|end"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center"
+                android:id="@+id/radioGroupEtTypTxInter" >
+
+                <RadioButton
+                    android:id="@+id/rb_EtTypTxInterFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:visibility="gone"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rb_EtTypTxInterTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:visibility="gone"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+                <RadioButton
+                    android:id="@+id/rb_EtTypTxInterPlageFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage fixe"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rb_EtTypTxInterPlageTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage taux"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+
+
+        <!-- EtPlageTxInterFrom && EtPlageTxInterTo-->
+        <LinearLayout
+            android:id="@+id/blk_EtPlageTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_ValeulrTauxInteretEAT"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/txt_EtValTxInterFrom"
+                    style="@style/modifiedEditText"
+                    android:hint="De"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_ValeunrTauxInteretEAT"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/txt_EtValTxInterTo"
+                    style="@style/modifiedEditText"
+                    android:hint="A"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+            <!--<LinearLayout
+                android:id="@+id/blk_plage_tx_eat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_EtValTxInterForPlage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:text="De:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/txt_EtValTxInterFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblNatureTauxInteretEAT"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:orientation="horizontal"
+                />
+
+            <TextView
+                android:id="@+id/tv_EtValTxInterForPlageFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="A:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/txt_EtValTxInterTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblNatureTauxInteretEAT"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:orientation="horizontal"
+                />
+
+        </LinearLayout> -->
+
+        <!-- EtValTxInter-->
+        <LinearLayout
+            android:id="@+id/blk_EtValTxInter_eat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_ValeurTauxInteretEAT"
+                style="@style/parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/input_txt_ValeurTauxInteretEAT"
+                    style="@style/modifiedEditText"
+                    android:hint="Valeur"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--
+            <TextView
+                android:id="@+id/tv_EtValTxInterSuffixe"
+                style="@style/parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:text="FCFA"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            -->
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_ValeurTaluxInteretEAT"
+            style="@style/parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/input_txt_ValeurTkauxInteretEAT"
+                style="@style/modifiedEditText"
+                android:hint="Base"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Numero manuel-->
+        <!--    <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_title_num_manuel_adherent"
+                    style="@style/parent"
+                    android:layout_width="205dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="N° Manuel:"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_num_manuel_adherent"
+                    style="@style/parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:singleLine="false"
+                    android:scrollHorizontally="false"
+                    android:scrollbars="vertical"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+
+            </LinearLayout> -->
+        <!--code-->
+        <!--   <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center_vertical"
+               android:layout_marginTop="@dimen/loginViewsMargin"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:id="@+id/tv_title_code_adherent"
+                   style="@style/parent"
+                   android:layout_width="205dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:text="Code:"
+                   android:textSize="18sp" />
+
+               <TextView
+                   android:id="@+id/tv_code_adherent"
+                   style="@style/parent"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:text=""
+                   android:singleLine="false"
+                   android:scrollHorizontally="false"
+                   android:scrollbars="vertical"
+                   android:textStyle="bold"
+                   android:textSize="18sp" />
+
+           </LinearLayout> -->
+        <!--Tv Numero de dossier-->
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text="N° du dossier"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="18sp" />
+
+        </LinearLayout> -->
+
+        <!--Spinner produitEAVList by guichet-->
+        <!--  <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:layout_marginTop="@dimen/loginViewsMargin"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:id="@+id/tv_title_eav"
+                  style="@style/parent"
+                  android:layout_width="205dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/produit_a_vue"
+                  android:textSize="16sp" />
+
+              <Spinner
+                  android:id="@+id/spn_list_eav"
+                  style="@style/modifiedEditText"
+
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center_horizontal|center_vertical"
+                  android:hint="Produit à vue" />
+
+          </LinearLayout> -->
+        <!--Numéro dossier-->
+        <!--<com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_num_dossier_adherent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_num_dossier_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_numero_dossier"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout> -->
+        <!--Montant d'initialisation de la caisse du guichet-->
+       <!-- <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_montant_initialisation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_montant_initialisation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_montant_initialisation"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout> -->
+
+        <!-- End -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+
+            android:layout_below="@+id/input_txt_montant_initialisation">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_plage_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -58,7 +58,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -71,6 +70,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -83,6 +83,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class UserGuichetActivity extends AppCompatActivity implements SERVER_ADDRESS {
 
@@ -90,6 +91,7 @@ public class UserGuichetActivity extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_DATA = "data";
     private static final String KEY_USER_GUICHET_ID = "ux_numero";
     private static final String KEY_USER_GUICHET_LOCALITE = "ux_nom";
+
 
     private ArrayList<HashMap<String, String>> userGuichetList;
     private ListView userGuichetListView;
@@ -150,8 +152,16 @@ public class UserGuichetActivity extends AppCompatActivity implements SERVER_ADD
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
+//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                    BASE_URL + "fetch_all_user_guichet.php", "GET", null);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_user_guichet.php", "GET", null);
+                    BASE_URL + "fetch_all_user_guichet.php", "GET", httpParams);
+
+
+
+
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONArray movies;

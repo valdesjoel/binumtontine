@@ -196,11 +196,13 @@ public class FraisToPayerListOfFragment extends Fragment implements View.OnClick
                 if (CheckNetworkStatus.isNetworkAvailable(getActivity())) {
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
+                    //to manage update Frais OF
+                    /*
                     Intent intent = new Intent(getActivity(),
-                            UpdateEAV.class);
+                            UpdateFraisToPayerOf.class);
                     intent.putExtra(KEY_FP_PIECE_ID, movieId);
                     startActivityForResult(intent, 20);
-
+                    */
                 } else {
                     Toast.makeText(getContext(),
                             "Unable to connect to internet",

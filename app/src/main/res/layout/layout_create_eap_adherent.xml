@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_eat_adherent"
+            style="@style/headerTextPrimary"
+            android:text="Création d'un compte à périodicité"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <!-- Begin -->
+
+        <!--Nom Adherent-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_nom_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Adhérent:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nom_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Numero manuel-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_num_manuel_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="N° Manuel:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num_manuel_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--code-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_code_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Code:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_code_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Tv Numero de dossier-->
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text="N° du dossier"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="18sp" />
+
+        </LinearLayout> -->
+
+        <!--Spinner produitEAPList by guichet-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_eap"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/produit_a_periodicite"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_eap"
+                style="@style/modifiedEditText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="Produit à périodicité" />
+
+        </LinearLayout>
+        <!--Numéro dossier-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_num_dossier_adherent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_num_dossier_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_numero_dossier"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Spinner durée produit-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_duree"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/duree_produit"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_duree"
+                style="@style/modifiedEditText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/nombre_unite"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="Produit à terme" />
+
+        </LinearLayout>
+        <!--Montant mise-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_montant_mise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_montant_mise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_depot_minimum"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Taux-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_taux"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_taux"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_taux_annuel"
+                style="@style/modifiedEditText"
+                android:inputType="none"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/colorAccentNew"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--CtModRenouv-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_CpModRenouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Que faire à la fin de l'échéance ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_CtModRenouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_CtModRenouv"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_transfert_vers_eav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Transférer sur le compte à vue"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_renouveller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Rénouveller à l'échéance"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_retirer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Retiré"
+                    android:textSize="16sp" />
+
+
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- End -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+
+            android:layout_below="@+id/rg_CtModRenouv">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_compte_eap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

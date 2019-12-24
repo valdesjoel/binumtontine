@@ -68,7 +68,6 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -90,10 +89,11 @@ public class CaisseActivity extends AppCompatActivity implements SERVER_ADDRESS 
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
+
     private static final String KEY_CAISSE_ID = "cx_numero";
-    private static final String KEY_CAISSE_LOCALITE = "cx_localite";
-    private ArrayList<HashMap<String, String>> movieList;
-    private ListView movieListView;
+    private static final String KEY_CAISSE_DENOMINATION = "cx_denomination";
+    private ArrayList<HashMap<String, String>> caisseList;
+    private ListView caisseListView;
     private ProgressDialog pDialog;
 
     @Override
@@ -102,8 +102,8 @@ public class CaisseActivity extends AppCompatActivity implements SERVER_ADDRESS 
         setContentView(R.layout.activity_list_caisse);
         /* begin */
         //  setContentView(R.layout.activity_movie_listing);
-        movieListView = (ListView) findViewById(R.id.caisseList);
-        new CaisseActivity.FetchMoviesAsyncTask().execute();
+        caisseListView = (ListView) findViewById(R.id.caisseList);
+        new CaisseActivity.FetchListCaisseAsyncTask().execute();
 
         /* end*/
 
@@ -143,7 +143,7 @@ public class CaisseActivity extends AppCompatActivity implements SERVER_ADDRESS 
     /**
      * Fetches the list of movies from the server
      */
-    private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
+    private class FetchListCaisseAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -164,18 +164,17 @@ public class CaisseActivity extends AppCompatActivity implements SERVER_ADDRESS 
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONArray movies;
                 if (success == 1) {
-                    Log.d("**********result","bonnnnnnnnnnnnnnnnnnnn");
-                    movieList = new ArrayList<>();
+                    caisseList = new ArrayList<>();
                     movies = jsonObject.getJSONArray(KEY_DATA);
                     //Iterate through the response and populate movies list
                     for (int i = 0; i < movies.length(); i++) {
-                        JSONObject movie = movies.getJSONObject(i);
-                        Integer movieId = movie.getInt(KEY_CAISSE_ID);
-                        String movieName = movie.getString(KEY_CAISSE_LOCALITE);
+                        JSONObject caisse = movies.getJSONObject(i);
+                        Integer caisseId = caisse.getInt(KEY_CAISSE_ID);
+                        String caisseDenomination = caisse.getString(KEY_CAISSE_DENOMINATION);
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put(KEY_CAISSE_ID, movieId.toString());
-                        map.put(KEY_CAISSE_LOCALITE, movieName);
-                        movieList.add(map);
+                        map.put(KEY_CAISSE_ID, caisseId.toString());
+                        map.put(KEY_CAISSE_DENOMINATION, caisseDenomination);
+                        caisseList.add(map);
                     }
                 }
             } catch (JSONException e) {
@@ -200,14 +199,14 @@ public class CaisseActivity extends AppCompatActivity implements SERVER_ADDRESS 
      * */
     private void populateMovieList() {
         ListAdapter adapter = new SimpleAdapter(
-                CaisseActivity.this, movieList,
+                CaisseActivity.this, caisseList,
                 R.layout.list_item, new String[]{KEY_CAISSE_ID,
-                KEY_CAISSE_LOCALITE},
+                KEY_CAISSE_DENOMINATION},
                 new int[]{R.id.movieId, R.id.movieName});
         // updating listview
-        movieListView.setAdapter(adapter);
+        caisseListView.setAdapter(adapter);
         //Call MovieUpdateDeleteActivity when a movie is clicked
-        movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        caisseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Check for network connectivity

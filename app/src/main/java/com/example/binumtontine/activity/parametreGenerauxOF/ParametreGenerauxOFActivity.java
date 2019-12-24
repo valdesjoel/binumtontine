@@ -1,6 +1,7 @@
 package com.example.binumtontine.activity.parametreGenerauxOF;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -32,6 +34,13 @@ public class ParametreGenerauxOFActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guichet);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_preParam_Piece_frais);
+        setSupportActionBar(toolbar);
+
+        Resources resources=getResources();
+        String title = resources.getString(R.string.tab_title_param_generaux);
+        getSupportActionBar().setTitle(title) ;
 
         ViewPager vp_param_guichet= (ViewPager) findViewById(R.id.view_pager_guichet);
         PagerAdapter pagerAdapter=new FragmentAdapter(getSupportFragmentManager());
@@ -59,6 +68,7 @@ public class ParametreGenerauxOFActivity extends AppCompatActivity {
         });
     }
     /* To manage Menu*/
+    /*
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
@@ -87,7 +97,7 @@ public class ParametreGenerauxOFActivity extends AppCompatActivity {
         }
     }
 
-
+*/
 
 
     class FragmentAdapter extends FragmentPagerAdapter {

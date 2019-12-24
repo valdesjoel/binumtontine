@@ -34,9 +34,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +43,6 @@ import com.example.binumtontine.R;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,6 +78,7 @@ public class CreatePieceToFournirOf extends AppCompatActivity implements SERVER_
 
 
     private Button addButton;
+    private Button annulerButton;
     private Button deleteButton;
     private int success;
     private ProgressDialog pDialog;
@@ -105,12 +103,27 @@ public class CreatePieceToFournirOf extends AppCompatActivity implements SERVER_
         deleteButton = (Button) findViewById(R.id.btn_delete_pg_piece_of);
         deleteButton.setVisibility(View.GONE);
         addButton = (Button) findViewById(R.id.btn_save_pg_piece_of);
+        annulerButton = (Button) findViewById(R.id.btn_clean);
         //cirLoginButton
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+                } else {
+                    Toast.makeText(CreatePieceToFournirOf.this,
+                            "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addEAV();
+                    addPieceOf();
                 } else {
                     Toast.makeText(CreatePieceToFournirOf.this,
                             "Impossible de se connecter à Internet",
@@ -160,29 +173,13 @@ public class CreatePieceToFournirOf extends AppCompatActivity implements SERVER_
 
 
     /**
-     * Checks whether all files are filled. If so then calls AddEAVAsyncTask.
+     * Checks whether all files are filled. If so then calls AddPieceOfAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
-    private void addEAV() {
-       /* if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
+    private void addPieceOf() {
 
-                !STRING_EMPTY.equals(FpLibelleEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(FpValEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(FpBaseSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(FpTypeAdhEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_multi_eav_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_paie_ps_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_agios_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_typ_fr_agiosEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_mt_tx_agios_prelevEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_fromEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_toEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_cheque_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_frais_clot_cptEditText.getText().toString()) &&
-
-                !STRING_EMPTY.equals(FpTypeEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(FpNature.getText().toString())) { */
-if (true){
+if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
+        !STRING_EMPTY.equals(FpLibelleEditText.getText().toString())){
             FpCode = FpCodeEditText.getText().toString();
             FpLibelle = FpLibelleEditText.getText().toString();
             if (rbTypeAdherentPhysique.isChecked()){
@@ -192,7 +189,7 @@ if (true){
 
 
 
-            new AddEAVAsyncTask().execute();
+            new AddPieceOfAsyncTask().execute();
         } else {
             Toast.makeText(CreatePieceToFournirOf.this,
                     "Un ou plusieurs champs sont vides!",
@@ -204,9 +201,9 @@ if (true){
     }
 
     /**
-     * AsyncTask for adding a movie
+     * AsyncTask for adding a piece_of
      */
-    private class AddEAVAsyncTask extends AsyncTask<String, String, String> {
+    private class AddPieceOfAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

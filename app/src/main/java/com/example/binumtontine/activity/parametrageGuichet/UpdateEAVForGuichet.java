@@ -428,7 +428,9 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 !STRING_EMPTY.equals(genreEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(yearEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ratingEditText.getText().toString())) {*/
-if(true){
+if(!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
+        !STRING_EMPTY.equals(ev_libelleEditText.getText().toString())
+){
     ev_code = ev_codeEditText.getText().toString();
     ev_libelle = ev_libelleEditText.getText().toString();
     ev_min_cpte = ev_min_cpteEditText.getText().toString();

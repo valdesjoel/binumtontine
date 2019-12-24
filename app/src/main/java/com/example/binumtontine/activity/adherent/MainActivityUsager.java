@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +24,7 @@ import com.example.binumtontine.R;
 import com.example.binumtontine.adapter.CustomAdapterListAdherent;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
+import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 
 import org.json.JSONArray;
@@ -63,6 +68,8 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
     private static final String KEY_AD_AdEstParti = "AdEstParti";
     private static final String KEY_AD_AdPartiLe = "AdPartiLe";
     private static final String KEY_AD_AdRemplacePar = "AdRemplacePar";
+    private static final String KEY_AD_NBRE_COMPTE = "AdNbreCompte";
+    //private static final String KEY_AD_NBRE_COMPTE = "AdNbreCompte";
 
     private static final String KEY_AD_GUICHET = "AdGuichet";
 
@@ -73,7 +80,8 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
     private ProgressDialog pDialog;
     //model object for our listAdherent data
     private ArrayList<HashMap<String, String>> fraisList = new ArrayList<>();
-    private List<MyList> listAdherent;
+    //private List<MyList> listAdherent;
+    private List<Adherent> listAdherent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +175,29 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
 
         adapter = new CustomAdapterListAdherent(listAdherent, this);
         recyclerView.setAdapter(adapter);
+        //Call MovieUpdateDeleteActivity when a movie is clicked
+       /* recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Check for network connectivity
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    String movieId = ((TextView) view.findViewById(R.id.movieId))
+                            .getText().toString();
+                    Intent intent = new Intent(getApplicationContext(),
+                            UpdateCaisse.class);
+                    intent.putExtra(KEY_CAISSE_ID, movieId);
+                    startActivityForResult(intent, 20);
+
+                } else {
+                    Toast.makeText(CaisseActivity.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+
+            }
+        }); */
     }
 
     /**
@@ -204,11 +235,66 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
                     //Iterate through the response and populate movies listAdherent
                     for (int i = 0; i < movies.length(); i++) {
                         JSONObject guichet = movies.getJSONObject(i);
+                        String adherentID = guichet.getString(KEY_AD_AdNumero);
+                        String adherentCode = guichet.getString(KEY_AD_AdCode);
+                        String adherentNumManuel = guichet.getString(KEY_AD_AdNumManuel);
                         String adherentNom = guichet.getString(KEY_AD_AdNom);
-                        String adherentNationnalite = guichet.getString(KEY_AD_AdNationalite);
-                        MyList myList = new MyList(
+                        String adherentPrenom = guichet.getString(KEY_AD_AdPrenom);
+                        String adherentDateNaiss = guichet.getString(KEY_AD_AdDateNaiss);
+                        String adherentLieuNaiss = guichet.getString(KEY_AD_AdLieuNaiss);
+                        String adherentSexe = guichet.getString(KEY_AD_AdSexe);
+                        String adherentNationalite = guichet.getString(KEY_AD_AdNationalite);
+                        String adherentSituaFamiliale = guichet.getString(KEY_AD_AdSitFam);
+                        String adherentNbreEnfant = guichet.getString(KEY_AD_AdNbreEnfACh);
+                        String adherentTel1 = guichet.getString(KEY_AD_AdTel1);
+                        String adherentTel2 = guichet.getString(KEY_AD_AdTel2);
+                        String adherentTel3 = guichet.getString(KEY_AD_AdTel3);
+                        String adherentEmail = guichet.getString(KEY_AD_AdEMail);
+                        String adherentProfession = guichet.getString(KEY_AD_AdProfess);
+                        String adherentDomicile = guichet.getString(KEY_AD_AdDomicile);
+                        String adherentLieuTravail = guichet.getString(KEY_AD_AdLieuTrav);
+                        String adherentActivitePrincipale = guichet.getString(KEY_AD_AdActivitePr);
+                        String adherentTypeCarteID = guichet.getString(KEY_AD_AdTypCarteID);
+                        String adherentNumCarteID = guichet.getString(KEY_AD_AdNumCarteID);
+                        String adherentValideDu = guichet.getString(KEY_AD_AdValideDu);
+                        String adherentValideAu = guichet.getString(KEY_AD_AdValideAu);
+                        String adherentTypHabite = guichet.getString(KEY_AD_AdTypHabite);
+                        String adherentEstParti = guichet.getString(KEY_AD_AdEstParti);
+                        String adherentPartiLe = guichet.getString(KEY_AD_AdPartiLe);
+                        String adherentRemplacePar = guichet.getString(KEY_AD_AdRemplacePar);
+                        String adherentNbreCompte = guichet.getString(KEY_AD_NBRE_COMPTE);
+                        //MyList myList = new MyList(
+                        Adherent myList = new Adherent(
+                                adherentID ,
+                                adherentCode,
+                                adherentNumManuel,
                                 adherentNom ,
-                                adherentNationnalite
+                                adherentPrenom,
+                                adherentDateNaiss,
+                                adherentLieuNaiss,
+                                adherentSexe,
+                                adherentNationalite,
+                                adherentSituaFamiliale,
+                                adherentNbreEnfant,
+                                adherentTel1,
+                                adherentTel2,
+                                adherentTel3,
+                                adherentEmail,
+                                adherentProfession,
+                                adherentDomicile,
+                                adherentLieuTravail,
+                                adherentActivitePrincipale,
+                                adherentTypeCarteID,
+                                adherentNumCarteID,
+                                adherentValideDu,
+                                adherentValideAu,
+                                adherentTypHabite,
+                                adherentEstParti,
+                                adherentPartiLe,
+                                adherentRemplacePar,
+                                MyData.GUICHET_ID,
+                                adherentNbreCompte
+
                         );
                       /*  Integer guichetId = guichet.getInt(KEY_FC_NUMERO);
                         String guichetDenomination = guichet.getString(KEY_FC_NEW_LIBELLE);
@@ -247,6 +333,18 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
 
 
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 20) {
+            // If the result code is 20 that means that
+            // the user has deleted/updated the movie.
+            // So refresh the movie listing
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
     }
 
     /**

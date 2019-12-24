@@ -98,6 +98,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 
     private Button deleteButton;
     private Button updateButton;
+    private Button cancelButton;
     private int success;
     private ProgressDialog pDialog;
 
@@ -152,6 +153,22 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
             }
         });
         updateButton = (Button) findViewById(R.id.btn_save_eav);
+        cancelButton = (Button) findViewById(R.id.btn_clean);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+
+                } else {
+                    Toast.makeText(UpdateEAV.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

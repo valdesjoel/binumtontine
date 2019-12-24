@@ -148,7 +148,7 @@ private class FetchCpteCourantAsyncTask extends AsyncTask<String, String, String
                     Intent intent = new Intent(getApplicationContext(),
                             UpdateEAV.class);
                     intent.putExtra(KEY_CPTE_COURANT_ID, movieId);
-                    startActivityForResult(intent, 20);
+                    //startActivityForResult(intent, 20);
 
                 } else {
                     Toast.makeText(ProduitCpteCourantActivity.this,

@@ -25,32 +25,7 @@ public class CreateProduitEAV extends AppCompatActivity {
     }
 }*/
 package com.example.binumtontine.activity;
-/*
-import eav.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import com.example.binumtontine.R;
-
-public class CreateProduitEAP extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_param_produit_eap);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eap);
-        setSupportActionBar(toolbar);
-        setToolbarTitle();
-    }
-
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Ajout d'un produit EAP");
-
-    }
-}
-*/
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -69,8 +44,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.hbb20.CountryCodePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,7 +58,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class CreateCaisse extends AppCompatActivity implements View.OnClickListener{
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+
+public class CreateCaisse extends AppCompatActivity implements View.OnClickListener, SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_CX_DENOMINATION = "cx_denomination";
     private static final String KEY_CX_LOCALITE = "cx_localite";
@@ -94,8 +73,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_CX_TEL3 = "cx_tel3";
     private static final String KEY_CX_NOM_PCA = "cx_nom_pca";
     private static final String KEY_CX_NOM_DG = "cx_nom_dg";
-    //private static final String BASE_URL = "http://192.168.1.102/binumTontine/";
-    private static final String BASE_URL = "http://binumt.diff-itc.net/binumTontine/";
+
 
     private static String STRING_EMPTY = "";
 
@@ -105,9 +83,17 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private EditText cx_date_agremEditText;
     private EditText cx_date_debutEditText;
     private EditText cx_adresseEditText;
-    private EditText cx_tel1EditText;
+
+    private CountryCodePicker ccp_phone1;
+    private CountryCodePicker ccp_phone2;
+    private CountryCodePicker ccp_phone3;
+    private EditText editTextCarrierPhone1;
+    private EditText editTextCarrierPhone2;
+    private EditText editTextCarrierPhone3;
+
+   /* private EditText cx_tel1EditText;
     private EditText cx_tel2EditText;
-    private EditText cx_tel3EditText;
+    private EditText cx_tel3EditText;*/
     private EditText cx_nom_pcaEditText;
     private EditText cx_nom_dgEditText;
 
@@ -124,6 +110,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private String cx_nom_dg;
 
     private Button addButton;
+    private Button annulerButton;
     private Button delButton;
     private int success;
     private ProgressDialog pDialog;
@@ -171,15 +158,40 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
        // cx_date_agremEditText = (EditText) findViewById(R.id.input_txt_num_agrement_cx);
         //cx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateAgrementCx);
         cx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseCx);
-        cx_tel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_Cx);
-        cx_tel2EditText = (EditText) findViewById(R.id.input_txt_Tel2_Cx);
-        cx_tel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_Cx);
+//        cx_tel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_Cx);
+//        cx_tel2EditText = (EditText) findViewById(R.id.input_txt_Tel2_Cx);
+//        cx_tel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_Cx);
+
+
+        ccp_phone1 = (CountryCodePicker) findViewById(R.id.ccp_phone1);
+        editTextCarrierPhone1 = (EditText) findViewById(R.id.editText_carrierPhone1);
+        ccp_phone1.registerCarrierNumberEditText(editTextCarrierPhone1);
+
+
+        ccp_phone2 = (CountryCodePicker) findViewById(R.id.ccp_phone2);
+        editTextCarrierPhone2 = (EditText) findViewById(R.id.editText_carrierPhone2);
+        ccp_phone2.registerCarrierNumberEditText(editTextCarrierPhone2);
+
+        ccp_phone3 = (CountryCodePicker) findViewById(R.id.ccp_phone3);
+        editTextCarrierPhone3 = (EditText) findViewById(R.id.editText_carrierPhone3);
+        ccp_phone3.registerCarrierNumberEditText(editTextCarrierPhone3);
+
+
+
         cx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Cx);
         cx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Cx);
 
         addButton = (Button) findViewById(R.id.btn_save_Cx);
+        annulerButton = (Button) findViewById(R.id.btn_clean);
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+
+            }
+        });
         delButton = (Button) findViewById(R.id.btn_delete_Cx);
-        delButton.setVisibility(View.INVISIBLE);
+        delButton.setVisibility(View.GONE);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,7 +224,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
                 !STRING_EMPTY.equals(cx_num_agremEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(cx_date_agremEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(cx_adresseEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_tel1EditText.getText().toString()) &&
+                !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
                 !STRING_EMPTY.equals(cx_nom_pcaEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(cx_nom_dgEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(cx_date_debutEditText.getText().toString())) {
@@ -223,9 +235,14 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             cx_date_agrem = cx_date_agremEditText.getText().toString();
             cx_date_debut = cx_date_debutEditText.getText().toString();
             cx_adresse = cx_adresseEditText.getText().toString();
-            cx_tel1 = cx_tel1EditText.getText().toString();
-            cx_tel2 = cx_tel2EditText.getText().toString();
-            cx_tel3 = cx_tel3EditText.getText().toString();
+//            cx_tel1 = cx_tel1EditText.getText().toString();
+//            cx_tel2 = cx_tel2EditText.getText().toString();
+//            cx_tel3 = cx_tel3EditText.getText().toString();
+
+            cx_tel1 = ccp_phone1.getFullNumberWithPlus();
+            cx_tel2 = ccp_phone2.getFullNumberWithPlus();
+            cx_tel3 = ccp_phone3.getFullNumberWithPlus();
+
             cx_nom_pca = cx_nom_pcaEditText.getText().toString();
             cx_nom_dg = cx_nom_dgEditText.getText().toString();
             new AddCaisseAsyncTask().execute();

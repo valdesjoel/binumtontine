@@ -148,6 +148,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private TextInputLayout layout_TauxAPreleveCpteEAV;
 
     private Button addButton;
+    private Button cancelButton;
     private Button deleteButton;
     private int success;
     private ProgressDialog pDialog;
@@ -194,7 +195,22 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         deleteButton = (Button) findViewById(R.id.btn_delete_eav);
         deleteButton.setVisibility(View.GONE);
         addButton = (Button) findViewById(R.id.btn_save_eav);
+        cancelButton = (Button) findViewById(R.id.btn_clean);
         //cirLoginButton
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+                } else {
+                    Toast.makeText(CreateProduitEAV.this,
+                            "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

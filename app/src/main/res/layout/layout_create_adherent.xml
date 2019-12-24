@@ -41,6 +41,23 @@
             android:textSize="16sp"
             android:layout_height="wrap_content"/>
 
+
+        <!-- Numéro manuel-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_numero_manuel_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_numero_manuel_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/numero_manuel_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Nom adherent-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_nom_adherent"
@@ -65,8 +82,7 @@
             <EditText
                 android:id="@+id/input_prenom_adherent"
                 style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:textAllCaps="true"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="16sp"
@@ -119,14 +135,16 @@
 
                 android:layout_weight="0"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="Sexe: " />
+                android:text="Sexe: "
+                />
 
             <Spinner
                 android:id="@+id/spn_sexe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:entries="@array/type_sexe"/>
 
         </LinearLayout>
 
@@ -136,6 +154,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
             >
             <TextView
                 android:id="@+id/tv_nationalite_adherent"
@@ -180,7 +199,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:entries="@array/type_situation_matrimoniale"/>
 
         </LinearLayout>
 
@@ -285,7 +305,8 @@
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
 
             <EditText
                 android:id="@+id/input_txt_email_adherent"
@@ -334,6 +355,37 @@
                 android:hint="@string/domicile_adherent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Lieu de travail -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_lieu_travail_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_lieu_travail_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/lieu_travail_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Activité principale -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_activite_principal_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_activite_principal_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/activite_principal_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Type de pièce -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -369,9 +421,65 @@
                 android:textSize="16sp"
                 android:hint="@string/numero_piece_adherent"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!-- Debut validité pièce-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_validite_debut_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_validite_debut_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_validite_debut_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Fin validité pièce-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_validite_fin_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_validite_fin_adherent"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_validite_fin_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Type de location adhérent-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_Location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Type de location: " />
+
+            <Spinner
+                android:id="@+id/spn_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:entries="@array/type_location"/>
+
+        </LinearLayout>
 
         <!-- Civilité-->
-        <LinearLayout
+     <!--   <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -395,10 +503,10 @@
 
                 android:layout_weight="1" />
 
-        </LinearLayout>
+        </LinearLayout> -->
 
         <!-- Nom complet du conjoint-->
-        <com.google.android.material.textfield.TextInputLayout
+     <!--   <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_nom_conjoint_adherent"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -411,28 +519,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:hint="@string/nom_conjoint_adherent"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- Numéro manuel-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_numero_manuel_adherent"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_numero_manuel_adherent"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:textAllCaps="true"
-                android:maxLines="1"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:hint="@string/numero_manuel_adherent"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!-- Personne à contacter-->
-        <com.google.android.material.textfield.TextInputLayout
+     <!--   <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_personne_a_contacter_adherent"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -445,11 +535,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:hint="@string/personne_a_contacter_adherent"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!-- Autre statut 1-->
-        <com.google.android.material.textfield.TextInputLayout
+     <!--   <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_autre_statut1_adherent"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -462,10 +551,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:hint="@string/autre_statut1_adherent"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!-- Autre statut 2-->
-        <com.google.android.material.textfield.TextInputLayout
+    <!--    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_autre_statut2_adherent"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -478,11 +567,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:hint="@string/autre_statut2_adherent"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!-- Distance -->
-        <com.google.android.material.textfield.TextInputLayout
+    <!--    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_distance_adherent"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -495,11 +583,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:hint="@string/distance_adherent"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!--BP-->
-        <com.google.android.material.textfield.TextInputLayout
+    <!--    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_bp_adherentAdresseGx"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -516,37 +603,10 @@
                 android:maxLength="30"
                 android:textStyle="bold"
                 android:hint="@string/hint_BP"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Localisation-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_Localisation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_weight="0"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Localisation: " />
-
-            <Spinner
-                android:id="@+id/spn_localisation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_weight="1" />
-
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!--ville-->
-        <com.google.android.material.textfield.TextInputLayout
+    <!--    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_ville_adherent"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -563,10 +623,10 @@
                 android:maxLength="30"
                 android:textStyle="bold"
                 android:hint="@string/hint_ville"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!--Fax-->
-        <com.google.android.material.textfield.TextInputLayout
+     <!--   <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_fax_adherent"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
@@ -583,11 +643,10 @@
                 android:maxLength="30"
                 android:textStyle="bold"
                 android:hint="@string/hint_fax"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!--Co titulaire-->
-        <LinearLayout
+    <!--    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
@@ -611,18 +670,13 @@
                 android:textOn="Oui"
                 />
 
-        </LinearLayout>
-
-
-
-
-
-
+        </LinearLayout>  -->
+        <!--Boutons-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingTop="10dp"
+            android:paddingTop="15dp"
 
             android:layout_below="@+id/input_txt_email_user">
 
@@ -639,7 +693,7 @@
                 android:text="@string/btn_enregistrer" />
             <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_clean"
-                style="@style/loginButton"
+                style="@style/cancelButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -655,7 +709,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
-                style="@style/loginButton"
+                style="@style/cancelButton"
 
                 android:padding="12dp"
                 android:text="@string/btn_supprimer" />

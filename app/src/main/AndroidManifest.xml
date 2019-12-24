@@ -14,8 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-        <activity android:name=".activity.adherent.MainActivityUsager"></activity>
+        <activity android:name=".activity.TableActivity"></activity>
+        <activity android:name=".activity.adherent.MainActivityUsager" />
         <activity android:name=".activity.adherent.NextActivity" />
+        <activity android:name=".activity.adherent.CreateEAV" />
+        <activity android:name=".activity.adherent.CreateEAT" />
+        <activity android:name=".activity.adherent.CreateEAP" />
+        <activity android:name=".activity.adherent.InitialisationCaisseGuichet" />
+        <activity android:name=".activity.adherent.ListCompteAdherentActivity" />
+        <activity android:name=".activity.adherent.OperationEAV" />
+        <activity android:name=".activity.adherent.OperationEAT" />
+        <activity android:name=".activity.adherent.OperationEAP" />
+        <activity android:name=".activity.PlageData" />
         <activity
             android:name=".activity.parametrageGuichet.ParamGuichetActivity"
             android:label="@string/title_activity_param_guichet"
@@ -49,6 +59,8 @@
         <activity android:name=".activity.parametrageGuichet.ListGuichetActivity" />
         <activity android:name=".activity.parametrageGuichet.ProduitGuichetFragment" />
         <activity android:name=".activity.parametrageGuichet.ProduitEAVGuichetActivity" />
+        <activity android:name=".activity.parametrageGuichet.ParametreGenerauxGxActivity" />
+        <activity android:name=".activity.parametrageGuichet.CreatePieceToFournirGx" />
 
         <uses-library
             android:name="org.apache.http.legacy"

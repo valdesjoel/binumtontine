@@ -31,8 +31,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +40,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,7 +50,6 @@ import com.example.binumtontine.activity.ServiceHandler;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,10 +70,18 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
     private static final String KEY_FP_BASE = "FpBase";
     private static final String KEY_FP_TYPE_ADH = "FpTypeAdh";
 
+    private static final String KEY_FP_FONCTION_FRAIS = "FpFonction";
+    private static final String KEY_FP_NOMBRE_PART_MIN_J = "FpNbrePartMinJ";
+    private static final String KEY_FP_NOMBRE_PART_MIN_F = "FpNbrePartMinF";
+    private static final String KEY_FP_NOMBRE_PART_MIN_H = "FpNbrePartMinH";
+
 
     private EditText FpCodeEditText;
     private EditText FpLibelleEditText;
     private EditText FpValEditText;
+    private EditText FpNbrePartMinJEditText;
+    private EditText FpNbrePartMinFEditText;
+    private EditText FpNbrePartMinHEditText;
 
     private RadioButton rbTypeAdherentPhysique;
     private RadioButton rbTypeAdherentMorale;
@@ -90,6 +94,10 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
     private String FpNature;
     private String FpVal;
     private String FpBase;
+    private String FpFonctionFrais;
+    private String FpNbrePartMinJ;
+    private String FpNbrePartMinF;
+    private String FpNbrePartMinH;
     private String FpTypeAdh;
 
 
@@ -98,26 +106,25 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
     private static String STRING_EMPTY = "";
 
 
-    private LinearLayout blkPlageEav;
-    private RadioButton rbEpTypTxInterFixe;
-    private RadioButton rbEpTypTxInterTaux;
-    private RadioButton rbEpTypTxInterPlage;
-    private TextInputLayout layout_TauxAPreleveCpteEAV;
 
     /* manage spinner*/
     // array list for spinner adapter
-    private ArrayList<Category> caisseList;
-    List<Integer> caisseListID = new ArrayList<Integer>();
-    private int caisseID;
-    private Spinner spinnerCaisse;
+    private ArrayList<Category> baseFraisList;
+    List<Integer> baseFraisListID = new ArrayList<Integer>();
+    private int baseFraisID;
+    private Spinner spinnerBaseFrais;
+    private Spinner spinnerFonctionFrais;
     private LinearLayout textInputLayoutCaisse;
+    private LinearLayout textInputLayoutFpNbrePartMin;
     /*end manage*/
 
 
     private Button addButton;
+    private Button annulerButton;
     private Button deleteButton;
     private int success;
     private ProgressDialog pDialog;
+    private ProgressDialog pDialogFetchBaseFraisList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +143,9 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
         rbNatureFraisFixe = (RadioButton) findViewById(R.id.rb_NatureFraisFixe_fp);
         rbNatureFraisTaux = (RadioButton) findViewById(R.id.rb_NatureFraisTaux_fp);
         FpValEditText = (EditText) findViewById(R.id.input_txt_ValeurFrais_fp);
+        FpNbrePartMinJEditText = (EditText) findViewById(R.id.input_txt_NbrePartMinJ_fp);
+        FpNbrePartMinFEditText = (EditText) findViewById(R.id.input_txt_NbrePartMinF_fp);
+        FpNbrePartMinHEditText = (EditText) findViewById(R.id.input_txt_NbrePartMinH_fp);
         //FpBaseEditText = (EditText) findViewById(R.id.Base);
         rbTypeAdherentPhysique = (RadioButton) findViewById(R.id.rb_type_adherent_pg_frais_of_physique);
         rbTypeAdherentMorale = (RadioButton) findViewById(R.id.rb_type_adherent_pg_frais_of_morale);
@@ -143,35 +153,47 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
 
 
 
-        rbEpTypTxInterFixe = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-        rbEpTypTxInterTaux = (RadioButton) findViewById(R.id.rbEpTypTxInterTaux);
-        rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
-        blkPlageEav = (LinearLayout) findViewById(R.id.blk_plage_eav);
-        layout_TauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxAPreleveCpteEAV);
-
         textInputLayoutCaisse = (LinearLayout) findViewById(R.id.ll_base_frais_of);
+        textInputLayoutFpNbrePartMin = (LinearLayout) findViewById(R.id.ll_NbrePartMin_of);
         if (rbNatureFraisFixe.isChecked())
         textInputLayoutCaisse.setVisibility(View.GONE);
         else textInputLayoutCaisse.setVisibility(View.VISIBLE);
 
 
 
-        spinnerCaisse = (Spinner) findViewById(R.id.spn_baseFrais_fp);
+        spinnerBaseFrais = (Spinner) findViewById(R.id.spn_baseFrais_fp);
+        spinnerFonctionFrais = (Spinner) findViewById(R.id.spn_fonctionFrais_fp);
 
-        caisseList = new ArrayList<Category>();
+        baseFraisList = new ArrayList<Category>();
         // spinner item select listener
-        spinnerCaisse.setOnItemSelectedListener(CreateFraisToPayerOf.this);
-        new CreateFraisToPayerOf.GetCategories().execute();
+        spinnerBaseFrais.setOnItemSelectedListener(CreateFraisToPayerOf.this);
+        spinnerFonctionFrais.setOnItemSelectedListener(CreateFraisToPayerOf.this);
+        new GetBaseFraisList().execute();
 
         deleteButton = (Button) findViewById(R.id.btn_delete_pg_frais_of);
         deleteButton.setVisibility(View.GONE);
+        annulerButton = (Button) findViewById(R.id.btn_clean);
         addButton = (Button) findViewById(R.id.btn_save_pg_frais_of);
         //cirLoginButton
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+                } else {
+                    Toast.makeText(CreateFraisToPayerOf.this,
+                            "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addEAV();
+                    addFraisToPayer();
                 } else {
                     Toast.makeText(CreateFraisToPayerOf.this,
                             "Impossible de se connecter à Internet",
@@ -191,9 +213,9 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
 
         //tvCaisse.setText("");
 
-        for (int i = 0; i < caisseList.size(); i++) {
-            lables.add(caisseList.get(i).getName());//recupère les noms
-            caisseListID.add(caisseList.get(i).getId()); //recupère les Id
+        for (int i = 0; i < baseFraisList.size(); i++) {
+            lables.add(baseFraisList.get(i).getName());//recupère les noms
+            baseFraisListID.add(baseFraisList.get(i).getId()); //recupère les Id
         }
 
         // Creating adapter for spinner
@@ -205,21 +227,21 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        spinnerCaisse.setAdapter(spinnerAdapter);
+        spinnerBaseFrais.setAdapter(spinnerAdapter);
     }
 
     /**
-     * Async task to get all food categories
+     * Async task to get all base frais
      * */
-    private class GetCategories extends AsyncTask<Void, Void, Void> {
+    private class GetBaseFraisList extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(CreateFraisToPayerOf.this);
-            pDialog.setMessage("Fetching base frais's list..");
-            pDialog.setCancelable(false);
-            pDialog.show();
+            pDialogFetchBaseFraisList = new ProgressDialog(CreateFraisToPayerOf.this);
+            pDialogFetchBaseFraisList.setMessage("Fetching base frais's list..");
+            pDialogFetchBaseFraisList.setCancelable(false);
+            pDialogFetchBaseFraisList.show();
 
         }
 
@@ -241,7 +263,7 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
                             JSONObject catObj = (JSONObject) categories.get(i);
                             Category cat = new Category(catObj.getInt("id"),
                                     catObj.getString("name"));
-                            caisseList.add(cat);
+                            baseFraisList.add(cat);
                         }
                     }
 
@@ -259,8 +281,8 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+            if (pDialogFetchBaseFraisList.isShowing())
+                pDialogFetchBaseFraisList.dismiss();
             populateSpinner();
         }
 
@@ -269,11 +291,38 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-        Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        caisseID = caisseListID.get(position);//pour recuperer l'ID de la caisse selectionnée
+        int idSpinner = parent.getId();
+        switch (idSpinner)
+        {
+            case R.id.spn_baseFrais_fp:
+                Toast.makeText(
+                        getApplicationContext(),
+                        parent.getItemAtPosition(position).toString() + " Selected" ,
+                        Toast.LENGTH_LONG).show();
+                baseFraisID = baseFraisListID.get(position);//pour recuperer l'ID de la caisse selectionnée
+
+                break;
+            case R.id.spn_fonctionFrais_fp:
+                // your stuff here
+                if (spinnerFonctionFrais.getSelectedItem().toString().equals("Part sociale")){
+                    textInputLayoutFpNbrePartMin.setVisibility(View.VISIBLE);
+                    FpFonctionFrais = "P";
+
+                }else{
+                    textInputLayoutFpNbrePartMin.setVisibility(View.GONE);
+                    if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais d'adhésion")){
+                        FpFonctionFrais = "A";
+                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Fonds de solidarité")){
+                        FpFonctionFrais = "S";
+                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Approvisionnement")){
+                        FpFonctionFrais = "D";
+                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais de fonctionnement")){
+                        FpFonctionFrais = "F";
+                    }
+                }
+                break;
+
+        }
 
     }
 
@@ -320,37 +369,30 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
 
 
     /**
-     * Checks whether all files are filled. If so then calls AddEAVAsyncTask.
+     * Checks whether all files are filled. If so then calls AddFraisToPayerAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
-    private void addEAV() {
+    private void addFraisToPayer() {
        /* if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
 
                 !STRING_EMPTY.equals(ev_libelleEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_tx_inter_anEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_tx_inter_an_obligSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_typ_dat_valEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_multi_eav_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_paie_ps_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_agios_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_typ_fr_agiosEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_mt_tx_agios_prelevEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_fromEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_toEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_cheque_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_frais_clot_cptEditText.getText().toString()) &&
 
-                !STRING_EMPTY.equals(ev_min_cpteEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
-if (true){
+if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
+        !STRING_EMPTY.equals(FpLibelleEditText.getText().toString()) &&
+        !STRING_EMPTY.equals(FpValEditText.getText().toString())){
+
             FpCode = FpCodeEditText.getText().toString();
             FpLibelle = FpLibelleEditText.getText().toString();
+            FpNbrePartMinJ = FpNbrePartMinJEditText.getText().toString();
+            FpNbrePartMinF = FpNbrePartMinFEditText.getText().toString();
+            FpNbrePartMinH = FpNbrePartMinHEditText.getText().toString();
     if (rbNatureFraisFixe.isChecked()){
         FpNature ="F";
-        FpBase = null;
+        FpBase = null; //à revoir, car ça insère avec comme valeur 0
     }else {
         FpNature="T";
-        FpBase = String.valueOf(caisseID);
+        FpBase = String.valueOf(baseFraisID);
     }
 
             FpVal = FpValEditText.getText().toString();
@@ -364,7 +406,7 @@ if (true){
 
 
 
-            new AddEAVAsyncTask().execute();
+            new AddFraisToPayerAsyncTask().execute();
         } else {
             Toast.makeText(CreateFraisToPayerOf.this,
                     "Un ou plusieurs champs sont vides!",
@@ -378,7 +420,7 @@ if (true){
     /**
      * AsyncTask for adding a movie
      */
-    private class AddEAVAsyncTask extends AsyncTask<String, String, String> {
+    private class AddFraisToPayerAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -400,6 +442,10 @@ if (true){
             httpParams.put(KEY_FP_NATURE_FRAIS, FpNature);
             httpParams.put(KEY_FP_VALEUR, FpVal);
             httpParams.put(KEY_FP_BASE, FpBase);
+            httpParams.put(KEY_FP_FONCTION_FRAIS, FpFonctionFrais);
+            httpParams.put(KEY_FP_NOMBRE_PART_MIN_J, FpNbrePartMinJ);
+            httpParams.put(KEY_FP_NOMBRE_PART_MIN_F, FpNbrePartMinF);
+            httpParams.put(KEY_FP_NOMBRE_PART_MIN_H, FpNbrePartMinH);
             httpParams.put(KEY_FP_TYPE_ADH, FpTypeAdh);
 
 

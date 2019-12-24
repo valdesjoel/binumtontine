@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.binumtontine.R;
-import com.example.binumtontine.activity.adherent.Model;
+import com.example.binumtontine.activity.adherent.CheckBoxModel;
 
 import java.util.ArrayList;
 
@@ -20,13 +20,13 @@ import java.util.ArrayList;
 public class CustomAdapterListViewCheckbox extends BaseAdapter {
 
     private Context context;
-    public static ArrayList<Model> modelArrayList;
+    public static ArrayList<CheckBoxModel> checkBoxModelArrayList;
 
 
-    public CustomAdapterListViewCheckbox(Context context, ArrayList<Model> modelArrayList) {
+    public CustomAdapterListViewCheckbox(Context context, ArrayList<CheckBoxModel> checkBoxModelArrayList) {
 
         this.context = context;
-        this.modelArrayList = modelArrayList;
+        this.checkBoxModelArrayList = checkBoxModelArrayList;
 
     }
 
@@ -42,12 +42,12 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return modelArrayList.size();
+        return checkBoxModelArrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return modelArrayList.get(position);
+        return checkBoxModelArrayList.get(position);
     }
 
     @Override
@@ -64,6 +64,7 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_view_checkbox_item, null, true);
 
+            holder.tvId = (TextView) convertView.findViewById(R.id.pieceId);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.cb);
             holder.tvAnimal = (TextView) convertView.findViewById(R.id.animal);
 
@@ -74,10 +75,11 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
         }
 
 
-        holder.checkBox.setText("Checkbox "+position);
-        holder.tvAnimal.setText(modelArrayList.get(position).getAnimal());
+      //  holder.checkBox.setText("Checkbox "+position); //I put it in comment
+        holder.tvAnimal.setText(checkBoxModelArrayList.get(position).getAnimal());
+        holder.tvId.setText(checkBoxModelArrayList.get(position).getPieceID());
 
-        holder.checkBox.setChecked(modelArrayList.get(position).getSelected());
+        holder.checkBox.setChecked(checkBoxModelArrayList.get(position).getSelected());
 
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag( position);
@@ -87,13 +89,15 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
 
                 View tempview = (View) holder.checkBox.getTag(R.integer.btnplusview);
                 TextView tv = (TextView) tempview.findViewById(R.id.animal);
+                TextView tvIdPiece = (TextView) tempview.findViewById(R.id.pieceId); // It's me who added it
                 Integer pos = (Integer)  holder.checkBox.getTag();
-                Toast.makeText(context, "Checkbox "+pos+" clicked!", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "Checkbox "+pos+" clicked!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, tv.getText()+" "+tvIdPiece.getText()+" "+pos+" clicked!", Toast.LENGTH_SHORT).show();
 
-                if(modelArrayList.get(pos).getSelected()){
-                    modelArrayList.get(pos).setSelected(false);
+                if(checkBoxModelArrayList.get(pos).getSelected()){
+                    checkBoxModelArrayList.get(pos).setSelected(false);
                 }else {
-                    modelArrayList.get(pos).setSelected(true);
+                    checkBoxModelArrayList.get(pos).setSelected(true);
                 }
 
             }
@@ -106,6 +110,7 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
 
         protected CheckBox checkBox;
         private TextView tvAnimal;
+        private TextView tvId;
 
     }
 

@@ -4,7 +4,6 @@ package com.example.binumtontine.activity.adherent;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -12,14 +11,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,12 +28,11 @@ import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 import com.hbb20.CountryCodePicker;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -50,26 +45,31 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
     private static final String KEY_SUCCESS = "success";
 
-    private static final String KEY_GX_CX_NUMERO = "cx_numero";
-    private static final String KEY_GX_LOCALITE = "gx_localite";
-    private static final String KEY_GX_DENOMINATION = "gx_denomination";
-    private static final String KEY_GX_DATE_DEBUT = "gx_date_debut";
-    private static final String KEY_GX_ADRESSE = "gx_adresse";
-    private static final String KEY_GX_TEL1 = "gx_tel1";
-    private static final String KEY_GX_TEL2 = "gx_tel2";
-    private static final String KEY_GX_TEL3 = "gx_tel3";
-    private static final String KEY_GX_NOM_PCA = "gx_nom_pca";
-    private static final String KEY_GX_NOM_DG = "gx_nom_dg";
-    private static final String KEY_GX_IS_FORCER_CLOT = "gx_is_forcer_clot";
-    private static final String KEY_GX_HEURE_CLOT = "gx_heure_clot";
-    private static final String KEY_GX_IS_OPER_APRES_CLOT = "gx_is_oper_apres_clot";
-    private static final String KEY_GX_NBRE_RAPP_BY_JOUR = "gx_nbre_rapp_by_jour";
-    private static final String KEY_GX_NBRE_JR_AV_RAPP = "gx_nbre_jr_av_rapp";
-    private static final String KEY_GX_IS_JOUR8_ON = "gx_is_jour8_on";
-    private static final String KEY_GX_IS_CREDIT_BY_OBJET = "gx_is_credit_by_objet";
-    private static final String KEY_GX_FIRST_JR_ON = "gx_first_jr_on";
-    private static final String KEY_GX_FREQ_REUN_COM_CRED = "gx_freq_reun_com_cred";
-    private static final String KEY_GX_IS_RAPP_NET_MSG_CRED_ON = "gx_is_rapp_net_msg_cred_on";
+    private static final String KEY_AD_GX_NUMERO = "AdGuichet";
+    private static final String KEY_AD_NUM_MANUEL = "AdNumManuel";
+    private static final String KEY_AD_NOM = "AdNom";
+    private static final String KEY_AD_PRENOM = "AdPrenom";
+    private static final String KEY_AD_DATE_NAISS = "AdDateNaiss";
+    private static final String KEY_AD_LIEU_NAISS = "AdLieuNaiss";
+    private static final String KEY_AD_SEXE = "AdSexe";
+    private static final String KEY_AD_NATIONALITE = "AdNationalite";
+    private static final String KEY_AD_SIT_FAM = "AdSitFam";
+    private static final String KEY_AD_NBRE_ENFANT = "AdNbreEnfACh";
+    private static final String KEY_AD_TEL1 = "AdTel1";
+    private static final String KEY_AD_TEL2 = "AdTel2";
+    private static final String KEY_AD_TEL3 = "AdTel3";
+    private static final String KEY_AD_EMAIL = "AdEMail";
+    private static final String KEY_AD_PROFESSION = "AdProfess";
+    private static final String KEY_AD_DOMICILE = "AdDomicile";
+    private static final String KEY_AD_LIEU_TRAVAIL = "AdLieuTrav";
+    private static final String KEY_AD_ACTIVITE_PRINC = "AdActivitePr";
+    private static final String KEY_AD_TYPE_CARTE_ID = "AdTypCarteID";
+    private static final String KEY_AD_NUM_CARTE_ID = "AdNumCarteID";
+    private static final String KEY_AD_VALIDE_DU = "AdValideDu";
+    private static final String KEY_AD_VALIDE_AU = "AdValideAu";
+    private static final String KEY_AD_TYPE_HABITE = "AdTypHabite";
+
+    private static final String KEY_ADHERENT = "ADHERENT";
 
 
     private static String STRING_EMPTY = "";
@@ -82,49 +82,55 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private EditText editTextCarrierPhone1;
     private EditText editTextCarrierPhone2;
     private EditText editTextCarrierPhone3;
-    private Spinner countrySpinner; //pour gérer le spinner contenant les pays
+
     private JRSpinner mySpinnerCaisse; //pour gérer le spinner contenant les caisses
-    private JRSpinner mySpinnerLocalite; //pour gérer le spinner contenant les localités
-    private EditText gx_denominationEditText;
-    private EditText gx_date_debutEditText;
-    private EditText gx_adresseEditText;
-    private EditText gx_tel1EditText;
-    private EditText gx_tel2EditText;
-    private EditText gx_tel3EditText;
-    private EditText gx_nom_pcaEditText;
-    private EditText gx_nom_dgEditText;
-    private Switch gx_is_forcer_clotSwitch;
-    private EditText gx_heure_clotEditText;
-    private TimePickerDialog picker;
-    private Switch gx_is_oper_apres_clotSwitch;
-    private EditText gx_nbre_rapp_by_jourEditText;
-    private EditText gx_nbre_jr_av_rappEditText;
-    private Switch gx_is_jour8_onSwitch;
-    private Switch gx_is_credit_by_objetSwitch;
-    private EditText gx_first_jr_onEditText;
-    private EditText gx_freq_reun_com_credEditText;
-    private Switch gx_is_rapp_net_msg_cred_onSwitch;
 
-    private String gxLocalite;
-    private String gxDenomination;
-    private String gx_date_debut;
-    private String gx_adresse;
-    private String gx_tel1;
-    private String gx_tel2;
-    private String gx_tel3;
-    private String gx_nom_pca;
-    private String gx_nom_dg;
-    private Boolean gx_is_forcer_clot;
-    private String gx_heure_clot;
-    private Boolean gx_is_oper_apres_clot;
-    private String gx_nbre_rapp_by_jour;
-    private String gx_nbre_jr_av_rapp;
-    private Boolean gx_is_jour8_on;
-    private Boolean gx_is_credit_by_objet;
-    private String gx_first_jr_on;
-    private String gx_freq_reun_com_cred;
-    private Boolean gx_is_rapp_net_msg_cred_on;
 
+    private EditText Ad_NumManuelEditText;
+    private EditText Ad_NomEditText;
+    private EditText Ad_PrenomEditText;
+    private EditText Ad_DateNaissEditText;
+    private EditText Ad_LieuNaissEditText;
+    private Spinner Ad_SexeSpinner;
+    private CountryCodePicker Ad_NationaliteSpinner; //pour gérer le spinner contenant les pays
+    private Spinner Ad_SituationMatSpinner;
+    private EditText Ad_NombreEnfantEditText;
+    private EditText Ad_EmailEditText;
+    private JRSpinner Ad_ProfessionSpinner; //pour gérer le spinner contenant les professions
+    private EditText Ad_DomicileEditText;
+    private EditText Ad_LieuTravailEditText;
+    private EditText Ad_ActivitePrincipaleEditText;
+    private JRSpinner Ad_TypePieceSpinner;
+    private EditText Ad_NumPieceEditText;
+    private EditText Ad_DateDelivranceEditText;
+    private EditText Ad_DateExpirationEditText;
+    private Spinner Ad_TypeLocationSpinner;
+
+
+    private String AdNumManuel;
+    private String AdNom;
+    private String AdPrenom;
+    private String AdDateNaiss;
+    private String AdLieuNaiss;
+    private String AdSexe;
+    private String AdNationalite;
+    private String AdSitFam;
+    private String AdNbreEnfACh;
+    private String AdTel1;
+    private String AdTel2;
+    private String AdTel3;
+    private String AdEMail;
+    private String AdProfess;
+    private String AdDomicile;
+    private String AdLieuTrav;
+    private String AdActivitePr;
+    private String AdTypCarteID;
+    private String AdNumCarteID;
+    private String AdValideDu;
+    private String AdValideAu;
+    private String AdTypHabite;
+
+    private Adherent adherent;
     /* manage spinner*/
 
     private TextView tvCaisse;
@@ -142,7 +148,9 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
 
 
-    private DatePickerDialog gx_date_debut_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog Ad_DateNaiss_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog Ad_DateDelivrance_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog Ad_DateExpiration_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
 
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
 
@@ -150,12 +158,9 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_add_movie);
-        //setContentView(R.layout.fragment_caisses);spn_my_spinner_localite_caisse
+
         setContentView(R.layout.activity_create_adherent);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_caisse);
-        setSupportActionBar(toolbar);
-        setToolbarTitle();*/
+
 
         /*end manage*/
 
@@ -178,48 +183,62 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         ccp_phone3 = (CountryCodePicker) findViewById(R.id.ccp_phone3);
         editTextCarrierPhone3 = (EditText) findViewById(R.id.editText_carrierPhone3);
         ccp_phone3.registerCarrierNumberEditText(editTextCarrierPhone3);
-
-
         /* End manage country*/
-
-
-
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-        //findViewsById();
+        findViewsById();
 
-      //  setDateTimeField();
-       // mySpinnerCaisse = (JRSpinner)findViewById(R.id.spn_my_spinner_select_caisse);
-       // textInputLayoutCaisse = (TextInputLayout) findViewById(R.id.til_caisse);
-       // textInputLayoutCaisse.setVisibility(View.GONE);
-        mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_profession_adherent);
+        setDateTimeField();
 
-       // mySpinnerCaisse.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
-        mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_localite)); //this is important, you must set it to set the item list
-//        mySpinnerCaisse.setTitle("Sélectionner une caisse"); //change title of spinner-dialog programmatically
-        mySpinnerLocalite.setTitle("Sélectionner une localité"); //change title of spinner-dialog programmatically
-       // mySpinnerCaisse.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
-        mySpinnerLocalite.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
-
-     /*   mySpinnerCaisse.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
-            @Override
-            public void onItemClick(int position) {
-                //do what you want to the selected position
-
-            }
-        });*/
-        mySpinnerLocalite.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+        Ad_ProfessionSpinner = (JRSpinner)findViewById(R.id.spn_profession_adherent);
+        Ad_ProfessionSpinner.setItems(getResources().getStringArray(R.array.array_list_profession)); //this is important, you must set it to set the item list
+        Ad_ProfessionSpinner.setTitle("Sélectionner une profession"); //change title of spinner-dialog programmatically
+        Ad_ProfessionSpinner.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        Ad_ProfessionSpinner.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
                 //do what you want to the selected position
 
             }
         });
+
+        Ad_TypePieceSpinner = (JRSpinner)findViewById(R.id.spn_type_piece_adherent);
+        Ad_TypePieceSpinner.setItems(getResources().getStringArray(R.array.array_type_piece)); //this is important, you must set it to set the item list
+        Ad_TypePieceSpinner.setTitle("Sélectionner une pièce d'identification"); //change title of spinner-dialog programmatically
+        Ad_TypePieceSpinner.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        Ad_TypePieceSpinner.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+
+
+        Ad_NumManuelEditText = (EditText) findViewById(R.id.input_numero_manuel_adherent);
+        Ad_NomEditText = (EditText) findViewById(R.id.input_nom_adherent);
+        alreadyUpperCase(Ad_NomEditText);
+        Ad_PrenomEditText = (EditText) findViewById(R.id.input_prenom_adherent);
+       // Ad_DateNaissEditText = (EditText) findViewById(R.id.input_txt_date_naiss_adherent);
+        Ad_LieuNaissEditText = (EditText) findViewById(R.id.input_lieu_naiss_adherent);
+        Ad_SexeSpinner = (Spinner) findViewById(R.id.spn_sexe);
+        Ad_NationaliteSpinner = (CountryCodePicker) findViewById(R.id.ccp_nationalite_adherent);
+        Ad_SituationMatSpinner = (Spinner) findViewById(R.id.spn_situation_matrimoiale);
+        Ad_NombreEnfantEditText = (EditText) findViewById(R.id.input_nbre_enfant_adherent);
+        Ad_EmailEditText = (EditText) findViewById(R.id.input_txt_email_adherent);
+        Ad_DomicileEditText = (EditText) findViewById(R.id.input_domicile_adherent);
+        Ad_LieuTravailEditText = (EditText) findViewById(R.id.input_lieu_travail_adherent);
+        Ad_ActivitePrincipaleEditText = (EditText) findViewById(R.id.input_activite_principal_adherent);
+
+        Ad_NumPieceEditText = (EditText) findViewById(R.id.input_numero_piece_adherent);
+      //  Ad_DateDelivranceEditText = (EditText) findViewById(R.id.input_txt_validite_debut_adherent);
+       // Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_adherent);
+        Ad_TypeLocationSpinner = (Spinner) findViewById(R.id.spn_location);
      /*
         gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
         alreadyUpperCase(gx_denominationEditText);
-        gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
+        Ad_DateNaissEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
         gx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseGx);
 
         gx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Gx);
@@ -265,10 +284,10 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    //addGuichet();
-                    Intent intent = new Intent(CreateAdherent.this,GetPieceAdherent.class);
+                    addAdherent();
+                   // Intent intent = new Intent(CreateAdherent.this,GetPieceAdherent.class);
                    // Intent intent = new Intent(CreateAdherent.this,GetFraisAdherent.class);
-                    startActivity(intent);
+                   // startActivity(intent);
                 } else {
                     Toast.makeText(CreateAdherent.this,
                             "Impossible de se connecter à Internet",
@@ -288,10 +307,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
 
     }
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Ajout d'un guichet");
 
-    }
     private void alreadyUpperCase(final EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
 
@@ -319,51 +335,98 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
 
 
-    private void addGuichet() {
+    private void addAdherent() {
        /* if (!STRING_EMPTY.equals(gx_denominationEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(mySpinnerLocalite.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_date_debutEditText.getText().toString()) &&
+                !STRING_EMPTY.equals(Ad_ProfessionSpinner.getText().toString()) &&
+                !STRING_EMPTY.equals(Ad_DateNaissEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_adresseEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_tel2EditText.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_tel3EditText.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_is_forcer_clotSwitch.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_heure_clotEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_tel1EditText.getText().toString())) {*/
-if (true){
+        if (true) {
             //gxCaisse = mySpinnerCaisse.getText().toString();
             //gxCaisse = "1";//gérer plutot dynamiquement
-            gxLocalite = mySpinnerLocalite.getText().toString();
-            gxDenomination = gx_denominationEditText.getText().toString();
-            gx_date_debut = gx_date_debutEditText.getText().toString();
-            gx_adresse = gx_adresseEditText.getText().toString();
-            gx_tel1 = ccp_phone1.getFullNumberWithPlus();
-            gx_tel2 = ccp_phone2.getFullNumberWithPlus();
-            gx_tel3 = ccp_phone3.getFullNumberWithPlus();
-            /*gx_tel1 = gx_tel1EditText.getText().toString();
-            gx_tel2 = gx_tel2EditText.getText().toString();
-            gx_tel3 = gx_tel3EditText.getText().toString();*/
+            AdNumManuel = Ad_NumManuelEditText.getText().toString();
+            AdNom = Ad_NomEditText.getText().toString();
+            AdPrenom = Ad_PrenomEditText.getText().toString();
+            AdDateNaiss = Ad_DateNaissEditText.getText().toString();
+            AdLieuNaiss = Ad_LieuNaissEditText.getText().toString();
+           // AdSexe = Ad_SexeSpinner.getSelectedItem().toString();
+            if (Ad_SexeSpinner.getSelectedItem().toString().equals("Masculin")) {
+                AdSexe = "M";
+            }else {
+                AdSexe = "F";
+            }
+            AdNationalite = Ad_NationaliteSpinner.getSelectedCountryName();
+            AdSitFam = Ad_SituationMatSpinner.getSelectedItem().toString();
+            AdNbreEnfACh = Ad_NombreEnfantEditText.getText().toString();
+            AdTel1 = ccp_phone1.getFullNumberWithPlus();
+            AdTel2 = ccp_phone2.getFullNumberWithPlus();
+            AdTel3 = ccp_phone3.getFullNumberWithPlus();
+            AdEMail = Ad_EmailEditText.getText().toString();
+            AdProfess = Ad_ProfessionSpinner.getText().toString();
+            AdDomicile = Ad_DomicileEditText.getText().toString();
+            AdLieuTrav = Ad_LieuTravailEditText.getText().toString();
+            AdActivitePr = Ad_ActivitePrincipaleEditText.getText().toString();
+            AdTypCarteID = Ad_TypePieceSpinner.getText().toString();
+            AdNumCarteID = Ad_NumPieceEditText.getText().toString();
+            AdValideDu = Ad_DateDelivranceEditText.getText().toString();
+            AdValideAu = Ad_DateExpirationEditText.getText().toString();
 
-            gx_nom_pca = gx_nom_pcaEditText.getText().toString();
-            gx_nom_dg = gx_nom_dgEditText.getText().toString();
-           // gx_is_forcer_clot = Boolean.parseBoolean(gx_is_forcer_clotSwitch.isChecked());
-            gx_is_forcer_clot = gx_is_forcer_clotSwitch.isChecked();
-            gx_heure_clot = gx_heure_clotEditText.getText().toString();
-           // gx_is_oper_apres_clot = Boolean.parseBoolean(gx_is_oper_apres_clotSwitch.getText().toString());
-            gx_is_oper_apres_clot = gx_is_oper_apres_clotSwitch.isChecked();
-            gx_nbre_rapp_by_jour = gx_nbre_rapp_by_jourEditText.getText().toString();
-            gx_nbre_jr_av_rapp = gx_nbre_jr_av_rappEditText.getText().toString();
-            gx_nbre_jr_av_rapp = gx_nbre_jr_av_rappEditText.getText().toString();
-           // gx_is_jour8_on = Boolean.parseBoolean(gx_is_jour8_onSwitch.getText().toString());
-            gx_is_jour8_on = gx_is_jour8_onSwitch.isChecked();
-            //gx_is_credit_by_objet = Boolean.parseBoolean(gx_is_credit_by_objetSwitch.getText().toString());
-            gx_is_credit_by_objet = gx_is_credit_by_objetSwitch.isChecked();
-            gx_first_jr_on = gx_first_jr_onEditText.getText().toString();
-            gx_freq_reun_com_cred = gx_freq_reun_com_credEditText.getText().toString();
-           // gx_is_rapp_net_msg_cred_on = Boolean.parseBoolean(gx_is_rapp_net_msg_cred_onSwitch.getText().toString());
-            gx_is_rapp_net_msg_cred_on =gx_is_rapp_net_msg_cred_onSwitch.isChecked();
+            if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Propriétaire")) {
+                AdTypHabite = "P";
+            }else if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Locataire")){
+
+                AdTypHabite = "L";
+
+            } else {
+                AdTypHabite = "C";
+            }
+            adherent = new Adherent(
+                    AdSexe+AdDateNaiss+AdNumCarteID,
+                    AdNumManuel,
+                    AdNom ,
+                    AdPrenom,
+                    AdDateNaiss,
+                    AdLieuNaiss,
+                    AdSexe,
+                    AdNationalite,
+                    AdSitFam,
+                    AdNbreEnfACh,
+                    AdTel1,
+                    AdTel2,
+                    AdTel3,
+                    AdEMail,
+                    AdProfess,
+                    AdDomicile,
+                    AdLieuTrav,
+                    AdActivitePr,
+                    AdTypCarteID,
+                    AdNumCarteID,
+                    AdValideDu,
+                    AdValideAu,
+                    AdTypHabite,
+                    "false",
+                    null,
+                    null,
+                    MyData.GUICHET_ID
 
 
-            new AddGuichetAsyncTask().execute();
+            );
+
+            Intent i = new Intent(CreateAdherent.this, GetPieceAdherent.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(KEY_ADHERENT, (Serializable) adherent);
+           // bundle.putSerializable(KEY_ADHERENT, adherent);
+            i.putExtras(bundle);
+           // i.putExtra(KEY_ADHERENT, adherent);
+            // startActivityForResult(intent, 20);
+            startActivityForResult(i,20);
+            //finish();
+
+           // new AddAdherentAsyncTask().execute();
         } else {
             Toast.makeText(CreateAdherent.this,
                     "Un ou plusieurs champs sont vides!",
@@ -374,9 +437,17 @@ if (true){
 
     }
     private void findViewsById() {
-        gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
-        gx_date_debutEditText.requestFocus();
-        gx_date_debutEditText.setInputType(InputType.TYPE_NULL);
+        Ad_DateNaissEditText = (EditText) findViewById(R.id.input_txt_date_naiss_adherent);
+        Ad_DateNaissEditText.requestFocus();
+        Ad_DateNaissEditText.setInputType(InputType.TYPE_NULL);
+
+        Ad_DateDelivranceEditText = (EditText) findViewById(R.id.input_txt_validite_debut_adherent);
+        Ad_DateDelivranceEditText.requestFocus();
+        Ad_DateDelivranceEditText.setInputType(InputType.TYPE_NULL);
+
+        Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_adherent);
+        Ad_DateExpirationEditText.requestFocus();
+        Ad_DateExpirationEditText.setInputType(InputType.TYPE_NULL);
 
 
 
@@ -384,16 +455,38 @@ if (true){
     }
 
     private void setDateTimeField() {
-        gx_date_debutEditText.setOnClickListener(this);
+        Ad_DateNaissEditText.setOnClickListener(this);
+        Ad_DateDelivranceEditText.setOnClickListener(this);
+        Ad_DateExpirationEditText.setOnClickListener(this);
 
 
         Calendar newCalendar = Calendar.getInstance();
-        gx_date_debut_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        Ad_DateNaiss_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                gx_date_debutEditText.setText(dateFormatter.format(newDate.getTime()));
+                Ad_DateNaissEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        Ad_DateDelivrance_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+         Ad_DateExpiration_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -404,24 +497,28 @@ if (true){
 
     @Override
     public void onClick(View v) {
-        if(v == gx_date_debutEditText) {
-            gx_date_debut_PickerDialog.show();
+        if(v == Ad_DateNaissEditText) {
+            Ad_DateNaiss_PickerDialog.show();
+        }else if (v == Ad_DateDelivranceEditText){
+            Ad_DateDelivrance_PickerDialog.show();
+        }else if (v == Ad_DateExpirationEditText){
+            Ad_DateExpiration_PickerDialog.show();
         }
     }
 
 
 
     /**
-     * AsyncTask for adding a movie
+     * AsyncTask for adding a adherent
      */
-    private class AddGuichetAsyncTask extends AsyncTask<String, String, String> {
+    private class AddAdherentAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             addButton.startAnimation() ;// to start animation on button save
             //Display proggress bar
             pDialog = new ProgressDialog(CreateAdherent.this);
-            pDialog.setMessage("Adding Guichet. Please wait...");
+            pDialog.setMessage("Adding Adhérent. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -433,30 +530,33 @@ if (true){
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-           // httpParams.put(KEY_GX_CX_NUMERO, gxCaisse);
-            //httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(caisseID));
-            httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
-            httpParams.put(KEY_GX_LOCALITE, gxLocalite);
-            httpParams.put(KEY_GX_DENOMINATION, gxDenomination);
-            httpParams.put(KEY_GX_DATE_DEBUT, gx_date_debut);
-            httpParams.put(KEY_GX_ADRESSE, gx_adresse);
-            httpParams.put(KEY_GX_TEL1, gx_tel1);
-            httpParams.put(KEY_GX_TEL2, gx_tel2);
-            httpParams.put(KEY_GX_TEL3, gx_tel3);
-            httpParams.put(KEY_GX_NOM_PCA, gx_nom_pca);
-            httpParams.put(KEY_GX_NOM_DG, gx_nom_dg);
-            httpParams.put(KEY_GX_IS_FORCER_CLOT, gx_is_forcer_clot.toString());
-            httpParams.put(KEY_GX_HEURE_CLOT, gx_heure_clot);
-            httpParams.put(KEY_GX_IS_OPER_APRES_CLOT, gx_is_oper_apres_clot.toString());
-            httpParams.put(KEY_GX_NBRE_RAPP_BY_JOUR, gx_nbre_rapp_by_jour);
-            httpParams.put(KEY_GX_NBRE_JR_AV_RAPP, gx_nbre_jr_av_rapp);
-            httpParams.put(KEY_GX_IS_JOUR8_ON, gx_is_jour8_on.toString());
-            httpParams.put(KEY_GX_IS_CREDIT_BY_OBJET, gx_is_credit_by_objet.toString());
-            httpParams.put(KEY_GX_FIRST_JR_ON, gx_first_jr_on);
-            httpParams.put(KEY_GX_FREQ_REUN_COM_CRED, gx_freq_reun_com_cred);
-            httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on.toString());
+           // httpParams.put(KEY_AD_GX_NUMERO, gxCaisse);
+            //httpParams.put(KEY_AD_GX_NUMERO, String.valueOf(caisseID));
+            httpParams.put(KEY_AD_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+            httpParams.put(KEY_AD_NUM_MANUEL, AdNumManuel);
+            httpParams.put(KEY_AD_NOM, AdNom);
+            httpParams.put(KEY_AD_PRENOM, AdPrenom);
+            httpParams.put(KEY_AD_DATE_NAISS, AdDateNaiss);
+            httpParams.put(KEY_AD_LIEU_NAISS, AdLieuNaiss);
+            httpParams.put(KEY_AD_SEXE, AdSexe);
+            httpParams.put(KEY_AD_NATIONALITE, AdNationalite);
+            httpParams.put(KEY_AD_SIT_FAM, AdSitFam);
+            httpParams.put(KEY_AD_NBRE_ENFANT, AdNbreEnfACh);
+            httpParams.put(KEY_AD_TEL1, AdTel1);
+            httpParams.put(KEY_AD_TEL2, AdTel2);
+            httpParams.put(KEY_AD_TEL3, AdTel3);
+            httpParams.put(KEY_AD_EMAIL, AdEMail);
+            httpParams.put(KEY_AD_PROFESSION, AdProfess);
+            httpParams.put(KEY_AD_DOMICILE, AdDomicile);
+            httpParams.put(KEY_AD_LIEU_TRAVAIL, AdLieuTrav);
+            httpParams.put(KEY_AD_ACTIVITE_PRINC, AdActivitePr);
+            httpParams.put(KEY_AD_TYPE_CARTE_ID, AdTypCarteID);
+            httpParams.put(KEY_AD_NUM_CARTE_ID, AdNumCarteID);
+            httpParams.put(KEY_AD_VALIDE_DU, AdValideDu);
+            httpParams.put(KEY_AD_VALIDE_AU, AdValideAu);
+            httpParams.put(KEY_AD_TYPE_HABITE, AdTypHabite);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_guichet.php", "POST", httpParams);
+                    BASE_URL + "add_adherent.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -472,22 +572,38 @@ if (true){
                 public void run() {
                     if (success == 1) {
                         //Display success message
-                        Toast.makeText(CreateAdherent.this,
-                                "Guichet Ajouté", Toast.LENGTH_LONG).show();
+                     /*   Toast.makeText(CreateAdherent.this,
+                                "Adhérent ajouté mais inactif, veuillez compléter ses informations", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);
                         //Finish ths activity and go back to listing activity
-                        finish();
+                        finish();*/
 
                     } else {
                         Toast.makeText(CreateAdherent.this,
-                                "Some error occurred while adding Guichet",
+                                "Some error occurred while adding Adhérent",
                                 Toast.LENGTH_LONG).show();
 
                     }
                 }
             });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 20) {
+            // If the result code is 20 that means that
+            // the user has deleted/updated the movie.
+            // So refresh the movie listing
+            Intent intent = getIntent();
+            setResult(20, intent);
+            finish();
+           /* finish();
+            startActivity(intent);
+            */
         }
     }
 

@@ -16,9 +16,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -36,6 +36,8 @@ import com.example.binumtontine.helper.HttpJsonParser;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +52,7 @@ import java.util.Map;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class UpdateGuichet extends AppCompatActivity implements  View.OnClickListener, SERVER_ADDRESS {
+public class UpdateGuichet extends AppCompatActivity implements  View.OnClickListener,  AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
     private static String STRING_EMPTY = "";
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
@@ -58,6 +60,12 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
     private static final String KEY_GUICHET_ID = "gx_numero";
     private static final String KEY_GX_CX_NUMERO = "cx_numero";
+
+    private static final String KEY_EV_CAISSE_ID = "ev_caisse_id";
+    private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
+    private static final String KEY_EAV_ID = "ev_numero";
+    private static final String KEY_EAV_LIBELLE = "ev_libelle";
+
     private static final String KEY_GX_LOCALITE = "gx_localite";
     private static final String KEY_GX_DENOMINATION = "gx_denomination";
     private static final String KEY_GX_DATE_DEBUT = "gx_date_debut";
@@ -77,6 +85,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private static final String KEY_GX_FIRST_JR_ON = "gx_first_jr_on";
     private static final String KEY_GX_FREQ_REUN_COM_CRED = "gx_freq_reun_com_cred";
     private static final String KEY_GX_IS_RAPP_NET_MSG_CRED_ON = "gx_is_rapp_net_msg_cred_on";
+    private static final String KEY_GX_DEFAULT_EAV_NUMERO = "gx_default_eav_numero";
 
     private TextView headerGuichetTextView;
 
@@ -133,15 +142,17 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private String gx_first_jr_on;
     private String gx_freq_reun_com_cred;
     private Boolean gx_is_rapp_net_msg_cred_on;
+    private String gxDefaultEavDenomination;
 
     /* manage spinner*/
     // array list for spinner adapter
-    private ArrayList<Category> caisseList;
-    List<Integer> caisseListID = new ArrayList<Integer>();
-    private int caisseID;
-    private Spinner spinnerCaisse;
+    private ArrayList<Category> defaultEavList;
+    List<Integer> defaultEavListID = new ArrayList<Integer>();
+    private int defaultEavId;
+    private Spinner spinnerDefaultEAV;
     private TextView tvCaisse;
     private TextInputLayout textInputLayoutCaisse;
+    private LinearLayout LL_default_eav;
     /*end manage*/
 
 
@@ -264,6 +275,21 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
 
         guichetId = intent.getStringExtra(KEY_GUICHET_ID);
+
+        /*debut*/
+
+
+        LL_default_eav = (LinearLayout) findViewById(R.id.ll_default_eav);
+        LL_default_eav.setVisibility(View.VISIBLE);
+
+        spinnerDefaultEAV = (Spinner) findViewById(R.id.spinner_default_eav);
+
+        defaultEavList = new ArrayList<Category>();
+        // spinner item select listener
+        spinnerDefaultEAV.setOnItemSelectedListener(UpdateGuichet.this);
+        new UpdateGuichet.GetCategories().execute();
+
+        /*fin*/
         new FetchGuichetDetailsAsyncTask().execute();
         deleteButton = (CircularProgressButton) findViewById(R.id.btn_delete_guichet);
         deleteButton.setVisibility(View.VISIBLE);
@@ -367,6 +393,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
 
 
+
     /**
      * Fetches single movie details from the server
      */
@@ -416,6 +443,8 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     gx_first_jr_on = guichet.getString(KEY_GX_FIRST_JR_ON);
                     gx_freq_reun_com_cred = guichet.getString(KEY_GX_FREQ_REUN_COM_CRED);
                     gx_is_rapp_net_msg_cred_on = Boolean.parseBoolean(guichet.getString(KEY_GX_IS_RAPP_NET_MSG_CRED_ON));
+                    gxDefaultEavDenomination = guichet.getString(KEY_GX_DEFAULT_EAV_NUMERO);
+
 
                 }
             } catch (JSONException e) {
@@ -647,6 +676,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             httpParams.put(KEY_GX_FIRST_JR_ON, gx_first_jr_on);
             httpParams.put(KEY_GX_FREQ_REUN_COM_CRED, gx_freq_reun_com_cred);
             httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on.toString());
+            httpParams.put(KEY_GX_DEFAULT_EAV_NUMERO, String.valueOf(defaultEavId));
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_guichet.php", "POST", httpParams);
             try {
@@ -680,5 +710,113 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                 }
             });
         }
+    }
+    /**
+     * Adding spinner data
+     * */
+    private void populateSpinner() {
+        List<String> lables = new ArrayList<String>();
+
+        //tvCaisse.setText("");
+
+        for (int i = 0; i < defaultEavList.size(); i++) {
+            lables.add(defaultEavList.get(i).getName());//recupère les noms
+            defaultEavListID.add(defaultEavList.get(i).getId()); //recupère les Id
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(UpdateGuichet.this,
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerDefaultEAV.setAdapter(spinnerAdapter);
+
+        //Make uxCaisseDenomination as default Item in caisseList spinner
+        if (gxDefaultEavDenomination!=null){
+            spinnerDefaultEAV.setSelection(spinnerAdapter.getPosition(gxDefaultEavDenomination));
+        }
+
+    }
+
+    /**
+     * Async task to get all food categories
+     * */
+    private class GetCategories extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(UpdateGuichet.this);
+            pDialog.setMessage("Fetching EAV's list..");
+            pDialog.setCancelable(false);
+            //pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, guichetId));
+            httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
+
+
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray categories = jsonObj
+                                .getJSONArray(KEY_DATA);
+
+                        for (int i = 0; i < categories.length(); i++) {
+                            JSONObject catObj = (JSONObject) categories.get(i);
+                            Category cat = new Category(catObj.getInt(KEY_EAV_ID),
+                                    catObj.getString(KEY_EAV_LIBELLE));
+                            defaultEavList.add(cat);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data", "Didn't receive any data from server!");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            populateSpinner();
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+//        Toast.makeText(
+//                getApplicationContext(),
+//                parent.getItemAtPosition(position).toString() + " Selected" ,
+//                Toast.LENGTH_LONG).show();
+        defaultEavId = defaultEavListID.get(position);//pour recuperer l'ID de la caisse selectionnée
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
     }
 }

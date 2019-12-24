@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+
+
+    <item
+        android:id="@+id/action_to_affect_piece"
+        android:orderInCategory="100"
+        android:title="@string/action_to_affect"
+        android:icon="@drawable/ic_action_start_empty"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_already_affect_piece"
+        android:orderInCategory="100"
+        android:title="@string/action_already_affect"
+        android:icon="@drawable/ic_action_start_full"
+        app:showAsAction="ifRoom" />
+
+</menu>

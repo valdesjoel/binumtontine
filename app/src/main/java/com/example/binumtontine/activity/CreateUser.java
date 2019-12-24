@@ -31,6 +31,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,6 +51,7 @@ import com.example.binumtontine.R;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.hbb20.CountryCodePicker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -87,9 +90,18 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     private EditText uxNomEditText;
     private EditText uxPrenomEditText;
     private EditText uxAdresseEditText;
-    private EditText uxTel1EditText;
+
+
+    private CountryCodePicker ccp_phone1;
+    private CountryCodePicker ccp_phone2;
+    private CountryCodePicker ccp_phone3;
+    private EditText editTextCarrierPhone1;
+    private EditText editTextCarrierPhone2;
+    private EditText editTextCarrierPhone3;
+
+    /*private EditText uxTel1EditText;
     private EditText uxTel2EditText;
-    private EditText uxTel3EditText;
+    private EditText uxTel3EditText; */
     private EditText uxLoginEditText;
     private EditText uxPasswordEditText;
     private EditText uxConfirmPasswordEditText;
@@ -111,7 +123,8 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     private Button deleteButton;
     private Button addButton;
     private int success;
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialogCreateUserCaisse;
+    private ProgressDialog pDialogFetchCaisse;
 
     /* manage spinner*/
     // array list for spinner adapter
@@ -137,19 +150,6 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         setSupportActionBar(toolbar);
         setToolbarTitle();
 
-        uxCaisseIdSpinner = (JRSpinner) findViewById(R.id.spn_my_spinner_caisse);
-
-        uxCaisseIdSpinner.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
-        uxCaisseIdSpinner.setTitle("Sélectionner une caisse"); //change title of spinner-dialog programmatically
-        uxCaisseIdSpinner.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
-
-        uxCaisseIdSpinner.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
-            @Override
-            public void onItemClick(int position) {
-                //do what you want to the selected position
-
-            }
-        });
 
         btnAddNewCategory = (Button) findViewById(R.id.btn_save_Ux);
         spinnerCaisse = (Spinner) findViewById(R.id.spn_my_spinner_caisse1);
@@ -159,26 +159,9 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         // spinner item select listener
         spinnerCaisse.setOnItemSelectedListener(CreateUser.this);
         // Add new category click event
-      /*  btnAddNewCategory.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if (txtCategory.getText().toString().trim().length() > 0) {
 
-                    // new category name
-                    String newCategory = txtCategory.getText().toString();
-
-                    // Call Async task to create new category
-                    new AddNewCategory().execute(newCategory);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter category name", Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
-        }); */
-
-        new GetCategories().execute();
+        new CreateUser.GetCategories().execute();
 
           /*  mySpinner.setOnSelectMultipleListener(new JRSpinner.OnSelectMultipleListener() {
             @Override
@@ -189,11 +172,28 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
 
         uxProfilEditText = (EditText) findViewById(R.id.input_txt_profil_user);
         uxNomEditText = (EditText) findViewById(R.id.input_txt_Nom_user);
+        alreadyUpperCase(uxNomEditText);
         uxPrenomEditText = (EditText) findViewById(R.id.input_txt_Prenom_user);
         uxAdresseEditText = (EditText) findViewById(R.id.input_txt_Adresse_user);
-        uxTel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_user);
-        uxTel2EditText = (EditText) findViewById(R.id.input_txt_Tel2_user);
-        uxTel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_user);
+//        uxTel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_user);
+//        uxTel2EditText = (EditText) findViewById(R.id.input_txt_Tel2_user);
+//        uxTel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_user);
+
+        ccp_phone1 = (CountryCodePicker) findViewById(R.id.ccp_phone1);
+        editTextCarrierPhone1 = (EditText) findViewById(R.id.editText_carrierPhone1);
+        ccp_phone1.registerCarrierNumberEditText(editTextCarrierPhone1);
+
+
+        ccp_phone2 = (CountryCodePicker) findViewById(R.id.ccp_phone2);
+        editTextCarrierPhone2 = (EditText) findViewById(R.id.editText_carrierPhone2);
+        ccp_phone2.registerCarrierNumberEditText(editTextCarrierPhone2);
+
+        ccp_phone3 = (CountryCodePicker) findViewById(R.id.ccp_phone3);
+        editTextCarrierPhone3 = (EditText) findViewById(R.id.editText_carrierPhone3);
+        ccp_phone3.registerCarrierNumberEditText(editTextCarrierPhone3);
+
+
+
         uxLoginEditText = (EditText) findViewById(R.id.input_txt_Login_user);
         uxPasswordEditText = (EditText) findViewById(R.id.input_txt_pwd_user);
         uxConfirmPasswordEditText = (EditText) findViewById(R.id.input_txt_confirm_pwd_user);
@@ -206,7 +206,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addMovie();
+                    addUserCaisse();
                 } else {
                     Toast.makeText(CreateUser.this,
                             "Impossible de se connecter à Internet",
@@ -218,6 +218,31 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         });
 
 
+    }
+
+    private void alreadyUpperCase(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable et) {
+                String s = et.toString();
+                if (!s.equals(s.toUpperCase())) {
+                    s = s.toUpperCase();
+                    editText.setText(s);
+                    editText.setSelection(editText.length()); //fix reverse texting
+                }
+            }
+        });
     }
     /**
      * Adding spinner data
@@ -252,10 +277,10 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(CreateUser.this);
-            pDialog.setMessage("Fetching caisse's list..");
-            pDialog.setCancelable(false);
-            pDialog.show();
+            pDialogFetchCaisse = new ProgressDialog(CreateUser.this);
+            pDialogFetchCaisse.setMessage("Fetching caisse's list..");
+            pDialogFetchCaisse.setCancelable(false);
+            pDialogFetchCaisse.show();
 
         }
 
@@ -295,8 +320,8 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+            if (pDialogFetchCaisse.isShowing())
+                pDialogFetchCaisse.dismiss();
             populateSpinner();
         }
 
@@ -312,10 +337,10 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(CreateUser.this);
-            pDialog.setMessage("Creating new category..");
-            pDialog.setCancelable(false);
-            pDialog.show();
+            pDialogCreateUserCaisse = new ProgressDialog(CreateUser.this);
+            pDialogCreateUserCaisse.setMessage("Creating new category..");
+            pDialogCreateUserCaisse.setCancelable(false);
+            pDialogCreateUserCaisse.show();
 
         }
 
@@ -361,8 +386,8 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+            if (pDialogCreateUserCaisse.isShowing())
+                pDialogCreateUserCaisse.dismiss();
             if (isNewCategoryCreated) {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -396,37 +421,43 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     }
 
     /**
-     * Checks whether all files are filled. If so then calls AddUserAsyncTask.
+     * Checks whether all files are filled. If so then calls AddUserCaisseAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
-    private void addMovie() {
+    private void addUserCaisse() {
         if (!STRING_EMPTY.equals(uxNomEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxCaisseIdSpinner.getText().toString()) &&
+                caisseID!=0 &&
                 !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxPrenomEditText.getText().toString()) &&
+               // !STRING_EMPTY.equals(uxPrenomEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxAdresseEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxTel1EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxTel2EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxTel3EditText.getText().toString()) &&
+                !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
+                //!STRING_EMPTY.equals(uxTel2EditText.getText().toString()) &&
+                //!STRING_EMPTY.equals(uxTel3EditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxLoginEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxPasswordEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxConfirmPasswordEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxEmailEditText.getText().toString())) {
 
             if ((uxPasswordEditText.getText().toString()).equals(uxConfirmPasswordEditText.getText().toString())){
-                uxCaisseId = uxCaisseIdSpinner.getText().toString();
+                uxCaisseId = spinnerCaisse.getSelectedItem().toString();
                 uxProfil = uxProfilEditText.getText().toString();
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
                 uxAdresse = uxAdresseEditText.getText().toString();
-                uxTel1 = uxTel1EditText.getText().toString();
-                uxTel2 = uxTel2EditText.getText().toString();
-                uxTel3 = uxTel3EditText.getText().toString();
+//                uxTel1 = uxTel1EditText.getText().toString();
+//                uxTel2 = uxTel2EditText.getText().toString();
+//                uxTel3 = uxTel3EditText.getText().toString();
+
+
+                uxTel1 = ccp_phone1.getFullNumberWithPlus();
+                uxTel2 = ccp_phone2.getFullNumberWithPlus();
+                uxTel3 = ccp_phone3.getFullNumberWithPlus();
+
                 uxLogin = uxLoginEditText.getText().toString();
                 uxPassword = uxPasswordEditText.getText().toString();
                 //uxConfirmPassword = uxConfirmPasswordEditText.getText().toString();
                 uxEmail = uxEmailEditText.getText().toString();
-                new AddUserAsyncTask().execute();
+                new AddUserCaisseAsyncTask().execute();
             }else{
                 Toast.makeText(CreateUser.this,
                         "Vos mots de passes ne correspondent pas!",
@@ -444,18 +475,18 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     }
 
     /**
-     * AsyncTask for adding a movie
+     * AsyncTask for adding a userCaisse
      */
-    private class AddUserAsyncTask extends AsyncTask<String, String, String> {
+    private class AddUserCaisseAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             //Display proggress bar
-            pDialog = new ProgressDialog(CreateUser.this);
-            pDialog.setMessage("Adding User. Please wait...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+            pDialogCreateUserCaisse = new ProgressDialog(CreateUser.this);
+            pDialogCreateUserCaisse.setMessage("Adding User. Please wait...");
+            pDialogCreateUserCaisse.setIndeterminate(false);
+            pDialogCreateUserCaisse.setCancelable(false);
+            pDialogCreateUserCaisse.show();
         }
 
         @Override
@@ -486,13 +517,13 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         }
 
         protected void onPostExecute(String result) {
-            pDialog.dismiss();
+            pDialogCreateUserCaisse.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (success == 1) {
                         //Display success message
                         Toast.makeText(CreateUser.this,
-                                "Utilisateur Ajouté", Toast.LENGTH_LONG).show();
+                                "Utilisateur "+uxNom+" ajouté", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);

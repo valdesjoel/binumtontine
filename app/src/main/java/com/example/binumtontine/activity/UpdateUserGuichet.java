@@ -6,31 +6,45 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.controleur.MyData;
+import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.hbb20.CountryCodePicker;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class UpdateUserGuichet extends AppCompatActivity {
+public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
     private static String STRING_EMPTY = "";
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
 
     private static final String KEY_USER_ID = "ux_numero";
     private static final String KEY_USER_GUICHET_ID = "gx_numero";
+    private static final String KEY_USER_GUICHET_DENOMINATION = "gx_denomination";
+    private static final String KEY_CAISSE_ID = "cx_numero"; //to fetchGuichetList by caisse ID
     private static final String KEY_USER_PROFIL = "ux_profil";
     private static final String KEY_USER_NOM = "ux_nom";
     private static final String KEY_USER_PRENOM = "ux_prenom";
@@ -42,24 +56,32 @@ public class UpdateUserGuichet extends AppCompatActivity {
     private static final String KEY_USER_PASSWORD = "ux_password";
     private static final String KEY_USER_EMAIL = "ux_email";
 
-    //private static final String BASE_URL = "http://192.168.1.102/binumTontine/";
-    private static final String BASE_URL = "http://binumt.diff-itc.net/binumTontine/";
     private String userGuichetId;
     private JRSpinner uxGuichetIdSpinner; //pour gérer le spinner contenant les guichets
+    private Spinner spinnerGuichet;
+    private ArrayList<Category> guichetList;
+    List<Integer> guichetListID = new ArrayList<Integer>();
+    private int guichetID;
     //private EditText uxCaisseIdEditText;
     private EditText uxProfilEditText;
     private EditText uxNomEditText;
     private EditText uxPrenomEditText;
     private EditText uxAdresseEditText;
-    private EditText uxTel1EditText;
-    private EditText uxTel2EditText;
-    private EditText uxTel3EditText;
+
+    private CountryCodePicker ccp_phone1;
+    private CountryCodePicker ccp_phone2;
+    private CountryCodePicker ccp_phone3;
+    private EditText editTextCarrierPhone1;
+    private EditText editTextCarrierPhone2;
+    private EditText editTextCarrierPhone3;
+
     private EditText uxLoginEditText;
     private EditText uxPasswordEditText;
     private EditText uxConfirmPasswordEditText;
     private EditText uxEmailEditText;
 
     private String uxGuichetId;
+    private String uxGuichetDenomination;
     private String uxProfil;
     private String uxNom;
     private String uxPrenom;
@@ -74,31 +96,17 @@ public class UpdateUserGuichet extends AppCompatActivity {
 
     private Button deleteButton;
     private Button updateButton;
+    private Button annulerButton;
     private int success;
     private ProgressDialog pDialog;
+    private ProgressDialog pDialogFetchGuichetsList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user_guichet);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_user);
-        setSupportActionBar(toolbar);
-        setToolbarTitle();*/
 
-        uxGuichetIdSpinner = (JRSpinner) findViewById(R.id.spn_my_spinner_guichet);
-
-        uxGuichetIdSpinner.setItems(getResources().getStringArray(R.array.array_guichet)); //this is important, you must set it to set the item list
-        uxGuichetIdSpinner.setTitle("Sélectionner un guichet"); //change title of spinner-dialog programmatically
-        uxGuichetIdSpinner.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
-
-        uxGuichetIdSpinner.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
-            @Override
-            public void onItemClick(int position) {
-                //do what you want to the selected position
-
-            }
-        });
 
         Intent intent = getIntent();
 
@@ -107,16 +115,34 @@ public class UpdateUserGuichet extends AppCompatActivity {
         uxNomEditText = (EditText) findViewById(R.id.input_txt_Nom_user);
         uxPrenomEditText = (EditText) findViewById(R.id.input_txt_Prenom_user);
         uxAdresseEditText = (EditText) findViewById(R.id.input_txt_Adresse_user);
-        uxTel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_user);
-        uxTel2EditText = (EditText) findViewById(R.id.input_txt_Tel2_user);
-        uxTel3EditText = (EditText) findViewById(R.id.input_txt_Tel3_user);
+
+        ccp_phone1 = (CountryCodePicker) findViewById(R.id.ccp_phone1);
+        editTextCarrierPhone1 = (EditText) findViewById(R.id.editText_carrierPhone1);
+        ccp_phone1.registerCarrierNumberEditText(editTextCarrierPhone1);
+
+
+        ccp_phone2 = (CountryCodePicker) findViewById(R.id.ccp_phone2);
+        editTextCarrierPhone2 = (EditText) findViewById(R.id.editText_carrierPhone2);
+        ccp_phone2.registerCarrierNumberEditText(editTextCarrierPhone2);
+
+        ccp_phone3 = (CountryCodePicker) findViewById(R.id.ccp_phone3);
+        editTextCarrierPhone3 = (EditText) findViewById(R.id.editText_carrierPhone3);
+        ccp_phone3.registerCarrierNumberEditText(editTextCarrierPhone3);
+
         uxLoginEditText = (EditText) findViewById(R.id.input_txt_Login_user);
         uxPasswordEditText = (EditText) findViewById(R.id.input_txt_pwd_user);
         uxConfirmPasswordEditText = (EditText) findViewById(R.id.input_txt_confirm_pwd_user);
         uxEmailEditText = (EditText) findViewById(R.id.input_txt_email_user);
 
+
+        spinnerGuichet = (Spinner) findViewById(R.id.spn_my_spinner_guichet1);
+        guichetList = new ArrayList<Category>();
+        // spinner item select listener
+        spinnerGuichet.setOnItemSelectedListener(UpdateUserGuichet.this);
+
         userGuichetId = intent.getStringExtra(KEY_USER_ID);
-        new UpdateUserGuichet.FetchMovieDetailsAsyncTask().execute();
+        new UpdateUserGuichet.FetchUserGuichetDetailsAsyncTask().execute();
+        new UpdateUserGuichet.GetGuichetsList().execute();
         deleteButton = (Button) findViewById(R.id.btn_delete_Ux);
         deleteButton.setVisibility(View.VISIBLE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +152,8 @@ public class UpdateUserGuichet extends AppCompatActivity {
             }
         });
         updateButton = (Button) findViewById(R.id.btn_save_Ux);
+        annulerButton = (Button) findViewById(R.id.btn_clean);
+        annulerButton.setVisibility(View.GONE);
         updateButton.setText("MODIFIER");
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +182,7 @@ public class UpdateUserGuichet extends AppCompatActivity {
     /**
      * Fetches single movie details from the server
      */
-    private class FetchMovieDetailsAsyncTask extends AsyncTask<String, String, String> {
+    private class FetchUserGuichetDetailsAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -179,7 +207,8 @@ public class UpdateUserGuichet extends AppCompatActivity {
                 if (success == 1) {
                     //Parse the JSON response
                     user = jsonObject.getJSONObject(KEY_DATA);
-                    uxGuichetId = user.getString(KEY_USER_GUICHET_ID);
+                    //uxGuichetId = user.getString(KEY_USER_GUICHET_ID);
+                    uxGuichetDenomination = user.getString(KEY_USER_GUICHET_DENOMINATION);
                     uxProfil = user.getString(KEY_USER_PROFIL);
                     uxNom = user.getString(KEY_USER_NOM);
                     uxPrenom = user.getString(KEY_USER_PRENOM);
@@ -204,14 +233,14 @@ public class UpdateUserGuichet extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-                    uxGuichetIdSpinner.setText(uxGuichetId);
-                    uxProfilEditText.setText(uxProfil);
+                   // uxGuichetIdSpinner.setText(uxGuichetDenomination);  //pas indispensable car on le fait directement dans populate
+                     uxProfilEditText.setText(uxProfil);
                     uxNomEditText.setText(uxNom);
                     uxPrenomEditText.setText(uxPrenom);
                     uxAdresseEditText.setText(uxAdresse);
-                    uxTel1EditText.setText(uxTel1);
-                    uxTel2EditText.setText(uxTel2);
-                    uxTel3EditText.setText(uxTel3);
+                    ccp_phone1.setFullNumber(uxTel1);
+                    ccp_phone2.setFullNumber(uxTel2);
+                    ccp_phone3.setFullNumber(uxTel3);
                     uxLoginEditText.setText(uxLogin);
                     uxPasswordEditText.setText(uxPassword);
                     uxConfirmPasswordEditText.setText(uxConfirmPassword);
@@ -223,7 +252,110 @@ public class UpdateUserGuichet extends AppCompatActivity {
 
 
     }
+    /**
+     * Adding spinner data
+     * */
+    private void populateSpinner() {
+        List<String> lables = new ArrayList<String>();
 
+        //tvCaisse.setText("");
+
+        for (int i = 0; i < guichetList.size(); i++) {
+            lables.add(guichetList.get(i).getName());//recupère les noms
+            guichetListID.add(guichetList.get(i).getId()); //recupère les Id
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(UpdateUserGuichet.this,
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerGuichet.setAdapter(spinnerAdapter);
+        //Make uxCaisseDenomination as default Item in caisseList spinner
+        spinnerGuichet.setSelection(spinnerAdapter.getPosition(uxGuichetDenomination));
+    }
+    /**
+     * Async task to get all guichet in caisse
+     * */
+    private class GetGuichetsList extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialogFetchGuichetsList = new ProgressDialog(UpdateUserGuichet.this);
+            pDialogFetchGuichetsList.setMessage("Fetching guichets's list..");
+            pDialogFetchGuichetsList.setCancelable(false);
+            pDialogFetchGuichetsList.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add(new BasicNameValuePair(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "get_guichets_by_caisse_id.php", ServiceHandler.GET, httpParams);
+            // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
+
+
+
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray categories = jsonObj
+                                .getJSONArray("categories");
+
+                        for (int i = 0; i < categories.length(); i++) {
+                            JSONObject catObj = (JSONObject) categories.get(i);
+                            Category cat = new Category(catObj.getInt("id"),
+                                    catObj.getString("name"));
+                            guichetList.add(cat);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data", "Didn't receive any data from server!");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialogFetchGuichetsList.isShowing())
+                pDialogFetchGuichetsList.dismiss();
+            populateSpinner();
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+     /*   Toast.makeText(
+                getApplicationContext(),
+                parent.getItemAtPosition(position).toString() + " Selected" ,
+                Toast.LENGTH_LONG).show();
+        */
+        guichetID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionnée
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
     /**
      * Displays an alert dialogue to confirm the deletion
      */
@@ -316,27 +448,25 @@ public class UpdateUserGuichet extends AppCompatActivity {
 
 
         if (!STRING_EMPTY.equals(uxNomEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxGuichetIdSpinner.getText().toString()) &&
+                guichetID!=0 &&
                 !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxPrenomEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxAdresseEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxTel1EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxTel2EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(uxTel3EditText.getText().toString()) &&
+                !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
                 !STRING_EMPTY.equals(uxLoginEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxPasswordEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxConfirmPasswordEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxEmailEditText.getText().toString())) {
 
             if ((uxPasswordEditText.getText().toString()).equals(uxConfirmPasswordEditText.getText().toString())){
-                uxGuichetId = uxGuichetIdSpinner.getText().toString();
+              //  uxGuichetId = uxGuichetIdSpinner.getText().toString();
+                uxGuichetDenomination = uxGuichetIdSpinner.getText().toString(); //pas nécessaire
                 uxProfil = uxProfilEditText.getText().toString();
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
                 uxAdresse = uxAdresseEditText.getText().toString();
-                uxTel1 = uxTel1EditText.getText().toString();
-                uxTel2 = uxTel2EditText.getText().toString();
-                uxTel3 = uxTel3EditText.getText().toString();
+                uxTel1 = ccp_phone1.getFullNumberWithPlus();
+                uxTel2 = ccp_phone2.getFullNumberWithPlus();
+                uxTel3 = ccp_phone3.getFullNumberWithPlus();
                 uxLogin = uxLoginEditText.getText().toString();
                 uxPassword = uxPasswordEditText.getText().toString();
                 //uxConfirmPassword = uxConfirmPasswordEditText.getText().toString();
@@ -379,7 +509,7 @@ public class UpdateUserGuichet extends AppCompatActivity {
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
             httpParams.put(KEY_USER_ID, userGuichetId);
-            httpParams.put(KEY_USER_GUICHET_ID, uxGuichetId);
+            httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(guichetID));
             httpParams.put(KEY_USER_PROFIL, uxProfil);
             httpParams.put(KEY_USER_NOM, uxNom);
             httpParams.put(KEY_USER_PRENOM, uxPrenom);
@@ -407,7 +537,7 @@ public class UpdateUserGuichet extends AppCompatActivity {
                     if (success == 1) {
                         //Display success message
                         Toast.makeText(UpdateUserGuichet.this,
-                                "User Updated", Toast.LENGTH_LONG).show();
+                                "User "+uxNom+" Updated", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);

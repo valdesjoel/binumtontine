@@ -22,7 +22,7 @@
             style="@style/headerTextPrimary"
             android:text="Ajout d'un EAT"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
-
+<!--code eat-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_Code_EAT"
             style="@style/parent"
@@ -32,9 +32,10 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:hint="@string/hint_code_EAT"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!--libelle eat-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_LibelleEAT"
             style="@style/parent"
@@ -44,8 +45,11 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="@string/hint_Libelle_EAV"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Montant min mise-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_MinMtMiseEAT"
             style="@style/parent"
@@ -53,10 +57,13 @@
             <EditText
                 android:id="@+id/input_txt_MinMtMiseEAT"
                 style="@style/modifiedEditText"
-                android:inputType="numberDecimal"
+                android:inputType="numberSigned"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="@string/hint_Min_Mt_Mise_eav"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Montant max mise-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_MaxMtMiseEAT"
             style="@style/parent"
@@ -64,10 +71,13 @@
             <EditText
                 android:id="@+id/input_txt_MaxMtMiseEAT"
                 style="@style/modifiedEditText"
-                android:inputType="numberDecimal"
+                android:inputType="numberSigned"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Montant maximum de la mise"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Durée min -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_DureeMinEAT"
             style="@style/parent"
@@ -75,11 +85,13 @@
             <EditText
                 android:id="@+id/input_txt_DureeMinEAT"
                 style="@style/modifiedEditText"
-                android:inputType="number"
+                android:inputType="numberSigned"
                 android:maxLines="1"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:hint="Durée minimum (en mois)"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Durée max -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_DureeMaxEAT"
             style="@style/parent"
@@ -87,11 +99,13 @@
             <EditText
                 android:id="@+id/input_txt_DureeMaxEAT"
                 style="@style/modifiedEditText"
-                android:inputType="number"
-                android:textSize="20dp"
+                android:inputType="numberSigned"
+                android:textSize="18dp"
                 android:maxLines="1"
                 android:hint="Durée maximum (en mois)"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Nature du pas  -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -121,6 +135,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fixe"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="true" />
 
                 <RadioButton
@@ -128,10 +144,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Saut"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="false" />
 
             </RadioGroup>
         </LinearLayout>
+
+        <!-- Nbre unité pas -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NbreUnitePasEAT"
             style="@style/parent"
@@ -139,10 +159,13 @@
             <EditText
                 android:id="@+id/input_txt_NbreUnitePasEAT"
                 style="@style/modifiedEditText"
-                android:inputType="number"
+                android:inputType="numberSigned"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Nombre d'unités du pas"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- EtTypTxInter-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -173,6 +196,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fixe"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="true" />
 
                 <RadioButton
@@ -180,10 +205,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Plage"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="false" />
 
             </RadioGroup>
         </LinearLayout>
+
+        <!-- EtValTxInter-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_ValeurTauxInteretEAT"
             style="@style/parent"
@@ -193,9 +222,12 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Valeur du taux d'interêt"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
+
+        <!-- EtPlageTxInterFrom && EtPlageTxInterTo-->
+       <!-- <LinearLayout
             android:id="@+id/blk_plage_tx_eat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -211,7 +243,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="numberDecimal"
-                android:text="From:"
+                android:text="De:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -233,7 +265,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="To:"
+                android:text="A:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -247,8 +279,99 @@
                 android:orientation="horizontal"
                 />
 
+        </LinearLayout> -->
+
+        <!-- EtPlageTxInterFrom && EtPlageTxInterTo-->
+        <LinearLayout
+            android:id="@+id/blk_EtPlageTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+        <!--    <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_ValeulrTauxInteretEAT"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_weight="1"> -->
+            <TextView
+                android:id="@+id/tv_EtValTxInterTo"
+                style="@style/modifiedEditText"
+                android:text="PLAGE 1"
+                android:maxLines="1"
+                android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/txt_EtValTxInterFrom"
+                    style="@style/modifiedEditText"
+                    android:hint="De"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp" />
+           <!-- </com.google.android.material.textfield.TextInputLayout> -->
+
+        <!--    <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_ValeunrTauxInteretEAT"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_weight="1"> -->
+
+
+            <EditText
+                    android:id="@+id/txt_EtValTxInterTo"
+                    style="@style/modifiedEditText"
+                    android:hint="A"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp" />
+                <EditText
+                    android:id="@+id/txt_EtValTxInterValeur"
+                    style="@style/modifiedEditText"
+                    android:hint="Valeur"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+
+        <!--    </com.google.android.material.textfield.TextInputLayout> -->
+        </LinearLayout>
+        <!--Block btn-->
+        <LinearLayout
+            android:id="@+id/blk_btn_EtPlageTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/add_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="+"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/remove_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:text="-"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
         </LinearLayout>
 
+        <!--EtIsTxIntNeg-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -260,7 +383,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Taux interêt negociable" />
+                android:text="Taux interêt negociable"
+                android:textSize="18dp"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"/>
 
             <Switch
                 android:id="@+id/SwitchTauxInteretNegocieEAT"
@@ -274,6 +401,8 @@
                 />
 
         </LinearLayout>
+
+        <!--EtIsPriseIntMiseOn-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -285,7 +414,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Prendre interêt dès la mise" />
+                android:text="Prendre interêt dès la mise"
+                android:textSize="18dp"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"/>
 
             <Switch
                 android:id="@+id/SwitchPrendreInteretDesLaMiseEAT"
@@ -299,6 +432,7 @@
                 />
 
         </LinearLayout>
+        <!--EtIsPenalRupAnt-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -310,6 +444,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18dp"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
                 android:text="Pénalité en cas de rupture anticipée du contrat" />
 
             <Switch
@@ -347,6 +485,8 @@
                 android:textOn="Oui"
                 />
         </LinearLayout> -->
+
+        <!--EtNatureRupAn-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -376,6 +516,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Taux"
+                    android:textSize="16sp"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="true" />
 
                 <RadioButton
@@ -383,16 +525,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Montant"
+                    android:textSize="16sp"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="false" />
                 <RadioButton
                     android:id="@+id/rb_EtNatureRupAnPlage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Plage"
+                    android:textSize="16sp"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="false" />
 
             </RadioGroup>
         </LinearLayout>
+
+        <!--EtValTxMtRupture-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_ValTxMtRuptureEAT"
             style="@style/parent"
@@ -402,9 +550,12 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="taux/montant pénalité rupture"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
+
+        <!-- EtPlageTxMtRuptureFrom && EtPlageTxMtRuptureTo-->
+        <!-- <LinearLayout
             android:id="@+id/blk_plage_tx_penalite_eat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -420,7 +571,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="numberDecimal"
-                android:text="From:"
+                android:text="De:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -442,7 +593,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="To:"
+                android:text="A:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -456,8 +607,98 @@
                 android:orientation="horizontal"
                 />
 
+        </LinearLayout> -->
+
+        <LinearLayout
+            android:id="@+id/blk_EtValTxMtRupture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <!--    <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_ValeulrTauxInteretEAT"
+                    style="@style/parent"
+                    android:layout_width="205dp"
+                    android:layout_weight="1"> -->
+            <TextView
+                android:id="@+id/tv_EtValTxMtRupture"
+                style="@style/modifiedEditText"
+                android:text="PLAGE 1"
+                android:maxLines="1"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/txt_EtValTxMtRuptureFrom"
+                style="@style/modifiedEditText"
+                android:hint="De"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp" />
+            <!-- </com.google.android.material.textfield.TextInputLayout> -->
+
+            <!--    <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_ValeunrTauxInteretEAT"
+                    style="@style/parent"
+                    android:layout_width="205dp"
+                    android:layout_weight="1"> -->
+
+
+            <EditText
+                android:id="@+id/txt_EtValTxMtRuptureTo"
+                style="@style/modifiedEditText"
+                android:hint="A"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp" />
+            <EditText
+                android:id="@+id/txt_EtValTxMtRuptureValeur"
+                style="@style/modifiedEditText"
+                android:hint="Valeur"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+
+            <!--    </com.google.android.material.textfield.TextInputLayout> -->
+        </LinearLayout>
+        <!--Block btn-->
+        <LinearLayout
+            android:id="@+id/blk_btn_EtValTxMtRupture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/add_button_EtValTxMtRupture"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="+"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/remove_button_EtValTxMtRupture"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:text="-"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
         </LinearLayout>
 
+        <!-- EtBaseTxPenal-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_BaseTxPenalEAT"
             style="@style/parent"
@@ -468,9 +709,11 @@
                 android:inputType="textPersonName"
                 android:ems="2"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Base du taux de pénalité"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!--EtIsEparRetireFin-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -482,7 +725,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp"
+                android:textSize="18dp"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
                 android:text="Possibilité de retirer l'EAT" />
 
             <Switch
@@ -498,6 +744,7 @@
 
         </LinearLayout>
 
+        <!--EtIsEparTransfFin-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -509,6 +756,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:textSize="18dp"
+                android:scrollbars="vertical"
                 android:text="Possibilité de transférer vers EAV" />
 
             <Switch
@@ -523,6 +774,8 @@
                 />
 
         </LinearLayout>
+
+        <!--EtIsOnlyTotTransf-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -534,6 +787,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
+                android:textSize="18dp"
                 android:text="Transférer totalité vers EAV" />
 
             <Switch
@@ -548,6 +805,8 @@
                 />
 
         </LinearLayout>
+
+        <!--EtIsEparRenouvFin-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -559,6 +818,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
+                android:textSize="18dp"
                 android:text="Possibilité de renouveler l'EAT" />
 
             <Switch
@@ -573,6 +836,8 @@
                 />
 
         </LinearLayout>
+
+        <!--EtActionDefATerme-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -584,6 +849,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
+                android:textSize="18dp"
                 android:text="Action par défaut sur l'EAT à terme" />
 
             <Switch
@@ -598,6 +867,8 @@
                 />
 
         </LinearLayout>
+
+        <!--EtIsMultiEATOn-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -609,6 +880,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
+                android:textSize="18dp"
                 android:text="Autoriser Multiple EAT " />
 
             <Switch
@@ -623,6 +898,8 @@
                 />
 
         </LinearLayout>
+
+        <!--EtIsInterDusRupAnt-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -634,6 +911,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
+                android:textSize="18dp"
                 android:text="Interêts dus en cas de rupture" />
 
             <Switch
@@ -648,6 +929,8 @@
                 />
 
         </LinearLayout>
+
+        <!--EtIsNewTxIntRupAnt-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -659,6 +942,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
+                android:textSize="18dp"
                 android:text="Définir nouveau taux d'interêt en cas de rupture anticipée" />
 
             <Switch
@@ -674,6 +961,7 @@
 
         </LinearLayout>
 
+        <!--EtTypNewTxIntRupAnt-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -706,6 +994,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Fixe" />
 
                 <RadioButton
@@ -713,10 +1002,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
+                    android:onClick="onRadioButtonClicked"
                     android:text="Plage" />
 
             </RadioGroup>
         </LinearLayout>
+
+        <!--EtValTxIntPenal-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_txtValeurNewTxInteretRuptureEAT"
             style="@style/parent"
@@ -726,9 +1018,12 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Valeur nouveau taux d'interêt"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
+
+        <!--EtPlageTxIntPenalFrom && EtPlageTxIntPenalTo-->
+        <!--<LinearLayout
             android:id="@+id/blk_plage_new_tx_eat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -744,7 +1039,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="numberDecimal"
-                android:text="From:"
+                android:text="De:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -766,7 +1061,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="To:"
+                android:text="A:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -780,7 +1075,99 @@
                 android:orientation="horizontal"
                 />
 
+        </LinearLayout> -->
+
+
+        <LinearLayout
+            android:id="@+id/blk_EtNewValTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <!--    <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_ValeulrTauxInteretEAT"
+                    style="@style/parent"
+                    android:layout_width="205dp"
+                    android:layout_weight="1"> -->
+            <TextView
+                android:id="@+id/tv_EtNewValTxInter"
+                style="@style/modifiedEditText"
+                android:text="PLAGE 1"
+                android:maxLines="1"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/txt_EtNewValTxInterFrom"
+                style="@style/modifiedEditText"
+                android:hint="De"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp" />
+            <!-- </com.google.android.material.textfield.TextInputLayout> -->
+
+            <!--    <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_ValeunrTauxInteretEAT"
+                    style="@style/parent"
+                    android:layout_width="205dp"
+                    android:layout_weight="1"> -->
+
+
+            <EditText
+                android:id="@+id/txt_EtNewValTxInterTo"
+                style="@style/modifiedEditText"
+                android:hint="A"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp" />
+            <EditText
+                android:id="@+id/txt_EtNewValTxInterValeur"
+                style="@style/modifiedEditText"
+                android:hint="Valeur"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+
+            <!--    </com.google.android.material.textfield.TextInputLayout> -->
         </LinearLayout>
+        <!--Block btn-->
+        <LinearLayout
+            android:id="@+id/blk_btn_EtNewValTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/add_button_EtNewValTxInter"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="+"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/remove_button_EtNewValTxInter"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:text="-"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!--EtBaseTxIntPenal-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_BaseNewTxInteretEAT"
             style="@style/parent"
@@ -790,8 +1177,11 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Base du nouveau taux d'interêt "/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--EtTxIntPenalNeg-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -803,6 +1193,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:scrollbars="vertical"
+                android:textSize="18dp"
                 android:text="Taux interêt négociable " />
 
             <Switch
@@ -1149,12 +1543,58 @@
             android:text="Login"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"/>-->
-        <Button
-            android:id="@+id/btn_save_eat"
+     <!--   <Button
+            android:id="@+id/btn_save_eat1"
             style="@style/loginButton"
             android:text="ENREGISTRER"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+            android:paddingBottom="20dp"
+
+            android:layout_below="@+id/lblTxNewInteretNegociableEAT">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_eat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_annuler" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete_eat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/cancelButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+
+        </LinearLayout>
         <!--  <Button android:id="@+id/btn_save_eav"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"

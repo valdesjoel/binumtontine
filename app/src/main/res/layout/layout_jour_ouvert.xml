@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <TextView android:id="@+id/title_montant_coffre_usager"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:layout_width="fill_parent"
@@ -166,7 +166,7 @@
                 android:text="@string/btn_valider" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_clean"
-                style="@style/loginButton"
+                style="@style/cancelButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

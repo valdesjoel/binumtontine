@@ -8,7 +8,9 @@ public class Category {
 
     private int id;
     private int fk;
+    private String taux;
     private String name;
+    private String myDate;
 
     public Category(){}
 
@@ -16,10 +18,19 @@ public class Category {
         this.id = id;
         this.name = name;
     }
+    public Category(String myDate, String name){
+        this.myDate = myDate;
+        this.name = name;
+    }
     public Category(int id,int fk, String name){
         this.id = id;
         this.id = fk;
         this.name = name;
+    }
+    public Category(int id, String name,String taux){
+        this.id = id;
+        this.name = name;
+        this.taux = taux;
     }
 
     public void setId(int id){
@@ -32,6 +43,12 @@ public class Category {
     public void setName(String name){
         this.name = name;
     }
+    public void setMyDate(String myDate){
+        this.myDate = myDate;
+    }
+    public void setTaux(String taux){
+        this.taux = taux;
+    }
 
     public int getId(){
         return this.id;
@@ -42,6 +59,12 @@ public class Category {
 
     public String getName(){
         return this.name;
+    }
+    public String getMyDate(){
+        return this.myDate;
+    }
+    public String getTaux(){
+        return this.taux;
     }
 
 }

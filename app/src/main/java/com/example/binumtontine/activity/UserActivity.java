@@ -58,7 +58,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -101,7 +100,7 @@ public class UserActivity extends AppCompatActivity  implements SERVER_ADDRESS {
         setContentView(R.layout.activity_list_user_cx);
 
         userListView = (ListView) findViewById(R.id.userList);
-        new UserActivity.FetchMoviesAsyncTask().execute();
+        new FetchListUsersCaisseAsyncTask().execute();
 
 
         Toolbar toolbar = findViewById(R.id.toolbar_list_user_cx);
@@ -135,13 +134,13 @@ public class UserActivity extends AppCompatActivity  implements SERVER_ADDRESS {
     /**
      * Fetches the list of users from the server
      */
-    private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
+    private class FetchListUsersCaisseAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             //Display progress bar
             pDialog = new ProgressDialog(UserActivity.this);
-            pDialog.setMessage("Loading users. Please wait...");
+            pDialog.setMessage("Loading users caisses. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();

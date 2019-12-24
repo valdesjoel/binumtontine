@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 
@@ -23,7 +24,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PrivacyPolicyActivity extends AppCompatActivity {
+public class PrivacyPolicyActivity extends AppCompatActivity implements SERVER_ADDRESS {
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
@@ -41,8 +42,6 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     private static final String KEY_PRE_PARAM_OPERATION_EXTERNE = "pre_operation_externe";
     private static final String KEY_PRE_PARAM_APPELLATION_PRODUIT = "pre_appellation_produit";
 
-    //private static final String BASE_URL = "http://192.168.1.102/binumTontine/";
-    private static final String BASE_URL = "http://binumt.diff-itc.net/binumTontine/";
 
     private static String STRING_EMPTY = "";
 
@@ -67,9 +66,18 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     private Boolean preAppellationProduitEpargne;
     private Boolean preAppellationProduitDepot;
 
+    private String txtDav;
+    private String txtDat;
+    private String txtDap;
+    private String txtEav;
+    private String txtEat;
+    private String txtEap;
+
     private Button btnPreParam;
+    private Button annulerButton;
     private int success;
     private ProgressDialog pDialog;
+    private ProgressDialog pDialogUpdatePreParametrageProduit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +87,14 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         setToolbarTitle();
 
         Intent intent = getIntent();
+
+        txtDav = getString(R.string.produit_dav);
+        txtDat = getString(R.string.produit_dat);
+        txtDap = getString(R.string.produit_dap);
+
+        txtEav = getString(R.string.produit_eav);
+        txtEat = getString(R.string.produit_eat);
+        txtEap = getString(R.string.produit_eap);
 
         eav = (CheckBox)findViewById(R.id.eavCheckBox);
         eap = (CheckBox)findViewById(R.id.eapCheckBox);
@@ -94,9 +110,17 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         appellationProduitEpargne = (RadioButton) findViewById(R.id.rbEpargne);
         appellationProduitDepot = (RadioButton) findViewById(R.id.rbDepot);
 
-        new PrivacyPolicyActivity.FetchMovieDetailsAsyncTask().execute();
+        new FetchPreParametrageDetailsAsyncTask().execute();
 
         btnPreParam = (Button)findViewById(R.id.btn_save_PreParamOf);
+        annulerButton = (Button)findViewById(R.id.btn_clean);
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         btnPreParam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,18 +207,25 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         switch(view.getId()) {
 
             case R.id.rbEpargne:
+                eav.setText(txtEav);
+                eat.setText(txtEat);
+                eap.setText(txtEap);
                 str = checked1?"Appellation Epargne Selected":"Appellation Epargne Deselected";
                 break;
             case R.id.rbDepot:
+                eav.setText(txtDav);
+                eat.setText(txtDat);
+                eap.setText(txtDap);
                 str = checked1?"Appellation Dépôt Selected":"Appellation Dépôt Deselected";
                 break;
         }
+
         Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
     /**
      * Fetches single preParamProduit details from the server
      */
-    private class FetchMovieDetailsAsyncTask extends AsyncTask<String, String, String> {
+    private class FetchPreParametrageDetailsAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -251,9 +282,16 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
+                    if (!preAppellationProduitEpargne){
+                        eav.setText(txtDav);
+                        eat.setText(txtDat);
+                        eap.setText(txtDap);
+                    }
+
                     eav.setChecked(preEAV);
                     eat.setChecked(preEAT);
                     eap.setChecked(preEAP);
+
                     cptecourant.setChecked(preCpteCourant);
                     credit.setChecked(preCredit);
                     transfert_classique.setChecked(preTransfertClassique);

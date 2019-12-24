@@ -20,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.CreateProduitEAV;
-import com.example.binumtontine.activity.UpdateEAV;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -58,7 +57,7 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
 /* begin */
       //  setContentView(R.layout.activity_movie_listing);
         movieListView = (ListView) findViewById(R.id.movieList);
-        new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+        new FetchProduitEAVAsyncTask().execute();
 
 
         /* end*/
@@ -96,17 +95,17 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_all:
-               // new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+               // new ProduitEAVGuichetActivity.FetchProduitEAVAsyncTask().execute();
                // startActivity(new Intent(this, About.class));
                 return true;
             case R.id.action_to_affect:
                 action_to_affect = false;
-                new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+                new FetchProduitEAVAsyncTask().execute();
                // startActivity(new Intent(this, Help.class));
                 return true;
                 case R.id.action_already_affect:
                     action_to_affect = true;
-                     new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
+                     new FetchProduitEAVAsyncTask().execute();
                // startActivity(new Intent(this, Help.class));
                 return true;
             default:
@@ -118,7 +117,7 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
 /**
  * Fetches the list of movies from the server
  */
-private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
+private class FetchProduitEAVAsyncTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

@@ -1,174 +1,199 @@
-/*package com.example.binumtontine.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import eav.os.Bundle;
-
-import com.example.binumtontine.R;
-
-public class CreateProduitEAV extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_param_produit_eav);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle();
-    }
-
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Ajout d'un produit EAV");
-
-    }
-}*/
 package com.example.binumtontine.activity.jourOuvert;
 
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
-import com.example.binumtontine.activity.Category;
-import com.example.binumtontine.activity.ServiceHandler;
+
 import com.example.binumtontine.activity.adherent.MainActivityUsager;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, AdapterView.OnItemSelectedListener {
+import static java.lang.Double.parseDouble;
+
+public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
+    private static final String KEY_DATA = "data";
 
     private static final String KEY_JO_MT_DEMARRAGE = "JoMtDemarr";
     private static final String KEY_JO_MT_PIECE_MONNAIE = "JoMtPMonnaie";
     private static final String KEY_JO_IS_CLOSED = "JoIsClosed";
     private static final String KEY_JO_GUICHET = "JoGuichet";
+    private static final String KEY_CG_LAST_SOLDE = "CgLastSolde";
+    private static final String KEY_CG_GUICHET = "CgGuichet";
 
-    private static final String KEY_FP_VALEUR = "FpVal";
-    private static final String KEY_FP_BASE = "FpBase";
-    private static final String KEY_FP_TYPE_ADH = "FpTypeAdh";
+    private static final String KEY_CM_ID = "CgNumero";
+    private static final String KEY_CM_NUMERO = "CmCxGuichet";
+    private static final String KEY_CM_SENS = "CmSens";
+    private static final String KEY_CM_MONTANT = "CmMontant";
+    private static final String KEY_CM_NEW_SOLDE = "CmNewSolde";
+    private static final String KEY_CM_NATURE = "CmNature";
+    private static final String KEY_CM_USER = "CmUser";
 
 
     private EditText JoMtDemarrEditText;
     private EditText JoMtPMonnaieEditText;
+    private TextView CgLastSoldeTextView;
 
-    private EditText FpValEditText;
+
 
     private RadioButton rbStartNewDay;
     private RadioButton rbStartOldDay;
 
-    private RadioButton rbNatureFraisFixe;
-    private RadioButton rbNatureFraisTaux;
+
 
 
     private String JoMtDemarr;
+    private String CmSens="R";
+    private String CmNature="O";
+    private double JoMtDemarrDouble;
     private String JoMtPMonnaie;
+    private String CgLastSolde;
+    private String CgNumero;
+    private String CgDevise ="A";
     private Boolean JoIsClosed;
 
-    private String FpNature;
-    private String FpVal;
-    private String FpBase;
-    private String FpTypeAdh;
 
 
 
 
     private static String STRING_EMPTY = "";
+    private NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
 
 
-    private LinearLayout blkPlageEav;
-    private RadioButton rbEpTypTxInterFixe;
-    private RadioButton rbEpTypTxInterTaux;
-    private RadioButton rbEpTypTxInterPlage;
-    private TextInputLayout layout_TauxAPreleveCpteEAV;
-
-    /* manage spinner*/
-    // array list for spinner adapter
-    private ArrayList<Category> caisseList;
-    List<Integer> caisseListID = new ArrayList<Integer>();
-    private int caisseID;
-    private Spinner spinnerCaisse;
-    private LinearLayout textInputLayoutCaisse;
-    /*end manage*/
+    private static final String TAG = JourOuvert.class.getSimpleName();
 
 
     private Button addButton;
     private Button cancelButton;
     private int success;
+    private int successCxGxMvt;
+    private ProgressDialog pDialogFetchLastSolde;
     private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_add_movie);
-      //  setContentView(R.layout.fragment_param_produit_eav);
         setContentView(R.layout.activity_jour_ouvert);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
-
-
-
+        defaultFormat.setCurrency(Currency.getInstance("FCF"));
         JoMtDemarrEditText = (EditText) findViewById(R.id.input_txt_montant_demarrage_usager);
         JoMtPMonnaieEditText = (EditText) findViewById(R.id.input_txt_montant_piece_monnaie_usager);
+        CgLastSoldeTextView = (TextView) findViewById(R.id.tv_montant_coffre_usager);
 
         rbStartNewDay = (RadioButton) findViewById(R.id.rb_que_voulez_vous_faire_NewDay_usager);
         rbStartOldDay = (RadioButton) findViewById(R.id.rb_que_voulez_vous_faire_OldDay_usager);
+// Add an OnEditorActionListener to the EditText view.
+        /* JoMtDemarrEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Close the keyboard.
+                    InputMethodManager imm = (InputMethodManager)
+                            v.getContext().getSystemService
+                                    (Context.INPUT_METHOD_SERVICE);
 
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    // TODO: Parse string in view v to a number.
+                    try {
+                        // Use the number format for the locale.
+                        JoMtDemarrDouble = defaultFormat.parse(v.getText()
+                                .toString()).doubleValue();
+                        v.setError(null);
+                    } catch (ParseException e) {
+                        Log.e(TAG,Log.getStackTraceString(e));
+                        v.setError(getText(R.string.enter_number));
+                        return false;
+                    }
+                    // Convert to string using locale's number format.
+                    JoMtDemarr = defaultFormat.format(JoMtDemarrDouble);
+                // Show the locale-formatted quantity.
+                    v.setText(JoMtDemarr);
 
+                    return true;
+                }
+                return false;
+            }
+        });*/
+        /* don't allow user to move cursor while entering price */
+       // JoMtDemarrEditText.setMovementMethod(null);
+       /* JoMtDemarrEditText.addTextChangedListener(new TextWatcher() {
+            private String current = "";
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            private double parsed;
 
-/*
-  rbNatureFraisFixe = (RadioButton) findViewById(R.id.rb_NatureFraisFixe_fp);
-        rbNatureFraisTaux = (RadioButton) findViewById(R.id.rb_NatureFraisTaux_fp);
-        FpValEditText = (EditText) findViewById(R.id.input_txt_ValeurFrais_fp);
-        //FpBaseEditText = (EditText) findViewById(R.id.Base);
-        rbEpTypTxInterFixe = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-        rbEpTypTxInterTaux = (RadioButton) findViewById(R.id.rbEpTypTxInterTaux);
-        rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
-        blkPlageEav = (LinearLayout) findViewById(R.id.blk_plage_eav);
-        layout_TauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxAPreleveCpteEAV);
+             @Override
+             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        textInputLayoutCaisse = (LinearLayout) findViewById(R.id.ll_base_frais_of);
-        if (rbNatureFraisFixe.isChecked())
-        textInputLayoutCaisse.setVisibility(View.GONE);
-        else textInputLayoutCaisse.setVisibility(View.VISIBLE);
+                                                      }
 
+              @Override
+              public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                          if (!s.toString().equals(current)) {
+                                                              // remove listener to prevent stack overflow from infinite loop //
+                                                              JoMtDemarrEditText.removeTextChangedListener(this);
+                                                              String cleanString = s.toString().replaceAll("[$,]", "");
 
+                                                              try {
+                                                                  parsed = Double.parseDouble(cleanString);
+                                                              } catch (java.lang.NumberFormatException e) {
+                                                                  parsed = 0;
+                                                              }
 
-        spinnerCaisse = (Spinner) findViewById(R.id.spn_baseFrais_fp);
+                                                              formatter.setMaximumFractionDigits(0);
+                                                              String formatted = formatter.format(parsed);
 
-        caisseList = new ArrayList<Category>();
-        // spinner item select listener
-        spinnerCaisse.setOnItemSelectedListener(JourOuvert.this);
-        new JourOuvert.GetCategories().execute();
-*/
+                                                              current = formatted;
+                                                              JoMtDemarrEditText.setText(formatted);
+                                                              JoMtDemarrEditText.setSelection(formatted.length()); //for test
+
+                                                              // add listener back //
+                                                              JoMtDemarrEditText.addTextChangedListener(this);
+                                                              // print a toast when limit is reached... see xml below.
+                                                               // this is for 6 chars //
+                                                              //if (start == 7) {
+                                                                  Toast toast = Toast.makeText(getApplicationContext(),
+                                                                          "Maximum Limit Reached", Toast.LENGTH_LONG);
+                                                                  toast.setGravity(Gravity.CENTER, 0, 0);
+                                                                  toast.show();
+                                                              }
+                                                          }
+                                                      }
+
+                                                      @Override
+                                                      public void afterTextChanged(Editable s) {
+
+                                                      }
+                                                  }); */
+//...
+
+        new JourOuvert.FetchLastSoldeGuichetDetailsAsyncTask().execute();
+
+     //   new JourOuvert.GetCategories().execute();
+
         cancelButton = (Button) findViewById(R.id.btn_clean);
         addButton = (Button) findViewById(R.id.btn_save_montant_demarrage);
         //cirLoginButton
@@ -189,7 +214,7 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addEAV();
+                    addJourOuvert();
                 } else {
                     Toast.makeText(JourOuvert.this,
                             "Impossible de se connecter à Internet",
@@ -202,108 +227,70 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
 
 
     }
-    /**
-     * Adding spinner data
-     * */
-    private void populateSpinner() {
-        List<String> lables = new ArrayList<String>();
-
-        //tvCaisse.setText("");
-
-        for (int i = 0; i < caisseList.size(); i++) {
-            lables.add(caisseList.get(i).getName());//recupère les noms
-            caisseListID.add(caisseList.get(i).getId()); //recupère les Id
-        }
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(JourOuvert.this,
-                android.R.layout.simple_spinner_item, lables);
-
-        // Drop down layout style - list view with radio button
-        spinnerAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinnerCaisse.setAdapter(spinnerAdapter);
-    }
 
     /**
-     * Async task to get all food categories
-     * */
-    private class GetCategories extends AsyncTask<Void, Void, Void> {
-
+     * Fetches single caisse_guichet details from the server
+     */
+    private class FetchLastSoldeGuichetDetailsAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(JourOuvert.this);
-            pDialog.setMessage("Fetching base frais's list..");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
+            //Display progress bar
+            pDialogFetchLastSolde = new ProgressDialog(JourOuvert.this);
+            pDialogFetchLastSolde.setMessage("Loading guichet Details. Please wait...");
+            pDialogFetchLastSolde.setIndeterminate(false);
+            pDialogFetchLastSolde.setCancelable(false);
+            pDialogFetchLastSolde.show();
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            String json = jsonParser.makeServiceCall(URL_BASE_FRAIS_OF, ServiceHandler.GET);
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_CG_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_caisse_guichet_details.php", "GET", httpParams);
+            try {
+                int success = jsonObject.getInt(KEY_SUCCESS);
+                JSONObject user;
+                if (success == 1) {
+                    //Parse the JSON response
+                    user = jsonObject.getJSONObject(KEY_DATA);
+                    CgLastSolde = user.getString(KEY_CG_LAST_SOLDE);
+                    CgNumero = user.getString(KEY_CM_ID);
 
-            Log.e("Response: ", "> " + json);
 
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray("categories");
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt("id"),
-                                    catObj.getString("name"));
-                            caisseList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-
-            } else {
-                Log.e("JSON Data", "Didn't receive any data from server!");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
             return null;
         }
 
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-            populateSpinner();
+        protected void onPostExecute(String result) {
+            pDialogFetchLastSolde.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+                    //Populate the Edit Texts once the network activity is finished executing
+                    //defaultFormat.setCurrency(Currency.getInstance("FCF"));
+                    CgLastSoldeTextView.setText(defaultFormat.format(parseDouble(CgLastSolde)));
+                    //NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+                    CgDevise.toUpperCase();
+                    CgLastSoldeTextView.setTypeface(null, Typeface.BOLD);
+                    CgLastSoldeTextView.setText(CgLastSoldeTextView.getText()+ CgDevise);
+
+
+
+                }
+            });
         }
 
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
-        Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        caisseID = caisseListID.get(position);//pour recuperer l'ID de la caisse selectionnée
 
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }
 
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Ajout d'un frais à payer");
 
-    }
 
     public void onRadioButtonClicked(View view) {
         boolean checked1 = ((RadioButton) view).isChecked();
@@ -342,10 +329,10 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
 
 
     /**
-     * Checks whether all files are filled. If so then calls AddEAVAsyncTask.
+     * Checks whether all files are filled. If so then calls AddJourOuvertAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
-    private void addEAV() {
+    private void addJourOuvert() {
        /* if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
 
                 !STRING_EMPTY.equals(ev_libelleEditText.getText().toString()) &&
@@ -364,9 +351,10 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS, Ada
 
                 !STRING_EMPTY.equals(ev_min_cpteEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
-if (true){
+if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
             JoMtDemarr = JoMtDemarrEditText.getText().toString();
             JoMtPMonnaie = JoMtPMonnaieEditText.getText().toString();
+    // Parse string in view v to a number.
 
 
                 if (rbStartNewDay.isChecked()){
@@ -378,7 +366,7 @@ if (true){
 
 
 
-            new AddEAVAsyncTask().execute();
+            new AddJourOuvertAsyncTask().execute();
     } else {
             Toast.makeText(JourOuvert.this,
                     "Un ou plusieurs champs sont vides!",
@@ -390,9 +378,9 @@ if (true){
     }
 
     /**
-     * AsyncTask for adding a movie
+     * AsyncTask for adding a Jour ouvert
      */
-    private class AddEAVAsyncTask extends AsyncTask<String, String, String> {
+    private class AddJourOuvertAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -410,19 +398,30 @@ if (true){
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
+            Map<String, String> httpParamsCaisseMvt = new HashMap<>();
             //Populating request parameters
             httpParams.put(KEY_JO_MT_DEMARRAGE, JoMtDemarr);
             httpParams.put(KEY_JO_MT_PIECE_MONNAIE, JoMtPMonnaie);
             httpParams.put(KEY_JO_IS_CLOSED, JoIsClosed.toString());
             httpParams.put(KEY_JO_GUICHET, String.valueOf(MyData.GUICHET_ID));
 
+            httpParamsCaisseMvt.put(KEY_CM_NUMERO, CgNumero);
+            httpParamsCaisseMvt.put(KEY_CM_SENS, CmSens);
+            httpParamsCaisseMvt.put(KEY_CM_MONTANT, JoMtDemarr);
+            httpParamsCaisseMvt.put(KEY_CM_NEW_SOLDE,(parseDouble(CgLastSolde)-parseDouble(JoMtDemarr))+"");
+            httpParamsCaisseMvt.put(KEY_CM_NATURE, CmNature);
+            httpParamsCaisseMvt.put(KEY_CM_USER, String.valueOf(MyData.USER_ID));
+
 
 
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_jour_ouvert.php", "POST", httpParams);
+            JSONObject jsonObjectCxMvt = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "add_caisse_guichet_mouvement.php", "POST", httpParamsCaisseMvt);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
+                successCxGxMvt = jsonObjectCxMvt.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -433,7 +432,7 @@ if (true){
             pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
-                    if (success == 1) {
+                    if (success == 1 && successCxGxMvt == 1) {
                         //Display success message
                         Toast.makeText(JourOuvert.this,
                                 "Journée ouverte", Toast.LENGTH_LONG).show();

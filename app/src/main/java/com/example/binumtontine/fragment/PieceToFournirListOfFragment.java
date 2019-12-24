@@ -6,11 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -74,7 +70,7 @@ public class PieceToFournirListOfFragment extends Fragment implements View.OnCli
         /* begin */
         //  setContentView(R.layout.activity_movie_listing);
         movieListView = (ListView)rootView.findViewById(R.id.movieList);
-        new PieceToFournirListOfFragment.FetchMoviesAsyncTask().execute();
+        new FetchPiecesOfAsyncTask().execute();
 
         /* end*/
 
@@ -103,9 +99,9 @@ public class PieceToFournirListOfFragment extends Fragment implements View.OnCli
     }
 
     /**
-     * Fetches the list of movies from the server
+     * Fetches the list of pieces from the server
      */
-    private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
+    private class FetchPiecesOfAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -175,11 +171,13 @@ public class PieceToFournirListOfFragment extends Fragment implements View.OnCli
                 if (CheckNetworkStatus.isNetworkAvailable(getActivity())) {
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
+                    //to manage update of piece
+                    /*
                     Intent intent = new Intent(getActivity(),
-                            UpdateEAV.class);
+                            UpdatePieceToFournirOf.class);
                     intent.putExtra(KEY_FP_PIECE_ID, movieId);
                     startActivityForResult(intent, 20);
-
+                    */
                 } else {
                     Toast.makeText(getContext(),
                             "Unable to connect to internet",

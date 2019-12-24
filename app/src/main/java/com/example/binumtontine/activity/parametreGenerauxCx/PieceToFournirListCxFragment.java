@@ -6,8 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,8 +23,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.binumtontine.R;
-import com.example.binumtontine.activity.UpdateEAV;
-import com.example.binumtontine.activity.parametreGenerauxOF.CreatePieceToFournirOf;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -35,17 +36,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PieceToFournirListCxFragment extends Fragment implements View.OnClickListener, OnDateSetListener, SERVER_ADDRESS {
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
+    private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to push intent.extra
+    private static final String KEY_CAISSE_ID = "FcCaisse";
     private static final String KEY_FP_PIECE_ID = "FpNumero";
     private static final String KEY_FP_PIECE_LIBELLE = "FpLibelle";
 
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
     private ProgressDialog pDialog;
+    private Boolean action_to_affect=false; // to manage menuItem ACTION_TO_AFFECT and ACTION_NOT_ALREADY_AFFECT
 
     public PieceToFournirListCxFragment() {
         // Required empty public constructor
@@ -54,6 +59,7 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true); //to notify the fragment that it should participate in options menu handling.
 
 
 
@@ -68,7 +74,7 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
         /* begin */
         //  setContentView(R.layout.activity_movie_listing);
         movieListView = (ListView)rootView.findViewById(R.id.movieList);
-        new PieceToFournirListCxFragment.FetchMoviesAsyncTask().execute();
+        new FetchPiecesAsyncTask().execute();
 
         /* end*/
 
@@ -76,6 +82,7 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
         setSupportActionBar(toolbar); */
 
         FloatingActionButton fab = rootView.findViewById(R.id.fab_add_piece_to_fournir_cx);
+        fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,11 +102,56 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
         // Inflate the layout for this fragment
         return rootView;
     }
+    /* To manage Menu*/
+//    public boolean onCreateOptionsMenu(Menu menu) {
+////        MenuInflater inflater = getMenuInflater();
+////        inflater.inflate(R.menu.menu_type_membre, menu);
+////        return true;
+////    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+       // super.onCreateOptionsMenu(menu);
+        inflater.inflate(R.menu.menu_piece_frais_cx_, menu);
+        //super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_to_affect_piece:
+                action_to_affect = false;
+
+                Toast.makeText(getContext(),
+                        "Liste des pièces à affecter à la caisse",
+                        Toast.LENGTH_LONG).show();
+                new PieceToFournirListCxFragment.FetchPiecesAsyncTask().execute();
+                // action_to_affect = false;
+                // new ProduitEAVGuichetActivity.FetchPiecesAsyncTask().execute();
+                // startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.action_already_affect_piece:
+                action_to_affect = true;
+
+                Toast.makeText(getContext(),
+                        "Liste des pièces déjà affecté à la caisse",
+                        Toast.LENGTH_LONG).show();
+                new PieceToFournirListCxFragment.FetchPiecesAsyncTask().execute();
+                // action_to_affect = true;
+                // new ProduitEAVGuichetActivity.FetchPiecesAsyncTask().execute();
+                // startActivity(new Intent(this, Help.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     /**
      * Fetches the list of movies from the server
      */
-    private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
+    private class FetchPiecesAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -114,8 +166,20 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_piece_of.php", "GET", null);
+//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                    BASE_URL + "fetch_all_piece_of.php", "GET", null);
+
+
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+            //httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject =(action_to_affect)? httpJsonParser.makeHttpRequest(
+                    BASE_URL + "fetch_all_piece_cx.php", "GET", httpParams): httpJsonParser.makeHttpRequest(
+                    BASE_URL + "fetch_all_piece_of_not_affect_on_caisse.php", "GET", httpParams);
+
+
+
+
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONArray movies;
@@ -169,9 +233,13 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
                 if (CheckNetworkStatus.isNetworkAvailable(getActivity())) {
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
+                    //to manage update pièce Cx
+
                     Intent intent = new Intent(getActivity(),
-                            UpdateEAV.class);
+                            CreatePieceToFournirCx.class);
                     intent.putExtra(KEY_FP_PIECE_ID, movieId);
+
+                    intent.putExtra(KEY_EXTRA_ACTION_TO_AFFECT, !action_to_affect);
                     startActivityForResult(intent, 20);
 
                 } else {
