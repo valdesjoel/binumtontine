@@ -209,9 +209,9 @@ public class ProduitEATActivity extends AppCompatActivity implements SERVER_ADDR
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
                     Intent intent = new Intent(getApplicationContext(),
-                            MovieUpdateDeleteActivity.class);
+                            UpdateEAT.class);
                     intent.putExtra(KEY_EAT_NUMERO, movieId);
-                    //startActivityForResult(intent, 20);
+                    startActivityForResult(intent, 20);
 
                 } else {
                     Toast.makeText(ProduitEATActivity.this,

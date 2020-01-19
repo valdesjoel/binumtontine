@@ -41,7 +41,14 @@
         <activity android:name=".activity.CreateUser" />
         <activity android:name=".activity.CreateUserGuichet" />
         <activity android:name=".activity.UpdateEAV" />
+        <activity android:name=".activity.UpdateEAT" />
         <activity android:name=".activity.parametrageGuichet.UpdateEAVForGuichet" />
+        <activity android:name=".activity.parametrageGuichet.ProduitEATGuichetActivity" />
+        <activity android:name=".activity.parametrageGuichet.ProduitEAPGuichetActivity" />
+        <activity android:name=".activity.parametrageGuichet.TypeMembreGxActivity" />
+        <activity android:name=".activity.parametrageGuichet.ListTypeMembrePFgxActivity" />
+        <activity android:name=".activity.parametrageGuichet.UpdateEATForGuichet" />
+        <activity android:name=".activity.parametrageGuichet.UpdateEAPForGuichet" />
         <activity android:name=".activity.UpdateEAP" />
         <activity android:name=".activity.UpdateCaisse" />
         <activity android:name=".activity.UpdateGuichet" />
@@ -55,12 +62,17 @@
         <activity android:name=".activity.parametreGenerauxCx.CreatePieceToFournirCx" />
         <activity android:name=".activity.parametreGenerauxOF.CreateFraisToPayerOf" />
         <activity android:name=".activity.parametreGenerauxCx.CreateFraisToPayerCx" />
+        <activity android:name=".activity.parametreGenerauxCx.TypeMembreCxActivity" />
+        <activity android:name=".activity.parametreGenerauxCx.ListTypeMembrePFActivity" />
         <activity android:name=".activity.jourOuvert.JourOuvert" />
         <activity android:name=".activity.parametrageGuichet.ListGuichetActivity" />
         <activity android:name=".activity.parametrageGuichet.ProduitGuichetFragment" />
         <activity android:name=".activity.parametrageGuichet.ProduitEAVGuichetActivity" />
         <activity android:name=".activity.parametrageGuichet.ParametreGenerauxGxActivity" />
         <activity android:name=".activity.parametrageGuichet.CreatePieceToFournirGx" />
+        <activity android:name=".activity.parametrageGuichet.CreateFraisToPayerGx" />
+        <activity android:name=".activity.parametreGenerauxOF.CreateTypeMembreOf" />
+        <activity android:name=".activity.parametreGenerauxOF.TypeMembreActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

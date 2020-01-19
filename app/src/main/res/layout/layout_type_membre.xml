@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_eav"
+            style="@style/headerTextPrimary"
+            android:text="Ajout d'un type de membre"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_select_guichet_fp"
+                style="@style/parent"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text="Guichet:"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <Spinner
+                    android:id="@+id/spn_select_guichet_fp"
+                    style="@style/modifiedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/my_hint" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_select_categorie_adherent_fp"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Catégorie adhérent:"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <Spinner
+                    android:id="@+id/spn_select_categorie_adherent_fp"
+                    style="@style/modifiedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/my_hint" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_select_piece_fp"
+                style="@style/parent"
+                android:layout_width="167dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Pièce:"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/TextInputLayoutStyle"
+                app:errorEnabled="true">
+
+                <Spinner
+                    android:id="@+id/spn_select_piece_fp"
+                    style="@style/modifiedEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/my_hint" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <!-- <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Code_EAV"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Code_EAV"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_code_piece"/>
+        </com.google.android.material.textfield.TextInputLayout> -->
+
+        <!--Code pièce-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Code_pg_piece_cx"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Nature_type_membre"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLength="3"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_nature_type_membre"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Libellé type de membre-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Libelle_type_membre"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Libelle_type_membre"
+                style="@style/modifiedEditText"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:maxLength="40"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_Libelle_type_membre"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Type de membre gone-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_type_membre_cx"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView android:id="@+id/tv_type_membre_fc"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text="Type de membre:"
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true" >
+                <Spinner android:id="@+id/spn_type_membre_fc"
+                    android:layout_width="match_parent"
+                    android:hint="Choisir le type de membre"
+                    style="@style/modifiedEditText"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/type_membre"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- radiogroup type membre physique/morale -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_isPieceObligatoire_fp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Type de membre"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_isPieceObligatoire_fp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_isPieceObligatoire_fp"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+
+                <RadioButton
+                    android:id="@+id/rb_isPieceObligatoire_fp_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Personne physique"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_isPieceObligatoire_fp_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Personne morale"
+                    android:textSize="16sp" />
+
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- radiogroup statut Tm-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_isTmOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Statut du membre"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_isTmOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_isTmOn"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+
+                <RadioButton
+                    android:id="@+id/rb_isTmOn_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Activé"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_isTmOn_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Désactivé"
+                    android:textSize="16sp" />
+
+
+            </RadioGroup>
+        </LinearLayout>
+
+<!--Boutons-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rg_isTmOn"
+            android:orientation="horizontal"
+
+            android:paddingTop="5dp"
+            android:layout_marginTop="30dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_type_membre"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_enregistrer" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete_type_membre"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">binumtontine</string>
+    <string name="app_name">MIFUCAM</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="drawer_open">Open</string>
@@ -149,6 +149,41 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+    <string-array name="type_membre">
+
+        <!--<string name="action_membre">MEMBRE</string>-->
+        <!--<string name="action_usager">USAGER</string>-->
+        <!--<string name="action_salarie">SALARIE</string>-->
+        <!--<string name="action_affilie">AFFILIE COLLECTE</string>-->
+        <!--<string name="action_entreprise">ENTREPRISE</string>-->
+        <!--<string name="action_gic">GIC</string>-->
+        <!--<string name="action_cooperative">COOPERATIVE</string>-->
+        <!--<string name="action_association">ASSOCIATION</string>-->
+        <!--<string name="action_groupe_jeune">GROUPE JEUNE</string>-->
+        <!--<string name="action_groupe_femme">GROUPE FEMME</string>-->
+        <!--<string name="action_groupe_homme">GROUPE HOMME</string>-->
+        <!--<string name="action_groupe_mixte">GROUPE MIXTE</string>-->
+        <!--<string name="action_organisation_paysanne">ORGANISATION PAYSANNE</string>-->
+        <item>MEMBRE</item>
+        <item>USAGER</item>
+        <item>SALARIE</item>
+        <item>AFFILIE COLLECTE</item>
+        <item>ENTREPRISE</item>
+        <item>GIC</item>
+        <item>COOPERATIVE</item>
+        <item>ASSOCIATION</item>
+        <item>ETS</item>
+        <item>PME</item>
+        <item>PMI</item>
+        <item>SA</item>
+        <item>ONG</item>
+        <item>GROUPE JEUNE</item>
+        <item>GROUPE FEMME</item>
+        <item>GROUPE HOMME</item>
+        <item>GROUPE MIXTE</item>
+        <item>ORGANISATION PAYSANNE</item>
+
+    </string-array>
 
     <string-array name="type_sexe">
         <item>Masculin</item>
@@ -194,7 +229,7 @@
     <string-array name="type_admin">
         <item>Administrateur OF</item>
         <item>Administrateur caisse</item>
-        <item>Usager</item>
+        <item>Agent de guichet</item>
     </string-array>
     <string-array name="array_caisse">
         <item>SALAK</item>
@@ -219,11 +254,83 @@
 
 
     <string-array name="array_localite">
-        <item>BAFOUSSAM</item>
         <item>BALAIN</item>
-        <item>BANDJOUN</item>
+        <item>BABADJOU</item>
+        <item>BABOATE (LAKO)</item>
+        <item>BABONE CARREFOUR</item>
+        <item>BALOUMGOU</item>
+        <item>BAMEKA</item>
+        <item>BAMEKA MARCHE</item>
+        <item>BANFELOUK</item>
+        <item>BANSOA-CHEFFERIE</item>
+        <item>BATCHAM</item>
+        <item>GALIM</item>
+        <item>MBOUDA</item>
+        <item>BAFANG</item>
+        <item>BAFANG CENTRE</item>
+        <item>BAKOU</item>
+        <item>BANA</item>
+        <item>BANDJA</item>
+        <item>BANKA</item>
+        <item>KEKEM</item>
+        <item>BANWA</item>
+        <item>BAHAM</item>
+        <item>BAMENDJOU</item>
+        <item>BATIE</item>
+        <item>BANDENKOP</item>
         <item>BANGOU</item>
+        <item>BANGOU CHEFFERIE</item>
+        <item>BAYANGAM</item>
+        <item>CARREFOUR LITIEU</item>
+        <item>KOMBOU-BACHUA</item>
+        <item>DEMDEM</item>
+        <item>PETTE BANDJOUN</item>
+        <item>POUMOUGNE</item>
+        <item>DIDIPE EP</item>
+        <item>DJEBEM</item>
+        <item>DSCHANG</item>
+        <item>FOKOUE</item>
+        <item>NKONG ZEM</item>
+        <item>NKONGSO\'O</item>
+        <item>PENKA-MICHEL</item>
+        <item>SANCHOU</item>
+        <item>FONGO TONGO</item>
+        <item>BAFOUSSAM I</item>
+        <item>BAFOUSSAM II</item>
+        <item>BAFOUSSAM III</item>
+        <item>BANGANGTE</item>
+        <item>BASSAMBA</item>
+        <item>BAZOU</item>
+        <item>TONGA</item>
+        <item>BANGOURAIN</item>
+        <item>FONDJOMEKWET (SOCECFO)</item>
+        <item>FOUMBAN</item>
+        <item>FOUMBOT</item>
+        <item>FOYEMTCHA</item>
+        <item>KOUOPTAMO</item>
+        <item>KOUTABA</item>
+        <item>MABOMBE</item>
+        <item>MAGBA</item>
+        <item>MALENTOUEN</item>
+        <item>MASSANGAN</item>
+        <item>NJIMOM</item>
     </string-array>
+    <string-array name="array_base_taux">
+        <item>Montant cotisé</item>
+        <item>Montant à cotiser</item>
+        <item>Intérêt cotisé</item>
+        <item>Intérêt à cotiser</item>
+    </string-array>
+    <string-array name="array_GuFreqReunComCred">
+        <item>HEBDOMADAIRE</item>
+        <item>BIHEBDOMADAIRE</item>
+        <item>MENSUELLE</item>
+        <item>BIMENSUELLE</item>
+        <item>BIMESTRIELLE</item>
+        <item>TRIMESTRIELLE</item>
+
+    </string-array>
+
     <string-array name="array_type_piece">
         <item>Carte nationale d\'identité</item>
         <item>Carte de séjour</item>
@@ -300,7 +407,7 @@
     <string name="tab_title_param_produit_cc_caisse">Compte courant</string>
     <string name="tab_title_param_produit_transfert_caisse">Transfert</string>
     <string name="tab_title_param_produit_credit_caisse">Crédit</string>
-    <string name="hint_taux_annuel">Taux interêt annuel</string>
+    <string name="hint_taux_mensuel">Appliquer le taux d\'interêt mensuel</string>
     <string name="hint_code_EAV">Code EAV</string>
     <string name="hint_Libelle_EAV">Libellé</string>
     <string name="hint_Libelle_piece">Libellé de la pièce:</string>
@@ -333,12 +440,13 @@
     <string name="cheese">cheese</string>
     <string name="btn_supprimer">SUPPRIMER</string>
     <string name="appellation_produit">APPELLATION DES PRODUITS</string>
-    <string name="hint_type_de_date">Type de date</string>
+    <string name="hint_type_de_date">Date depôt (en jour):</string>
 
     <!--end remotemysqlconnection -->
 
     <string name="register">REGISTER</string>
-    <string name="login_email_hint">Email</string>
+    <!--<string name="login_email_hint">Email</string> -->
+    <string name="login_email_hint">Login</string>
     <string name="login_password_hint">Password</string>
     <string name="signup_login_hint">Already have an account? Sign In</string>
     <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
@@ -415,6 +523,14 @@
     <string name="mode_paiement">Mode de paiement</string>
     <string name="hint_numero_bordereau">Numéro de bordereau</string>
     <string name="hint_montant_operation">Montant</string>
+    <string name="hint_type_de_date_retrait">Date retrait (en jour):</string>
+    <string name="hint_Libelle_type_membre">Libellé du type de membre</string>
+    <string name="hint_nature_type_membre">Nature membre</string>
+    <string name="details_type_membre">Détails type de membre</string>
+    <string name="action_membre_to_affect">Membre à affecter à la caisse</string>
+    <string name="action_membre_already_affect">Membres déjà affectés à la caisse</string>
+    <string name="action_membre_to_affect_gx">Membre à affecter au guichet</string>
+    <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
 
 </resources>
 

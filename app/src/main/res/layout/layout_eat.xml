@@ -457,6 +457,7 @@
                 android:layout_gravity="center"
                 android:checked="false"
 
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -488,6 +489,7 @@
 
         <!--EtNatureRupAn-->
         <LinearLayout
+            android:id="@+id/ll_EtNatureRupAn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
@@ -839,6 +841,7 @@
 
         <!--EtActionDefATerme-->
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
@@ -866,6 +869,72 @@
                 android:textOn="Oui"
                 />
 
+        </LinearLayout>
+        <!--CtModRenouv-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_CpModRenouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Action par défaut sur l'EAT à terme"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_CtModRenouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_CtModRenouv"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_transfert_vers_eav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Transférer sur le compte à vue"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_renouveller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Rénouveller à l'échéance"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_retirer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Clôturer"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_ras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Aucune action"
+                    android:textSize="16sp" />
+
+
+
+            </RadioGroup>
         </LinearLayout>
 
         <!--EtIsMultiEATOn-->
@@ -932,6 +1001,7 @@
 
         <!--EtIsNewTxIntRupAnt-->
         <LinearLayout
+            android:id="@+id/ll_EtIsNewTxIntRupAnt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
@@ -943,7 +1013,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="false"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:scrollbars="vertical"
                 android:textSize="18dp"
                 android:text="Définir nouveau taux d'interêt en cas de rupture anticipée" />
@@ -955,14 +1025,15 @@
                 android:layout_gravity="center"
                 android:checked="false"
 
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
-
         <!--EtTypNewTxIntRupAnt-->
         <LinearLayout
+            android:id="@+id/ll_EtTypNewTxIntRupAnt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"

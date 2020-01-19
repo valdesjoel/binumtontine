@@ -16,6 +16,7 @@ import com.example.binumtontine.activity.parametreGenerauxOF.ParametreGenerauxOF
 import com.example.binumtontine.activity.PrivacyPolicyActivity;
 import com.example.binumtontine.activity.UpdateOrganeFaitier;
 import com.example.binumtontine.activity.UserActivity;
+import com.example.binumtontine.activity.parametreGenerauxOF.TypeMembreActivity;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
@@ -24,6 +25,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private  CardView userCard;
     private  CardView majOFCard;
     private  CardView ownInfoCard;
+    private  CardView typeMembreCard;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,12 +48,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         userCard = (CardView) rootView.findViewById(R.id.user_card);
         preParamCard = (CardView) rootView.findViewById(R.id.preParam_card);
         ownInfoCard = (CardView) rootView.findViewById(R.id.param_piece_frais_of_card);
+        typeMembreCard = (CardView) rootView.findViewById(R.id.typeMembre_card);
 
         caisseCard.setOnClickListener(this);
         majOFCard.setOnClickListener(this);
         userCard.setOnClickListener(this);
         preParamCard.setOnClickListener(this);
         ownInfoCard.setOnClickListener(this);
+        typeMembreCard.setOnClickListener(this);
 
 
         // Inflate the layout for this fragment
@@ -110,6 +114,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;*/
             case R.id.param_piece_frais_of_card:
                 i = new Intent(getActivity(), ParametreGenerauxOFActivity.class);
+                startActivity(i);
+                break;
+            case R.id.typeMembre_card:
+                i = new Intent(getActivity(), TypeMembreActivity.class);
                 startActivity(i);
                 break;
 

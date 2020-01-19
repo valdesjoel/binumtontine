@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.binumtontine.activity.adherent.InitialisationCaisseGuichet;
+import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.ParametreGenerauxCxActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.ParametreGenerauxOFActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.PieceToFournirActivity;
@@ -62,8 +63,14 @@ public class ParamGuichetActivity extends AppCompatActivity {
 
             case R.id.piece_frais_card:
                 // do your code
-                Intent piece_to_fournir_intent = new Intent(getBaseContext(),   ParametreGenerauxGxActivity.class);
+                Intent piece_to_fournir_intent = new Intent(getBaseContext(),   ListTypeMembrePFgxActivity.class);
+                //Intent piece_to_fournir_intent = new Intent(getBaseContext(),   ParametreGenerauxGxActivity.class);
                 startActivity(piece_to_fournir_intent);
+                break;
+            case R.id.type_membre_guichet_card:
+                // do your code
+                Intent type_membre_guichet_intent = new Intent(getBaseContext(),   TypeMembreGxActivity.class);
+                startActivity(type_membre_guichet_intent);
                 break;
             case R.id.init_caisse_guichet_card:
                 // do your code

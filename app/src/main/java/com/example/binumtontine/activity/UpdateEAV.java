@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -41,6 +42,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_EAV_TX_INTER_AN = "ev_tx_inter_an";
     private static final String KEY_EAV_IS_TX_INTER_AN_OBLIG = "ev_is_tx_inter_an_oblig";
     private static final String KEY_EAV_TYP_DAT_VAL = "ev_typ_dat_val";
+    private static final String KEY_EAV_TYP_DAT_RETRAIT_VAL = "ev_typ_dat_retrait_val";
     private static final String KEY_EAV_IS_MULTI_EAV_ON = "ev_is_multi_eav_on";
     private static final String KEY_EAV_IS_PAIE_PS_ON = "ev_is_paie_ps_on";
     private static final String KEY_EAV_IS_AGIOS_ON = "ev_is_agios_on";
@@ -62,6 +64,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private EditText ev_tx_inter_anEditText;
     private Switch ev_is_tx_inter_an_obligSwitch;
     private EditText ev_typ_dat_valEditText;
+    private EditText ev_typ_dat_retrait_valEditText;
     private Switch ev_is_multi_eav_onSwitch;
     private Switch ev_is_paie_ps_onSwitch;
     private Switch ev_is_agios_onSwitch;
@@ -80,6 +83,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private String ev_tx_inter_an;
     private Boolean ev_is_tx_inter_an_oblig;
     private String ev_typ_dat_val;
+    private String ev_typ_dat_retrait_val;
     private Boolean ev_is_multi_eav_on;
     private Boolean ev_is_paie_ps_on;
     private Boolean ev_is_agios_on;
@@ -91,16 +95,21 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private String ev_frais_clot_cpt;
 
     private LinearLayout blkPlageEav;
+    private LinearLayout LL_TypeFraisCpteEAV;
     private RadioButton rbEpTypTxInterFixe;
     private RadioButton rbEpTypTxInterTaux;
     private RadioButton rbEpTypTxInterPlage;
     private TextInputLayout layout_TauxAPreleveCpteEAV;
+
+    private TextInputLayout layout_MinCompteEAV;
+    private TextInputLayout layout_TauxInteretAnnuelEAV;
 
     private Button deleteButton;
     private Button updateButton;
     private Button cancelButton;
     private int success;
     private ProgressDialog pDialog;
+    private TextView tv_header_produit;
 
 
     @Override
@@ -116,6 +125,8 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         headerEAVTextView = (TextView) findViewById(R.id.header_eav);
         headerEAVTextView.setText("Mise à jour EAV");
 
+        tv_header_produit = (TextView) findViewById(R.id.header_produit);
+        tv_header_produit.setText("Produit EAV\n"+"Caisse: "+ MyData.CAISSE_NAME);
         ev_codeEditText = (EditText) findViewById(R.id.input_txt_Code_EAV);
         ev_libelleEditText = (EditText) findViewById(R.id.input_txt_LibelleEAV);
         ev_min_cpteEditText = (EditText) findViewById(R.id.input_txt_MinCompteEAV);
@@ -123,6 +134,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         ev_tx_inter_anEditText = (EditText) findViewById(R.id.input_txt_TauxInteretAnnuelEAV);
         ev_is_tx_inter_an_obligSwitch = (Switch) findViewById(R.id.SwitchTauxInteretAnnuelEAV);
         ev_typ_dat_valEditText = (EditText) findViewById(R.id.input_txt_type_de_date);
+        ev_typ_dat_retrait_valEditText = (EditText) findViewById(R.id.input_txt_type_de_date_retrait);
         ev_is_multi_eav_onSwitch = (Switch) findViewById(R.id.SwitchMultiEAV);
         ev_is_paie_ps_onSwitch = (Switch) findViewById(R.id.SwitchPayerPSOnEAV);
         ev_is_agios_onSwitch = (Switch) findViewById(R.id.SwitchFraisTenuCpteOnEAV);
@@ -140,6 +152,10 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
         blkPlageEav = (LinearLayout) findViewById(R.id.blk_plage_eav);
         layout_TauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxAPreleveCpteEAV);
+        LL_TypeFraisCpteEAV = (LinearLayout) findViewById(R.id.ll_TypeFraisCpteEAV);
+
+        layout_MinCompteEAV = (TextInputLayout) findViewById(R.id.input_layout_MinCompteEAV);
+        layout_TauxInteretAnnuelEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxInteretAnnuelEAV);
 
 
         eavId = intent.getStringExtra(KEY_EAV_ID);
@@ -190,6 +206,52 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Mise à jour d'un produit EAV");
 
+    }
+    public void onSwitchButtonClicked(View view) {
+        boolean checked1 = ((Switch) view).isChecked();
+        String str="";
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+
+            case R.id.SwitchMinCpteEAVOblig:
+                if (ev_is_min_cpte_obligSwitch.isChecked()) {
+                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+
+                    layout_MinCompteEAV.setVisibility(View.VISIBLE);
+                }else{
+                    layout_MinCompteEAV.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchTauxInteretAnnuelEAV:
+                if (ev_is_tx_inter_an_obligSwitch.isChecked()){
+                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
+
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                }else{
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
+                }
+
+
+                break;
+            case R.id.SwitchFraisTenuCpteOnEAV:
+                if (ev_is_agios_onSwitch.isChecked()){
+                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
+
+                    LL_TypeFraisCpteEAV.setVisibility(View.VISIBLE);
+                    onRadioButtonClicked(rbEpTypTxInterFixe);
+                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
+                }else{
+                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    LL_TypeFraisCpteEAV.setVisibility(View.GONE);
+                    blkPlageEav.setVisibility(View.GONE);
+                }
+
+
+                break;
+
+        }
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
     public void onRadioButtonClicked(View view) {
         boolean checked1 = ((RadioButton) view).isChecked();
@@ -326,8 +388,8 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private void confirmDelete() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 UpdateEAV.this);
-        alertDialogBuilder.setMessage("Are you sure, you want to delete this EAV?");
-        alertDialogBuilder.setPositiveButton("Delete",
+        alertDialogBuilder.setMessage("Voulez-vous vraiment supprimer cet EAV ?");
+        alertDialogBuilder.setPositiveButton("Supprimer",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -423,6 +485,7 @@ if(true){
     ev_tx_inter_an = ev_tx_inter_anEditText.getText().toString();
     ev_is_tx_inter_an_oblig = ev_is_tx_inter_an_obligSwitch.isChecked();
     ev_typ_dat_val = ev_typ_dat_valEditText.getText().toString();
+    ev_typ_dat_retrait_val = ev_typ_dat_retrait_valEditText.getText().toString();
     ev_is_multi_eav_on = ev_is_multi_eav_onSwitch.isChecked();
     ev_is_paie_ps_on = ev_is_paie_ps_onSwitch.isChecked();
     ev_is_agios_on = ev_is_agios_onSwitch.isChecked();
@@ -474,6 +537,7 @@ if(true){
             httpParams.put(KEY_EAV_TX_INTER_AN, ev_tx_inter_an);
             httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig.toString());
             httpParams.put(KEY_EAV_TYP_DAT_VAL, ev_typ_dat_val);
+            httpParams.put(KEY_EAV_TYP_DAT_RETRAIT_VAL, ev_typ_dat_retrait_val);
             httpParams.put(KEY_EAV_IS_MULTI_EAV_ON, ev_is_multi_eav_on.toString());
             httpParams.put(KEY_EAV_IS_PAIE_PS_ON, ev_is_paie_ps_on.toString());
             httpParams.put(KEY_EAV_IS_AGIOS_ON, ev_is_agios_on.toString());

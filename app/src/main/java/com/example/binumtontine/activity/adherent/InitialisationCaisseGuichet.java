@@ -32,7 +32,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -65,9 +64,9 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
 
     private static final String KEY_CV_PRODUIT = "CvProduit";
     private static final String KEY_CV_MEMBRE = "CvMembre";
-    private static final String KEY_CV_GUICHET = "CvGuichet";
+    private static final String KEY_CG_GUICHET = "CgGuichet";
     private static final String KEY_CV_NUM_DOSSIER = "CvNumDossier";
-    private static final String KEY_CV_MT_SOLDE = "CvMtSolde";
+    private static final String KEY_CG_LAST_SOLDE = "CgLastSolde";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
     private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
 
@@ -139,7 +138,7 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    //initialisationCaisseGuichet();
+                    initialisationCaisseGuichet();
                 } else {
                     Toast.makeText(InitialisationCaisseGuichet.this,
                             "Impossible de se connecter à Internet",
@@ -205,12 +204,12 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
             //Populating request parameters
            // httpParams.put(KEY_EAV_ID, uxGuichetId);
 
-            httpParams.put(KEY_CV_GUICHET, String.valueOf(MyData.GUICHET_ID));
-            httpParams.put(KEY_CV_MT_SOLDE, guichetMontantInitialisation);
+            httpParams.put(KEY_CG_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            httpParams.put(KEY_CG_LAST_SOLDE, guichetMontantInitialisation);
             httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_eav_adherent.php", "POST", httpParams);
+                    BASE_URL + "add_caisse_guichet.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

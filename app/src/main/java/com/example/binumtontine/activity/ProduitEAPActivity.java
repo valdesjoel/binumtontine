@@ -120,7 +120,7 @@ public class ProduitEAPActivity extends AppCompatActivity implements SERVER_ADDR
                         .setAction("Action", null).show();
                 //  Intent i = new Intent(ProduitEAVActivity.this, AddMovieActivity.class);
                 Intent i = new Intent(ProduitEAPActivity.this, CreateProduitEAP.class);
-                startActivity(i);
+                startActivityForResult(i,20);
 
 
             }
@@ -206,7 +206,7 @@ public class ProduitEAPActivity extends AppCompatActivity implements SERVER_ADDR
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
                     Intent intent = new Intent(getApplicationContext(),
-                            MovieUpdateDeleteActivity.class);
+                            UpdateEAP.class);
                     intent.putExtra(KEY_EAP_NUMERO, movieId);
                     startActivityForResult(intent, 20);
 

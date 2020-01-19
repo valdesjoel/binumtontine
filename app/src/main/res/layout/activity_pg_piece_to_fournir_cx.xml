@@ -45,6 +45,7 @@
 
 
                 <TextView
+                    android:id="@+id/header_produit"
                     style="@style/headerText"
                     android:layout_gravity="center"
                     android:text="Pièces à fournir"

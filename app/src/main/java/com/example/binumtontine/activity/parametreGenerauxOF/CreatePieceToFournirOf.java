@@ -32,9 +32,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,6 +58,7 @@ public class CreatePieceToFournirOf extends AppCompatActivity implements SERVER_
     private static final String KEY_FP_CODE = "FpCode";
     private static final String KEY_FP_LIBELLE = "FpLibelle";
     private static final String KEY_FP_TYPE_ADH = "FpTypeAdh";
+    private static final String KEY_FC_CAT_ADH = "FpCategAdh";
 
 
 
@@ -66,6 +69,8 @@ public class CreatePieceToFournirOf extends AppCompatActivity implements SERVER_
     private EditText FpLibelleEditText;
     private RadioButton rbTypeAdherentPhysique;
     private RadioButton rbTypeAdherentMorale;
+
+    private Spinner spinnerFonctionFrais;
 
 
     private String FpCode;
@@ -82,6 +87,7 @@ public class CreatePieceToFournirOf extends AppCompatActivity implements SERVER_
     private Button deleteButton;
     private int success;
     private ProgressDialog pDialog;
+    private String FcTypeMembre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +104,42 @@ public class CreatePieceToFournirOf extends AppCompatActivity implements SERVER_
         //FpTypeEditText = (EditText) findViewById(R.id.input_pg);
         rbTypeAdherentPhysique = (RadioButton) findViewById(R.id.rb_type_adherent_pg_piece_of_physique);
         rbTypeAdherentMorale = (RadioButton) findViewById(R.id.rb_type_adherent_pg_piece_of_morale);
+
+        spinnerFonctionFrais = (Spinner) findViewById(R.id.spn_type_membre_fc);
+        spinnerFonctionFrais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View view, int position,
+                                       long id) {
+                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
+                // FcFonctionFrais = spinnerFonctionFrais.getSelectedItem().toString();//pour recuperer l'ID de la pièce selectionnée
+                // your stuff here
+                FcTypeMembre = spinnerFonctionFrais.getSelectedItem().toString();
+
+//                if (spinnerFonctionFrais.getSelectedItem().toString().equals("Part sociale")){
+//                    textInputLayoutFcNbrePartMin.setVisibility(View.VISIBLE);
+//                    FcFonctionFrais = "P";
+//
+//                }else{
+//                    textInputLayoutFcNbrePartMin.setVisibility(View.GONE);
+//                    if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais d'adhésion")){
+//                        FcFonctionFrais = "A";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Fonds de solidarité")){
+//                        FcFonctionFrais = "S";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Approvisionnement")){
+//                        FcFonctionFrais = "D";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais de fonctionnement")){
+//                        FcFonctionFrais = "F";
+//                    }
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub.
+
+            }
+
+        });
 
 
         deleteButton = (Button) findViewById(R.id.btn_delete_pg_piece_of);
@@ -223,6 +265,7 @@ if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
             httpParams.put(KEY_FP_CODE, FpCode);
             httpParams.put(KEY_FP_LIBELLE, FpLibelle);
             httpParams.put(KEY_FP_TYPE_ADH,FpTypeAdh );
+            httpParams.put(KEY_FC_CAT_ADH, String.valueOf(FcTypeMembre));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_piece_of.php", "POST", httpParams);

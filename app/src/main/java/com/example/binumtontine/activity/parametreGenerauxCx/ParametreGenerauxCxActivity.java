@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.parametrageGuichet.ProduitEAVGuichetActivity;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.fragment.FraisToPayerListOfFragment;
 import com.example.binumtontine.fragment.PieceToFournirListOfFragment;
 import com.google.android.material.appbar.AppBarLayout;
@@ -39,7 +40,8 @@ public class ParametreGenerauxCxActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Resources resources=getResources();
-        String title = resources.getString(R.string.tab_title_param_generaux);
+        String title = "TYPE: "+MyData.TYPE_MEMBRE_NAME;
+        //String title = resources.getString(R.string.tab_title_param_generaux);
         getSupportActionBar().setTitle(title) ;
         //this.setCheckedItem(R.id.nav_new);
 
@@ -70,6 +72,7 @@ public class ParametreGenerauxCxActivity extends AppCompatActivity {
         });
     }
     /* To manage Menu*/
+  /*
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_type_membre, menu);
@@ -96,6 +99,8 @@ public class ParametreGenerauxCxActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    */
 
 
 

@@ -103,6 +103,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private String guichetId;
     private JRSpinner mySpinnerCaisse; //pour gérer le spinner contenant les caisses
     private JRSpinner mySpinnerLocalite; //pour gérer le spinner contenant les localités
+    private JRSpinner mySpinnerFreqComCredit; //pour gérer le spinner contenant les localités
     private EditText gx_denominationEditText;
     private EditText gx_date_debutEditText;
     private EditText gx_adresseEditText;
@@ -235,6 +236,23 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
             }
         });
+
+        mySpinnerFreqComCredit = (JRSpinner)findViewById(R.id.spn_GuFreqReunComCred);
+
+        mySpinnerFreqComCredit.setItems(getResources().getStringArray(R.array.array_GuFreqReunComCred)); //this is important, you must set it to set the item list
+        mySpinnerFreqComCredit.setTitle("Sélectionner la fréquence des réunions"); //change title of spinner-dialog programmatically
+        mySpinnerFreqComCredit.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+
+        mySpinnerFreqComCredit.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+                //  cxLocalite = mySpinnerLocalite.getText().toString();
+                // Log.d("iddddddd***",caisseLocalite);
+            }
+        });
+
+
         gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
         alreadyUpperCase(gx_denominationEditText);
         gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
@@ -480,7 +498,8 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     gx_is_jour8_onSwitch.setChecked(gx_is_jour8_on);
                     gx_is_credit_by_objetSwitch.setChecked(gx_is_credit_by_objet);
                     gx_first_jr_onEditText.setText(gx_first_jr_on);
-                    gx_freq_reun_com_credEditText.setText(gx_freq_reun_com_cred);
+                    //gx_freq_reun_com_credEditText.setText(gx_freq_reun_com_cred);
+                    mySpinnerFreqComCredit.setText(gx_freq_reun_com_cred);
                     gx_is_rapp_net_msg_cred_onSwitch.setChecked(gx_is_rapp_net_msg_cred_on);
 
                 }
@@ -617,7 +636,8 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                 gx_is_jour8_on = gx_is_jour8_onSwitch.isChecked();
                 gx_is_credit_by_objet = gx_is_credit_by_objetSwitch.isChecked();
                 gx_first_jr_on = gx_first_jr_onEditText.getText().toString();
-                gx_freq_reun_com_cred = gx_freq_reun_com_credEditText.getText().toString();
+                //gx_freq_reun_com_cred = gx_freq_reun_com_credEditText.getText().toString();
+                gx_freq_reun_com_cred = mySpinnerFreqComCredit.getText().toString();
                 gx_is_rapp_net_msg_cred_on = gx_is_rapp_net_msg_cred_onSwitch.isChecked();
             new UpdateGuichet.UpdateMovieAsyncTask().execute();
         } else {

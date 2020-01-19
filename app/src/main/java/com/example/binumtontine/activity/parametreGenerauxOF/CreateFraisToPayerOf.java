@@ -69,6 +69,8 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
     private static final String KEY_FP_VALEUR = "FpVal";
     private static final String KEY_FP_BASE = "FpBase";
     private static final String KEY_FP_TYPE_ADH = "FpTypeAdh";
+    private static final String KEY_FC_CAT_ADH = "FpCategAdh";
+
 
     private static final String KEY_FP_FONCTION_FRAIS = "FpFonction";
     private static final String KEY_FP_NOMBRE_PART_MIN_J = "FpNbrePartMinJ";
@@ -88,6 +90,8 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
     private RadioButton rbNatureFraisFixe;
     private RadioButton rbNatureFraisTaux;
 
+    private Spinner spinnerTypeMembre;
+    private String FcTypeMembre;
 
     private String FpCode;
     private String FpLibelle;
@@ -168,6 +172,44 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
         // spinner item select listener
         spinnerBaseFrais.setOnItemSelectedListener(CreateFraisToPayerOf.this);
         spinnerFonctionFrais.setOnItemSelectedListener(CreateFraisToPayerOf.this);
+
+        spinnerTypeMembre = (Spinner) findViewById(R.id.spn_type_membre_fc);
+        spinnerTypeMembre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View view, int position,
+                                       long id) {
+                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
+                // FcFonctionFrais = spinnerFonctionFrais.getSelectedItem().toString();//pour recuperer l'ID de la pièce selectionnée
+                // your stuff here
+                FcTypeMembre = spinnerTypeMembre.getSelectedItem().toString();
+
+//                if (spinnerFonctionFrais.getSelectedItem().toString().equals("Part sociale")){
+//                    textInputLayoutFcNbrePartMin.setVisibility(View.VISIBLE);
+//                    FcFonctionFrais = "P";
+//
+//                }else{
+//                    textInputLayoutFcNbrePartMin.setVisibility(View.GONE);
+//                    if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais d'adhésion")){
+//                        FcFonctionFrais = "A";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Fonds de solidarité")){
+//                        FcFonctionFrais = "S";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Approvisionnement")){
+//                        FcFonctionFrais = "D";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais de fonctionnement")){
+//                        FcFonctionFrais = "F";
+//                    }
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub.
+
+            }
+
+        });
+
+
         new GetBaseFraisList().execute();
 
         deleteButton = (Button) findViewById(R.id.btn_delete_pg_frais_of);
@@ -447,6 +489,7 @@ if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
             httpParams.put(KEY_FP_NOMBRE_PART_MIN_F, FpNbrePartMinF);
             httpParams.put(KEY_FP_NOMBRE_PART_MIN_H, FpNbrePartMinH);
             httpParams.put(KEY_FP_TYPE_ADH, FpTypeAdh);
+            httpParams.put(KEY_FC_CAT_ADH, String.valueOf(FcTypeMembre));
 
 
 

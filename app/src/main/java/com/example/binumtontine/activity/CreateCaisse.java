@@ -32,7 +32,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -63,6 +65,7 @@ import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 public class CreateCaisse extends AppCompatActivity implements View.OnClickListener, SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_CX_DENOMINATION = "cx_denomination";
+    private static final String KEY_CX_SIEGE = "cx_siege";
     private static final String KEY_CX_LOCALITE = "cx_localite";
     private static final String KEY_CX_NUM_AGREM = "cx_num_agrem";
     private static final String KEY_CX_DATE_AGREM = "cx_date_agrem";
@@ -123,6 +126,8 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     // private DatePickerDialog toDatePickerDialog;
 
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
+    private EditText cx_siegeEditText;
+    private String cxSiege;
 
 
     @Override
@@ -154,6 +159,9 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             }
         });
         cx_denominationEditText = (EditText) findViewById(R.id.input_denominationCx);
+        cx_siegeEditText = (EditText) findViewById(R.id.input_siegeCx);
+        alreadyUpperCase(cx_denominationEditText);
+        alreadyUpperCase(cx_siegeEditText);
         cx_num_agremEditText = (EditText) findViewById(R.id.input_txt_AdresseCx);
        // cx_date_agremEditText = (EditText) findViewById(R.id.input_txt_num_agrement_cx);
         //cx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateAgrementCx);
@@ -180,6 +188,8 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
 
         cx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Cx);
         cx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Cx);
+        alreadyUpperCase(cx_nom_pcaEditText);
+        alreadyUpperCase(cx_nom_dgEditText);
 
         addButton = (Button) findViewById(R.id.btn_save_Cx);
         annulerButton = (Button) findViewById(R.id.btn_clean);
@@ -214,6 +224,31 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void alreadyUpperCase(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable et) {
+                String s = et.toString();
+                if (!s.equals(s.toUpperCase())) {
+                    s = s.toUpperCase();
+                    editText.setText(s);
+                    editText.setSelection(editText.length()); //fix reverse texting
+                }
+            }
+        });
+    }
+
     /**
      * Checks whether all files are filled. If so then calls AddCaisseAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
@@ -230,6 +265,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
                 !STRING_EMPTY.equals(cx_date_debutEditText.getText().toString())) {
 
             cxDenomination = cx_denominationEditText.getText().toString();
+            cxSiege = cx_siegeEditText.getText().toString();
             cxLocalite = mySpinnerLocalite.getText().toString();
             cx_num_agrem = cx_num_agremEditText.getText().toString();
             cx_date_agrem = cx_date_agremEditText.getText().toString();
@@ -325,6 +361,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
             httpParams.put(KEY_CX_DENOMINATION, cxDenomination);
+            httpParams.put(KEY_CX_SIEGE, cxSiege);
             httpParams.put(KEY_CX_LOCALITE, cxLocalite);
             httpParams.put(KEY_CX_NUM_AGREM, cx_num_agrem);
             httpParams.put(KEY_CX_DATE_AGREM, cx_date_agrem);

@@ -1,35 +1,11 @@
-/*package com.example.binumtontine.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import eav.os.Bundle;
-
-import com.example.binumtontine.R;
-
-public class CreateProduitEAV extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_param_produit_eav);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle();
-    }
-
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Ajout d'un produit EAV");
-
-    }
-}*/
 package com.example.binumtontine.activity;
 
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -76,6 +52,9 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_EAT_VAL_TX_INTER = "EtValTxInter";
     private static final String KEY_EAT_PLAGE_TX_INTER_FROM = "EtPlageTxInterFrom";
     private static final String KEY_EAT_PLAGE_TX_INTER_TO = "EtPlageTxInterTo";
+    private static final String KEY_EAT_PLAGE_TX_INTER_DEBUT = "EtTitDebut";
+    private static final String KEY_EAT_PLAGE_TX_INTER_FIN = "EtTitFin";
+    private static final String KEY_EAT_PLAGE_TX_INTER_VALEUR = "EtTitValeur";
     private static final String ET_IS_TX_INT_NEG = "EtIsTxIntNeg";
     private static final String ET_IS_PRISE_INT_MISE_ON = "EtIsPriseIntMiseOn";
     private static final String ET_IS_PENAL_RUP_ANT = "EtIsPenalRupAnt";
@@ -84,6 +63,12 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private static final String ET_PLAGE_TX_MT_RUPTURE_FROM = "EtPlageTxMtRuptureFrom";
     private static final String ET_PLAGE_TX_MT_RUPTURE_TO = "EtPlageTxMtRuptureTo";
     private static final String ET_BASE_TX_PENAL = "EtBaseTxPenal";
+
+
+    private static final String KEY_EAT_PLAGE_TX_MT_RUPTURE_DEBUT = "EtTptDebut";
+    private static final String KEY_EAT_PLAGE_TX_MT_RUPTURE_FIN = "EtTptFin";
+    private static final String KEY_EAT_PLAGE_TX_MT_RUPTURE_VALEUR = "EtTptValeur";
+
     private static final String ET_IS_EPAR_RETIRE_FIN = "EtIsEparRetireFin";
     private static final String ET_IS_EPAR_TRANSF_FIN = "EtIsEparTransfFin";
     private static final String ET_IS_ONLY_TOT_TRANSF = "EtIsOnlyTotTransf";
@@ -97,6 +82,12 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private static final String ET_PLAGE_TX_INT_PENAL_FROM = "EtPlageTxIntPenalFrom";
     private static final String ET_PLAGE_TX_INT_PENAL_TO = "EtPlageTxIntPenalTo";
     private static final String ET_BASE_TX_INT_PENAL = "EtBaseTxIntPenal";
+
+
+    private static final String KEY_EAT_PLAGE_TX_INT_PENAL_DEBUT = "EtRatDebut";
+    private static final String KEY_EAT_PLAGE_TX_INT_PENAL_FIN = "EtRatFin";
+    private static final String KEY_EAT_PLAGE_TX_INT_PENAL_VALEUR = "EtRatValeur";
+
     private static final String ET_TX_INT_PENAL_NEG = "EtTxIntPenalNeg";
     private static final String ET_CAISSE_ID = "EtCaisseId";
     //private static final String ET_GUICHET_ID = "EtGuichetId";
@@ -106,6 +97,10 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
 
     private LinearLayout ll;
     private LinearLayout ll_btn;
+    private LinearLayout ll_EtValTxMtRupture;
+    private LinearLayout ll_btn_EtValTxMtRupture;
+    private LinearLayout ll_EtValTxIntPenal;
+    private LinearLayout ll_btn_EtValTxIntPenal;
     private EditText EtCode_ET;
     private EditText EtLibelleET;
     private EditText EtMtMinMise_ET;
@@ -131,6 +126,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private EditText EtValTxMtRupture_ET;
     private EditText EtPlageTxMtRuptureFrom_ET;
     private EditText EtPlageTxMtRuptureTo_ET;
+    private EditText EtPlageTxMtRuptureValeur_ET;
     private EditText EtBaseTxPenal_ET;
 
     private Switch EtIsEparRetireFin_SW;
@@ -146,6 +142,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private EditText EtValTxIntPenal_ET;
     private EditText EtPlageTxIntPenalFrom_ET;
     private EditText EtPlageTxIntPenalTo_ET;
+    private EditText EtPlageTxIntPenalValeur_ET;
     private EditText EtBaseTxIntPenal_ET;
     private Switch EtTxIntPenalNeg_SW;
 
@@ -189,6 +186,8 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
 
 
     private LinearLayout blkPlageEav;
+    private LinearLayout LL_EtNatureRupAn;
+    private LinearLayout LL_EtTypNewTxIntRupAnt;
 
 
     private RadioButton rbEpTypTxInterPlage;
@@ -201,15 +200,37 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private ProgressDialog pDialog;
 
     public int numberOfLinesDebut = 0;
+    public int numberOfLinesDebut_EtValTxMtRupture = 0;
+    public int numberOfLinesDebut_EtTypNewTxIntRupAnt = 0;
     private List<String> tabPlageDebutList;
+    private List<String> tabPlageDebutList1;
+    private List<String> tabPlageDebutList2;
     private List<String> tabPlageFinList;
+    private List<String> tabPlageFinList1;
+    private List<String> tabPlageFinList2;
     private List<String> tabPlageValeurList;
+    private List<String> tabPlageValeurList1;
+    private List<String> tabPlageValeurList2;
     public int numberOfLinesFin = 0;
+    public int numberOfLinesFin_EtValTxMtRupture = 0;
+    public int numberOfLinesFin_EtTypNewTxIntRupAnt = 0;
     public int numberOfLinesValeur = 0;
+    public int numberOfLinesValeur_EtValTxMtRupture = 0;
+    public int numberOfLinesValeur_EtTypNewTxIntRupAnt = 0;
     private Button remove_button;
+    private Button remove_button_EtValTxMtRupture;
+    private Button remove_button_EtTypNewTxIntRupAnt;
     private String tabPlageDebut ="";
     private String tabPlageFin ="";
     private String tabPlageValeur ="";
+    private String tabPlageDebut1 ="";
+    private String tabPlageFin1 ="";
+    private String tabPlageValeur1 ="";
+    private String tabPlageDebut2 ="";
+    private String tabPlageFin2 ="";
+    private String tabPlageValeur2 ="";
+
+    private TextView tv_header_produit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,12 +242,27 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         setSupportActionBar(toolbar);
         setToolbarTitle(); */
 
+        tv_header_produit = (TextView) findViewById(R.id.header_produit);
+        tv_header_produit.setText("Produit EAT\n"+"Caisse: "+ MyData.CAISSE_NAME);
 
         tabPlageDebutList = new ArrayList<>();
         tabPlageFinList = new ArrayList<>();
         tabPlageValeurList = new ArrayList<>();
+        tabPlageDebutList1 = new ArrayList<>();
+        tabPlageFinList1 = new ArrayList<>();
+        tabPlageValeurList1 = new ArrayList<>();
+        tabPlageDebutList2 = new ArrayList<>();
+        tabPlageFinList2 = new ArrayList<>();
+        tabPlageValeurList2 = new ArrayList<>();
         ll = (LinearLayout)findViewById(R.id.blk_EtPlageTxInter);
+        ll_EtValTxMtRupture = (LinearLayout)findViewById(R.id.blk_EtValTxMtRupture);
+        ll_EtValTxIntPenal = (LinearLayout)findViewById(R.id.blk_EtNewValTxInter);
+        LL_EtNatureRupAn = (LinearLayout)findViewById(R.id.ll_EtNatureRupAn);
+        LL_EtTypNewTxIntRupAnt = (LinearLayout)findViewById(R.id.ll_EtTypNewTxIntRupAnt);
+
         ll_btn = (LinearLayout)findViewById(R.id.blk_btn_EtPlageTxInter);
+        ll_btn_EtValTxMtRupture = (LinearLayout)findViewById(R.id.blk_btn_EtValTxMtRupture);
+        ll_btn_EtValTxIntPenal = (LinearLayout)findViewById(R.id.blk_btn_EtNewValTxInter);
         EtCode_ET = (EditText) findViewById(R.id.input_txt_Code_EAT);
         EtLibelleET = (EditText) findViewById(R.id.input_txt_LibelleEAT);
         EtMtMinMise_ET = (EditText) findViewById(R.id.input_txt_MinMtMiseEAT);
@@ -256,6 +292,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         EtValTxMtRupture_ET = (EditText) findViewById(R.id.input_txt_ValTxMtRuptureEAT);
         EtPlageTxMtRuptureFrom_ET = (EditText) findViewById(R.id.txt_EtValTxMtRuptureFrom);
         EtPlageTxMtRuptureTo_ET = (EditText) findViewById(R.id.txt_EtValTxMtRuptureTo);
+        EtPlageTxMtRuptureValeur_ET = (EditText) findViewById(R.id.txt_EtValTxMtRuptureValeur);
         EtBaseTxPenal_ET = (EditText) findViewById(R.id.input_txt_BaseTxPenalEAT);
 
         EtIsEparRetireFin_SW = (Switch) findViewById(R.id.SwitchPossibiliteRetirerEAT);
@@ -272,12 +309,18 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         EtValTxIntPenal_ET = (EditText) findViewById(R.id.txtValeurNewTxInteretRuptureEAT);
         EtPlageTxIntPenalFrom_ET = (EditText) findViewById(R.id.txt_EtNewValTxInterFrom);
         EtPlageTxIntPenalTo_ET = (EditText) findViewById(R.id.txt_EtNewValTxInterTo);
+        EtPlageTxIntPenalValeur_ET = (EditText) findViewById(R.id.txt_EtNewValTxInterValeur);
         EtBaseTxIntPenal_ET = (EditText) findViewById(R.id.txtBaseNewTxInteretEAT);
         EtTxIntPenalNeg_SW = (Switch) findViewById(R.id.SwitchTxNewInteretNegociableEAT);
-        rbEtNaturePasFixe.performClick();
-        rbEtTypTxInterFixe.performClick();
-        rbEtNatureRupAnTaux.performClick();
-        rbEtTypNewTxIntRupAntFixe.performClick();
+
+        onRadioButtonClicked(rbEtNaturePasFixe);
+        onRadioButtonClicked(rbEtTypTxInterFixe);
+        onRadioButtonClicked(rbEtNatureRupAnTaux);
+        onRadioButtonClicked(rbEtTypNewTxIntRupAntFixe);
+
+        onSwitchButtonClicked(EtIsPenalRupAnt_SW);
+        onSwitchButtonClicked(EtIsNewTxIntRupAnt_SW);
+       // EtIsPenalRupAnt_SW.setChecked(false);
 
         remove_button = (Button) findViewById(R.id.remove_button);
         remove_button.setOnClickListener(new View.OnClickListener() {
@@ -287,12 +330,42 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
                 Remove_Line();
             }
         });
+        remove_button_EtValTxMtRupture = (Button) findViewById(R.id.remove_button_EtValTxMtRupture);
+        remove_button_EtValTxMtRupture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //getAnswer();
+                Remove_Line_EtValTxMtRupture();
+            }
+        });
+        remove_button_EtTypNewTxIntRupAnt = (Button) findViewById(R.id.remove_button_EtNewValTxInter);
+        remove_button_EtTypNewTxIntRupAnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //getAnswer();
+                Remove_Line_EtValTxIntPenal();
+            }
+        });
 
         final Button Add_button = (Button) findViewById(R.id.add_button);
         Add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Add_Line();
+            }
+        });
+        final Button add_button_EtValTxMtRupture = (Button) findViewById(R.id.add_button_EtValTxMtRupture);
+        add_button_EtValTxMtRupture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Add_Line_EtValTxMtRupture();
+            }
+        });
+        final Button add_button_EtNewValTxInter = (Button) findViewById(R.id.add_button_EtNewValTxInter);
+        add_button_EtNewValTxInter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Add_Line_EtValTxIntPenal();
             }
         });
 
@@ -313,9 +386,9 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    Intent i = new Intent(CreateProduitEAT.this, PlageData.class);
-                    startActivityForResult(i,20);
-                   // finish();
+//                    Intent i = new Intent(CreateProduitEAT.this, PlageData.class);
+//                    startActivityForResult(i,20);
+                    finish();
                 } else {
                     Toast.makeText(CreateProduitEAT.this,
                             "Impossible de se connecter à Internet",
@@ -346,17 +419,6 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
 
     }
 
-//    public void Add_Line() {
-//        LinearLayout ll = (LinearLayout)findViewById(R.id.linearLayoutDecisions);
-//        // add edittext
-//        EditText et = new EditText(this);
-//        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        et.setLayoutParams(p);
-//        et.setText("Text");
-//        et.setId(numberOfLinesDebut + 1);
-//        ll.addView(et);
-//        numberOfLinesDebut++;
-//    }
     public void Add_Line() {
 //i get current value on last EditText
 
@@ -376,25 +438,18 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             tabPlageValeurList.add(editTextValeur.getText().toString());
 
         }
-//        if (numberOfLinesFin>0){
-//            EditText editTextFin = (EditText)findViewById(numberOfLinesFin);
-//            tabPlageFinList.add(editTextFin.getText().toString());
-//        }
-//        if (numberOfLinesValeur>0){
-//            EditText editTextValeur = (EditText)findViewById(numberOfLinesValeur);
-//            tabPlageValeurList.add(editTextValeur.getText().toString());
-//        }
-
 
         // add edittext debut
         EditText et_debut = new EditText(this);
         TextView tv_debut = new TextView(this);
-        tv_debut.setTextColor(Color.GREEN);
+        tv_debut.setTextColor(Color.BLUE);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         et_debut.setLayoutParams(p);
 
         et_debut.setHint("De");
         et_debut.setId(numberOfLinesDebut + 1);
+//        int idLastChild= ll.getChildCount()-1;
+//        editText.setId(idLastChild+1);
         ll.addView(tv_debut);
         ll.addView(et_debut);
         numberOfLinesDebut++;
@@ -419,6 +474,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         et_valeur.setId(numberOfLinesValeur + 2000);
         ll.addView(et_valeur);
         numberOfLinesValeur+=2000;
+
 
 
         remove_button.setVisibility(View.VISIBLE);
@@ -431,92 +487,88 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             ll.removeViewAt(ll.getChildCount()-1);
             ll.removeViewAt(ll.getChildCount()-1);
             ll.removeViewAt(ll.getChildCount()-1);
+            ll.removeViewAt(ll.getChildCount()-1);
             numberOfLinesDebut--;
             if (numberOfLinesDebut==0){
-                ll.removeViewAt(ll.getChildCount()-1);
+               // ll.removeViewAt(ll.getChildCount()-1);
                 remove_button.setVisibility(View.INVISIBLE);
             }
-            //ll.removeViewAt(numberOfLinesDebut);
-//            ll.removeViewAt(numberOfLinesFin);
-//            ll.removeViewAt(numberOfLinesValeur);
-//            numberOfLinesDebut--;
-//            numberOfLinesFin = numberOfLinesFin-1000;
-//            numberOfLinesValeur = numberOfLinesValeur-2000;
         }
-        // add edittext debut
-//        EditText et_debut = new EditText(this);
-//        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        et_debut.setLayoutParams(p);
-//        //et.setText("Text");
-//        et_debut.setHint("De");
-//        et_debut.setId(numberOfLinesDebut + 1);
-//        ll.addView(et_debut);
-//        numberOfLinesDebut++;
-//
-//
-//        // add edittext fin
-//        EditText et_fin = new EditText(this);
-//        LinearLayout.LayoutParams p_fin = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        et_fin.setLayoutParams(p_fin);
-//        //et.setText("Text");
-//        et_fin.setHint("A");
-//        et_fin.setId(numberOfLinesFin + 1000);
-//        ll.addView(et_fin);
-//        numberOfLinesFin++;
-//
-//        // add edittext valeur
-//        EditText et_valeur = new EditText(this);
-//        LinearLayout.LayoutParams p_valeur = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        et_valeur.setLayoutParams(p_valeur);
-//        //et.setText("Text");
-//        et_valeur.setHint("Valeur");
-//        et_valeur.setId(numberOfLinesValeur + 2000);
-//        ll.addView(et_valeur);
-//        numberOfLinesValeur++;
+
     }
+    public void Remove_Line_EtValTxMtRupture() {
+        //LinearLayout ll = (LinearLayout)findViewById(R.id.blk_EtPlageTxInter);
+        if (numberOfLinesDebut_EtValTxMtRupture>0){
+
+
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            numberOfLinesDebut_EtValTxMtRupture--;
+            if (numberOfLinesDebut_EtValTxMtRupture==0){
+               // ll.removeViewAt(ll.getChildCount()-1);
+                remove_button_EtValTxMtRupture.setVisibility(View.INVISIBLE);
+            }
+        }
+
+    }
+    /*public void Remove_Line_EtValTxMtRupture() {
+        //LinearLayout ll = (LinearLayout)findViewById(R.id.blk_EtPlageTxInter);
+        if (numberOfLinesDebut_EtValTxMtRupture>0){
+
+
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            ll_EtValTxMtRupture.removeViewAt(ll_EtValTxMtRupture.getChildCount()-1);
+            numberOfLinesDebut_EtValTxMtRupture--;
+            if (numberOfLinesDebut_EtValTxMtRupture==0){
+               // ll.removeViewAt(ll.getChildCount()-1);
+                remove_button_EtValTxMtRupture.setVisibility(View.INVISIBLE);
+            }
+        }
+
+    }*/
 
     public void Add_Line_EtValTxMtRupture() {
 //i get current value on last EditText
 
-        if (numberOfLinesDebut==0){
-            tabPlageDebutList.add(EtPlageTxInterFrom_ET.getText().toString());
-            tabPlageFinList.add(EtPlageTxInterTo_ET.getText().toString());
-            tabPlageValeurList.add(EtPlageTxInterValeur_ET.getText().toString());
+
+        if (numberOfLinesDebut_EtValTxMtRupture==0){
+            tabPlageDebutList1.add(EtPlageTxMtRuptureFrom_ET.getText().toString());
+            tabPlageFinList1.add(EtPlageTxMtRuptureTo_ET.getText().toString());
+            tabPlageValeurList1.add(EtPlageTxMtRuptureValeur_ET.getText().toString());
         }
-        if (numberOfLinesDebut>0){
-            EditText editTextDebut = (EditText)findViewById(numberOfLinesDebut);
-            tabPlageDebutList.add(editTextDebut.getText().toString());
-            EditText editTextFin = (EditText)findViewById(numberOfLinesFin);
-            tabPlageFinList.add(editTextFin.getText().toString());
+        if (numberOfLinesDebut_EtValTxMtRupture>0){
+            EditText editTextDebut = (EditText)findViewById(numberOfLinesDebut_EtValTxMtRupture);
+            tabPlageDebutList1.add(editTextDebut.getText().toString());
+            EditText editTextFin = (EditText)findViewById(numberOfLinesFin_EtValTxMtRupture);
+            tabPlageFinList1.add(editTextFin.getText().toString());
 
 
-            EditText editTextValeur = (EditText)findViewById(numberOfLinesValeur);
-            tabPlageValeurList.add(editTextValeur.getText().toString());
+            EditText editTextValeur = (EditText)findViewById(numberOfLinesValeur_EtValTxMtRupture);
+            tabPlageValeurList1.add(editTextValeur.getText().toString());
 
         }
-//        if (numberOfLinesFin>0){
-//            EditText editTextFin = (EditText)findViewById(numberOfLinesFin);
-//            tabPlageFinList.add(editTextFin.getText().toString());
-//        }
-//        if (numberOfLinesValeur>0){
-//            EditText editTextValeur = (EditText)findViewById(numberOfLinesValeur);
-//            tabPlageValeurList.add(editTextValeur.getText().toString());
-//        }
+
 
 
         // add edittext debut
         EditText et_debut = new EditText(this);
         TextView tv_debut = new TextView(this);
-        tv_debut.setTextColor(Color.GREEN);
+        tv_debut.setTextColor(Color.BLUE);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         et_debut.setLayoutParams(p);
 
         et_debut.setHint("De");
-        et_debut.setId(numberOfLinesDebut + 1);
-        ll.addView(tv_debut);
-        ll.addView(et_debut);
-        numberOfLinesDebut++;
-        tv_debut.setText("PLAGE "+(numberOfLinesDebut+1));
+        et_debut.setId(numberOfLinesDebut_EtValTxMtRupture + 1);
+//        int idLastChild= ll.getChildCount()-1;
+//        editText.setId(idLastChild+1);
+        ll_EtValTxMtRupture.addView(tv_debut);
+        ll_EtValTxMtRupture.addView(et_debut);
+        numberOfLinesDebut_EtValTxMtRupture++;
+        tv_debut.setText("PLAGE "+(numberOfLinesDebut_EtValTxMtRupture+1));
 
 
         // add edittext fin
@@ -525,23 +577,25 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         et_fin.setLayoutParams(p_fin);
         //et.setText("Text");
         et_fin.setHint("A");
-        et_fin.setId(numberOfLinesFin + 1000);
-        ll.addView(et_fin);
-        numberOfLinesFin+=1000;
+        et_fin.setId(numberOfLinesFin_EtValTxMtRupture + 1000);
+        ll_EtValTxMtRupture.addView(et_fin);
+        numberOfLinesFin_EtValTxMtRupture+=1000;
         // add edittext valeur
         EditText et_valeur = new EditText(this);
         LinearLayout.LayoutParams p_valeur = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         et_valeur.setLayoutParams(p_valeur);
         //et.setText("Text");
         et_valeur.setHint("Valeur");
-        et_valeur.setId(numberOfLinesValeur + 2000);
-        ll.addView(et_valeur);
-        numberOfLinesValeur+=2000;
+        et_valeur.setId(numberOfLinesValeur_EtValTxMtRupture + 2000);
+        ll_EtValTxMtRupture.addView(et_valeur);
+        numberOfLinesValeur_EtValTxMtRupture+=2000;
 
 
-        remove_button.setVisibility(View.VISIBLE);
+
+        remove_button_EtValTxMtRupture.setVisibility(View.VISIBLE);
     }
-    public void Remove_Line_EtValTxMtRupture() {
+   /*
+   public void Remove_Line_EtValTxMtRupture() {
         //LinearLayout ll = (LinearLayout)findViewById(R.id.blk_EtPlageTxInter);
         if (numberOfLinesDebut>0){
 
@@ -592,50 +646,47 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
 //        ll.addView(et_valeur);
 //        numberOfLinesValeur++;
     }
+    */
 
 
     public void Add_Line_EtValTxIntPenal() {
 //i get current value on last EditText
 
-        if (numberOfLinesDebut==0){
-            tabPlageDebutList.add(EtPlageTxInterFrom_ET.getText().toString());
-            tabPlageFinList.add(EtPlageTxInterTo_ET.getText().toString());
-            tabPlageValeurList.add(EtPlageTxInterValeur_ET.getText().toString());
+
+        if (numberOfLinesDebut_EtTypNewTxIntRupAnt==0){
+            tabPlageDebutList2.add(EtPlageTxIntPenalFrom_ET.getText().toString());
+            tabPlageFinList2.add(EtPlageTxIntPenalTo_ET.getText().toString());
+            tabPlageValeurList2.add(EtPlageTxIntPenalValeur_ET.getText().toString());
         }
-        if (numberOfLinesDebut>0){
-            EditText editTextDebut = (EditText)findViewById(numberOfLinesDebut);
-            tabPlageDebutList.add(editTextDebut.getText().toString());
-            EditText editTextFin = (EditText)findViewById(numberOfLinesFin);
-            tabPlageFinList.add(editTextFin.getText().toString());
+        if (numberOfLinesDebut_EtTypNewTxIntRupAnt>0){
+            EditText editTextDebut = (EditText)findViewById(numberOfLinesDebut_EtTypNewTxIntRupAnt);
+            tabPlageDebutList2.add(editTextDebut.getText().toString());
+            EditText editTextFin = (EditText)findViewById(numberOfLinesFin_EtTypNewTxIntRupAnt);
+            tabPlageFinList2.add(editTextFin.getText().toString());
 
 
-            EditText editTextValeur = (EditText)findViewById(numberOfLinesValeur);
-            tabPlageValeurList.add(editTextValeur.getText().toString());
+            EditText editTextValeur = (EditText)findViewById(numberOfLinesValeur_EtTypNewTxIntRupAnt);
+            tabPlageValeurList2.add(editTextValeur.getText().toString());
 
         }
-//        if (numberOfLinesFin>0){
-//            EditText editTextFin = (EditText)findViewById(numberOfLinesFin);
-//            tabPlageFinList.add(editTextFin.getText().toString());
-//        }
-//        if (numberOfLinesValeur>0){
-//            EditText editTextValeur = (EditText)findViewById(numberOfLinesValeur);
-//            tabPlageValeurList.add(editTextValeur.getText().toString());
-//        }
+
 
 
         // add edittext debut
         EditText et_debut = new EditText(this);
         TextView tv_debut = new TextView(this);
-        tv_debut.setTextColor(Color.GREEN);
+        tv_debut.setTextColor(Color.BLUE);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         et_debut.setLayoutParams(p);
 
         et_debut.setHint("De");
-        et_debut.setId(numberOfLinesDebut + 1);
-        ll.addView(tv_debut);
-        ll.addView(et_debut);
-        numberOfLinesDebut++;
-        tv_debut.setText("PLAGE "+(numberOfLinesDebut+1));
+        et_debut.setId(numberOfLinesDebut_EtTypNewTxIntRupAnt + 1);
+//        int idLastChild= ll.getChildCount()-1;
+//        editText.setId(idLastChild+1);
+        ll_EtValTxIntPenal.addView(tv_debut);
+        ll_EtValTxIntPenal.addView(et_debut);
+        numberOfLinesDebut_EtTypNewTxIntRupAnt++;
+        tv_debut.setText("PLAGE "+(numberOfLinesDebut_EtTypNewTxIntRupAnt+1));
 
 
         // add edittext fin
@@ -644,72 +695,38 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         et_fin.setLayoutParams(p_fin);
         //et.setText("Text");
         et_fin.setHint("A");
-        et_fin.setId(numberOfLinesFin + 1000);
-        ll.addView(et_fin);
-        numberOfLinesFin+=1000;
+        et_fin.setId(numberOfLinesFin_EtTypNewTxIntRupAnt + 1000);
+        ll_EtValTxIntPenal.addView(et_fin);
+        numberOfLinesFin_EtTypNewTxIntRupAnt+=1000;
         // add edittext valeur
         EditText et_valeur = new EditText(this);
         LinearLayout.LayoutParams p_valeur = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         et_valeur.setLayoutParams(p_valeur);
         //et.setText("Text");
         et_valeur.setHint("Valeur");
-        et_valeur.setId(numberOfLinesValeur + 2000);
-        ll.addView(et_valeur);
-        numberOfLinesValeur+=2000;
+        et_valeur.setId(numberOfLinesValeur_EtTypNewTxIntRupAnt + 2000);
+        ll_EtValTxIntPenal.addView(et_valeur);
+        numberOfLinesValeur_EtTypNewTxIntRupAnt+=2000;
 
 
-        remove_button.setVisibility(View.VISIBLE);
+
+        remove_button_EtTypNewTxIntRupAnt.setVisibility(View.VISIBLE);
     }
     public void Remove_Line_EtValTxIntPenal() {
         //LinearLayout ll = (LinearLayout)findViewById(R.id.blk_EtPlageTxInter);
-        if (numberOfLinesDebut>0){
+        if (numberOfLinesDebut_EtTypNewTxIntRupAnt>0){
 
 
-            ll.removeViewAt(ll.getChildCount()-1);
-            ll.removeViewAt(ll.getChildCount()-1);
-            ll.removeViewAt(ll.getChildCount()-1);
-            numberOfLinesDebut--;
-            if (numberOfLinesDebut==0){
-                ll.removeViewAt(ll.getChildCount()-1);
-                remove_button.setVisibility(View.INVISIBLE);
+            ll_EtValTxIntPenal.removeViewAt(ll_EtValTxIntPenal.getChildCount()-1);
+            ll_EtValTxIntPenal.removeViewAt(ll_EtValTxIntPenal.getChildCount()-1);
+            ll_EtValTxIntPenal.removeViewAt(ll_EtValTxIntPenal.getChildCount()-1);
+            ll_EtValTxIntPenal.removeViewAt(ll_EtValTxIntPenal.getChildCount()-1);
+            numberOfLinesDebut_EtTypNewTxIntRupAnt--;
+            if (numberOfLinesDebut_EtTypNewTxIntRupAnt==0){
+                // ll.removeViewAt(ll.getChildCount()-1);
+                remove_button_EtTypNewTxIntRupAnt.setVisibility(View.INVISIBLE);
             }
-            //ll.removeViewAt(numberOfLinesDebut);
-//            ll.removeViewAt(numberOfLinesFin);
-//            ll.removeViewAt(numberOfLinesValeur);
-//            numberOfLinesDebut--;
-//            numberOfLinesFin = numberOfLinesFin-1000;
-//            numberOfLinesValeur = numberOfLinesValeur-2000;
         }
-        // add edittext debut
-//        EditText et_debut = new EditText(this);
-//        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        et_debut.setLayoutParams(p);
-//        //et.setText("Text");
-//        et_debut.setHint("De");
-//        et_debut.setId(numberOfLinesDebut + 1);
-//        ll.addView(et_debut);
-//        numberOfLinesDebut++;
-//
-//
-//        // add edittext fin
-//        EditText et_fin = new EditText(this);
-//        LinearLayout.LayoutParams p_fin = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        et_fin.setLayoutParams(p_fin);
-//        //et.setText("Text");
-//        et_fin.setHint("A");
-//        et_fin.setId(numberOfLinesFin + 1000);
-//        ll.addView(et_fin);
-//        numberOfLinesFin++;
-//
-//        // add edittext valeur
-//        EditText et_valeur = new EditText(this);
-//        LinearLayout.LayoutParams p_valeur = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        et_valeur.setLayoutParams(p_valeur);
-//        //et.setText("Text");
-//        et_valeur.setHint("Valeur");
-//        et_valeur.setId(numberOfLinesValeur + 2000);
-//        ll.addView(et_valeur);
-//        numberOfLinesValeur++;
     }
 
 
@@ -732,6 +749,82 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         answerBox.setText(answer);
     }
 
+    public void onSwitchButtonClicked(View view) {
+        boolean checked1 = ((Switch) view).isChecked();
+        String str="";
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+
+            case R.id.SwitchPenaliteEnCasDeRuptureEAT:
+                if (EtIsPenalRupAnt_SW.isChecked()) {
+                    str = checked1?"Pénalité en cas de rupture anticipéé activée":"Pénalité en cas de rupture anticipéé désactivée";
+
+                    LL_EtNatureRupAn.setVisibility(View.VISIBLE);
+
+                    EtValTxMtRupture_ET.setVisibility(View.VISIBLE);
+                    //ll_EtValTxMtRupture.setVisibility(View.VISIBLE);
+                    EtBaseTxPenal_ET.setVisibility(View.VISIBLE);
+
+                }else{
+                    LL_EtNatureRupAn.setVisibility(View.GONE);
+
+                    ll_EtValTxMtRupture.setVisibility(View.GONE);
+                    EtValTxMtRupture_ET.setVisibility(View.GONE);
+                    EtBaseTxPenal_ET.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchDefinirNouveauTxInteretEAT:
+                if (EtIsNewTxIntRupAnt_SW.isChecked()) {
+                    str = checked1?"Nouveau taux d'interêt activé":"Nouveau taux d'interêt désactivé";
+
+                    LL_EtTypNewTxIntRupAnt.setVisibility(View.VISIBLE);
+
+                    EtValTxIntPenal_ET.setVisibility(View.VISIBLE);
+                    //ll_EtValTxMtRupture.setVisibility(View.VISIBLE);
+                    EtBaseTxIntPenal_ET.setVisibility(View.VISIBLE);
+                }else{
+                    LL_EtTypNewTxIntRupAnt.setVisibility(View.GONE);
+
+
+                    ll_EtValTxIntPenal.setVisibility(View.GONE);
+                    EtValTxIntPenal_ET.setVisibility(View.GONE);
+                    EtBaseTxIntPenal_ET.setVisibility(View.GONE);
+                }
+
+                break;
+                /*
+            case R.id.SwitchTauxInteretAnnuelEAV:
+                if (ev_is_tx_inter_an_obligSwitch.isChecked()){
+                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
+
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                }else{
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
+                }
+
+
+                break;
+            case R.id.SwitchFraisTenuCpteOnEAV:
+                if (ev_is_agios_onSwitch.isChecked()){
+                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
+
+                    LL_TypeFraisCpteEAV.setVisibility(View.VISIBLE);
+                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
+                }else{
+                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    LL_TypeFraisCpteEAV.setVisibility(View.GONE);
+                    blkPlageEav.setVisibility(View.GONE);
+                }
+
+
+                break;
+*/
+        }
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+
+    }
     public void onRadioButtonClicked(View view) {
         boolean checked1 = ((RadioButton) view).isChecked();
         String str="";
@@ -742,21 +835,14 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
                 if (rbEtNaturePasFixe.isChecked()) {
 
                     EtNaturePas ="F";
-                    /*ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    blkPlageEav.setVisibility(View.INVISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-                    */
+
                 }
 
                 break;
             case R.id.rb_EtNaturePasSaut:
                 if (rbEtNaturePasSaut.isChecked()){
                     EtNaturePas ="S";
-               /*     ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="T";
-                    blkPlageEav.setVisibility(View.INVISIBLE);
-                layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-                */
+
         }
 
 
@@ -796,6 +882,12 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             case R.id.rb_EtNatureRupAnTaux:
                 if (rbEtNatureRupAnTaux.isChecked()) {
                     EtNatureRupAn="T";
+
+
+                    EtValTxMtRupture_ET.setVisibility(View.VISIBLE);
+                    EtBaseTxPenal_ET.setVisibility(View.VISIBLE);
+                    ll_EtValTxMtRupture.setVisibility(View.GONE);
+                    ll_btn_EtValTxMtRupture.setVisibility(View.GONE);
                     /*
                     ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="P";
@@ -807,6 +899,12 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             case R.id.rb_EtNatureRupAnMontant:
                 if (rbEtNatureRupAnMontant.isChecked()) {
                     EtNatureRupAn="M";
+
+
+                    EtValTxMtRupture_ET.setVisibility(View.VISIBLE);
+                    EtBaseTxPenal_ET.setVisibility(View.GONE);
+                    ll_EtValTxMtRupture.setVisibility(View.GONE);
+                    ll_btn_EtValTxMtRupture.setVisibility(View.GONE);
                     /*
                     ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="P";
@@ -818,6 +916,16 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             case R.id.rb_EtNatureRupAnPlage:
                 if (rbEtNatureRupAnPlage.isChecked()) {
                     EtNatureRupAn="P";
+
+
+                    ll_EtValTxMtRupture.setVisibility(View.VISIBLE);
+                    if (numberOfLinesDebut_EtValTxMtRupture<=0){
+                        remove_button_EtValTxMtRupture.setVisibility(View.INVISIBLE);
+                    }
+                    EtValTxMtRupture_ET.setVisibility(View.GONE);
+                    EtBaseTxPenal_ET.setVisibility(View.GONE);
+                    ll_btn_EtValTxMtRupture.setVisibility(View.VISIBLE);
+
                     /*
                     ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="P";
@@ -830,24 +938,32 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
                 if (rbEtTypNewTxIntRupAntFixe.isChecked()) {
 
                     EtTypNewTxIntRupAnt = "F";
-                    /*
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+
+
+                    EtValTxIntPenal_ET.setVisibility(View.VISIBLE);
+                    EtBaseTxIntPenal_ET.setVisibility(View.GONE);
+                    ll_EtValTxIntPenal.setVisibility(View.GONE);
+                    ll_btn_EtValTxIntPenal.setVisibility(View.GONE);
+
+
                 }
+
                 break;
             case R.id.rbEtTypeNouveauTxInteretRuptureEATPlage:
                 if (rbEtTypNewTxIntRupAntPlage.isChecked()) {
                     EtTypNewTxIntRupAnt = "P";
-                    /*
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+                    ll_EtValTxIntPenal.setVisibility(View.VISIBLE);
+                    if (numberOfLinesDebut_EtTypNewTxIntRupAnt<=0){
+                        remove_button_EtTypNewTxIntRupAnt.setVisibility(View.INVISIBLE);
+                    }
+
+                    EtValTxIntPenal_ET.setVisibility(View.GONE);
+                    EtBaseTxIntPenal_ET.setVisibility(View.GONE);
+                    ll_btn_EtValTxIntPenal.setVisibility(View.VISIBLE);
+
                 }
+
+
                 break;
         }
        // Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
@@ -912,6 +1028,9 @@ if (!STRING_EMPTY.equals(EtCode_ET.getText().toString()) &&
     EtBaseTxIntPenal   = EtBaseTxIntPenal_ET.getText().toString();
     EtTxIntPenalNeg   = EtTxIntPenalNeg_SW.isChecked();
 
+
+
+
     if (numberOfLinesDebut==0){
         tabPlageDebutList.clear();
         tabPlageFinList.clear();
@@ -920,27 +1039,83 @@ if (!STRING_EMPTY.equals(EtCode_ET.getText().toString()) &&
         tabPlageFinList.add(EtPlageTxInterTo_ET.getText().toString());
         tabPlageValeurList.add(EtPlageTxInterValeur_ET.getText().toString());
     }
+    if (numberOfLinesDebut_EtValTxMtRupture==0){
+        tabPlageDebutList1.clear();
+        tabPlageFinList1.clear();
+        tabPlageValeurList1.clear();
+        tabPlageDebutList1.add(EtPlageTxMtRuptureFrom_ET.getText().toString());
+        tabPlageFinList1.add(EtPlageTxMtRuptureTo_ET.getText().toString());
+        tabPlageValeurList1.add(EtPlageTxMtRuptureValeur_ET.getText().toString());
+    }
+    if (numberOfLinesDebut_EtTypNewTxIntRupAnt==0){
+        tabPlageDebutList2.clear();
+        tabPlageFinList2.clear();
+        tabPlageValeurList2.clear();
+        tabPlageDebutList2.add(EtPlageTxIntPenalFrom_ET.getText().toString());
+        tabPlageFinList2.add(EtPlageTxIntPenalTo_ET.getText().toString());
+        tabPlageValeurList2.add(EtPlageTxIntPenalValeur_ET.getText().toString());
+    }
+Add_Line();
+    Remove_Line();
+Add_Line_EtValTxMtRupture();
+    Remove_Line_EtValTxMtRupture();
+Add_Line_EtValTxIntPenal();
+    Remove_Line_EtValTxIntPenal();
+if (EtTypTxInter.equals("P")){
+    for (int i=0; i<tabPlageDebutList.size();i++){
+        tabPlageDebut+=";"+tabPlageDebutList.get(i);
+    }
+    for (int i=0; i<tabPlageFinList.size();i++){
+        tabPlageFin+=";"+tabPlageFinList.get(i);
+    }
+    for (int i=0; i<tabPlageValeurList.size();i++){
+        tabPlageValeur +=";"+tabPlageValeurList.get(i);
 
-if (EtValTxInter=="P"){
-//    for (int i=0; i<tabPlageDebutList.size();i++){
-//        tabPlageDebut+=";"+tabPlageDebutList.get(i);
-//    }
-//    for (int i=0; i<tabPlageFinList.size();i++){
-//        tabPlageFin+=";"+tabPlageFinList.get(i);
-//    }
-//    for (int i=0; i<tabPlageValeurList.size();i++){
-//        tabPlageValeur +=";"+tabPlageValeurList.get(i);
-//    }
+    }
+if (EtNatureRupAn.equals("P")) {
+    for (int i = 0; i < tabPlageDebutList1.size(); i++) {
+        tabPlageDebut1 += ";" + tabPlageDebutList1.get(i);
+    }
+    for (int i = 0; i < tabPlageFinList1.size(); i++) {
+        tabPlageFin1 += ";" + tabPlageFinList1.get(i);
+    }
+    for (int i = 0; i < tabPlageValeurList1.size(); i++) {
+        tabPlageValeur1 += ";" + tabPlageValeurList1.get(i);
 
-            for (int j = 0; j < ll.getChildCount(); j++) {
+    }
+}
+if (EtTypNewTxIntRupAnt.equals("P")) {
+    for (int i = 0; i < tabPlageDebutList2.size(); i++) {
+        tabPlageDebut2 += ";" + tabPlageDebutList2.get(i);
+    }
+    for (int i = 0; i < tabPlageFinList2.size(); i++) {
+        tabPlageFin2 += ";" + tabPlageFinList2.get(i);
+    }
+    for (int i = 0; i < tabPlageValeurList2.size(); i++) {
+        tabPlageValeur2 += ";" + tabPlageValeurList2.get(i);
+
+    }
+}
+
+
+    Toast.makeText(CreateProduitEAT.this,
+            "debut "+tabPlageDebut1+"\n"+"fin "+tabPlageFin1+"\n"+"valeur "+tabPlageValeur1,
+            Toast.LENGTH_LONG).show();
+
+    /*        for (int j = 0; j < ll.getChildCount(); j++) {
+                Toast.makeText(CreateProduitEAT.this,ll.getChildCount()+" number", Toast.LENGTH_LONG).show();
                 if (ll.getChildAt(j) instanceof EditText) {
                     tabPlageDebut +=";"+ ((EditText) ll.getChildAt(j)).getText().toString();
 
                     Toast.makeText(CreateProduitEAT.this,
-                            ((EditText) ll.getChildAt(j)).getText().toString(),
+                            "debut "+tabPlageDebut+"\n"+"fin "+tabPlageFin+"\n"+"valeur "+tabPlageValeur,
                             Toast.LENGTH_LONG).show();
+//                    Toast.makeText(CreateProduitEAT.this,
+//                            ((EditText) ll.getChildAt(j)).getText().toString(),
+//                            Toast.LENGTH_LONG).show();
                 }
-            }
+            } */
+
 }
 
 
@@ -949,7 +1124,7 @@ if (EtValTxInter=="P"){
 //            tabPlageDebut,
 //            Toast.LENGTH_LONG).show();
 
-            //new AddEATAsyncTask().execute();
+            new AddEATAsyncTask().execute();
         } else {
             Toast.makeText(CreateProduitEAT.this,
                     "Un ou plusieurs champs sont vides!",
@@ -993,6 +1168,9 @@ if (EtValTxInter=="P"){
             httpParams.put(KEY_EAT_VAL_TX_INTER, EtValTxInter);
             httpParams.put(KEY_EAT_PLAGE_TX_INTER_FROM, EtPlageTxInterFrom);
             httpParams.put(KEY_EAT_PLAGE_TX_INTER_TO, EtPlageTxInterTo);
+            httpParams.put(KEY_EAT_PLAGE_TX_INTER_DEBUT, tabPlageDebut);
+            httpParams.put(KEY_EAT_PLAGE_TX_INTER_FIN, tabPlageFin);
+            httpParams.put(KEY_EAT_PLAGE_TX_INTER_VALEUR, tabPlageValeur);
             httpParams.put(ET_IS_TX_INT_NEG, EtIsTxIntNeg.toString());
             httpParams.put(ET_IS_PRISE_INT_MISE_ON, EtIsPriseIntMiseOn.toString());
             httpParams.put(ET_IS_PENAL_RUP_ANT, EtIsPenalRupAnt.toString());
@@ -1001,6 +1179,15 @@ if (EtValTxInter=="P"){
             httpParams.put(ET_PLAGE_TX_MT_RUPTURE_FROM, EtPlageTxMtRuptureFrom);
             httpParams.put(ET_PLAGE_TX_MT_RUPTURE_TO, EtPlageTxMtRuptureTo);
             httpParams.put(ET_BASE_TX_PENAL, EtBaseTxPenal);
+
+            httpParams.put(KEY_EAT_PLAGE_TX_MT_RUPTURE_DEBUT, tabPlageDebut1);
+            httpParams.put(KEY_EAT_PLAGE_TX_MT_RUPTURE_FIN, tabPlageFin1);
+            httpParams.put(KEY_EAT_PLAGE_TX_MT_RUPTURE_VALEUR, tabPlageValeur1);
+
+            httpParams.put(KEY_EAT_PLAGE_TX_INT_PENAL_DEBUT, tabPlageDebut2);
+            httpParams.put(KEY_EAT_PLAGE_TX_INT_PENAL_FIN, tabPlageFin2);
+            httpParams.put(KEY_EAT_PLAGE_TX_INT_PENAL_VALEUR, tabPlageValeur2);
+
             httpParams.put(ET_IS_EPAR_RETIRE_FIN, EtIsEparRetireFin.toString());
             httpParams.put(ET_IS_EPAR_TRANSF_FIN, EtIsEparTransfFin.toString());
             httpParams.put(ET_IS_ONLY_TOT_TRANSF, EtIsOnlyTotTransf.toString());

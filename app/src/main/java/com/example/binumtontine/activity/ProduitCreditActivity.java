@@ -61,11 +61,11 @@ public class ProduitCreditActivity extends AppCompatActivity  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Ajouter un produit EAV", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Ajouter un produit Crédit", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
               //  Intent i = new Intent(ProduitEAVActivity.this, AddMovieActivity.class);
-                Intent i = new Intent(ProduitCreditActivity.this, CreateProduitEAV.class);
-                startActivity(i);
+//                Intent i = new Intent(ProduitCreditActivity.this, CreateProduitEAV.class);
+//                startActivity(i);
 
 
             }

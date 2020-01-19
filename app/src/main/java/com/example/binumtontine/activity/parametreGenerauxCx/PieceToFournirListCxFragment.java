@@ -44,6 +44,7 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
     private static final String KEY_DATA = "data";
     private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to push intent.extra
     private static final String KEY_CAISSE_ID = "FcCaisse";
+    private static final String KEY_TM_NUMERO = "TmNumero";
     private static final String KEY_FP_PIECE_ID = "FpNumero";
     private static final String KEY_FP_PIECE_LIBELLE = "FpLibelle";
 
@@ -136,7 +137,7 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
                 action_to_affect = true;
 
                 Toast.makeText(getContext(),
-                        "Liste des pièces déjà affecté à la caisse",
+                        "Liste des pièces déjà affectées à la caisse",
                         Toast.LENGTH_LONG).show();
                 new PieceToFournirListCxFragment.FetchPiecesAsyncTask().execute();
                 // action_to_affect = true;
@@ -157,7 +158,7 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
             super.onPreExecute();
             //Display progress bar
             pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Loading list pièces. Please wait...");
+            pDialog.setMessage("Chargement de la liste des pièces. Veuillez patienter...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -172,6 +173,7 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
 
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+            httpParams.put(KEY_TM_NUMERO, String.valueOf(MyData.TYPE_MEMBRE_ID));
             //httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
             JSONObject jsonObject =(action_to_affect)? httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_piece_cx.php", "GET", httpParams): httpJsonParser.makeHttpRequest(

@@ -70,7 +70,6 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View rootView = inflater.inflate(R.layout.activity_fragment_param_gen1, container, false);
         View rootView = inflater.inflate(R.layout.activity_list_pieces_to_fournir_cx, container, false);
 
         /* begin */
@@ -80,8 +79,6 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
 
         /* end*/
 
-       /* Toolbar toolbar = findViewById(R.id.toolbar_produitEAV);
-        setSupportActionBar(toolbar); */
 
         FloatingActionButton fab = rootView.findViewById(R.id.fab_add_piece_to_fournir_cx);
         fab.hide();
@@ -116,7 +113,6 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
         super.onCreateOptionsMenu(menu, inflater);
        // super.onCreateOptionsMenu(menu);
         inflater.inflate(R.menu.menu_piece_frais_cx_, menu);
-        //super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -168,9 +164,6 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
-//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-//                    BASE_URL + "fetch_all_piece_of.php", "GET", null);
-
 
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));

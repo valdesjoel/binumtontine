@@ -10,6 +10,8 @@ public class MyData {
     public static String JOUR_OUVERT_DATE ="";
     public static String JOUR_OUVERT_IS_CLOSED ="";
     public static int GUICHET_ID =0;
+    public static int TYPE_MEMBRE_ID =0;
+    public static String TYPE_MEMBRE_NAME ="";
     public static int USER_ID =8;
     public static String USER_NOM ="";
     public static String USER_PRENOM ="";

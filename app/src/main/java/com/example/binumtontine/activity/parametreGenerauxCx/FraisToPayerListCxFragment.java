@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.UpdateEAV;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -33,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class FraisToPayerListCxFragment extends Fragment implements View.OnClickListener, OnDateSetListener, SERVER_ADDRESS {
 
@@ -40,6 +45,10 @@ public class FraisToPayerListCxFragment extends Fragment implements View.OnClick
     private static final String KEY_DATA = "data";
     private static final String KEY_FP_PIECE_ID = "FpNumero";
     private static final String KEY_FP_PIECE_LIBELLE = "FpLibelle";
+    private static final String KEY_CAISSE_ID = "FcCaisse";
+    private static final String KEY_TM_NUMERO = "TmNumero";
+    private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to push intent.extra
+    private Boolean action_to_affect=false; // to manage menuItem ACTION_TO_AFFECT and ACTION_NOT_ALREADY_AFFECT
 
 
     private ArrayList<HashMap<String, String>> fraisList;
@@ -53,6 +62,7 @@ public class FraisToPayerListCxFragment extends Fragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true); //to notify the fragment that it should participate in options menu handling.
 
     }
 
@@ -72,6 +82,7 @@ public class FraisToPayerListCxFragment extends Fragment implements View.OnClick
         setSupportActionBar(toolbar); */
 
         FloatingActionButton fab = rootView.findViewById(R.id.fab_add_frais_to_payer_cx);
+        fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +98,46 @@ public class FraisToPayerListCxFragment extends Fragment implements View.OnClick
 
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+        // super.onCreateOptionsMenu(menu);
+        inflater.inflate(R.menu.menu_piece_frais_cx_, menu);
+        //super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_to_affect_piece:
+                action_to_affect = false;
+
+                Toast.makeText(getContext(),
+                        "Liste des frais à affecter à la caisse",
+                        Toast.LENGTH_LONG).show();
+                new FraisToPayerListCxFragment.FetchMoviesAsyncTask().execute();
+                // action_to_affect = false;
+                // new ProduitEAVGuichetActivity.FetchPiecesAsyncTask().execute();
+                // startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.action_already_affect_piece:
+                action_to_affect = true;
+
+                Toast.makeText(getContext(),
+                        "Liste des frais déjà affectés à la caisse",
+                        Toast.LENGTH_LONG).show();
+                new FraisToPayerListCxFragment.FetchMoviesAsyncTask().execute();
+                // action_to_affect = true;
+                // new ProduitEAVGuichetActivity.FetchPiecesAsyncTask().execute();
+                // startActivity(new Intent(this, Help.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
@@ -107,8 +158,18 @@ public class FraisToPayerListCxFragment extends Fragment implements View.OnClick
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_frais_of.php", "GET", null);
+//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                    BASE_URL + "fetch_all_frais_of.php", "GET", null);
+
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+            httpParams.put(KEY_TM_NUMERO, String.valueOf(MyData.TYPE_MEMBRE_ID));
+            //httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject =(action_to_affect)? httpJsonParser.makeHttpRequest(
+                    BASE_URL + "fetch_all_frais_cx.php", "GET", httpParams): httpJsonParser.makeHttpRequest(
+                    BASE_URL + "fetch_all_frais_of_not_affect_on_caisse.php", "GET", httpParams);
+
+
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONArray movies;
@@ -163,12 +224,13 @@ public class FraisToPayerListCxFragment extends Fragment implements View.OnClick
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
                     //to manage update frais Cx
-                    /*
+
                     Intent intent = new Intent(getActivity(),
-                            UpdateEAV.class);
+                            CreateFraisToPayerCx.class);
                     intent.putExtra(KEY_FP_PIECE_ID, movieId);
+
+                    intent.putExtra(KEY_EXTRA_ACTION_TO_AFFECT, !action_to_affect);
                     startActivityForResult(intent, 20);
-                    */
                 } else {
                     Toast.makeText(getContext(),
                             "Unable to connect to internet",

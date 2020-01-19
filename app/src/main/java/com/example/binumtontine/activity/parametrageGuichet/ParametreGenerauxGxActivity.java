@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.parametreGenerauxCx.FraisToPayerListCxFragment;
 import com.example.binumtontine.activity.parametreGenerauxCx.PieceToFournirListCxFragment;
+import com.example.binumtontine.controleur.MyData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -37,7 +38,8 @@ public class ParametreGenerauxGxActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Resources resources=getResources();
-        String title = resources.getString(R.string.tab_title_param_generaux);
+        //String title = resources.getString(R.string.tab_title_param_generaux);
+        String title = "TYPE: "+ MyData.TYPE_MEMBRE_NAME;
         getSupportActionBar().setTitle(title) ;
         //this.setCheckedItem(R.id.nav_new);
 
@@ -68,13 +70,13 @@ public class ParametreGenerauxGxActivity extends AppCompatActivity {
         });
     }
     /* To manage Menu*/
-    public boolean onCreateOptionsMenu(Menu menu) {
+   /* public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_type_membre, menu);
         return true;
-    }
+    } */
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    /* public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_all:
                 // new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
@@ -93,7 +95,7 @@ public class ParametreGenerauxGxActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    } */
 
 
 
@@ -110,7 +112,7 @@ public class ParametreGenerauxGxActivity extends AppCompatActivity {
                 case 0:
                     return new PieceToFournirListGxFragment();
                 case 1:
-                    return new FraisToPayerListCxFragment();
+                    return new FraisToPayerListGxFragment();
                 default: break;
             }
             return null;

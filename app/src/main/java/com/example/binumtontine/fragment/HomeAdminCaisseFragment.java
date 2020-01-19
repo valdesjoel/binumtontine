@@ -18,7 +18,9 @@ import com.example.binumtontine.activity.PrivacyPolicyActivity;
 import com.example.binumtontine.activity.UserGuichetActivity;
 import com.example.binumtontine.activity.UsersCaisseActivity;
 import com.example.binumtontine.activity.parametrageGuichet.ListGuichetActivity;
+import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.ParametreGenerauxCxActivity;
+import com.example.binumtontine.activity.parametreGenerauxCx.TypeMembreCxActivity;
 
 
 public class HomeAdminCaisseFragment extends Fragment implements View.OnClickListener{
@@ -27,6 +29,7 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
     private  CardView usagerCard;
     private  CardView paramProduitCard;
     private  CardView infoCaisseCard;
+    private  CardView paramTypeMembreCard;
 
     public HomeAdminCaisseFragment() {
         // Required empty public constructor
@@ -49,12 +52,14 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
         usagerCard = (CardView) rootView.findViewById(R.id.usager_card);
         paramGeneralCard = (CardView) rootView.findViewById(R.id.paramGeneral_card);
         infoCaisseCard = (CardView) rootView.findViewById(R.id.param_guichet_card);
+        paramTypeMembreCard = (CardView) rootView.findViewById(R.id.paramTypeMembre_card);
 
         guichetCard.setOnClickListener(this);
         paramProduitCard.setOnClickListener(this);
         usagerCard.setOnClickListener(this);
         paramGeneralCard.setOnClickListener(this);
         infoCaisseCard.setOnClickListener(this);
+        paramTypeMembreCard.setOnClickListener(this);
 
 
         // Inflate the layout for this fragment
@@ -129,7 +134,7 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
                 Fragment myFragment = new FriendsFragment();
                 activityUserCard.getSupportFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), myFragment).addToBackStack(null).commit();*/
               //  i = new Intent(getActivity(), GuichetActivity.class);
-                i = new Intent(getActivity(), ParametreGenerauxCxActivity.class);
+                i = new Intent(getActivity(), ListTypeMembrePFActivity.class);
 
                 // i = new Intent(getActivity(), CreateUserGuichet.class);
                 startActivity(i);
@@ -140,6 +145,10 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
                 break;
             case R.id.param_guichet_card:
                 i = new Intent(getActivity(), ListGuichetActivity.class);
+                startActivity(i);
+                break;
+            case R.id.paramTypeMembre_card:
+                i = new Intent(getActivity(), TypeMembreCxActivity.class);
                 startActivity(i);
                 break;
 

@@ -407,6 +407,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_GuFreqReunComCred"
             style="@style/parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/input_txt_GuFreqReunComCred"
@@ -416,6 +417,34 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:hint="GuFreqReunComCred"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- GuFreqReunComCred -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_GuFreqReunComCred_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_GuFreqReunComCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fréquence réunion comité de crédit"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -430,7 +459,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="16sp"
-                android:text="GuIsRappNetMsgCredOn" />
+                android:text="Activer le rappel des crédits par SMS ?" />
 
             <Switch
                 android:id="@+id/Switch_GuIsRappNetMsgCredOn"

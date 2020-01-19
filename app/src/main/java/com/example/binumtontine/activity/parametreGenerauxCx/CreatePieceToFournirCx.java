@@ -89,11 +89,13 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
     private EditText FpCodeEditText;
     private RadioButton rbFpIsPieceObligOui;
     private RadioButton rbFpIsPieceObligNon;
+    private TextView tv_header_produit;
 
 
     private String FpLibelle;
     private String FpCode;
     private String FcCategAdh;
+    private String FcTypeMembre;
     private boolean FpIsPieceOblig;
 
     /* manage spinner*/
@@ -111,7 +113,7 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
 
     private Spinner spinnerGuichet;
     private Spinner spinnerPiece;
-
+    private Spinner spinnerFonctionFrais;
     /*end manage*/
 
     private Button addButton;
@@ -134,10 +136,52 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
         eavId = intent.getStringExtra(KEY_FP_PIECE_ID);
         action_to_affect = getIntent().getExtras().getBoolean(KEY_EXTRA_ACTION_TO_AFFECT);
         headerEAVTextView = (TextView) findViewById(R.id.header_eav);
+
+
+        tv_header_produit = (TextView) findViewById(R.id.header_produit);
+        tv_header_produit.setText("Pièces à fournir\n"+"Type: "+MyData.TYPE_MEMBRE_NAME);
+
         new FetchPieceDetailsAsyncTask().execute();
 
         spinnerGuichet = (Spinner) findViewById(R.id.spn_select_guichet_fp);
         spinnerPiece = (Spinner) findViewById(R.id.spn_select_piece_fp);
+
+        spinnerFonctionFrais = (Spinner) findViewById(R.id.spn_type_membre_fc);
+        spinnerFonctionFrais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View view, int position,
+                                       long id) {
+                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
+                // FcFonctionFrais = spinnerFonctionFrais.getSelectedItem().toString();//pour recuperer l'ID de la pièce selectionnée
+                // your stuff here
+                FcTypeMembre = spinnerFonctionFrais.getSelectedItem().toString();
+
+//                if (spinnerFonctionFrais.getSelectedItem().toString().equals("Part sociale")){
+//                    textInputLayoutFcNbrePartMin.setVisibility(View.VISIBLE);
+//                    FcFonctionFrais = "P";
+//
+//                }else{
+//                    textInputLayoutFcNbrePartMin.setVisibility(View.GONE);
+//                    if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais d'adhésion")){
+//                        FcFonctionFrais = "A";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Fonds de solidarité")){
+//                        FcFonctionFrais = "S";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Approvisionnement")){
+//                        FcFonctionFrais = "D";
+//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais de fonctionnement")){
+//                        FcFonctionFrais = "F";
+//                    }
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub.
+
+            }
+
+        });
+
         guichetList = new ArrayList<Category>();
         pieceList = new ArrayList<Category>();
         spinnerGuichet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -290,10 +334,12 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
 
                         FpCode = eav.getString(KEY_FC_CODE);
                         FpLibelle = eav.getString(KEY_FC_LIBELLE);
+                        FcTypeMembre = eav.getString(KEY_FC_CAT_ADH);
                     }else{
                         FpCode = eav.getString(KEY_FC_CODE);
                         FpLibelle = eav.getString(KEY_FC_LIBELLE);
                         FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
+                        FcTypeMembre = eav.getString(KEY_FC_CAT_ADH);
 //
                     }
 //                    FpCode = eav.getString(KEY_FC_CODE);
@@ -316,8 +362,8 @@ public class CreatePieceToFournirCx extends AppCompatActivity implements SERVER_
                     //Populate the Edit Texts once the network activity is finished executing
 
 
-                    FpCodeEditText.setText(FpCode);
-                    FpLibelleEditText.setText(FpLibelle);
+//                    FpCodeEditText.setText(FpCode);
+//                    FpLibelleEditText.setText(FpLibelle);
 if (action_to_affect){
     FpCodeEditText.setText(FpCode);
     FpLibelleEditText.setText(FpLibelle);
@@ -328,6 +374,19 @@ if (action_to_affect){
     rbFpIsPieceObligNon.setChecked(!FpIsPieceOblig);
 
 }
+                    if (FcTypeMembre!=null){
+                        // Creating adapter for spinner piece
+                        String[] mTestArray;
+                        mTestArray = getResources().getStringArray(R.array.type_membre);
+                        ArrayAdapter<String> spinnerFraisAdapter = new ArrayAdapter<String>(CreatePieceToFournirCx.this,
+                                android.R.layout.simple_spinner_item, mTestArray);
+
+                        // Drop down layout style - list view with radio button
+                        spinnerFraisAdapter
+                                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        spinnerFonctionFrais.setSelection(spinnerFraisAdapter.getPosition(FcTypeMembre));
+                    }
                     /*
                     ev_libelleEditText.setText(ev_libelle);
                     ev_min_cpteEditText.setText(ev_min_cpte);
@@ -408,7 +467,7 @@ if (action_to_affect){
             //Set movie_id parameter in request
             httpParams.put(KEY_FP_PIECE_ID, eavId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "delete_eav.php", "POST", httpParams);
+                    BASE_URL + "delete_piece_cx.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -719,7 +778,15 @@ FpIsPieceOblig = rbFpIsPieceObligOui.isChecked();
             httpParams.put(KEY_FC_PIECE_ID, String.valueOf(eavId)); // A modifier
             httpParams.put(KEY_FC_LIBELLE, FpLibelle);
             httpParams.put(KEY_FC_Is_PIECE_OBLIG, String.valueOf(FpIsPieceOblig));
-            httpParams.put(KEY_FC_CAT_ADH, String.valueOf(guichetID)); // A modifier
+           // httpParams.put(KEY_FC_CAT_ADH, String.valueOf(guichetID)); // A modifier
+
+            /* A Bien gérer*/
+            //httpParams.put(KEY_FC_CAT_ADH, String.valueOf(FcTypeMembre));
+
+
+            httpParams.put(KEY_FC_CAT_ADH, String.valueOf(MyData.TYPE_MEMBRE_ID));
+
+
             httpParams.put(KEY_FP_PIECE_ID, String.valueOf(eavId)); // A modifier car les noms sont un peu inversés
 
 //            JSONObject jsonObject = httpJsonParser.makeHttpRequest(

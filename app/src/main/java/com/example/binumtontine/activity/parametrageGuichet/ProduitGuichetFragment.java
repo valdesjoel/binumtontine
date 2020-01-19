@@ -177,11 +177,12 @@ public class ProduitGuichetFragment extends AppCompatActivity implements View.On
                 startActivity(i);
                 break;
             case R.id.produitEAP_card :
-                i = new Intent(getBaseContext(), ProduitEAPActivity.class);
+                i = new Intent(getBaseContext(), ProduitEAPGuichetActivity.class);
                 startActivity(i);
                 break;
             case R.id.produitEAT_card :
-                i = new Intent(getBaseContext(), ProduitEATActivity.class);
+              //  i = new Intent(getBaseContext(), ProduitEATActivity.class);
+                i = new Intent(getBaseContext(), ProduitEATGuichetActivity.class);
                 startActivity(i);
                 break;
             case R.id.produitCC_card :

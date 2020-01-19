@@ -64,7 +64,7 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
 
         Toolbar toolbar = findViewById(R.id.toolbar_produitEAV);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Produits du guichet") ;
+        getSupportActionBar().setTitle("Produits à affecter") ;
         //this.setCheckedItem(R.id.nav_new);
 
 
@@ -100,11 +100,13 @@ public class ProduitEAVGuichetActivity extends AppCompatActivity implements SERV
                 return true;
             case R.id.action_to_affect:
                 action_to_affect = false;
+                getSupportActionBar().setTitle("Produits à affecter") ;
                 new FetchProduitEAVAsyncTask().execute();
                // startActivity(new Intent(this, Help.class));
                 return true;
                 case R.id.action_already_affect:
                     action_to_affect = true;
+                    getSupportActionBar().setTitle("Produits déjà affectés") ;
                      new FetchProduitEAVAsyncTask().execute();
                // startActivity(new Intent(this, Help.class));
                 return true;

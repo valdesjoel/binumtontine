@@ -272,7 +272,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:hint="@string/hint_taux_annuel"
+                android:hint="@string/hint_taux_mensuel"
                 style="@style/modifiedEditText" android:inputType="none"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:clickable="false"

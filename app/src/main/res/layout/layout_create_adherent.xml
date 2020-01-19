@@ -23,6 +23,8 @@
             android:text="Adhésion d'un nouvel adhérent"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
+
+
         <!-- produit title-->
         <TextView android:id="@+id/tv_caisse_name"
             android:layout_marginTop="@dimen/loginViewsMargin"
@@ -57,6 +59,55 @@
                 android:textSize="16sp"
                 android:hint="@string/numero_manuel_adherent"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <!-- Type de membre -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_type_membre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Type d'adhérent: " />
+
+            <Spinner
+                android:id="@+id/spn_type_membre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <!-- Details Type de membre-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_details_type_membre"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_details_type_membre"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="4"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/details_type_membre"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <!-- Nom adherent-->
         <com.google.android.material.textfield.TextInputLayout

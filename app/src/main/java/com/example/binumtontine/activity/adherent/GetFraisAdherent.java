@@ -80,6 +80,7 @@ public class GetFraisAdherent extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_ADHERENT_FRAIS_ID = "AD_FRAIS_ID";
     private static final String KEY_ADHERENT_FRAIS_MONTANT = "AD_FRAIS_MONTANT";
     private static final String KEY_ADHERENT_FRAIS_FONCTION = "AD_FRAIS_FONCTION";
+    private static final String KEY_CV_USER_CREE = "CvUserCree";
 
 
     private ArrayList<HashMap<String, String>> fraisList = new ArrayList<>();
@@ -443,6 +444,7 @@ public class GetFraisAdherent extends AppCompatActivity implements SERVER_ADDRES
             httpParams.put(KEY_ADHERENT_FRAIS_ID, fraisListId);
             httpParams.put(KEY_ADHERENT_FRAIS_MONTANT, fraisListMontant);
             httpParams.put(KEY_ADHERENT_FRAIS_FONCTION, fraisListFonction);
+            httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_adherent_1.php", "POST", httpParams);
             try {

@@ -11,7 +11,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,21 +25,30 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.Category;
+import com.example.binumtontine.activity.ServiceHandler;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 import com.hbb20.CountryCodePicker;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.FutureTask;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
@@ -70,6 +82,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_AD_TYPE_HABITE = "AdTypHabite";
 
     private static final String KEY_ADHERENT = "ADHERENT";
+//    private static final String KEY_CV_USER_CREE = "CvUserCree";
 
 
     private static String STRING_EMPTY = "";
@@ -131,6 +144,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private String AdTypHabite;
 
     private Adherent adherent;
+    private Spinner spinnerGuichet;
     /* manage spinner*/
 
     private TextView tvCaisse;
@@ -153,6 +167,10 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private DatePickerDialog Ad_DateExpiration_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
 
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
+    private EditText Ad_DetailsTypeNatureEditText;
+    List<Integer> guichetListID = new ArrayList<Integer>();
+    private int guichetID = 0;
+    private ArrayList<Category> guichetList;
 
 
     @Override
@@ -217,6 +235,25 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
 
         Ad_NumManuelEditText = (EditText) findViewById(R.id.input_numero_manuel_adherent);
+        Ad_DetailsTypeNatureEditText = (EditText) findViewById(R.id.input_details_type_membre);
+        alreadyUpperCase(Ad_DetailsTypeNatureEditText);
+        spinnerGuichet = (Spinner) findViewById(R.id.spn_type_membre);
+        guichetList = new ArrayList<Category>();
+        spinnerGuichet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View view, int position,
+                                       long id) {
+                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
+                guichetID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionné
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub.
+
+            }
+
+        });
         Ad_NomEditText = (EditText) findViewById(R.id.input_nom_adherent);
         alreadyUpperCase(Ad_NomEditText);
         Ad_PrenomEditText = (EditText) findViewById(R.id.input_prenom_adherent);
@@ -235,6 +272,9 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
       //  Ad_DateDelivranceEditText = (EditText) findViewById(R.id.input_txt_validite_debut_adherent);
        // Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_adherent);
         Ad_TypeLocationSpinner = (Spinner) findViewById(R.id.spn_location);
+
+        new CreateAdherent.GetCategories().execute();
+
      /*
         gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
         alreadyUpperCase(gx_denominationEditText);
@@ -331,6 +371,98 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
+    }
+
+
+    /**
+     * Async task to get all food categories
+     * */
+    private class GetCategories extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(CreateAdherent.this);
+            pDialog.setMessage("Chargement de la liste des types de membres...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add(new BasicNameValuePair(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID)));
+
+            String jsonGuichet = jsonParser.makeServiceCall(BASE_URL + "get_type_membre_by_caisse_id.php", ServiceHandler.GET,httpParams);
+
+            Log.e("Response: ", "> " + jsonGuichet);
+            //for manage list of guichet
+            if (jsonGuichet != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonGuichet);
+                    if (jsonObj != null) {
+                        JSONArray categories = jsonObj
+                                .getJSONArray("categories");
+
+                        for (int i = 0; i < categories.length(); i++) {
+                            JSONObject catObj = (JSONObject) categories.get(i);
+                            Category cat = new Category(catObj.getInt("id"),
+                                    catObj.getString("name"));
+                            guichetList.add(cat);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data Type membre", "Didn't receive any data from server!");
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            populateSpinner();
+        }
+
+    }
+
+    /**
+     * Adding spinner data
+     * */
+    private void populateSpinner() {
+        List<String> lablesGuichet = new ArrayList<String>(); //for guichets
+
+        //tvCaisse.setText("");
+
+        for (int i = 0; i < guichetList.size(); i++) {
+            lablesGuichet.add(guichetList.get(i).getName());//recupère les noms de guichets
+            guichetListID.add(guichetList.get(i).getId()); //recupère les Id de guichet
+        }
+
+
+        // Creating adapter for spinner guichet
+        ArrayAdapter<String> spinnerGuichetAdapter = new ArrayAdapter<String>(CreateAdherent.this,
+                android.R.layout.simple_spinner_item, lablesGuichet);
+
+        // Drop down layout style - list view with radio button
+        spinnerGuichetAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+
+        // attaching data adapter to spinner
+        spinnerGuichet.setAdapter(spinnerGuichetAdapter);
     }
 
 

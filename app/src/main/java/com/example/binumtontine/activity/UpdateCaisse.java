@@ -39,6 +39,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_DATA = "data";
 
     private static final String KEY_CX_DENOMINATION = "cx_denomination";
+    private static final String KEY_CX_SIEGE = "cx_siege";
     private static final String KEY_CAISSE_ID = "cx_numero";
     private static final String KEY_CX_LOCALITE = "cx_localite";
     private static final String KEY_CX_NUM_AGREM = "cx_num_agrem";
@@ -62,6 +63,9 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private EditText cx_date_agremEditText;
     private EditText cx_date_debutEditText;
     private EditText cx_adresseEditText;
+
+    private EditText cx_siegeEditText;
+    private String cxSiege;
 
 
     private CountryCodePicker ccp_phone1;
@@ -132,6 +136,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
 
 
         cx_denominationEditText = (EditText) findViewById(R.id.input_denominationCx);
+        cx_siegeEditText = (EditText) findViewById(R.id.input_siegeCx);
         mySpinnerLocalite = (JRSpinner) findViewById(R.id.spn_my_spinner_localite_caisse);
         cx_num_agremEditText = (EditText) findViewById(R.id.input_txt_num_agrement_cx);
         cx_date_agremEditText = (EditText) findViewById(R.id.input_txt_dateAgrementCx);
@@ -274,6 +279,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                     //Parse the JSON response
                     caisse = jsonObject.getJSONObject(KEY_DATA);
                     cxDenomination = caisse.getString(KEY_CX_DENOMINATION);
+                    cxSiege = caisse.getString(KEY_CX_SIEGE);
                     cxLocalite = caisse.getString(KEY_CX_LOCALITE);
                     cx_num_agrem = caisse.getString(KEY_CX_NUM_AGREM);
                     cx_date_agrem = caisse.getString(KEY_CX_DATE_AGREM);
@@ -298,6 +304,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
                     cx_denominationEditText.setText(cxDenomination);
+                    cx_siegeEditText.setText(cxSiege);
                     mySpinnerLocalite.setText(cxLocalite);
                     cx_num_agremEditText.setText(cx_num_agrem);
                     cx_date_agremEditText.setText(cx_date_agrem);
@@ -422,6 +429,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                 !STRING_EMPTY.equals(cx_date_debutEditText.getText().toString())) {
 
             cxDenomination = cx_denominationEditText.getText().toString();
+            cxSiege = cx_siegeEditText.getText().toString();
             cxLocalite = mySpinnerLocalite.getText().toString();
             cx_num_agrem = cx_num_agremEditText.getText().toString();
             cx_date_agrem = cx_date_agremEditText.getText().toString();
@@ -471,6 +479,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             //Populating request parameters
             httpParams.put(KEY_CAISSE_ID, caisseId);
             httpParams.put(KEY_CX_DENOMINATION, cxDenomination);
+            httpParams.put(KEY_CX_SIEGE, cxSiege);
             httpParams.put(KEY_CX_LOCALITE, cxLocalite);
             httpParams.put(KEY_CX_NUM_AGREM, cx_num_agrem);
             httpParams.put(KEY_CX_DATE_AGREM, cx_date_agrem);

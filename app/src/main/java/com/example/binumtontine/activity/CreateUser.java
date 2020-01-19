@@ -122,6 +122,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
 
     private Button deleteButton;
     private Button addButton;
+    private Button cancelButton;
     private int success;
     private ProgressDialog pDialogCreateUserCaisse;
     private ProgressDialog pDialogFetchCaisse;
@@ -207,6 +208,21 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     addUserCaisse();
+                } else {
+                    Toast.makeText(CreateUser.this,
+                            "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        cancelButton = (Button) findViewById(R.id.btn_clean);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
                 } else {
                     Toast.makeText(CreateUser.this,
                             "Impossible de se connecter à Internet",

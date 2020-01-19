@@ -77,8 +77,13 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     private String userEmail;
     private Boolean userFound=false;
     CircularProgressButton btn;
-    private  String jourIsClosed;
-    private  String maDate;
+    private  String jourIsClosed="FALSE";
+    //private  String maDate;
+
+    Date todayDateInit = Calendar.getInstance().getTime();
+    //SimpleDateFormat formatterInint = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatterInint = new SimpleDateFormat("dd-MM-yyyy");
+    private  String maDate = formatterInint.format(todayDateInit);
     /* manage spinner*/
     // array list for spinner adapter
     private ArrayList<Category> caisseList;
@@ -127,8 +132,28 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         spinnerProfil.setOnItemSelectedListener(LoginActivity.this);
         spinnerCaisse.setOnItemSelectedListener(LoginActivity.this);
         spinnerGuichet.setOnItemSelectedListener(LoginActivity.this);
+       /* spinnerGuichet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+            public void onItemSelected(AdapterView<?> parent, View view, int position,
+                                       long id) {
+                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
+               // guichetID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionné
+                if (guichetListID.size()>0){
+                    MyData.GUICHET_ID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionnée
+                    MyData.GUICHET_NAME = guichetList.get(position).getName();//pour recuperer le nom du guichet selectionné
 
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub.
+
+            }
+
+        });
+
+*/
 
         //recupération des attributs de la page d'authentification
         pseudoEditText = (EditText)findViewById(R.id.txtPseudo);
@@ -169,21 +194,31 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onClick(View v) {
-        if (!KEY_EMPTY.equals(pseudoEditText.getText().toString()) &&
-                !KEY_EMPTY.equals(passwordEditText.getText().toString())) {
-            pseudo = pseudoEditText.getText().toString();
-            password = passwordEditText.getText().toString();
-            // new LoginActivity.FetchMovieDetailsAsyncTask().execute(pseudoEditText.getText().toString(),passwordEditText.getText().toString());
+        if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+            if (!KEY_EMPTY.equals(pseudoEditText.getText().toString()) &&
+                    !KEY_EMPTY.equals(passwordEditText.getText().toString())) {
+                pseudo = pseudoEditText.getText().toString();
+                password = passwordEditText.getText().toString();
+                // new LoginActivity.FetchMovieDetailsAsyncTask().execute(pseudoEditText.getText().toString(),passwordEditText.getText().toString());
+                pseudoEditText.setText("");
+                passwordEditText.setText("");
+                //validate(pseudoEditText.getText().toString(), passwordEditText.getText().toString());
+                validate(pseudo, password);
 
-            //validate(pseudoEditText.getText().toString(), passwordEditText.getText().toString());
-            validate(pseudo, password);
+            }else {
+                Toast.makeText(LoginActivity.this,
+                        "One or more fields left empty!",
+                        Toast.LENGTH_LONG).show();
 
-        }else {
+            }
+        }else{
+            connect.setEnabled(false);
+
             Toast.makeText(LoginActivity.this,
-                    "One or more fields left empty!",
+                    "Impossible de se connecter à Internet",
                     Toast.LENGTH_LONG).show();
-
         }
+
     }
 
 
@@ -237,6 +272,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         if (userFound){
             warningInfo.setVisibility(View.GONE);
             attemptConnection=3;
+
             Intent i = new Intent(this, MainActivityAdminCaisse.class);
             startActivity(i);
         }else{
@@ -253,6 +289,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     private void populateParamGuichet(){
         //userFound=true;
         if (userFound){
+        //if (true){
             warningInfo.setVisibility(View.GONE);
             attemptConnection=3;
 
@@ -313,7 +350,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             new LoginActivity.GetUserCaisse().execute();
 
 
-        }else if(spinnerProfil.getSelectedItem().toString().equals("Usager")){
+        }else if(spinnerProfil.getSelectedItem().toString().equals("Agent de guichet")){
             uxProfil = "Agent de guichet";
             new LoginActivity.GetUserGuichet().execute();
 
@@ -335,7 +372,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     private void populateSpinnerCaisses() {
         List<String> lables = new ArrayList<String>(); //for caisses
 
-
+        caisseListID.clear();
         for (int i = 0; i < caisseList.size(); i++) {
             lables.add(caisseList.get(i).getName());//recupère les noms de caisses
             caisseListID.add(caisseList.get(i).getId()); //recupère les Id
@@ -359,7 +396,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     private void populateSpinnerGuichets() {
         List<String> lablesGuichet = new ArrayList<String>(); //for guichets
 
-
+        guichetListID.clear();
         for (int i = 0; i < guichetList.size(); i++) {
                 lablesGuichet.add(guichetList.get(i).getName());//recupère les noms de guichets
                 guichetListID.add(guichetList.get(i).getId()); //recupère les Id de guichet
@@ -377,6 +414,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
         // attaching data adapter to spinner
         spinnerGuichet.setAdapter(spinnerGuichetAdapter);
+        spinnerGuichet.performClick();
     }
     private void populateJourOuvertFields() {
 
@@ -494,7 +532,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
            // HttpJsonParser httpJsonParser = new HttpJsonParser();
             //String jsonGuichet = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET,httpParams);
-            String jsonGuichet = (String) jsonParser.makeServiceCall( BASE_URL + "get_guichets_by_caisse_id.php", ServiceHandler.GET, httpParams);
+            String jsonGuichet = (String) jsonParser.makeServiceCall( BASE_URL + "get_guichets_by_caisse_id_to_exploitation.php", ServiceHandler.GET, httpParams);
 
 
 
@@ -714,6 +752,7 @@ populate();
             Map<String, String> httpParams = new HashMap<>();
             userFound = false;
             httpParams.put(KEY_UX_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            //httpParams.put(KEY_UX_GUICHET, String.valueOf(16));
             httpParams.put(KEY_UX_PROFIL, uxProfil);
             httpParams.put(KEY_UX_LOGIN, pseudo);
             httpParams.put(KEY_UX_PASSWORD, password);
@@ -721,6 +760,7 @@ populate();
                     BASE_URL + "get_user_by_guichet_id_and_pseudo.php", "GET", httpParams);
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
+                Log.e("Response to username: ", "> " + success+" "+MyData.GUICHET_ID);
                 JSONObject user;
                 if (success == 1) {
                     //Parse the JSON response
@@ -730,6 +770,7 @@ populate();
                     userNom = user.getString(KEY_UX_NOM);
                     userPrenom = user.getString(KEY_UX_PRENOM);
                     userEmail = user.getString(KEY_UX_EMAIL);
+                    Log.d("username",userNom);
 
 
                 }
@@ -866,7 +907,7 @@ populateParamGuichet();
                     spinnerGuichet.setVisibility(View.GONE);
                     //spinnerCaisse.setOnItemSelectedListener(LoginActivity.this);
                     new LoginActivity.GetCaisses().execute();
-                }else if(spinnerProfil.getSelectedItem().toString().equals("Usager")){
+                }else if(spinnerProfil.getSelectedItem().toString().equals("Agent de guichet")){
                     tv_caisse.setVisibility(View.VISIBLE);
                     tv_guichet.setVisibility(View.VISIBLE);
                     spinnerCaisse.setVisibility(View.VISIBLE);
@@ -886,17 +927,21 @@ populateParamGuichet();
                 break;
             case R.id.spinnerCaisse:
                 // your stuff here
-                if (caisseListID.size()>0)
-                MyData.CAISSE_ID = caisseListID.get(position);//pour recuperer l'ID de la caisse selectionnée
-               // new LoginActivity.GetCaisses().execute();
-                new LoginActivity.GetGuichets().execute();
-                MyData.CAISSE_NAME = caisseList.get(position).getName();//pour recuperer le nom de la caisse selectionnée
+                if (caisseListID.size()>0){
+                    MyData.CAISSE_ID = caisseListID.get(position);//pour recuperer l'ID de la caisse selectionnée
+                    // new LoginActivity.GetCaisses().execute();
+                    new LoginActivity.GetGuichets().execute();
+                    MyData.CAISSE_NAME = caisseList.get(position).getName();//pour recuperer le nom de la caisse selectionnée
+
+                }
                 break;
             case R.id.spinnerGuichet:
                 // your stuff here
-                if (guichetListID.size()>0)
-                MyData.GUICHET_ID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionnée
-                MyData.GUICHET_NAME = guichetList.get(position).getName();//pour recuperer le nom du guichet selectionné
+                if (guichetListID.size()>0){
+                    MyData.GUICHET_ID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionnée
+                    MyData.GUICHET_NAME = guichetList.get(position).getName();//pour recuperer le nom du guichet selectionné
+
+                }
                 break;
         }
 

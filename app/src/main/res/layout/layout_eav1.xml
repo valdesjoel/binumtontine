@@ -23,6 +23,7 @@
             android:text="Ajout d'un EAV"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
+        <!--code-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_Code_EAV"
             style="@style/parent"
@@ -32,8 +33,10 @@
                 style="@style/modifiedEditText"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="@string/hint_code_EAV"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!--Libelle-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_LibelleEAV"
             style="@style/parent"
@@ -43,8 +46,10 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="@string/hint_Libelle_EAV"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!--Minimum compte oblig-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,6 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18dp"
                 android:text="Minimum compte obligatoire ?" />
 
             <Switch
@@ -64,6 +70,7 @@
                 android:layout_gravity="center"
                 android:checked="false"
 
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -72,14 +79,17 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_MinCompteEAV"
             style="@style/parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/input_txt_MinCompteEAV"
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="@string/hint_Min_compte_eav"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!--Taux interet annuel-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -90,7 +100,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/hint_taux_annuel" />
+                android:textSize="18dp"
+                android:text="@string/hint_taux_mensuel" />
 
             <Switch
                 android:id="@+id/SwitchTauxInteretAnnuelEAV"
@@ -98,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -107,14 +118,59 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_TauxInteretAnnuelEAV"
             style="@style/parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/input_txt_TauxInteretAnnuelEAV"
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="Taux d'interêt annuel"/>
+                android:textSize="18dp"
+                android:hint="Taux d'interêt mensuel"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!-- <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_BaseInteretAnnuelEAV"
+            style="@style/parent"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_BaseInteretAnnuelEAV"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Taux d'interêt mensuel"/>
+        </com.google.android.material.textfield.TextInputLayout> -->
+
+        <!-- Base du taux -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:visibility="gone"
+            android:id="@+id/input_layout_BaseInteretAnnuelEAV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_base_taux_mensuel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux d'interêt mensuel"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Type date-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_type_de_date"
             style="@style/parent"
@@ -122,10 +178,27 @@
             <EditText
                 android:id="@+id/input_txt_type_de_date"
                 style="@style/modifiedEditText"
-                android:inputType="textPersonName"
+                android:inputType="phone"
+                android:text="+15"
+                android:textSize="18dp"
                 android:maxLines="1"
                 android:hint="@string/hint_type_de_date"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_type_de_date_retrait"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_type_de_date_retrait"
+                style="@style/modifiedEditText"
+                android:inputType="phone"
+                android:textSize="18dp"
+                android:maxLines="1"
+                android:text="-15"
+                android:hint="@string/hint_type_de_date_retrait"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Multi EAV-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -137,6 +210,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18dp"
                 android:text="Multi EAV " />
 
             <Switch
@@ -151,6 +225,7 @@
                 />
 
         </LinearLayout>
+        <!--Payer part sociale-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -162,6 +237,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18dp"
                 android:text="Payer part sociale avec EAV" />
 
             <Switch
@@ -176,6 +252,7 @@
                 />
 
         </LinearLayout>
+        <!--Frais de tenu de compte-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -187,7 +264,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Frais tenu de compte" />
+                android:textSize="18dp"
+                android:text="Frais de tenue de compte" />
 
             <Switch
                 android:id="@+id/SwitchFraisTenuCpteOnEAV"
@@ -195,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -203,6 +281,8 @@
         </LinearLayout>
         <!-- radiogroup -->
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_TypeFraisCpteEAV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
@@ -214,6 +294,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
+                android:textSize="18dp"
                 android:text="Type de frais de tenu de compte"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <RadioGroup
@@ -257,17 +338,63 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_TauxAPreleveCpteEAV"
             style="@style/parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/input_txt_TauxAPreleveCpteEAV"
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="Taux à préléver sur le compte"/>
+                android:textSize="18dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- android:hint="Taux mensuel à préléver"-->
+
+        <!-- <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_BaseTauxAPreleveCpteEAV"
+            style="@style/parent"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_BaseTauxAPreleveCpteEAV"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Base du taux à préléver sur le compte"/>
+        </com.google.android.material.textfield.TextInputLayout> -->
+
+        <!-- Base du taux -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_BaseTauxAPreleveCpteEAV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_base_taux"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux à préléver sur le compte"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--valeur plage -->
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/blk_plage_eav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -332,6 +459,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18dp"
                 android:text="Utiliser chèque" />
 
             <Switch
@@ -355,6 +483,7 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Frais de clôture de compte"/>
         </com.google.android.material.textfield.TextInputLayout>
 
