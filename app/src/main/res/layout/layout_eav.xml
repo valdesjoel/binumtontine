@@ -45,6 +45,61 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+     <!--
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Code_EAV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/Widget.AppTheme.TextInputLayoutList"
+            android:textColorHint="@color/design_default_color_primary_dark"
+            app:boxStrokeColor="@color/design_default_color_primary_dark"
+            app:errorEnabled="true"
+
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_Code_EAV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_code_EAV"
+
+                android:textColor="@color/jrspinner_black_transparent"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        -->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/textInputPassword"-->
+            <!--style="@style/parent"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#FFFFFF"-->
+        <!--app:counterEnabled="true"-->
+        <!--app:counterMaxLength="8"-->
+            <!--app:passwordToggleEnabled="true"-->
+            <!--app:passwordToggleTint="@color/colorPrimary1">-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/txtPassword"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+            <!--android:maxLength="8"-->
+                <!--android:hint="Password"-->
+                <!--android:background="@drawable/round_corner_toggle"-->
+                <!--android:inputType="textPassword"-->
+                <!--android:padding="@dimen/activity_horizontal_margin"-->
+
+
+
+                <!--android:textSize="18dp"-->
+                <!--android:textStyle="bold"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputPassword"
@@ -62,6 +117,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -140,7 +196,7 @@
 
         <TextView
             style="@style/viewParent"
-            android:text="Forgot Password?"
+            android:text="Mot de passe oublié?"
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/newsMoreTextSize"
             android:layout_gravity="end"
@@ -164,7 +220,7 @@
         <Button
             android:id="@+id/btnConnect"
             style="@style/loginButton"
-            android:text="Login"
+            android:text="Se connecter"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 

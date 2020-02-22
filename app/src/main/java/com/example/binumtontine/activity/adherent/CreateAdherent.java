@@ -3,6 +3,7 @@ package com.example.binumtontine.activity.adherent;
 
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,9 +11,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -31,6 +34,7 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
 import org.apache.http.NameValuePair;
@@ -41,22 +45,20 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.FutureTask;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
 public class CreateAdherent extends AppCompatActivity implements View.OnClickListener, SERVER_ADDRESS {
 
-
     private static final String KEY_SUCCESS = "success";
-
+    private static final String KEY_DATA = "data";
+    private static final String KEY_ADHERENT_ID = "IpMembre";
     private static final String KEY_AD_GX_NUMERO = "AdGuichet";
     private static final String KEY_AD_NUM_MANUEL = "AdNumManuel";
     private static final String KEY_AD_NOM = "AdNom";
@@ -82,13 +84,14 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_AD_TYPE_HABITE = "AdTypHabite";
 
     private static final String KEY_ADHERENT = "ADHERENT";
+    private static final String KEY_TYPE_MEMBRE = "FcCategAdh";
 //    private static final String KEY_CV_USER_CREE = "CvUserCree";
 
 
     private static String STRING_EMPTY = "";
 
     private TextView cxTitle;
-    private String cxName;
+    private String cxName="";
     private CountryCodePicker ccp_phone1;
     private CountryCodePicker ccp_phone2;
     private CountryCodePicker ccp_phone3;
@@ -169,9 +172,14 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
     private EditText Ad_DetailsTypeNatureEditText;
     List<Integer> guichetListID = new ArrayList<Integer>();
-    private int guichetID = 0;
-    private ArrayList<Category> guichetList;
-
+    private int typeMembreID = 0; //pour recupérer l'ID du type de membre
+    private ArrayList<Category> typeMembreList;
+    private Category mainEAV;
+    private TextInputLayout inputLayoutName, inputLayoutEmail,inputLayoutNumManuel, inputLayoutPassword;
+    private  boolean testError=false; //to check if errors don't exist
+    private String eavId;
+    public static boolean to_update_adherent=false;
+    private ProgressDialog pDialog_update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,9 +193,10 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         /* Begin manage country*/
 
         cxTitle = (TextView) findViewById(R.id.tv_caisse_name);
-        cxName= MyData.CAISSE_NAME.toUpperCase();
-        cxTitle.setTypeface(null, Typeface.BOLD);
-        cxTitle.setText(cxTitle.getText()+" "+ cxName);
+        //cxName= MyData.CAISSE_NAME.toUpperCase();
+//        cxName= mainEAV.getName().toUpperCase();
+//        cxTitle.setTypeface(null, Typeface.BOLD);
+//        cxTitle.setText(cxTitle.getText()+" "+ cxName);
 
         ccp_phone1 = (CountryCodePicker) findViewById(R.id.ccp_phone1);
         editTextCarrierPhone1 = (EditText) findViewById(R.id.editText_carrierPhone1);
@@ -235,16 +244,20 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
 
         Ad_NumManuelEditText = (EditText) findViewById(R.id.input_numero_manuel_adherent);
+
+        inputLayoutNumManuel = (TextInputLayout) findViewById(R.id.input_layout_numero_manuel_adherent);
+        Ad_NumManuelEditText.addTextChangedListener(new MyTextWatcher(Ad_NumManuelEditText));
+
         Ad_DetailsTypeNatureEditText = (EditText) findViewById(R.id.input_details_type_membre);
         alreadyUpperCase(Ad_DetailsTypeNatureEditText);
         spinnerGuichet = (Spinner) findViewById(R.id.spn_type_membre);
-        guichetList = new ArrayList<Category>();
+        typeMembreList = new ArrayList<Category>();
         spinnerGuichet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent, View view, int position,
                                        long id) {
                 //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
-                guichetID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionné
+                typeMembreID = guichetListID.get(position);//pour recuperer l'ID du type de membre selectionné
             }
 
             @Override
@@ -256,6 +269,11 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         });
         Ad_NomEditText = (EditText) findViewById(R.id.input_nom_adherent);
         alreadyUpperCase(Ad_NomEditText);
+
+        //to manage user input
+        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_nom_adherent);
+        Ad_NomEditText.addTextChangedListener((TextWatcher) new MyTextWatcher(Ad_NomEditText));
+
         Ad_PrenomEditText = (EditText) findViewById(R.id.input_prenom_adherent);
        // Ad_DateNaissEditText = (EditText) findViewById(R.id.input_txt_date_naiss_adherent);
         Ad_LieuNaissEditText = (EditText) findViewById(R.id.input_lieu_naiss_adherent);
@@ -264,6 +282,11 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         Ad_SituationMatSpinner = (Spinner) findViewById(R.id.spn_situation_matrimoiale);
         Ad_NombreEnfantEditText = (EditText) findViewById(R.id.input_nbre_enfant_adherent);
         Ad_EmailEditText = (EditText) findViewById(R.id.input_txt_email_adherent);
+
+
+        inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email_adherent);
+        Ad_EmailEditText.addTextChangedListener(new MyTextWatcher(Ad_EmailEditText));
+
         Ad_DomicileEditText = (EditText) findViewById(R.id.input_domicile_adherent);
         Ad_LieuTravailEditText = (EditText) findViewById(R.id.input_lieu_travail_adherent);
         Ad_ActivitePrincipaleEditText = (EditText) findViewById(R.id.input_activite_principal_adherent);
@@ -274,45 +297,14 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         Ad_TypeLocationSpinner = (Spinner) findViewById(R.id.spn_location);
 
         new CreateAdherent.GetCategories().execute();
+        if (to_update_adherent){
 
-     /*
-        gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
-        alreadyUpperCase(gx_denominationEditText);
-        Ad_DateNaissEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
-        gx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseGx);
+            Intent intent = getIntent();
+            eavId = intent.getStringExtra(KEY_ADHERENT_ID);
+            new FetchEavDetailsAsyncTask().execute();
 
-        gx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Gx);
-        alreadyUpperCase(gx_nom_pcaEditText);
-        gx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Gx);
-        alreadyUpperCase(gx_nom_dgEditText);
-        gx_is_forcer_clotSwitch = (Switch) findViewById(R.id.SwitchForcer_la_clotureGx);
-        gx_heure_clotEditText = (EditText) findViewById(R.id.input_txt_heure_cloture_Gx);
-        gx_heure_clotEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                // time picker dialog
-                picker = new TimePickerDialog(CreateAdherent.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                gx_heure_clotEditText.setText(sHour + ":" + sMinute);
-                            }
-                        }, hour, minutes, true);
-                picker.show();
-            }
-        });
-        gx_is_oper_apres_clotSwitch = (Switch) findViewById(R.id.Switch_gx_is_oper_apres_clot);
-        gx_nbre_rapp_by_jourEditText = (EditText) findViewById(R.id.input_txt_Nombre_de_rappel_par_jour);
-        gx_nbre_jr_av_rappEditText = (EditText) findViewById(R.id.input_txt_Nombre_jour_av_rappel);
-        gx_is_jour8_onSwitch = (Switch) findViewById(R.id.Switch8jr_semaine_Gx);
-        gx_is_credit_by_objetSwitch = (Switch) findViewById(R.id.Switch_credit_par_objet_Gx);
-        gx_first_jr_onEditText = (EditText) findViewById(R.id.input_txt_GuFirstJrOn);
-        gx_freq_reun_com_credEditText = (EditText) findViewById(R.id.input_txt_GuFreqReunComCred);
-        gx_is_rapp_net_msg_cred_onSwitch = (Switch) findViewById(R.id.Switch_GuIsRappNetMsgCredOn);
-*/
+        }
+
 
         // spinner item select listener
         addButton = (CircularProgressButton) findViewById(R.id.btn_save_adherent);
@@ -324,7 +316,8 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addAdherent();
+                    submitForm();
+                    //addAdherent();
                    // Intent intent = new Intent(CreateAdherent.this,GetPieceAdherent.class);
                    // Intent intent = new Intent(CreateAdherent.this,GetFraisAdherent.class);
                    // startActivity(intent);
@@ -347,7 +340,116 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
 
     }
+/*error*/
+    /**
+     * Validating form
+     */
 
+    private void submitForm() {
+
+        if (!validateNumManuel()) {
+            return;
+        }
+        if (!validateName()) {
+            return;
+        }
+
+       if (!validateEmail()) {
+            return;
+        }
+
+         /*if (!validatePassword()) {
+            return;
+        } */
+if (testError==true){ addAdherent();}
+
+        //Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+    }
+    private boolean validateName() {
+        if (Ad_NomEditText.getText().toString().trim().isEmpty()) {
+            inputLayoutName.setError(getString(R.string.err_msg_name));
+            requestFocus(Ad_NomEditText);
+            testError=false;
+            return false;
+        } else {
+            inputLayoutName.setErrorEnabled(false);
+            testError=true;
+        }
+
+        return true;
+    }
+    private boolean validateNumManuel() {
+        if (Ad_NumManuelEditText.getText().toString().trim().isEmpty()) {
+            inputLayoutNumManuel.setError(getString(R.string.err_msg_num_manuel));
+            requestFocus(Ad_NumManuelEditText);
+            testError=false;
+            return false;
+        } else {
+            inputLayoutNumManuel.setErrorEnabled(false);
+            testError=true;
+        }
+
+        return true;
+    }
+
+    private boolean validateEmail() {
+        String email = Ad_EmailEditText.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            inputLayoutEmail.setError(getString(R.string.err_msg_email));
+            requestFocus(Ad_EmailEditText);
+            testError=false;
+            return false;
+        } else {
+            inputLayoutEmail.setErrorEnabled(false);
+            testError=true;
+        }
+
+        return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.input_nom_adherent:
+                    validateName();
+                    break;
+               //case R.id.input_email:
+                case R.id.input_txt_email_adherent:
+                    validateEmail();
+                    break;
+                //case R.id.input_password:
+                case R.id.input_numero_manuel_adherent:
+                    validateNumManuel();
+                    break;
+            }
+        }
+    }
+
+/*error*/
     private void alreadyUpperCase(final EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
 
@@ -394,9 +496,10 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
             ServiceHandler jsonParser = new ServiceHandler();
 
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add(new BasicNameValuePair(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID)));
+            httpParams.add(new BasicNameValuePair(KEY_AD_GX_NUMERO, String.valueOf(MyData.GUICHET_ID)));
 
-            String jsonGuichet = jsonParser.makeServiceCall(BASE_URL + "get_type_membre_by_caisse_id.php", ServiceHandler.GET,httpParams);
+            String jsonGuichet = jsonParser.makeServiceCall(BASE_URL + "get_type_membre_by_guichet_id.php", ServiceHandler.GET,httpParams);
+            String jsonEAV = jsonParser.makeServiceCall(BASE_URL + "get_main_eav_by_guichet_id.php", ServiceHandler.GET,httpParams);
 
             Log.e("Response: ", "> " + jsonGuichet);
             //for manage list of guichet
@@ -411,7 +514,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
                             JSONObject catObj = (JSONObject) categories.get(i);
                             Category cat = new Category(catObj.getInt("id"),
                                     catObj.getString("name"));
-                            guichetList.add(cat);
+                            typeMembreList.add(cat);
                         }
                     }
 
@@ -421,6 +524,34 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
             } else {
                 Log.e("JSON Data Type membre", "Didn't receive any data from server!");
+            }
+            //for manage main EAV
+            if (jsonEAV != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonEAV);
+                    if (jsonObj != null) {
+                        JSONArray categories = jsonObj
+                                .getJSONArray("categories");
+
+                        for (int i = 0; i < categories.length(); i++) {
+                            JSONObject catObj = (JSONObject) categories.get(i);
+                            /*Category cat = new Category(catObj.getInt("id"),
+                                    catObj.getString("name"));
+                            typeMembreList.add(cat);*/
+                            mainEAV = new Category(catObj.getInt("id"),
+                                    catObj.getString("name"));
+                            cxName= mainEAV.getName().toUpperCase();
+//                            cxTitle.setTypeface(null, Typeface.BOLD);
+                            cxTitle.setText(cxTitle.getText()+" "+ cxName);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data MAIN EAV", "Didn't receive any data from server!");
             }
 
 
@@ -445,9 +576,9 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
         //tvCaisse.setText("");
 
-        for (int i = 0; i < guichetList.size(); i++) {
-            lablesGuichet.add(guichetList.get(i).getName());//recupère les noms de guichets
-            guichetListID.add(guichetList.get(i).getId()); //recupère les Id de guichet
+        for (int i = 0; i < typeMembreList.size(); i++) {
+            lablesGuichet.add(typeMembreList.get(i).getName());//recupère les noms de guichets
+            guichetListID.add(typeMembreList.get(i).getId()); //recupère les Id de guichet
         }
 
 
@@ -465,7 +596,44 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         spinnerGuichet.setAdapter(spinnerGuichetAdapter);
     }
 
+private void getEditText(){
+    AdNumManuel = Ad_NumManuelEditText.getText().toString();
+    AdNom = Ad_NomEditText.getText().toString();
+    AdPrenom = Ad_PrenomEditText.getText().toString();
+    AdDateNaiss = Ad_DateNaissEditText.getText().toString();
+    AdLieuNaiss = Ad_LieuNaissEditText.getText().toString();
+    // AdSexe = Ad_SexeSpinner.getSelectedItem().toString();
+    if (Ad_SexeSpinner.getSelectedItem().toString().equals("Masculin")) {
+        AdSexe = "M";
+    }else {
+        AdSexe = "F";
+    }
+    AdNationalite = Ad_NationaliteSpinner.getSelectedCountryName();
+    AdSitFam = Ad_SituationMatSpinner.getSelectedItem().toString();
+    AdNbreEnfACh = Ad_NombreEnfantEditText.getText().toString();
+    AdTel1 = ccp_phone1.getFullNumberWithPlus();
+    AdTel2 = ccp_phone2.getFullNumberWithPlus();
+    AdTel3 = ccp_phone3.getFullNumberWithPlus();
+    AdEMail = Ad_EmailEditText.getText().toString();
+    AdProfess = Ad_ProfessionSpinner.getText().toString();
+    AdDomicile = Ad_DomicileEditText.getText().toString();
+    AdLieuTrav = Ad_LieuTravailEditText.getText().toString();
+    AdActivitePr = Ad_ActivitePrincipaleEditText.getText().toString();
+    AdTypCarteID = Ad_TypePieceSpinner.getText().toString();
+    AdNumCarteID = Ad_NumPieceEditText.getText().toString();
+    AdValideDu = Ad_DateDelivranceEditText.getText().toString();
+    AdValideAu = Ad_DateExpirationEditText.getText().toString();
 
+    if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Propriétaire")) {
+        AdTypHabite = "P";
+    }else if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Locataire")){
+
+        AdTypHabite = "L";
+
+    } else {
+        AdTypHabite = "C";
+    }
+}
 
     private void addAdherent() {
        /* if (!STRING_EMPTY.equals(gx_denominationEditText.getText().toString()) &&
@@ -477,10 +645,10 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
                 !STRING_EMPTY.equals(gx_is_forcer_clotSwitch.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_heure_clotEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(gx_tel1EditText.getText().toString())) {*/
-        if (true) {
+        if (!cxName.equals("") && typeMembreID!=0) {
             //gxCaisse = mySpinnerCaisse.getText().toString();
             //gxCaisse = "1";//gérer plutot dynamiquement
-            AdNumManuel = Ad_NumManuelEditText.getText().toString();
+           /* AdNumManuel = Ad_NumManuelEditText.getText().toString();
             AdNom = Ad_NomEditText.getText().toString();
             AdPrenom = Ad_PrenomEditText.getText().toString();
             AdDateNaiss = Ad_DateNaissEditText.getText().toString();
@@ -515,7 +683,8 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
             } else {
                 AdTypHabite = "C";
-            }
+            }*/
+           getEditText();
             adherent = new Adherent(
                     AdSexe+AdDateNaiss+AdNumCarteID,
                     AdNumManuel,
@@ -553,15 +722,18 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
             bundle.putSerializable(KEY_ADHERENT, (Serializable) adherent);
            // bundle.putSerializable(KEY_ADHERENT, adherent);
             i.putExtras(bundle);
-           // i.putExtra(KEY_ADHERENT, adherent);
+            i.putExtra(KEY_TYPE_MEMBRE, typeMembreID); // extra pour gérer le type de membre
             // startActivityForResult(intent, 20);
             startActivityForResult(i,20);
             //finish();
 
            // new AddAdherentAsyncTask().execute();
         } else {
+//            Toast.makeText(CreateAdherent.this,
+//                    "Un ou plusieurs champs sont vides!",
+//                    Toast.LENGTH_LONG).show();
             Toast.makeText(CreateAdherent.this,
-                    "Un ou plusieurs champs sont vides!",
+                    "Veuillez contacter l'administrateur de la caisse "+MyData.CAISSE_NAME+" pour renseigner l'EAV principal sur le guichet "+MyData.GUICHET_NAME,
                     Toast.LENGTH_LONG).show();
 
         }
@@ -599,33 +771,33 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 Ad_DateNaissEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
+}
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        Ad_DateDelivrance_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                Ad_DateDelivrance_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-         Ad_DateExpiration_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
+public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar newDate = Calendar.getInstance();
+        newDate.set(year, monthOfYear, dayOfMonth);
+        Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
+        }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
+        Ad_DateExpiration_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar newDate = Calendar.getInstance();
+        newDate.set(year, monthOfYear, dayOfMonth);
+        Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
+        }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
 
-    }
+
+        }
 
     @Override
     public void onClick(View v) {
@@ -723,6 +895,123 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+
+    /**
+     * Fetches single movie details from the server
+     */
+    private class FetchEavDetailsAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog_update = new ProgressDialog(CreateAdherent.this);
+            pDialog_update.setMessage("Chargement des détails de l'adhérent. Patientez...");
+            pDialog_update.setIndeterminate(false);
+            pDialog_update.setCancelable(false);
+            pDialog_update.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_ADHERENT_ID, eavId);
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_adherent_details.php", "GET", httpParams);
+            try {
+                int success = jsonObject.getInt(KEY_SUCCESS);
+                JSONObject eav;
+                if (success == 1) {
+                    //Parse the JSON response
+                    eav = jsonObject.getJSONObject(KEY_DATA);
+
+                    AdNumManuel = eav.getString(KEY_AD_NUM_MANUEL);
+                    AdNom = eav.getString(KEY_AD_NOM);
+                    AdPrenom = eav.getString(KEY_AD_PRENOM);
+                    AdDateNaiss = eav.getString(KEY_AD_DATE_NAISS);
+                    AdLieuNaiss = eav.getString(KEY_AD_LIEU_NAISS);
+                    AdSexe = eav.getString(KEY_AD_SEXE);
+                    AdNationalite = eav.getString(KEY_AD_NATIONALITE);
+                    AdSitFam = eav.getString(KEY_AD_SIT_FAM);
+                    AdNbreEnfACh = eav.getString(KEY_AD_NBRE_ENFANT);
+                    AdTel1 = eav.getString(KEY_AD_TEL1);
+                    AdTel2 = eav.getString(KEY_AD_TEL2);
+                    AdTel3 = eav.getString(KEY_AD_TEL3);
+                    AdEMail = eav.getString(KEY_AD_EMAIL);
+                    AdProfess = eav.getString(KEY_AD_PROFESSION);
+                    AdDomicile = eav.getString(KEY_AD_DOMICILE);
+                    AdLieuTrav = eav.getString(KEY_AD_LIEU_TRAVAIL);
+                    AdActivitePr = eav.getString(KEY_AD_ACTIVITE_PRINC);
+                    AdTypCarteID = eav.getString(KEY_AD_TYPE_CARTE_ID);
+                    AdNumCarteID = eav.getString(KEY_AD_NUM_CARTE_ID);
+                    AdValideDu = eav.getString(KEY_AD_VALIDE_DU);
+                    AdValideAu = eav.getString(KEY_AD_VALIDE_AU);
+                    AdTypHabite = eav.getString(KEY_AD_TYPE_HABITE);
+
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialog_update.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    //Populate the Edit Texts once the network activity is finished executing
+
+
+                    Ad_NumManuelEditText.setText(AdNumManuel);
+                    Ad_NomEditText.setText(AdNom);
+                    Ad_PrenomEditText.setText(AdPrenom);
+                    Ad_DateNaissEditText.setText(AdDateNaiss);
+                    Ad_LieuNaissEditText.setText(AdLieuNaiss);
+                    String compareValue = "Masculin";
+
+                    if (AdSexe.equals("M")){
+
+
+
+                        compareValue = "Masculin";
+
+
+                    }else{
+                        compareValue = "Féminin";
+                    }
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(CreateAdherent.this, R.array.type_sexe, android.R.layout.simple_spinner_item);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Ad_SexeSpinner.setAdapter(adapter);
+                    if (compareValue != null) {
+                        int spinnerPosition = adapter.getPosition(compareValue);
+                        Ad_SexeSpinner.setSelection(spinnerPosition);}
+
+                    //Ad_NationaliteSpinner.setsele(AdNationalite);
+                    //Ad_SituationMatSpinner.setsele(AdSitFam);
+                    Ad_NombreEnfantEditText.setText(AdNbreEnfACh);
+                    //AdTel1.setText(AdTel1);
+                    Ad_EmailEditText.setText(AdEMail);
+                   // Ad_ProfessionSpinner.setText(AdProfess);
+                    Ad_DomicileEditText.setText(AdDomicile);
+                    Ad_LieuTravailEditText.setText(AdLieuTrav);
+                    Ad_ActivitePrincipaleEditText.setText(AdActivitePr);
+                    Ad_TypePieceSpinner.setText(AdTypCarteID);
+                    Ad_NumPieceEditText.setText(AdNumCarteID);
+                    Ad_DateDelivranceEditText.setText(AdValideDu);
+                    Ad_DateExpirationEditText.setText(AdValideAu);
+
+                    //AdTypHabite = eav.getString(KEY_AD_TYPE_HABITE);
+
+
+                }
+            });
+        }
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -733,6 +1022,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
             Intent intent = getIntent();
             setResult(20, intent);
             finish();
+            to_update_adherent = false; //to reset default value
            /* finish();
             startActivity(intent);
             */

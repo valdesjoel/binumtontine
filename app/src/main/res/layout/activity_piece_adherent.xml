@@ -47,19 +47,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="10dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/select"
-            android:text="Select all"/>
+            android:text="Tout sélectionner"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/deselect"
-            android:text="Deselct all"/>
+            android:text="Tout déselectionner"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/previous"
+            android:text="ANNULER"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

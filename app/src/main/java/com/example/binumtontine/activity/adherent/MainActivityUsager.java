@@ -40,6 +40,7 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
+
     private static final String KEY_AD_AdNumero = "AdNumero";
     private static final String KEY_AD_AdCode = "AdCode";
     private static final String KEY_AD_AdNumManuel = "AdNumManuel";

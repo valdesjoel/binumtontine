@@ -9,39 +9,25 @@
     android:layout_marginTop="@dimen/loginViewsMargin"
     android:layout_marginBottom="@dimen/loginViewsMargin"
     android:background="@color/whiteCardColor">
-
-
-
     <LinearLayout
         style="@style/linearParent"
         android:layout_gravity="center"
         android:padding="@dimen/loginViewsMargin">
-
         <TextView
             android:id="@+id/header_user_guichet"
             style="@style/headerTextPrimary"
             android:text="Adhésion d'un nouvel adhérent"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
-
-
-
-        <!-- produit title-->
+        <!-- main eav-->
         <TextView android:id="@+id/tv_caisse_name"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:layout_width="fill_parent"
-            android:text="@string/produit_title"
+            android:text="@string/produit_main"
             style="@style/parent"
             android:textSize="16sp"
             android:layout_height="wrap_content"/>
 
-        <!-- produit name-->
-        <TextView android:id="@+id/tv_produit_name"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:layout_width="fill_parent"
-            android:text="@string/produit_name"
-            style="@style/parent"
-            android:textSize="16sp"
-            android:layout_height="wrap_content"/>
+
 
 
         <!-- Numéro manuel-->
@@ -152,7 +138,11 @@
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:hint="@string/hint_date_naiss_adherent"/>
+                android:hint="@string/hint_date_naiss_adherent"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </com.google.android.material.textfield.TextInputLayout>
         <!-- Lieu de naissance adherent-->
         <com.google.android.material.textfield.TextInputLayout
@@ -484,7 +474,11 @@
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:hint="@string/hint_validite_debut_adherent"/>
+                android:hint="@string/hint_validite_debut_adherent"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </com.google.android.material.textfield.TextInputLayout>
         <!-- Fin validité pièce-->
         <com.google.android.material.textfield.TextInputLayout
@@ -498,7 +492,13 @@
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:hint="@string/hint_validite_fin_adherent"/>
+                android:hint="@string/hint_validite_fin_adherent"
+
+
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Type de location adhérent-->

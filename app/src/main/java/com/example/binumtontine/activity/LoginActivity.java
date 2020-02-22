@@ -4,8 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -98,6 +101,8 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     private ProgressDialog pDialogFectchGuichet;
     private ProgressDialog pDialogFectchUserDetails;
     /*end manage*/
+    private TextInputLayout inputLayoutLogin, inputLayoutPassword;
+    private  boolean testError=false; //to check if errors don't exist
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,32 +137,19 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         spinnerProfil.setOnItemSelectedListener(LoginActivity.this);
         spinnerCaisse.setOnItemSelectedListener(LoginActivity.this);
         spinnerGuichet.setOnItemSelectedListener(LoginActivity.this);
-       /* spinnerGuichet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            public void onItemSelected(AdapterView<?> parent, View view, int position,
-                                       long id) {
-                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
-               // guichetID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionné
-                if (guichetListID.size()>0){
-                    MyData.GUICHET_ID = guichetListID.get(position);//pour recuperer l'ID du guichet selectionnée
-                    MyData.GUICHET_NAME = guichetList.get(position).getName();//pour recuperer le nom du guichet selectionné
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub.
-
-            }
-
-        });
-
-*/
 
         //recupération des attributs de la page d'authentification
         pseudoEditText = (EditText)findViewById(R.id.txtPseudo);
+
+        inputLayoutLogin = (TextInputLayout) findViewById(R.id.textInputEmail);
+        pseudoEditText.addTextChangedListener(new MyTextWatcher(pseudoEditText));
+
         passwordEditText = (EditText)findViewById(R.id.txtPassword);
+
+        inputLayoutPassword = (TextInputLayout) findViewById(R.id.textInputPassword);
+        passwordEditText.addTextChangedListener(new MyTextWatcher(passwordEditText));
+
         warningInfo= (TextView)findViewById(R.id.lblWarningInfo);
         warningInfo.setVisibility(View.GONE);
         warningInfo.setText("");
@@ -206,9 +198,10 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 validate(pseudo, password);
 
             }else {
-                Toast.makeText(LoginActivity.this,
-                        "One or more fields left empty!",
-                        Toast.LENGTH_LONG).show();
+                submitForm();
+//                Toast.makeText(LoginActivity.this,
+//                        "Un ou plusieurs champs sont laissés vides!",
+//                        Toast.LENGTH_LONG).show();
 
             }
         }else{
@@ -262,6 +255,80 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 //
 //        }
 //    }
+private boolean validateLogin() {
+    if (pseudoEditText.getText().toString().trim().isEmpty()) {
+        inputLayoutLogin.setError(getString(R.string.err_msg_login));
+        requestFocus(pseudoEditText);
+        testError=false;
+        return false;
+    } else {
+        inputLayoutLogin.setErrorEnabled(false);
+        testError=true;
+    }
+
+    return true;
+}
+private boolean validatePassword() {
+    if (passwordEditText.getText().toString().trim().isEmpty()) {
+        inputLayoutPassword.setError(getString(R.string.err_msg_password));
+        requestFocus(passwordEditText);
+        testError=false;
+        return false;
+    } else {
+        inputLayoutPassword.setErrorEnabled(false);
+        testError=true;
+    }
+
+    return true;
+}
+
+    /**
+     * Validating form
+     */
+
+    private void submitForm() {
+        if (!validateLogin()) {
+            return;
+        }
+
+        if (!validatePassword()) {
+            return;
+        }
+
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.txtPseudo:
+                    validateLogin();
+                    break;
+                //case R.id.input_email:
+                case R.id.txtPassword:
+                    validatePassword();
+                    break;
+
+            }
+        }
+    }
     private void populate(){
         //userFound=true;
 

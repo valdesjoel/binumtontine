@@ -26,6 +26,7 @@ package com.example.binumtontine.adapter;
         //  import com.example.binumtontine.activity.adherent.MyList;
         import com.example.binumtontine.activity.adherent.Adherent;
         import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity;
+        import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity_New;
         import com.example.binumtontine.activity.adherent.MainActivityUsager;
         import com.example.binumtontine.helper.CheckNetworkStatus;
 
@@ -76,7 +77,7 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
         }else{
             holder.textViewNationalite.setText(myList.getAdNbreCompte()+" compte");
         }
-      //  holder.textViewNationalite.setText("2 comptes");
+      //  holder.tvNumDossier.setText("2 comptes");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +93,8 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
 
                     startActivity(intent); */
                     //handle menu0 click
-                    Intent i = new Intent(mCtx, ListCompteAdherentActivity.class);
+                    //Intent i = new Intent(mCtx, ListCompteAdherentActivity.class);
+                    Intent i = new Intent(mCtx, ListCompteAdherentActivity_New.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(KEY_ADHERENT, (Serializable) myList);
                     // bundle.putSerializable(KEY_ADHERENT, adherent);
@@ -142,8 +144,16 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
                                 break;
                             case R.id.menu1:
                                 //handle menu1 click
-                                Toast.makeText(mCtx,
-                                        "ID adhérent "+holder.textViewId.getText(), Toast.LENGTH_LONG).show();
+
+                                Intent ii = new Intent(mCtx, CreateAdherent.class);
+                                CreateAdherent.to_update_adherent = true;
+                                ii.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
+                                ((Activity) mCtx).startActivityForResult(ii, 20);
+                               // CreateAdherent.to_update_adherent = false; //to reset default value
+
+
+//                                Toast.makeText(mCtx,
+//                                        "ID adhérent "+holder.textViewId.getText(), Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.menu2:
                                 //handle menu2 click

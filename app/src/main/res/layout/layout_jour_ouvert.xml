@@ -79,7 +79,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="Que voulez-vous faire ?"
+                android:text="Choix opération:"
                 android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <RadioGroup
@@ -139,6 +139,27 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:hint="@string/hint_montant_piece_monnaie"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Date antérieure-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_date_anterieure"
+            android:visibility="gone"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_date_anterieure"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_journee_anterieure"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 

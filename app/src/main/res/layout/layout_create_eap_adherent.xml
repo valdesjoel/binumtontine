@@ -337,7 +337,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:onClick="onRadioButtonClicked"
-                    android:text="Retiré"
+                    android:text="Retirer"
                     android:textSize="16sp" />
 
 

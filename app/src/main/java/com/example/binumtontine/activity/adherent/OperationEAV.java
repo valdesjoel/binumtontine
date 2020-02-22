@@ -86,6 +86,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
 
     private static final String KEY_MONTANT_COMPTE = "MtSolde";
+    private static final String KEY_TYPE_OPERATION = "TypeOperation";
     private static final String KEY_ADHERENT = "ADHERENT";
     private static final String KEY_LIBELLE_PRODUIT = "Libelle";
     private Adherent adherent;
@@ -106,8 +107,8 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private EditText EavDepotMinEditText;
     private EditText NumDossierEditText;
 
-    private RadioButton rb_depot;
-    private RadioButton rb_retrait;
+    public static RadioButton rb_depot;
+    public static RadioButton rb_retrait;
 
 
     private String compteId;
@@ -117,6 +118,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private String adNumManuel;
     private String adCode;
     private String compteSolde;
+    private String typeOperation;
     private String adNumDossier;
     private String libelleProduit;
 
@@ -129,6 +131,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private int eavID;
     private Spinner spinnerListEAV;
     private TextView tvAdherentNom;
+    private TextView tvHeaderOperationEAV;
     private TextView tvAdherentNumManuel;
     private TextView tvAdherentCode;
     private TextView tvCompteSolde;
@@ -149,7 +152,12 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
 
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
+
+        Toast.makeText(OperationEAV.this,
+                compteId,
+                Toast.LENGTH_LONG).show();
         compteSolde = intent.getStringExtra(KEY_MONTANT_COMPTE);
+        typeOperation = intent.getStringExtra(KEY_TYPE_OPERATION);
         libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
         Bundle bundle = intent.getExtras();
         adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
@@ -161,13 +169,18 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
 
         EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
+        EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
+
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
 
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        rb_depot.performClick();
+        //rb_depot.performClick();
+        //onRadioButtonClicked(rb_depot);
         rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
+        tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
+
         tvAdherentNom.setText(adNom+"\n"+adPrenom);
         tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
         tvAdherentNumManuel.setText(adNumManuel);
@@ -178,6 +191,22 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
 
         tvLibelleProduit = (TextView) findViewById(R.id.tv_libelle_produit_adherent);
         tvLibelleProduit.setText(libelleProduit);
+
+        if (typeOperation.equals("depot")){
+            tvHeaderOperationEAV.setText("TYPE OPERATION: DEPOT");
+
+            rb_depot.setChecked(true);
+            rb_retrait.setVisibility(View.GONE);
+            rb_depot.setVisibility(View.VISIBLE);
+            onRadioButtonClicked(rb_depot);
+        }else if(typeOperation.equals("retrait")){
+            tvHeaderOperationEAV.setText("TYPE OPERATION: RETRAIT");
+            rb_retrait.setChecked(true);
+
+            onRadioButtonClicked(rb_retrait);
+            rb_retrait.setVisibility(View.VISIBLE);
+            rb_depot.setVisibility(View.GONE);
+        }
 
        /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
         tvAdherentNumDossier.setText(adNumDossier);*/
@@ -384,8 +413,8 @@ if (true){
 //                        rr.trim()+ "\n"+rr.length(),
 //                        Toast.LENGTH_LONG).show();
 
-
-    eavDepotMin = EavDepotMinEditText.getText().toString();
+   eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
+//    eavDepotMin = EavDepotMinEditText.getText().toString();
     adNumDossier = NumDossierEditText.getText().toString();
 
     new AddEavAdherentAsyncTask().execute();
@@ -441,7 +470,7 @@ if (true){
             httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "operation_eav_adherent.php", "POST", httpParams);
+                    BASE_URL + "operation_eav_adherent_new.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

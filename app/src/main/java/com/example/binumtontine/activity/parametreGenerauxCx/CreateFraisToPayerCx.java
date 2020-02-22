@@ -110,7 +110,7 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
 
     private String FcLibelle;
     private String FpCode;
-    private String FcNature;
+    private String FcNature="F"; //A ne pas initialiser l'initialisation était juste pour les tests
     private String FcVal;
     private String FcBase;
     private String FcCategAdh;

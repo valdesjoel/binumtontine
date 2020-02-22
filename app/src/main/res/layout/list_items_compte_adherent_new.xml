@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:elevation="4dp">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:background="@drawable/list_background"
+            android:elevation="1dp"
+
+            android:orientation="vertical">
+
+            <!-- Hidden TextView used to hold movieId -->
+            <TextView
+                android:id="@+id/compteId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+            <!-- Hidden TextView used to hold typeCompte -->
+            <TextView
+                android:id="@+id/typeCompte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+            <!-- Hidden TextView used to hold tauxCompte -->
+            <TextView
+                android:id="@+id/tauxCompte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/libelleProduit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/compteNumDossier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/libelleProduit"
+                android:layout_marginLeft="4dp"/>
+
+            <TextView
+                android:id="@+id/compteDateCreation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_below="@id/libelleProduit"
+                android:layout_alignStart="@id/libelleProduit"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:id="@+id/compteMontant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_below="@id/libelleProduit"
+
+                android:layout_toRightOf="@id/compteDateCreation"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"/>
+            <!--android:layout_alignStart="@id/compteNumDossier"-->
+            <TextView
+                android:id="@+id/textViewOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="20dp"
+                android:width="30dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="&#8942;"
+                android:textColor="@color/colorAccent1"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textSize="40sp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -27,7 +27,9 @@ public class CreateProduitEAV extends AppCompatActivity {
 package com.example.binumtontine.activity;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,7 +43,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -63,6 +67,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
     private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
     /* end*/
     private static final String KEY_EAV_ID = "ev_numero";
+
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
 
     private static final String KEY_CV_PRODUIT = "CvProduit";
@@ -79,16 +84,28 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
     private static final String KEY_ADHERENT_PRENOM = "AdPrenom";
     private static final String KEY_ADHERENT_NUM_MANUEL = "AdNumManuel";
     private static final String KEY_ADHERENT_CODE = "AdCode";
-
+    private static final String KEY_PD_NUMERO = "PdNumero";
+    private static final String KEY_PD_NATURE = "PdNature";
+    private static final String KEY_PD_VAL_TAUX = "PdValTaux" ;
+    private static final String KEY_PD_VAL_DE = "PdValDe" ;
+    private static final String KEY_PD_VAL_A = "PdValA";
+    private static final String KEY_PD_BASE ="PdBase" ;
+    private static final String KEY_PD_PRODUIT ="PdProduit" ;
 
 
     private static String STRING_EMPTY = "";
 
-    private EditText mtInitialisationEditText;
-
+    private EditText valeurEditText;
+    private EditText valeurDebutEditText;
+    private EditText valeurFinEditText;
+    private EditText baseEditText;
+   // public static ArrayList<ModelPlageData> plageDataList;
 
     private String guichetId;
-    private String guichetMontantInitialisation;
+    private String valeur;
+    private String valeurDebut;
+    private String valeurFin;
+    private String base;
     private String guichetDenomination;
 
     private RadioButton rbEtTypTxInterFixe;
@@ -100,6 +117,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
     /* manage spinner*/
 
     private TextView tvGuichetDenomination;
+    private TextView tv_type_frais;
 
     /*end manage*/
 
@@ -109,6 +127,21 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
     private ProgressDialog pDialogInitialisationCaisseGuichet;
     private TextInputLayout ET_input_layout_ValeurTaluxInteretEAT;
     private LinearLayout LL_blk_EtPlageTxInter;
+    private LinearLayout LL_blk_EtValeur;
+    private String EtTypTxInter="";
+    private static final String  PdTypeData="TIV";
+    private JRSpinner mySpinnerBaseTxTIV; // a revoir le get
+    private String PdNature;
+    private String PdValTaux;
+    private String PdValDe;
+    private String PdValA;
+    private String PdBase;
+    private String PdProduit;
+    private ProgressDialog pDialog;
+    private Button deleteButton;
+    public static int what_to_do=0;
+    private String plageDataId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,25 +149,55 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
         setContentView(R.layout.activity_plage_data);
 
 
-        guichetId = String.valueOf(MyData.GUICHET_ID);
+        //guichetId = String.valueOf(MyData.GUICHET_ID);
         guichetDenomination = MyData.GUICHET_NAME;
+        Intent intent = getIntent();
+        plageDataId = intent.getStringExtra(KEY_EAV_ID);
+      //  plageDataList = new ArrayList<>();
 /*
-        mtInitialisationEditText = (EditText) findViewById(R.id.input_txt_montant_initialisation);
+        valeurEditText = (EditText) findViewById(R.id.input_txt_montant_initialisation);
+
 
 
         tvGuichetDenomination = (TextView) findViewById(R.id.tv_denomination_guichet);
         tvGuichetDenomination.setText(guichetDenomination);
 */
+
+        LL_blk_EtValeur = (LinearLayout) findViewById(R.id.input_layout_ValeurTauxInteretEAT);
+        LL_blk_EtValeur.setVisibility(View.GONE);
+        valeurEditText = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAT);
+        valeurDebutEditText = (EditText) findViewById(R.id.txt_EtValTxInterFrom);
+        valeurFinEditText = (EditText) findViewById(R.id.txt_EtValTxInterTo);
+        baseEditText = (EditText) findViewById(R.id.input_txt_ValeurTkauxInteretEAT);
         rbEtTypTxInterFixe = (RadioButton) findViewById(R.id.rb_EtTypTxInterFixe);
+        tv_type_frais = (TextView) findViewById(R.id.tv_type_frais_plage_data_body);
+        tv_type_frais.setText(MyData.TYPE_DE_FRAIS_PLAGE_DATA);
 
         rbEtTypTxInterTaux = (RadioButton) findViewById(R.id.rb_EtTypTxInterTaux);
         rbEtTypTxInterPlageFixe = (RadioButton) findViewById(R.id.rb_EtTypTxInterPlageFixe);
         rbEtTypTxInterPlageTaux = (RadioButton) findViewById(R.id.rb_EtTypTxInterPlageTaux);
         LL_blk_EtPlageTxInter = (LinearLayout) findViewById(R.id.blk_EtPlageTxInter);
-        ET_input_layout_ValeurTaluxInteretEAT = (TextInputLayout) findViewById(R.id.input_layout_ValeurTaluxInteretEAT);
+        ET_input_layout_ValeurTaluxInteretEAT = (TextInputLayout) findViewById(R.id.input_layout_BaseTauxAPreleveCpteEAV);
         rbEtTypTxInterFixe.performClick(); // le positionner en dessous des autres
 
+        mySpinnerBaseTxTIV = (JRSpinner)findViewById(R.id.spn_my_spinner_base_taux);
 
+        mySpinnerBaseTxTIV.setItems(getResources().getStringArray(R.array.array_base_taux_frais_tenue_compte)); //this is important, you must set it to set the item list
+        mySpinnerBaseTxTIV.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        mySpinnerBaseTxTIV.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+
+        mySpinnerBaseTxTIV.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+                //  cxLocalite = mySpinnerLocalite.getText().toString();
+                // Log.d("iddddddd***",caisseLocalite);
+            }
+        });
+
+       if (what_to_do==3 || what_to_do==2){
+           new FetchEavDetailsAsyncTask().execute();
+       }
         addButton = (Button) findViewById(R.id.btn_save_plage_data);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +218,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    //initialisationCaisseGuichet();
+                    initialisationCaisseGuichet();
                 } else {
                     Toast.makeText(PlageData.this,
                             "Impossible de se connecter à Internet",
@@ -166,10 +229,290 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
             }
         });
 
+        deleteButton = (Button) findViewById(R.id.btn_delete_plage);
+        if (what_to_do==3|| what_to_do==2 ){
+            deleteButton.setVisibility(View.VISIBLE);
+            addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                        updatePlageData();
+
+                    } else {
+                        Toast.makeText(PlageData.this,
+                                "Impossible de se connecter à Internet",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+
+                }
+            });
+        }
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                    confirmDelete();
+
+            }
+        });
+
+
+
 
     }
 
+    /**
+     * Checks whether all files are filled. If so then calls UpdatePlageDataAsyncTask.
+     * Otherwise displays Toast message informing one or more fields left empty
+     */
+    private void updatePlageData() {
 
+
+        if (!STRING_EMPTY.equals(valeurEditText.getText().toString()))
+        {
+
+
+            valeur = valeurEditText.getText().toString();
+            valeurDebut = valeurDebutEditText.getText().toString();
+            valeurFin = valeurFinEditText.getText().toString();
+            // base = baseEditText.getText().toString();
+            base = mySpinnerBaseTxTIV.getText().toString();
+
+
+            new UpdatePlageDataAsyncTask().execute();
+        } else {
+            Toast.makeText(PlageData.this,
+                    "One or more fields left empty!",
+                    Toast.LENGTH_LONG).show();
+
+        }
+
+
+    }
+    /**
+     * AsyncTask for updating a plage data details
+     */
+
+    private class UpdatePlageDataAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog = new ProgressDialog(PlageData.this);
+            pDialog.setMessage("Updating Plage data. Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            if (ListPlageDateActivity.IS_TO_CREATE_OR_TO_UPDATE){
+                updatePlageForCreate();
+            }else{
+                updatePlageForUpdate();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (success == 1) {
+                        //Display success message
+                        Toast.makeText(PlageData.this,
+                                "Plage Updated", Toast.LENGTH_LONG).show();
+                        Intent i = getIntent();
+                        //send result code 20 to notify about movie update
+                        setResult(20, i);
+                        finish();
+
+                    } else {
+                        Toast.makeText(PlageData.this,
+                                "Some error occurred while updating",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Displays an alert dialogue to confirm the deletion
+     */
+    private void confirmDelete() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                PlageData.this);
+        alertDialogBuilder.setMessage("Voulez-vous vraiment supprimer cette plage ?");
+        alertDialogBuilder.setPositiveButton("Supprimer",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                            //If the user confirms deletion, execute DeletePlageDataAsyncTask
+
+
+                            if (ListPlageDateActivity.IS_TO_CREATE_OR_TO_UPDATE){
+//                                CreateProduitEAV.plageDataList.remove(Integer.parseInt(plageDataId));
+
+                                Toast.makeText(PlageData.this,
+                                        "Fonctionnalité à prendre en compte dans la prochaine version",
+                                        Toast.LENGTH_LONG).show();
+                            }else{
+                                new DeletePlageDataAsyncTask().execute();
+                            }
+                        } else {
+                            Toast.makeText(PlageData.this,
+                                    "Impossible de se connecter à Internet",
+                                    Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Annuler", null);
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * AsyncTask to delete a plage data
+     */
+    private class DeletePlageDataAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog = new ProgressDialog(PlageData.this);
+            pDialog.setMessage("Suppression de la plage. SVP, patientez...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            //Set movie_id parameter in request
+            httpParams.put(KEY_PD_NUMERO, plageDataId);
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "delete_plage_data_tiv.php", "POST", httpParams);
+            try {
+                success = jsonObject.getInt(KEY_SUCCESS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (success == 1) {
+                        //Display success message
+                        Toast.makeText(PlageData.this,
+                                "Plage supprimée", Toast.LENGTH_LONG).show();
+                        Intent i = getIntent();
+                        //send result code 20 to notify about movie deletion
+                        setResult(20, i);
+                        finish();
+
+                    } else {
+                        Toast.makeText(PlageData.this,
+                                "Une erreur s'est produite lors de la suppression de la plage",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }
+    }
+
+
+    /**
+     * Fetches single plage data details from the server
+     */
+    private class FetchEavDetailsAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog = new ProgressDialog(PlageData.this);
+            pDialog.setMessage("Chargement des détails de la plage. SVP, patientez...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            if(what_to_do==2){
+                fetchPlageForCreate();
+            }else{
+                HttpJsonParser httpJsonParser = new HttpJsonParser();
+                Map<String, String> httpParams = new HashMap<>();
+                httpParams.put(KEY_PD_NUMERO, plageDataId);
+                JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                        BASE_URL + "get_plage_data_tiv_details.php", "GET", httpParams);
+                try {
+                    int success = jsonObject.getInt(KEY_SUCCESS);
+                    JSONObject plageData;
+                    if (success == 1) {
+                        //Parse the JSON response
+                        plageData = jsonObject.getJSONObject(KEY_DATA);
+
+                        EtTypTxInter = plageData.getString(KEY_PD_NATURE);
+                        valeur = plageData.getString(KEY_PD_VAL_TAUX);
+                        valeurDebut = plageData.getString(KEY_PD_VAL_DE);
+                        valeurFin = plageData.getString(KEY_PD_VAL_A);
+                        base = plageData.getString(KEY_PD_BASE);
+
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    //Populate the Edit Texts once the network activity is finished executing
+
+
+                    valeurEditText.setText(valeur);
+                    valeurDebutEditText.setText(valeurDebut);
+                    valeurFinEditText.setText(valeurFin);
+                    baseEditText.setText(base);
+                    if (EtTypTxInter.equals("F")){
+                        rbEtTypTxInterPlageFixe.setChecked(true);
+                        onRadioButtonClicked(rbEtTypTxInterPlageFixe);
+                    }else if (EtTypTxInter.equals("P")){
+                        rbEtTypTxInterPlageTaux.setChecked(true);
+                        onRadioButtonClicked(rbEtTypTxInterPlageTaux);
+                    }
+
+                }
+            });
+        }
+
+
+    }
 
 
     public void onRadioButtonClicked(View view) {
@@ -207,8 +550,10 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
             case R.id.rb_EtTypTxInterPlageFixe:
                 if (rbEtTypTxInterPlageFixe.isChecked()) {
                     LL_blk_EtPlageTxInter.setVisibility(View.VISIBLE);
+                    LL_blk_EtValeur.setVisibility(View.VISIBLE);
                     ET_input_layout_ValeurTaluxInteretEAT.setVisibility(View.GONE);
-                   // EtTypTxInter ="F";
+
+                    EtTypTxInter ="F";
                     /*
                     ET_input_layout_ValeurTaluxInteretEAT = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
 
@@ -219,9 +564,10 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
                 break;
             case R.id.rb_EtTypTxInterPlageTaux:
                 if (rbEtTypTxInterPlageTaux.isChecked()) {
+                    LL_blk_EtValeur.setVisibility(View.VISIBLE);
                     LL_blk_EtPlageTxInter.setVisibility(View.VISIBLE);
                     ET_input_layout_ValeurTaluxInteretEAT.setVisibility(View.VISIBLE);
-                   // EtTypTxInter ="P";
+                    EtTypTxInter ="P";
                     /*
                     ET_input_layout_ValeurTaluxInteretEAT = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="P";
@@ -240,11 +586,15 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void initialisationCaisseGuichet() {
-        if (!STRING_EMPTY.equals(mtInitialisationEditText.getText().toString()) &&
-                Integer.parseInt(guichetId) !=0 ) {
+        if (!STRING_EMPTY.equals(valeurEditText.getText().toString())
+                ) {
 
 
-                guichetMontantInitialisation = mtInitialisationEditText.getText().toString();
+                valeur = valeurEditText.getText().toString();
+                valeurDebut = valeurDebutEditText.getText().toString();
+                valeurFin = valeurFinEditText.getText().toString();
+               // base = baseEditText.getText().toString();
+            base = mySpinnerBaseTxTIV.getText().toString();
 
                 new InitialisationCaisseGuichetAsyncTask().execute();
 
@@ -259,6 +609,93 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
 
     }
 
+    private void savePlageForCreate(){
+        ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
+                valeur,valeurDebut,valeurFin,base,"");
+        CreateProduitEAV.plageDataList.add(maPlage);
+        try {
+            //success = jsonObject.getInt(KEY_SUCCESS);
+            success = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void updatePlageForCreate(){
+        ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
+                valeur,valeurDebut,valeurFin,base,"");
+        //CreateProduitEAV.plageDataList.add(maPlage);
+        CreateProduitEAV.plageDataList.set(Integer.parseInt(plageDataId),maPlage);
+        try {
+            //success = jsonObject.getInt(KEY_SUCCESS);
+            success = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void fetchPlageForCreate(){
+            EtTypTxInter = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdNature();
+        valeur = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdValTaux();
+        valeurDebut = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdValDe();
+        valeurFin = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdValA();
+        base = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdBase();
+
+        try {
+            //success = jsonObject.getInt(KEY_SUCCESS);
+            success = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void savePlageForUpdate(){
+
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            //Populating request parameters
+           // httpParams.put(KEY_EAV_ID, uxGuichetId);
+
+            httpParams.put(KEY_PD_NATURE, EtTypTxInter);
+            httpParams.put(KEY_PD_VAL_TAUX, valeur);
+            httpParams.put(KEY_PD_VAL_DE, valeurDebut);
+            httpParams.put(KEY_PD_VAL_A, valeurFin);
+            httpParams.put(KEY_PD_BASE, base);
+            httpParams.put(KEY_PD_PRODUIT, UpdateEAV.eavId);
+
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "add_tiv_plage_data.php", "POST", httpParams);
+
+
+
+//        ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
+//                valeur,valeurDebut,valeurFin,base,"");
+//        CreateProduitEAV.plageDataList.add(maPlage);
+        try {
+            success = jsonObject.getInt(KEY_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void updatePlageForUpdate(){
+
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            //Populating request parameters
+
+            httpParams.put(KEY_PD_NATURE, EtTypTxInter);
+            httpParams.put(KEY_PD_VAL_TAUX, valeur);
+            httpParams.put(KEY_PD_VAL_DE, valeurDebut);
+            httpParams.put(KEY_PD_VAL_A, valeurFin);
+            httpParams.put(KEY_PD_BASE, base);
+            httpParams.put(KEY_PD_NUMERO, plageDataId);
+
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "update_tiv_plage_data.php", "POST", httpParams);
+
+        try {
+            success = jsonObject.getInt(KEY_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * AsyncTask for adding a compte eav
      */
@@ -268,7 +705,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
             super.onPreExecute();
             //Display proggress bar
             pDialogInitialisationCaisseGuichet = new ProgressDialog(PlageData.this);
-            pDialogInitialisationCaisseGuichet.setMessage("Initialisation caisse guichet. Please wait...");
+            pDialogInitialisationCaisseGuichet.setMessage("Enregistrement plage. Veuillez patienter...");
             pDialogInitialisationCaisseGuichet.setIndeterminate(false);
             pDialogInitialisationCaisseGuichet.setCancelable(false);
             pDialogInitialisationCaisseGuichet.show();
@@ -276,22 +713,26 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
 
         @Override
         protected String doInBackground(String... params) {
+            /*
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
            // httpParams.put(KEY_EAV_ID, uxGuichetId);
 
             httpParams.put(KEY_CV_GUICHET, String.valueOf(MyData.GUICHET_ID));
-            httpParams.put(KEY_CV_MT_SOLDE, guichetMontantInitialisation);
+            httpParams.put(KEY_CV_MT_SOLDE, valeur);
             httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_eav_adherent.php", "POST", httpParams);
-            try {
-                success = jsonObject.getInt(KEY_SUCCESS);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            */
+
+
+           if (ListPlageDateActivity.IS_TO_CREATE_OR_TO_UPDATE){
+               savePlageForCreate();
+           }else{
+               savePlageForUpdate();
+           }
             return null;
         }
 
@@ -302,7 +743,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
                     if (success == 1) {
                         //Display success message
                         Toast.makeText(PlageData.this,
-                                "Caisse guichet initialisé avec succès", Toast.LENGTH_LONG).show();
+                                "Plage enregistrée", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);
@@ -311,7 +752,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
 
                     } else {
                         Toast.makeText(PlageData.this,
-                                "Some error occurred while initialization caisse guichet",
+                                "Une erreur est survenue lors de l'enregistrement de la plage",
                                 Toast.LENGTH_LONG).show();
 
                     }

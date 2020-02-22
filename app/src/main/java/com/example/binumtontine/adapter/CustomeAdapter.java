@@ -65,6 +65,7 @@ public class CustomeAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_view_edit_text_item, null, true);
 
             holder.editText = (EditText) convertView.findViewById(R.id.fraisMontant);
+            holder.ET_nbre_part_sociale = (EditText) convertView.findViewById(R.id.nombrePS);
             holder.tvFraisId = (TextView) convertView.findViewById(R.id.fraisId);
             holder.tvLibelleFrais = (TextView) convertView.findViewById(R.id.fraisLibelle);
             holder.tvFraisFonction = (TextView) convertView.findViewById(R.id.fraisFonction);
@@ -76,9 +77,16 @@ public class CustomeAdapter extends BaseAdapter {
         }
 
         holder.editText.setText(editModelArrayList.get(position).getEditTextValue());
+        holder.ET_nbre_part_sociale.setText(editModelArrayList.get(position).getET_nbre_part_socialeValue());
         holder.tvLibelleFrais.setText(editModelArrayList.get(position).getFraisLibelle());
         holder.tvFraisId.setText(editModelArrayList.get(position).getFraisID());
         holder.tvFraisFonction.setText(editModelArrayList.get(position).getFraisFonction());
+        if ((editModelArrayList.get(position).getFraisFonction()).equals("P")){
+            holder.ET_nbre_part_sociale.setVisibility(View.VISIBLE);
+        }else{
+            holder.ET_nbre_part_sociale.setVisibility(View.GONE);
+        }
+
 
         holder.editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,6 +105,23 @@ public class CustomeAdapter extends BaseAdapter {
 
             }
         });
+        holder.ET_nbre_part_sociale.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                editModelArrayList.get(position).setET_nbre_part_socialeValue(holder.ET_nbre_part_sociale.getText().toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         return convertView;
     }
@@ -104,6 +129,7 @@ public class CustomeAdapter extends BaseAdapter {
     private class ViewHolder {
 
         protected EditText editText;
+        protected EditText ET_nbre_part_sociale;
         protected TextView tvLibelleFrais;
         protected TextView tvFraisId;
         protected TextView tvFraisFonction;

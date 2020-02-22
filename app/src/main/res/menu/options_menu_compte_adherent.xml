@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+<!-- complex menu item to set text style -->
+<item
+    android:id="@+id/menu_group"
+    android:title="Opértions sur compte"
+    app:showAsAction="always|withText"
+    android:orderInCategory="1"
+    >
+    <!-- text style menu's sub menu start from here -->
+    <menu>
+        <!-- first group (text color) of text style sub menu -->
+        <!--android:checkableBehavior="single"-->
+        <group
+            android:id="@+id/eav_group"
+
+            >
+            <!-- text size group's items -->
+            <item
+                android:title="COMPTE EAV"
+                android:enabled="false"
+                android:checkable="false"
+                />
+
+            <item
+            android:id="@+id/menu_depot"
+            android:title="Dépôt" />
+
+            <item
+            android:id="@+id/menu_retrait"
+            android:title="Retrait" />
+
+            <item
+            android:id="@+id/menu_historique"
+            android:title="Historique" />
+            <item
+            android:id="@+id/menu_interet"
+            android:title="Intérêt" />
+            <item
+            android:id="@+id/menu_frais"
+            android:title="Frais" />
+            <item
+            android:id="@+id/menu_substitution"
+            android:title="Substitution" />
+        </group>
+        <!-- second group (eap_group) sub menu -->
+        <group
+            android:id="@+id/eap_group"
+            >
+            <!-- text size group's items -->
+            <item
+                android:title="COMPTE EPARGNE"
+                android:enabled="false"
+                android:checkable="false"
+                />
+            <item
+            android:id="@+id/menu_payer_mise"
+            android:title="Payer la mise" />
+            <item
+            android:id="@+id/menu_historique_mise"
+            android:title="Historique mises" />
+            <item
+            android:id="@+id/menu_consulter_compte"
+            android:title="Consulter le compte" />
+            <item
+            android:id="@+id/menu_cloture_anticipee"
+            android:title="Clôture anticipée" />
+            <item
+            android:id="@+id/menu_cloture"
+            android:title="Clôture" />
+
+        </group>
+    </menu>
+</item>
+
+</menu>

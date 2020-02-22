@@ -27,21 +27,27 @@ public class CreateProduitEAV extends AppCompatActivity {
 package com.example.binumtontine.activity.adherent;
 
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
@@ -59,13 +65,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class OperationEAT extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
+public class OperationEAT extends AppCompatActivity implements  View.OnClickListener, AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     /*Begin*/
@@ -123,7 +136,12 @@ public class OperationEAT extends AppCompatActivity implements AdapterView.OnIte
     private String dateCreation;
     private String taux;
     private String libelleProduit;
+    private String dureeDuCompte;
+    private String interet;
+    private String montantARetirer;
 
+    private String AdValideDu;
+    private String AdValideAu;
     private String natureOperation;
 
     /* manage spinner*/
@@ -138,13 +156,26 @@ public class OperationEAT extends AppCompatActivity implements AdapterView.OnIte
     private TextView tvCompteSolde;
     private TextView tvDateCreation;
     private TextView tvTaux;
+
+    private EditText Ad_DateDelivranceEditText;
+    private EditText Ad_DateExpirationEditText;
     /*end manage*/
+
+    private DatePickerDialog Ad_DateDelivrance_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog Ad_DateExpiration_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+
+    private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
 
     private Button addButton;
     private Button annulerButton;
     private int success;
     private ProgressDialog pDialog;
     private ProgressDialog pDialogFetchProduitEavList;
+
+    private RadioButton rb_transfert_eav;
+    private RadioButton rb_renouveller;
+    private RadioButton rb_retirer;
+    private String eatCtModRenouv="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +195,7 @@ public class OperationEAT extends AppCompatActivity implements AdapterView.OnIte
         adPrenom = adherent.getAdPrenom();
         adNumManuel = adherent.getAdNumManuel();
         adCode = adherent.getAdCode();
+
 
         //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
 /*
@@ -191,6 +223,19 @@ public class OperationEAT extends AppCompatActivity implements AdapterView.OnIte
 
         tvLibelleProduit = (TextView) findViewById(R.id.tv_libelle_produit_adherent);
         tvLibelleProduit.setText(libelleProduit);
+
+        spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
+
+        rb_transfert_eav = (RadioButton) findViewById(R.id.rb_CtModRenouv_transfert_vers_eav);
+        rb_renouveller = (RadioButton) findViewById(R.id.rb_CtModRenouv_renouveller);
+        rb_retirer = (RadioButton) findViewById(R.id.rb_CtModRenouv_retirer);
+
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        onRadioButtonClicked(rb_transfert_eav);
+
+//        findViewsById();
+//
+//        setDateTimeField();
 
        /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
         tvAdherentNumDossier.setText(adNumDossier);*/
@@ -234,6 +279,125 @@ public class OperationEAT extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+@RequiresApi(api = Build.VERSION_CODES.O)
+private void calculateDifferenceBetweenTwoDates(String startDate1, String endDate1){
+
+    DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy").withLocale(Locale.US);
+    LocalDate startDate = LocalDate.parse("01/09/1995", formatter);
+    LocalDate endDate = LocalDate.parse("30/11/2018", formatter);
+
+    Period period = Period.between(startDate, endDate);
+    System.out.println(String.format("No Of Years : %d Years, \nNo Of Months : %d Months, \nNo Of Days : %d Days, ",
+            period.getYears(), period.getMonths(), period.getDays())
+    );
+
+    /*Other method*/
+        /*
+        //Comparing dates
+        long difference = Math.abs(date1.getTime() - date2.getTime());
+        long differenceDates = difference / (24 * 60 * 60 * 1000);
+
+        //Convert long to String
+        String dayDifference = Long.toString(differenceDates);
+
+        Log.e("HERE","HERE: " + dayDifference);
+        */
+
+}
+    private void findViewsById() {
+
+        Ad_DateDelivranceEditText = (EditText) findViewById(R.id.input_txt_validite_debut_adherent);
+        Ad_DateDelivranceEditText.requestFocus();
+        Ad_DateDelivranceEditText.setInputType(InputType.TYPE_NULL);
+
+        Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_adherent);
+        Ad_DateExpirationEditText.requestFocus();
+        Ad_DateExpirationEditText.setInputType(InputType.TYPE_NULL);
+
+
+
+
+    }
+
+    private void setDateTimeField() {
+        Ad_DateDelivranceEditText.setOnClickListener(this);
+        Ad_DateExpirationEditText.setOnClickListener(this);
+
+
+        Calendar newCalendar = Calendar.getInstance();
+
+        Ad_DateDelivrance_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        Ad_DateExpiration_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+         if (v == Ad_DateDelivranceEditText){
+            Ad_DateDelivrance_PickerDialog.show();
+        }else if (v == Ad_DateExpirationEditText){
+            Ad_DateExpiration_PickerDialog.show();
+        }
+    }
+
+
+    /**
+     * To manage Radio button
+     * @param view
+     */
+    public void onRadioButtonClicked(View view) {
+        boolean checked1 = ((RadioButton) view).isChecked();
+        String str="";
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+
+            case R.id.rb_CtModRenouv_transfert_vers_eav:
+                if (rb_transfert_eav.isChecked()) {
+                    eatCtModRenouv = "T";
+                    //str = checked1?"Nature frais fixe":"";
+
+                }
+                break;
+            case R.id.rb_CtModRenouv_renouveller:
+                if (rb_renouveller.isChecked()) {
+                    eatCtModRenouv = "R";
+                    // str = checked1?"Nature frais taux":"";
+
+                }
+                break;
+            case R.id.rb_CtModRenouv_retirer:
+                if (rb_retirer.isChecked()) {
+                    eatCtModRenouv = "E";
+                    //str = checked1?"Ce frais est obligatoire":"";
+
+                }
+
+                break;
+
+
+        }
+        // Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * To manage Radio button
@@ -311,7 +475,7 @@ public class OperationEAT extends AppCompatActivity implements AdapterView.OnIte
         protected Void doInBackground(Void... arg0) {
             ServiceHandler jsonParser = new ServiceHandler();
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
+            httpParams.add(new BasicNameValuePair(KEY_COMPTE_ID, compteId));
             httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
             String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
            // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
@@ -378,45 +542,32 @@ public class OperationEAT extends AppCompatActivity implements AdapterView.OnIte
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addEavAdherent() {
-        if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
+        if (!STRING_EMPTY.equals(eatCtModRenouv)
+
                  ) {
 //String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
-String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
-
-            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
-            nf.setGroupingUsed(false);
+//String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
+//
+//            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
+//            nf.setGroupingUsed(false);
             //nf.format(rr);
 //if (natureOperation.equals("R")&&
 //                    (Double.parseDouble(EavDepotMinEditText.getText().toString())<Double.parseDouble(rr))){
-if (true){
-//                Toast.makeText(OperationEAV.this,
-//                        "Solde insuffisant!",
-//                        Toast.LENGTH_LONG).show();
-//                Toast.makeText(OperationEAV.this,
-//                        rr.trim()+ "\n"+rr.length(),
-//                        Toast.LENGTH_LONG).show();
+//
 
 
-    eavDepotMin = EavDepotMinEditText.getText().toString();
-    adNumDossier = NumDossierEditText.getText().toString();
+//    eavDepotMin = EavDepotMinEditText.getText().toString();
+//    adNumDossier = NumDossierEditText.getText().toString();
 
     new AddEavAdherentAsyncTask().execute();
-            }else
-            {
-//
-//                eavDepotMin = EavDepotMinEditText.getText().toString();
-//                adNumDossier = NumDossierEditText.getText().toString();
-//
-//                new AddEavAdherentAsyncTask().execute();
-            }
+
 
 
 
 
         } else {
             Toast.makeText(OperationEAT.this,
-                    "Un ou plusieurs champs sont vides!",
+                    "Choisir une action à faire!",
                     Toast.LENGTH_LONG).show();
 
         }

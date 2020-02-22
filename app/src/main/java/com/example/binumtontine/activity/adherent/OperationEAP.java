@@ -168,6 +168,7 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
         //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
 
         EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
+        EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
 /*
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
@@ -397,7 +398,8 @@ if (true){
 //                        Toast.LENGTH_LONG).show();
 
 
-    eavDepotMin = EavDepotMinEditText.getText().toString();
+//    eavDepotMin = EavDepotMinEditText.getText().toString();
+    eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
     adNumDossier = NumDossierEditText.getText().toString();
 
     new AddEavAdherentAsyncTask().execute();

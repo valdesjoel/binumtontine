@@ -38,8 +38,44 @@ public class Adherent implements Serializable {
     private int AdGuichet;
     private String  AdNbreCompte;
 
+    //for manage accounts's adherent
+    private String libelle_produit="";
+    private String numero_dossier="";
+    private String dateHCree="";
+    private String montant_solde="";
 
 
+    public String getLibelleProduit() {
+        return libelle_produit;
+    }
+
+    public void setLibelleProduit(String libelle_produit) {
+        this.libelle_produit = libelle_produit;
+    }
+
+    public String getNumeroDossier() {
+        return numero_dossier;
+    }
+
+    public void setNumeroDossier(String numero_dossier) {
+        this.numero_dossier = numero_dossier;
+    }
+
+    public String getDateHCree() {
+        return dateHCree;
+    }
+
+    public void setDateHCree(String dateHCree) {
+        this.dateHCree = dateHCree;
+    }
+
+    public String getMontantSolde() {
+        return montant_solde;
+    }
+
+    public void setMontantSolde(String montant_solde) {
+        this.montant_solde = montant_solde;
+    }
 
     public Adherent(){}
 

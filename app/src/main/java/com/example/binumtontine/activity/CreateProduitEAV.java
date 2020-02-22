@@ -56,11 +56,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -72,6 +69,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -81,10 +79,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRESS {
@@ -108,6 +104,22 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_EAV_IS_CHEQUE_ON = "ev_is_cheque_on";
     private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
     private static final String KEY_EAV_CX_NUMERO = "ev_caisse_id";
+
+
+    private static final String KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_DEBUT = "EvTivDebut";
+    private static final String KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_FIN = "EvTivFin";
+    private static final String KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_VALEUR = "EvTivValeur";
+    private static final String KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_BASE = "EvTivBase";
+    private static final String KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_NATURE = "EvTivNature";
+
+
+    private String tabPlageDebut ="";
+    private String tabPlageFin ="";
+    private String tabPlageValeur ="";
+    private String tabPlageBase ="";
+    private String tabPlageNature ="";
+
+
 
 
 
@@ -175,6 +187,8 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private ProgressDialog pDialog;
 
     private TextView tv_header_produit;
+    public static ArrayList<ModelPlageData> plageDataList; //to manage plageData
+    private TextView tv_config_plage_tiv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,9 +201,10 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         setToolbarTitle(); */
 
 
-
+        plageDataList = new ArrayList<>();
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
         tv_header_produit.setText("Produit EAV\n"+"Caisse: "+MyData.CAISSE_NAME);
+        tv_config_plage_tiv = (TextView) findViewById(R.id.tv_plage_tiv_eav);
         ev_codeEditText = (EditText) findViewById(R.id.input_txt_Code_EAV);
         ev_libelleEditText = (EditText) findViewById(R.id.input_txt_LibelleEAV);
         ev_min_cpteEditText = (EditText) findViewById(R.id.input_txt_MinCompteEAV);
@@ -231,7 +246,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_my_spinner_base_taux);
         mySpinnerBaseTxIntMensuel = (JRSpinner)findViewById(R.id.spn_my_spinner_base_taux_mensuel);
 
-        mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_base_taux)); //this is important, you must set it to set the item list
+        mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_base_taux_frais_tenue_compte)); //this is important, you must set it to set the item list
         mySpinnerLocalite.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerLocalite.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
 
@@ -291,6 +306,25 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                 } else {
                     Toast.makeText(CreateProduitEAV.this,
                             "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+
+        tv_config_plage_tiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Frais de tenue de compte";
+                    ListPlageDateActivity.IS_TO_CREATE_OR_TO_UPDATE = true;
+                    Intent i = new Intent(CreateProduitEAV.this,ListPlageDateActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(CreateProduitEAV.this,
+                            "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
 
                 }
@@ -469,6 +503,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                     ev_mt_tx_agios_prelevEditText.setHint("Montant mensuel à préléver");
                     layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    tv_config_plage_tiv.setVisibility(View.GONE);
 
                 }
 
@@ -482,18 +517,21 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                     ev_mt_tx_agios_prelevEditText.setHint("Taux mensuel à préléver");
                     layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
+                    tv_config_plage_tiv.setVisibility(View.GONE);
         }
 
 
                 break;
             case R.id.rbEpTypTxInterPlage:
                 if (rbEpTypTxInterPlage.isChecked()) {
+
                     str = checked1?"Type Plage sélectionné":"";
                     ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
+                   // blkPlageEav.setVisibility(View.VISIBLE);
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    tv_config_plage_tiv.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -547,6 +585,15 @@ if (true){
             ev_plage_agios_to = ev_plage_agios_toEditText.getText().toString();
             ev_is_cheque_on = ev_is_cheque_onSwitch.isChecked();
             ev_frais_clot_cpt = ev_frais_clot_cptEditText.getText().toString();
+//to manage plage data
+    for (int i=0; i<plageDataList.size();i++){
+        tabPlageDebut+=";"+plageDataList.get(i).getPdValDe();
+        tabPlageFin+=";"+plageDataList.get(i).getPdValA();
+        tabPlageValeur+=";"+plageDataList.get(i).getPdValTaux();
+        tabPlageBase+=";"+plageDataList.get(i).getPdBase();
+        tabPlageNature+=";"+plageDataList.get(i).getPdNature();
+    }
+
             new AddEAVAsyncTask().execute();
         } else {
             Toast.makeText(CreateProduitEAV.this,
@@ -597,8 +644,16 @@ if (true){
             httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on.toString());
             httpParams.put(KEY_EAV_FRAIS_CLOT_CPT, ev_frais_clot_cpt);
             httpParams.put(KEY_EAV_CX_NUMERO, String.valueOf(ev_caisse_id));
+
+
+            httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_DEBUT, tabPlageDebut);
+            httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_FIN, tabPlageFin);
+            httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_VALEUR, tabPlageValeur);
+            httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_BASE, tabPlageBase);
+            httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_NATURE, tabPlageNature);
+
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_eav.php", "POST", httpParams);
+                    BASE_URL + "add_eav_new.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

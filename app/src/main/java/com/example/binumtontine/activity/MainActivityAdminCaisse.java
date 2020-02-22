@@ -23,11 +23,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.binumtontine.R;
 import com.example.binumtontine.adapter.CircleTransform;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.fragment.HomeAdminCaisseFragment;
 import com.example.binumtontine.fragment.HomeFragment;
 import com.example.binumtontine.fragment.MoviesFragment;
 import com.example.binumtontine.fragment.NotificationsFragment;
 import com.example.binumtontine.fragment.PhotosFragment;
+import com.example.binumtontine.fragment.ProduitCaisseFragment;
 import com.example.binumtontine.fragment.SettingsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -92,7 +94,7 @@ public class MainActivityAdminCaisse extends AppCompatActivity implements Notifi
         imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
         // load toolbar titles from string resources
-        activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
+        activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles_caisse);
 
        /* fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +124,10 @@ public class MainActivityAdminCaisse extends AppCompatActivity implements Notifi
      */
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Valdès FOTSO");
-        txtWebsite.setText("valdesfotso@gmail.com");
+//        txtName.setText("Valdès FOTSO");
+//        txtWebsite.setText("valdesfotso@gmail.com");
+        txtName.setText(MyData.USER_PRENOM+" "+MyData.USER_NOM);
+        txtWebsite.setText(MyData.USER_EMAIL);
 
         // loading header background image
 
@@ -214,7 +218,8 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
                 return homeAdminCaisseFragment;
             case 1:
                 // photos
-                PhotosFragment photosFragment = new PhotosFragment();
+                //PhotosFragment photosFragment = new PhotosFragment();
+                ProduitCaisseFragment photosFragment = new ProduitCaisseFragment();
                 return photosFragment;
             case 2:
                 // movies fragment

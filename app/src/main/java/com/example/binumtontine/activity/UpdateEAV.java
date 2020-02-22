@@ -17,7 +17,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -27,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +57,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
 
 
-    private String eavId;
+    public static String eavId;
     private TextView headerEAVTextView;
 
     private EditText ev_codeEditText;
@@ -100,6 +103,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private RadioButton rbEpTypTxInterTaux;
     private RadioButton rbEpTypTxInterPlage;
     private TextInputLayout layout_TauxAPreleveCpteEAV;
+    private TextInputLayout layout_BaseTauxAPreleveCpteEAV;
 
     private TextInputLayout layout_MinCompteEAV;
     private TextInputLayout layout_TauxInteretAnnuelEAV;
@@ -110,6 +114,9 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private int success;
     private ProgressDialog pDialog;
     private TextView tv_header_produit;
+    private TextView tv_config_plage_tiv;
+    private JRSpinner mySpinnerBaseTxIntMensuel; //pour gérer la base des taux
+    public static ArrayList<ModelPlageData> plageDataList; //to manage plageData
 
 
     @Override
@@ -120,12 +127,13 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
         setSupportActionBar(toolbar);
         setToolbarTitle(); */
-
+        plageDataList = new ArrayList<>();
         Intent intent = getIntent();
         headerEAVTextView = (TextView) findViewById(R.id.header_eav);
         headerEAVTextView.setText("Mise à jour EAV");
 
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
+        tv_config_plage_tiv = (TextView) findViewById(R.id.tv_plage_tiv_eav);
         tv_header_produit.setText("Produit EAV\n"+"Caisse: "+ MyData.CAISSE_NAME);
         ev_codeEditText = (EditText) findViewById(R.id.input_txt_Code_EAV);
         ev_libelleEditText = (EditText) findViewById(R.id.input_txt_LibelleEAV);
@@ -152,6 +160,21 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
         blkPlageEav = (LinearLayout) findViewById(R.id.blk_plage_eav);
         layout_TauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxAPreleveCpteEAV);
+        layout_BaseTauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_BaseTauxAPreleveCpteEAV);
+        mySpinnerBaseTxIntMensuel = (JRSpinner)findViewById(R.id.spn_my_spinner_base_taux);
+
+        mySpinnerBaseTxIntMensuel.setItems(getResources().getStringArray(R.array.array_base_taux)); //this is important, you must set it to set the item list
+        mySpinnerBaseTxIntMensuel.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        mySpinnerBaseTxIntMensuel.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+
+        mySpinnerBaseTxIntMensuel.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+                //  cxLocalite = mySpinnerLocalite.getText().toString();
+                // Log.d("iddddddd***",caisseLocalite);
+            }
+        });
         LL_TypeFraisCpteEAV = (LinearLayout) findViewById(R.id.ll_TypeFraisCpteEAV);
 
         layout_MinCompteEAV = (TextInputLayout) findViewById(R.id.input_layout_MinCompteEAV);
@@ -190,6 +213,27 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     updateEAV();
+
+                } else {
+                    Toast.makeText(UpdateEAV.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        tv_config_plage_tiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Frais de tenue de compte";
+                    ListPlageDateActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEAV.this,ListPlageDateActivity.class);
+                    //startActivityForResult(i,20);
+
+                    i.putExtra(KEY_EAV_ID, eavId);
+                    startActivityForResult(i, 20);
 
                 } else {
                     Toast.makeText(UpdateEAV.this,
@@ -239,7 +283,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
 
                     LL_TypeFraisCpteEAV.setVisibility(View.VISIBLE);
-                    onRadioButtonClicked(rbEpTypTxInterFixe);
+                   // onRadioButtonClicked(rbEpTypTxInterFixe);
                     //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                 }else{
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
@@ -266,6 +310,8 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     ev_typ_fr_agios ="F";
                     blkPlageEav.setVisibility(View.GONE);
                     layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
+                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    tv_config_plage_tiv.setVisibility(View.GONE);
                 }
 
                 break;
@@ -275,7 +321,9 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="T";
                     blkPlageEav.setVisibility(View.GONE);
+                    tv_config_plage_tiv.setVisibility(View.GONE);
                     layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
+                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                 }
 
 
@@ -285,8 +333,11 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     str = checked1?"Type Plage Selected":"Type Plage Deselected";
                     ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
+                   // blkPlageEav.setVisibility(View.VISIBLE);
+                    blkPlageEav.setVisibility(View.GONE);
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    tv_config_plage_tiv.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -358,17 +409,25 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     ev_libelleEditText.setText(ev_libelle);
                     ev_min_cpteEditText.setText(ev_min_cpte);
                     ev_is_min_cpte_obligSwitch.setChecked(ev_is_min_cpte_oblig);
+                    onSwitchButtonClicked(ev_is_min_cpte_obligSwitch);
                     ev_tx_inter_anEditText.setText(ev_tx_inter_an);
                     ev_is_tx_inter_an_obligSwitch.setChecked(ev_is_tx_inter_an_oblig);
+                    onSwitchButtonClicked(ev_is_tx_inter_an_obligSwitch);
                     ev_typ_dat_valEditText.setText(ev_typ_dat_val);
                     ev_is_multi_eav_onSwitch.setChecked(ev_is_multi_eav_on);
                     ev_is_paie_ps_onSwitch.setChecked(ev_is_paie_ps_on);
                     ev_is_agios_onSwitch.setChecked(ev_is_agios_on);
+                    onSwitchButtonClicked(ev_is_agios_onSwitch);
                     if (ev_typ_fr_agios.equals("F")){
                         rbEpTypTxInterFixe.setChecked(true);
+                        onRadioButtonClicked(rbEpTypTxInterFixe);
                     }else if (ev_typ_fr_agios.equals("T")){
                         rbEpTypTxInterTaux.setChecked(true);
-                    }else rbEpTypTxInterPlage.setChecked(true);
+                        onRadioButtonClicked(rbEpTypTxInterTaux);
+                    }else if (ev_typ_fr_agios.equals("P")){
+                        rbEpTypTxInterPlage.setChecked(true);
+                        onRadioButtonClicked(rbEpTypTxInterPlage);}
+
                     //ev_typ_fr_agiosEditText.setText(ev_typ_fr_agios);
                     ev_mt_tx_agios_prelevEditText.setText(ev_mt_tx_agios_prelev);
                     ev_plage_agios_fromEditText.setText(ev_plage_agios_from);

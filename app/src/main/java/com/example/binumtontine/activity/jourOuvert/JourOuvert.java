@@ -2,13 +2,19 @@
 package com.example.binumtontine.activity.jourOuvert;
 
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -23,11 +29,15 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
@@ -35,7 +45,7 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 
-public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
+public class JourOuvert extends AppCompatActivity implements  View.OnClickListener,SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
 
@@ -76,8 +86,12 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
     private String CgNumero;
     private String CgDevise ="A";
     private Boolean JoIsClosed;
+    private TextInputLayout til_journee_anterieure;
+    private TextInputLayout til_montant_piece_monnaie_usager;
+    private TextInputLayout til_montant_demarrage_usager;
 
-
+    private DatePickerDialog Ad_JourneeAnterieure_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
 
 
 
@@ -94,6 +108,10 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
     private int successCxGxMvt;
     private ProgressDialog pDialogFetchLastSolde;
     private ProgressDialog pDialog;
+    private Double valueNew;
+    private Double valueLAst;
+    private EditText Ad_JourneeAnterieureEditText;
+    private TextView ConnexionGuichetTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,94 +119,112 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
         setContentView(R.layout.activity_jour_ouvert);
         defaultFormat.setCurrency(Currency.getInstance("FCF"));
         JoMtDemarrEditText = (EditText) findViewById(R.id.input_txt_montant_demarrage_usager);
+        JoMtDemarrEditText.addTextChangedListener(MyData.onTextChangedListener(JoMtDemarrEditText));
+
+        til_montant_demarrage_usager = (TextInputLayout) findViewById(R.id.input_layout_montant_demarrage_usager);
+        JoMtDemarrEditText.addTextChangedListener(new MyTextWatcher(JoMtDemarrEditText));
+
         JoMtPMonnaieEditText = (EditText) findViewById(R.id.input_txt_montant_piece_monnaie_usager);
+        JoMtPMonnaieEditText.addTextChangedListener(MyData.onTextChangedListener(JoMtPMonnaieEditText));
+
         CgLastSoldeTextView = (TextView) findViewById(R.id.tv_montant_coffre_usager);
+        ConnexionGuichetTextView = (TextView) findViewById(R.id.tv_header_connexion_au_guichet);
+        ConnexionGuichetTextView.setText("Connexion au guichet"+"\n"+MyData.GUICHET_NAME);
+        til_journee_anterieure = (TextInputLayout) findViewById(R.id.input_layout_date_anterieure);
+
+        til_montant_piece_monnaie_usager = (TextInputLayout) findViewById(R.id.input_layout_montant_piece_monnaie_usager);
 
         rbStartNewDay = (RadioButton) findViewById(R.id.rb_que_voulez_vous_faire_NewDay_usager);
         rbStartOldDay = (RadioButton) findViewById(R.id.rb_que_voulez_vous_faire_OldDay_usager);
-// Add an OnEditorActionListener to the EditText view.
-        /* JoMtDemarrEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    // Close the keyboard.
-                    InputMethodManager imm = (InputMethodManager)
-                            v.getContext().getSystemService
-                                    (Context.INPUT_METHOD_SERVICE);
 
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    // TODO: Parse string in view v to a number.
-                    try {
-                        // Use the number format for the locale.
-                        JoMtDemarrDouble = defaultFormat.parse(v.getText()
-                                .toString()).doubleValue();
-                        v.setError(null);
-                    } catch (ParseException e) {
-                        Log.e(TAG,Log.getStackTraceString(e));
-                        v.setError(getText(R.string.enter_number));
-                        return false;
-                    }
-                    // Convert to string using locale's number format.
-                    JoMtDemarr = defaultFormat.format(JoMtDemarrDouble);
-                // Show the locale-formatted quantity.
-                    v.setText(JoMtDemarr);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-                    return true;
-                }
-                return false;
-            }
-        });*/
+        findViewsById();
+
+        setDateTimeField();
+//// Add an OnEditorActionListener to the EditText view.
+//         JoMtDemarrEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                    // Close the keyboard.
+//                    InputMethodManager imm = (InputMethodManager)
+//                            v.getContext().getSystemService
+//                                    (Context.INPUT_METHOD_SERVICE);
+//
+//                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                    // TODO: Parse string in view v to a number.
+//                    try {
+//                        // Use the number format for the locale.
+//                        JoMtDemarrDouble = defaultFormat.parse(v.getText()
+//                                .toString()).doubleValue();
+//                        v.setError(null);
+//                    } catch (ParseException e) {
+//                        Log.e(TAG,Log.getStackTraceString(e));
+//                        v.setError(getText(R.string.enter_number));
+//                        return false;
+//                    }
+//                    // Convert to string using locale's number format.
+//                    JoMtDemarr = defaultFormat.format(JoMtDemarrDouble);
+//                // Show the locale-formatted quantity.
+//                    v.setText(JoMtDemarr);
+//
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         /* don't allow user to move cursor while entering price */
        // JoMtDemarrEditText.setMovementMethod(null);
-       /* JoMtDemarrEditText.addTextChangedListener(new TextWatcher() {
-            private String current = "";
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            private double parsed;
+//        JoMtDemarrEditText.addTextChangedListener(new TextWatcher() {
+//            private String current = "";
+//            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+//            private double parsed;
+//
+//             @Override
+//             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                                                      }
+//
+//              @Override
+//              public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                                                          if (!s.toString().equals(current)) {
+//                                                              // remove listener to prevent stack overflow from infinite loop //
+//                                                              JoMtDemarrEditText.removeTextChangedListener(this);
+//                                                              String cleanString = s.toString().replaceAll("[$,]", "");
+//
+//                                                              try {
+//                                                                  parsed = Double.parseDouble(cleanString);
+//                                                              } catch (java.lang.NumberFormatException e) {
+//                                                                  parsed = 0;
+//                                                              }
+//
+//                                                              formatter.setMaximumFractionDigits(0);
+//                                                              String formatted = formatter.format(parsed);
+//
+//                                                              current = formatted;
+//                                                              JoMtDemarrEditText.setText(formatted);
+//                                                              JoMtDemarrEditText.setSelection(formatted.length()); //for test
+//
+//                                                              // add listener back //
+//                                                              JoMtDemarrEditText.addTextChangedListener(this);
+//                                                              // print a toast when limit is reached... see xml below.
+//                                                               // this is for 6 chars //
+//                                                              //if (start == 7) {
+//                                                                  Toast toast = Toast.makeText(getApplicationContext(),
+//                                                                          "Maximum Limit Reached", Toast.LENGTH_LONG);
+//                                                                  toast.setGravity(Gravity.CENTER, 0, 0);
+//                                                                  toast.show();
+//                                                              }
+//                                                          }
+//                                                      }
+//
+//                                                      @Override
+//                                                      public void afterTextChanged(Editable s) {
+//
+//                                                      }
+//                                                  });
 
-             @Override
-             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                                                      }
-
-              @Override
-              public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                                          if (!s.toString().equals(current)) {
-                                                              // remove listener to prevent stack overflow from infinite loop //
-                                                              JoMtDemarrEditText.removeTextChangedListener(this);
-                                                              String cleanString = s.toString().replaceAll("[$,]", "");
-
-                                                              try {
-                                                                  parsed = Double.parseDouble(cleanString);
-                                                              } catch (java.lang.NumberFormatException e) {
-                                                                  parsed = 0;
-                                                              }
-
-                                                              formatter.setMaximumFractionDigits(0);
-                                                              String formatted = formatter.format(parsed);
-
-                                                              current = formatted;
-                                                              JoMtDemarrEditText.setText(formatted);
-                                                              JoMtDemarrEditText.setSelection(formatted.length()); //for test
-
-                                                              // add listener back //
-                                                              JoMtDemarrEditText.addTextChangedListener(this);
-                                                              // print a toast when limit is reached... see xml below.
-                                                               // this is for 6 chars //
-                                                              //if (start == 7) {
-                                                                  Toast toast = Toast.makeText(getApplicationContext(),
-                                                                          "Maximum Limit Reached", Toast.LENGTH_LONG);
-                                                                  toast.setGravity(Gravity.CENTER, 0, 0);
-                                                                  toast.show();
-                                                              }
-                                                          }
-                                                      }
-
-                                                      @Override
-                                                      public void afterTextChanged(Editable s) {
-
-                                                      }
-                                                  }); */
-//...
 
         new JourOuvert.FetchLastSoldeGuichetDetailsAsyncTask().execute();
 
@@ -214,7 +250,15 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addJourOuvert();
+                   if (JoIsClosed){
+
+                       Toast.makeText(JourOuvert.this,
+                               "Fonctionnalité en cours de traitement",
+                               Toast.LENGTH_LONG).show();
+                   }else{
+                       addJourOuvert();
+                   }
+
                 } else {
                     Toast.makeText(JourOuvert.this,
                             "Impossible de se connecter à Internet",
@@ -225,9 +269,121 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
             }
         });
 
+        onRadioButtonClicked(rbStartNewDay);
+        onRadioButtonClicked(rbStartOldDay);
+    }
+
+
+    private void findViewsById() {
+        Ad_JourneeAnterieureEditText = (EditText) findViewById(R.id.input_txt_date_anterieure);
+        Ad_JourneeAnterieureEditText.requestFocus();
+        Ad_JourneeAnterieureEditText.setInputType(InputType.TYPE_NULL);
 
     }
 
+
+    private void setDateTimeField() {
+        Ad_JourneeAnterieureEditText.setOnClickListener(this);
+
+
+        Calendar newCalendar = Calendar.getInstance();
+        Ad_JourneeAnterieure_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Ad_JourneeAnterieureEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+
+
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == Ad_JourneeAnterieureEditText) {
+
+            Ad_JourneeAnterieure_PickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+            Ad_JourneeAnterieure_PickerDialog.show();
+        }
+//        else if (v == Ad_DateDelivranceEditText){
+//            Ad_DateDelivrance_PickerDialog.show();
+//        }else if (v == Ad_DateExpirationEditText){
+//            Ad_DateExpiration_PickerDialog.show();
+//        }
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.input_txt_montant_demarrage_usager:
+                    //validateLogin();
+                    break;
+                //case R.id.input_email:
+//                case R.id.txtPassword:
+//                    validatePassword();
+//                    break;
+
+            }
+        }
+    }
+
+    private boolean validateLogin() {
+        if (JoMtDemarrEditText.getText().toString().trim().isEmpty()) {
+            til_montant_demarrage_usager.setError(getString(R.string.err_msg_montant_demarrage));
+            requestFocus(JoMtDemarrEditText);
+           // testError=false;
+            return false;
+        } else {
+           // valueNew = Double.valueOf(JoMtDemarrEditText.getText().toString().trim());
+            JoMtDemarrEditText.setText(JoMtDemarrEditText.getText().toString().replaceAll(",", "").trim());
+            valueNew = Double.valueOf(JoMtDemarrEditText.getText().toString().replaceAll(",", "").trim());
+            //JoMtDemarrEditText.getText().toString().replaceAll(",", "");
+            valueLAst = Double.valueOf(CgLastSolde);
+
+            til_montant_demarrage_usager.setErrorEnabled(false);
+           // testError=true;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validating form
+     */
+
+    private void submitForm() {
+        if (!validateLogin()) {
+            return;
+        }
+
+//        if (!validatePassword()) {
+//            return;
+//        }
+
+    }
     /**
      * Fetches single caisse_guichet details from the server
      */
@@ -301,7 +457,9 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
             case R.id.rb_que_voulez_vous_faire_NewDay_usager:
                 if (rbStartNewDay.isChecked()) {
                     JoIsClosed = false;
-                   // textInputLayoutCaisse.setVisibility(View.GONE);
+                    til_journee_anterieure.setVisibility(View.GONE);
+                    til_montant_demarrage_usager.setVisibility(View.VISIBLE);
+                    til_montant_piece_monnaie_usager.setVisibility(View.VISIBLE);
                     str = checked1?"Précisez le montant de démarrage":"";
                     //ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     //FpNature ="F";
@@ -312,7 +470,10 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
             case R.id.rb_que_voulez_vous_faire_OldDay_usager:
                 if (rbStartOldDay.isChecked()){
                     JoIsClosed = true;
-                    //textInputLayoutCaisse.setVisibility(View.VISIBLE);
+                    til_journee_anterieure.setVisibility(View.VISIBLE);
+                    til_montant_demarrage_usager.setVisibility(View.GONE);
+                    til_montant_piece_monnaie_usager.setVisibility(View.GONE);
+
                     str = checked1?"Choisissez une date antérieure":"";
                     //ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     //FpNature ="T";
@@ -335,23 +496,17 @@ public class JourOuvert extends AppCompatActivity implements SERVER_ADDRESS {
     private void addJourOuvert() {
        /* if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
 
-                !STRING_EMPTY.equals(ev_libelleEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_tx_inter_anEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_tx_inter_an_obligSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_typ_dat_valEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_multi_eav_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_paie_ps_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_agios_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_typ_fr_agiosEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_mt_tx_agios_prelevEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_fromEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_toEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_cheque_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_frais_clot_cptEditText.getText().toString()) &&
-
-                !STRING_EMPTY.equals(ev_min_cpteEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
-if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
+               */
+        // now let's use Double.valueOf() method to get double from String
+        //submitForm();
+       // validateLogin();
+        //String str = JoMtDemarrEditText.getText().toString();
+       // if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
+//        double valueNew = Double.valueOf(str);
+//        double valueLAst = Double.valueOf(CgLastSolde);
+        //System.out.println("String to double conversion using valueOf : " + valueNew);
+//if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
+if (validateLogin() && valueNew<=valueLAst){
             JoMtDemarr = JoMtDemarrEditText.getText().toString();
             JoMtPMonnaie = JoMtPMonnaieEditText.getText().toString();
     // Parse string in view v to a number.
@@ -369,7 +524,7 @@ if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
             new AddJourOuvertAsyncTask().execute();
     } else {
             Toast.makeText(JourOuvert.this,
-                    "Un ou plusieurs champs sont vides!",
+                    "Entrez un montant inférieur ou égal à celui du coffre fort!",
                     Toast.LENGTH_LONG).show();
 
         }
@@ -408,7 +563,8 @@ if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
             httpParamsCaisseMvt.put(KEY_CM_NUMERO, CgNumero);
             httpParamsCaisseMvt.put(KEY_CM_SENS, CmSens);
             httpParamsCaisseMvt.put(KEY_CM_MONTANT, JoMtDemarr);
-            httpParamsCaisseMvt.put(KEY_CM_NEW_SOLDE,(parseDouble(CgLastSolde)-parseDouble(JoMtDemarr))+"");
+           // httpParamsCaisseMvt.put(KEY_CM_NEW_SOLDE,(parseDouble(CgLastSolde)-parseDouble(JoMtDemarr))+"");
+            httpParamsCaisseMvt.put(KEY_CM_NEW_SOLDE,(valueLAst-valueNew+""));
             httpParamsCaisseMvt.put(KEY_CM_NATURE, CmNature);
             httpParamsCaisseMvt.put(KEY_CM_USER, String.valueOf(MyData.USER_ID));
 
@@ -456,4 +612,47 @@ if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
             });
         }
     }
+
+
+//    private TextWatcher onTextChangedListener( final EditText et_filed) {
+//
+//        return new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                et_filed.removeTextChangedListener(this);
+//
+//                try {
+//                    String originalString = s.toString();
+//
+//                    Long longval;
+//                    if (originalString.contains(",")) {
+//                        originalString = originalString.replaceAll(",", "");
+//                    }
+//                    longval = Long.parseLong(originalString);
+//
+//                    DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+//                    formatter.applyPattern("#,###,###,###");
+//                    String formattedString = formatter.format(longval);
+//
+//                    //setting text after format to EditText
+//                    et_filed.setText(formattedString);
+//                    et_filed.setSelection(et_filed.getText().length());
+//                } catch (NumberFormatException nfe) {
+//                    nfe.printStackTrace();
+//                }
+//
+//                et_filed.addTextChangedListener(this);
+//            }
+//        };
+//    }
 }

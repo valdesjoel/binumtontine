@@ -186,9 +186,12 @@ public class GetFraisAdherent extends AppCompatActivity implements SERVER_ADDRES
            // editModel.setEditTextValue(String.valueOf(i));
 
             editModel.setEditTextValue(fraisList.get(i).get(KEY_FC_VALEUR));
+            editModel.setET_nbre_part_socialeValue(fraisList.get(i).get(KEY_FC_NBRE_PART_MIN_H));
             editModel.setFraisLibelle(fraisList.get(i).get(KEY_FC_NEW_LIBELLE));
             editModel.setFraisID(fraisList.get(i).get(KEY_FC_NUMERO));
             editModel.setFraisFonction(fraisList.get(i).get(KEY_FC_FONCTION));
+
+
             list.add(editModel);
         }
 
@@ -238,8 +241,13 @@ public class GetFraisAdherent extends AppCompatActivity implements SERVER_ADDRES
             for (int i = 0; i < CustomeAdapter.editModelArrayList.size(); i++){
 
                 //tv.setText(tv.getText() + " " + CustomeAdapter.editModelArrayList.get(i).getEditTextValue() +System.getProperty("line.separator"));
-                fraisListMontant+=";"+CustomeAdapter.editModelArrayList.get(i).getEditTextValue();
+
                 fraisListFonction+=";"+CustomeAdapter.editModelArrayList.get(i).getFraisFonction();
+                if (CustomeAdapter.editModelArrayList.get(i).getFraisFonction().equals("P")){
+                    fraisListMontant+=";"+(Double.parseDouble(CustomeAdapter.editModelArrayList.get(i).getEditTextValue())*Double.parseDouble(CustomeAdapter.editModelArrayList.get(i).getET_nbre_part_socialeValue()));
+                }else{
+                    fraisListMontant+=";"+CustomeAdapter.editModelArrayList.get(i).getEditTextValue();
+                }
                 fraisListId+=";"+CustomeAdapter.editModelArrayList.get(i).getFraisID();
             }
 

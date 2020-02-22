@@ -17,6 +17,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+
     }
     //pour permettre a l'appli cliente de communiquer avec le serveur via le protocole HTTP
     useLibrary 'org.apache.http.legacy'
@@ -29,12 +31,12 @@ allprojects {
         maven { url "https://jitpack.io" } // repository to manage country picker
     }
 }
-dependencies {
+
+    dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //implementation project(":jrspinner")
-
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+        implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
@@ -59,6 +61,7 @@ dependencies {
     implementation 'com.shuhart.stepview:stepview:1.5.0' //to manage stepView
     implementation 'com.github.ekimual:country-picker-x:1.0.0' //to manage country picker
     implementation 'com.hbb20:ccp:2.3.4' //to manage country code and country
+    implementation 'com.github.jpvs0101:Currencyfy:v1.0.2' //To Converts number to readable currency format. Lite, easy, error free & highly compatible with older versions of Android!
 
     //  classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 //    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'

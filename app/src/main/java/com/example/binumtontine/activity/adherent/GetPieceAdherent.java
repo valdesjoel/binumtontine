@@ -53,7 +53,9 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_ADHERENT_ID = "IpMembre";
     private static final String KEY_ADHERENT = "ADHERENT";
     private static final String KEY_ADHERENT_PIECE = "AD_PIECE";
+    private static final String KEY_TYPE_MEMBRE = "FcCategAdh"; //pour l'id du type de membre
     private String adherentId;
+    private String typeMembreId;
     private String piecesListId="";
 
     public ArrayList<String> listPiecesAdherent = new ArrayList<>();
@@ -64,7 +66,7 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
     private ListView lvPieces;
     private ArrayList<CheckBoxModel> checkBoxModelArrayList;
     private CustomAdapterListViewCheckbox customAdapterListViewCheckbox;
-    private Button btnselect, btndeselect, btnnext;
+    private Button btnselect, btndeselect, btnCancel,btnnext;
     private  String[] animallist = new String[]{"Pièce 1", "Pièce 2", "Pièce 3", "Pièce 4"};
    // private  String[] animallist = MyData.fruitList.toArray(new String[MyData.fruitList.size()]);
     private ProgressDialog pDialog;
@@ -73,18 +75,17 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piece_adherent);
-        /*listPiecesAdherent.add("b1");
-        listPiecesAdherent.add("b2");
-        listPiecesAdherent.add("b3");
-        listPiecesAdherent.add("b4");*/
+
         lvPieces = (ListView) findViewById(R.id.lv);
         btnselect = (Button) findViewById(R.id.select);
         btndeselect = (Button) findViewById(R.id.deselect);
         btnnext = (Button) findViewById(R.id.next);
+        btnCancel = (Button) findViewById(R.id.previous);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
         adherentId = intent.getStringExtra(KEY_ADHERENT_ID);
+        typeMembreId = intent.getStringExtra(KEY_TYPE_MEMBRE);
         new GetPieceAdherent.FetchPiecesGuichetAsyncTask().execute();
 
 //        checkBoxModelArrayList = getModel(false);
@@ -120,6 +121,13 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
                 //send result code 20 to notify about movie update
                 setResult(20, i);
                 //Finish ths activity and go back to listing activity
+                finish();
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 finish();
             }
         });
@@ -171,6 +179,7 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
             httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
             httpParams.put(KEY_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
             httpParams.put(KEY_ADHERENT_ID, adherentId);
+            httpParams.put(KEY_TYPE_MEMBRE, typeMembreId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_piece_by_guichet.php", "GET", httpParams);
             //creating Arraylist

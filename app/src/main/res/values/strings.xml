@@ -56,6 +56,18 @@
         <item>Notifications</item>
         <item>Zones d\'activités</item>
     </string-array>
+    <!-- Toolbar titles when navigation menu item is selected for admn caisse-->
+    <string-array name="nav_item_activity_titles_caisse">
+        <item>Accueil</item>
+        <item>Produits</item>
+        <item>Guichets</item>
+        <item>Agent de guichets</item>
+        <item>Types de membres</item>
+        <item>Pièces et Frais</item>
+        <item>Paramétrage guichet</item>
+        <item>Notifications</item>
+        <item>Zones d\'activités</item>
+    </string-array>
 
     <string name="activity_title_about_us">About Us</string>
     <string name="activity_title_privacy_policy">Privacy Policy</string>
@@ -72,9 +84,19 @@
     <string name="hint_email">Email: (*)</string>
     <string name="hint_password">Password: (*)</string>
     <string name="btn_sign_up">Sign Up</string>
-    <string name="err_msg_name">Enter your full name</string>
-    <string name="err_msg_email">Enter valid email address</string>
-    <string name="err_msg_password">Enter the password</string>
+    <string name="err_msg_name">Entrer votre nom complet</string>
+    <string name="err_msg_login">Entrer votre identifiant</string>
+    <string name="err_msg_montant_demarrage">Entrer le montant de démarrage</string>
+    <string name="err_msg_montant_mise">Entrer le montant de la mise</string>
+    <string name="err_msg_date_debut">Entrer la date de début de l\'échéance</string>
+    <string name="err_msg_date_debut_anterieure">La date de début doit être antérieure à la date de fin</string>
+    <string name="err_msg_date_debut_egale">La date de début doit être différente de la date de fin</string>
+    <string name="err_msg_date_fin">Entrer la date de fin de l\'échéance</string>
+    <string name="err_msg_montant_mise_invalide">Entrer le montant de la mise conforme au paramétrage du produit</string>
+    <string name="err_msg_num_manuel">Entrer un numéro manuel</string>
+    <string name="err_msg_num_dossier">Entrer un numéro de dossier</string>
+    <string name="err_msg_email">Entrer une adresse email valide!</string>
+    <string name="err_msg_password">Entrer votre mot de passe</string>
     <string name="hint_localite_caisse">Localité</string>
     <string name="hint_num_agrement">Numéro d\'agrément</string>
     <string name="hint_date_agrement">Date d\'agrément:</string>
@@ -194,7 +216,7 @@
         <item>Frais d\'adhésion</item>
         <item>Fonds de solidarité</item>
         <item>Part sociale</item>
-        <item>Approvisionnement</item>
+        <item>Dépôt initial DAV</item>
         <item>Frais de fonctionnement</item>
     </string-array>
 
@@ -321,6 +343,11 @@
         <item>Intérêt cotisé</item>
         <item>Intérêt à cotiser</item>
     </string-array>
+    <string-array name="array_base_taux_frais_tenue_compte">
+        <item>Solde minimum</item>
+        <item>Solde maximum</item>
+        <item>Solde moyen</item>
+    </string-array>
     <string-array name="array_GuFreqReunComCred">
         <item>HEBDOMADAIRE</item>
         <item>BIHEBDOMADAIRE</item>
@@ -395,7 +422,7 @@
     <string name="tab_title_list_guichet">Liste des guichets</string>
     <string name="tab_title_param_generaux">PIECES ET FRAIS</string>
 
-    <string name="nav_create_guichet">Mise en place des guichets</string>
+    <string name="nav_create_guichet">Menu</string>
     <string name="nav_create_produit">Mise en place des produits</string>
     <string name="nav_create_user_on_guichet">Ajouter des usagers</string>
     <string name="nav_parametrage_general_caisse">Paramétrage général</string>
@@ -448,8 +475,8 @@
     <!--<string name="login_email_hint">Email</string> -->
     <string name="login_email_hint">Login</string>
     <string name="login_password_hint">Password</string>
-    <string name="signup_login_hint">Already have an account? Sign In</string>
-    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
+    <string name="signup_login_hint">Vous avez déjà un compte? Se connecter</string>
+    <string name="login_signup_hint">Je n\'ai pas de compte? S\'inscrire</string>
     <string name="hint_heure_cloture">Heure de clôture</string>
     <string name="hint_code_EAT">Code EAT</string>
     <string name="hint_code_Cpte_Courant">Code Compte Courant</string>
@@ -475,6 +502,7 @@
     <string name="action_organisation_paysanne">ORGANISATION PAYSANNE</string>
     <string name="my_caisse_name">Caisse:</string>
     <string name="produit_title">Produit épargne</string>
+    <string name="produit_main">EAV PRINCIPAL:</string>
     <string name="produit_name">DAV ORDINAIRE</string>
     <string name="nom_adherent">Nom adhérent (*)</string>
     <string name="prenom_adherent">Prenom adherent</string>
@@ -510,6 +538,8 @@
     <string name="activite_principal_adherent">Activité principale:</string>
     <string name="hint_validite_fin_adherent">Date d\'expiration: (*)</string>
     <string name="hint_validite_debut_adherent">Date de délivrance: (*)</string>
+    <string name="hint_date_debut">Date de début: (*)</string>
+    <string name="hint_date_fin">Date de fin: (*)</string>
     <string name="enter_number">saisissez un montant valide</string>
     <string name="hint_depot_minimum">Dépôt minimum</string>
     <string name="produit_a_vue">Produit à vue:</string>
@@ -531,6 +561,8 @@
     <string name="action_membre_already_affect">Membres déjà affectés à la caisse</string>
     <string name="action_membre_to_affect_gx">Membre à affecter au guichet</string>
     <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
+    <string name="btn_config_plage_tiv">Cliquer ici pour paramétrer les plages</string>
+    <string name="hint_journee_anterieure">Journee anterieure</string>
 
 </resources>
 

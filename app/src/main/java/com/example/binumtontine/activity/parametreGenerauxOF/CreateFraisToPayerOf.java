@@ -356,7 +356,8 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
                         FpFonctionFrais = "A";
                     }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Fonds de solidarité")){
                         FpFonctionFrais = "S";
-                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Approvisionnement")){
+                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Approvisionnement") ||
+                            spinnerFonctionFrais.getSelectedItem().toString().equals("Dépôt initial DAV")){
                         FpFonctionFrais = "D";
                     }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais de fonctionnement")){
                         FpFonctionFrais = "F";
@@ -468,7 +469,7 @@ if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
             super.onPreExecute();
             //Display proggress bar
             pDialog = new ProgressDialog(CreateFraisToPayerOf.this);
-            pDialog.setMessage("Adding new Frais. Please wait...");
+            pDialog.setMessage("Ajout de nouveaux Frais. SVP, patientez...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -519,7 +520,7 @@ if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
 
                     } else {
                         Toast.makeText(CreateFraisToPayerOf.this,
-                                "Some error occurred while adding Frais",
+                                "Une erreur s'est produite lors de l'ajout du Frais",
                                 Toast.LENGTH_LONG).show();
 
                     }

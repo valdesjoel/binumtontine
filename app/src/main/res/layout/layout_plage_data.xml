@@ -26,6 +26,38 @@
         <!-- Begin -->
 
         <!--Nom Adherent-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_title_denomination_guichet"-->
+                <!--style="@style/parent"-->
+                <!--android:layout_width="205dp"-->
+                <!--android:layout_height="wrap_content"-->
+
+                <!--android:layout_weight="1"-->
+                <!--android:text="Produit:"-->
+
+                <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_denomination_guichet"-->
+                <!--style="@style/parent"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text=""-->
+                <!--android:singleLine="false"-->
+                <!--android:scrollHorizontally="false"-->
+                <!--android:scrollbars="vertical"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="18sp" />-->
+
+        <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,18 +66,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_title_denomination_guichet"
+                android:id="@+id/tv_type_frais_plage_data_header"
                 style="@style/parent"
                 android:layout_width="205dp"
                 android:layout_height="wrap_content"
 
                 android:layout_weight="1"
-                android:text="Produit:"
+                android:text="Type frais:"
 
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_denomination_guichet"
+                android:id="@+id/tv_type_frais_plage_data_body"
                 style="@style/parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,34 +93,34 @@
 
 
         <!--Spinner PdTypeData-->
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:layout_marginTop="@dimen/loginViewsMargin"
-              android:orientation="horizontal">
+          <!--<LinearLayout-->
+              <!--android:layout_width="match_parent"-->
+              <!--android:layout_height="wrap_content"-->
+              <!--android:gravity="center_vertical"-->
+              <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
+              <!--android:orientation="horizontal">-->
 
-              <TextView
-                  android:id="@+id/tv_title_PdTypeData"
-                  style="@style/parent"
-                  android:layout_width="205dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:text="@string/pd_type_data"
-                  android:textSize="16sp" />
+              <!--<TextView-->
+                  <!--android:id="@+id/tv_title_PdTypeData"-->
+                  <!--style="@style/parent"-->
+                  <!--android:layout_width="205dp"-->
+                  <!--android:layout_height="wrap_content"-->
+                  <!--android:layout_weight="1"-->
+                  <!--android:text="@string/pd_type_data"-->
+                  <!--android:textSize="16sp" />-->
 
-              <Spinner
-                  android:id="@+id/spn_list_pd_type_data"
-                  style="@style/modifiedEditText"
+              <!--<Spinner-->
+                  <!--android:id="@+id/spn_list_pd_type_data"-->
+                  <!--style="@style/modifiedEditText"-->
 
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:gravity="center_horizontal|center_vertical"
-                  android:hint="choisir un type"
-                  android:entries="@array/array_pd_type_data"/>
+                  <!--android:layout_width="match_parent"-->
+                  <!--android:layout_height="wrap_content"-->
+                  <!--android:layout_weight="1"-->
+                  <!--android:gravity="center_horizontal|center_vertical"-->
+                  <!--android:hint="choisir un type"-->
+                  <!--android:entries="@array/array_pd_type_data"/>-->
 
-          </LinearLayout>
+          <!--</LinearLayout>-->
 
         <!-- EtTypTxInter-->
         <LinearLayout
@@ -139,7 +171,7 @@
                     android:id="@+id/rb_EtTypTxInterPlageFixe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Plage fixe"
+                    android:text="Plage de valeur"
                     android:textSize="18dp"
                     android:onClick="onRadioButtonClicked"
                     android:checked="false" />
@@ -290,6 +322,7 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:visibility="gone"
             android:id="@+id/input_layout_ValeurTaluxInteretEAT"
             style="@style/parent"
             android:layout_width="match_parent"
@@ -304,6 +337,33 @@
                 android:maxLines="1"
                 android:textSize="18dp"
                 android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Base du taux -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_BaseTauxAPreleveCpteEAV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_base_taux"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux à préléver sur le compte"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--Numero manuel-->
@@ -479,7 +539,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingTop="30dp"
 
             android:layout_below="@+id/input_txt_montant_initialisation">
@@ -507,6 +567,18 @@
 
                 android:padding="12dp"
                 android:text="@string/btn_annuler" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete_plage"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/cancelButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
 
 
         </LinearLayout>
