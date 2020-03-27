@@ -12,6 +12,9 @@ import androidx.fragment.app.Fragment; //import android.support.v4.app.Fragment;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.CaisseActivity;
+import com.example.binumtontine.activity.parametreGenerauxOF.ListEtapesDemandesCreditOF;
+import com.example.binumtontine.activity.parametreGenerauxOF.ListObjetCredit;
+import com.example.binumtontine.activity.parametreGenerauxOF.ListStatutEtapesDemandesCreditOF;
 import com.example.binumtontine.activity.parametreGenerauxOF.ParametreGenerauxOFActivity;
 import com.example.binumtontine.activity.PrivacyPolicyActivity;
 import com.example.binumtontine.activity.UpdateOrganeFaitier;
@@ -26,6 +29,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private  CardView majOFCard;
     private  CardView ownInfoCard;
     private  CardView typeMembreCard;
+    private  CardView objetCreditCard;
+    private  CardView etapesDemandeCreditCard;
+    private  CardView statutEtapesDemandeCreditCard;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -49,6 +55,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         preParamCard = (CardView) rootView.findViewById(R.id.preParam_card);
         ownInfoCard = (CardView) rootView.findViewById(R.id.param_piece_frais_of_card);
         typeMembreCard = (CardView) rootView.findViewById(R.id.typeMembre_card);
+        objetCreditCard = (CardView) rootView.findViewById(R.id.objet_credit_card);
+        etapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.etapes_demande_credit_of_card);
+        statutEtapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.statut_etape_demande_credit_card);
 
         caisseCard.setOnClickListener(this);
         majOFCard.setOnClickListener(this);
@@ -56,6 +65,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         preParamCard.setOnClickListener(this);
         ownInfoCard.setOnClickListener(this);
         typeMembreCard.setOnClickListener(this);
+        objetCreditCard.setOnClickListener(this);
+        etapesDemandeCreditCard.setOnClickListener(this);
+        statutEtapesDemandeCreditCard.setOnClickListener(this);
 
 
         // Inflate the layout for this fragment
@@ -118,6 +130,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.typeMembre_card:
                 i = new Intent(getActivity(), TypeMembreActivity.class);
+                startActivity(i);
+                break;
+            case R.id.objet_credit_card:
+                i = new Intent(getActivity(), ListObjetCredit.class);
+                startActivity(i);
+                break;
+            case R.id.etapes_demande_credit_of_card:
+                i = new Intent(getActivity(), ListEtapesDemandesCreditOF.class);
+                startActivity(i);
+                break;
+            case R.id.statut_etape_demande_credit_card:
+                i = new Intent(getActivity(), ListStatutEtapesDemandesCreditOF.class);
                 startActivity(i);
                 break;
 

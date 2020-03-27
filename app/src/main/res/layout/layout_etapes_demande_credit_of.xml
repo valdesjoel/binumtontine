@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/tv_header_etape_demande_credit"
+            style="@style/headerTextPrimary"
+            android:text="Ajout d'une étape de demande de crédit"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+        <!--code etape demande crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Code_Etape_of"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Code_Etape_of"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_code_etape_demande_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--libellé etape demande credit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Libelle_etape_demande_credit_of"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+        <EditText
+                android:id="@+id/input_txt_Libelle_etape_demande_credit_of"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_Libelle_etape_demande_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Numéro d'ordre etape demande credit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Num_ordre_etape_demande_credit_of"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Num_ordre_etape_demande_credit_of"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_Num_ordre_etape_demande_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Ed type étape-->
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/ll_EdTypEtape_of"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView android:id="@+id/tv_EdTypEtape_of"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text="Type d'étape:"
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true" >
+                <Spinner android:id="@+id/spn_EdTypEtape_of"
+                    android:layout_width="match_parent"
+                    android:hint="Choisir le type de l'étape"
+                    style="@style/modifiedEditText"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/EdTypEtape"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <!-- EdIsOn -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_EdIsOn_of"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Statut étape"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_EdIsOn_of"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/rg_EdIsOn_of" >
+
+                <RadioButton
+                    android:id="@+id/rb_Ed_On_of"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Activé"
+                    android:onClick="onRadioButtonClicked"
+                    android:textSize="16sp"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rb_Ed_Off_of"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Désactivé"
+                    android:textSize="16sp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!--&lt;!&ndash;détails objet credit&ndash;&gt;-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_Details_Objet_credit_of"-->
+            <!--style="@style/parent"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_Details_Objet_credit_of"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:maxLines="5"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="16sp"-->
+                <!--android:hint="@string/hint_Details_objet_credit"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rg_EdIsOn_of"
+            android:orientation="vertical"
+
+            android:paddingTop="5dp"
+            android:layout_marginTop="30dp">
+
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_save_etapes_demande_credit_of"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_enregistrer" />
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_clean"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_delete_etapes_demande_credit_of"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

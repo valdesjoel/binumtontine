@@ -220,7 +220,7 @@
                 android:singleLine="true"
                 android:hint="@string/hint_montant_initialisation"
                 style="@style/modifiedEditText"
-                android:inputType="numberSigned"
+                android:inputType="number"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />

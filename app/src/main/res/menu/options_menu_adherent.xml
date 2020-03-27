@@ -12,22 +12,22 @@
     <item
         android:id="@+id/menu2"
         android:title="Epargne à vue" />
- <item
-        android:id="@+id/menu3"
-        android:title="Compte courant" />
+
+    <item
+        android:id="@+id/menu5"
+        android:title="Epargne à périodicité" />
 
     <item
         android:id="@+id/menu4"
         android:title="Epargne à terme" />
-<item
-        android:id="@+id/menu5"
-        android:title="Epargne à périodicité" />
-<item
-        android:id="@+id/menu6"
-        android:title="Plan d'épargne" />
+
+    <item
+        android:id="@+id/menu3"
+        android:title="Compte courant" />
+
 <item
         android:id="@+id/menu7"
-        android:title="Demander un crédit" />
+        android:title="Demande de crédit" />
 <item
         android:id="@+id/menu8"
         android:title="Cotisation annuelle" />
@@ -37,12 +37,10 @@
 <item
         android:id="@+id/menu10"
         android:title="Messages envoyés" />
-<item
-        android:id="@+id/menu11"
-        android:title="Profil de l'adhérent" />
+
     <item
         android:id="@+id/menu12"
-        android:title="Supprimer l'adhérent" />
+        android:title="Substitution de l'adhérent" />
 
 
 

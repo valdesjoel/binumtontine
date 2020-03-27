@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/tv_header_objet_credit"
+            style="@style/headerTextPrimary"
+            android:text="Ajout d'un objet de crédit"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+        <!--code objet crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Code_Objet_of"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Code_Objet_of"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_code_objet_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--libellé objet credit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Libelle_Objet_credit_of"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Libelle_Objet_credit_of"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_Libelle_objet_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--détails objet credit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Details_Objet_credit_of"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Details_Objet_credit_of"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="5"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_Details_objet_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/input_layout_FraisClotureCpteEAV"
+            android:orientation="vertical"
+
+            android:paddingTop="5dp"
+            android:layout_marginTop="30dp">
+
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_save_objet_credit_of"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_enregistrer" />
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_clean"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_delete_objet_credit_of"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

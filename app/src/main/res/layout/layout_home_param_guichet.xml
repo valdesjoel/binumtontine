@@ -289,7 +289,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Initialiser la caisse du guichet"
+                    android:text="Initialiser ou modifier la caisse du guichet"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>

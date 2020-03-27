@@ -22,6 +22,7 @@ package com.example.binumtontine.adapter;
         import com.example.binumtontine.activity.adherent.CreateEAP;
         import com.example.binumtontine.activity.adherent.CreateEAT;
         import com.example.binumtontine.activity.adherent.CreateEAV;
+        import com.example.binumtontine.activity.adherent.DemandeCredit;
         import com.example.binumtontine.activity.adherent.GetPieceAdherent;
         //  import com.example.binumtontine.activity.adherent.MyList;
         import com.example.binumtontine.activity.adherent.Adherent;
@@ -196,6 +197,19 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
                                 // startActivityForResult(intent, 20);
                                // mCtx.startActivity(intentCreateEAP);
                                 ((Activity) mCtx).startActivityForResult(intentCreateEAP, 20);
+                                break;
+                            case R.id.menu7:
+                                //handle menu3 click
+                                Intent intentCreateDemandeCredit = new Intent(mCtx, DemandeCredit.class);
+                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+                                // startActivityForResult(intent, 20);
+                               // mCtx.startActivity(intentCreateEAP);
+                                ((Activity) mCtx).startActivityForResult(intentCreateDemandeCredit, 20);
                                 break;
                         }
                         return false;

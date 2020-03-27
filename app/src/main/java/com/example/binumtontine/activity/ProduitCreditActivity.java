@@ -17,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.Credit;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,16 +31,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ProduitCreditActivity extends AppCompatActivity  {
+public class ProduitCreditActivity extends AppCompatActivity implements SERVER_ADDRESS {
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     private static final String KEY_EAV_ID = "ev_numero";
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
-    /*private static final String KEY_EAV_ID = "cx_numero";
-    private static final String KEY_EAV_LIBELLE = "cx_localite";*/
-  // private static final String BASE_URL = "http://192.168.1.102/binumTontine/";
-    private static final String BASE_URL = "http://binumt.diff-itc.net/binumTontine/";
+
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
     private ProgressDialog pDialog;
@@ -47,12 +46,8 @@ public class ProduitCreditActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_produit_eav);
-/* begin */
-      //  setContentView(R.layout.activity_movie_listing);
         movieListView = (ListView) findViewById(R.id.movieList);
         new ProduitCreditActivity.FetchMoviesAsyncTask().execute();
-
-        /* end*/
 
         Toolbar toolbar = findViewById(R.id.toolbar_produitEAV);
         setSupportActionBar(toolbar);
@@ -63,28 +58,14 @@ public class ProduitCreditActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 Snackbar.make(view, "Ajouter un produit Crédit", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-              //  Intent i = new Intent(ProduitEAVActivity.this, AddMovieActivity.class);
-//                Intent i = new Intent(ProduitCreditActivity.this, CreateProduitEAV.class);
-//                startActivity(i);
+                Intent i = new Intent(ProduitCreditActivity.this, CreateProduitCredit.class);
+                startActivityForResult(i,20);
 
 
             }
         });
     }
-/*
-    @Override
-    public void onClick(View v) {
-        Intent i = new Intent(this, ParamProduitEAVFragment.class);
-        startActivity(i);
 
-        /*switch (v.getId()){
-            case R.id.fab_produitEAV :
-                AppCompatActivity activityMajOf = (AppCompatActivity) v.getContext();
-                Fragment paramProduitEAV = new ParamProduitEAVFragment();
-                activityMajOf.getSupportFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), paramProduitEAV).addToBackStack(null).commit();
-
-                break;
-        }*/
 
 
 /**
@@ -96,7 +77,7 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
         super.onPreExecute();
         //Display progress bar
         pDialog = new ProgressDialog(ProduitCreditActivity.this);
-        pDialog.setMessage("Loading EAV. Please wait...");
+        pDialog.setMessage("Loading Credit. Please wait...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();

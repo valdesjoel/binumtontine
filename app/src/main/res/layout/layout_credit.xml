@@ -1,0 +1,1900 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_eav"
+            style="@style/headerTextPrimary"
+            android:text="Ajout d'un produit crédit"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <!--code-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_Code_credit"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_Code_credit"
+                style="@style/modifiedEditText"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="@string/hint_code_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Libelle-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_LibelleCredit"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_LibelleCredit"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="@string/hint_Libelle_EAV"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Durée maximale du crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrDureeMax"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrDureeMax"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="@string/hint_duree_max_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Durée minimale du crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrDureeMin"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrDureeMin"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="@string/hint_duree_min_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Nombre d’unités du pas-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_CrNbreUPas"-->
+            <!--style="@style/parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_CrNbreUPas"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="numberDecimal"-->
+                <!--android:maxLines="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:hint="@string/hint_nombre_unite_pas"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+        <!--Spinner Nombre d’unités du pas-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_duree"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/hint_nombre_unite_pas"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_duree"
+                style="@style/modifiedEditText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/nombre_unite"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="@string/hint_nombre_unite_pas" />
+
+        </LinearLayout>
+
+        <!--valeur du taux d’intérêt dans le cas ou il est fixe (CrValTxInter/R)-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrValTxInter"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrValTxInter"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Taux d'interêt mensuel"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!---	Le taux d’intérêt peut-il être négocié (CrIsTxIntNeg/A1) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_CrIsTxIntNeg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Taux d'intérêt négociable  ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsTxIntNeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:onClick="onSwitchButtonClicked"
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!-- Nombre d’avalistes demandés (CrNbreAvalDmde/I)-->
+         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrNbreAvalDmde"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrNbreAvalDmde"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Nombre d’avalistes demandés"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Nombre minimum d’avalistes exigés (CrNbreMinAvalExig/I)-->
+         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrNbreMinAvalExig"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrNbreMinAvalExig"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Nombre d’avalistes exigés"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!---Taux de couverture du crédit par avaliste (CrTxCouvCrAval/I)-->
+         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrTxCouvCrAval"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrTxCouvCrAval"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Taux de couverture du crédit par avaliste"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Taux de couverture avaliste est-il obligatoire (CrIsTxCouvAvalOblig/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsTxCouvAvalOblig"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Taux de couverture avaliste est-il obligatoire ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsTxCouvAvalOblig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!-- Caution morale avaliste acceptée (CrIsCautionMorAvalAcc/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsCautionMorAvalAcc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Caution morale avaliste acceptée ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsCautionMorAvalAcc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--La garantie avaliste doit-elle être obligatoirement bloquée sur un compte ? (CrIsGarBloqCptOblig/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsGarBloqCptOblig"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La garantie avaliste doit-elle être obligatoirement bloquée sur un compte ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsGarBloqCptOblig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!-- La garantie peut être bloquée sur un compte Epargne à vue (CrIsGarCptEAVOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsGarCptEAVOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La garantie peut être bloquée sur un compte EAV ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsGarCptEAVOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!-- -	La garantie peut être bloquée sur un compte Epargne à terme (CrIsGarCptEATOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsGarCptEATOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La garantie peut être bloquée sur un compte EAT ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsGarCptEATOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!-- La garantie peut être bloquée sur un compte Epargne à periodicité (CrIsGarCptEAPOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsGarCptEAPOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La garantie peut être bloquée sur un compte EAP ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsGarCptEAPOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+
+        <!-- Ne pas exiger avaliste si le montant du crédit est inférieur à (CrMtMaxSansAval/R)-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrMtMaxSansAval"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrMtMaxSansAval"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="2"
+                android:textSize="18dp"
+                android:hint="Ne pas exiger avaliste si le montant du crédit est inférieure"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--L’avaliste ne doit pas avoir de dossier de crédit en cours ? (CrIsAvalSansCredOn/A1))-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsAvalSansCredOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="L’avaliste ne doit pas avoir de dossier de crédit en cours ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsAvalSansCredOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!-- Garantie membre emprunteur obligatoire (CrIsTxGarMemObl/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsTxGarMemObl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Garantie membre emprunteur obligatoire ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsTxGarMemObl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!--Taux de garantie membre pour le crédit (CrTauxGarMemb/A1)-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrTauxGarMemb"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrTauxGarMemb"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Taux de garantie membre pour le crédit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Autoriser Personne morale comme avaliste de crédit (CrIsPersMorAvalOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsPersMorAvalOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Autoriser Personne morale comme avaliste de crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsPersMorAvalOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Exiger une couverture par les parts sociales (CrIsCouvPartSOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsCouvPartSOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Exiger une couverture par les parts sociales ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsCouvPartSOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+
+        <!--Taux de couverture exigé par les parts sociales (CrTxCouvPSOblig/R-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrTxCouvPSOblig"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrTxCouvPSOblig"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Taux de couverture exigé par les parts sociales"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Autoriser les Affiliés à la collecte à faire des demandes de crédit (CrIsAffCollCredOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsAffCollCredOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Autoriser les Affiliés à la collecte à faire des demandes de crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsAffCollCredOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+
+        <!--Nombre d’année d’ancienneté minimale pour demander un crédit (CrNbreAnAncMinCred/I)-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrNbreAnAncMinCred"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrNbreAnAncMinCred"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Nombre d’année d’ancienneté minimale pour demander un crédit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Les années d’ancienneté minimale pour l’éligibilité au Crédit est il négociable (CrNbAnAncNeg/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrNbAnAncNeg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Les années d’ancienneté minimale pour l’éligibilité au Crédit sont ils négociables ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrNbAnAncNeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+
+        <!--Montant plafond de crédit pouvant être octroyé (CrMtPlafondMax/R)-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrMtPlafondMax"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrMtPlafondMax"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Montant plafond de crédit pouvant être octroyé"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Le montant plafond de crédit peut-il être levé ou dépassé ? (CrIsMtPlafCredLeve/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsMtPlafCredLeve"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Le montant plafond de crédit peut-il être levé ou dépassé ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsMtPlafCredLeve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Les garanties matérielles sont-elles exigées ? (CrIsGarMatExige/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsGarMatExige"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Les garanties matérielles sont-elles exigées ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsGarMatExige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Existe-t-il des frais d’étude de dossier ? (CrIsFraisEtudDossOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsFraisEtudDossOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Existe-t-il des frais d’étude de dossier ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsFraisEtudDossOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Nature des Frais d’étude de dossier, tel taux/T, Plage/P (CrNatFrEtudDoss/A1),-->
+        <!--dans le cas où c’est une plage, la table FraisCredit sera-->
+        <!--utilisé pour renseigner ces plages, la nature des valeurs(taux ou montant),-->
+        <!--ainsi que leur valeur ; avec le champ FrTypeFrais=’FE’-->
+        <!-- radiogroup -->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_CrNatFrEtudDoss"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_CrNatFrEtudDoss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature des Frais d’étude de dossier"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_CrNatFrEtudDoss"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupCrNatFrEtudDoss" >
+
+                <RadioButton
+                    android:id="@+id/rbCrNatFrEtudDossFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbCrNatFrEtudDossTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbCrNatFrEtudDossPlage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- valeur montant frais étude de dossier crédit -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TauxCrNatFrEtudDoss"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrNatFrEtudDoss"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Valeur/taux"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Base du taux frais d'étude crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_BaseTauxCrNatFrEtudDoss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_base_tauxCrNatFrEtudDoss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux des frais d'étude de dossier crédit"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tv_plage_FrTypeFrais"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+
+        <!--Existe-t-il des frais de déblocage du crédit (CrIsFraisDeblocCredOn/A1))-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsFraisDeblocCredOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Existe-t-il des frais de déblocage du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsFraisDeblocCredOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!--Nature des Frais de déblocage de dossier, tel taux/T, Plage/P (CrNatFraisDeblocCred/A1),-->
+        <!--dans le cas où c’est une plage, la table FraisCredit sera -->
+        <!--utilisé pour renseigner ces plages, la nature des valeurs(taux ou montant), -->
+        <!--ainsi que leur valeur ; avec le champ FrTypeFrais=’FD’-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_CrNatFraisDeblocCred"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_CrNatFraisDeblocCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature des Frais de déblocage de dossier"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_CrNatFraisDeblocCred"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupCrNatFraisDeblocCred" >
+
+                <RadioButton
+                    android:id="@+id/rbCrNatFraisDeblocCredFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbCrNatFraisDeblocCredTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbCrNatFraisDeblocCredPlage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- valeur montant frais de déblocage de dossier crédit -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TauxCrValTxFraisDeblocCred"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrValTxFraisDeblocCred"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Valeur/taux"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Base du taux frais de déblocage de dossier crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrBaseTxFraisDeblocCred"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_CrBaseTxFraisDeblocCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux des frais de déblocage de dossier crédit"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Plage taux-->
+        <TextView
+            android:id="@+id/tv_plage_CrNatFraisDeblocCred"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+
+        <!--Existe-t-il des frais de décaissement du crédit (CrIsFraisDecaissCredOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsFraisDecaissCredOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Existe-t-il des frais de décaissement du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsFraisDecaissCredOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!--Nature des Frais de décaissement du crédit, tel taux/T, Plage/P (CrNatFraisDecaissCred/A1),-->
+        <!--dans le cas où c’est une plage, la table FraisCredit sera utiliser pour renseigner ces plages,-->
+        <!--la nature des valeurs(taux ou montant), ainsi que leur valeur ; avec le champ FrTypeFrais=’FC’-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_CrNatFraisDecaissCred"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_CrNatFraisDecaissCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature des Frais de décaissement de crédit"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_CrNatFraisDecaissCred"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupCrNatFraisDecaissCred" >
+
+                <RadioButton
+                    android:id="@+id/rbCrNatFraisDecaissCredFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbCrNatFraisDecaissCredTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbCrNatFraisDecaissCredPlage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- valeur montant frais de décaissement du crédit -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrValTxFraisDecaissCred"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrValTxFraisDecaissCred"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Valeur/taux"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Base du taux frais de décaissement du crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrBaseFraisDecaissCred"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_CrBaseFraisDecaissCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux des frais de décaissement du crédit"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Plage taux-->
+        <TextView
+            android:id="@+id/tv_plage_CrNatFraisDecaissCred"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+
+        <!--Les frais d’Etude sont-ils payable avec le compte DAV ? (CrIsFraisEtudByDAV/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsFraisEtudByDAV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Les frais d’étude sont-ils payable avec le compte EAV ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsFraisEtudByDAV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!--Les frais de déblocage sont-ils payable avec le compte DAV ? (CrIsFraisDeblocByDAV/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsFraisDeblocByDAV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Les frais de déblocage sont-ils payable avec le compte EAV ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsFraisDeblocByDAV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Les frais de décaissement sont-ils payable avec le compte DAV ? (CrIsFraisDecaissByDAV/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsFraisDecaissByDAV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Les frais de décaissement sont-ils payable avec le compte EAV ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsFraisDecaissByDAV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Le mode de déblocage crédit selon objet du crédit ou propre (CrIsModDecaissByObjet/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsModDecaissByObjet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Le mode de déblocage du crédit est propre ou selon l'objet du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsModDecaissByObjet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Le Crédit doit-il être automatiquement transféré sur le compte DAV après déblocage (CrIsDeblocTransfDAVOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsDeblocTransfDAVOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Le Crédit doit-il être automatiquement transféré sur le compte EAV après déblocage ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsDeblocTransfDAVOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Le montant du plafond du crédit est propre ou selon l’objet du crédit (CrIsMtPlafByObjet/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsMtPlafByObjet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Le montant du plafond du crédit est propre ou selon l’objet du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsMtPlafByObjet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+
+        <!-- Mode de remboursement du crédit ; tel Intérêt puis capital,
+         inverse, le capital est remboursé à terme/à la fin,..(CrModeRemb/A1) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrModeRemb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_CrModeRemb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mode de remboursement du crédit"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Autoriser l’utilisation du compte Epargne à terme(EAT) pour le remboursement du crédit
+         (CrIsCptEATRemCredOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsCptEATRemCredOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Autoriser l’utilisation du compte EAT pour le remboursement du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsCptEATRemCredOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Autoriser l’utilisation du compte Epargne à périodicité(EAP) pour le remboursement du crédit
+         (CrIsCptEAPRemCredOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsCptEAPRemCredOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Autoriser l’utilisation du compte EAP pour le remboursement du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsCptEAPRemCredOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!--Les intérêts restants sont non dus dès que la totalité du capital est remboursé par anticipation,
+         option avec avertissement car touche les échéanciers de remboursement du prêt (CrIsInterOffSiCapRembAnt/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsInterOffSiCapRembAnt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Les intérêts restants sont non dus dès que la totalité du capital est remboursé par anticipation ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsInterOffSiCapRembAnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!--Le taux d’intérêt en cas d’échéance non honorée (CrTxInterEchNHon/R)-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrTxInterEchNHon"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrTxInterEchNHon"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Taux d’intérêt en cas d’échéance non honorée"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Base du taux pour échéance non honorée (CumulBase, CumulBase+Interêts,…) (CrBaseInterEchNHon/A1). -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrBaseInterEchNHon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_CrBaseInterEchNHon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux pour échéance non honorée"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Nature du Planning de remboursement initial (manuel, proraté, etc..) (CrPlanningRembCred/A1) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrPlanningRembCred"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_CrPlanningRembCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nature du Planning de remboursement initial"
+                app:jrs_title="Choose"
+
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Activer le rappel par SMS de la date d’échéance (CrIsRappDatEchCred/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsRappDatEchCred"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Activer le rappel par SMS de la date d’échéance ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsRappDatEchCred"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!--Modèle de texte de rappel pour l’échéance en rappel (CrModelTextRappEchRemb/M) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrModelTextRappEchRemb"
+            style="@style/parent"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrModelTextRappEchRemb"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="10"
+                android:textSize="18dp"
+                android:hint="Modèle de texte de rappel pour l’échéance en rappel"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Nombre de jours avant le début de rappel de la date échéance (CrNbreJrAvantDatEch/I) -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrNbreJrAvantDatEch"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrNbreJrAvantDatEch"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Nombre de jours avant le début de rappel de la date échéance"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Nombre de jours après date échéance si non honorée (CrNbreJrApreEchSiNHon/I) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrNbreJrApreEchSiNHon"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrNbreJrApreEchSiNHon"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Nombre de jours après date échéance si non honorée"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+       <!---->
+        <!--&lt;!&ndash;Type date&ndash;&gt;-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_type_de_date"-->
+            <!--android:visibility="gone"-->
+            <!--style="@style/parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_type_de_date"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="phone"-->
+                <!--android:text="+15"-->
+                <!--android:textSize="18dp"-->
+                <!--android:maxLines="1"-->
+                <!--android:hint="@string/hint_type_de_date"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_type_de_date_retrait"-->
+            <!--style="@style/parent"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_type_de_date_retrait"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="phone"-->
+                <!--android:textSize="18dp"-->
+                <!--android:maxLines="1"-->
+                <!--android:text="-15"-->
+                <!--android:hint="@string/hint_type_de_date_retrait"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--&lt;!&ndash;Payer part sociale&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/lblPayerPSOnEAV"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:text="Payer part sociale avec EAV" />-->
+
+            <!--<Switch-->
+                <!--android:id="@+id/SwitchPayerPSOnEAV"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:checked="false"-->
+
+                <!--android:textOff="Non"-->
+                <!--android:textOn="Oui"-->
+                <!--/>-->
+
+        <!--</LinearLayout>-->
+        <!--&lt;!&ndash;Frais de tenu de compte&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/lblFraisTenuCpteOnEAV"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:text="Frais de tenue de compte" />-->
+
+            <!--<Switch-->
+                <!--android:id="@+id/SwitchFraisTenuCpteOnEAV"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:checked="false"-->
+                <!--android:onClick="onSwitchButtonClicked"-->
+                <!--android:textOff="Non"-->
+                <!--android:textOn="Oui"-->
+                <!--/>-->
+
+        <!--</LinearLayout>-->
+        <!--&lt;!&ndash; radiogroup &ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/ll_TypeFraisCpteEAV"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
+            <!--android:orientation="vertical">-->
+            <!--<TextView-->
+                <!--android:id="@+id/lblTypeFraisCpteEAV"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:gravity="center"-->
+                <!--android:textSize="18dp"-->
+                <!--android:text="Type de frais de tenu de compte"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
+            <!--<RadioGroup-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/lblNatureTauxInteretEAP"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:showDividers="beginning|middle|end"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:id="@+id/radioGroupEpTypTxInter" >-->
+
+                <!--<RadioButton-->
+                    <!--android:id="@+id/rbEpTypTxInterFixe"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Fixe"-->
+                    <!--android:onClick="onRadioButtonClicked"-->
+                    <!--android:checked="true" />-->
+                <!--<RadioButton-->
+                    <!--android:id="@+id/rbEpTypTxInterTaux"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Taux"-->
+                    <!--android:onClick="onRadioButtonClicked"-->
+                    <!--android:checked="false" />-->
+
+                <!--<RadioButton-->
+                    <!--android:id="@+id/rbEpTypTxInterPlage"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Plage"-->
+                    <!--android:onClick="onRadioButtonClicked"-->
+                    <!--android:checked="false" />-->
+
+            <!--</RadioGroup>-->
+        <!--</LinearLayout>-->
+
+        <!--&lt;!&ndash; valeur montant &ndash;&gt;-->
+
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_TauxAPreleveCpteEAV"-->
+            <!--style="@style/parent"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_TauxAPreleveCpteEAV"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="numberDecimal"-->
+                <!--android:maxLines="1"-->
+                <!--android:textSize="18dp"-->
+                <!--/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--&lt;!&ndash; Base du taux &ndash;&gt;-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_BaseTauxAPreleveCpteEAV"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/TextInputLayoutStyle"-->
+            <!--style="@style/parent"-->
+            <!--app:errorEnabled="true"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+
+
+            <!--&gt;-->
+            <!--<com.example.binumtontine.JRSpinner-->
+
+                <!--android:id="@+id/spn_my_spinner_base_taux"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Base du taux à préléver sur le compte"-->
+                <!--app:jrs_title="Choose"-->
+
+                <!--style="@style/modifiedEditText"-->
+                <!--app:jrs_multiple="false"-->
+                <!--android:textAllCaps="true"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="18sp"/>-->
+
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_plage_tiv_eav"-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginRight="12dp"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="12dp"-->
+            <!--android:textColor="@color/colorAccent1"-->
+            <!--android:text="@string/btn_config_plage_tiv" />-->
+
+        <!--&lt;!&ndash;valeur plage &ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/blk_plage_eav"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/lblTypeFraisCpteEavForPlage"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:inputType="numberDecimal"-->
+                <!--android:text="From:"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/txt_EvTypTxInterFrom"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/lblNatureTauxInteretEAP"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_weight="1"-->
+                <!--android:inputType="numberDecimal"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:showDividers="beginning|middle|end" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/lblTypeFraisCpteEavForPlageFrom"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="To:"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/txt_EvTypTxInterTo"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/lblNatureTauxInteretEAP"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_weight="1"-->
+                <!--android:inputType="numberDecimal"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:showDividers="beginning|middle|end"/>-->
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/lblChequeOnEAV"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:text="Utiliser chèque" />-->
+
+            <!--<Switch-->
+                <!--android:id="@+id/SwitchChequeOnEAV"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:checked="false"-->
+
+                <!--android:textOff="Non"-->
+                <!--android:textOn="Oui"-->
+                <!--/>-->
+
+        <!--</LinearLayout>-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_FraisClotureCpteEAV"-->
+            <!--style="@style/parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_FraisClotureCpteEAV"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="numberDecimal"-->
+                <!--android:maxLines="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:hint="Frais de clôture de compte"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--&lt;!&ndash; <com.google.android.material.textfield.TextInputLayout-->
+             <!--android:id="@+id/textInputPassword"-->
+             <!--style="@style/parent"-->
+             <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+             <!--<EditText-->
+                 <!--android:id="@+id/editTextPassword"-->
+                 <!--style="@style/modifiedEditText"-->
+                 <!--android:hint="@string/login_password_hint"-->
+                 <!--android:maxLines="1"-->
+                 <!--android:inputType="textPassword"/>-->
+         <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+         <!--<TextView-->
+             <!--style="@style/viewParent"-->
+             <!--android:text="Forgot Password?"-->
+             <!--android:textColor="@color/primaryTextColor"-->
+             <!--android:textSize="@dimen/newsMoreTextSize"-->
+             <!--android:layout_gravity="end"-->
+             <!--android:onClick="viewForgotPAssword"-->
+             <!--android:layout_marginTop="10dp"/> &ndash;&gt;-->
+
+        <!--&lt;!&ndash;<br.com.simplepass.loadingbutton.customViews.CircularProgressButton-->
+            <!--android:id="@+id/cirLoginButton"-->
+            <!--style="@style/loginButton"-->
+            <!--android:text="Login"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<Button-->
+            <!--android:id="@+id/btn_save_eav"-->
+            <!--style="@style/loginButton"-->
+            <!--android:text="ENREGISTRER"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"/>&ndash;&gt;-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/input_layout_FraisClotureCpteEAV"
+            android:orientation="vertical"
+
+            android:paddingTop="5dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_eav"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_enregistrer" />
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_clean"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete_eav"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+        </LinearLayout>
+      <!--  <Button android:id="@+id/btn_save_eav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="ENREGISTRER"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/white"/> -->
+
+       <!-- <TextView
+            style="@style/parent"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/primaryTextColor"
+            android:text="@string/login_signup_hint"
+            android:onClick="viewRegisterClicked"
+            android:layout_marginTop="@dimen/loginViewsMargin"/> -->
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

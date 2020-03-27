@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_eav_adherent"
+            style="@style/headerTextPrimary"
+            android:text="Création d'une demande de crédit"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <!-- Begin -->
+
+        <!--Nom Adherent-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_nom_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Adhérent:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nom_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Numero manuel-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_num_manuel_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="N° Manuel:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num_manuel_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--code-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_code_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Code:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_code_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Tv Numero de dossier-->
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text="N° du dossier"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="18sp" />
+
+        </LinearLayout> -->
+
+        <!--Spinner produitCreditList by guichet-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_credit"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/produit_credit"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_credit"
+                style="@style/modifiedEditText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="Produit crédit" />
+
+        </LinearLayout>
+       <!--Spinner objetCreditList by guichet-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_objet_credit"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/objet_credit"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_objet_credit"
+                style="@style/modifiedEditText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="Objet de crédit" />
+
+        </LinearLayout>
+        <!--Numéro dossier-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_num_dossier_adherent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_num_dossier_adherent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_numero_dossier"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Montant dépot-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_depot_min"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_depot_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_depot_minimum"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.shuhart.stepview.StepView
+            android:id="@+id/step_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:sv_selectedCircleColor="@color/colorAccent"
+            app:sv_selectedTextColor="@color/colorAccent"
+            app:sv_stepLineWidth="1dp"
+            app:sv_stepPadding="4dp"
+            app:sv_nextTextColor="@color/colorAccent"
+            app:sv_nextStepLineColor="@color/colorAccent"
+            app:sv_doneCircleColor="@color/colorAccent"
+            app:sv_doneStepLineColor="@color/colorAccent"
+            app:sv_doneCircleRadius="12dp"
+            app:sv_selectedCircleRadius="12dp"
+            app:sv_selectedStepNumberColor="@color/colorPrimary"
+            app:sv_stepViewStyle="@style/StepView"
+            app:sv_doneStepMarkColor="@color/colorPrimary"
+            app:sv_stepNumberTextSize="12sp"
+            app:sv_animationType="Line"
+            />
+
+        <!-- End -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+
+            android:layout_below="@+id/input_txt_profil_user">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_demande_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

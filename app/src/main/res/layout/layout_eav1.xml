@@ -173,6 +173,7 @@
         <!--Type date-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_type_de_date"
+            android:visibility="gone"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
@@ -187,6 +188,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_type_de_date_retrait"
             style="@style/parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/input_txt_type_de_date_retrait"

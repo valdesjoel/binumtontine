@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
         <activity android:name=".activity.adherent.HistoriqueEAV"></activity>
+        <activity android:name=".activity.adherent.DemandeCredit"></activity>
         <activity android:name=".activity.TableActivity" />
+        <activity android:name=".activity.CreateProduitCredit" />
         <activity android:name=".activity.adherent.MainActivityUsager" />
         <activity android:name=".activity.adherent.NextActivity" />
         <activity android:name=".activity.adherent.CreateEAV" />
@@ -25,6 +27,7 @@
         <activity android:name=".activity.adherent.ListCompteAdherentActivity" />
         <activity android:name=".activity.adherent.ListCompteAdherentActivity_New" />
         <activity android:name=".activity.adherent.ConsulterCompte" />
+        <activity android:name=".activity.adherent.CalculFraisTenueCompteAnnuel" />
         <activity android:name=".activity.adherent.OperationEAV" />
         <activity android:name=".activity.adherent.OperationEAT" />
         <activity android:name=".activity.adherent.OperationEAP" />
@@ -61,6 +64,15 @@
         <activity android:name=".activity.UserActivity" />
         <activity android:name=".activity.UpdateOrganeFaitier" />
         <activity android:name=".activity.parametreGenerauxOF.ParametreGenerauxOFActivity" />
+        <activity android:name=".activity.parametreGenerauxOF.CreateObjetCreditOf" />
+        <activity android:name=".activity.parametreGenerauxOF.ListObjetCredit" />
+        <activity android:name=".activity.parametreGenerauxOF.UpdateObjetCreditOF" />
+        <activity android:name=".activity.parametreGenerauxOF.ListStatutEtapesDemandesCreditOF" />
+        <activity android:name=".activity.parametreGenerauxOF.CreateStatutEtapeDemandeCreditOf" />
+        <activity android:name=".activity.parametreGenerauxOF.UpdateStatutEtapeDemandeCreditOF" />
+        <activity android:name=".activity.parametreGenerauxOF.ListEtapesDemandesCreditOF" />
+        <activity android:name=".activity.parametreGenerauxOF.CreateEtapeDemandeCreditOf" />
+        <activity android:name=".activity.parametreGenerauxOF.UpdateEtapeDemandeCreditOF" />
         <activity android:name=".activity.parametreGenerauxCx.ParametreGenerauxCxActivity" />
         <activity android:name=".activity.parametreGenerauxOF.CreatePieceToFournirOf" />
         <activity android:name=".activity.parametreGenerauxCx.CreatePieceToFournirCx" />

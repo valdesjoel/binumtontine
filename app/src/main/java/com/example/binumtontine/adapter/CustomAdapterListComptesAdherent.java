@@ -1,8 +1,11 @@
 package com.example.binumtontine.adapter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,12 +36,25 @@ import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity_New
 import com.example.binumtontine.activity.adherent.OperationEAP;
 import com.example.binumtontine.activity.adherent.OperationEAT;
 import com.example.binumtontine.activity.adherent.OperationEAV;
+import com.example.binumtontine.activity.adherent.Record;
 import com.example.binumtontine.helper.CheckNetworkStatus;
+import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.FraisTenueCompteAnnuel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import static com.example.binumtontine.dao.SERVER_ADDRESS.BASE_URL;
+import static java.lang.Double.parseDouble;
 
 //  import com.example.binumtontine.activity.adherent.MyList;
 
@@ -63,6 +81,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
     /*BEGIN */
 
     private static final String KEY_SUCCESS = "success";
+    private static final String KEY_DATA = "data";
     private static final String KEY_DATA_EAV = "EAV";
     private static final String KEY_DATA_EAT = "EAT";
     private static final String KEY_DATA_EAP = "EAP";
@@ -85,6 +104,18 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
     private String headerActivity = "CONSULTATION DE COMPTE";
     private String headerLayout = "Consultez votre compte";
     /* END */
+
+    /*start*/
+    private ProgressDialog pDialog;
+    private List<Record> listOperationCompteAdherent;
+
+    private String compteId;
+    private static final String KEY_CODE_COMPTE_EAV = "OcCodeCompteEAV";
+    private static final String KEY_TYPE_OPERATION_EAV = "OcTypeOperation";
+    private static final String KEY_DATE_OPERATION = "OcDateOperation";
+    private static final String KEY_OC_MONTANT = "OcMontant";
+    private static final String KEY_OC_NEW_SOLDE = "OcNewSolde";
+    /*end*/
 
     //public CustomAdapterListAdherent(List<MyList> list, Context mCtx) {
     public CustomAdapterListComptesAdherent(List<ComptesAdherent> list, Context mCtx) {
@@ -288,54 +319,41 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
 //                                        Toast.LENGTH_LONG).show();
                                 ((Activity) mCtx).startActivityForResult(intent, 20);
                                 break;
-                            case R.id.menu_interet:
-                                //handle menu3 click
-                                /*
-                                Intent intentCreateEAT = new Intent(mCtx, CreateEAT.class);
-                                intentCreateEAT.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAT, 20);
-                                */
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                               // mCtx.startActivity(intentCreateEAT);
+//                            case R.id.menu_interet:
+//                                //handle menu3 click
+//                                /*
+//                                Intent intentCreateEAT = new Intent(mCtx, CreateEAT.class);
+//                                intentCreateEAT.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+//                                intentCreateEAT.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+//                                intentCreateEAT.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+//                                intentCreateEAT.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+//                                intentCreateEAT.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+//                                ((Activity) mCtx).startActivityForResult(intentCreateEAT, 20);
+//                                */
+//                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+//                                // startActivityForResult(intent, 20);
+//                               // mCtx.startActivity(intentCreateEAT);
+//
+//                                break;
+//                            case R.id.menu_frais:
+//                                //handle menu3 click
+//                                /*
+//                                Intent intentCreateEAP = new Intent(mCtx, CreateEAP.class);
+//                                intentCreateEAP.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+//                                intentCreateEAP.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+//                                intentCreateEAP.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+//                                intentCreateEAP.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+//                                intentCreateEAP.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+//                                ((Activity) mCtx).startActivityForResult(intentCreateEAP, 20);
+//                                */
+//                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+//                                // startActivityForResult(intent, 20);
+//                               // mCtx.startActivity(intentCreateEAP);
+//                                compteId= myList.getNumero_compte()+"";
+//                                listOperationCompteAdherent = new ArrayList<>();
+//
+//                                break;
 
-                                break;
-                            case R.id.menu_frais:
-                                //handle menu3 click
-                                /*
-                                Intent intentCreateEAP = new Intent(mCtx, CreateEAP.class);
-                                intentCreateEAP.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAP, 20);
-                                */
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                               // mCtx.startActivity(intentCreateEAP);
-
-                                break;
-                            case R.id.menu_substitution:
-                                //handle menu3 click
-                                /*
-                                Intent intentCreateEAP = new Intent(mCtx, CreateEAP.class);
-                                intentCreateEAP.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAP, 20);
-                                */
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                               // mCtx.startActivity(intentCreateEAP);
-
-                                break;
                             case R.id.menu_payer_mise:
                                 //handle menu3 click
                                 intent = new Intent(mCtx,
@@ -456,4 +474,6 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
             buttonViewOption = (TextView) itemView.findViewById(R.id.textViewOptions);
         }
     }
+
+
 }

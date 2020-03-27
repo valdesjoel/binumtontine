@@ -45,6 +45,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_header_caisse_guichet"
                     style="@style/headerText"
                     android:layout_gravity="center"
                     android:text="INITIALISATION CAISSE GUICHET"

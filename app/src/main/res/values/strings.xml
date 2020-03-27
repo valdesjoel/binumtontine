@@ -41,16 +41,19 @@
     <string name="closeDrawer">close_drawer</string>
 
     <!-- Navigation Drawer menu labels -->
-    <string name="nav_home">Mise en place du réseau</string>
-    <string name="nav_photos">Mise en place des produits</string>
-    <string name="nav_movies">Oprérations externes</string>
+    <string name="nav_photos">Mise en place des produits bancaires</string>
+    <string name="nav_home">Mise en place des caisses</string>
+    <string name="nav_movies">Création des administrateurs de caisses</string>
+    <string name="nav_movies1">Paramétrages des pièces et frais </string>
+    <string name="nav_movies2">Paramétrages des types de membres </string>
+    <string name="nav_movies3">Pré-paramétrages </string>
     <string name="nav_notifications">Notifications</string>
     <string name="nav_settings">Zones d\'activités</string>
-    <string name="nav_about_us">About Us</string>
+    <string name="nav_about_us">A propos de nous</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
-        <item>Réseau</item>
+        <item>Accueil</item>
         <item>Produits</item>
         <item>Oprérations externes</item>
         <item>Notifications</item>
@@ -211,6 +214,14 @@
         <item>Masculin</item>
         <item>Féminin</item>
     </string-array>
+    <string-array name="EdTypEtape">
+        <item>Demande et mise en place du crédit</item>
+        <item>Comité de crédit</item>
+        <item>Déblocage du crédit</item>
+        <item>Décaissement du crédit</item>
+        <item>Remboursement ou paiement échéance du crédit</item>
+        <item>Clôture du crédit</item>
+    </string-array>
     <!-- Il serait mieux de gérer ces types plutot en BD pour faciliter la maintenance -->
     <string-array name="fonction_frais">
         <item>Frais d\'adhésion</item>
@@ -242,6 +253,7 @@
     <string name="produit_dap">Produit DAP</string>
     <string name="produit_dat">Produit DAT</string>
     <string name="produit_cc">Produit compte courant</string>
+    <string name="objet_credit">Objet crédit</string>
     <string name="produit_credit">Produit Crédit</string>
     <string name="produit_transfert_classique">Produit Transfert classique</string>
     <string name="produit_transfert_to_mtn">Produit Transfert vers MTN</string>
@@ -383,6 +395,158 @@
         <item>Infirmière</item>
         <item>Couturière</item>
         <item>Bayam sellam</item>
+        <item>Acheteur</item>
+        <item>Administrateur de base de données</item>
+        <item>Agent de sûreté aéroportuaire</item>
+        <item>Agent de transit</item>
+        <item>Agent d\'entretien</item>
+        <item>Agent funéraire</item>
+        <item>Agent immobilier</item>
+        <item>Agent de police</item>
+        <item>Agent de presse</item>
+        <item>Agent de sécurité</item>
+        <item>Agent de surveillance de la voie publique (ASVP)</item>
+        <item>Agronome</item>
+        <item>Ambulancier</item>
+        <item>Analyste financier</item>
+        <item>Analyste programmeur</item>
+        <item>Analyste Web</item>
+        <item>Architecte</item>
+        <item>Architecte paysagiste</item>
+        <item>Architecte en système d\'information</item>
+        <item>Archiviste</item>
+        <item>Assitant administratif et financier</item>
+        <item>Assistant blibliothécaire</item>
+        <item>Assistant d\'éducation</item>
+        <item>Assistant dentaire</item>
+        <item>Assistant marketing</item>
+        <item>Assistant paie et administration</item>
+        <item>Assistant RH</item>
+        <item>Assureur</item>
+        <item>Audioprothésiste</item>
+        <item>Auditeur financier</item>
+        <item>Auxiliaire de puériculture</item>
+        <item>Auxiliaire de vie sociale</item>
+        <item>Avocat</item>
+        <item>Bibliothécaire</item>
+        <item>Biologiste</item>
+        <item>Chargé de communication</item>
+        <item>Chargé de recrutement</item>
+        <item>Charpentier</item>
+        <item>Chauffeur de taxi</item>
+        <item>Chefs de chantier</item>
+        <item>Chef de projet</item>
+        <item>Chef de projet marketing</item>
+        <item>Chef d\'établissement</item>
+        <item>Chiropracteur</item>
+        <item>Chirurgien orthopédiste</item>
+        <item>Coiffeur</item>
+        <item>Commis de cuisine</item>
+        <item>Comptable</item>
+        <item>Concepteur de jeux vidéos</item>
+        <item>Concepteur-rédacteur</item>
+        <item>Conducteur de grue</item>
+        <item>Conducteur de train</item>
+        <item>Conseiller</item>
+        <item>Conseiller d\'orientation</item>
+        <item>Conseiller en insertion professionnelle</item>
+        <item>Consultant bien-être</item>
+        <item>Consultant en informatique</item>
+        <item>Contrôleur (trains)</item>
+        <item>Contrôleur aérien</item>
+        <item>Contrôleur de gestion</item>
+        <item>Contrôleur financier</item>
+        <item>Courtier en assurance</item>
+        <item>Cuisinier</item>
+        <item>Décorateur d\'intérieur</item>
+        <item>Dentiste</item>
+        <item>Designer industriel</item>
+        <item>Développeur informatique</item>
+        <item>Diacre</item>
+        <item>Diététicien</item>
+        <item>Directeur artistique</item>
+        <item>Directeur des ventes</item>
+        <item>Directeur financier</item>
+        <item>Directeur RH</item>
+        <item>Economiste</item>
+        <item>Educateur de jeunes</item>
+        <item>Eleveur</item>
+        <item>Employé de banque</item>
+        <item>Enseignant</item>
+        <item>Ergothérapeute</item>
+        <item>Esthéticienne</item>
+        <item>Fleuriste</item>
+        <item>Gardien</item>
+        <item>Géomètre</item>
+        <item>Gestionnaire immobilier</item>
+        <item>Hôtesse de l\'air</item>
+        <item>Huissier</item>
+        <item>Illustrateur</item>
+        <item>Infirmière</item>
+        <item>Ingénieur civil</item>
+        <item>Ingénieur électronicien</item>
+        <item>Ingénieur du BTP</item>
+        <item>Inspecteur de l\'action sanitaire et sociale</item>
+        <item>Jardinier</item>
+        <item>Jardinier paysagiste</item>
+        <item>Journaliste</item>
+        <item>Juge</item>
+        <item>Kinésithérapeute</item>
+        <item>Linguiste</item>
+        <item>Machiniste</item>
+        <item>Magasinier</item>
+        <item>Maître d\'hôtel</item>
+        <item>Manipulateur radio</item>
+        <item>Masseur</item>
+        <item>Mécanicien aéronautique</item>
+        <item>Médecin</item>
+        <item>Moniteur d\'auto-école</item>
+        <item>Monteur électricien</item>
+        <item>Nutritionniste</item>
+        <item>Officier</item>
+        <item>Opérateur de production</item>
+        <item>Opérateur d\'usinage sur commande numérique (UCN)</item>
+        <item>Opticien</item>
+        <item>Orthophoniste</item>
+        <item>Personal Trainer</item>
+        <item>Photographe</item>
+        <item>Physicien</item>
+        <item>Physicien médical</item>
+        <item>Pilote</item>
+        <item>Politicien</item>
+        <item>Pompier</item>
+        <item>Poseur de sol (solier)</item>
+        <item>Prêtre</item>
+        <item>Procureur</item>
+        <item>Professeur des écoles</item>
+        <item>Professeur d\'éducation physique (EPS)</item>
+        <item>Professeur de français langue étrangère</item>
+        <item>Porfesseur des universités</item>
+        <item>Psychologue</item>
+        <item>Réceptionniste</item>
+        <item>Réceptionniste d\'hôtel</item>
+        <item>Responsable communication</item>
+        <item>Responsable grands comptes</item>
+        <item>Responsable service clientèle</item>
+        <item>Sages-femmes</item>
+        <item>Secrétaire médicale</item>
+        <item>Serveur</item>
+        <item>Skipper</item>
+        <item>Soldat</item>
+        <item>Soudeur</item>
+        <item>Statisticien</item>
+        <item>Surveillant pénitentiaire</item>
+        <item>Technicien alarme intrusion</item>
+        <item>Technicien d\'analyses biomédicales</item>
+        <item>Technicien de maintenance informatique</item>
+        <item>Technicien d\'exploitation</item>
+        <item>Téléconseiller</item>
+        <item>Test manager</item>
+        <item>Travailleur social</item>
+        <item>Urbaniste</item>
+        <item>Vendeur</item>
+        <item>Vétérinaire</item>
+        <item>Webmaster</item>
         <item>Autre</item>
 
     </string-array>
@@ -436,10 +600,21 @@
     <string name="tab_title_param_produit_credit_caisse">Crédit</string>
     <string name="hint_taux_mensuel">Appliquer le taux d\'interêt mensuel</string>
     <string name="hint_code_EAV">Code EAV</string>
+    <string name="hint_code_credit">Code crédit</string>
     <string name="hint_Libelle_EAV">Libellé</string>
     <string name="hint_Libelle_piece">Libellé de la pièce:</string>
     <string name="hint_Libelle_frais">Libellé du frais:</string>
+    <string name="hint_Libelle_objet_credit">Libellé Objet de crédit:</string>
+    <string name="hint_Libelle_etape_demande_credit">Libellé étape demande de crédit:</string>
+    <string name="hint_Libelle_statut_etape_demande_credit">Libellé statut étape demande de crédit:</string>
+    <string name="tv_statut_etape_demande_credit">Etape demande de crédit:</string>
+    <string name="hint_Num_ordre_etape_demande_credit">Numéro d\'ordre de l\'étape:</string>
+    <string name="hint_Num_ordre_statut_etape_demande_credit">Numéro d\'ordre du statut:</string>
+    <string name="hint_Details_objet_credit">Détails Objet de crédit:</string>
     <string name="hint_Min_compte_eav">Minimum compte:</string>
+    <string name="hint_duree_min_credit">Durée minimale du crédit (en mois)</string>
+    <string name="hint_nombre_unite_pas">Nombre d’unités du pas</string>
+    <string name="hint_duree_max_credit">Durée maximale du crédit (en mois) </string>
     <string name="hint_code_EAP">Code EAP</string>
     <string name="hint_Min_Mt_Mise_eav">Montant minimum mise</string>
     <string name="select_caisse">Choisir une caisse</string>
@@ -482,6 +657,8 @@
     <string name="hint_code_Cpte_Courant">Code Compte Courant</string>
     <string name="hint_code_piece">Code de la pièce:</string>
     <string name="hint_code_frais">Code du frais:</string>
+    <string name="hint_code_objet_credit">Code objet de crédit:</string>
+    <string name="hint_code_etape_demande_credit">Code étape demande de crédit:</string>
     <string name="btn_annuler">ANNULER</string>
     <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
     <string name="action_all">Tous</string>
@@ -549,6 +726,7 @@
     <string name="produit_a_periodicite">Produit à périodicité</string>
     <string name="duree_produit">Durée (en mois):</string>
     <string name="hint_montant_mise">Montant mise</string>
+    <string name="hint_montant_dat">Montant DAT</string>
     <string name="hint_montant_initialisation">Montant d\'initialisation</string>
     <string name="mode_paiement">Mode de paiement</string>
     <string name="hint_numero_bordereau">Numéro de bordereau</string>

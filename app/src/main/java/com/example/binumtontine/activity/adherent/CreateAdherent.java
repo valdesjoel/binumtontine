@@ -728,7 +728,7 @@ private void getEditText(){
             //finish();
 
            // new AddAdherentAsyncTask().execute();
-        } else {
+        } else if (cxName.equals("")) {
 //            Toast.makeText(CreateAdherent.this,
 //                    "Un ou plusieurs champs sont vides!",
 //                    Toast.LENGTH_LONG).show();
@@ -736,6 +736,11 @@ private void getEditText(){
                     "Veuillez contacter l'administrateur de la caisse "+MyData.CAISSE_NAME+" pour renseigner l'EAV principal sur le guichet "+MyData.GUICHET_NAME,
                     Toast.LENGTH_LONG).show();
 
+        }else if (typeMembreID==0) {
+
+            Toast.makeText(CreateAdherent.this,
+                    "Veuillez contacter l'administrateur de la caisse "+MyData.CAISSE_NAME+" pour affecter les types de membre sur le guichet "+MyData.GUICHET_NAME,
+                    Toast.LENGTH_LONG).show();
         }
 
 

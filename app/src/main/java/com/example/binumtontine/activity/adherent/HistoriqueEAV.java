@@ -19,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Console;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -59,11 +61,18 @@ public class HistoriqueEAV extends AppCompatActivity {
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
 
-        Toast.makeText(HistoriqueEAV.this,
-                compteId,
-                Toast.LENGTH_LONG).show();
+//        Toast.makeText(HistoriqueEAV.this,
+//                compteId,
+//                Toast.LENGTH_LONG).show();
+        /*BEGIN
+        To manage format number with currency symbol*/
+        DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) defaultFormat).getDecimalFormatSymbols();
+        decimalFormatSymbols.setCurrencySymbol("F");
+        ((DecimalFormat) defaultFormat).setDecimalFormatSymbols(decimalFormatSymbols);
+        /*END
+        To manage format number with currency symbol*/
 
-        defaultFormat.setCurrency(Currency.getInstance("XAF"));
+//        defaultFormat.setCurrency(Currency.getInstance("XAF"));
 //        defaultFormat.setCurrency(Currency.getInstance("Fcf"));
         listOperationCompteAdherent = new ArrayList<>();
 new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();
@@ -111,7 +120,8 @@ new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();
                         String nouveauSolde = operation.getString(KEY_OC_NEW_SOLDE);
 
 //                        Record record = new Record("12","jurhdd","bfbfb","cbbbfb");
-                        Record record = new Record(typeOperation,dateOperation,defaultFormat.format(parseDouble(montantOperation)),defaultFormat.format(parseDouble(nouveauSolde)));
+                        Record record = new Record(typeOperation,dateOperation,defaultFormat.format(parseDouble(montantOperation)),
+                                defaultFormat.format(parseDouble(nouveauSolde)));
 //                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
 //                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
 //                                "EAV","");

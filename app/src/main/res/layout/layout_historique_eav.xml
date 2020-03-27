@@ -55,8 +55,8 @@
             android:id="@+id/name"
             android:fontFamily="serif"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_weight="20"
             android:textColor="#000"
             android:text="Date"/>
         <TextView
@@ -64,24 +64,24 @@
             android:textColor="#000"
             android:fontFamily="serif"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_weight="15"
             android:text="Sens"/>
         <TextView
             android:textColor="#000"
             android:id="@+id/position"
             android:fontFamily="serif"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_weight="32.5"
             android:text="Montant"/>
         <TextView
             android:textColor="#000"
             android:id="@+id/address"
             android:fontFamily="serif"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_weight="32.5"
             android:text="Solde"/>
 
     </TableRow>

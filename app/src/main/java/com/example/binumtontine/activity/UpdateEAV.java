@@ -108,6 +108,10 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private TextInputLayout layout_MinCompteEAV;
     private TextInputLayout layout_TauxInteretAnnuelEAV;
 
+    private TextInputLayout layout_DateValeur;
+    private TextInputLayout layout_DateRetrait;
+    private TextInputLayout layout_BaseInteretAnnuelEAV;
+
     private Button deleteButton;
     private Button updateButton;
     private Button cancelButton;
@@ -179,6 +183,10 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 
         layout_MinCompteEAV = (TextInputLayout) findViewById(R.id.input_layout_MinCompteEAV);
         layout_TauxInteretAnnuelEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxInteretAnnuelEAV);
+
+        layout_DateValeur = (TextInputLayout) findViewById(R.id.input_layout_type_de_date);
+        layout_DateRetrait = (TextInputLayout) findViewById(R.id.input_layout_type_de_date_retrait);
+        layout_BaseInteretAnnuelEAV = (TextInputLayout) findViewById(R.id.input_layout_BaseInteretAnnuelEAV);
 
 
         eavId = intent.getStringExtra(KEY_EAV_ID);
@@ -272,8 +280,16 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
 
                     layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                    layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                    layout_DateValeur.setVisibility(View.VISIBLE);
+                    layout_DateRetrait.setVisibility(View.VISIBLE);
                 }else{
                     layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
+
+                    layout_BaseInteretAnnuelEAV.setVisibility(View.GONE);
+
+                    layout_DateValeur.setVisibility(View.GONE);
+                    layout_DateRetrait.setVisibility(View.GONE);
                 }
 
 

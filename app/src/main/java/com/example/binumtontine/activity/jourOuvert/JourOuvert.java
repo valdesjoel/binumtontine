@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -122,7 +123,7 @@ public class JourOuvert extends AppCompatActivity implements  View.OnClickListen
         JoMtDemarrEditText.addTextChangedListener(MyData.onTextChangedListener(JoMtDemarrEditText));
 
         til_montant_demarrage_usager = (TextInputLayout) findViewById(R.id.input_layout_montant_demarrage_usager);
-        JoMtDemarrEditText.addTextChangedListener(new MyTextWatcher(JoMtDemarrEditText));
+        //JoMtDemarrEditText.addTextChangedListener(new MyTextWatcher(JoMtDemarrEditText));
 
         JoMtPMonnaieEditText = (EditText) findViewById(R.id.input_txt_montant_piece_monnaie_usager);
         JoMtPMonnaieEditText.addTextChangedListener(MyData.onTextChangedListener(JoMtPMonnaieEditText));
@@ -358,8 +359,9 @@ public class JourOuvert extends AppCompatActivity implements  View.OnClickListen
             return false;
         } else {
            // valueNew = Double.valueOf(JoMtDemarrEditText.getText().toString().trim());
-            JoMtDemarrEditText.setText(JoMtDemarrEditText.getText().toString().replaceAll(",", "").trim());
+//            JoMtDemarrEditText.setText(JoMtDemarrEditText.getText().toString().replaceAll(",", "").trim());
             valueNew = Double.valueOf(JoMtDemarrEditText.getText().toString().replaceAll(",", "").trim());
+            JoMtDemarrEditText.setText(valueNew+"");
             //JoMtDemarrEditText.getText().toString().replaceAll(",", "");
             valueLAst = Double.valueOf(CgLastSolde);
 
@@ -578,6 +580,7 @@ if (validateLogin() && valueNew<=valueLAst){
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
                 successCxGxMvt = jsonObjectCxMvt.getInt(KEY_SUCCESS);
+                Log.e("*********","success "+success+" "+"successCxGxMvt "+successCxGxMvt+" New solde "+valueNew+ " JoMt "+JoMtDemarr);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -588,7 +591,8 @@ if (validateLogin() && valueNew<=valueLAst){
             pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
-                    if (success == 1 && successCxGxMvt == 1) {
+//                    if (success == 1 && successCxGxMvt == 1) { // à revoir pourquoi success renvoie 0 au lieu de 1
+                    if (successCxGxMvt == 1) {
                         //Display success message
                         Toast.makeText(JourOuvert.this,
                                 "Journée ouverte", Toast.LENGTH_LONG).show();

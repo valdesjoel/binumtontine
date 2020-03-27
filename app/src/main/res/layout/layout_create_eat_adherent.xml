@@ -248,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:hint="@string/hint_montant_mise"
+                android:hint="@string/hint_montant_dat"
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:textStyle="bold"

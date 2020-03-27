@@ -4,6 +4,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 <!-- complex menu item to set text style -->
+    <!--app:showAsAction="always|withText"-->
 <item
     android:id="@+id/menu_group"
     android:title="Opértions sur compte"
@@ -36,15 +37,13 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             <item
             android:id="@+id/menu_historique"
             android:title="Historique" />
-            <item
-            android:id="@+id/menu_interet"
-            android:title="Intérêt" />
-            <item
-            android:id="@+id/menu_frais"
-            android:title="Frais" />
-            <item
-            android:id="@+id/menu_substitution"
-            android:title="Substitution" />
+            <!--<item-->
+            <!--android:id="@+id/menu_interet"-->
+            <!--android:title="Intérêt" />-->
+            <!--<item-->
+            <!--android:id="@+id/menu_frais"-->
+            <!--android:title="Frais" />-->
+
         </group>
         <!-- second group (eap_group) sub menu -->
         <group

@@ -1,6 +1,8 @@
 package com.example.binumtontine.activity.parametrageGuichet;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.binumtontine.activity.adherent.InitialisationCaisseGuichet;
@@ -8,6 +10,8 @@ import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFAct
 import com.example.binumtontine.activity.parametreGenerauxCx.ParametreGenerauxCxActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.ParametreGenerauxOFActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.PieceToFournirActivity;
+import com.example.binumtontine.controleur.MyData;
+import com.example.binumtontine.helper.HttpJsonParser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,14 +24,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.example.binumtontine.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.binumtontine.dao.SERVER_ADDRESS.BASE_URL;
+
 public class ParamGuichetActivity extends AppCompatActivity {
+
 
     private  Button save;
     private  Button cancel;
@@ -37,6 +48,13 @@ public class ParamGuichetActivity extends AppCompatActivity {
     // This listview is just under above button.
     private ListView userDataListView = null;
     private View popupInputDialogView = null;
+
+    private int success;
+    private ProgressDialog pDialogInitialisationCaisseGuichet;
+    private static final String KEY_SUCCESS = "success";
+    private static final String KEY_DATA = "data";
+    private static final String KEY_CG_GUICHET = "CgGuichet";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,6 +165,65 @@ public class ParamGuichetActivity extends AppCompatActivity {
                 break;
         }
 
+    }
+
+    /**
+     * AsyncTask for adding a compte eav
+     */
+    private class GetCaisseGuichetAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display proggress bar
+            pDialogInitialisationCaisseGuichet = new ProgressDialog(ParamGuichetActivity.this);
+            pDialogInitialisationCaisseGuichet.setMessage("Veuillez patienter...");
+            pDialogInitialisationCaisseGuichet.setIndeterminate(false);
+            pDialogInitialisationCaisseGuichet.setCancelable(false);
+            pDialogInitialisationCaisseGuichet.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            //Populating request parameters
+            // httpParams.put(KEY_EAV_ID, uxGuichetId);
+
+            httpParams.put(KEY_CG_GUICHET, String.valueOf(MyData.GUICHET_ID));
+
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "fetch_caisse_guichet.php", "POST", httpParams);
+            try {
+                success = jsonObject.getInt(KEY_SUCCESS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialogInitialisationCaisseGuichet.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (success == 1) {
+                        //Display success message
+                        Toast.makeText(ParamGuichetActivity.this,
+                                "Caisse guichet initialisé avec succès", Toast.LENGTH_LONG).show();
+                        Intent i = getIntent();
+                        //send result code 20 to notify about movie update
+                        setResult(20, i);
+                        //Finish ths activity and go back to listing activity
+                        finish();
+
+                    } else {
+                        Toast.makeText(ParamGuichetActivity.this,
+                                "Some error occurred while initialization caisse guichet",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }
     }
 
 }

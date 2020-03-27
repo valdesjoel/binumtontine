@@ -174,6 +174,8 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private TextInputLayout layout_TauxAPreleveCpteEAV;
     private TextInputLayout layout_MinCompteEAV;
     private TextInputLayout layout_TauxInteretAnnuelEAV;
+    private TextInputLayout layout_DateValeur;
+    private TextInputLayout layout_DateRetrait;
     private TextInputLayout layout_BaseTauxAPreleveCpteEAV;
     private TextInputLayout layout_BaseInteretAnnuelEAV;
 
@@ -239,6 +241,8 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
 
         layout_MinCompteEAV = (TextInputLayout) findViewById(R.id.input_layout_MinCompteEAV);
         layout_TauxInteretAnnuelEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxInteretAnnuelEAV);
+        layout_DateValeur = (TextInputLayout) findViewById(R.id.input_layout_type_de_date);
+        layout_DateRetrait = (TextInputLayout) findViewById(R.id.input_layout_type_de_date_retrait);
         layout_TauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxAPreleveCpteEAV);
         layout_BaseTauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_BaseTauxAPreleveCpteEAV);
         layout_BaseInteretAnnuelEAV = (TextInputLayout) findViewById(R.id.input_layout_BaseInteretAnnuelEAV);
@@ -460,9 +464,14 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
 
                     layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
                     layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                    layout_DateValeur.setVisibility(View.VISIBLE);
+                    layout_DateRetrait.setVisibility(View.VISIBLE);
                 }else{
                     layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
                     layout_BaseInteretAnnuelEAV.setVisibility(View.GONE);
+
+                    layout_DateValeur.setVisibility(View.GONE);
+                    layout_DateRetrait.setVisibility(View.GONE);
                 }
 
 
