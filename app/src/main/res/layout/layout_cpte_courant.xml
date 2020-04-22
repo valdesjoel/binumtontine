@@ -32,6 +32,7 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="@string/hint_code_Cpte_Courant"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -43,17 +44,20 @@
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="@string/hint_Libelle_EAV"/>
         </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/lblAutoriserDecouvertCC"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18dp"
                 android:text="Autoriser les découverts" />
 
             <Switch
@@ -62,13 +66,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_bloc_cc1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMargin"
+        android:orientation="vertical">
+        <!--Montant max découvert-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_MaxMtDecouvertAutoriseCC"
             style="@style/parent"
@@ -78,9 +89,10 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="Montant maximum découvert autorisé"/>
+                android:textSize="18dp"
+                android:hint="Montant max découvert"/>
         </com.google.android.material.textfield.TextInputLayout>
-
+        <!--Montant plafond découvert négociable-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -91,6 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18dp"
                 android:text="Montant plafond découvert négociable" />
 
             <Switch
@@ -105,6 +118,7 @@
                 />
 
         </LinearLayout>
+        <!--Nature du taux d'interêt découvert-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -117,6 +131,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
+                android:textSize="18dp"
                 android:text="Nature du taux d'interêt découvert"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <RadioGroup
@@ -136,6 +151,13 @@
                     android:text="Fixe"
                     android:onClick="onRadioButtonClicked"
                     android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rb_CcNatureTxIntDecouv_Taux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
 
 
                 <RadioButton
@@ -148,6 +170,7 @@
 
             </RadioGroup>
         </LinearLayout>
+
         <!-- valeur montant -->
 
         <com.google.android.material.textfield.TextInputLayout
@@ -159,8 +182,119 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="Valeur des frais de tenue de compte"/>
+                android:textSize="18dp"
+                android:hint=""/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Base du TxIntDecouv-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_BaseCcValTxMtAgio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_base_CcValTxMtAgio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--plage-->
+        <TextView
+            android:id="@+id/tv_plage_CcTxMtAgio"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+        <!--Durée max découvert accordé-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CcDureeMaxDecouv"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CcDureeMaxDecouv"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="Durée max découvert accordé"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--nature durée -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_CcNatureTypDureDecouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature de l'unité de la durée du découvert"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_CcNatureTypDureDecouv"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/rg_CcNatureTypDureDecouv" >
+
+                <RadioButton
+                    android:id="@+id/rb_CcNatureTypDureDecouv_jour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jour"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+
+
+                <RadioButton
+                    android:id="@+id/rb_CcNatureTypDureDecouv_semaine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Semaine"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+                <RadioButton
+                    android:id="@+id/rb_CcNatureTypDureDecouv_mois"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mois"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
 
         <!--valeur plage -->
         <LinearLayout
@@ -216,72 +350,12 @@
                 android:showDividers="beginning|middle|end"/>
 
         </LinearLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_CcDureeMaxDecouv"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_CcDureeMaxDecouv"
-                style="@style/modifiedEditText"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:hint="-	Durée maximale du découvert accordé"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--nature durée -->
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_CcNatureTypDureDecouv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="Nature de l'unité de la durée du découvert"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_CcNatureTypDureDecouv"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal"
-                android:showDividers="middle|end"
-                android:layout_marginTop="10dp"
-                android:id="@+id/rg_CcNatureTypDureDecouv" >
-
-                <RadioButton
-                    android:id="@+id/rb_CcNatureTypDureDecouv_jour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jour"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="true" />
-
-
-                <RadioButton
-                    android:id="@+id/rb_CcNatureTypDureDecouv_semaine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semaine"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-                <RadioButton
-                    android:id="@+id/rb_CcNatureTypDureDecouv_mois"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mois"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-
-            </RadioGroup>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginTop="@dimen/loginViewsMarginMax"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/tv_CcNatureTxMtAgio"
@@ -291,6 +365,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="Nature des agios ou frais de tenue de compte"
+                android:textSize="16dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <RadioGroup
                 android:layout_width="match_parent"
@@ -339,8 +414,47 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="Valeur du taux d’intérêt découvert si fixe"/>
+                android:textSize="18dp"
+                android:hint=""/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!-- Base du CalculAgiosCC-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_txtNatureBaseCalculAgiosCC_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_BaseCalculAgiosCC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tv_plage_CalculAgiosCC"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
 
         <!--valeur plage -->
         <LinearLayout
@@ -396,18 +510,20 @@
                 android:showDividers="beginning|middle|end"/>
 
         </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_txtNatureBaseCalculAgiosCC"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_NatureBaseCalculAgiosCC"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:hint="Nature base pour le calcul des agios"/>
-        </com.google.android.material.textfield.TextInputLayout>
+<!--old base-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_txtNatureBaseCalculAgiosCC"-->
+            <!--style="@style/parent"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_NatureBaseCalculAgiosCC"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:maxLines="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:hint="Nature base pour le calcul des agios"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -420,6 +536,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="16dp"
                 android:text="Disponibilité chéquier type 1" />
 
             <Switch
@@ -428,12 +545,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_bloc_cc2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMarginMax"
+        android:orientation="vertical">
+
+        <!--Nombre de page chéquier T 1-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NbrePageChequier1CC"
             style="@style/parent"
@@ -443,8 +568,11 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:maxLines="1"
-                android:hint="Nombre de page chéquier type 1"/>
+                android:textSize="18dp"
+                android:hint="Nombre de page chéquier T 1"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Prix de vente chéquier type 1-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_txtPrixVenteChequier1CC"
             style="@style/parent"
@@ -454,8 +582,11 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Prix de vente chéquier type 1"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 <!-- chequier 2 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -468,6 +599,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="16dp"
                 android:text="Disponibilité chéquier type 2" />
 
             <Switch
@@ -476,12 +608,21 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bloc_cc3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMarginMax"
+        android:orientation="vertical">
+
+        <!--Nombre de page chéquier T 2-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NbrePageChequier2CC"
             style="@style/parent"
@@ -491,8 +632,11 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:maxLines="1"
-                android:hint="Nombre de page chéquier type 2"/>
+                android:textSize="18dp"
+                android:hint="Nombre de page chéquier T2"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Prix de vente chéquier type 2-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_txtPrixVenteChequier2CC"
             style="@style/parent"
@@ -502,9 +646,10 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Prix de vente chéquier type 2"/>
         </com.google.android.material.textfield.TextInputLayout>
-
+    </LinearLayout>
         <!-- chequier 3 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -517,6 +662,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="16dp"
                 android:text="Disponibilité chéquier type 3" />
 
             <Switch
@@ -525,12 +671,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_bloc_cc4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMarginMax"
+        android:orientation="vertical">
+
+        <!--Nombre de page chéquier T3-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NbrePageChequier3CC"
             style="@style/parent"
@@ -540,8 +694,11 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:maxLines="1"
-                android:hint="Nombre de page chéquier type 2"/>
+                android:textSize="18dp"
+                android:hint="Nombre de page chéquier T3"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Prix de vente chéquier type 3-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_txtPrixVenteChequier3CC"
             style="@style/parent"
@@ -551,9 +708,10 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Prix de vente chéquier type 3"/>
         </com.google.android.material.textfield.TextInputLayout>
-
+    </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_DureeValiditeChequeEmisCC"
             style="@style/parent"
@@ -563,6 +721,7 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:maxLines="1"
+                android:textSize="18dp"
                 android:hint="Duréé de validité d'un chèque émis (en jour)"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -575,20 +734,23 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:maxLines="1"
-                android:hint="Nombre minimum de pers signataires pour un chèque"/>
+                android:textSize="16dp"
+                android:hint="Nombre min de pers signataires pr un chèque"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin">
 
             <TextView
                 android:id="@+id/lblActiverTxCommissionCC"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Activer le taux de commission " />
+                android:textSize="18dp"
+                android:text="Activer le taux de commission par mouvement ?" />
 
             <Switch
                 android:id="@+id/SwitchActiverTxCommissionCC"
@@ -596,13 +758,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/ll_bloc_cc5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMargin"
+        android:orientation="vertical">
         <!-- radiogroup -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -616,7 +783,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="Type de frais de tenu de compte"
+                android:textSize="18dp"
+                android:text="Nature du taux de commission"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <RadioGroup
                 android:layout_width="match_parent"
@@ -632,7 +800,7 @@
                     android:id="@+id/rb_CcNatTxComm_fixe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fixe"
+                    android:text="Taux"
                     android:onClick="onRadioButtonClicked"
                     android:checked="true" />
                 <RadioButton
@@ -665,9 +833,49 @@
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="Taux à préléver sur le compte"/>
+                android:textSize="18dp"
+                android:hint=""/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!-- Base du TxCommMvm-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_BaseCcTxCommMvm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
 
+
+            >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_base_CcTxCommMvm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tv_plage_CcTxCommMvm"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+
+    </LinearLayout>
         <!--valeur plage -->
         <LinearLayout
             android:id="@+id/blk_plage_CcValTxCommMvm"
@@ -741,7 +949,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/input_layout_FraisClotureCpteEAV"
-            android:orientation="horizontal"
+            android:orientation="vertical"
 
             android:paddingTop="30dp">
 

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ProduitCpteCourantActivity extends AppCompatActivity implements SERVER_ADDRESS {
 
@@ -35,6 +37,7 @@ public class ProduitCpteCourantActivity extends AppCompatActivity implements SER
     private static final String KEY_DATA = "data";
     private static final String KEY_CPTE_COURANT_ID = "CcNumero";
     private static final String KEY_CPTE_COURANT_LIBELLE = "CcLibelle";
+    private static final String KEY_CC_CAISSE_NUMERO = "CcCaisseId";
 
     private ArrayList<HashMap<String, String>> cpteCourantList;
     private ListView cpteCourantListView;
@@ -54,6 +57,9 @@ public class ProduitCpteCourantActivity extends AppCompatActivity implements SER
         Toolbar toolbar = findViewById(R.id.toolbar_produitCpteCourant);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_produitCpteCourant);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +75,11 @@ public class ProduitCpteCourantActivity extends AppCompatActivity implements SER
             }
         });
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
 
 /**
@@ -90,8 +100,10 @@ private class FetchCpteCourantAsyncTask extends AsyncTask<String, String, String
     @Override
     protected String doInBackground(String... params) {
         HttpJsonParser httpJsonParser = new HttpJsonParser();
+        Map<String, String> httpParams = new HashMap<>();
+        httpParams.put(KEY_CC_CAISSE_NUMERO, String.valueOf(MyData.CAISSE_ID));
         JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                BASE_URL + "fetch_all_cpte_courant.php", "GET", null);
+                BASE_URL + "fetch_all_cpte_courant.php", "GET", httpParams);
         try {
             int success = jsonObject.getInt(KEY_SUCCESS);
             JSONArray movies;
@@ -146,9 +158,9 @@ private class FetchCpteCourantAsyncTask extends AsyncTask<String, String, String
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
                     Intent intent = new Intent(getApplicationContext(),
-                            UpdateEAV.class);
+                            UpdateProduitCpteCourant.class);
                     intent.putExtra(KEY_CPTE_COURANT_ID, movieId);
-                    //startActivityForResult(intent, 20);
+                    startActivityForResult(intent, 20);
 
                 } else {
                     Toast.makeText(ProduitCpteCourantActivity.this,

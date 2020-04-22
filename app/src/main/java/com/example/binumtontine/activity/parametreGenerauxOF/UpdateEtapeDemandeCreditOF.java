@@ -137,6 +137,8 @@ public class UpdateEtapeDemandeCreditOF extends AppCompatActivity implements  SE
                         EdTypEtape = "DEC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement ou paiement échéance du crédit")){
                         EdTypEtape = "REC";
+                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement des échéances du crédit")){
+                        EdTypEtape = "REC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Clôture du crédit")){
                         EdTypEtape = "CLC";
                     }
@@ -334,7 +336,7 @@ public class UpdateEtapeDemandeCreditOF extends AppCompatActivity implements  SE
                             }else if (EdTypEtape.equals("DEC")){
                                 EdTypEtape = "Décaissement du crédit";
                             }else if (EdTypEtape.equals("REC")){
-                                EdTypEtape = "Remboursement ou paiement échéance du crédit";
+                                EdTypEtape = "Remboursement des échéances du crédit";
                             }else if (EdTypEtape.equals("CLC")){
                                 EdTypEtape = "Clôture du crédit";
                             }
@@ -527,99 +529,7 @@ public class UpdateEtapeDemandeCreditOF extends AppCompatActivity implements  SE
             });
         }
     }
-    /**
-     * Adding spinner data
-     * */
-    private void populateSpinner() {
-      /*  List<String> lables = new ArrayList<String>();
 
-        //tvCaisse.setText("");
-
-        for (int i = 0; i < defaultEavList.size(); i++) {
-            lables.add(defaultEavList.get(i).getName());//recupère les noms
-            defaultEavListID.add(defaultEavList.get(i).getId()); //recupère les Id
-        }
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(UpdateObjetCreditOF.this,
-                android.R.layout.simple_spinner_item, lables);
-
-        // Drop down layout style - list view with radio button
-        spinnerAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinnerDefaultEAV.setAdapter(spinnerAdapter);
-
-        //Make uxCaisseDenomination as default Item in caisseList spinner
-        if (gxDefaultEavDenomination!=null){
-            spinnerDefaultEAV.setSelection(spinnerAdapter.getPosition(gxDefaultEavDenomination));
-        }
-*/
-    }
-
-    /**
-     * Async task to get all food categories
-     * */
-//    private class GetCategories extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            pDialog = new ProgressDialog(UpdateObjetCreditOF.this);
-//            pDialog.setMessage("Fetching EAV's list..");
-//            pDialog.setCancelable(false);
-//            //pDialog.show();
-//
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... arg0) {
-//            ServiceHandler jsonParser = new ServiceHandler();
-//
-//            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-//            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, etapeDemandeCreditID));
-//            httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
-//            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
-//
-//
-//            Log.e("Response: ", "> " + json);
-//
-//            if (json != null) {
-//                try {
-//                    JSONObject jsonObj = new JSONObject(json);
-//                    if (jsonObj != null) {
-//                        JSONArray categories = jsonObj
-//                                .getJSONArray(KEY_DATA);
-//
-//                        for (int i = 0; i < categories.length(); i++) {
-//                            JSONObject catObj = (JSONObject) categories.get(i);
-//                            Category cat = new Category(catObj.getInt(KEY_EAV_ID),
-//                                    catObj.getString(KEY_EAV_LIBELLE));
-//                            defaultEavList.add(cat);
-//                        }
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            } else {
-//                Log.e("JSON Data", "Didn't receive any data from server!");
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            super.onPostExecute(result);
-//            if (pDialog.isShowing())
-//                pDialog.dismiss();
-//            populateSpinner();
-//        }
-//
-//    }
 
 
 }

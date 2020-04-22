@@ -68,10 +68,11 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
     /*Begin*/
          //to fetchProduitList by caisse and guichet ID
     private static final String KEY_EV_CAISSE_ID = "ev_caisse_id";
+    private static final String KEY_CREDIT_CAISSE_ID = "CrCaisseId";
     private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
     /* end*/
-    private static final String KEY_EAV_ID = "ev_numero";
-    private static final String KEY_EAV_LIBELLE = "ev_libelle";
+    private static final String KEY_CR_ID = "CrNumero";
+    private static final String KEY_CR_LIBELLE = "CrLibelle";
 
     private static final String KEY_CV_PRODUIT = "CvProduit";
     private static final String KEY_CV_MEMBRE = "CvMembre";
@@ -87,7 +88,9 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
     private static final String KEY_ADHERENT_PRENOM = "AdPrenom";
     private static final String KEY_ADHERENT_NUM_MANUEL = "AdNumManuel";
     private static final String KEY_ADHERENT_CODE = "AdCode";
-
+    private static final String KEY_CAISSE_ID = "OcCaisse";
+    private static final String KEY_OC_NUMERO = "OcNumero";
+    private static final String KEY_OC_LIBELLE = "OcLibelle";
 
 
     private static String STRING_EMPTY = "";
@@ -161,6 +164,7 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
         spinnerListCredit.setOnItemSelectedListener(DemandeCredit.this);
         spinnerListObjetCredit.setOnItemSelectedListener(DemandeCredit.this);
         new GetProduitCreditList().execute();
+        new FetchObjetCreditAsyncTask().execute();
 
         addButton = (Button) findViewById(R.id.btn_save_demande_credit);
         annulerButton = (Button) findViewById(R.id.btn_clean);
@@ -265,9 +269,10 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
         protected Void doInBackground(Void... arg0) {
             ServiceHandler jsonParser = new ServiceHandler();
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
+            httpParams.add(new BasicNameValuePair(KEY_CREDIT_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
             httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
-            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_credit_by_caisse.php", ServiceHandler.GET, httpParams);
+//            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_credit_by_guichet.php", ServiceHandler.GET, httpParams);
            // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
 
 
@@ -283,8 +288,8 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
 
                         for (int i = 0; i < categories.length(); i++) {
                             JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt(KEY_EAV_ID),
-                                    catObj.getString(KEY_EAV_LIBELLE));
+                            Category cat = new Category(catObj.getInt(KEY_CR_ID),
+                                    catObj.getString(KEY_CR_LIBELLE));
                             creditList.add(cat);
                         }
                     }
@@ -309,6 +314,73 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
         }
 
     }
+    /**
+     * Async task to get all objet credit categories
+     * */
+    private class FetchObjetCreditAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(DemandeCredit.this);
+            pDialog.setMessage("Fetching objets's list..");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add(new BasicNameValuePair(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
+//            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_objet_credit_by_caisse.php", ServiceHandler.GET, httpParams);
+
+//            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_credit_by_guichet.php", ServiceHandler.GET, httpParams);
+           // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
+
+
+
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray categories = jsonObj
+                                .getJSONArray(KEY_DATA);
+
+                        for (int i = 0; i < categories.length(); i++) {
+                            JSONObject catObj = (JSONObject) categories.get(i);
+                            Category cat = new Category(catObj.getInt(KEY_OC_NUMERO),
+                                    catObj.getString(KEY_OC_LIBELLE));
+                            objetCreditList.add(cat);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data", "Didn't receive any data from server!");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            populateObjetCreditSpinner();
+        }
+
+    }
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
@@ -377,7 +449,7 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
             super.onPreExecute();
             //Display proggress bar
             pDialog = new ProgressDialog(DemandeCredit.this);
-            pDialog.setMessage("Adding compte à vue. Please wait...");
+            pDialog.setMessage("Adding demande crédit. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -388,7 +460,7 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-           // httpParams.put(KEY_EAV_ID, uxGuichetId);
+           // httpParams.put(KEY_CR_ID, uxGuichetId);
 
             httpParams.put(KEY_CV_MEMBRE, adherentId);
             httpParams.put(KEY_CV_PRODUIT, String.valueOf(creditID));
@@ -414,7 +486,7 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
                     if (success == 1) {
                         //Display success message
                         Toast.makeText(DemandeCredit.this,
-                                "Compte créé avec succès", Toast.LENGTH_LONG).show();
+                                "Demande créée avec succès", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);
@@ -423,7 +495,7 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
 
                     } else {
                         Toast.makeText(DemandeCredit.this,
-                                "Some error occurred while adding Compte",
+                                "Some error occurred while adding Demande",
                                 Toast.LENGTH_LONG).show();
 
                     }

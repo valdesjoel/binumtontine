@@ -49,20 +49,6 @@
                 android:textSize="18dp"
                 android:hint="@string/hint_Libelle_EAV"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!--Durée maximale du crédit-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_CrDureeMax"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_CrDureeMax"
-                style="@style/modifiedEditText"
-                android:inputType="number"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:hint="@string/hint_duree_max_credit"/>
-        </com.google.android.material.textfield.TextInputLayout>
         <!--Durée minimale du crédit-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CrDureeMin"
@@ -76,6 +62,20 @@
                 android:textSize="18dp"
                 android:hint="@string/hint_duree_min_credit"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <!--Durée maximale du crédit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CrDureeMax"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CrDureeMax"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="18dp"
+                android:hint="@string/hint_duree_max_credit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Nombre d’unités du pas-->
         <!--<com.google.android.material.textfield.TextInputLayout-->
             <!--android:id="@+id/input_layout_CrNbreUPas"-->
@@ -118,6 +118,72 @@
                 android:hint="@string/hint_nombre_unite_pas" />
 
         </LinearLayout>
+
+        <!-- radiogroup -->
+        <LinearLayout
+            android:id="@+id/ll_CrTypTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lbl_CrTypTxInter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Type taux interêt"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_CrTypTxInter"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupCrTypTxInter" >
+
+                <RadioButton
+                    android:id="@+id/rbCrTypTxInterFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:visibility="gone"
+                    android:id="@+id/rbCrTypTxInterTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbCrTypTxInterPlage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_plage_tic_cc"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
 
         <!--valeur du taux d’intérêt dans le cas ou il est fixe (CrValTxInter/R)-->
         <com.google.android.material.textfield.TextInputLayout
@@ -199,7 +265,7 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Taux de couverture du crédit par avaliste"/>
+                android:hint="Taux de couv du crédit par avaliste"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Taux de couverture avaliste est-il obligatoire (CrIsTxCouvAvalOblig/A1)-->
@@ -367,6 +433,18 @@
 
 
         <!-- Ne pas exiger avaliste si le montant du crédit est inférieur à (CrMtMaxSansAval/R)-->
+        <TextView
+            android:id="@+id/tv_CrMtMaxSansAval"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="Ne pas exiger avaliste si le montant du crédit est inférieur" />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CrMtMaxSansAval"
             style="@style/parent"
@@ -376,8 +454,9 @@
                 style="@style/modifiedEditText"
                 android:inputType="number"
                 android:maxLines="2"
-                android:textSize="18dp"
-                android:hint="Ne pas exiger avaliste si le montant du crédit est inférieure"/>
+                android:autofillHints="Ne pas exiger avaliste si le montant du crédit est inférieure"
+                android:textSize="18dp"/>
+                <!--android:hint="Ne pas exiger avaliste si le montant du crédit est inférieure"/>-->
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--L’avaliste ne doit pas avoir de dossier de crédit en cours ? (CrIsAvalSansCredOn/A1))-->
@@ -428,7 +507,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -446,7 +525,7 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Taux de garantie membre pour le crédit"/>
+                android:hint="Tx garantie membre pr le crédit"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -498,7 +577,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -517,7 +596,7 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Taux de couverture exigé par les parts sociales"/>
+                android:hint="Tx de couv exigé par les PS"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -542,7 +621,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -550,7 +629,7 @@
         </LinearLayout>
 
 
-        <!--Nombre d’année d’ancienneté minimale pour demander un crédit (CrNbreAnAncMinCred/I)-->
+        <!--Nombre d’année (mois) d’ancienneté minimale pour demander un crédit (CrNbreAnAncMinCred/I)-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CrNbreAnAncMinCred"
             style="@style/parent"
@@ -561,10 +640,10 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Nombre d’année d’ancienneté minimale pour demander un crédit"/>
+                android:hint="Nbre mois ancienneté min pr demander crédit"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Les années d’ancienneté minimale pour l’éligibilité au Crédit est il négociable (CrNbAnAncNeg/A1)-->
+        <!-- Les années (mois) d’ancienneté minimale pour l’éligibilité au Crédit est il négociable (CrNbAnAncNeg/A1)-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -577,7 +656,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="18dp"
-                android:text="Les années d’ancienneté minimale pour l’éligibilité au Crédit sont ils négociables ?" />
+                android:text="Les mois d’ancienneté minimum pour l’éligibilité au Crédit sont ils négociables ?" />
 
             <Switch
                 android:id="@+id/SwitchCrNbAnAncNeg"
@@ -604,7 +683,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Montant plafond de crédit pouvant être octroyé"/>
+                android:hint="Montant plafond crédit pouvant être octroyé"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Le montant plafond de crédit peut-il être levé ou dépassé ? (CrIsMtPlafCredLeve/A1)-->
@@ -682,7 +761,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -758,7 +837,7 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Valeur/taux"
+                android:hint=""
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -790,7 +869,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
         <TextView
-            android:id="@+id/tv_plage_FrTypeFrais"
+            android:id="@+id/tv_plage_CrNatFrEtudDoss"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -823,7 +902,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -899,7 +978,7 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Valeur/taux"
+                android:hint=""
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -965,7 +1044,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1040,7 +1119,7 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Valeur/taux"
+                android:hint=""
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -1491,7 +1570,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Nombre de jours avant le début de rappel de la date échéance"
+                android:hint="Nbre jr avant début de rappel date échéance"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -1506,7 +1585,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Nombre de jours après date échéance si non honorée"
+                android:hint="Nbre jr après date échéance si non honorée"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 

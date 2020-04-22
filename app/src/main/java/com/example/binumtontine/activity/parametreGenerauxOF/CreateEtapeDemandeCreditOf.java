@@ -141,6 +141,8 @@ public class CreateEtapeDemandeCreditOf extends AppCompatActivity implements SER
                         EdTypEtape = "DEC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement ou paiement échéance du crédit")){
                         EdTypEtape = "REC";
+                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement des échéances du crédit")){
+                        EdTypEtape = "REC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Clôture du crédit")){
                         EdTypEtape = "CLC";
                     }

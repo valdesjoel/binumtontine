@@ -22,20 +22,19 @@
             style="@style/headerTextPrimary"
             android:text="Ajout d'un statut pour une étape de demande de crédit"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
-        <!--code objet crédit-->
+        <!--code statut crédit-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_Code_Objet_of"
-            android:visibility="gone"
+            android:id="@+id/input_layout_Code_Statut_of"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
-                android:id="@+id/input_txt_Code_Objet_of"
+                android:id="@+id/input_txt_Code_Statut_of"
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:hint="@string/hint_code_objet_credit"/>
+                android:hint="@string/hint_code_statut_credit"/>
         </com.google.android.material.textfield.TextInputLayout>
         <!--Spinner EtapeDemandeCreditList-->
         <LinearLayout

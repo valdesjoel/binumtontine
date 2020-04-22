@@ -99,7 +99,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
     private EditText valeurDebutEditText;
     private EditText valeurFinEditText;
     private EditText baseEditText;
-   // public static ArrayList<ModelPlageData> plageDataList;
+   // public static ArrayList<ModelPlageData> plageDataListCTP;
 
     private String guichetId;
     private String valeur;
@@ -153,7 +153,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
         guichetDenomination = MyData.GUICHET_NAME;
         Intent intent = getIntent();
         plageDataId = intent.getStringExtra(KEY_EAV_ID);
-      //  plageDataList = new ArrayList<>();
+      //  plageDataListCTP = new ArrayList<>();
 /*
         valeurEditText = (EditText) findViewById(R.id.input_txt_montant_initialisation);
 
@@ -360,7 +360,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
 
 
                             if (ListPlageDateActivity.IS_TO_CREATE_OR_TO_UPDATE){
-//                                CreateProduitEAV.plageDataList.remove(Integer.parseInt(plageDataId));
+//                                CreateProduitEAV.plageDataListCTP.remove(Integer.parseInt(plageDataId));
 
                                 Toast.makeText(PlageData.this,
                                         "Fonctionnalité à prendre en compte dans la prochaine version",
@@ -498,7 +498,8 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
                     valeurEditText.setText(valeur);
                     valeurDebutEditText.setText(valeurDebut);
                     valeurFinEditText.setText(valeurFin);
-                    baseEditText.setText(base);
+//                    baseEditText.setText(base);
+                    mySpinnerBaseTxTIV.setText(base);
                     if (EtTypTxInter.equals("F")){
                         rbEtTypTxInterPlageFixe.setChecked(true);
                         onRadioButtonClicked(rbEtTypTxInterPlageFixe);
@@ -623,7 +624,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
     private void updatePlageForCreate(){
         ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
                 valeur,valeurDebut,valeurFin,base,"");
-        //CreateProduitEAV.plageDataList.add(maPlage);
+        //CreateProduitEAV.plageDataListCTP.add(maPlage);
         CreateProduitEAV.plageDataList.set(Integer.parseInt(plageDataId),maPlage);
         try {
             //success = jsonObject.getInt(KEY_SUCCESS);
@@ -667,7 +668,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
 
 //        ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
 //                valeur,valeurDebut,valeurFin,base,"");
-//        CreateProduitEAV.plageDataList.add(maPlage);
+//        CreateProduitEAV.plageDataListCTP.add(maPlage);
         try {
             success = jsonObject.getInt(KEY_SUCCESS);
         } catch (Exception e) {

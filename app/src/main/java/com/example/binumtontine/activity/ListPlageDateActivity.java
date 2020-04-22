@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.R;
-import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -25,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,7 +35,9 @@ public class ListPlageDateActivity extends AppCompatActivity implements SERVER_A
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     private static final String KEY_EAV_ID = "ev_numero";
+    private static final String KEY_CTP_ID = "CTP_numero";
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
+    private static final String KEY_CTP_LIBELLE = "CTP_libelle";
     private static final String KEY_CAISSE_ID = "ev_caisse_id";
     public static boolean  IS_TO_CREATE_OR_TO_UPDATE = false;
 
@@ -63,6 +63,9 @@ public class ListPlageDateActivity extends AppCompatActivity implements SERVER_A
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Plage "+MyData.TYPE_DE_FRAIS_PLAGE_DATA);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_produitEAV);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +80,11 @@ public class ListPlageDateActivity extends AppCompatActivity implements SERVER_A
             }
         });
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 private void loadPlageForCreate(){
     //        HttpJsonParser httpJsonParser = new HttpJsonParser();
 //        Map<String, String> httpParams = new HashMap<>();
@@ -106,6 +113,41 @@ private void loadPlageForCreate(){
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put(KEY_EAV_ID, movieId.toString());
                 map.put(KEY_EAV_LIBELLE, movieName);
+                movieList.add(map);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+private void loadPlageForCreateTxIntDecouvCC(){
+    //        HttpJsonParser httpJsonParser = new HttpJsonParser();
+//        Map<String, String> httpParams = new HashMap<>();
+//        httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+//        JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                BASE_URL + "fetch_all_eav.php", "GET", httpParams);
+
+
+
+
+    try {
+        //int success = jsonObject.getInt(KEY_SUCCESS);
+        int success = 1;
+        //  JSONArray movies;
+        if (success == 1) {
+            movieList = new ArrayList<>();
+            // movies = jsonObject.getJSONArray(KEY_DATA);
+            //Parcours la liste des plages du produit
+            for (int i = 0; i < CreateProduitCpteCourant.plageDataListCTP.size(); i++) {
+                // JSONObject movie = movies.getJSONObject(i);
+                Integer movieId = i;
+
+                String movieName = CreateProduitCpteCourant.plageDataListCTP.get(i).getPdValDe()+
+                        " - "+CreateProduitCpteCourant.plageDataListCTP.get(i).getPdValA()+
+                        " ( "+CreateProduitCpteCourant.plageDataListCTP.get(i).getPdValTaux()+" )";
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put(KEY_CTP_ID, movieId.toString());
+                map.put(KEY_CTP_LIBELLE, movieName);
                 movieList.add(map);
             }
         }
@@ -144,11 +186,11 @@ private void loadPlageForUpdate(){
 
 //                ModelPlageData maPlage = new ModelPlageData(PdNumero+"",PdTypeData,PdNature,
 //                        PdValTaux,PdValDe,PdValA,PdBase,PdProduit);
-//                UpdateEAV.plageDataList.add(maPlage);
+//                UpdateEAV.plageDataListCTP.add(maPlage);
 
-//                String concatenateData = CreateProduitEAV.plageDataList.get(i).getPdValDe()+
-//                        " - "+CreateProduitEAV.plageDataList.get(i).getPdValA()+
-//                        " ( "+CreateProduitEAV.plageDataList.get(i).getPdValTaux()+" )";
+//                String concatenateData = CreateProduitEAV.plageDataListCTP.get(i).getPdValDe()+
+//                        " - "+CreateProduitEAV.plageDataListCTP.get(i).getPdValA()+
+//                        " ( "+CreateProduitEAV.plageDataListCTP.get(i).getPdValTaux()+" )";
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put(KEY_EAV_ID, PdNumero.toString());
                 map.put(KEY_EAV_LIBELLE, PdTypeData);
@@ -195,13 +237,13 @@ if (IS_TO_CREATE_OR_TO_UPDATE){
 //                movieList = new ArrayList<>();
 //               // movies = jsonObject.getJSONArray(KEY_DATA);
 //                //Parcours la liste des plages du produit
-//                for (int i = 0; i < CreateProduitEAV.plageDataList.size(); i++) {
+//                for (int i = 0; i < CreateProduitEAV.plageDataListCTP.size(); i++) {
 //                   // JSONObject movie = movies.getJSONObject(i);
 //                    Integer movieId = i;
 //
-//                    String movieName = CreateProduitEAV.plageDataList.get(i).getPdValDe()+
-//                            " - "+CreateProduitEAV.plageDataList.get(i).getPdValA()+
-//                            " ( "+CreateProduitEAV.plageDataList.get(i).getPdValTaux()+" )";
+//                    String movieName = CreateProduitEAV.plageDataListCTP.get(i).getPdValDe()+
+//                            " - "+CreateProduitEAV.plageDataListCTP.get(i).getPdValA()+
+//                            " ( "+CreateProduitEAV.plageDataListCTP.get(i).getPdValTaux()+" )";
 //                    HashMap<String, String> map = new HashMap<String, String>();
 //                    map.put(KEY_EAV_ID, movieId.toString());
 //                    map.put(KEY_EAV_LIBELLE, movieName);
@@ -219,6 +261,50 @@ if (IS_TO_CREATE_OR_TO_UPDATE){
         runOnUiThread(new Runnable() {
             public void run() {
                 populateMovieList();
+            }
+        });
+    }
+
+}
+/**
+ * Fetches the list of movies from the server
+ */
+private class FetchListTxIntDecouvAsyncTask extends AsyncTask<String, String, String> {
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        //Display progress bar
+        pDialog = new ProgressDialog(ListPlageDateActivity.this);
+        pDialog.setMessage("Chargement des plages. Veuillez patienter...");
+        pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // Progress Dialog Max Value
+//        pDialog.setMax(100);
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+//        HttpJsonParser httpJsonParser = new HttpJsonParser();
+//        Map<String, String> httpParams = new HashMap<>();
+//        httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+//        JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                BASE_URL + "fetch_all_eav.php", "GET", httpParams);
+
+if (IS_TO_CREATE_OR_TO_UPDATE){
+    loadPlageForCreateTxIntDecouvCC();
+}else loadPlageForUpdate();
+
+
+        return null;
+    }
+
+    protected void onPostExecute(String result) {
+        pDialog.dismiss();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                populateMovieListPlageTxIntDecouv();
             }
         });
     }
@@ -253,6 +339,48 @@ if (IS_TO_CREATE_OR_TO_UPDATE){
                     }
 
                     intent.putExtra(KEY_EAV_ID, movieId);
+                    startActivityForResult(intent, 20);
+
+                } else {
+                    Toast.makeText(ListPlageDateActivity.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+
+            }
+        });
+
+    }
+    /**
+     * Updating parsed JSON data into ListView
+     * */
+    private void populateMovieListPlageTxIntDecouv() {
+        ListAdapter adapter = new SimpleAdapter(
+                ListPlageDateActivity.this, movieList,
+                R.layout.list_item, new String[]{KEY_CTP_ID,
+                KEY_CTP_LIBELLE},
+                new int[]{R.id.movieId, R.id.movieName});
+        // updating listview
+        movieListView.setAdapter(adapter);
+        //Call MovieUpdateDeleteActivity when a movie is clicked
+        movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Check for network connectivity
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    String movieId = ((TextView) view.findViewById(R.id.movieId))
+                            .getText().toString();
+                    Intent intent = new Intent(getApplicationContext(),
+                            PlageData.class);
+                    if (IS_TO_CREATE_OR_TO_UPDATE){
+                        PlageData.what_to_do=2;
+                    }else{
+                        PlageData.what_to_do=3;
+                    }
+
+                    intent.putExtra(KEY_CTP_ID, movieId);
                     startActivityForResult(intent, 20);
 
                 } else {

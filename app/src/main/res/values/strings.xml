@@ -219,7 +219,7 @@
         <item>Comité de crédit</item>
         <item>Déblocage du crédit</item>
         <item>Décaissement du crédit</item>
-        <item>Remboursement ou paiement échéance du crédit</item>
+        <item>Remboursement des échéances du crédit</item>
         <item>Clôture du crédit</item>
     </string-array>
     <!-- Il serait mieux de gérer ces types plutot en BD pour faciliter la maintenance -->
@@ -354,6 +354,27 @@
         <item>Montant à cotiser</item>
         <item>Intérêt cotisé</item>
         <item>Intérêt à cotiser</item>
+    </string-array>
+    <string-array name="array_base_taux_cpte_courant">
+        <item>Montant découvert</item>
+        <item>Montant + interet</item>
+    </string-array>
+    <string-array name="array_base_taux_credit">
+        <item>Montant crédit</item>
+        <item>Montant + interet</item>
+    </string-array>
+    <string-array name="array_mode_remboursement_credit">
+        <item>Interêt puis capital</item>
+        <item>Capital puis intérêt</item>
+        <item>Capital et intérêt ensemble</item>
+    </string-array>
+    <string-array name="array_base_interet_echeance_non_honoree">
+        <item>CumulBase</item>
+        <item>CumulBase + intérêt</item>
+    </string-array>
+    <string-array name="array_nature_planning_remboursement">
+        <item>Manuel</item>
+        <item>Proraté</item>
     </string-array>
     <string-array name="array_base_taux_frais_tenue_compte">
         <item>Solde minimum</item>
@@ -612,9 +633,9 @@
     <string name="hint_Num_ordre_statut_etape_demande_credit">Numéro d\'ordre du statut:</string>
     <string name="hint_Details_objet_credit">Détails Objet de crédit:</string>
     <string name="hint_Min_compte_eav">Minimum compte:</string>
-    <string name="hint_duree_min_credit">Durée minimale du crédit (en mois)</string>
+    <string name="hint_duree_min_credit">Durée min crédit (en mois)</string>
     <string name="hint_nombre_unite_pas">Nombre d’unités du pas</string>
-    <string name="hint_duree_max_credit">Durée maximale du crédit (en mois) </string>
+    <string name="hint_duree_max_credit">Durée max crédit (en mois) </string>
     <string name="hint_code_EAP">Code EAP</string>
     <string name="hint_Min_Mt_Mise_eav">Montant minimum mise</string>
     <string name="select_caisse">Choisir une caisse</string>
@@ -658,6 +679,7 @@
     <string name="hint_code_piece">Code de la pièce:</string>
     <string name="hint_code_frais">Code du frais:</string>
     <string name="hint_code_objet_credit">Code objet de crédit:</string>
+    <string name="hint_code_statut_credit">Code statut de crédit:</string>
     <string name="hint_code_etape_demande_credit">Code étape demande de crédit:</string>
     <string name="btn_annuler">ANNULER</string>
     <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
@@ -719,6 +741,7 @@
     <string name="hint_date_fin">Date de fin: (*)</string>
     <string name="enter_number">saisissez un montant valide</string>
     <string name="hint_depot_minimum">Dépôt minimum</string>
+    <string name="hint_montant_demande_credit">Montant de la demande</string>
     <string name="produit_a_vue">Produit à vue:</string>
     <string name="pd_type_data">Type frais</string>
     <string name="hint_numero_dossier">Numéro de dossier</string>
@@ -736,7 +759,13 @@
     <string name="hint_nature_type_membre">Nature membre</string>
     <string name="details_type_membre">Détails type de membre</string>
     <string name="action_membre_to_affect">Membre à affecter à la caisse</string>
+    <string name="action_objet_to_affect">Objets de crédit à affecter à la caisse</string>
+    <string name="action_etape_to_affect">Etapes de crédit à affecter à la caisse</string>
+    <string name="action_statut_to_affect">Statuts à affecter à la caisse</string>
     <string name="action_membre_already_affect">Membres déjà affectés à la caisse</string>
+    <string name="action_objet_already_affect">Objets de crédit déjà affectés à la caisse</string>
+    <string name="action_etape_already_affect">Etapes de crédit déjà affectés</string>
+    <string name="action_statut_already_affect">Statuts de crédit déjà affectés</string>
     <string name="action_membre_to_affect_gx">Membre à affecter au guichet</string>
     <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
     <string name="btn_config_plage_tiv">Cliquer ici pour paramétrer les plages</string>

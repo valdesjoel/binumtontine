@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -17,10 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.example.binumtontine.modele.Credit;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -30,13 +29,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ProduitCreditActivity extends AppCompatActivity implements SERVER_ADDRESS {
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
-    private static final String KEY_EAV_ID = "ev_numero";
-    private static final String KEY_EAV_LIBELLE = "ev_libelle";
+    private static final String KEY_CREDIT_ID = "CrNumero";
+    private static final String KEY_CREDIT_LIBELLE = "CrLibelle";
+    private static final String KEY_CREDIT_CAISSE_ID = "CrCaisseId";
 
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
@@ -52,6 +53,9 @@ public class ProduitCreditActivity extends AppCompatActivity implements SERVER_A
         Toolbar toolbar = findViewById(R.id.toolbar_produitEAV);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_produitEAV);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +69,11 @@ public class ProduitCreditActivity extends AppCompatActivity implements SERVER_A
             }
         });
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
 
 /**
@@ -86,23 +94,25 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
         HttpJsonParser httpJsonParser = new HttpJsonParser();
+        Map<String, String> httpParams = new HashMap<>();
+        httpParams.put(KEY_CREDIT_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
         JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                BASE_URL + "fetch_all_eav.php", "GET", null);
+                BASE_URL + "fetch_all_credit_by_caisse.php", "GET", httpParams);
         try {
             int success = jsonObject.getInt(KEY_SUCCESS);
             JSONArray movies;
             if (success == 1) {
-                Log.d("**********result","bonnnnnnnnnnnnnnnnnnnn");
+//                Log.d("**********result","bonnnnnnnnnnnnnnnnnnnn");
                 movieList = new ArrayList<>();
                 movies = jsonObject.getJSONArray(KEY_DATA);
                 //Iterate through the response and populate movies list
                 for (int i = 0; i < movies.length(); i++) {
                     JSONObject movie = movies.getJSONObject(i);
-                    Integer movieId = movie.getInt(KEY_EAV_ID);
-                    String movieName = movie.getString(KEY_EAV_LIBELLE);
+                    Integer movieId = movie.getInt(KEY_CREDIT_ID);
+                    String movieName = movie.getString(KEY_CREDIT_LIBELLE);
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put(KEY_EAV_ID, movieId.toString());
-                    map.put(KEY_EAV_LIBELLE, movieName);
+                    map.put(KEY_CREDIT_ID, movieId.toString());
+                    map.put(KEY_CREDIT_LIBELLE, movieName);
                     movieList.add(map);
                 }
             }
@@ -129,8 +139,8 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
     private void populateMovieList() {
         ListAdapter adapter = new SimpleAdapter(
                 ProduitCreditActivity.this, movieList,
-                R.layout.list_item, new String[]{KEY_EAV_ID,
-                KEY_EAV_LIBELLE},
+                R.layout.list_item, new String[]{KEY_CREDIT_ID,
+                KEY_CREDIT_LIBELLE},
                 new int[]{R.id.movieId, R.id.movieName});
         // updating listview
         movieListView.setAdapter(adapter);
@@ -144,8 +154,8 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
                             .getText().toString();
                     Intent intent = new Intent(getApplicationContext(),
                             UpdateEAV.class);
-                    intent.putExtra(KEY_EAV_ID, movieId);
-                    startActivityForResult(intent, 20);
+                    intent.putExtra(KEY_CREDIT_ID, movieId);
+//                    startActivityForResult(intent, 20);
 
                 } else {
                     Toast.makeText(ProduitCreditActivity.this,

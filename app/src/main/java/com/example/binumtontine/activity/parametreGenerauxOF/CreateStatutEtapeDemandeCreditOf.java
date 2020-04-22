@@ -69,15 +69,17 @@ public class CreateStatutEtapeDemandeCreditOf extends AppCompatActivity implemen
     private static final String KEY_SE_ETAPE_DEMANDE = "SeEtapeDem";
     private static final String KEY_SE_LIBELLE = "SeLibelle";
     private static final String KEY_SE_NUM_ORDRE = "SeNumOrd";
-
+    private static final String KEY_SE_CODE = "SeCode";
     private static final String KEY_ED_NUMERO = "EdNumero";
     private static final String KEY_ED_LIBELLE = "EdLibelle";
 
     private EditText SeLibelleEditText;
     private EditText SeNumOrdrEditText;
+    private EditText SeCodeEditText;
 
     private String SeLibelle;
     private String SeNumOrdr;
+    private String SeCode;
 
     private static String STRING_EMPTY = "";
 
@@ -108,6 +110,7 @@ public class CreateStatutEtapeDemandeCreditOf extends AppCompatActivity implemen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statut_etape_demande_credit_of);
 
+        SeCodeEditText = (EditText) findViewById(R.id.input_txt_Code_Statut_of);
         SeLibelleEditText = (EditText) findViewById(R.id.input_txt_Libelle_Statut_etape_demande_credit_of);
         SeNumOrdrEditText = (EditText) findViewById(R.id.input_txt_Num_ordre_statut_etape_demande_credit_of);
         spinnerSeEtapeDem = (Spinner) findViewById(R.id.spn_list_etape_credit);
@@ -194,10 +197,11 @@ public class CreateStatutEtapeDemandeCreditOf extends AppCompatActivity implemen
      */
     private void addObjetCredit() {
 
-        if (SeEtapeDem!=0 &&
+        if (SeEtapeDem!=0 && !STRING_EMPTY.equals(SeCodeEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(SeLibelleEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(SeNumOrdrEditText.getText().toString())){
 
+            SeCode = SeCodeEditText.getText().toString();
             SeLibelle = SeLibelleEditText.getText().toString();
             SeNumOrdr = SeNumOrdrEditText.getText().toString();
 
@@ -257,6 +261,7 @@ public class CreateStatutEtapeDemandeCreditOf extends AppCompatActivity implemen
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
+            httpParams.put(KEY_SE_CODE, SeCode);
             httpParams.put(KEY_SE_ETAPE_DEMANDE, String.valueOf(SeEtapeDem));
             httpParams.put(KEY_SE_LIBELLE, SeLibelle);
             httpParams.put(KEY_SE_NUM_ORDRE, SeNumOrdr);

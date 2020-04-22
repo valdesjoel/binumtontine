@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -55,7 +56,7 @@ public class UpdateStatutEtapeDemandeCreditOF extends AppCompatActivity implemen
 
 
 
-    private EditText OcCodeEditText;
+    private EditText SeCodeEditText;
     private EditText SeLibelleEditText;
     private EditText SeNumOrdrEditText;
     private Spinner spinnerSeEtapeDem;
@@ -106,7 +107,8 @@ public class UpdateStatutEtapeDemandeCreditOF extends AppCompatActivity implemen
         headerStatutEtapeDemandeCreditTextView = (TextView) findViewById(R.id.tv_header_statut_etape_credit);
 
         headerStatutEtapeDemandeCreditTextView.setText("Mise à jour du statut de l'étape de demande de créditt");
-
+        SeCodeEditText = (EditText) findViewById(R.id.input_txt_Code_Statut_of);
+        SeCodeEditText.setVisibility(View.GONE);
         SeLibelleEditText = (EditText) findViewById(R.id.input_txt_Libelle_Statut_etape_demande_credit_of);
         SeNumOrdrEditText = (EditText) findViewById(R.id.input_txt_Num_ordre_statut_etape_demande_credit_of);
         spinnerSeEtapeDem = (Spinner) findViewById(R.id.spn_list_etape_credit);
@@ -115,7 +117,7 @@ public class UpdateStatutEtapeDemandeCreditOF extends AppCompatActivity implemen
 
         new FetchStatutEtapeDetailsAsyncTask().execute();
         new GetEtapeDemandeCreditList().execute();
-        alreadyUpperCase(SeLibelleEditText);
+//        alreadyUpperCase(SeLibelleEditText);
 
         spinnerSeEtapeDem.setOnItemSelectedListener(UpdateStatutEtapeDemandeCreditOF.this);
 
