@@ -87,8 +87,10 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
 
     /*BEGIN*/
     private static final String KEY_DATA_EAV = "EAV";
+    private static final String KEY_DATA_COMPTE_COURANT = "CC";
     private static final String KEY_DATA_EAT = "EAT";
     private static final String KEY_DATA_EAP = "EAP";
+    private static final String KEY_DATA_DEMANDE_CREDIT = "DC";
     private static final String KEY_COMPTE_ID = "Numero";
     private static final String KEY_LIBELLE_PRODUIT = "Libelle";
     private static final String KEY_NUM_DOSSIER_COMPTE = "NumDossier";
@@ -118,6 +120,10 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
         //Toolbar toolbar = findViewById(R.id.toolbar_list_adherent);
         Toolbar toolbar = findViewById(R.id.toolbar_list_adherent);
         setSupportActionBar(toolbar);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getSupportActionBar().setTitle(MyData.GUICHET_NAME) ;
 
         //initializing views
@@ -143,6 +149,11 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
         new ListCompteAdherentActivity_New.FetchListCompteAdherentAsyncTask().execute();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     /* To manage Menu*/
     /*
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -292,6 +303,30 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                                 "EAV","");
                         listComptesAdherent.add(mesComptes);
                     }
+                    //list Compte courant
+                    movies = jsonObject.getJSONArray(KEY_DATA_COMPTE_COURANT);
+                    //Iterate through the response and populate movies list
+                    for (int i = 0; i < movies.length(); i++) {
+                        JSONObject compte = movies.getJSONObject(i);
+                        Integer compteId = compte.getInt(KEY_COMPTE_ID);
+                        String compteDetail = compte.getString(KEY_LIBELLE_PRODUIT);
+                        String compteNumDossier = compte.getString(KEY_NUM_DOSSIER_COMPTE);
+                        String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
+                        String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
+
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put(KEY_COMPTE_ID, compteId.toString());
+                        map.put(KEY_LIBELLE_PRODUIT, compteDetail);
+                        map.put(KEY_NUM_DOSSIER_COMPTE, compteNumDossier);
+                        map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
+                        map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
+                        map.put(KEY_TYPE_COMPTE, "COMPTE COURANT");
+                        compteAdherentList.add(map);
+                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
+                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
+                                "COMPTE COURANT","");
+                        listComptesAdherent.add(mesComptes);
+                    }
                     //list EAT
                     movies = jsonObject.getJSONArray(KEY_DATA_EAT);
                     //Iterate through the response and populate movies list
@@ -341,6 +376,32 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                         ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
                                 compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
                                 "EAP",compteTaux);
+                        listComptesAdherent.add(mesComptes);
+                    }
+                    //list Demande de crédit
+                    movies = jsonObject.getJSONArray(KEY_DATA_DEMANDE_CREDIT);
+                    //Iterate through the response and populate movies list
+                    for (int i = 0; i < movies.length(); i++) {
+                        JSONObject compte = movies.getJSONObject(i);
+                        Integer compteId = compte.getInt(KEY_COMPTE_ID);
+                        String compteDetail = compte.getString(KEY_LIBELLE_PRODUIT);
+                        String compteNumDossier = compte.getString(KEY_NUM_DOSSIER_COMPTE);
+                        String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
+                        String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
+                        String compteTaux = compte.getString(KEY_TAUX);
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put(KEY_COMPTE_ID, compteId.toString());
+                        map.put(KEY_LIBELLE_PRODUIT, compteDetail);
+                        map.put(KEY_NUM_DOSSIER_COMPTE, compteNumDossier);
+                        map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
+                        map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
+                        map.put(KEY_TAUX, compteTaux);
+                        map.put(KEY_TYPE_COMPTE, "CREDIT");
+                        compteAdherentList.add(map);
+
+                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
+                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
+                                "CREDIT",compteTaux);
                         listComptesAdherent.add(mesComptes);
                     }
                 }

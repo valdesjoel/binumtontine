@@ -260,6 +260,15 @@
                     android:onClick="onRadioButtonClicked"
                     android:text="Retrait"
                     android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_nature_operation_decouvert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:visibility="gone"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Découvert"
+                    android:textSize="16sp" />
 
 
 
@@ -347,6 +356,34 @@
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--OcLibelleMvmEAV /A100		* Pour renseigner le libellé de l'opération, affiché automatiquement par défaut, le système va mettre
+	Pour un Dépôt sur le compte, renseigner par défaut:  "VERSEM. EAV/NNN DE XXX YYY" où NNN représente le N° du compte EAV; XXX le nom et YYY l prénom du membre.
+	Pour un Retrait sur le compte, renseigner par défaut:  "RETRAIT EAV/NNN DE XXX YYY" où NNN représente le N° du compte EAV; XXX le nom et YYY l prénom du membre.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_OcLibelleMvmEAV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_OcLibelleMvmEAV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_libelle_operation"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

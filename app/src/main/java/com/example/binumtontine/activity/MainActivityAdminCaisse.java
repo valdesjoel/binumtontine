@@ -349,7 +349,8 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
             }
         }
 
-        super.onBackPressed();
+        //super.onBackPressed();
+        Toast.makeText(getApplicationContext(), "Veuillez cliquer sur le menu Se déconnecter si vous desirez sortir de l'application!", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -378,7 +379,9 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Vous êtes actuellement déconnecté!", Toast.LENGTH_LONG).show();
+            super.onBackPressed();
             return true;
         }
 

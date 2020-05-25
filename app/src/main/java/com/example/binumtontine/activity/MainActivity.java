@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements NotificationsFrag
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
 
+    boolean doubleBackToExitPressedOnce = false; //for manage clicking-the-back-button-twice-to-exit-an-activity
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -332,8 +334,13 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
 
     @Override
     public void onBackPressed() {
+
+
+
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawers();
+
             return;
         }
 
@@ -349,8 +356,10 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
                 return;
             }
         }
+        Toast.makeText(getApplicationContext(), "Veuillez cliquer sur le menu Se déconnecter si vous desirez sortir de l'application!", Toast.LENGTH_LONG).show();
+//        super.onBackPressed();
 
-        super.onBackPressed();
+
     }
 
     @Override
@@ -379,8 +388,11 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Vous êtes actuellement déconnecté!", Toast.LENGTH_LONG).show();
+            /* To manage clicking-the-back-button-twice-to-exit-an-activity*/
+            super.onBackPressed();
             return true;
+
         }
 
         // user is in notifications fragment

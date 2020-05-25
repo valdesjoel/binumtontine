@@ -23,16 +23,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.adherent.Adherent;
+import com.example.binumtontine.activity.adherent.ComiteCredit;
 import com.example.binumtontine.activity.adherent.ComptesAdherent;
 import com.example.binumtontine.activity.adherent.ConsulterCompte;
 import com.example.binumtontine.activity.adherent.CreateAdherent;
 import com.example.binumtontine.activity.adherent.CreateEAP;
 import com.example.binumtontine.activity.adherent.CreateEAT;
 import com.example.binumtontine.activity.adherent.CreateEAV;
+import com.example.binumtontine.activity.adherent.DeblocageCredit;
+import com.example.binumtontine.activity.adherent.DecaissementCredit;
 import com.example.binumtontine.activity.adherent.GetPieceAdherent;
+import com.example.binumtontine.activity.adherent.HistoriqueCpteCourant;
 import com.example.binumtontine.activity.adherent.HistoriqueEAV;
 import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity;
 import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity_New;
+import com.example.binumtontine.activity.adherent.OperationCompteCourant;
 import com.example.binumtontine.activity.adherent.OperationEAP;
 import com.example.binumtontine.activity.adherent.OperationEAT;
 import com.example.binumtontine.activity.adherent.OperationEAV;
@@ -211,21 +216,40 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
         holder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(mCtx,
-                        OperationEAV.class);
+                if (myList.getType_compte().equals("COMPTE COURANT")){
+                    intent = new Intent(mCtx,
+                            OperationCompteCourant.class);
+                    intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
 
-                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+                    intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                    intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                    intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                    intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+                    intent.putExtra(KEY_TYPE_COMPTE, myList.getType_compte());
 
-                intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
-                intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
-                intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
-                intent.putExtra(KEY_TAUX, myList.getTaux_compte());
-                intent.putExtra(KEY_TYPE_COMPTE, myList.getType_compte());
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                    // bundle.putSerializable(KEY_ADHERENT, adherent);
+                    intent.putExtras(bundle);
+                }else if (myList.getType_compte().equals("EAV")){
+                    intent = new Intent(mCtx,
+                            OperationEAV.class);
+                    intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
-                // bundle.putSerializable(KEY_ADHERENT, adherent);
-                intent.putExtras(bundle);
+                    intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                    intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                    intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                    intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+                    intent.putExtra(KEY_TYPE_COMPTE, myList.getType_compte());
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                    // bundle.putSerializable(KEY_ADHERENT, adherent);
+                    intent.putExtras(bundle);
+                }
+
+
+
                 //will show popup menu here
                 //creating a popup menu
                 //PopupMenu popup = new PopupMenu(mCtx, holder.buttonViewOption);
@@ -235,7 +259,9 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                 if ((holder.tvTypeCompte.getText()).equals("EAV")){
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
                     popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
 //                    popup.getMenu().findItem(R.id.eav_group).setVisible(true);
 //                    popup.getMenu().findItem(R.id.eap_group).setVisible(false);
 
@@ -243,6 +269,19 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
 
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
+
+
+//                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
+//                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
+                }else if((holder.tvTypeCompte.getText()).equals("COMPTE COURANT")){
+
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(true);
+                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE COURANT");
 
 
 //                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
@@ -252,11 +291,23 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
 
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
-
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
 //                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
 //                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
+                }else if((holder.tvTypeCompte.getText()).equals("CREDIT")){
+
+
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, true);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+
+//                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
+//                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
+//                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
+//                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
                 }
                // popup.getMenu().findItem(R.id.next).setVisible(true);
                 //adding click listener
@@ -278,6 +329,8 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 //startActivityForResult(intent, 20);
                                 intent.putExtra(KEY_TYPE_OPERATION, "depot");
                                 ((Activity) mCtx).startActivityForResult(intent, 20);
+
+
 /*
                                 Intent ii = new Intent(mCtx, CreateAdherent.class);
                                 CreateAdherent.to_update_adherent = true;
@@ -308,11 +361,37 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 //mCtx.startActivity(intentCreateEAV);
 
                                 break;
+                            case R.id.menu_decouvert:
+                                //handle menu2 click
+                                intent.putExtra(KEY_TYPE_OPERATION, "decouvert");
+                                ((Activity) mCtx).startActivityForResult(intent, 20);
+                                /*
+                                Intent intentCreateEAV = new Intent(mCtx, CreateEAV.class);
+                                intentCreateEAV.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                intentCreateEAV.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                intentCreateEAV.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                intentCreateEAV.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                intentCreateEAV.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                ((Activity) mCtx).startActivityForResult(intentCreateEAV, 20);
+                                */
+                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+                                // startActivityForResult(intent, 20);
+                                //mCtx.startActivity(intentCreateEAV);
+
+                                break;
                             case R.id.menu_historique:
                                 //handle menu3 click
-                                intent = new Intent(mCtx,
-                                        HistoriqueEAV.class);
-                                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+                                if (myList.getType_compte().equals("COMPTE COURANT")){
+
+                                    intent = new Intent(mCtx,
+                                            HistoriqueCpteCourant.class);
+                                    intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+                                }else if (myList.getType_compte().equals("EAV")){
+
+                                    intent = new Intent(mCtx,
+                                            HistoriqueEAV.class);
+                                    intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+                                }
 //                                Log.d("*********************",myList.getNumero_compte()+"");
 //                                Toast.makeText(mCtx,
 //                                        myList.getNumero_compte(),
@@ -426,6 +505,67 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 bundleEAT.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
                                 // bundle.putSerializable(KEY_ADHERENT, adherent);
                                 intent.putExtras(bundleEAT);
+
+                            ((Activity) mCtx).startActivityForResult(intent, 20);
+
+                                break;
+                            case R.id.menu_comite_credit:
+                                //handle menu3 click
+
+                                intent = new Intent(mCtx,
+                                        ComiteCredit.class);
+
+                                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+
+                                intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                                intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                                intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                                intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+
+                                Bundle bundleComiteCredit = new Bundle();
+                                bundleComiteCredit.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intent.putExtras(bundleComiteCredit);
+
+                            ((Activity) mCtx).startActivityForResult(intent, 20);
+
+                                break;
+                            case R.id.menu_deblocge_credit:
+                                //handle menu3 click
+
+                                intent = new Intent(mCtx,
+                                        DeblocageCredit.class);
+
+                                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+
+                                intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                                intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                                intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                                intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+
+                                Bundle bundleDeblocageCredit = new Bundle();
+                                bundleDeblocageCredit.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intent.putExtras(bundleDeblocageCredit);
+
+                            ((Activity) mCtx).startActivityForResult(intent, 20);
+                            case R.id.menu_decaissement_credit:
+                                //handle menu3 click
+
+                                intent = new Intent(mCtx,
+                                        DecaissementCredit.class);
+
+                                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+
+                                intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                                intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                                intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                                intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+
+                                Bundle bundleDecaissementCredit = new Bundle();
+                                bundleDecaissementCredit.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intent.putExtras(bundleDecaissementCredit);
 
                             ((Activity) mCtx).startActivityForResult(intent, 20);
 

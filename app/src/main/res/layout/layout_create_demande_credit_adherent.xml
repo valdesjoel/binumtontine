@@ -148,7 +148,30 @@
                 android:textSize="18sp" />
 
         </LinearLayout> -->
+        <!--Numéro dossier-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcNumDoss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
 
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcNumDoss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_numero_dossier"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
         <!--Spinner produitCreditList by guichet-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -205,9 +228,10 @@
                 android:hint="Objet de crédit" />
 
         </LinearLayout>
-        <!--Numéro dossier-->
+
+        <!--Description du dossier de crédit-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_num_dossier_adherent"
+            android:id="@+id/input_layout_DcDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
@@ -218,20 +242,21 @@
             >
 
             <EditText
-                android:id="@+id/input_txt_num_dossier_adherent"
+                android:id="@+id/input_txt_DcDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_numero_dossier"
+                android:singleLine="false"
+                android:maxLength="50"
+                android:hint="@string/hint_dc_description"
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <!--Montant dépot-->
+        <!--Montant sollicité-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_depot_min"
+            android:id="@+id/input_layout_DcMtDmde"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
@@ -242,7 +267,7 @@
             >
 
             <EditText
-                android:id="@+id/input_txt_depot_min"
+                android:id="@+id/input_txt_DcMtDmde"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -253,6 +278,503 @@
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <!--Taux Interet-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcTauxInter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcTauxInter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_taux_interet"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Durée emprunt (mois)-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcDureeMois"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcDureeMois"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_duree_emprunt"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Crédits antérieurs 1-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcCreditAnterieur1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcCreditAnterieur1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_credit_anterieur1"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Crédits antérieurs 2-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcCreditAnterieur2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcCreditAnterieur2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_credit_anterieur2"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Crédits antérieurs 3-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcCreditAnterieur3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcCreditAnterieur3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_credit_anterieur3"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Cumul Dette Encours-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcCumulDetteEncours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcCumulDetteEncours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_cumul_dette_encours"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Nature activité (6 derniers mois) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcNatActiv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcNatActiv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLength="70"
+                android:hint="@string/hint_nature_activite"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Moyenne Epargne Mensuelle-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcMtMoyEpargne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcMtMoyEpargne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_moyenne_epargne_mensuelle"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Total Epargne-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcMtSoldeEpargne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcMtSoldeEpargne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_total_epargne"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Fréquence Revenus -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcFreqRevenus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcFreqRevenus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLength="70"
+                android:hint="@string/hint_frequence_revenus"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Montant Revenus Fixes-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcMtRevenusFixe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcMtRevenusFixe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_montant_revenus_fixes"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Montant Autres revenus-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcMtAutreRevenus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcMtAutreRevenus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_montant_autre_revenus"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Avaliste 1-->
+        <LinearLayout
+            android:id="@+id/AvalisteCredit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_avaliste_credit"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Ajouter des avalistes ?:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_avaliste_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_avaliste_credit"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_avaliste_credit_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_avaliste_credit_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+
+
+
+            </RadioGroup>
+        </LinearLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/tv_avaliste_credit_plage"-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginRight="12dp"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="12dp"-->
+            <!--android:textColor="@color/colorAccent1"-->
+            <!--android:text="@string/btn_config_plage_tiv" />-->
+
+    <LinearLayout
+        android:id="@+id/tv_avaliste_credit_plage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMargin"
+        android:orientation="vertical">
+        <!--Fréquence Revenus -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_nomAval1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_nomAval1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLength="70"
+                android:hint="@string/hint_nomAval1_1"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Num compte1 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_numCompte1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_numCompte1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLength="70"
+                android:hint="@string/hint_numCompte1"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Epargne-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_epargne1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_epargne1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_epargne1"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Epargne-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_detteEncours1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_detteEncours1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_cumul_dette_encours"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Montant bloqué-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_mtBloque"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_mtBloque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_mt_bloque"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
         <com.shuhart.stepview.StepView
             android:id="@+id/step_view"
             android:layout_width="match_parent"

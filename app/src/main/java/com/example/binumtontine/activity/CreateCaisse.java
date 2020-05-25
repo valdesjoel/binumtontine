@@ -39,9 +39,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.JRSpinner;
@@ -76,6 +78,12 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_CX_TEL3 = "cx_tel3";
     private static final String KEY_CX_NOM_PCA = "cx_nom_pca";
     private static final String KEY_CX_NOM_DG = "cx_nom_dg";
+
+    private static final String KEY_CxIsPrConsAdmPCA = "CxIsPrConsAdmPCA";
+    private static final String KEY_CxIsPrComCredPCC = "CxIsPrComCredPCC";
+    private static final String KEY_CxIsDirCredDC = "CxIsDirCredDC";
+    private static final String KEY_CxIsAgentCredAC = "CxIsAgentCredAC";
+    private static final String KEY_CxIsDirGenCxDG = "CxIsDirGenCxDG";
 
 
     private static String STRING_EMPTY = "";
@@ -112,6 +120,10 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private String cx_nom_pca;
     private String cx_nom_dg;
 
+    private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG;
+    private Boolean bool_CxIsPrConsAdmPCA, bool_CxIsPrComCredPCC,bool_CxIsDirCredDC,bool_CxIsAgentCredAC,
+            bool_CxIsDirGenCxDG;
+
     private Button addButton;
     private Button annulerButton;
     private Button delButton;
@@ -139,6 +151,9 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_caisse);
         setSupportActionBar(toolbar);
         setToolbarTitle();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         findViewsById();
@@ -190,7 +205,11 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
         cx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Cx);
         alreadyUpperCase(cx_nom_pcaEditText);
         alreadyUpperCase(cx_nom_dgEditText);
-
+        CxIsPrConsAdmPCA= (SwitchCompat) findViewById(R.id.SwitchCxIsPrConsAdmPCA);
+        CxIsPrComCredPCC= (SwitchCompat) findViewById(R.id.SwitchCxIsPrComCredPCC);
+        CxIsDirCredDC= (SwitchCompat) findViewById(R.id.SwitchCxIsDirCredDC);
+        CxIsAgentCredAC= (SwitchCompat) findViewById(R.id.SwitchCxIsAgentCredAC);
+        CxIsDirGenCxDG= (SwitchCompat) findViewById(R.id.SwitchCxIsDirGenCxDG);
         addButton = (Button) findViewById(R.id.btn_save_Cx);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {
@@ -218,6 +237,12 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
         });
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Ajout d'une caisse");
@@ -281,6 +306,13 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
 
             cx_nom_pca = cx_nom_pcaEditText.getText().toString();
             cx_nom_dg = cx_nom_dgEditText.getText().toString();
+
+            bool_CxIsPrConsAdmPCA=  CxIsPrConsAdmPCA.isChecked();
+            bool_CxIsPrComCredPCC=  CxIsPrComCredPCC.isChecked();
+            bool_CxIsDirCredDC=  CxIsDirCredDC.isChecked();
+            bool_CxIsAgentCredAC=  CxIsAgentCredAC.isChecked();
+            bool_CxIsDirGenCxDG=  CxIsDirGenCxDG.isChecked();
+
             new AddCaisseAsyncTask().execute();
         } else {
             Toast.makeText(CreateCaisse.this,
@@ -372,6 +404,12 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CX_TEL3, cx_tel3);
             httpParams.put(KEY_CX_NOM_PCA, cx_nom_pca);
             httpParams.put(KEY_CX_NOM_DG, cx_nom_dg);
+
+            httpParams.put(KEY_CxIsPrConsAdmPCA, bool_CxIsPrConsAdmPCA.toString());
+            httpParams.put(KEY_CxIsPrComCredPCC, bool_CxIsPrComCredPCC.toString());
+            httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC.toString());
+            httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC.toString());
+            httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG.toString());
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_caisse.php", "POST", httpParams);
             try {

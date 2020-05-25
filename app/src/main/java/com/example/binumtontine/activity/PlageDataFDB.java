@@ -63,7 +63,7 @@ public class PlageDataFDB extends AppCompatActivity implements  SERVER_ADDRESS {
     private static final String KEY_DATA = "data";
     /*Begin*/
 
-    private static final String KEY_FDB_ID = "FdbNumero";
+    private static final String KEY_FDB_ID = "Numero";
 
 
 
@@ -75,7 +75,9 @@ public class PlageDataFDB extends AppCompatActivity implements  SERVER_ADDRESS {
     private static final String KEY_PD_VAL_DE = "PdValDe" ;
     private static final String KEY_PD_VAL_A = "PdValA";
     private static final String KEY_PD_BASE ="PdBase" ;
+    private static final String KEY_PD_TYPE_DATA ="PdTypeData" ;
     private static final String KEY_PD_PRODUIT ="PdProduit" ;
+    private static final String  PdTypeData="FDB";
 
 
     private static String STRING_EMPTY = "";
@@ -114,7 +116,7 @@ public class PlageDataFDB extends AppCompatActivity implements  SERVER_ADDRESS {
     private LinearLayout LL_blk_EtPlageTxInter;
     private LinearLayout LL_blk_EtValeur;
     private String EtTypTxInter="";
-    private static final String  PdTypeData="FDB";
+
     private JRSpinner mySpinnerBaseTxTIV; // a revoir le get
     private String PdNature;
     private String PdValTaux;
@@ -258,12 +260,22 @@ public class PlageDataFDB extends AppCompatActivity implements  SERVER_ADDRESS {
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void updatePlageData() {
+        Double h1, h2, h3;
 
-        valeurEditText.setText(valeurEditText.getText().toString().replaceAll(",", "").trim());
-        valeurDebutEditText.setText(valeurDebutEditText.getText().toString().replaceAll(",", "").trim());
-        valeurFinEditText.setText(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
-        if (!STRING_EMPTY.equals(valeurEditText.getText().toString()))
-        {
+        h1 = Double.valueOf(valeurEditText.getText().toString().replaceAll(",", "").trim());
+        valeurEditText.setText(h1+"");
+        h2 = Double.valueOf(valeurDebutEditText.getText().toString().replaceAll(",", "").trim());
+        valeurDebutEditText.setText(h2+"");
+        h3 = Double.valueOf(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
+        valeurFinEditText.setText(h3+"");
+
+//        valeurEditText.setText(valeurEditText.getText().toString().replaceAll(",", "").trim());
+//        valeurDebutEditText.setText(valeurDebutEditText.getText().toString().replaceAll(",", "").trim());
+//        valeurFinEditText.setText(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
+        if (!STRING_EMPTY.equals(valeurEditText.getText().toString())&&
+                !STRING_EMPTY.equals(valeurDebutEditText.getText().toString())&&
+                !STRING_EMPTY.equals(valeurFinEditText.getText().toString())&&
+                (!STRING_EMPTY.equals(mySpinnerBaseTxTIV.getText().toString()) || EtTypTxInter.equals("F") )) {
 //            valeurEditText.setText(valeurEditText.getText().toString().replaceAll(",", "").trim());
 //            JoMtDemarrEditText.setText(valueNew+"");
 
@@ -580,11 +592,22 @@ public class PlageDataFDB extends AppCompatActivity implements  SERVER_ADDRESS {
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void initialisationCaisseGuichet() {
-        valeurEditText.setText(valeurEditText.getText().toString().replaceAll(",", "").trim());
-        valeurDebutEditText.setText(valeurDebutEditText.getText().toString().replaceAll(",", "").trim());
-        valeurFinEditText.setText(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
-        if (!STRING_EMPTY.equals(valeurEditText.getText().toString())
-                ) {
+        Double h1, h2, h3;
+
+        h1 = Double.valueOf(valeurEditText.getText().toString().replaceAll(",", "").trim());
+        valeurEditText.setText(h1+"");
+        h2 = Double.valueOf(valeurDebutEditText.getText().toString().replaceAll(",", "").trim());
+        valeurDebutEditText.setText(h2+"");
+        h3 = Double.valueOf(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
+        valeurFinEditText.setText(h3+"");
+
+//        valeurEditText.setText(valeurEditText.getText().toString().replaceAll(",", "").trim());
+//        valeurDebutEditText.setText(valeurDebutEditText.getText().toString().replaceAll(",", "").trim());
+//        valeurFinEditText.setText(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
+        if (!STRING_EMPTY.equals(valeurEditText.getText().toString())&&
+                !STRING_EMPTY.equals(valeurDebutEditText.getText().toString())&&
+                !STRING_EMPTY.equals(valeurFinEditText.getText().toString())&&
+                (!STRING_EMPTY.equals(mySpinnerBaseTxTIV.getText().toString()) || EtTypTxInter.equals("F") )) {
 
 
                 valeur = valeurEditText.getText().toString();
@@ -655,10 +678,11 @@ public class PlageDataFDB extends AppCompatActivity implements  SERVER_ADDRESS {
             httpParams.put(KEY_PD_VAL_DE, valeurDebut);
             httpParams.put(KEY_PD_VAL_A, valeurFin);
             httpParams.put(KEY_PD_BASE, base);
-            httpParams.put(KEY_PD_PRODUIT, UpdateProduitCpteCourant.cpteCourantId); //A modifier pour UpdateProduitCredit.creditId
+        httpParams.put(KEY_PD_TYPE_DATA, PdTypeData); //A mettre à jour pour les autres plages
+            httpParams.put(KEY_PD_PRODUIT, UpdateProduitCredit.creditId); //A modifier pour UpdateProduitCredit.creditId
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_fdb_plage_data.php", "POST", httpParams);
+                    BASE_URL + "add_plage_data.php", "POST", httpParams);
         try {
             success = jsonObject.getInt(KEY_SUCCESS);
         } catch (Exception e) {

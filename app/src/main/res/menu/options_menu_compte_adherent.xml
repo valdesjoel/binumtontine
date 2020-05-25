@@ -10,7 +10,10 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="Opértions sur compte"
     app:showAsAction="always|withText"
     android:orderInCategory="1"
+
     >
+    <!--app:showAsAction="always|withText"
+    android:orderInCategory="1"-->
     <!-- text style menu's sub menu start from here -->
     <menu>
         <!-- first group (text color) of text style sub menu -->
@@ -21,6 +24,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             >
             <!-- text size group's items -->
             <item
+                android:id="@+id/title_group_eav"
                 android:title="COMPTE EAV"
                 android:enabled="false"
                 android:checkable="false"
@@ -33,6 +37,16 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             <item
             android:id="@+id/menu_retrait"
             android:title="Retrait" />
+            <item
+            android:id="@+id/menu_decouvert"
+            android:title="Découverts" />
+            <item
+            android:id="@+id/menu_avance_speciale"
+            android:title="Avances spéciales" />
+            <item
+            android:id="@+id/menu_avance_permanent"
+            android:title="Découverts permanents" />
+            <!--<item--> -->
 
             <item
             android:id="@+id/menu_historique"
@@ -70,6 +84,33 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             <item
             android:id="@+id/menu_cloture"
             android:title="Clôture" />
+
+        </group>
+        <!-- third group (credit_group) sub menu -->
+        <group
+            android:id="@+id/credit_group"
+            >
+            <!-- text size group's items -->
+            <item
+                android:title="CREDIT"
+                android:enabled="false"
+                android:checkable="false"
+                />
+            <item
+            android:id="@+id/menu_comite_credit"
+            android:title="Comité de crédit" />
+            <item
+            android:id="@+id/menu_deblocge_credit"
+            android:title="Déblocge du crédit" />
+            <item
+            android:id="@+id/menu_decaissement_credit"
+            android:title="Decaissement du crédit" />
+            <item
+            android:id="@+id/menu_remboursement_credit"
+            android:title="Remboursement des échéances" />
+            <item
+            android:id="@+id/menu_cloture_credit"
+            android:title="Clôture du crédit" />
 
         </group>
     </menu>

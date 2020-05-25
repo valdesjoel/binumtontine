@@ -34,15 +34,17 @@ public class ListPlageDataFDBActivity extends AppCompatActivity implements SERVE
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
-    private static final String KEY_FDB_ID = "FdbNumero";
-    private static final String KEY_FDB_LIBELLE = "FdbLibelle";
+    private static final String KEY_FDB_ID = "Numero";
+    private static final String KEY_FDB_LIBELLE = "Libelle";
     private static final String KEY_CREDIT_ID = "CrNumero";
+    private static final String KEY_PD_TYPE_DATA = "PdTypeData";
     public static boolean  IS_TO_CREATE_OR_TO_UPDATE = false;
 
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
     private ProgressDialog pDialog;
     private String creditId;
+    private String pdTypeData="FDB";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +118,9 @@ private void loadPlageForUpdateFDB(){
             HttpJsonParser httpJsonParser = new HttpJsonParser();
         Map<String, String> httpParams = new HashMap<>();
         httpParams.put(KEY_CREDIT_ID, creditId);
+    httpParams.put(KEY_PD_TYPE_DATA, pdTypeData);
         JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                BASE_URL + "fetch_all_fdb_cr.php", "GET", httpParams);
+                BASE_URL + "fetch_all_tic_cr.php", "GET", httpParams);
 
 
 

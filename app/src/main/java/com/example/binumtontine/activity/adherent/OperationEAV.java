@@ -80,6 +80,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private static final String KEY_CV_MEMBRE = "CvMembre";
     private static final String KEY_CV_GUICHET = "CvGuichet";
     private static final String KEY_CV_NUM_DOSSIER = "CvNumDossier";
+    private static final String KEY_OcLibelleMvmEAV = "OcLibelleMvmEAV";
     private static final String KEY_CV_MT_SOLDE = "CvMtSolde";
     private static final String KEY_CV_NATURE_OPERATION = "NatureOp";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
@@ -106,6 +107,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
 
     private EditText EavDepotMinEditText;
     private EditText NumDossierEditText;
+    private EditText OcLibelleMvmEAV;
 
     public static RadioButton rb_depot;
     public static RadioButton rb_retrait;
@@ -123,6 +125,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private String libelleProduit;
 
     private String natureOperation;
+    private String st_OcLibelleMvmEAV;
 
     /* manage spinner*/
     // array list for spinner adapter
@@ -153,9 +156,6 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
 
-        Toast.makeText(OperationEAV.this,
-                compteId,
-                Toast.LENGTH_LONG).show();
         compteSolde = intent.getStringExtra(KEY_MONTANT_COMPTE);
         typeOperation = intent.getStringExtra(KEY_TYPE_OPERATION);
         libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
@@ -172,6 +172,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
 
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
+        OcLibelleMvmEAV = (EditText) findViewById(R.id.input_txt_OcLibelleMvmEAV);
 
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
         //rb_depot.performClick();
@@ -199,10 +200,11 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
             rb_retrait.setVisibility(View.GONE);
             rb_depot.setVisibility(View.VISIBLE);
             onRadioButtonClicked(rb_depot);
+            OcLibelleMvmEAV.setText("VERSEMENT EAV/"+adCode+ "DE "+adNom+" "+adPrenom);
         }else if(typeOperation.equals("retrait")){
             tvHeaderOperationEAV.setText("TYPE OPERATION: RETRAIT");
             rb_retrait.setChecked(true);
-
+            OcLibelleMvmEAV.setText("RETRAIT EAV/"+adCode+ "DE "+adNom+" "+adPrenom);
             onRadioButtonClicked(rb_retrait);
             rb_retrait.setVisibility(View.VISIBLE);
             rb_depot.setVisibility(View.GONE);
@@ -394,8 +396,9 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addEavAdherent() {
-        if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
+        if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString().trim()) &&
+            !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())&&
+            !STRING_EMPTY.equals(OcLibelleMvmEAV.getText().toString().trim())
                  ) {
 //String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
 String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
@@ -416,6 +419,7 @@ if (true){
    eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
 //    eavDepotMin = EavDepotMinEditText.getText().toString();
     adNumDossier = NumDossierEditText.getText().toString();
+    st_OcLibelleMvmEAV = OcLibelleMvmEAV.getText().toString();
 
     new AddEavAdherentAsyncTask().execute();
             }else
@@ -465,6 +469,7 @@ if (true){
             httpParams.put(KEY_CV_NUMERO, compteId);
 
             httpParams.put(KEY_CV_NUM_DOSSIER, adNumDossier);
+            httpParams.put(KEY_OcLibelleMvmEAV, st_OcLibelleMvmEAV);
             httpParams.put(KEY_CV_MT_SOLDE, eavDepotMin );
             httpParams.put(KEY_CV_NATURE_OPERATION, natureOperation );
             httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));

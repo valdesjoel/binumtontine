@@ -32,6 +32,12 @@
         <activity android:name=".activity.adherent.OperationEAT" />
         <activity android:name=".activity.adherent.OperationEAP" />
         <activity android:name=".activity.PlageData" />
+        <activity android:name=".activity.ListPlageDataTASActivity" />
+        <activity android:name=".activity.ListPlageDataTITActivity" />
+        <activity android:name=".activity.PlageDataTAS" />
+        <activity android:name=".activity.PlageDataTIT" />
+        <activity android:name=".activity.ListPlageDataPASActivity" />
+        <activity android:name=".activity.PlageDataPAS" />
         <activity android:name=".activity.ListPlageDateActivity" />
         <activity
             android:name=".activity.parametrageGuichet.ParamGuichetActivity"
@@ -43,6 +49,13 @@
         <activity android:name=".activity.adherent.CreateAdherent" />
         <activity android:name=".activity.adherent.GetPieceAdherent" />
         <activity android:name=".activity.adherent.GetFraisAdherent" />
+        <activity android:name=".activity.adherent.CreateCpteCourant" />
+        <activity android:name=".activity.adherent.HistoriqueCpteCourant" />
+        <activity android:name=".activity.adherent.OperationCompteCourant" />
+        <activity android:name=".activity.adherent.ComiteCredit" />
+        <activity android:name=".activity.adherent.DeblocageCredit" />
+        <activity android:name=".activity.adherent.DecaissementCredit" />
+        <activity android:name=".activity.adherent.MiseAJourCaisseGuichet" />
         <activity android:name=".activity.GuichetNewActivity" />
         <activity android:name=".activity.UserGuichetActivity" />
         <activity android:name=".activity.CreateUser" />
@@ -69,6 +82,7 @@
         <activity android:name=".activity.PlageDataTCP" />
         <activity android:name=".activity.PlageDataFDB" />
         <activity android:name=".activity.PlageDataFCX" />
+        <activity android:name=".activity.UpdateProduitCredit" />
         <activity android:name=".activity.PlageDataTIC" />
         <activity android:name=".activity.ListPlageDataCTPActivity" />
         <activity android:name=".activity.ListPlageDataTICActivity" />

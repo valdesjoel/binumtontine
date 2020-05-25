@@ -1,11 +1,14 @@
 package com.example.binumtontine.activity.adherent;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -105,6 +108,43 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
         new MainActivityUsager.FetchAdherentGuichetAsyncTask().execute();
     }
 
+//    boolean doubleBackToExitPressedOnce = false;
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "SVP veuillez cliquer deux fois pour sortir !", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce=false;
+//            }
+//        }, 2000);
+//    }
+@Override
+public void onBackPressed() {
+    new AlertDialog.Builder(this)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Quitter l'application")
+            .setMessage("Etes-vous sûr de vouloir vous déconnecter ?")
+            .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+
+            })
+            .setNegativeButton("Non", null)
+            .show();
+}
     /* To manage Menu*/
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

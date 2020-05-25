@@ -69,6 +69,7 @@ public class Credit {
     private String CrDatHModif;
     private String CrCaisseId;
     private String CrGuichetId;
+    private Boolean CrIsTxIntDegressif;
 
     //Attributes END
 //JSON Parameters START
@@ -140,6 +141,7 @@ public class Credit {
     public static final String KEY_CREDIT_DatHModif ="CrDatHModif";
     public static final String KEY_CREDIT_CaisseId ="CrCaisseId";
     public static final String KEY_CREDIT_GuichetId ="CrGuichetId";
+    public static final String KEY_CrIsTxIntDegressif ="CrIsTxIntDegressif";
 // JSON Parameters END
 
 
@@ -228,7 +230,7 @@ public class Credit {
                   String crModeRemb, Boolean crIsCptEATRemCredOn, Boolean crIsCptEAPRemCredOn, Boolean crIsInterOffSiCapRembAnt,
                   String crTxInterEchNHon, String crBaseInterEchNHon, String crPlanningRembCred, Boolean crIsRappDatEchCred,
                   String crModelTextRappEchRemb, String crNbreJrAvantDatEch, String crNbreJrApreEchSiNHon,
-                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId) {
+                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId, Boolean crIsTxIntDegressif) {
         CrCode = crCode;
         CrLibelle = crLibelle;
         CrDureeMin = crDureeMin;
@@ -295,6 +297,7 @@ public class Credit {
         CrDatHModif = crDatHModif;
         CrCaisseId = crCaisseId;
         CrGuichetId = crGuichetId;
+        CrIsTxIntDegressif = crIsTxIntDegressif;
     }
 
     public Credit(String crNumero, String crCode, String crLibelle, String crDureeMin, String crDureeMax, String crNaturePas,
@@ -313,7 +316,7 @@ public class Credit {
                   Boolean crIsCptEAPRemCredOn, Boolean crIsInterOffSiCapRembAnt, String crTxInterEchNHon, String crBaseInterEchNHon,
                   String crPlanningRembCred, Boolean crIsRappDatEchCred, String crModelTextRappEchRemb, String crNbreJrAvantDatEch,
                   String crNbreJrApreEchSiNHon,
-                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId) {
+                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId, Boolean crIsTxIntDegressif) {
         CrNumero = crNumero;
         CrCode = crCode;
         CrLibelle = crLibelle;
@@ -381,6 +384,7 @@ public class Credit {
         CrDatHModif = crDatHModif;
         CrCaisseId = crCaisseId;
         CrGuichetId = crGuichetId;
+        CrIsTxIntDegressif = crIsTxIntDegressif;
     }
 
     //Getters and setters
@@ -918,5 +922,13 @@ public class Credit {
 
     public void setCrGuichetId(String crGuichetId) {
         CrGuichetId = crGuichetId;
+    }
+
+    public Boolean getCrIsTxIntDegressif() {
+        return CrIsTxIntDegressif;
+    }
+
+    public void setCrIsTxIntDegressif(Boolean crIsTxIntDegressif) {
+        CrIsTxIntDegressif = crIsTxIntDegressif;
     }
 }

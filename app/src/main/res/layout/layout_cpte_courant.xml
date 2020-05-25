@@ -225,6 +225,34 @@
             android:padding="12dp"
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
+
+        <!--- CcIsTxIntDegressif /A1(Y/N)	* Pour préciser si le taux d'intérêt du compte courant est dégressif (Y) ou non (N)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblCcIsTxIntDegressif"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Le taux d'intérêt est-il dégressif ?" />
+
+            <Switch
+                android:id="@+id/SwitchCcIsTxIntDegressif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
         <!--Durée max découvert accordé-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CcDureeMaxDecouv"
@@ -876,9 +904,297 @@ android:onClick="onSwitchButtonClicked"
             android:text="@string/btn_config_plage_tiv" />
 
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblCcIsAvanceSpecialOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="L'avance spéciale est-elle activée sur le produit ?" />
+
+            <!--<androidx.appcompat.widget.SwitchCompat-->
+            <Switch
+                android:id="@+id/SwitchCcIsAvanceSpecialOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+android:onClick="onSwitchButtonClicked"
+                android:textOff="Non"
+                android:textOn="Oui"
+                app:showText="true"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_bloc_ccAvancement"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <!--Montant plafond par défaut de l'avance spéciale-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CcMtPlafondAvceSpec"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_CcMtPlafondAvceSpec"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:hint="Montant plafond avance spéc"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--Le plafond Avance spéciale est-il négociable ?-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblCcIsPlafAvceSpecNegoc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:text="Le plafond Avance spéciale est-il négociable ?" />
+
+                <Switch
+                    android:id="@+id/SwitchCcIsPlafAvceSpecNegoc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:checked="false"
+
+                    android:textOff="Non"
+                    android:textOn="Oui"
+                    />
+
+            </LinearLayout>
+            <!--Nature du taux d'intérêt (V,F,P), utiliser PlageDate si plage, code TAS-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_CCNatTauxIntAvceSpec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="Nature du taux d'intérêt avance spéciale"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_CCNatTauxIntAvceSpec"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:showDividers="middle|end"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/rg_CCNatTauxIntAvceSpec" >
+
+                    <RadioButton
+                        android:id="@+id/rb_CcNatTauxIntAvceSpec_Fixe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fixe"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="true" />
+                    <RadioButton
+                        android:id="@+id/rb_CcNatTauxIntAvceSpec_Taux"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Taux"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+
+
+                    <RadioButton
+                        android:id="@+id/rb_CcNatTauxIntAvceSpec_Plage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Plage"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <!-- Valeur ou Taux du Taux d'Intérêt avance spéciale -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CcTauxIntAvceSpec"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_CcTauxIntAvceSpec"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:hint=""/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Base du TxIntAvceSpec-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CcBaseTxIntAvceSpec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                >
+                <com.example.binumtontine.JRSpinner
+                    android:id="@+id/spn_my_spinner_base_CcBaseTxIntAvceSpec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Base du taux"
+                    app:jrs_title="Choose"
+                    style="@style/modifiedEditText"
+                    app:jrs_multiple="false"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--plage CcTauxIntAvceSpec-->
+            <TextView
+                android:id="@+id/tv_plage_CcTauxIntAvceSpec"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:textColor="@color/colorAccent1"
+                android:text="@string/btn_config_plage_tiv" />
+
+
+            <!--Nature du taux d'intérêt (V,F,P), pour la pénalité, utiliser PlageDate si plage, code PAS-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_CcNatTauxIntPenAvceSpec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="Nature du taux d'intérêt pour la pénalité avance spéciale"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_CCNatTauxIntAvceSpec"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:showDividers="middle|end"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/rg_CcNatTauxIntPenAvceSpec" >
+
+                    <RadioButton
+                        android:id="@+id/rb_CcNatTauxIntPenAvceSpec_Fixe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fixe"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="true" />
+                    <RadioButton
+                        android:id="@+id/rb_CcNatTauxIntPenAvceSpec_Taux"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Taux"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+
+
+                    <RadioButton
+                        android:id="@+id/rb_CcNatTauxIntPenAvceSpec_Plage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Plage"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+
+                </RadioGroup>
+            </LinearLayout>
+            <!-- Valeur ou Taux du Taux d'Intérêt pour pénalité Avance spéciale -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CcTauxIntPenAvceSpec"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_CcTauxIntPenAvceSpec"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:hint=""/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Base utilisée pour le calcul de l'intérêt de la pénalité au choix; Capital / Capital + Intérêts-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CcBaseTxIntPenAvceSpec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+
+                >
+                <com.example.binumtontine.JRSpinner
+
+                    android:id="@+id/spn_my_spinner_base_CcBaseTxIntPenAvceSpec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Base pénalité avance speciale"
+                    app:jrs_title="Choose"
+                    style="@style/modifiedEditText"
+                    app:jrs_multiple="false"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--plage CcTauxIntPenAvceSpec-->
+            <TextView
+                android:id="@+id/tv_plage_CcTauxIntPenAvceSpec"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:textColor="@color/colorAccent1"
+                android:text="@string/btn_config_plage_tiv" />
+
+
+        </LinearLayout>
         <!--valeur plage -->
         <LinearLayout
             android:id="@+id/blk_plage_CcValTxCommMvm"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"

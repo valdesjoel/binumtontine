@@ -80,6 +80,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

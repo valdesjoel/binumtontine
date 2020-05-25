@@ -25,6 +25,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
@@ -74,6 +75,12 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private static final String KEY_GX_FREQ_REUN_COM_CRED = "gx_freq_reun_com_cred";
     private static final String KEY_GX_IS_RAPP_NET_MSG_CRED_ON = "gx_is_rapp_net_msg_cred_on";
 
+    private static final String KEY_GxIsPreComGesGuPGC = "GxIsPreComGesGuPGC";
+    private static final String KEY_GxIsChefGuichCG = "GxIsChefGuichCG";
+    private static final String KEY_GxIsAgentGuichAG = "GxIsAgentGuichAG";
+    private static final String KEY_GxMtPlafDecAutPCG = "GxMtPlafDecAutPCG";
+    private static final String KEY_GxNbMoisHistoDef = "GxNbMoisHistoDef";
+
 
     private static String STRING_EMPTY = "";
 
@@ -85,6 +92,8 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private EditText editTextCarrierPhone1;
     private EditText editTextCarrierPhone2;
     private EditText editTextCarrierPhone3;
+
+
     private Spinner countrySpinner; //pour gérer le spinner contenant les pays
     private JRSpinner mySpinnerCaisse; //pour gérer le spinner contenant les caisses
     private JRSpinner mySpinnerLocalite; //pour gérer le spinner contenant les localités
@@ -128,6 +137,13 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private String gx_first_jr_on;
     private String gx_freq_reun_com_cred;
     private Boolean gx_is_rapp_net_msg_cred_on;
+
+    private EditText GxMtPlafDecAutPCG;
+    private String st_GxMtPlafDecAutPCG;
+    private EditText GxNbMoisHistoDef;
+    private String st_GxNbMoisHistoDef;
+    private SwitchCompat GxIsPreComGesGuPGC,GxIsChefGuichCG,GxIsAgentGuichAG;
+    private Boolean bool_GxIsPreComGesGuPGC, bool_GxIsChefGuichCG,bool_GxIsAgentGuichAG;
 
     /* manage spinner*/
 
@@ -274,6 +290,12 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         gx_freq_reun_com_credEditText = (EditText) findViewById(R.id.input_txt_GuFreqReunComCred);
         gx_is_rapp_net_msg_cred_onSwitch = (Switch) findViewById(R.id.Switch_GuIsRappNetMsgCredOn);
 
+        GxIsPreComGesGuPGC= (SwitchCompat) findViewById(R.id.SwitchGxIsPreComGesGuPGC);
+        GxIsChefGuichCG= (SwitchCompat) findViewById(R.id.SwitchGxIsChefGuichCG);
+        GxIsAgentGuichAG= (SwitchCompat) findViewById(R.id.SwitchGxIsAgentGuichAG);
+        GxMtPlafDecAutPCG = (EditText) findViewById(R.id.input_txt_GxMtPlafDecAutPCG);
+        GxNbMoisHistoDef = (EditText) findViewById(R.id.input_txt_GxNbMoisHistoDef);
+
 
         // spinner item select listener
         addButton = (CircularProgressButton) findViewById(R.id.btn_save_guichet);
@@ -381,6 +403,14 @@ if (true){
             gx_is_rapp_net_msg_cred_on =gx_is_rapp_net_msg_cred_onSwitch.isChecked();
 
 
+    st_GxMtPlafDecAutPCG = GxMtPlafDecAutPCG.getText().toString();
+    st_GxNbMoisHistoDef = GxNbMoisHistoDef.getText().toString();
+
+    bool_GxIsPreComGesGuPGC=  GxIsPreComGesGuPGC.isChecked();
+    bool_GxIsChefGuichCG=  GxIsChefGuichCG.isChecked();
+    bool_GxIsAgentGuichAG=  GxIsAgentGuichAG.isChecked();
+
+
             new AddGuichetAsyncTask().execute();
         } else {
             Toast.makeText(CreateGuichet.this,
@@ -473,6 +503,14 @@ if (true){
             httpParams.put(KEY_GX_FIRST_JR_ON, gx_first_jr_on);
             httpParams.put(KEY_GX_FREQ_REUN_COM_CRED, gx_freq_reun_com_cred);
             httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on.toString());
+
+
+            httpParams.put(KEY_GxMtPlafDecAutPCG, st_GxMtPlafDecAutPCG);
+            httpParams.put(KEY_GxNbMoisHistoDef, st_GxNbMoisHistoDef);
+            httpParams.put(KEY_GxIsPreComGesGuPGC, bool_GxIsPreComGesGuPGC.toString());
+            httpParams.put(KEY_GxIsChefGuichCG, bool_GxIsChefGuichCG.toString());
+            httpParams.put(KEY_GxIsAgentGuichAG, bool_GxIsAgentGuichAG.toString());
+
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_guichet.php", "POST", httpParams);
             try {

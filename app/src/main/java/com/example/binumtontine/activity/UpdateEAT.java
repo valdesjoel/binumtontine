@@ -227,7 +227,7 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
 
 
 
-    private String eavId;
+    public static String eatId;
     private static final String KEY_EAT_ID = "EtNumero";
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
@@ -389,7 +389,7 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
 
         /*end*/
 
-        eavId = intent.getStringExtra(KEY_EAT_ID);
+        eatId = intent.getStringExtra(KEY_EAT_ID);
         new FetchEatDetailsAsyncTask().execute();
         deleteButton = (Button) findViewById(R.id.btn_delete_eat);
         deleteButton.setVisibility(View.VISIBLE);
@@ -1003,7 +1003,7 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_EAT_ID, eavId);
+            httpParams.put(KEY_EAT_ID, eatId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_eat_details.php", "GET", httpParams);
             try {
@@ -1176,7 +1176,7 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Set movie_id parameter in request
-            httpParams.put(KEY_EAT_ID, eavId);
+            httpParams.put(KEY_EAT_ID, eatId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "delete_eat.php", "POST", httpParams);
             try {
@@ -1389,7 +1389,7 @@ if(true){
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-            httpParams.put(KEY_EAT_ID, eavId);
+            httpParams.put(KEY_EAT_ID, eatId);
             httpParams.put(KEY_EAT_CODE, EtCode);
             httpParams.put(KEY_EAT_LIBELLE, EtLibelle);
             httpParams.put(KEY_EAT_MT_MIN_MISE, EtMtMinMise);

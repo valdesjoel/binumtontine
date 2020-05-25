@@ -225,6 +225,32 @@
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <!--Montant actuel de la caisse du guichet-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_montant_actuel"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_montant_actuel"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_montant_actuel"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- End -->
 

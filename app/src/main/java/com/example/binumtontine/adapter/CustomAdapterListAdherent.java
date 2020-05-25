@@ -19,6 +19,7 @@ package com.example.binumtontine.adapter;
         import com.example.binumtontine.R;
         import com.example.binumtontine.activity.CaisseActivity;
         import com.example.binumtontine.activity.adherent.CreateAdherent;
+        import com.example.binumtontine.activity.adherent.CreateCpteCourant;
         import com.example.binumtontine.activity.adherent.CreateEAP;
         import com.example.binumtontine.activity.adherent.CreateEAT;
         import com.example.binumtontine.activity.adherent.CreateEAV;
@@ -169,8 +170,19 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
                                 //mCtx.startActivity(intentCreateEAV);
                                 ((Activity) mCtx).startActivityForResult(intentCreateEAV, 20);
                                 break;
+                                //menu3 => compte cournt
                             case R.id.menu3:
                                 //handle menu3 click
+                                Intent intentCreateCpteCourant = new Intent(mCtx, CreateCpteCourant.class);
+                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+                                // startActivityForResult(intent, 20);
+                                //mCtx.startActivity(intentCreateEAV);
+                                ((Activity) mCtx).startActivityForResult(intentCreateCpteCourant, 20);
                                 break;
                             case R.id.menu4:
                                 //handle menu3 click

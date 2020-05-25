@@ -905,7 +905,7 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
             httpParams.put(KEY_FC_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
             httpParams.put(KEY_FC_GUICHET_ID, String.valueOf(guichetID)); // A modifier
            // httpParams.put(KEY_FC_FRAIS_ID, String.valueOf(fraisID));
-            //httpParams.put(KEY_FC_FRAIS_ID, String.valueOf(cpteCourantId));
+            //httpParams.put(KEY_FC_FRAIS_ID, String.valueOf(creditId));
           //  httpParams.put(KEY_FC_FRAIS_ID, FcFraisPiece);
             httpParams.put(KEY_FC_FRAIS_ID, eavId);
             httpParams.put(KEY_FC_LIBELLE, FcLibelle);

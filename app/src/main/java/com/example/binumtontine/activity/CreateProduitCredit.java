@@ -61,24 +61,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private Credit monProduitCredit;
     private static final String KEY_SUCCESS = "success";
 
-    private static final String KEY_EAV_CODE = "ev_code";
-    private static final String KEY_EAV_LIBELLE = "ev_libelle";
-    private static final String KEY_EAV_MIN_CPTE = "ev_min_cpte";
-    private static final String KEY_EAV_IS_MIN_CPTE_OBLIG = "ev_is_min_cpte_oblig";
-    private static final String KEY_EAV_TX_INTER_AN = "ev_tx_inter_an";
-    private static final String KEY_EAV_IS_TX_INTER_AN_OBLIG = "ev_is_tx_inter_an_oblig";
-    private static final String KEY_EAV_TYP_DAT_VAL = "ev_typ_dat_val";
-    private static final String KEY_EAV_TYP_DAT_RETRAIT_VAL = "ev_typ_dat_retrait_val";
-    private static final String KEY_EAV_IS_MULTI_EAV_ON = "ev_is_multi_eav_on";
-    private static final String KEY_EAV_IS_PAIE_PS_ON = "ev_is_paie_ps_on";
-    private static final String KEY_EAV_IS_AGIOS_ON = "ev_is_agios_on";
-    private static final String KEY_EAV_TYP_FR_AGIOS = "ev_typ_fr_agios";
-    private static final String KEY_EAV_MT_TX_AGIOS_PRELEV = "ev_mt_tx_agios_prelev";
-    private static final String KEY_EAV_PLAGE_AGIOS_FROM = "ev_plage_agios_from";
-    private static final String KEY_EAV_PLAGE_AGIOS_TO = "ev_plage_agios_to";
-    private static final String KEY_EAV_IS_CHEQUE_ON = "ev_is_cheque_on";
-    private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
-    private static final String KEY_EAV_CX_NUMERO = "ev_caisse_id";
+
 
 
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_DEBUT = "CcFecDebut";
@@ -219,6 +202,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private EditText ET_CrModelTextRappEchRemb;
     private EditText ET_CrNbreJrAvantDatEch;
     private EditText ET_CrNbreJrApreEchSiNHon;
+    private Switch SW_CrIsTxIntDegressif;
 //    private String CrUser;
 //    private String CrDateHCree;
 //    private String CrUserModif;
@@ -227,66 +211,13 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
 //    private String CrGuichetId;
 
 
-//    private EditText ev_codeEditText;
-//    private EditText ev_libelleEditText;
-//    private EditText ev_min_cpteEditText;
-//    private Switch ev_is_min_cpte_obligSwitch;
-//    private EditText ev_tx_inter_anEditText;
-//    private Switch ev_is_tx_inter_an_obligSwitch;
-//    private EditText ev_typ_dat_valEditText;
-//    private EditText ev_typ_dat_retrait_valEditText;
-//    private Switch ev_is_multi_eav_onSwitch;
-//    private Switch ev_is_paie_ps_onSwitch;
-//    private Switch ev_is_agios_onSwitch;
-//   // private EditText ev_typ_fr_agiosEditText;RadioButton
-//    private RadioButton ev_typ_fr_agiosEditText;
-//    private EditText ev_mt_tx_agios_prelevEditText;
-//    private EditText ev_plage_agios_fromEditText;
-//    private EditText ev_plage_agios_toEditText;
-//    private Switch ev_is_cheque_onSwitch;
-//    private EditText ev_frais_clot_cptEditText;
-//
-//    private String ev_code;
-//    private String ev_libelle;
-//    private String ev_min_cpte;
-//    private Boolean ev_is_min_cpte_oblig;
-//    private String ev_tx_inter_an;
-//    private Boolean ev_is_tx_inter_an_oblig;
-//    private String ev_typ_dat_val;
-//    private String ev_typ_dat_retrait_val;
-//    private Boolean ev_is_multi_eav_on;
-//    private Boolean ev_is_paie_ps_on;
-//    private Boolean ev_is_agios_on;
-//    private String ev_typ_fr_agios;
-//    private String ev_mt_tx_agios_prelev;
-//    private String base_ev_mt_tx_agios_prelev;
-//    private String base_ev_tx_inter_an;
-//    private String ev_plage_agios_from;
-//    private String ev_plage_agios_to;
-//    private Boolean ev_is_cheque_on;
-//    private String ev_frais_clot_cpt;
-    private int ev_caisse_id = MyData.CAISSE_ID;
 
-    private LinearLayout blkPlageEav;
     private LinearLayout LL_CrNatFrEtudDoss;
     private LinearLayout LL_CrNatFraisDeblocCred;
     private LinearLayout LL_CrNatFraisDecaissCred;
 
-    private RadioButton rbEpTypTxInterFixe;
-    private RadioButton rbEpTypTxInterTaux;
-    private RadioButton rbEpTypTxInterPlage;
-    private TextInputLayout layout_TauxAPreleveCpteEAV;
     private TextInputLayout layout_TauxCrNatFrEtudDoss;
     private TextInputLayout layout_TauxCrValTxFraisDeblocCred;
-    private TextInputLayout layout_MinCompteEAV;
-    private TextInputLayout layout_TauxInteretAnnuelEAV;
-    private TextInputLayout layout_DateValeur;
-    private TextInputLayout layout_DateRetrait;
-    private TextInputLayout layout_BaseTauxAPreleveCpteEAV;
-    private TextInputLayout layout_BaseInteretAnnuelEAV;
-
-    private JRSpinner mySpinnerLocalite; //pour gérer le spinner contenant les localités
-    private JRSpinner mySpinnerBaseTxIntMensuel; //pour gérer le spinner contenant les localités
 
     private Button addButton;
     private Button cancelButton;
@@ -453,6 +384,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
             }
         });
         SW_CrIsRappDatEchCred = (Switch) findViewById(R.id.SwitchCrIsRappDatEchCred);
+        SW_CrIsTxIntDegressif = (Switch) findViewById(R.id.SwitchCrIsTxIntDegressif);
         ET_CrModelTextRappEchRemb = (EditText) findViewById(R.id.input_txt_CrModelTextRappEchRemb);
         ET_CrNbreJrAvantDatEch = (EditText) findViewById(R.id.input_txt_CrNbreJrAvantDatEch);
         ET_CrNbreJrApreEchSiNHon = (EditText) findViewById(R.id.input_txt_CrNbreJrApreEchSiNHon);
@@ -1120,7 +1052,11 @@ tv_plage_CrNatFrEtudDoss.setOnClickListener(new View.OnClickListener() {
 
                 !STRING_EMPTY.equals(ev_min_cpteEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
-if (true){
+if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
+        !STRING_EMPTY.equals(ET_CrLibelle.getText().toString().trim()) &&
+        !STRING_EMPTY.equals(ET_CrDureeMin.getText().toString().trim()) &&
+        !STRING_EMPTY.equals(ET_CrDureeMax.getText().toString().trim())
+        ){
     monProduitCredit = new Credit(ET_CrCode.getText().toString(),ET_CrLibelle.getText().toString(),ET_CrDureeMin.getText().toString(),
             ET_CrDureeMax.getText().toString(),"F","1",CrTypTxInter,ET_CrValTxInter.getText().toString(),
             SW_CrIsTxIntNeg.isChecked(),ET_CrNbreAvalDmde.getText().toString(),ET_CrNbreMinAvalExig.getText().toString(),
@@ -1146,7 +1082,8 @@ if (true){
             MyData.USER_ID+"",
             null,
             MyData.CAISSE_ID+"",
-            null);
+            null,
+            SW_CrIsTxIntDegressif.isChecked());
 
 
 //    base_ev_mt_tx_agios_prelev = mySpinnerLocalite.getText().toString();
@@ -1284,6 +1221,7 @@ if (true){
             httpParams.put(monProduitCredit.KEY_CREDIT_DatHModif, monProduitCredit.getCrDatHModif());
             httpParams.put(monProduitCredit.KEY_CREDIT_CaisseId, monProduitCredit.getCrCaisseId());
             httpParams.put(monProduitCredit.KEY_CREDIT_GuichetId, monProduitCredit.getCrGuichetId());
+            httpParams.put(monProduitCredit.KEY_CrIsTxIntDegressif, String.valueOf(monProduitCredit.getCrIsTxIntDegressif()));
 
 
 

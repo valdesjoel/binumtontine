@@ -69,6 +69,7 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
     private static final String KEY_CG_LAST_SOLDE = "CgLastSolde";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
     private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
+    private static final String KEY_CM_ID = "CgNumero";
 
     /*Param for get extra*/
     private static final String KEY_ADHERENT_ID = "IpMembre";
@@ -99,6 +100,8 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
     private Button annulerButton;
     private int success;
     private ProgressDialog pDialogInitialisationCaisseGuichet;
+    private ProgressDialog pDialogFetchLastSolde;
+    private String CgNumero;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,6 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
 
         guichetId = String.valueOf(MyData.GUICHET_ID);
         guichetDenomination = MyData.GUICHET_NAME;
-
         mtInitialisationEditText = (EditText) findViewById(R.id.input_txt_montant_initialisation);
 
 
@@ -155,6 +157,72 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
 
 
 
+    /**
+     * Fetches single caisse_guichet details from the server
+     */
+    private class FetchLastSoldeGuichetDetailsAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialogFetchLastSolde = new ProgressDialog(InitialisationCaisseGuichet.this);
+            pDialogFetchLastSolde.setMessage("Loading guichet Details. Please wait...");
+            pDialogFetchLastSolde.setIndeterminate(false);
+            pDialogFetchLastSolde.setCancelable(false);
+            pDialogFetchLastSolde.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_CG_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_caisse_guichet_details.php", "GET", httpParams);
+            try {
+                int success = jsonObject.getInt(KEY_SUCCESS);
+                JSONObject user;
+                if (success == 1) {
+                    //Parse the JSON response
+                    user = jsonObject.getJSONObject(KEY_DATA);
+//                    CgLastSolde = user.getString(KEY_CG_LAST_SOLDE);
+                    guichetMontantInitialisation = user.getString(KEY_CG_LAST_SOLDE);
+                    CgNumero = user.getString(KEY_CM_ID);
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialogFetchLastSolde.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+                    //Populate the Edit Texts once the network activity is finished executing
+                    if (success == 0) {
+
+                    }
+
+                    //defaultFormat.setCurrency(Currency.getInstance("FCF"));
+                  /*  CgLastSoldeTextView.setText(defaultFormat.format(parseDouble(CgLastSolde)));
+                    //NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+                    CgDevise.toUpperCase();
+                    CgLastSoldeTextView.setTypeface(null, Typeface.BOLD);
+                    CgLastSoldeTextView.setText(CgLastSoldeTextView.getText()+ CgDevise);
+                    */
+
+
+
+                }
+            });
+        }
+
+
+    }
 
 
 
@@ -209,7 +277,7 @@ public class InitialisationCaisseGuichet extends AppCompatActivity implements  S
             httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_caisse_guichet.php", "POST", httpParams);
+                    BASE_URL + "add_caisse_guichet_new.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

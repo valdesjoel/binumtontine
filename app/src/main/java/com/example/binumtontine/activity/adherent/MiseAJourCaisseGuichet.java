@@ -67,8 +67,10 @@ public class MiseAJourCaisseGuichet extends AppCompatActivity implements  SERVER
     private static final String KEY_CG_GUICHET = "CgGuichet";
     private static final String KEY_CV_NUM_DOSSIER = "CvNumDossier";
     private static final String KEY_CG_LAST_SOLDE = "CgLastSolde";
+    private static final String KEY_CG_INIT_SOLDE = "CgInitSolde";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
     private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
+    private static final String KEY_CM_ID = "CgNumero";
 
     /*Param for get extra*/
     private static final String KEY_ADHERENT_ID = "IpMembre";
@@ -79,13 +81,16 @@ public class MiseAJourCaisseGuichet extends AppCompatActivity implements  SERVER
 
 
 
+
     private static String STRING_EMPTY = "";
 
     private EditText mtInitialisationEditText;
+    private EditText mtActuelEditText;
 
 
     private String guichetId;
     private String guichetMontantInitialisation;
+    private String guichetMontantSoldeActuel;
     private String guichetDenomination;
 
 
@@ -101,6 +106,8 @@ public class MiseAJourCaisseGuichet extends AppCompatActivity implements  SERVER
     private Button annulerButton;
     private int success;
     private ProgressDialog pDialogInitialisationCaisseGuichet;
+    private ProgressDialog pDialogFetchLastSolde;
+    private String CgNumero;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,19 +119,29 @@ public class MiseAJourCaisseGuichet extends AppCompatActivity implements  SERVER
         guichetDenomination = MyData.GUICHET_NAME;
 
         mtInitialisationEditText = (EditText) findViewById(R.id.input_txt_montant_initialisation);
+        mtActuelEditText = (EditText) findViewById(R.id.input_txt_montant_actuel);
+        mtActuelEditText.setVisibility(View.VISIBLE);
+        mtInitialisationEditText.setFocusable(false);
+        mtInitialisationEditText.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+        mtInitialisationEditText.setClickable(false); // user navigates with wheel and selects widget
+        mtActuelEditText.setFocusable(false);
+        mtActuelEditText.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+        mtActuelEditText.setClickable(false); // user navigates with wheel and selects widget
+
 
 
         tvHeaderCaisseGuichet = (TextView) findViewById(R.id.tv_header_caisse_guichet);
         tvHeaderLayoutCaisseGuichet = (TextView) findViewById(R.id.header_initialisation_caisse_guichet);
-        tvHeaderCaisseGuichet.setText("MISE A JOUR CAISSE GUICHET");
-        tvHeaderLayoutCaisseGuichet.setText("Mise à jour de la caisse d'un guichet");
+        tvHeaderCaisseGuichet.setText("INFORMATIONS CAISSE GUICHET");
+        tvHeaderLayoutCaisseGuichet.setText("Situation actuelle de la caisse du guichet");
         tvGuichetDenomination = (TextView) findViewById(R.id.tv_denomination_guichet);
         tvGuichetDenomination.setText(guichetDenomination);
 
 
 
-
+        new MiseAJourCaisseGuichet.FetchLastSoldeGuichetDetailsAsyncTask().execute();
         addButton = (Button) findViewById(R.id.btn_save_montant_initialisation);
+        addButton.setVisibility(View.GONE);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +176,72 @@ public class MiseAJourCaisseGuichet extends AppCompatActivity implements  SERVER
     }
 
 
+    /**
+     * Fetches single caisse_guichet details from the server
+     */
+    private class FetchLastSoldeGuichetDetailsAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialogFetchLastSolde = new ProgressDialog(MiseAJourCaisseGuichet.this);
+            pDialogFetchLastSolde.setMessage("Loading guichet Details. Please wait...");
+            pDialogFetchLastSolde.setIndeterminate(false);
+            pDialogFetchLastSolde.setCancelable(false);
+            pDialogFetchLastSolde.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_CG_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_caisse_guichet_details.php", "GET", httpParams);
+            try {
+                success = jsonObject.getInt(KEY_SUCCESS);
+
+                JSONObject user;
+                if (success == 1) {
+                    //Parse the JSON response
+                    user = jsonObject.getJSONObject(KEY_DATA);
+//                    CgLastSolde = user.getString(KEY_CG_LAST_SOLDE);
+                    guichetMontantSoldeActuel = user.getString(KEY_CG_LAST_SOLDE);
+                    guichetMontantInitialisation = user.getString(KEY_CG_INIT_SOLDE);
+                    CgNumero = user.getString(KEY_CM_ID);
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialogFetchLastSolde.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+
+                    //Populate the Edit Texts once the network activity is finished executing
+
+
+                    //defaultFormat.setCurrency(Currency.getInstance("FCF"));
+                    mtInitialisationEditText.setText(guichetMontantInitialisation);
+                    mtActuelEditText.setText(guichetMontantSoldeActuel);
+                    //NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+
+
+
+
+
+                }
+            });
+        }
+
+
+    }
 
 
 

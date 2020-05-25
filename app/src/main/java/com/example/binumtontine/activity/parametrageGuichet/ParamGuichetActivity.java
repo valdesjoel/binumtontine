@@ -2,10 +2,12 @@ package com.example.binumtontine.activity.parametrageGuichet;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.binumtontine.activity.adherent.InitialisationCaisseGuichet;
+import com.example.binumtontine.activity.adherent.MiseAJourCaisseGuichet;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.ParametreGenerauxCxActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.ParametreGenerauxOFActivity;
@@ -36,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.binumtontine.dao.SERVER_ADDRESS.BASE_URL;
+import static java.lang.Double.parseDouble;
 
 public class ParamGuichetActivity extends AppCompatActivity {
 
@@ -55,20 +58,35 @@ public class ParamGuichetActivity extends AppCompatActivity {
     private static final String KEY_DATA = "data";
     private static final String KEY_CG_GUICHET = "CgGuichet";
 
+    private static final String KEY_CG_LAST_SOLDE = "CgLastSolde";
+    private static final String KEY_CM_ID = "CgNumero";
+    private ProgressDialog pDialogFetchLastSolde;
+    private String CgLastSolde;
+    private String CgNumero;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_param_guichet);
         Toolbar toolbar = findViewById(R.id.toolbar_param_home_guichet);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         save = (Button)findViewById(R.id.button_save_user_data);
         cancel = (Button)findViewById(R.id.button_cancel_user_data);
         userNameEditText = (EditText)findViewById(R.id.userName);
         passwordEditText = (EditText)findViewById(R.id.password);
         emailEditText = (EditText)findViewById(R.id.email);
+//        new ParamGuichetActivity.FetchLastSoldeGuichetDetailsAsyncTask().execute();
 
 
 
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     public void onButtonClick(View v){
         switch (v.getId()) {
@@ -92,8 +110,8 @@ public class ParamGuichetActivity extends AppCompatActivity {
                 break;
             case R.id.init_caisse_guichet_card:
                 // do your code
-                Intent init_caisse_guichet_intent = new Intent(getBaseContext(),   InitialisationCaisseGuichet.class);
-                startActivity(init_caisse_guichet_intent);
+                new ParamGuichetActivity.FetchLastSoldeGuichetDetailsAsyncTask().execute();
+
 /*
 
                 // When click the open input popup dialog button.
@@ -225,5 +243,79 @@ public class ParamGuichetActivity extends AppCompatActivity {
             });
         }
     }
+
+    /**
+     * Fetches single caisse_guichet details from the server
+     */
+    private class FetchLastSoldeGuichetDetailsAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialogFetchLastSolde = new ProgressDialog(ParamGuichetActivity.this);
+            pDialogFetchLastSolde.setMessage("Loading guichet Details. Please wait...");
+            pDialogFetchLastSolde.setIndeterminate(false);
+            pDialogFetchLastSolde.setCancelable(false);
+            pDialogFetchLastSolde.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_CG_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_caisse_guichet_details.php", "GET", httpParams);
+            try {
+                 success = jsonObject.getInt(KEY_SUCCESS);
+
+             /*   JSONObject user;
+                if (success == 1) {
+                    //Parse the JSON response
+                    user = jsonObject.getJSONObject(KEY_DATA);
+//                    CgLastSolde = user.getString(KEY_CG_LAST_SOLDE);
+                    CgLastSolde = user.getString(KEY_CG_LAST_SOLDE);
+                    CgNumero = user.getString(KEY_CM_ID);
+
+
+                }*/
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialogFetchLastSolde.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+
+                    //Populate the Edit Texts once the network activity is finished executing
+                    if (success == 0) {
+                        Intent init_caisse_guichet_intent = new Intent(getBaseContext(),   InitialisationCaisseGuichet.class);
+                        startActivity(init_caisse_guichet_intent);
+                    }else if (success == 1){
+                        Intent init_caisse_guichet_intent = new Intent(getBaseContext(),   MiseAJourCaisseGuichet.class);
+                        startActivity(init_caisse_guichet_intent);
+                    }
+
+                    //defaultFormat.setCurrency(Currency.getInstance("FCF"));
+                  /*  CgLastSoldeTextView.setText(defaultFormat.format(parseDouble(CgLastSolde)));
+                    //NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+                    CgDevise.toUpperCase();
+                    CgLastSoldeTextView.setTypeface(null, Typeface.BOLD);
+                    CgLastSoldeTextView.setText(CgLastSoldeTextView.getText()+ CgDevise);
+                    */
+
+
+
+                }
+            });
+        }
+
+
+    }
+
 
 }

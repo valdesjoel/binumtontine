@@ -111,6 +111,9 @@ public class GuichetNewActivity extends AppCompatActivity implements SERVER_ADDR
         setSupportActionBar(toolbar);
         setToolbarTitle();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_list_guichet);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +129,12 @@ public class GuichetNewActivity extends AppCompatActivity implements SERVER_ADDR
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Gestion des guichets");

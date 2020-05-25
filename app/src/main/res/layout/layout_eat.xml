@@ -199,6 +199,14 @@
                     android:textSize="18dp"
                     android:onClick="onRadioButtonClicked"
                     android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbEtTypTxInterTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:textSize="18dp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
 
                 <RadioButton
                     android:id="@+id/rbEtTypTxInterPlage"
@@ -223,8 +231,47 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Valeur du taux d'interêt"/>
+                android:hint=""/>
         </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Base du EtValTxInter-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_EtBaseTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            >
+            <com.example.binumtontine.JRSpinner
+                android:id="@+id/spn_my_spinner_base_EtBaseTxInter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--plage EtValTxInter-->
+        <TextView
+            android:id="@+id/tv_plage_EtValTxInter"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+
 
         <!-- EtPlageTxInterFrom && EtPlageTxInterTo-->
        <!-- <LinearLayout
@@ -1624,7 +1671,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingTop="30dp"
             android:paddingBottom="20dp"
 

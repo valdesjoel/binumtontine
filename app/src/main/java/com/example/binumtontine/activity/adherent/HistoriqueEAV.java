@@ -58,6 +58,11 @@ public class HistoriqueEAV extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_list_operation_compte_adherent);
         setSupportActionBar(toolbar);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
 
@@ -80,7 +85,11 @@ new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();
 //        recordAdapter= new RecordAdapter(this, new ArrayList<Record>());
 //        recordsView.setAdapter(recordAdapter);
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     /**
      * Fetches the list of operations or transactions's adherent from the server
      */

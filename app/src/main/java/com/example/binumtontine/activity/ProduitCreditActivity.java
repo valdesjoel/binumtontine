@@ -153,9 +153,9 @@ private class FetchMoviesAsyncTask extends AsyncTask<String, String, String> {
                     String movieId = ((TextView) view.findViewById(R.id.movieId))
                             .getText().toString();
                     Intent intent = new Intent(getApplicationContext(),
-                            UpdateEAV.class);
+                            UpdateProduitCredit.class);
                     intent.putExtra(KEY_CREDIT_ID, movieId);
-//                    startActivityForResult(intent, 20);
+                    startActivityForResult(intent, 20);
 
                 } else {
                     Toast.makeText(ProduitCreditActivity.this,

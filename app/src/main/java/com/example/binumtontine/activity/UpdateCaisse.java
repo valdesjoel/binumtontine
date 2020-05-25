@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.JRSpinner;
@@ -51,6 +52,13 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_CX_TEL3 = "cx_tel3";
     private static final String KEY_CX_NOM_PCA = "cx_nom_pca";
     private static final String KEY_CX_NOM_DG = "cx_nom_dg";
+
+
+    private static final String KEY_CxIsPrConsAdmPCA = "CxIsPrConsAdmPCA";
+    private static final String KEY_CxIsPrComCredPCC = "CxIsPrComCredPCC";
+    private static final String KEY_CxIsDirCredDC = "CxIsDirCredDC";
+    private static final String KEY_CxIsAgentCredAC = "CxIsAgentCredAC";
+    private static final String KEY_CxIsDirGenCxDG = "CxIsDirGenCxDG";
 
 
 
@@ -92,6 +100,11 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private String cx_tel3;
     private String cx_nom_pca;
     private String cx_nom_dg;
+
+
+    private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG;
+    private Boolean bool_CxIsPrConsAdmPCA, bool_CxIsPrComCredPCC,bool_CxIsDirCredDC,bool_CxIsAgentCredAC,
+            bool_CxIsDirGenCxDG;
 
     private Button deleteButton;
     private Button updateButton;
@@ -163,6 +176,13 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
 
         cx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Cx);
         cx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Cx);
+
+        CxIsPrConsAdmPCA= (SwitchCompat) findViewById(R.id.SwitchCxIsPrConsAdmPCA);
+        CxIsPrComCredPCC= (SwitchCompat) findViewById(R.id.SwitchCxIsPrComCredPCC);
+        CxIsDirCredDC= (SwitchCompat) findViewById(R.id.SwitchCxIsDirCredDC);
+        CxIsAgentCredAC= (SwitchCompat) findViewById(R.id.SwitchCxIsAgentCredAC);
+        CxIsDirGenCxDG= (SwitchCompat) findViewById(R.id.SwitchCxIsDirGenCxDG);
+
         Intent intent = getIntent();
         caisseId = intent.getStringExtra(KEY_CAISSE_ID);
         new FetchCaisseDetailsAsyncTask().execute();
@@ -176,7 +196,21 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
         });
         updateButton = (Button) findViewById(R.id.btn_save_Cx);
         annulerButton = (Button) findViewById(R.id.btn_clean);
-        annulerButton.setVisibility(View.GONE);
+        annulerButton.setVisibility(View.VISIBLE);
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+                } else {
+                    Toast.makeText(UpdateCaisse.this,
+                            "Impossible de se connecter à Internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
         updateButton.setText("MODIFIER");
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,6 +325,12 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                     cx_nom_pca = caisse.getString(KEY_CX_NOM_PCA);
                     cx_nom_dg = caisse.getString(KEY_CX_NOM_DG);
 
+                    bool_CxIsPrConsAdmPCA = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrConsAdmPCA));
+                    bool_CxIsPrComCredPCC = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrComCredPCC));
+                    bool_CxIsDirCredDC = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirCredDC));
+                    bool_CxIsAgentCredAC = Boolean.parseBoolean(caisse.getString(KEY_CxIsAgentCredAC));
+                    bool_CxIsDirGenCxDG = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirGenCxDG));
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -319,6 +359,12 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                     ccp_phone3.setFullNumber(cx_tel3);
                     cx_nom_pcaEditText.setText(cx_nom_pca);
                     cx_nom_dgEditText.setText(cx_nom_dg);
+
+                    CxIsPrConsAdmPCA.setChecked(bool_CxIsPrConsAdmPCA);
+                    CxIsPrComCredPCC.setChecked(bool_CxIsPrComCredPCC);
+                    CxIsDirCredDC.setChecked(bool_CxIsDirCredDC);
+                    CxIsAgentCredAC.setChecked(bool_CxIsAgentCredAC);
+                    CxIsDirGenCxDG.setChecked(bool_CxIsDirGenCxDG);
 
                 }
             });
@@ -446,6 +492,14 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
 
             cx_nom_pca = cx_nom_pcaEditText.getText().toString();
             cx_nom_dg = cx_nom_dgEditText.getText().toString();
+
+
+            bool_CxIsPrConsAdmPCA=  CxIsPrConsAdmPCA.isChecked();
+            bool_CxIsPrComCredPCC=  CxIsPrComCredPCC.isChecked();
+            bool_CxIsDirCredDC=  CxIsDirCredDC.isChecked();
+            bool_CxIsAgentCredAC=  CxIsAgentCredAC.isChecked();
+            bool_CxIsDirGenCxDG=  CxIsDirGenCxDG.isChecked();
+
             new UpdateCaisseAsyncTask().execute();
         } else {
             Toast.makeText(UpdateCaisse.this,
@@ -490,6 +544,13 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CX_TEL3, cx_tel3);
             httpParams.put(KEY_CX_NOM_PCA, cx_nom_pca);
             httpParams.put(KEY_CX_NOM_DG, cx_nom_dg);
+
+
+            httpParams.put(KEY_CxIsPrConsAdmPCA, bool_CxIsPrConsAdmPCA.toString());
+            httpParams.put(KEY_CxIsPrComCredPCC, bool_CxIsPrComCredPCC.toString());
+            httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC.toString());
+            httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC.toString());
+            httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG.toString());
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_caisse.php", "POST", httpParams);
             try {

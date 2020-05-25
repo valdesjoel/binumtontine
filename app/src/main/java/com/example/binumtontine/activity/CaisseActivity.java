@@ -110,6 +110,9 @@ public class CaisseActivity extends AppCompatActivity implements SERVER_ADDRESS 
         Toolbar toolbar = findViewById(R.id.toolbar_list_caisse);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_list_caisse);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +126,13 @@ public class CaisseActivity extends AppCompatActivity implements SERVER_ADDRESS 
 
             }
         });
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 /*
     @Override

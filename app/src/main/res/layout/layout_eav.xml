@@ -200,8 +200,17 @@
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/newsMoreTextSize"
             android:layout_gravity="end"
-            android:onClick="viewForgotPAssword"
+
             android:layout_marginTop="10dp"/>
+        <!--android:onClick="viewForgotPAssword"-->
+        <!--<TextView-->
+            <!--style="@style/viewParent"-->
+            <!--android:text="Mot de passe oublié?"-->
+            <!--android:textColor="@color/primaryTextColor"-->
+            <!--android:textSize="@dimen/newsMoreTextSize"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:onClick="viewForgotPAssword"-->
+            <!--android:layout_marginTop="10dp"/>-->
 
        <!-- <br.com.simplepass.loadingbutton.customViews.CircularProgressButton -->
 
@@ -230,8 +239,16 @@
             android:textStyle="bold"
             android:textColor="@color/primaryTextColor"
             android:text="@string/login_signup_hint"
-            android:onClick="viewRegisterClicked"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
+        <!--android:onClick="viewRegisterClicked"-->
+        <!--<TextView-->
+            <!--style="@style/parent"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/primaryTextColor"-->
+            <!--android:text="@string/login_signup_hint"-->
+            <!--android:onClick="viewRegisterClicked"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin"/>-->
         <!-- <RelativeLayout
             android:id="@+id/relative"
             Android:layout_width="match_parent"

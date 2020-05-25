@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_operation_eav_adherent"
+            style="@style/headerTextPrimary"
+            android:text="Opération de déblocage de crédit"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <!-- Begin -->
+
+        <!--Nom Adherent-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_nom_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Adhérent:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nom_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Numero manuel-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_num_manuel_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="N° Manuel:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num_manuel_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@color/colorAccentNew"
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--code-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_code_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Code:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_code_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Libelle produit-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_libelle_produit_adherent"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Produit:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_libelle_produit_adherent"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Solde-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_solde_compte"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Solde:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_solde_compte"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@color/colorAccentNew"
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Tv Numero de dossier-->
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text="N° du dossier"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num_dossier_adherent"
+                style="@style/parent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="18sp" />
+
+        </LinearLayout> -->
+
+
+
+        <!-- End -->
+
+
+        <!--Code DcCodeDebl-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcCodeDebl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcCodeDebl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_code_deblocage"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Détails DcDetailsDebl-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcDetailsDebl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_DcDetailsDebl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_detail_deblocage"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+
+            android:layout_below="@+id/input_txt_numero_bordereau_operation">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_operation_eav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

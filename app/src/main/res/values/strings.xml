@@ -75,7 +75,7 @@
     <string name="activity_title_about_us">About Us</string>
     <string name="activity_title_privacy_policy">Privacy Policy</string>
     <string name="action_clear_all">Clear All</string>
-    <string name="action_logout">Logout</string>
+    <string name="action_logout">Se déconnecter</string>
     <string name="action_mark_all_read">Mark All as Read</string>
     <string name="privacy_policy">Privacy Policy</string>
 
@@ -158,6 +158,11 @@
         <item>Espèce</item>
         <item>Chèque</item>
         <item>Virement</item>
+    </string-array>
+    <string-array name="motif_decision">
+        <item>Garanties insuffisantes</item>
+        <item>Dossier incomplet</item>
+        <item>Dossier complet</item>
     </string-array>
     <string-array name="nombre_unite">
 
@@ -359,22 +364,30 @@
         <item>Montant découvert</item>
         <item>Montant + interet</item>
     </string-array>
+    <string-array name="array_base_taux_int_avce_spec">
+        <item>Capital</item>
+        <item>Capital + pénalités</item>
+    </string-array>
+    <string-array name="array_base_taux_int_pen_avce_spec">
+        <item>Capital</item>
+        <item>Capital + intérêts</item>
+    </string-array>
     <string-array name="array_base_taux_credit">
-        <item>Montant crédit</item>
+        <item>Montant credit</item>
         <item>Montant + interet</item>
     </string-array>
     <string-array name="array_mode_remboursement_credit">
-        <item>Interêt puis capital</item>
-        <item>Capital puis intérêt</item>
-        <item>Capital et intérêt ensemble</item>
+        <item>Interet puis capital</item>
+        <item>Capital puis interet</item>
+        <item>Capital et interet ensemble</item>
     </string-array>
     <string-array name="array_base_interet_echeance_non_honoree">
         <item>CumulBase</item>
-        <item>CumulBase + intérêt</item>
+        <item>CumulBase + interet</item>
     </string-array>
     <string-array name="array_nature_planning_remboursement">
         <item>Manuel</item>
-        <item>Proraté</item>
+        <item>Prorate</item>
     </string-array>
     <string-array name="array_base_taux_frais_tenue_compte">
         <item>Solde minimum</item>
@@ -620,6 +633,8 @@
     <string name="tab_title_param_produit_transfert_caisse">Transfert</string>
     <string name="tab_title_param_produit_credit_caisse">Crédit</string>
     <string name="hint_taux_mensuel">Appliquer le taux d\'interêt mensuel</string>
+    <string name="hint_taux_interet">Taux d\'interêt(%)</string>
+    <string name="hint_taux_interet_mensuel">Taux d\'interêt mensuel(%)</string>
     <string name="hint_code_EAV">Code EAV</string>
     <string name="hint_code_credit">Code crédit</string>
     <string name="hint_Libelle_EAV">Libellé</string>
@@ -741,19 +756,44 @@
     <string name="hint_date_fin">Date de fin: (*)</string>
     <string name="enter_number">saisissez un montant valide</string>
     <string name="hint_depot_minimum">Dépôt minimum</string>
-    <string name="hint_montant_demande_credit">Montant de la demande</string>
+    <string name="hint_CcaMtMaxDecouv">Plafond decouvert </string>
+    <string name="hint_montant_demande_credit">Montant sollicité</string>
+    <string name="hint_duree_emprunt">Durée emprunt (en mois)</string>
+    <string name="hint_credit_anterieur1">Crédit antérieur N°1</string>
+    <string name="hint_credit_anterieur2">Crédit antérieur N°2</string>
+    <string name="hint_credit_anterieur3">Crédit antérieur N°3</string>
+    <string name="hint_cumul_dette_encours">Cumul dette encours</string>
+    <string name="hint_mt_bloque">Montant bloqué</string>
+    <string name="hint_moyenne_epargne_mensuelle">Moyenne epargne mensuelle</string>
+    <string name="hint_total_epargne">Total épargne</string>
+    <string name="hint_montant_autre_revenus">Montant Autres Revenus</string>
+    <string name="hint_epargne1">Epargne</string>
+    <string name="hint_montant_revenus_fixes">Montant revenus fixes</string>
     <string name="produit_a_vue">Produit à vue:</string>
     <string name="pd_type_data">Type frais</string>
     <string name="hint_numero_dossier">Numéro de dossier</string>
+    <string name="hint_dc_description">Description de la demande</string>
+    <string name="hint_nature_activite">Nature activité (revenus)</string>
+    <string name="hint_frequence_revenus">Fréquence revenus</string>
+    <string name="hint_nomAval1_1">Nom avaliste 1</string>
+    <string name="hint_numCompte1">Numéro de compte</string>
+    <string name="hint_nomAval1_2">Nom avaliste 2</string>
     <string name="produit_a_terme">Produit à terme</string>
     <string name="produit_a_periodicite">Produit à périodicité</string>
     <string name="duree_produit">Durée (en mois):</string>
     <string name="hint_montant_mise">Montant mise</string>
     <string name="hint_montant_dat">Montant DAT</string>
     <string name="hint_montant_initialisation">Montant d\'initialisation</string>
+    <string name="hint_montant_actuel">Montant actuel</string>
     <string name="mode_paiement">Mode de paiement</string>
+    <string name="motif_decision">Motif:</string>
     <string name="hint_numero_bordereau">Numéro de bordereau</string>
+    <string name="hint_detail_motif">Détails motif</string>
+    <string name="hint_detail_deblocage">Détails déblocage</string>
+    <string name="hint_detail_decaissement">Détails décaissement</string>
     <string name="hint_montant_operation">Montant</string>
+    <string name="hint_libelle_operation">Libellé de l\'opération</string>
+    <string name="hint_montant_accorde">Montant accordé</string>
     <string name="hint_type_de_date_retrait">Date retrait (en jour):</string>
     <string name="hint_Libelle_type_membre">Libellé du type de membre</string>
     <string name="hint_nature_type_membre">Nature membre</string>
@@ -770,6 +810,11 @@
     <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
     <string name="btn_config_plage_tiv">Cliquer ici pour paramétrer les plages</string>
     <string name="hint_journee_anterieure">Journee anterieure</string>
+    <string name="hint_nombre_echeance">Nombre Echéances</string>
+    <string name="hint_montant_echeance">Montant échéance</string>
+    <string name="hint_garanties_acceptees">Garanties acceptées</string>
+    <string name="hint_periodicite">Périodicité</string>
+    <string name="hint_code_deblocage">Code déblocage</string>
 
 </resources>
 
