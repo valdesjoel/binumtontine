@@ -174,8 +174,8 @@ public class ComiteCredit extends AppCompatActivity implements AdapterView.OnIte
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_DcDureeMoisCc);
 
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        //rb_depot.performClick();
-        //onRadioButtonClicked(rb_depot);
+        //rb_decision_accordee.performClick();
+        //onRadioButtonClicked(rb_decision_accordee);
         rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
         tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
@@ -195,17 +195,17 @@ public class ComiteCredit extends AppCompatActivity implements AdapterView.OnIte
         if (typeOperation.equals("depot")){
             tvHeaderOperationEAV.setText("TYPE OPERATION: DEPOT");
 
-            rb_depot.setChecked(true);
-            rb_retrait.setVisibility(View.GONE);
-            rb_depot.setVisibility(View.VISIBLE);
-            onRadioButtonClicked(rb_depot);
+            rb_decision_accordee.setChecked(true);
+            rb_decision_refusee.setVisibility(View.GONE);
+            rb_decision_accordee.setVisibility(View.VISIBLE);
+            onRadioButtonClicked(rb_decision_accordee);
         }else if(typeOperation.equals("retrait")){
             tvHeaderOperationEAV.setText("TYPE OPERATION: RETRAIT");
-            rb_retrait.setChecked(true);
+            rb_decision_refusee.setChecked(true);
 
-            onRadioButtonClicked(rb_retrait);
-            rb_retrait.setVisibility(View.VISIBLE);
-            rb_depot.setVisibility(View.GONE);
+            onRadioButtonClicked(rb_decision_refusee);
+            rb_decision_refusee.setVisibility(View.VISIBLE);
+            rb_decision_accordee.setVisibility(View.GONE);
         }
 */
        /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);

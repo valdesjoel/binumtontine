@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_margin="10dp"
-
+android:gravity="center"
                     android:text="Organe faitier"/>
                 <View
                     android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Caisse"
-
+                    android:gravity="center"
                     android:textStyle="bold" />
 
                 <View
@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_margin="10dp"
-
+                    android:gravity="center"
                     android:text="Utilisateurs"/>
                 <View
                     android:layout_width="wrap_content"
@@ -192,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_margin="10dp"
-
+                    android:gravity="center"
                     android:text="Pré-paramétrages"/>
                 <View
                     android:layout_width="wrap_content"
@@ -283,7 +283,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_margin="10dp"
-
+                    android:gravity="center"
                     android:text="Types de membres"/>
                 <View
                     android:layout_width="wrap_content"
@@ -374,7 +374,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_margin="10dp"
-
+                    android:gravity="center"
                     android:text="Objet crédit"/>
                 <View
                     android:layout_width="wrap_content"
@@ -465,7 +465,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_margin="10dp"
-
+                    android:gravity="center"
                     android:text="Statut étape"/>
                 <View
                     android:layout_width="wrap_content"

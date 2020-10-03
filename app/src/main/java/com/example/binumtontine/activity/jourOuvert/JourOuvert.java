@@ -56,6 +56,7 @@ public class JourOuvert extends AppCompatActivity implements  View.OnClickListen
     private static final String KEY_JO_GUICHET = "JoGuichet";
     private static final String KEY_CG_LAST_SOLDE = "CgLastSolde";
     private static final String KEY_CG_GUICHET = "CgGuichet";
+    private static final String KEY_JO_TYPE = "JoType";
 
     private static final String KEY_CM_ID = "CgNumero";
     private static final String KEY_CM_NUMERO = "CmCxGuichet";
@@ -77,7 +78,7 @@ public class JourOuvert extends AppCompatActivity implements  View.OnClickListen
 
 
 
-
+    private String JoType="G";
     private String JoMtDemarr;
     private String CmSens="R";
     private String CmNature="O";
@@ -561,6 +562,7 @@ if (validateLogin() && valueNew<=valueLAst){
             httpParams.put(KEY_JO_MT_PIECE_MONNAIE, JoMtPMonnaie);
             httpParams.put(KEY_JO_IS_CLOSED, JoIsClosed.toString());
             httpParams.put(KEY_JO_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            httpParams.put(KEY_JO_TYPE, JoType);//new
 
             httpParamsCaisseMvt.put(KEY_CM_NUMERO, CgNumero);
             httpParamsCaisseMvt.put(KEY_CM_SENS, CmSens);

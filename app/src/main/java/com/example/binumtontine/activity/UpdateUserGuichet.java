@@ -12,7 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +57,7 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
     private static final String KEY_USER_LOGIN = "ux_login";
     private static final String KEY_USER_PASSWORD = "ux_password";
     private static final String KEY_USER_EMAIL = "ux_email";
+    private static final String KEY_PROFIL_CAISSE_OR_GUICHET = "profilCaisseOrGuichet";
 
     private String userGuichetId;
     private JRSpinner uxGuichetIdSpinner; //pour gérer le spinner contenant les guichets
@@ -101,6 +104,12 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
     private ProgressDialog pDialog;
     private ProgressDialog pDialogFetchGuichetsList;
 
+    private RadioButton rbGuichet;
+    private RadioButton rbCaisse;
+    private String profilCaisseOrGuichet;
+    private JRSpinner spnNewProfil;
+    private TextView tvGuichet;
+    private TextView header_user_guichet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +145,31 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
 
 
         spinnerGuichet = (Spinner) findViewById(R.id.spn_my_spinner_guichet1);
+
+        tvGuichet = (TextView) findViewById(R.id.tv_guichet);
+        header_user_guichet = (TextView) findViewById(R.id.header_user_guichet);
+        header_user_guichet.setText("Mise à jour du profil utilisateur");
+
+        rbGuichet = (RadioButton) findViewById(R.id.rbGuichet);
+        rbCaisse = (RadioButton) findViewById(R.id.rbCaisse);
+        spnNewProfil = (JRSpinner) findViewById(R.id.spnNewProfil);
+        if (UserGuichetActivity.profilCaisseOrGuichet.equals("caisse")){
+            spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil));
+        }else if (UserGuichetActivity.profilCaisseOrGuichet.equals("guichet")){
+            spnNewProfil.setItems(getResources().getStringArray(R.array.array_profilGuichet));
+        }
+//        spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil)); //this is important, you must set it to set the item list
+        spnNewProfil.setTitle("Sélectionner un profil"); //change title of spinner-dialog programmatically
+        spnNewProfil.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        spnNewProfil.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+//        onRadioButtonClicked(rbCaisse);
+
         guichetList = new ArrayList<Category>();
         // spinner item select listener
         spinnerGuichet.setOnItemSelectedListener(UpdateUserGuichet.this);
@@ -153,13 +187,28 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
         });
         updateButton = (Button) findViewById(R.id.btn_save_Ux);
         annulerButton = (Button) findViewById(R.id.btn_clean);
-        annulerButton.setVisibility(View.GONE);
+        annulerButton.setVisibility(View.VISIBLE);
         updateButton.setText("MODIFIER");
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     updateUser();
+
+                } else {
+                    Toast.makeText(UpdateUserGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
 
                 } else {
                     Toast.makeText(UpdateUserGuichet.this,
@@ -177,7 +226,38 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
         getSupportActionBar().setTitle("Mise à jour d'un utilisateur");
 
     }
+    public void onRadioButtonClicked(View view) {
+        boolean checked1 = ((RadioButton) view).isChecked();
+        String str = "";
+        // Check which checkbox was clicked
+        switch (view.getId()) {
+//
+            case R.id.rbCaisse:
+                if (rbCaisse.isChecked()) {
+//                    str = checked1?"Type Fixe sélectionné":"";
+//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
+//                    CrPeriodCalcInteret = "M";
+                    profilCaisseOrGuichet ="caisse";
+                    spinnerGuichet.setVisibility(View.GONE);
+                    tvGuichet.setVisibility(View.GONE);
+                    spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil)); //this is important, you must set it to set the item list
+                }
+                break;
+            case R.id.rbGuichet:
+                if (rbGuichet.isChecked()) {
+//                    str = checked1?"Type Fixe sélectionné":"";
+//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
+//                    CrPeriodCalcInteret = "J";
+                    profilCaisseOrGuichet ="guichet";
 
+                    spinnerGuichet.setVisibility(View.VISIBLE);
+                    tvGuichet.setVisibility(View.VISIBLE);
+                    spnNewProfil.setItems(getResources().getStringArray(R.array.array_profilGuichet)); //this is important, you must set it to set the item list
+
+                }
+                break;
+        }
+    }
 
     /**
      * Fetches single movie details from the server
@@ -234,7 +314,8 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
                    // uxGuichetIdSpinner.setText(uxGuichetDenomination);  //pas indispensable car on le fait directement dans populate
-                     uxProfilEditText.setText(uxProfil);
+//                     uxProfilEditText.setText(uxProfil); OLD
+                    spnNewProfil.setText(uxProfil);
                     uxNomEditText.setText(uxNom);
                     uxPrenomEditText.setText(uxPrenom);
                     uxAdresseEditText.setText(uxAdresse);
@@ -448,8 +529,8 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
 
 
         if (!STRING_EMPTY.equals(uxNomEditText.getText().toString()) &&
-                guichetID!=0 &&
-                !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
+//                guichetID!=0 &&
+//                !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxAdresseEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
                 !STRING_EMPTY.equals(uxLoginEditText.getText().toString()) &&
@@ -459,8 +540,9 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
 
             if ((uxPasswordEditText.getText().toString()).equals(uxConfirmPasswordEditText.getText().toString())){
               //  uxGuichetId = uxGuichetIdSpinner.getText().toString();
-                uxGuichetDenomination = uxGuichetIdSpinner.getText().toString(); //pas nécessaire
-                uxProfil = uxProfilEditText.getText().toString();
+//                uxGuichetDenomination = uxGuichetIdSpinner.getText().toString(); //pas nécessaire
+//                uxProfil = uxProfilEditText.getText().toString();//OLD
+                uxProfil = spnNewProfil.getText().toString();//NEW
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
                 uxAdresse = uxAdresseEditText.getText().toString();
@@ -508,8 +590,14 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
+            if (UserGuichetActivity.profilCaisseOrGuichet.equals("caisse")){
+                httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(MyData.CAISSE_ID));
+            }else if (UserGuichetActivity.profilCaisseOrGuichet.equals("guichet")){
+//                httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(guichetID));
+                httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
+            }
             httpParams.put(KEY_USER_ID, userGuichetId);
-            httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(guichetID));
+//            httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(guichetID));
             httpParams.put(KEY_USER_PROFIL, uxProfil);
             httpParams.put(KEY_USER_NOM, uxNom);
             httpParams.put(KEY_USER_PRENOM, uxPrenom);
@@ -520,6 +608,23 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
             httpParams.put(KEY_USER_LOGIN, uxLogin);
             httpParams.put(KEY_USER_PASSWORD, uxPassword);
             httpParams.put(KEY_USER_EMAIL, uxEmail);
+            httpParams.put(KEY_PROFIL_CAISSE_OR_GUICHET, UserGuichetActivity.profilCaisseOrGuichet);//NEW
+
+            Log.e("Response: ", "> " + UserGuichetActivity.profilCaisseOrGuichet+"\n"+
+                    String.valueOf(MyData.CAISSE_ID)+"\n"+
+                    String.valueOf(MyData.GUICHET_ID)+"\n"+
+                    userGuichetId+"\n"+
+                    uxProfil+"\n"+
+                    uxNom+"\n"+
+                    uxPrenom+"\n"+
+                    uxAdresse+"\n"+
+                    uxTel1+"\n"+
+                    uxTel2+"\n"+
+                    uxTel3+"\n"+
+                    uxLogin+"\n"+
+                    uxPassword+"\n"+
+                    uxEmail
+                    );
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_user_guichet.php", "POST", httpParams);
             try {

@@ -1,4 +1,3 @@
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -500,6 +499,32 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="true"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <!-- CxIsMultiCpteCourByMemb /A		* Pour préciser si dans la caisse concernée, on accepte qu'um membre donné ait à lui seul, plus d'un compte Courant -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblCxIsMultiCpteCourByMemb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Un membre peut-il avoir plus d'un compte courant ?" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchCxIsMultiCpteCourByMemb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
                 app:showText="true"
                 android:textOff="Non"
                 android:textOn="Oui"

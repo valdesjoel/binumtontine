@@ -19,7 +19,7 @@ import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.AboutUsActivity;
 import com.example.binumtontine.activity.CaisseActivity;
-import com.example.binumtontine.activity.PrivacyPolicyActivity;
+import com.example.binumtontine.activity.PreParametrageOFActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -192,7 +192,7 @@ public class CreateCaisseFragment extends Fragment implements View.OnClickListen
 
                 break;
             case R.id.preParam_card :
-                i = new Intent(getActivity(), PrivacyPolicyActivity.class);
+                i = new Intent(getActivity(), PreParametrageOFActivity.class);
                 startActivity(i);
                 break;
             case R.id.param_piece_frais_of_card:

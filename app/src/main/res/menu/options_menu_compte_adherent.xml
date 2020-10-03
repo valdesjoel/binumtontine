@@ -7,7 +7,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
     <!--app:showAsAction="always|withText"-->
 <item
     android:id="@+id/menu_group"
-    android:title="Opértions sur compte"
+    android:title="Opérations sur compte"
     app:showAsAction="always|withText"
     android:orderInCategory="1"
 
@@ -44,19 +44,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/menu_avance_speciale"
             android:title="Avances spéciales" />
             <item
-            android:id="@+id/menu_avance_permanent"
+            android:id="@+id/menu_decouvert_permanent"
             android:title="Découverts permanents" />
-            <!--<item--> -->
+            <!--<item-->
 
             <item
             android:id="@+id/menu_historique"
             android:title="Historique" />
-            <!--<item-->
-            <!--android:id="@+id/menu_interet"-->
-            <!--android:title="Intérêt" />-->
-            <!--<item-->
-            <!--android:id="@+id/menu_frais"-->
-            <!--android:title="Frais" />-->
+
 
         </group>
         <!-- second group (eap_group) sub menu -->
@@ -108,6 +103,23 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             <item
             android:id="@+id/menu_remboursement_credit"
             android:title="Remboursement des échéances" />
+
+            <item
+                android:id="@+id/menu_validation_dette_hors_bilan"
+                android:orderInCategory="100"
+                android:title="@string/action_validation_dette_hors_bilan"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_paiement_dette_hors_bilan"
+                android:orderInCategory="100"
+                android:title="@string/action_paiement_dette_hors_bilan"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_remboursement_anticipe"
+                android:orderInCategory="100"
+                android:title="@string/action_remboursement_anticipe"
+                app:showAsAction="never" />
+
             <item
             android:id="@+id/menu_cloture_credit"
             android:title="Clôture du crédit" />

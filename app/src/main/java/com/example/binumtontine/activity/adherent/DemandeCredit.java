@@ -71,6 +71,7 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
     /*Begin*/
          //to fetchProduitList by caisse and guichet ID
     private static final String KEY_CREDIT_CAISSE_ID = "CrCaisseId";
+    private static final String KEY_GX_NUMERO = "CrGuichetId";
     private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
     /* end*/
     private static final String KEY_CR_ID = "CrNumero";
@@ -378,9 +379,11 @@ public class DemandeCredit extends AppCompatActivity implements AdapterView.OnIt
             ServiceHandler jsonParser = new ServiceHandler();
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
             httpParams.add(new BasicNameValuePair(KEY_CREDIT_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
-            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
-            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_credit_by_caisse.php", ServiceHandler.GET, httpParams);
-//            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_credit_by_guichet.php", ServiceHandler.GET, httpParams);
+            httpParams.add(new BasicNameValuePair(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID)));
+//            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
+//            httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+//            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_credit_by_caisse.php", ServiceHandler.GET, httpParams);
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_credit_by_guichet.php", ServiceHandler.GET, httpParams);
            // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
 
 

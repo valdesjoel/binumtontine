@@ -6,7 +6,9 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.binumtontine.activity.UserGuichetActivity;
 import com.example.binumtontine.activity.adherent.InitialisationCaisseGuichet;
+import com.example.binumtontine.activity.adherent.ListDemandeRetraitAffilierActivity;
 import com.example.binumtontine.activity.adherent.MiseAJourCaisseGuichet;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.ParametreGenerauxCxActivity;
@@ -107,6 +109,22 @@ public class ParamGuichetActivity extends AppCompatActivity {
                 // do your code
                 Intent type_membre_guichet_intent = new Intent(getBaseContext(),   TypeMembreGxActivity.class);
                 startActivity(type_membre_guichet_intent);
+                break;
+            case R.id.add_user_guichet_card:
+                // do your code
+                Intent add_user_guichet_intent = new Intent(getBaseContext(),   UserGuichetActivity.class);
+                UserGuichetActivity.profilCaisseOrGuichet="guichet";
+                startActivity(add_user_guichet_intent);
+                break;
+            case R.id.workflow_guichet_card:
+                // do your code
+                Intent workflow_guichet_intent = new Intent(getBaseContext(),   ListWorkflowGuichet.class);
+                startActivity(workflow_guichet_intent);
+                break;
+            case R.id.collector_card:
+                // do your code
+                Intent collector_intent = new Intent(getBaseContext(),   ListDemandeRetraitAffilierActivity.class);
+                startActivity(collector_intent);
                 break;
             case R.id.init_caisse_guichet_card:
                 // do your code

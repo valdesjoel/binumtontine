@@ -576,7 +576,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save_operation_eav"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -597,7 +597,7 @@
                 style="@style/loginButton"
 
                 android:padding="12dp"
-                android:text="@string/btn_annuler" />
+                android:text="@string/btn_retour" />
 
 
         </LinearLayout>

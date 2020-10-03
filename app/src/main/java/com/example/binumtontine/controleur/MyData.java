@@ -15,19 +15,24 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyData {
-    public static int CAISSE_ID =0;
+//    public static int CAISSE_ID =0; //BON
+    public static int CAISSE_ID =1; //provisoire
     public static String CAISSE_NAME ="";
+    public static int COLLECTEUR_ID =0; //provisoire
+    public static String COLLECTEUR_NAME ="";
     public static String GUICHET_NAME ="";
     public static String JOUR_OUVERT_DATE ="";
     public static String JOUR_OUVERT_IS_CLOSED ="";
     public static int GUICHET_ID =0;
     public static int TYPE_MEMBRE_ID =0;
     public static String TYPE_MEMBRE_NAME ="";
-    public static int USER_ID =8;
+    public static int USER_ID =0;
     public static String USER_NOM ="";
     public static String USER_PRENOM ="";
     public static String USER_EMAIL ="";
+    public static String USER_PROFIL ="";
     public static String TYPE_DE_FRAIS_PLAGE_DATA ="";
+    public static String LIBELLE_PRODUIT_CPTE_COURANT ="";
     //public static   String[] animallist;
    public static List<String> fruitList = new ArrayList<>();
 
@@ -58,13 +63,18 @@ public class MyData {
                     String originalString = s.toString();
 
                     Long longval;
+//                    if (originalString.contains(" ")) {
+//                        originalString = originalString.replaceAll(" ", "");
+//                    }
                     if (originalString.contains(",")) {
                         originalString = originalString.replaceAll(",", "");
                     }
                     longval = Long.parseLong(originalString);
 
                     DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+//                    DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.FRANCE);
                     formatter.applyPattern("#,###,###,###");
+//                    formatter.applyPattern("# ### ### ###");
                     String formattedString = formatter.format(longval);
 
                     //setting text after format to EditText

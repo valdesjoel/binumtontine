@@ -2,6 +2,7 @@
     <string name="app_name">MIFUCAM</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
+    <string name="action_informations">Informations</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
@@ -361,21 +362,70 @@
         <item>Intérêt à cotiser</item>
     </string-array>
     <string-array name="array_base_taux_cpte_courant">
-        <item>Montant découvert</item>
-        <item>Montant + interet</item>
+        <!--<item>Montant découvert</item>-->
+        <!--<item>Montant + interet</item>-->
+        <item>Capital restant dû</item>
+        <item>Mt restant dû(Capital+Pen ret.+Inter ret)</item>
+        <item>Mt restant dû(Capital+Pen ret.+Inter ret+Commissions échues = frais de tenue de comptes)</item>
+    </string-array>
+    <string-array name="array_base_taux_penal_retard_decouv_simple_cpte_courant">
+        <!--<item>Montant découvert</item>-->
+        <!--<item>Montant + interet</item>-->
+        <item>Mt restant dû(Capital+Pen ret.+Inter ret)</item>
+        <item>Mt restant dû(Capital+Pen ret.+Inter ret+Commissions échues = frais de tenue de comptes)</item>
+    </string-array>
+    <string-array name="array_profil">
+        <item>President du Conseil d\'Administration</item>
+        <item>President du Comité de Credit</item>
+        <item>Directeur du Crédit</item>
+        <item>Agent de Crédit</item>
+    </string-array>
+    <string-array name="array_profilGuichet">
+        <item>Agent de guichet</item>
+        <item>Agent collecteur</item>
+        <item>Président de Gestion de Guichet</item>
+        <item>Chef de Guichet</item>
+
     </string-array>
     <string-array name="array_base_taux_int_avce_spec">
-        <item>Capital</item>
-        <item>Capital + pénalités</item>
+        <item>Capital restant dû</item>
+        <item>Mt restant dû(Capital+Pen ret.+Inter ret)</item>
     </string-array>
     <string-array name="array_base_taux_int_pen_avce_spec">
-        <item>Capital</item>
-        <item>Capital + intérêts</item>
+        <item>Mt restant dû(Capital+Pen ret.+Inter ret)</item>
     </string-array>
     <string-array name="array_base_taux_credit">
         <item>Montant credit</item>
         <item>Montant + interet</item>
     </string-array>
+    <string-array name="array_base_taux_interet_nominal_credit">
+        <item>Capital restant dû</item>
+        <item>Mt restant dû(Capital  + Intérêt échue + Pen ret.+Inter ret)</item>
+    </string-array>
+    <string-array name="array_base_taux_penalite_retard_credit">
+        <item>Capital restant dû</item>
+        <item>Mt restant dû(Capital + Intérêt échue +Inter ret)</item>
+        <item>Mt restant dû total (Capital + Intérêt échue  +Pen ret. +Inter ret)</item>
+    </string-array>
+    <string-array name="array_base_taux_interet_retard_credit">
+        <item>Capital restant dû</item>
+        <item>Mt restant dû(Capital + Intérêt échue )</item>
+        <item>Mt restant dû total(Capital + Intérêt échue  +Inter ret. échus)</item>
+    </string-array>
+
+    <string-array name="array_all_profil">
+        <item></item>
+        <item>President du Conseil d\'Administration</item>
+        <item>Directeur de caisse</item>
+        <item>President du Comité de Credit</item>
+        <item>Directeur du Crédit</item>
+        <item>Agent de Crédit</item>
+        <item>Agent de guichet</item>
+        <item>Président de Gestion de Guichet</item>
+        <item>Chef de Guichet</item>
+
+    </string-array>
+
     <string-array name="array_mode_remboursement_credit">
         <item>Interet puis capital</item>
         <item>Capital puis interet</item>
@@ -674,10 +724,16 @@
     <string name="delete">Delete</string>
     <string name="add">Add</string>
     <string name="btn_enregistrer">ENREGISTRER</string>
+    <string name="btn_afficher">OK</string>
     <string name="meat">meat</string>
     <string name="cheese">cheese</string>
     <string name="btn_supprimer">SUPPRIMER</string>
     <string name="appellation_produit">APPELLATION DES PRODUITS</string>
+    <string name="appellation_client">APPELLATION DES CLIENTS</string>
+    <string name="appellation_periodicite_cc">Périodicité par défaut des taux d\'intérét utilisés pour le Compte courant</string>
+    <string name="appellation_periodicite_cr">Périodicité par défaut des taux d\'intérét utilisés pour le Crédit</string>
+    <string name="ordre_remboursement_decouvert">Ordre de remboursement du Découvert</string>
+    <string name="ordre_remboursement_credit">Ordre de remboursement du Crédit</string>
     <string name="hint_type_de_date">Date depôt (en jour):</string>
 
     <!--end remotemysqlconnection -->
@@ -697,9 +753,15 @@
     <string name="hint_code_statut_credit">Code statut de crédit:</string>
     <string name="hint_code_etape_demande_credit">Code étape demande de crédit:</string>
     <string name="btn_annuler">ANNULER</string>
+    <string name="btn_retour">RETOUR</string>
     <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
     <string name="action_all">Tous</string>
     <string name="action_to_affect">Produit à affecter au guichet</string>
+    <string name="action_demande_de_retrait">Demande de retrait</string>
+    <string name="action_paiement_cheque">Paiement chèque</string>
+    <string name="action_transfert_solde_mensuel">Transfert solde mensuel</string>
+    <string name="action_demande_de_chequier">Demande de chéquier</string>
+    <string name="action_ouverture_de_journee">Ouverture de journée</string>
     <string name="action_already_affect">Produit déjà affecté au guichet</string>
     <string name="action_membre">MEMBRE</string>
     <string name="action_usager">USAGER</string>
@@ -736,14 +798,25 @@
     <string name="hint_date_naiss_adherent">Date de naissance (*)</string>
     <string name="nbre_enfant_adherent">Nombre d\'enfant (*)</string>
     <string name="action_situation_guichet">Situation du guichet</string>
+    <string name="action_interets">Interêts</string>
     <string name="action_brouillard_de_caisse">Brouillard de caisse</string>
+    <string name="action_penalites">Penalités</string>
     <string name="action_cloturer_la_journee">Cloturer la journée</string>
     <string name="action_operation_externe">Opérations externes</string>
     <string name="action_cotisations_annuelle">Cotisations annuelle</string>
     <string name="action_jour_anterieur">Jour antérieur</string>
+    <string name="action_collecte_journaliere">Collecte journalière</string>
     <string name="action_nouveaux_adherent">Nouveaux adhérents</string>
+    <string name="action_remboursements">Remboursements</string>
+    <string name="action_validation_dette_hors_bilan">Validation Dette Hors bilan</string>
+    <string name="action_paiement_dette_hors_bilan">Paiement Dette Hors bilan</string>
+    <string name="action_remboursement_anticipe">Remboursement anticipé</string>
     <string name="action_transfert">Transfert</string>
     <string name="action_person_add">Ajouter un adherent</string>
+    <string name="action_etape_suivante">Etape suivante</string>
+    <string name="action_traitement_de_la_demande">Traitement de la demande</string>
+    <string name="action_decouvert_add">Nouveau découvert simple</string>
+    <string name="action_avance_speciale_add">Nouvelle avance spéciale</string>
     <string name="hint_montant_demarrage">Montant de démarrage</string>
     <string name="btn_valider">VALIDER</string>
     <string name="hint_montant_piece_monnaie">Montant pièces de monnaie</string>
@@ -784,6 +857,16 @@
     <string name="hint_montant_mise">Montant mise</string>
     <string name="hint_montant_dat">Montant DAT</string>
     <string name="hint_montant_initialisation">Montant d\'initialisation</string>
+    <string name="hint_Tx_Int_min_autorise_decouvert">Tx Int min découvert</string>
+    <string name="hint_Tx_Int_min_autorise_decouvert_perm">Tx Int min découv perm</string>
+    <string name="hint_Tx_Int_min_autorise_credit">Tx Int min crédit</string>
+    <string name="hint_Tx_Int_max_autorise_credit">Tx Int max crédit</string>
+    <string name="hint_nbre_max_mois_decouv">Nbre max mois Découv +AvceSpec + Dec_Perm pr suivi hors Bilan</string>
+    <string name="hint_nbre_max_mois_credit">Nbre max mois Crédit pour le suivi hors Bilan</string>
+    <string name="hint_Tx_Int_max_autorise_decouvert_perm">Tx Int max découv perm</string>
+    <string name="hint_Tx_Int_max_autorise_decouvert">Tx Int max découvert</string>
+    <string name="hint_Tx_Int_min_autorise_AvSpec_ou_Fcx">Tx Int min AvSpec ou Fcx</string>
+    <string name="hint_Tx_Int_max_autorise_AvSpec_ou_Fcx">Tx Int max AvSpec ou Fcx</string>
     <string name="hint_montant_actuel">Montant actuel</string>
     <string name="mode_paiement">Mode de paiement</string>
     <string name="motif_decision">Motif:</string>
@@ -792,7 +875,9 @@
     <string name="hint_detail_deblocage">Détails déblocage</string>
     <string name="hint_detail_decaissement">Détails décaissement</string>
     <string name="hint_montant_operation">Montant</string>
+    <string name="hint_observations">Observations:</string>
     <string name="hint_libelle_operation">Libellé de l\'opération</string>
+    <string name="hint_OcMotifDemande">Objet de la demande</string>
     <string name="hint_montant_accorde">Montant accordé</string>
     <string name="hint_type_de_date_retrait">Date retrait (en jour):</string>
     <string name="hint_Libelle_type_membre">Libellé du type de membre</string>
@@ -800,6 +885,15 @@
     <string name="details_type_membre">Détails type de membre</string>
     <string name="action_membre_to_affect">Membre à affecter à la caisse</string>
     <string name="action_objet_to_affect">Objets de crédit à affecter à la caisse</string>
+    <string name="action_decouvert">Découvert</string>
+    <string name="action_facilite_caisse">Facilité de caisse</string>
+    <string name="action_decouvert_permanent">Découvert Permanent</string>
+    <string name="action_modification_decouvert">Modification Découvert</string>
+    <string name="action_credit">Crédit</string>
+    <string name="action_reechelonnement_credit">Re-échelonnement Echéances crédit</string>
+    <string name="action_remise_sur_interet">Remise sur intérêt</string>
+    <string name="action_validation_dette_hors_bilan_decouvert">Validation de la dette hors bilan du découvert</string>
+    <string name="action_validation_dette_hors_bilan_credit">Validation de la dette hors bilan du crédit</string>
     <string name="action_etape_to_affect">Etapes de crédit à affecter à la caisse</string>
     <string name="action_statut_to_affect">Statuts à affecter à la caisse</string>
     <string name="action_membre_already_affect">Membres déjà affectés à la caisse</string>
@@ -810,6 +904,7 @@
     <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
     <string name="btn_config_plage_tiv">Cliquer ici pour paramétrer les plages</string>
     <string name="hint_journee_anterieure">Journee anterieure</string>
+    <string name="hint_journee_ouverture">Journee d\'ouverture</string>
     <string name="hint_nombre_echeance">Nombre Echéances</string>
     <string name="hint_montant_echeance">Montant échéance</string>
     <string name="hint_garanties_acceptees">Garanties acceptées</string>

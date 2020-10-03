@@ -25,16 +25,12 @@ import com.example.binumtontine.R;
 import com.example.binumtontine.adapter.CircleTransform;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.fragment.HomeAdminCaisseFragment;
-import com.example.binumtontine.fragment.HomeFragment;
 import com.example.binumtontine.fragment.MoviesFragment;
 import com.example.binumtontine.fragment.NotificationsFragment;
-import com.example.binumtontine.fragment.PhotosFragment;
 import com.example.binumtontine.fragment.ProduitCaisseFragment;
 import com.example.binumtontine.fragment.SettingsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
 
 
 public class MainActivityAdminCaisse extends AppCompatActivity implements NotificationsFragment.OnFragmentInteractionListener {
@@ -285,7 +281,7 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
                         return true;
                     case R.id.nav_privacy_policy:
                         // launch new intent instead of loading fragment
-                        startActivity(new Intent(MainActivityAdminCaisse.this, PrivacyPolicyActivity.class));
+                        startActivity(new Intent(MainActivityAdminCaisse.this, PreParametrageOFActivity.class));
                         drawer.closeDrawers();
                         return true;
                     default:
@@ -345,11 +341,12 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
                 loadHomeFragment();
+
                 return;
             }
         }
 
-        //super.onBackPressed();
+        super.onBackPressed();//a revoir
         Toast.makeText(getApplicationContext(), "Veuillez cliquer sur le menu Se déconnecter si vous desirez sortir de l'application!", Toast.LENGTH_LONG).show();
     }
 

@@ -1,0 +1,48 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/action_informations"
+        android:title="@string/action_informations"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_search"
+         />
+    <item
+        android:id="@+id/action_etape_suivante"
+        android:title="@string/action_etape_suivante"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_person_add"
+        />
+
+    <item
+        android:id="@+id/action_interets"
+        android:title="@string/action_interets"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_penalites"
+        android:orderInCategory="100"
+        android:title="@string/action_penalites"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_remboursements"
+        android:orderInCategory="100"
+        android:title="@string/action_remboursements"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_validation_dette_hors_bilan"
+        android:orderInCategory="100"
+        android:title="@string/action_validation_dette_hors_bilan"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_paiement_dette_hors_bilan"
+        android:orderInCategory="100"
+        android:title="@string/action_paiement_dette_hors_bilan"
+        app:showAsAction="never" />
+
+
+
+
+</menu>

@@ -267,7 +267,16 @@
                     android:checked="false"
                     android:visibility="gone"
                     android:onClick="onRadioButtonClicked"
-                    android:text="Découvert"
+                    android:text="Découvert simple"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_nature_operation_avance_speciale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:visibility="gone"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Avance spéciale"
                     android:textSize="16sp" />
 
 
@@ -375,10 +384,34 @@
                 android:id="@+id/input_txt_OcLibelleMvmEAV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:hint="@string/hint_libelle_operation"
                 style="@style/modifiedEditText"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--pour renseigner le motif de la demande pour les comptes courants-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_OcMotifDemande"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_OcMotifDemande"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_OcMotifDemande"
+                style="@style/modifiedEditText"
+                android:inputType="textMultiLine"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />

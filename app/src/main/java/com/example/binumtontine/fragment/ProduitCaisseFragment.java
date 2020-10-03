@@ -21,7 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.AboutUsActivity;
 import com.example.binumtontine.activity.CaisseActivity;
-import com.example.binumtontine.activity.PrivacyPolicyActivity;
+import com.example.binumtontine.activity.PreParametrageOFActivity;
 import com.example.binumtontine.activity.ProduitCpteCourantActivity;
 import com.example.binumtontine.activity.ProduitCreditActivity;
 import com.example.binumtontine.activity.ProduitEAPActivity;
@@ -117,6 +117,10 @@ public class ProduitCaisseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("PRODUITS");
+//        ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Paramétrage des produits");
+//        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.flag_cameroon);
+//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -224,7 +228,7 @@ public class ProduitCaisseFragment extends Fragment implements View.OnClickListe
                 startActivity(i);
                 break;
             case R.id.preParam_card :
-                i = new Intent(getActivity(), PrivacyPolicyActivity.class);
+                i = new Intent(getActivity(), PreParametrageOFActivity.class);
                 startActivity(i);
                 break;
             case R.id.param_piece_frais_of_card:

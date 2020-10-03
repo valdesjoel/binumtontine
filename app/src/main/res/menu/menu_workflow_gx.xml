@@ -1,0 +1,58 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_decouvert"
+        android:title="@string/action_decouvert"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_facilite_caisse"
+        android:orderInCategory="100"
+        android:title="@string/action_facilite_caisse"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_decouvert_permanent"
+        android:orderInCategory="100"
+        android:title="@string/action_decouvert_permanent"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_modification_decouvert"
+        android:title="@string/action_modification_decouvert"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_credit"
+        android:orderInCategory="100"
+        android:title="@string/action_credit"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reechelonnement_credit"
+        android:orderInCategory="100"
+        android:title="@string/action_reechelonnement_credit"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_remise_sur_interet"
+        android:orderInCategory="100"
+        android:title="@string/action_remise_sur_interet"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_validation_dette_hors_bilan_decouvert"
+        android:orderInCategory="100"
+        android:title="@string/action_validation_dette_hors_bilan_decouvert"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_validation_dette_hors_bilan_credit"
+        android:orderInCategory="100"
+        android:title="@string/action_validation_dette_hors_bilan_credit"
+        app:showAsAction="never" />
+</menu>

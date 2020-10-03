@@ -57,6 +57,16 @@
         android:orderInCategory="100"
         android:title="@string/action_jour_anterieur"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_collecte_journaliere"
+        android:orderInCategory="100"
+        android:title="@string/action_collecte_journaliere"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:title="@string/action_logout"
+        app:showAsAction="never" />
 
 
 </menu>

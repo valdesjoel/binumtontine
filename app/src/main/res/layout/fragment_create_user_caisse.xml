@@ -442,6 +442,33 @@
                     android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Profil User-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_NewProfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                >
+                <com.example.binumtontine.JRSpinner
+
+                    android:id="@+id/spnNewProfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_profil_user"
+                    app:jrs_title="Choose"
+                    style="@style/modifiedEditText"
+                    app:jrs_multiple="false"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!--<com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -470,10 +497,7 @@
                 style="@style/parent"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 app:errorEnabled="true"
-
-
                 >
-
                 <EditText
                     android:id="@+id/input_txt_profil_user"
                     android:layout_width="match_parent"

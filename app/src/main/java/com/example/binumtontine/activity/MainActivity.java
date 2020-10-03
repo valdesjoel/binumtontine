@@ -288,7 +288,7 @@ Glide.with(this).load(R.drawable.nav_menu_header_bg)
                         return true;
                     case R.id.nav_privacy_policy:
                         // launch new intent instead of loading fragment
-                        startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
+                        startActivity(new Intent(MainActivity.this, PreParametrageOFActivity.class));
                         drawer.closeDrawers();
                         return true;
                     default:

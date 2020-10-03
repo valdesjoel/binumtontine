@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.PreParametrageOFActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="true">
+
+            <com.example.binumtontine.JRSpinner
+                android:id="@+id/spn_my_spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/my_products"
+                android:textColor="@color/colorPrimary"
+                app:backgroundTint="@color/colorPrimary"
+                app:jrs_title="Choose"
+                app:jrs_icon_tint="@color/colorPrimary"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".activity.PreParametrageOFActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_preParam_Produit"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+   <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sélectionner les produits de votre réseau: "
+        android:textColor="#f00"
+        android:textSize="20sp"
+        android:textStyle="bold" />-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+        <!--android:background="#e0e0e0"-->
+
+
+        <CheckBox
+            android:id="@+id/eavCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="50dp"
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/produit_eav"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/eapCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_eap"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/eatCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_eat"
+            android:textColor="#444"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/cptecourantCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/produit_cc"
+            android:layout_marginLeft="50dp"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/creditCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_credit"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_classique"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="15sp"
+            android:text="@string/produit_transfert_classique"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_to_mtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:text="@string/produit_transfert_to_mtn"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_to_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_transfert_to_orange"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/checkBoxTransfert_to_eu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/produit_transfert_to_eu"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/chkOp_ext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/op_ext"
+            android:onClick="onCheckboxClicked"/>
+       <!-- <CheckBox
+            android:id="@+id/chkAppellation_produit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:layout_marginLeft="50dp"
+            android:text="@string/appellation_produit"
+            android:onClick="onCheckboxClicked"/> -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblTypeNouveauTxInteretRuptureEAP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/appellation_produit"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupEpTypeNouveauTxInteretRuptureEAP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblTypeNouveauTxInteretRuptureEAP"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:showDividers="middle|end">
+
+                <RadioButton
+                    android:id="@+id/rbEpargne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Epargne" />
+
+                <RadioButton
+                    android:id="@+id/rbDepot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Dépôt" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--PoAppellationMemAdhAss /A1	* Pour préciser l'appellation Membre/M, Adhérent/A, Associé/S dans le réseau, Membre par défaut-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblPoAppellationMemAdhAss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/appellation_client"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupPoAppellationMemAdhAss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoAppellationMemAdhAss"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:showDividers="middle|end">
+
+                <RadioButton
+                    android:id="@+id/rbMembre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Membre" />
+
+                <RadioButton
+                    android:id="@+id/rbAdherent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Adhérent" />
+                <RadioButton
+                    android:id="@+id/rbAssocie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Associé" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!--PoPeriodDefTxIntCCour /A1(J,M,T,A)	* Pour préciser la périodicité par défaut des taux d'intérét utilisés le Compte courant(Dec/FC/DecPerm)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblPoPeriodDefTxIntCCour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/appellation_periodicite_cc"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupPoPeriodDefTxIntCCour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoPeriodDefTxIntCCour"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:showDividers="middle|end">
+
+                <RadioButton
+                    android:id="@+id/rbJour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Jour" />
+
+                <RadioButton
+                    android:id="@+id/rbMois"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Mois" />
+                <RadioButton
+                    android:id="@+id/rbTrimestre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Trimestre" />
+                <RadioButton
+                    android:id="@+id/rbAnnee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Année" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!--PoPeriodDefTxIntCred/A1(J,M,T,A)	* Pour préciser la périodicité par défaut des taux d'intérét utilisés pour le crédit-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblPoPeriodDefTxIntCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/appellation_periodicite_cr"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupPoPeriodDefTxIntCred"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoPeriodDefTxIntCred"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:showDividers="middle|end">
+
+                <RadioButton
+                    android:id="@+id/rbJourCr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Jour" />
+
+                <RadioButton
+                    android:id="@+id/rbMoisCr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Mois" />
+                <RadioButton
+                    android:id="@+id/rbTrimestreCr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Trimestre" />
+                <RadioButton
+                    android:id="@+id/rbAnneeCr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Année" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- PoOrdreRembDecouv /I		* Pour renseigner l'ordre dans lequel, on souhaite que le système fait le remboursement du Découvert,
+         proposer  au choix: 1. Int de retard - Penalité de ret - Int. nominal - Capital
+         2. Penalite de retard - Int. de retard - Int. nominal - Capital
+          -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblPoOrdreRembDecouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/ordre_remboursement_decouvert"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupPoOrdreRembDecouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoOrdreRembDecouv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:showDividers="middle|end">
+
+                <RadioButton
+                    android:id="@+id/rbChoix1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="1. Int de retard - Penalité de ret - Int. nominal - Capital" />
+
+                <RadioButton
+                    android:id="@+id/rbChoix2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="2. Penalite de retard - Int. de retard - Int. nominal - Capital" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- PoOrdreRembCredit /I		* Pour indiquer l'ordre par défaut pour proposer le remboursement du crédit, même base que le précédent. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblPoOrdreRembCredit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/ordre_remboursement_credit"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupPoOrdreRembCredit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoOrdreRembCredit"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:showDividers="middle|end">
+
+                <RadioButton
+                    android:id="@+id/rbChoix1Cr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="1. Int de retard - Penalité de ret - Int. nominal - Capital" />
+
+                <RadioButton
+                    android:id="@+id/rbChoix2Cr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="2. Penalite de retard - Int. de retard - Int. nominal - Capital" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--PoTxIntMinAutorDecouv /R * Pour renseigner le taux d'intérêt minimum autorisé sur le Découvert.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMinAutorDecouv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMinAutorDecouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_min_autorise_decouvert"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoTxIntMaxAutorDecouv /R			* Pour renseigner le taux d'intérêt maximum autorisé sur le Découvert.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMaxAutorDecouv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMaxAutorDecouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_max_autorise_decouvert"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--PoTxIntMinAutorAvceSpec /R			* Pour renseigner le taux d'intérêt minimum autorisé sur les Avances spéciales ou facilités de caisse-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMinAutorAvceSpec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMinAutorAvceSpec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_min_autorise_AvSpec_ou_Fcx"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoTxIntMaxAutorAvceSpec /R			* Pour renseigner le taux d'intérêt maximum autorisé sur les Avances spéciales ou facilités de caisse-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMaxAutorAvceSpec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMaxAutorAvceSpec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_max_autorise_AvSpec_ou_Fcx"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoTxIntMinAutorDecouvPerm /R		* Pour renseigner le taux d'intérêt minimum autorisé sur les Découverts permanents.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMinAutorDecouvPerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMinAutorDecouvPerm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_min_autorise_decouvert_perm"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoTxIntMaxAutorDecouvPerm /R		* Pour renseigner le taux d'intérêt maximum autorisé sur les Découverts permanents.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMaxAutorDecouvPerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMaxAutorDecouvPerm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_max_autorise_decouvert_perm"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoTxIntMinAutorCredit /R			* Pour renseigner le taux d'intérêt minimum autorisé sur les Crédits.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMinAutorCredit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMinAutorCredit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_min_autorise_credit"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoTxIntMaxAutorCredit /R			* Pour renseigner le taux d'intérêt maximum autorisé sur les Crédits.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoTxIntMaxAutorCredit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoTxIntMaxAutorCredit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_Tx_Int_max_autorise_credit"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoNbMoisMaxDecouvHorsBilan /I		* Pour renseigner le nombre maximum de mois
+         pour les Découverts+AvceSpec+ Dec_Perm pour faire le suivi hors Bilan-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoNbMoisMaxDecouvHorsBilan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoNbMoisMaxDecouvHorsBilan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_nbre_max_mois_decouv"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoNbMoisMaxCreditHorsBilan /I		* Pour renseigner le nombre maximum de mois pour les Credits pour faire le suivi hors Bilan-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoNbMoisMaxCreditHorsBilan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_PoNbMoisMaxCreditHorsBilan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_nbre_max_mois_credit"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- PoIsMultiCpteCourByMemb /A		* Pour préciser si dans le réseau, on accepte qu'um membre donné ait à lui seul, plus d'un compte Courant -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblPoIsMultiCpteCourByMemb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Un membre peut-il avoir plus d'un compte courant ?" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchPoIsMultiCpteCourByMemb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="true"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/radioGroupEpTypeNouveauTxInteretRuptureEAP"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginBottom="70dp"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_PreParamOf"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:text="@string/btn_enregistrer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_annuler" />
+        </LinearLayout>
+
+
+        <!--<Button
+            android:id="@+id/getBtn"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="Get Details" />-->
+
+    </LinearLayout>
+</ScrollView>
+</RelativeLayout>

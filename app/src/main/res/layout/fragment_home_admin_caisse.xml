@@ -31,8 +31,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/paramProduit_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -41,29 +41,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebackgroundpurple"
                         app:srcCompat="@drawable/ic_attach_money_black_24dp"
-                        android:padding="10dp"/>
+                        android:padding="2dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
+                        android:layout_margin="5dp"
                         android:gravity="center"
                         android:text="Paramétrage des produits"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
                         android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Paramétrage complet des produits "
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>
@@ -72,8 +72,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/guichet_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 >
@@ -85,16 +85,16 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebackgroundpink"
-                        android:padding="10dp"
+                        android:padding="2dp"
                         app:srcCompat="@drawable/ic_lightbulb_outline_black_24dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="5dp"
                         android:text="Guichet"
 
                         android:textStyle="bold" />
@@ -102,14 +102,14 @@
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:layout_margin="10dp"
+                        android:layout_margin="5dp"
                         android:background="@color/colorLightGray" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:text="Créer un guichet"
                         android:textColor="@android:color/darker_gray" />
 
@@ -128,7 +128,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/usager_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
+                android:layout_height="150dp"
                 android:layout_margin="10dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
@@ -138,29 +138,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebackgroundgreen"
                         app:srcCompat="@drawable/ic_control_point_black_24dp"
-                        android:padding="10dp"/>
+                        android:padding="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
-
-                        android:text="Agent de guichet"/>
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:text="PROFIL UTILISATEUR"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
                         android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Créer les agents des guichets"
-                        android:padding="5dp"
+                        android:text="Créer les agents de la caisse"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>
@@ -169,8 +169,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/paramGeneral_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -179,29 +179,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebacgroundyellow"
                         app:srcCompat="@drawable/ic_attach_file_black_24dp"
-                        android:padding="10dp"/>
+                        android:padding="2dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
-
+                        android:layout_margin="5dp"
+                        android:gravity="center"
                         android:text="Paramètres pièces et frais"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
                         android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Paramétrer les pièces et frais"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>
@@ -219,8 +219,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/param_guichet_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -229,29 +229,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebackgroundpurple"
                         app:srcCompat="@drawable/ic_wifi_tethering_black_24dp"
-                        android:padding="10dp"/>
+                        android:padding="2dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
+                        android:layout_margin="5dp"
                         android:gravity="center"
                         android:text="Paramétrage d'un guichet"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:background="@color/colorAccent1"
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Sélectionner un guichet et le paramétrer"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>
@@ -260,8 +260,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/paramTypeMembre_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -270,29 +270,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebacgroundyellow"
                         app:srcCompat="@drawable/ic_attach_file_black_24dp"
-                        android:padding="10dp"/>
+                        android:padding="2dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
-
+                        android:layout_margin="5dp"
+                        android:gravity="center"
                         android:text="Types de membres"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:background="@color/colorAccentNew"
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Affecter les types de membres à la caisse"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>
@@ -311,8 +311,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/etapes_demande_credit_cx_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -321,29 +321,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebackgroundpurple"
                         app:srcCompat="@drawable/goal"
-                        android:padding="10dp"/>
+                        android:padding="2dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
+                        android:layout_margin="5dp"
                         android:gravity="center"
                         android:text="Etapes demande de crédit"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
                         android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Etapes de la demande de crédit"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>
@@ -352,8 +352,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/objet_credit_cx_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -362,29 +362,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebacgroundyellow"
                         app:srcCompat="@drawable/homework"
-                        android:padding="10dp"/>
+                        android:padding="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
+                        android:layout_margin="5dp"
 
                         android:text="Objet crédit"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
                         android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Objets de crédits"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>
@@ -443,8 +443,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/statut_etape_demande_credit_cx_card"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
-                android:layout_margin="10dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -453,29 +453,29 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:background="@drawable/cerclebackgroundpink"
                         app:srcCompat="@drawable/settings"
-                        android:padding="10dp"/>
+                        android:padding="2dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
-
+                        android:layout_margin="5dp"
+                        android:gravity="center"
                         android:text="Statut étape"/>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
                         android:background="@color/colorLightGray"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Statut d'étape de demande de crédit"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:textColor="@android:color/darker_gray"/>
 
                 </LinearLayout>

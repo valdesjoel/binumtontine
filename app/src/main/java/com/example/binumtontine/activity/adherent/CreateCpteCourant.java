@@ -70,6 +70,7 @@ public class CreateCpteCourant extends AppCompatActivity implements AdapterView.
     private static final String KEY_EV_CAISSE_ID = "ev_caisse_id";
     private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
     private static final String KEY_CC_CAISSE_NUMERO = "CcCaisseId";
+    private static final String KEY_GX_NUMERO = "CcGuichetId";
     /* end*/
     private static final String KEY_CPTE_COURANT_ID = "CcNumero";
     private static final String KEY_CPTE_COURANT_LIBELLE = "CcLibelle";
@@ -136,6 +137,7 @@ public class CreateCpteCourant extends AppCompatActivity implements AdapterView.
     private int success;
     private ProgressDialog pDialog;
     private ProgressDialog pDialogFetchProduitEavList;
+    private TextView tv_title_cc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +158,8 @@ public class CreateCpteCourant extends AppCompatActivity implements AdapterView.
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_num_dossier_adherent);
 
 
+        tv_title_cc = (TextView) findViewById(R.id.tv_title_eav);
+        tv_title_cc.setText("Produit compte courant");
         spinnerListCC = (Spinner) findViewById(R.id.spn_list_eav);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
         tvAdherentNom.setText(adNom+"\n"+adPrenom);
@@ -254,9 +258,11 @@ public class CreateCpteCourant extends AppCompatActivity implements AdapterView.
             ServiceHandler jsonParser = new ServiceHandler();
             List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
             httpParams.add(new BasicNameValuePair(KEY_CC_CAISSE_NUMERO, String.valueOf(MyData.CAISSE_ID)));
+            httpParams.add(new BasicNameValuePair(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID)));
 //            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
 //            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
-            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_cpte_courant.php", ServiceHandler.GET, httpParams);
+//            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_cpte_courant.php", ServiceHandler.GET, httpParams);
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_cpte_courant_by_guichet.php", ServiceHandler.GET, httpParams);
            // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
 
 
@@ -339,7 +345,7 @@ public class CreateCpteCourant extends AppCompatActivity implements AdapterView.
 
 
     /**
-     * Checks whether all files are filled. If so then calls AddEavAdherentAsyncTask.
+     * Checks whether all files are filled. If so then calls AddCpteCourantAdherentAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addEavAdherent() {
@@ -351,7 +357,7 @@ public class CreateCpteCourant extends AppCompatActivity implements AdapterView.
 //            CcMtMaxDecouv = CcaMtMaxDecouvEditText.getText().toString();
                 adNumDossier = NumDossierEditText.getText().toString();
 
-                new AddEavAdherentAsyncTask().execute();
+                new AddCpteCourantAdherentAsyncTask().execute();
 
 
         } else {
@@ -367,7 +373,7 @@ public class CreateCpteCourant extends AppCompatActivity implements AdapterView.
     /**
      * AsyncTask for adding a compte eav
      */
-    private class AddEavAdherentAsyncTask extends AsyncTask<String, String, String> {
+    private class AddCpteCourantAdherentAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

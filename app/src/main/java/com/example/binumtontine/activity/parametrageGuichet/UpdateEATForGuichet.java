@@ -19,7 +19,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.ListPlageDataTASActivity;
+import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -45,11 +48,9 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_EAT_NBRE_UNITE_PAS = "EtNbreUnitePas";
     private static final String KEY_EAT_TYPE_TX_INTER = "EtTypTxInter";
     private static final String KEY_EAT_VAL_TX_INTER = "EtValTxInter";
+    private static final String KEY_EAT_BaseTxInter = "EtBaseTxInter";
     private static final String KEY_EAT_PLAGE_TX_INTER_FROM = "EtPlageTxInterFrom";
     private static final String KEY_EAT_PLAGE_TX_INTER_TO = "EtPlageTxInterTo";
-    private static final String KEY_EAT_PLAGE_TX_INTER_DEBUT = "EtTitDebut";
-    private static final String KEY_EAT_PLAGE_TX_INTER_FIN = "EtTitFin";
-    private static final String KEY_EAT_PLAGE_TX_INTER_VALEUR = "EtTitValeur";
     private static final String ET_IS_TX_INT_NEG = "EtIsTxIntNeg";
     private static final String ET_IS_PRISE_INT_MISE_ON = "EtIsPriseIntMiseOn";
     private static final String ET_IS_PENAL_RUP_ANT = "EtIsPenalRupAnt";
@@ -122,7 +123,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private EditText EtPlageTxMtRuptureFrom_ET;
     private EditText EtPlageTxMtRuptureTo_ET;
     private EditText EtPlageTxMtRuptureValeur_ET;
-    private EditText EtBaseTxPenal_ET;
+    private JRSpinner EtBaseTxPenal_ET;
 
     private Switch EtIsEparRetireFin_SW;
     private Switch EtIsEparTransfFin_SW;
@@ -138,7 +139,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private EditText EtPlageTxIntPenalFrom_ET;
     private EditText EtPlageTxIntPenalTo_ET;
     private EditText EtPlageTxIntPenalValeur_ET;
-    private EditText EtBaseTxIntPenal_ET;
+    private JRSpinner EtBaseTxIntPenal_ET;
     private Switch EtTxIntPenalNeg_SW;
 
 
@@ -153,6 +154,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private String EtNbreUnitePas;
     private String EtTypTxInter;
     private String EtValTxInter;
+    private String EtBaseTxInter;
     private String EtPlageTxInterFrom;
     private String EtPlageTxInterTo;
     private Boolean EtIsTxIntNeg ;
@@ -227,14 +229,60 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
 
 
-    private String eavId;
+//    public static String eatId;
     private static final String KEY_EAT_ID = "EtNumero";
-    private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to get intent.extra
-    private Boolean action_to_affect;
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     private TextView headerEATTextView;
     private TextView tv_header_produit;
+
+
+
+    /*START*/
+    private RadioButton rbEtTypTxInterTaux;
+    private RadioButton rbEtTypNewTxIntRupAntTaux;
+
+    private TextInputLayout input_layout_EtBaseTxInter;
+    private JRSpinner mySpinnerEtBaseTxInter; //pour gérer le spinner contenant les bases du Tx Int avance spéciale
+
+
+    private TextView tv_plageEtValTxInter;
+    private TextView tv_plage_EtValTxMtRupture;
+    private TextView tv_plage_EtValTxIntPenal;
+    public static ArrayList<ModelPlageData> plageDataListTIT = new ArrayList<ModelPlageData>(); //to manage plageData
+
+    //#TIT
+    private static final String KEY_EAT_PLAGE_TX_INTER_DEBUT = "EtTitDebut";
+    private static final String KEY_EAT_PLAGE_TX_INTER_FIN = "EtTitFin";
+    private static final String KEY_EAT_PLAGE_TX_INTER_VALEUR = "EtTitValeur";
+    private static final String KEY_EAT_PLAGE_TX_INTER_BASE = "EtTitBase";
+    private static final String KEY_EAT_PLAGE_TX_INTER_NATURE = "EtTitNature";
+
+    private String tabPlageDebutTIT ="";
+    private String tabPlageFinTIT ="";
+    private String tabPlageValeurTIT ="";
+    private String tabPlageBaseTIT ="";
+    private String tabPlageNatureTIT ="";
+
+    private String eatId;
+    private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to get intent.extra
+    private Boolean action_to_affect;
+
+    //BEGIN
+
+
+
+
+
+
+
+
+
+//    public static String eatId;
+
+
+
+    //END
 
 
     @Override
@@ -286,8 +334,10 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         rbEtNaturePasSaut = (RadioButton) findViewById(R.id.rb_EtNaturePasSaut);
         EtNbreUnitePas_ET = (EditText) findViewById(R.id.input_txt_NbreUnitePasEAT);
         rbEtTypTxInterFixe = (RadioButton) findViewById(R.id.rbEtTypTxInterFixe);
+        rbEtTypTxInterTaux = (RadioButton) findViewById(R.id.rbEtTypTxInterTaux);
         rbEtTypTxInterPlage = (RadioButton) findViewById(R.id.rbEtTypTxInterPlage);
         EtValTxInter_ET = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAT);
+
 
         EtPlageTxInterFrom_ET = (EditText) findViewById(R.id.txt_EtValTxInterFrom);
         EtPlageTxInterTo_ET = (EditText) findViewById(R.id.txt_EtValTxInterTo);
@@ -305,7 +355,20 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         EtPlageTxMtRuptureFrom_ET = (EditText) findViewById(R.id.txt_EtValTxMtRuptureFrom);
         EtPlageTxMtRuptureTo_ET = (EditText) findViewById(R.id.txt_EtValTxMtRuptureTo);
         EtPlageTxMtRuptureValeur_ET = (EditText) findViewById(R.id.txt_EtValTxMtRuptureValeur);
-        EtBaseTxPenal_ET = (EditText) findViewById(R.id.input_txt_BaseTxPenalEAT);
+        EtBaseTxPenal_ET = (JRSpinner) findViewById(R.id.input_txt_BaseTxPenalEAT);
+        /*Base EtBaseTxPenal_ET debut*/
+        EtBaseTxPenal_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EtBaseTxPenal_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        EtBaseTxPenal_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        EtBaseTxPenal_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+        /*Base EtBaseTxPenal_ET fin*/
+
 
         EtIsEparRetireFin_SW = (Switch) findViewById(R.id.SwitchPossibiliteRetirerEAT);
         EtIsEparTransfFin_SW = (Switch) findViewById(R.id.SwitchPossibiliteTransfererVersEAT_EAV);
@@ -317,21 +380,110 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         EtIsInterDusRupAnt_SW = (Switch) findViewById(R.id.SwitchInteretDusRuptureEAP);
         EtIsNewTxIntRupAnt_SW = (Switch) findViewById(R.id.SwitchDefinirNouveauTxInteretEAT);
         rbEtTypNewTxIntRupAntFixe = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATFixe);
+        rbEtTypNewTxIntRupAntTaux = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATTaux);
         rbEtTypNewTxIntRupAntPlage = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATPlage);
         EtValTxIntPenal_ET = (EditText) findViewById(R.id.txtValeurNewTxInteretRuptureEAT);
         EtPlageTxIntPenalFrom_ET = (EditText) findViewById(R.id.txt_EtNewValTxInterFrom);
         EtPlageTxIntPenalTo_ET = (EditText) findViewById(R.id.txt_EtNewValTxInterTo);
         EtPlageTxIntPenalValeur_ET = (EditText) findViewById(R.id.txt_EtNewValTxInterValeur);
-        EtBaseTxIntPenal_ET = (EditText) findViewById(R.id.txtBaseNewTxInteretEAT);
+        EtBaseTxIntPenal_ET = (JRSpinner) findViewById(R.id.txtBaseNewTxInteretEAT);
+        /*Base EtBaseTxIntPenal_ET debut*/
+        EtBaseTxIntPenal_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EtBaseTxIntPenal_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        EtBaseTxIntPenal_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        EtBaseTxIntPenal_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+        /*Base EtBaseTxIntPenal_ET fin*/
+
         EtTxIntPenalNeg_SW = (Switch) findViewById(R.id.SwitchTxNewInteretNegociableEAT);
 
-        onRadioButtonClicked(rbEtNaturePasFixe);
+        mySpinnerEtBaseTxInter = (JRSpinner)findViewById(R.id.spn_my_spinner_base_EtBaseTxInter);
+        /*Base EtBaseTxInter debut*/
+        mySpinnerEtBaseTxInter.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        mySpinnerEtBaseTxInter.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        mySpinnerEtBaseTxInter.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        mySpinnerEtBaseTxInter.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+        /*Base EtBaseTxInter fin*/
+
+        input_layout_EtBaseTxInter = (TextInputLayout) findViewById(R.id.input_layout_EtBaseTxInter);
+        tv_plageEtValTxInter = (TextView) findViewById(R.id.tv_plage_EtValTxInter);
+        tv_plageEtValTxInter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'intérêt";
+                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEATForGuichet.this,ListPlageDataTASActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateEATForGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+
+        tv_plage_EtValTxMtRupture = (TextView) findViewById(R.id.tv_plage_EtValTxMtRupture);
+        tv_plage_EtValTxMtRupture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux de pénalité";
+                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEATForGuichet.this,ListPlageDataTASActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateEATForGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        tv_plage_EtValTxIntPenal = (TextView) findViewById(R.id.tv_plage_EtValTxIntPenal);
+
+        tv_plage_EtValTxIntPenal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Nouveau Taux d'intérêt";
+                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEATForGuichet.this,ListPlageDataTASActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateEATForGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+
+      /*  onRadioButtonClicked(rbEtNaturePasFixe);
         onRadioButtonClicked(rbEtTypTxInterFixe);
         onRadioButtonClicked(rbEtNatureRupAnTaux);
         onRadioButtonClicked(rbEtTypNewTxIntRupAntFixe);
 
         onSwitchButtonClicked(EtIsPenalRupAnt_SW);
-        onSwitchButtonClicked(EtIsNewTxIntRupAnt_SW);
+        onSwitchButtonClicked(EtIsNewTxIntRupAnt_SW);*/
         // EtIsPenalRupAnt_SW.setChecked(false);
 
         remove_button = (Button) findViewById(R.id.remove_button);
@@ -382,19 +534,9 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         });
 
 
-
-//        rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
-//        blkPlageEav = (LinearLayout) findViewById(R.id.blk_plage_eav);
-//        layout_TauxAPreleveCpteEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxAPreleveCpteEAV);
-
-
-
-
-
-
         /*end*/
 
-        eavId = intent.getStringExtra(KEY_EAT_ID);
+        eatId = intent.getStringExtra(KEY_EAT_ID);
         new FetchEatDetailsAsyncTask().execute();
         deleteButton = (Button) findViewById(R.id.btn_delete_eat);
         deleteButton.setVisibility(View.VISIBLE);
@@ -740,36 +882,11 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     ll_EtValTxIntPenal.setVisibility(View.GONE);
                     EtValTxIntPenal_ET.setVisibility(View.GONE);
                     EtBaseTxIntPenal_ET.setVisibility(View.GONE);
+                    tv_plage_EtValTxIntPenal.setVisibility(View.GONE);
                 }
 
                 break;
-                /*
-            case R.id.SwitchTauxInteretAnnuelEAV:
-                if (ev_is_tx_inter_an_obligSwitch.isChecked()){
-                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
 
-                    layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
-                }else{
-                    layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
-                }
-
-
-                break;
-            case R.id.SwitchFraisTenuCpteOnEAV:
-                if (ev_is_agios_onSwitch.isChecked()){
-                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
-
-                    LL_TypeFraisCpteEAV.setVisibility(View.VISIBLE);
-                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-                }else{
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
-                    LL_TypeFraisCpteEAV.setVisibility(View.GONE);
-                    blkPlageEav.setVisibility(View.GONE);
-                }
-
-
-                break;
-*/
         }
         Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
 
@@ -799,33 +916,41 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
             case R.id.rbEtTypTxInterFixe:
                 if (rbEtTypTxInterFixe.isChecked()) {
                     EtTypTxInter ="F";
+                    EtValTxInter_ET.setHint("Montant fixe");
                     EtValTxInter_ET.setVisibility(View.VISIBLE);
+                    tv_plageEtValTxInter.setVisibility(View.GONE);
+                    input_layout_EtBaseTxInter.setVisibility(View.GONE);
+
                     ll.setVisibility(View.GONE);
                     ll_btn.setVisibility(View.GONE);
 
-                    /*
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
+                }
+                break;
+            case R.id.rbEtTypTxInterTaux:
+                if (rbEtTypTxInterTaux.isChecked()) {
+                    EtTypTxInter ="T";
+                    EtValTxInter_ET.setHint("Valeur du taux d'interêt");
+                    EtValTxInter_ET.setVisibility(View.VISIBLE);
+                    input_layout_EtBaseTxInter.setVisibility(View.VISIBLE);
+                    tv_plageEtValTxInter.setVisibility(View.GONE);
 
-                    blkPlageEav.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+
+
+                    ll.setVisibility(View.GONE);
+                    ll_btn.setVisibility(View.GONE);
+
                 }
                 break;
             case R.id.rbEtTypTxInterPlage:
                 if (rbEtTypTxInterPlage.isChecked()) {
                     EtTypTxInter ="P";
-                    ll.setVisibility(View.VISIBLE);
-                    if (numberOfLinesDebut<=0){
-                        remove_button.setVisibility(View.INVISIBLE);
-                    }
+                    tv_plageEtValTxInter.setVisibility(View.VISIBLE);
+
                     EtValTxInter_ET.setVisibility(View.GONE);
-                    ll_btn.setVisibility(View.VISIBLE);
-                    /*
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+                    input_layout_EtBaseTxInter.setVisibility(View.GONE);
+                    ll.setVisibility(View.GONE);
+                    ll_btn.setVisibility(View.GONE);
+
                 }
                 break;
             case R.id.rb_EtNatureRupAnTaux:
@@ -837,12 +962,8 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     EtBaseTxPenal_ET.setVisibility(View.VISIBLE);
                     ll_EtValTxMtRupture.setVisibility(View.GONE);
                     ll_btn_EtValTxMtRupture.setVisibility(View.GONE);
-                    /*
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+                    tv_plage_EtValTxMtRupture.setVisibility(View.GONE);
+
                 }
                 break;
             case R.id.rb_EtNatureRupAnMontant:
@@ -854,12 +975,8 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     EtBaseTxPenal_ET.setVisibility(View.GONE);
                     ll_EtValTxMtRupture.setVisibility(View.GONE);
                     ll_btn_EtValTxMtRupture.setVisibility(View.GONE);
-                    /*
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+                    tv_plage_EtValTxMtRupture.setVisibility(View.GONE);
+
                 }
                 break;
             case R.id.rb_EtNatureRupAnPlage:
@@ -867,33 +984,42 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     EtNatureRupAn="P";
 
 
-                    ll_EtValTxMtRupture.setVisibility(View.VISIBLE);
+                    ll_EtValTxMtRupture.setVisibility(View.GONE);
                     if (numberOfLinesDebut_EtValTxMtRupture<=0){
                         remove_button_EtValTxMtRupture.setVisibility(View.INVISIBLE);
                     }
                     EtValTxMtRupture_ET.setVisibility(View.GONE);
                     EtBaseTxPenal_ET.setVisibility(View.GONE);
-                    ll_btn_EtValTxMtRupture.setVisibility(View.VISIBLE);
+//                    ll_btn_EtValTxMtRupture.setVisibility(View.VISIBLE);
+                    ll_btn_EtValTxMtRupture.setVisibility(View.GONE);
+                    tv_plage_EtValTxMtRupture.setVisibility(View.VISIBLE);
 
-                    /*
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="P";
-                    blkPlageEav.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
                 }
                 break;
             case R.id.rbEtTypeNouveauTxInteretRuptureEATFixe:
                 if (rbEtTypNewTxIntRupAntFixe.isChecked()) {
 
                     EtTypNewTxIntRupAnt = "F";
-
-
                     EtValTxIntPenal_ET.setVisibility(View.VISIBLE);
                     EtBaseTxIntPenal_ET.setVisibility(View.GONE);
                     ll_EtValTxIntPenal.setVisibility(View.GONE);
                     ll_btn_EtValTxIntPenal.setVisibility(View.GONE);
+                    tv_plage_EtValTxIntPenal.setVisibility(View.GONE);
 
+
+                }
+
+                break;
+            case R.id.rbEtTypeNouveauTxInteretRuptureEATTaux:
+                if (rbEtTypNewTxIntRupAntTaux.isChecked()) {
+
+                    EtTypNewTxIntRupAnt = "T";
+
+                    EtValTxIntPenal_ET.setVisibility(View.VISIBLE);
+                    EtBaseTxIntPenal_ET.setVisibility(View.VISIBLE);
+                    ll_EtValTxIntPenal.setVisibility(View.GONE);
+                    ll_btn_EtValTxIntPenal.setVisibility(View.GONE);
+                    tv_plage_EtValTxIntPenal.setVisibility(View.GONE);
 
                 }
 
@@ -901,14 +1027,17 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
             case R.id.rbEtTypeNouveauTxInteretRuptureEATPlage:
                 if (rbEtTypNewTxIntRupAntPlage.isChecked()) {
                     EtTypNewTxIntRupAnt = "P";
-                    ll_EtValTxIntPenal.setVisibility(View.VISIBLE);
+//                    ll_EtValTxIntPenal.setVisibility(View.VISIBLE);
                     if (numberOfLinesDebut_EtTypNewTxIntRupAnt<=0){
                         remove_button_EtTypNewTxIntRupAnt.setVisibility(View.INVISIBLE);
                     }
 
                     EtValTxIntPenal_ET.setVisibility(View.GONE);
                     EtBaseTxIntPenal_ET.setVisibility(View.GONE);
-                    ll_btn_EtValTxIntPenal.setVisibility(View.VISIBLE);
+//                    ll_btn_EtValTxIntPenal.setVisibility(View.VISIBLE);
+                    ll_EtValTxIntPenal.setVisibility(View.GONE);
+                    ll_btn_EtValTxIntPenal.setVisibility(View.GONE);
+                    tv_plage_EtValTxIntPenal.setVisibility(View.VISIBLE);
 
                 }
 
@@ -1024,7 +1153,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_EAT_ID, eavId);
+            httpParams.put(KEY_EAT_ID, eatId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_eat_details.php", "GET", httpParams);
             try {
@@ -1041,12 +1170,24 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     EtMtMaxMise = eav.getString(KEY_EAT_MT_MAX_MISE);
                     EtDureeMin = eav.getString(KEY_EAT_DUREE_MIN);
                     EtDureeMax = eav.getString(KEY_EAT_DUREE_MAX);
-                    // EtNaturePas  = EtNaturePas.getText().toString();
+                    EtNaturePas = eav.getString(KEY_EAT_NATURE_PAS);
+
+//                    EtNaturePas  = EtNaturePas.getText().toString();
                     EtNbreUnitePas = eav.getString(KEY_EAT_NBRE_UNITE_PAS);
+                    EtTypTxInter = eav.getString(KEY_EAT_TYPE_TX_INTER);
+                    EtValTxInter = eav.getString(KEY_EAT_VAL_TX_INTER);
+                    EtBaseTxInter = eav.getString(KEY_EAT_BaseTxInter);
+
+
                     EtIsTxIntNeg = Boolean.valueOf(eav.getString(ET_IS_TX_INT_NEG));
                     EtIsPriseIntMiseOn = Boolean.valueOf(eav.getString(ET_IS_PRISE_INT_MISE_ON));
+
                     EtIsPenalRupAnt = Boolean.valueOf(eav.getString(ET_IS_PENAL_RUP_ANT));
-                    // EtNatureRupAn   = ;
+
+                    // EtNatureRupAn
+                    EtNatureRupAn = eav.getString(ET_NATURE_RUP_AN);
+
+
                     EtValTxMtRupture = eav.getString(ET_VAL_TX_MT_RUPTURE);
                     EtPlageTxMtRuptureFrom = eav.getString(ET_PLAGE_TX_MT_RUPTURE_FROM);
                     EtPlageTxMtRuptureTo = eav.getString(ET_PLAGE_TX_MT_RUPTURE_TO);
@@ -1059,7 +1200,11 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     EtIsMultiEATOn = Boolean.valueOf(eav.getString(ET_IS_MULTI_EAT_ON));
                     EtIsInterDusRupAnt = Boolean.valueOf(eav.getString(ET_IS_INTER_DUS_RUP_ANT));
                     EtIsNewTxIntRupAnt = Boolean.valueOf(eav.getString(ET_IS_NEW_TX_INT_RUP_ANT));
+
                     // EtTypNewTxIntRupAnt  = ;
+                    EtTypNewTxIntRupAnt = eav.getString(ET_TYP_NEW_TX_INT_RUP_ANT);
+
+
                     EtValTxIntPenal = eav.getString(ET_VAL_TX_INT_PENAL);
                     EtPlageTxIntPenalFrom = eav.getString(ET_PLAGE_TX_INT_PENAL_FROM);
                     EtPlageTxIntPenalTo = eav.getString(ET_PLAGE_TX_INT_PENAL_TO);
@@ -1111,17 +1256,54 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     EtMtMaxMise_ET.setText(EtMtMaxMise);
                     EtDureeMin_ET.setText(EtDureeMin);
                     EtDureeMax_ET.setText(EtDureeMax);
+                    if (EtNaturePas.equals("F")){
+                        rbEtNaturePasFixe.setChecked(true);
+                        onRadioButtonClicked(rbEtNaturePasFixe);
+                    }else if (EtNaturePas.equals("S")){
 
+                        rbEtNaturePasSaut.setChecked(true);
+                        onRadioButtonClicked(rbEtNaturePasSaut);
+                    }
 
                     // EtNaturePas  = EtNaturePas.getText().toString();
-                       EtNbreUnitePas_ET.setText(EtNbreUnitePas);
+                    EtNbreUnitePas_ET.setText(EtNbreUnitePas);
                     // EtTypTxInter  = ;
+                    if (EtTypTxInter.equals("F")){
+                        rbEtTypTxInterFixe.setChecked(true);
+                        onRadioButtonClicked(rbEtTypTxInterFixe);
+                    }else if (EtTypTxInter.equals("T")){
+
+                        rbEtTypTxInterTaux.setChecked(true);
+                        onRadioButtonClicked(rbEtTypTxInterTaux);
+                    }else if (EtTypTxInter.equals("P")){
+
+                        rbEtTypTxInterPlage.setChecked(true);
+                        onRadioButtonClicked(rbEtTypTxInterPlage);
+                    }
+                    EtValTxInter_ET.setText(EtValTxInter) ;
+                    mySpinnerEtBaseTxInter.setText(EtBaseTxInter) ;
 //    EtValTxInter  = EtValTxInter_ET.getText().toString();
 //    EtPlageTxInterFrom  = EtPlageTxInterFrom_ET.getText().toString();
 //    EtPlageTxInterTo  = EtPlageTxInterFrom_ET.getText().toString();
+
                     EtIsTxIntNeg_SW.setChecked(EtIsTxIntNeg);
                     EtIsPriseIntMiseOn_SW.setChecked(EtIsPriseIntMiseOn);
+
+                    if (EtNatureRupAn.equals("M")){
+                        rbEtNatureRupAnMontant.setChecked(true);
+                        onRadioButtonClicked(rbEtNatureRupAnMontant);
+                    }else if (EtNatureRupAn.equals("T")){
+
+                        rbEtNatureRupAnTaux.setChecked(true);
+                        onRadioButtonClicked(rbEtNatureRupAnTaux);
+                    }else if (EtNatureRupAn.equals("P")){
+
+                        rbEtNatureRupAnPlage.setChecked(true);
+                        onRadioButtonClicked(rbEtNatureRupAnPlage);
+                    }
                     EtIsPenalRupAnt_SW.setChecked(EtIsPenalRupAnt);
+                    onSwitchButtonClicked(EtIsPenalRupAnt_SW);
+
                     // EtNatureRupAn   = ;
                     EtValTxMtRupture_ET.setText(EtValTxMtRupture) ;
                     EtPlageTxMtRuptureFrom_ET.setText(EtPlageTxMtRuptureFrom);
@@ -1134,12 +1316,27 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     EtActionDefATerme_SW.setChecked(EtActionDefATerme);
                     EtIsMultiEATOn_SW.setChecked(EtIsMultiEATOn);
                     EtIsInterDusRupAnt_SW.setChecked(EtIsInterDusRupAnt);
-                    EtIsNewTxIntRupAnt_SW.setChecked(EtIsNewTxIntRupAnt);
                     // EtTypNewTxIntRupAnt  = ;
+                    if (EtTypNewTxIntRupAnt.equals("F")){
+                        rbEtTypNewTxIntRupAntFixe.setChecked(true);
+                        onRadioButtonClicked(rbEtTypNewTxIntRupAntFixe);
+                    }else if (EtTypNewTxIntRupAnt.equals("T")){
+
+                        rbEtTypNewTxIntRupAntTaux.setChecked(true);
+                        onRadioButtonClicked(rbEtTypNewTxIntRupAntTaux);
+                    }else if (EtTypNewTxIntRupAnt.equals("P")){
+
+                        rbEtTypNewTxIntRupAntPlage.setChecked(true);
+                        onRadioButtonClicked(rbEtTypNewTxIntRupAntPlage);
+                    }
+
+                    EtIsNewTxIntRupAnt_SW.setChecked(EtIsNewTxIntRupAnt);
+                    onSwitchButtonClicked(EtIsNewTxIntRupAnt_SW);
+
                     EtValTxIntPenal_ET.setText(EtValTxIntPenal);
                     EtPlageTxIntPenalFrom_ET.setText(EtPlageTxIntPenalFrom);
                     EtPlageTxIntPenalTo_ET.setText(EtPlageTxIntPenalTo);
-                     EtBaseTxIntPenal_ET.setText(EtBaseTxIntPenal);
+                    EtBaseTxIntPenal_ET.setText(EtBaseTxIntPenal);
                     EtTxIntPenalNeg_SW.setChecked(EtTxIntPenalNeg);
                 }
             });
@@ -1197,7 +1394,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Set movie_id parameter in request
-            httpParams.put(KEY_EAT_ID, eavId);
+            httpParams.put(KEY_EAT_ID, eatId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "delete_eat.php", "POST", httpParams);
             try {
@@ -1243,116 +1440,116 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                 !STRING_EMPTY.equals(genreEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(yearEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ratingEditText.getText().toString())) {*/
-if(true){
+        if(true){
 
-    EtCode = EtCode_ET.getText().toString();
-    EtLibelle = EtLibelleET.getText().toString();
-    EtMtMinMise = EtMtMinMise_ET.getText().toString();
-    EtMtMaxMise = EtMtMaxMise_ET.getText().toString();
-    EtDureeMin = EtDureeMin_ET.getText().toString();
-    EtDureeMax = EtDureeMax_ET.getText().toString();
+            EtCode = EtCode_ET.getText().toString();
+            EtLibelle = EtLibelleET.getText().toString();
+            EtMtMinMise = EtMtMinMise_ET.getText().toString();
+            EtMtMaxMise = EtMtMaxMise_ET.getText().toString();
+            EtDureeMin = EtDureeMin_ET.getText().toString();
+            EtDureeMax = EtDureeMax_ET.getText().toString();
 
 
-    // EtNaturePas  = EtNaturePas.getText().toString();
-    EtNbreUnitePas  =  EtNbreUnitePas_ET.getText().toString();
-    // EtTypTxInter  = ;
+            // EtNaturePas  = EtNaturePas.getText().toString();
+            EtNbreUnitePas  =  EtNbreUnitePas_ET.getText().toString();
+            // EtTypTxInter  = ;
 //    EtValTxInter  = EtValTxInter_ET.getText().toString();
 //    EtPlageTxInterFrom  = EtPlageTxInterFrom_ET.getText().toString();
 //    EtPlageTxInterTo  = EtPlageTxInterFrom_ET.getText().toString();
-    EtIsTxIntNeg   = EtIsTxIntNeg_SW.isChecked();
-    EtIsPriseIntMiseOn  = EtIsPriseIntMiseOn_SW.isChecked();
-    EtIsPenalRupAnt   = EtIsPenalRupAnt_SW.isChecked();
-    // EtNatureRupAn   = ;
-    EtValTxMtRupture  = EtValTxMtRupture_ET.getText().toString() ;
-    EtPlageTxMtRuptureFrom  = EtPlageTxMtRuptureFrom_ET.getText().toString();
-    EtPlageTxMtRuptureTo   = EtPlageTxMtRuptureTo_ET.getText().toString();
-    EtBaseTxPenal   = EtBaseTxPenal_ET.getText().toString();;
-    EtIsEparRetireFin  = EtIsEparRetireFin_SW.isChecked();
-    EtIsEparTransfFin  = EtIsEparTransfFin_SW.isChecked();
-    EtIsOnlyTotTransf  = EtIsOnlyTotTransf_SW.isChecked();
-    EtIsEparRenouvFin  = EtIsEparRenouvFin_SW.isChecked();
-    EtActionDefATerme  = EtActionDefATerme_SW.isChecked();
-    EtIsMultiEATOn   = EtIsMultiEATOn_SW.isChecked();
-    EtIsInterDusRupAnt  = EtIsInterDusRupAnt_SW.isChecked();
-    EtIsNewTxIntRupAnt   = EtIsNewTxIntRupAnt_SW.isChecked();
-    // EtTypNewTxIntRupAnt  = ;
-    EtValTxIntPenal  = EtValTxIntPenal_ET.getText().toString();
-    EtPlageTxIntPenalFrom  = EtPlageTxIntPenalFrom_ET.getText().toString();
-    EtPlageTxIntPenalTo  = EtPlageTxIntPenalTo_ET.getText().toString();
-    EtBaseTxIntPenal   = EtBaseTxIntPenal_ET.getText().toString();
-    EtTxIntPenalNeg   = EtTxIntPenalNeg_SW.isChecked();
+            EtIsTxIntNeg   = EtIsTxIntNeg_SW.isChecked();
+            EtIsPriseIntMiseOn  = EtIsPriseIntMiseOn_SW.isChecked();
+            EtIsPenalRupAnt   = EtIsPenalRupAnt_SW.isChecked();
+            // EtNatureRupAn   = ;
+            EtValTxMtRupture  = EtValTxMtRupture_ET.getText().toString() ;
+            EtPlageTxMtRuptureFrom  = EtPlageTxMtRuptureFrom_ET.getText().toString();
+            EtPlageTxMtRuptureTo   = EtPlageTxMtRuptureTo_ET.getText().toString();
+            EtBaseTxPenal   = EtBaseTxPenal_ET.getText().toString();;
+            EtIsEparRetireFin  = EtIsEparRetireFin_SW.isChecked();
+            EtIsEparTransfFin  = EtIsEparTransfFin_SW.isChecked();
+            EtIsOnlyTotTransf  = EtIsOnlyTotTransf_SW.isChecked();
+            EtIsEparRenouvFin  = EtIsEparRenouvFin_SW.isChecked();
+            EtActionDefATerme  = EtActionDefATerme_SW.isChecked();
+            EtIsMultiEATOn   = EtIsMultiEATOn_SW.isChecked();
+            EtIsInterDusRupAnt  = EtIsInterDusRupAnt_SW.isChecked();
+            EtIsNewTxIntRupAnt   = EtIsNewTxIntRupAnt_SW.isChecked();
+            // EtTypNewTxIntRupAnt  = ;
+            EtValTxIntPenal  = EtValTxIntPenal_ET.getText().toString();
+            EtPlageTxIntPenalFrom  = EtPlageTxIntPenalFrom_ET.getText().toString();
+            EtPlageTxIntPenalTo  = EtPlageTxIntPenalTo_ET.getText().toString();
+            EtBaseTxIntPenal   = EtBaseTxIntPenal_ET.getText().toString();
+            EtTxIntPenalNeg   = EtTxIntPenalNeg_SW.isChecked();
 
 
-    if (numberOfLinesDebut==0){
-        tabPlageDebutList.clear();
-        tabPlageFinList.clear();
-        tabPlageValeurList.clear();
-        tabPlageDebutList.add(EtPlageTxInterFrom_ET.getText().toString());
-        tabPlageFinList.add(EtPlageTxInterTo_ET.getText().toString());
-        tabPlageValeurList.add(EtPlageTxInterValeur_ET.getText().toString());
-    }
-    if (numberOfLinesDebut_EtValTxMtRupture==0){
-        tabPlageDebutList1.clear();
-        tabPlageFinList1.clear();
-        tabPlageValeurList1.clear();
-        tabPlageDebutList1.add(EtPlageTxMtRuptureFrom_ET.getText().toString());
-        tabPlageFinList1.add(EtPlageTxMtRuptureTo_ET.getText().toString());
-        tabPlageValeurList1.add(EtPlageTxMtRuptureValeur_ET.getText().toString());
-    }
-    if (numberOfLinesDebut_EtTypNewTxIntRupAnt==0){
-        tabPlageDebutList2.clear();
-        tabPlageFinList2.clear();
-        tabPlageValeurList2.clear();
-        tabPlageDebutList2.add(EtPlageTxIntPenalFrom_ET.getText().toString());
-        tabPlageFinList2.add(EtPlageTxIntPenalTo_ET.getText().toString());
-        tabPlageValeurList2.add(EtPlageTxIntPenalValeur_ET.getText().toString());
-    }
-    Add_Line();
-    Remove_Line();
-    Add_Line_EtValTxMtRupture();
-    Remove_Line_EtValTxMtRupture();
-    Add_Line_EtValTxIntPenal();
-    Remove_Line_EtValTxIntPenal();
-    if (EtTypTxInter.equals("P")){
-        for (int i=0; i<tabPlageDebutList.size();i++){
-            tabPlageDebut+=";"+tabPlageDebutList.get(i);
-        }
-        for (int i=0; i<tabPlageFinList.size();i++){
-            tabPlageFin+=";"+tabPlageFinList.get(i);
-        }
-        for (int i=0; i<tabPlageValeurList.size();i++){
-            tabPlageValeur +=";"+tabPlageValeurList.get(i);
-
-        }
-        if (EtNatureRupAn.equals("P")) {
-            for (int i = 0; i < tabPlageDebutList1.size(); i++) {
-                tabPlageDebut1 += ";" + tabPlageDebutList1.get(i);
+            if (numberOfLinesDebut==0){
+                tabPlageDebutList.clear();
+                tabPlageFinList.clear();
+                tabPlageValeurList.clear();
+                tabPlageDebutList.add(EtPlageTxInterFrom_ET.getText().toString());
+                tabPlageFinList.add(EtPlageTxInterTo_ET.getText().toString());
+                tabPlageValeurList.add(EtPlageTxInterValeur_ET.getText().toString());
             }
-            for (int i = 0; i < tabPlageFinList1.size(); i++) {
-                tabPlageFin1 += ";" + tabPlageFinList1.get(i);
+            if (numberOfLinesDebut_EtValTxMtRupture==0){
+                tabPlageDebutList1.clear();
+                tabPlageFinList1.clear();
+                tabPlageValeurList1.clear();
+                tabPlageDebutList1.add(EtPlageTxMtRuptureFrom_ET.getText().toString());
+                tabPlageFinList1.add(EtPlageTxMtRuptureTo_ET.getText().toString());
+                tabPlageValeurList1.add(EtPlageTxMtRuptureValeur_ET.getText().toString());
             }
-            for (int i = 0; i < tabPlageValeurList1.size(); i++) {
-                tabPlageValeur1 += ";" + tabPlageValeurList1.get(i);
+            if (numberOfLinesDebut_EtTypNewTxIntRupAnt==0){
+                tabPlageDebutList2.clear();
+                tabPlageFinList2.clear();
+                tabPlageValeurList2.clear();
+                tabPlageDebutList2.add(EtPlageTxIntPenalFrom_ET.getText().toString());
+                tabPlageFinList2.add(EtPlageTxIntPenalTo_ET.getText().toString());
+                tabPlageValeurList2.add(EtPlageTxIntPenalValeur_ET.getText().toString());
+            }
+            Add_Line();
+            Remove_Line();
+            Add_Line_EtValTxMtRupture();
+            Remove_Line_EtValTxMtRupture();
+            Add_Line_EtValTxIntPenal();
+            Remove_Line_EtValTxIntPenal();
+            if (EtTypTxInter.equals("P")){
+                for (int i=0; i<tabPlageDebutList.size();i++){
+                    tabPlageDebut+=";"+tabPlageDebutList.get(i);
+                }
+                for (int i=0; i<tabPlageFinList.size();i++){
+                    tabPlageFin+=";"+tabPlageFinList.get(i);
+                }
+                for (int i=0; i<tabPlageValeurList.size();i++){
+                    tabPlageValeur +=";"+tabPlageValeurList.get(i);
 
-            }
-        }
-        if (EtTypNewTxIntRupAnt.equals("P")) {
-            for (int i = 0; i < tabPlageDebutList2.size(); i++) {
-                tabPlageDebut2 += ";" + tabPlageDebutList2.get(i);
-            }
-            for (int i = 0; i < tabPlageFinList2.size(); i++) {
-                tabPlageFin2 += ";" + tabPlageFinList2.get(i);
-            }
-            for (int i = 0; i < tabPlageValeurList2.size(); i++) {
-                tabPlageValeur2 += ";" + tabPlageValeurList2.get(i);
+                }
+                if (EtNatureRupAn.equals("P")) {
+                    for (int i = 0; i < tabPlageDebutList1.size(); i++) {
+                        tabPlageDebut1 += ";" + tabPlageDebutList1.get(i);
+                    }
+                    for (int i = 0; i < tabPlageFinList1.size(); i++) {
+                        tabPlageFin1 += ";" + tabPlageFinList1.get(i);
+                    }
+                    for (int i = 0; i < tabPlageValeurList1.size(); i++) {
+                        tabPlageValeur1 += ";" + tabPlageValeurList1.get(i);
 
-            }
-        }
+                    }
+                }
+                if (EtTypNewTxIntRupAnt.equals("P")) {
+                    for (int i = 0; i < tabPlageDebutList2.size(); i++) {
+                        tabPlageDebut2 += ";" + tabPlageDebutList2.get(i);
+                    }
+                    for (int i = 0; i < tabPlageFinList2.size(); i++) {
+                        tabPlageFin2 += ";" + tabPlageFinList2.get(i);
+                    }
+                    for (int i = 0; i < tabPlageValeurList2.size(); i++) {
+                        tabPlageValeur2 += ";" + tabPlageValeurList2.get(i);
+
+                    }
+                }
 
 
-        Toast.makeText(UpdateEATForGuichet.this,
-                "debut "+tabPlageDebut1+"\n"+"fin "+tabPlageFin1+"\n"+"valeur "+tabPlageValeur1,
-                Toast.LENGTH_LONG).show();
+                Toast.makeText(UpdateEATForGuichet.this,
+                        "debut "+tabPlageDebut1+"\n"+"fin "+tabPlageFin1+"\n"+"valeur "+tabPlageValeur1,
+                        Toast.LENGTH_LONG).show();
 
     /*        for (int j = 0; j < ll.getChildCount(); j++) {
                 Toast.makeText(CreateProduitEAT.this,ll.getChildCount()+" number", Toast.LENGTH_LONG).show();
@@ -1368,7 +1565,7 @@ if(true){
                 }
             } */
 
-    }
+            }
 
 
 //
@@ -1379,7 +1576,7 @@ if(true){
 
 
 
-    new UpdateEatAsyncTask().execute();
+            new UpdateEatAsyncTask().execute();
         } else {
             Toast.makeText(UpdateEATForGuichet.this,
                     "One or more fields left empty!",
@@ -1415,7 +1612,7 @@ if(true){
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-            httpParams.put(KEY_EAT_ID, eavId);
+            httpParams.put(KEY_EAT_ID, eatId);
             httpParams.put(KEY_EAT_CODE, EtCode);
             httpParams.put(KEY_EAT_LIBELLE, EtLibelle);
             httpParams.put(KEY_EAT_MT_MIN_MISE, EtMtMinMise);

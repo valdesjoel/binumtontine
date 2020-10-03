@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:visible="false"
+        android:id="@+id/action_informations"
+        android:title="@string/action_informations"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_search"
+         />
+    <item
+        android:id="@+id/action_traitement_de_la_demande"
+        android:title="@string/action_traitement_de_la_demande"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+
+
+
+
+
+</menu>

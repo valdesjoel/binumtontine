@@ -61,9 +61,20 @@ public class RecordAdapter extends BaseAdapter {
         }
 
         Record record = (Record) getItem(i);
-        holder.nameView.setText(record.name);
+        if ((record.age).equals("D")){
+            holder.ageView.setText(record.position);
+            holder.positionView.setText("");
+        }else if((record.age).equals("R")){
+            holder.ageView.setText("");
+            holder.positionView.setText(record.position);
+        }else{
+
         holder.ageView.setText(record.age);
         holder.positionView.setText(record.position);
+        }
+        holder.nameView.setText(record.name);
+//        holder.ageView.setText(record.age);
+//        holder.positionView.setText(record.position);
         holder.addressView.setText(record.address);
         return view;
     }

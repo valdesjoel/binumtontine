@@ -193,6 +193,11 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         }
 
         libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
+//        libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
+
+        if (typeCompte.equals("DECOUVERT SIMPLE") || typeCompte.equals("AVANCE SPECIALE")){
+                    libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
+        }
         Bundle bundle = intent.getExtras();
         adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
         adNom = adherent.getAdNom();
@@ -200,17 +205,6 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         adNumManuel = adherent.getAdNumManuel();
         adCode = adherent.getAdCode();
 
-
-        //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
-/*
-        EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
-        NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
-*//*
-        rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        rb_depot.performClick();
-        rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
-        spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
-        */
         tvHeaderActivityConsulterCompte = (TextView) findViewById(R.id.header_consulter_compte);
         tvHeaderLayoutConsulterCompte = (TextView) findViewById(R.id.header_operation_eat_adherent);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
@@ -355,14 +349,14 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         switch(view.getId()) {
 
             case R.id.rb_nature_operation_depot:
-                if (rb_depot.isChecked()) {
+                if (rb_decision_accordee.isChecked()) {
                     natureOperation = "D";
                     //str = checked1?"Nature frais fixe":"";
 
                 }
                 break;
             case R.id.rb_nature_operation_retrait:
-                if (rb_retrait.isChecked()) {
+                if (rb_decision_refusee.isChecked()) {
                     natureOperation = "R";
                     // str = checked1?"Nature frais taux":"";
 

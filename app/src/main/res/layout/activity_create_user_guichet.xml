@@ -47,7 +47,7 @@
                 <TextView
                     style="@style/headerText"
                     android:layout_gravity="center"
-                    android:text="AGENT DE GUICHET"
+                    android:text="PROFIL UTILISATEURS"
                     android:layout_marginTop="40dp"/>
                 <include
                     layout="@layout/layout_create_user_guichet"/>

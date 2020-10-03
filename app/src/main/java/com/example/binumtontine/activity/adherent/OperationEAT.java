@@ -202,9 +202,9 @@ public class OperationEAT extends AppCompatActivity implements  View.OnClickList
         EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
 *//*
-        rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        rb_depot.performClick();
-        rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
+        rb_decision_accordee = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
+        rb_decision_accordee.performClick();
+        rb_decision_refusee = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
         */
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
@@ -410,14 +410,14 @@ private void calculateDifferenceBetweenTwoDates(String startDate1, String endDat
         switch(view.getId()) {
 
             case R.id.rb_nature_operation_depot:
-                if (rb_depot.isChecked()) {
+                if (rb_decision_accordee.isChecked()) {
                     natureOperation = "D";
                     //str = checked1?"Nature frais fixe":"";
 
                 }
                 break;
             case R.id.rb_nature_operation_retrait:
-                if (rb_retrait.isChecked()) {
+                if (rb_decision_refusee.isChecked()) {
                     natureOperation = "R";
                     // str = checked1?"Nature frais taux":"";
 

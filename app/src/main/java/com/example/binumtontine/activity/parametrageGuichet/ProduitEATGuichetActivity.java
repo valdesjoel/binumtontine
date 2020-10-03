@@ -64,7 +64,10 @@ public class ProduitEATGuichetActivity extends AppCompatActivity implements SERV
 
         Toolbar toolbar = findViewById(R.id.toolbar_produitEAV);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Produits à affecter") ;
+        getSupportActionBar().setTitle("EATs à affecter") ;
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //this.setCheckedItem(R.id.nav_new);
 
 
@@ -85,6 +88,11 @@ public class ProduitEATGuichetActivity extends AppCompatActivity implements SERV
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     /* To manage Menu*/
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -100,13 +108,13 @@ public class ProduitEATGuichetActivity extends AppCompatActivity implements SERV
                 return true;
             case R.id.action_to_affect:
                 action_to_affect = false;
-                getSupportActionBar().setTitle("Produits à affecter") ;
+                getSupportActionBar().setTitle("EATs à affecter") ;
                 new FetchProduitEATAsyncTask().execute();
                // startActivity(new Intent(this, Help.class));
                 return true;
                 case R.id.action_already_affect:
                     action_to_affect = true;
-                    getSupportActionBar().setTitle("Produits déjà affectés") ;
+                    getSupportActionBar().setTitle("EATs déjà affectés") ;
                      new FetchProduitEATAsyncTask().execute();
                // startActivity(new Intent(this, Help.class));
                 return true;

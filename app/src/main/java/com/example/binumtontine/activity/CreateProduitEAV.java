@@ -91,19 +91,28 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_EAV_MIN_CPTE = "ev_min_cpte";
     private static final String KEY_EAV_IS_MIN_CPTE_OBLIG = "ev_is_min_cpte_oblig";
     private static final String KEY_EAV_TX_INTER_AN = "ev_tx_inter_an";
+    private static final String KEY_EAV_BASE_TX_INTER_AN = "ev_base_tx_inter_an";
     private static final String KEY_EAV_IS_TX_INTER_AN_OBLIG = "ev_is_tx_inter_an_oblig";
     private static final String KEY_EAV_TYP_DAT_VAL = "ev_typ_dat_val";
-    private static final String KEY_EAV_TYP_DAT_RETRAIT_VAL = "ev_typ_dat_retrait_val";
+    private static final String KEY_EAV_TYP_DAT_RETRAIT_VAL = "ev_date_retrait";
     private static final String KEY_EAV_IS_MULTI_EAV_ON = "ev_is_multi_eav_on";
     private static final String KEY_EAV_IS_PAIE_PS_ON = "ev_is_paie_ps_on";
     private static final String KEY_EAV_IS_AGIOS_ON = "ev_is_agios_on";
     private static final String KEY_EAV_TYP_FR_AGIOS = "ev_typ_fr_agios";
     private static final String KEY_EAV_MT_TX_AGIOS_PRELEV = "ev_mt_tx_agios_prelev";
+    private static final String KEY_EAV_BASE_TX_AGIOS_PRELEV = "ev_base_tx_agios_prelev";
     private static final String KEY_EAV_PLAGE_AGIOS_FROM = "ev_plage_agios_from";
     private static final String KEY_EAV_PLAGE_AGIOS_TO = "ev_plage_agios_to";
     private static final String KEY_EAV_IS_CHEQUE_ON = "ev_is_cheque_on";
     private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
     private static final String KEY_EAV_CX_NUMERO = "ev_caisse_id";
+
+    private static final String KEY_CcIsChequierM1On = "EvIsCheqTyp1On";
+    private static final String KEY_CcNbPagesCheqM1 = "EvNbPageCheqT1";
+    private static final String KEY_CcPrixVteCheqM1 = "EvMtCheqTyp1";
+    private static final String KEY_CcIsChequierM2On = "EvIsCheqTyp2On";
+    private static final String KEY_CcNbPagesCheqM2 = "EvNbPageCheqT2";
+    private static final String KEY_CcPrixVteCheqM2 = "EvMtCheqTyp2";
 
 
     private static final String KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_DEBUT = "EvTivDebut";
@@ -136,6 +145,11 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private Switch ev_is_multi_eav_onSwitch;
     private Switch ev_is_paie_ps_onSwitch;
     private Switch ev_is_agios_onSwitch;
+    private Switch CcIsChequierM1On;
+    private Switch CcIsChequierM2On;
+    private LinearLayout ll_bloc_chequier;
+    private LinearLayout bloc_cc2;
+    private LinearLayout bloc_cc3;
    // private EditText ev_typ_fr_agiosEditText;RadioButton
     private RadioButton ev_typ_fr_agiosEditText;
     private EditText ev_mt_tx_agios_prelevEditText;
@@ -179,7 +193,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private TextInputLayout layout_BaseTauxAPreleveCpteEAV;
     private TextInputLayout layout_BaseInteretAnnuelEAV;
 
-    private JRSpinner mySpinnerLocalite; //pour gérer le spinner contenant les localités
+    private JRSpinner mySpinnerLocalite; //pour gérer le spinner contenant les bases des taux pour les frais de tenue de compte
     private JRSpinner mySpinnerBaseTxIntMensuel; //pour gérer le spinner contenant les localités
 
     private Button addButton;
@@ -192,6 +206,10 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     public static ArrayList<ModelPlageData> plageDataList; //to manage plageData
     private TextView tv_config_plage_tiv;
 
+    private String st_CcIsChequierM1On, st_CcIsChequierM2On, st_CcNbPagesCheqM1,st_CcPrixVteCheqM1,st_CcNbPagesCheqM2,
+            st_CcPrixVteCheqM2;
+    private EditText CcNbPagesCheqM1,CcPrixVteCheqM1,CcNbPagesCheqM2,CcPrixVteCheqM2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,7 +219,15 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
         setSupportActionBar(toolbar);
         setToolbarTitle(); */
-
+        ll_bloc_chequier = (LinearLayout) findViewById(R.id.ll_bloc_chequier);
+        bloc_cc2 = (LinearLayout) findViewById(R.id.ll_bloc_cc2);
+        bloc_cc3 = (LinearLayout) findViewById(R.id.ll_bloc_cc3);
+        CcIsChequierM1On=(Switch) findViewById(R.id.Switch_txtDisponibiliteChequier1CC);
+        CcIsChequierM2On=(Switch) findViewById(R.id.Switch_txtDisponibiliteChequier2CC);
+        CcNbPagesCheqM1=(EditText) findViewById(R.id.input_txt_NbrePageChequier1CC);
+        CcPrixVteCheqM1=(EditText) findViewById(R.id.input_txt_txtPrixVenteChequier1CC);
+        CcNbPagesCheqM2=(EditText) findViewById(R.id.input_txt_NbrePageChequier2CC);
+        CcPrixVteCheqM2=(EditText) findViewById(R.id.input_txt_txtPrixVenteChequier2CC);
 
         plageDataList = new ArrayList<>();
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
@@ -282,6 +308,10 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
 
         onRadioButtonClicked(rbEpTypTxInterFixe);
         onSwitchButtonClicked(ev_is_agios_onSwitch);
+
+        onSwitchButtonClicked(CcIsChequierM1On);
+        onSwitchButtonClicked(CcIsChequierM2On);
+        onSwitchButtonClicked(ev_is_cheque_onSwitch);
 
         deleteButton = (Button) findViewById(R.id.btn_delete_eav);
         deleteButton.setVisibility(View.GONE);
@@ -488,8 +518,46 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
                     LL_TypeFraisCpteEAV.setVisibility(View.GONE);
                     blkPlageEav.setVisibility(View.GONE);
+
+                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
+                    tv_config_plage_tiv.setVisibility(View.GONE);
                 }
 
+
+                break;
+
+            case R.id.SwitchChequeOnEAV:
+                if (ev_is_cheque_onSwitch.isChecked()) {
+                    str = checked1 ? "Chèque disponible" : "Chèque non disponible";
+
+                    ll_bloc_chequier.setVisibility(View.VISIBLE);
+                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+                } else {
+                    ll_bloc_chequier.setVisibility(View.GONE);
+                }
+
+                break;
+
+            case R.id.Switch_txtDisponibiliteChequier1CC:
+                if (CcIsChequierM1On.isChecked()) {
+                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+
+                    bloc_cc2.setVisibility(View.VISIBLE);
+                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+                } else {
+                    bloc_cc2.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.Switch_txtDisponibiliteChequier2CC:
+                if (CcIsChequierM2On.isChecked()) {
+                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+
+                    bloc_cc3.setVisibility(View.VISIBLE);
+                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+                } else {
+                    bloc_cc3.setVisibility(View.GONE);
+                }
 
                 break;
 
@@ -594,6 +662,21 @@ if (true){
             ev_plage_agios_to = ev_plage_agios_toEditText.getText().toString();
             ev_is_cheque_on = ev_is_cheque_onSwitch.isChecked();
             ev_frais_clot_cpt = ev_frais_clot_cptEditText.getText().toString();
+            if (CcIsChequierM1On.isChecked()){
+                st_CcIsChequierM1On = "Y";
+            }else{
+                st_CcIsChequierM1On = "N";
+            }
+            if (CcIsChequierM2On.isChecked()){
+                st_CcIsChequierM2On = "Y";
+            }else{
+                st_CcIsChequierM2On = "N";
+            }
+
+    st_CcNbPagesCheqM1=  CcNbPagesCheqM1.getText().toString();
+    st_CcPrixVteCheqM1=  CcPrixVteCheqM1.getText().toString();
+    st_CcNbPagesCheqM2=  CcNbPagesCheqM2.getText().toString();
+    st_CcPrixVteCheqM2=  CcPrixVteCheqM2.getText().toString();
 //to manage plage data
     for (int i=0; i<plageDataList.size();i++){
         tabPlageDebut+=";"+plageDataList.get(i).getPdValDe();
@@ -640,6 +723,7 @@ if (true){
             httpParams.put(KEY_EAV_IS_MIN_CPTE_OBLIG, ev_is_min_cpte_oblig.toString());
 
             httpParams.put(KEY_EAV_TX_INTER_AN, ev_tx_inter_an);
+            httpParams.put(KEY_EAV_BASE_TX_INTER_AN, base_ev_tx_inter_an);
             httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig.toString());
             httpParams.put(KEY_EAV_TYP_DAT_VAL, ev_typ_dat_val);
             httpParams.put(KEY_EAV_TYP_DAT_RETRAIT_VAL, ev_typ_dat_retrait_val);
@@ -648,6 +732,7 @@ if (true){
             httpParams.put(KEY_EAV_IS_AGIOS_ON, ev_is_agios_on.toString());
             httpParams.put(KEY_EAV_TYP_FR_AGIOS, ev_typ_fr_agios);
             httpParams.put(KEY_EAV_MT_TX_AGIOS_PRELEV, ev_mt_tx_agios_prelev);
+            httpParams.put(KEY_EAV_BASE_TX_AGIOS_PRELEV, base_ev_mt_tx_agios_prelev);
             httpParams.put(KEY_EAV_PLAGE_AGIOS_FROM, ev_plage_agios_from);
             httpParams.put(KEY_EAV_PLAGE_AGIOS_TO, ev_plage_agios_to);
             httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on.toString());
@@ -660,6 +745,13 @@ if (true){
             httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_VALEUR, tabPlageValeur);
             httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_BASE, tabPlageBase);
             httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_NATURE, tabPlageNature);
+
+            httpParams.put(KEY_CcIsChequierM1On, st_CcIsChequierM1On);
+            httpParams.put(KEY_CcNbPagesCheqM1, st_CcNbPagesCheqM1);
+            httpParams.put(KEY_CcPrixVteCheqM1, st_CcPrixVteCheqM1);
+            httpParams.put(KEY_CcIsChequierM2On, st_CcIsChequierM2On);
+            httpParams.put(KEY_CcNbPagesCheqM2, st_CcNbPagesCheqM2);
+            httpParams.put(KEY_CcPrixVteCheqM2, st_CcPrixVteCheqM2);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_eav_new.php", "POST", httpParams);

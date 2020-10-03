@@ -77,6 +77,9 @@ public class TypeMembreCxActivity extends AppCompatActivity implements SERVER_AD
         Toolbar toolbar = findViewById(R.id.toolbar_type_membre_cx);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Membres à affecter") ;
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        if (!action_to_affect){
 //            getSupportActionBar().setTitle("Types de membres à affecter") ;
 //        }else{
@@ -100,6 +103,12 @@ public class TypeMembreCxActivity extends AppCompatActivity implements SERVER_AD
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     private void showAddItemDialog(Context c) {
         final EditText taskEditText = new EditText(c);

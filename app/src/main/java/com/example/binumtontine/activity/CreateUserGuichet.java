@@ -39,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,6 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
 import org.apache.http.NameValuePair;
@@ -80,6 +80,7 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
     private static final String KEY_USER_LOGIN = "ux_login";
     private static final String KEY_USER_PASSWORD = "ux_password";
     private static final String KEY_USER_EMAIL = "ux_email";
+    private static final String KEY_PROFIL_CAISSE_OR_GUICHET = "profilCaisseOrGuichet";
 
 
     private static String STRING_EMPTY = "";
@@ -126,13 +127,16 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
     //private TextInputLayout textInputLayoutGuichet;
     /*end manage*/
 
-
+    private JRSpinner spnNewProfil;
     private Button deleteButton;
     private Button addButton;
     private Button annulerButton;
     private int success;
     private ProgressDialog pDialog;
     private ProgressDialog pDialogFetchGuichetsList;
+    private RadioButton rbGuichet;
+    private RadioButton rbCaisse;
+    private String profilCaisseOrGuichet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +196,27 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
         uxEmailEditText = (EditText) findViewById(R.id.input_txt_email_user);
 
         spinnerGuichet = (Spinner) findViewById(R.id.spn_my_spinner_guichet1);
-        tvGuichet = (TextView) findViewById(R.id.tv_caisse);
+        tvGuichet = (TextView) findViewById(R.id.tv_guichet);
+
+        rbGuichet = (RadioButton) findViewById(R.id.rbGuichet);
+        rbCaisse = (RadioButton) findViewById(R.id.rbCaisse);
+        spnNewProfil = (JRSpinner) findViewById(R.id.spnNewProfil);
+        if (UserGuichetActivity.profilCaisseOrGuichet.equals("caisse")){
+            spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil));
+        }else if (UserGuichetActivity.profilCaisseOrGuichet.equals("guichet")){
+            spnNewProfil.setItems(getResources().getStringArray(R.array.array_profilGuichet));
+        }
+//        spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil)); //this is important, you must set it to set the item list
+        spnNewProfil.setTitle("Sélectionner un profil"); //change title of spinner-dialog programmatically
+        spnNewProfil.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        spnNewProfil.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+//onRadioButtonClicked(rbCaisse);
 
         guichetList = new ArrayList<Category>();
         // spinner item select listener
@@ -262,7 +286,38 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
             }
         });
     }
+    public void onRadioButtonClicked(View view) {
+        boolean checked1 = ((RadioButton) view).isChecked();
+        String str = "";
+        // Check which checkbox was clicked
+        switch (view.getId()) {
+//
+            case R.id.rbCaisse:
+                if (rbCaisse.isChecked()) {
+//                    str = checked1?"Type Fixe sélectionné":"";
+//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
+//                    CrPeriodCalcInteret = "M";
+                    profilCaisseOrGuichet ="caisse";
+                    spinnerGuichet.setVisibility(View.GONE);
+                    tvGuichet.setVisibility(View.GONE);
+                    spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil)); //this is important, you must set it to set the item list
+                }
+                break;
+            case R.id.rbGuichet:
+                if (rbGuichet.isChecked()) {
+//                    str = checked1?"Type Fixe sélectionné":"";
+//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
+//                    CrPeriodCalcInteret = "J";
+                    profilCaisseOrGuichet ="guichet";
 
+                    spinnerGuichet.setVisibility(View.VISIBLE);
+                    tvGuichet.setVisibility(View.VISIBLE);
+                    spnNewProfil.setItems(getResources().getStringArray(R.array.array_profilGuichet)); //this is important, you must set it to set the item list
+
+                }
+                break;
+        }
+    }
     /**
      * Adding spinner data
      * */
@@ -374,8 +429,8 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
      */
     private void addUserGuichet() {
         if (!STRING_EMPTY.equals(uxNomEditText.getText().toString()) &&
-                guichetID!=0 &&
-                !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
+//                guichetID!=0 &&
+//                !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxPrenomEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxAdresseEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
@@ -389,7 +444,8 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
             if ((uxPasswordEditText.getText().toString()).equals(uxConfirmPasswordEditText.getText().toString())){
                 //uxGuichetId = uxGuichetIdSpinner.getText().toString();
               //  uxGuichetId = "2"; /* ***** A MODIFIER DYNAMIQUEMENT */
-                uxProfil = uxProfilEditText.getText().toString();
+                uxProfil = spnNewProfil.getText().toString();
+//                uxProfil = uxProfilEditText.getText().toString();
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
                 uxAdresse = uxAdresseEditText.getText().toString();
@@ -440,7 +496,12 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
            // httpParams.put(KEY_USER_GUICHET_ID, uxGuichetId);
-            httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(guichetID));
+            if (UserGuichetActivity.profilCaisseOrGuichet.equals("caisse")){
+                httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(MyData.CAISSE_ID));
+            }else if (UserGuichetActivity.profilCaisseOrGuichet.equals("guichet")){
+                httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
+            }
+
             httpParams.put(KEY_USER_PROFIL, uxProfil);
             httpParams.put(KEY_USER_NOM, uxNom);
             httpParams.put(KEY_USER_PRENOM, uxPrenom);
@@ -451,8 +512,10 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
             httpParams.put(KEY_USER_LOGIN, uxLogin);
             httpParams.put(KEY_USER_PASSWORD, uxPassword);
             httpParams.put(KEY_USER_EMAIL, uxEmail);
+            httpParams.put(KEY_PROFIL_CAISSE_OR_GUICHET, UserGuichetActivity.profilCaisseOrGuichet);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_user_guichet.php", "POST", httpParams);
+//            Log.e("**************************", String.valueOf(httpParams));
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

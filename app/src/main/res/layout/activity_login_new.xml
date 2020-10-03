@@ -50,8 +50,10 @@
                     android:text="MIFUCAM"
                     android:layout_marginTop="40dp"/>
 
+                <!--<include-->
+                    <!--layout="@layout/layout_eav"/>-->
                 <include
-                    layout="@layout/layout_eav"/>
+                    layout="@layout/layout_login_new"/>
 
 
 

@@ -51,6 +51,7 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -105,12 +106,15 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
 
     private static String STRING_EMPTY = "";
 
+    TextInputLayout layoutNumDossier, layoutPiecesFournies, layoutMontantDemande;
     private EditText EavDepotMinEditText;
     private EditText NumDossierEditText;
     private EditText OccLibelleMvmCC;
+    private EditText OcMotifDemande;
     public static RadioButton rb_depot;
     public static RadioButton rb_retrait;
     public static RadioButton rb_decouvert;
+    public static RadioButton rb_avance_speciale;
 
 
     private String compteId;
@@ -164,62 +168,106 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
         libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
         Bundle bundle = intent.getExtras();
         adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
-        adNom = adherent.getAdNom();
-        adPrenom = adherent.getAdPrenom();
-        adNumManuel = adherent.getAdNumManuel();
-        adCode = adherent.getAdCode();
+//        adNom = adherent.getAdNom();
+//        adPrenom = adherent.getAdPrenom();
+//        adNumManuel = adherent.getAdNumManuel();
+//        adCode = adherent.getAdCode();
 
         //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
 
         EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
         EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
 
+
+        layoutNumDossier = (TextInputLayout) findViewById(R.id.input_layout_numero_bordereau_operation);
+        layoutPiecesFournies = (TextInputLayout) findViewById(R.id.input_layout_OcLibelleMvmEAV);
+        layoutMontantDemande = (TextInputLayout) findViewById(R.id.input_layout_montant_operation);
+        layoutMontantDemande.setHint("Montant de la demande");
+
+
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
+//        NumDossierEditText.setHint("Numéro de dossier");
         OccLibelleMvmCC = (EditText) findViewById(R.id.input_txt_OcLibelleMvmEAV);
+        OcMotifDemande = (EditText) findViewById(R.id.input_txt_OcMotifDemande);
+        OcMotifDemande.setVisibility(View.VISIBLE);
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        //rb_depot.performClick();
-        //onRadioButtonClicked(rb_depot);
+        //rb_decision_accordee.performClick();
+        //onRadioButtonClicked(rb_decision_accordee);
         rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
         rb_decouvert = (RadioButton) findViewById(R.id.rb_nature_operation_decouvert);
+        rb_avance_speciale = (RadioButton) findViewById(R.id.rb_nature_operation_avance_speciale);
         tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
 
-        tvAdherentNom.setText(adNom+"\n"+adPrenom);
+        tvAdherentNom.setText(ListCompteAdherentActivity_New.adherent.getAdNom()+"\n"+ListCompteAdherentActivity_New.adherent.getAdPrenom());
         tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
-        tvAdherentNumManuel.setText(adNumManuel);
+        tvAdherentNumManuel.setText(ListCompteAdherentActivity_New.adherent.getAdNumManuel());
         tvAdherentCode = (TextView) findViewById(R.id.tv_code_adherent);
-        tvAdherentCode.setText(adCode);
+        tvAdherentCode.setText(ListCompteAdherentActivity_New.adherent.getAdCode());
         tvCompteSolde = (TextView) findViewById(R.id.tv_solde_compte);
         tvCompteSolde.setText(compteSolde);
 
         tvLibelleProduit = (TextView) findViewById(R.id.tv_libelle_produit_adherent);
-        tvLibelleProduit.setText(libelleProduit);
+//        tvLibelleProduit.setText(libelleProduit);
+        tvLibelleProduit.setText(MyData.LIBELLE_PRODUIT_CPTE_COURANT); //A revoir
 
         if (typeOperation.equals("depot")){
             tvHeaderOperationEAV.setText("TYPE OPERATION: DEPOT");
             rb_depot.setChecked(true);
             rb_retrait.setVisibility(View.GONE);
             rb_decouvert.setVisibility(View.GONE);
+            rb_avance_speciale.setVisibility(View.GONE);
             rb_depot.setVisibility(View.VISIBLE);
             onRadioButtonClicked(rb_depot);
-            OccLibelleMvmCC.setText("VERSEMENT CPT COUR/"+adCode+ "DE "+adNom+" "+adPrenom);
+            OccLibelleMvmCC.setText("VERSEMENT CPT COUR/\n"+
+                    ListCompteAdherentActivity_New.adherent.getAdCode()+ "DE "+
+                    ListCompteAdherentActivity_New.adherent.getAdNom()+" "+
+                    ListCompteAdherentActivity_New.adherent.getAdPrenom());
         }else if(typeOperation.equals("retrait")){
             tvHeaderOperationEAV.setText("TYPE OPERATION: RETRAIT");
             rb_retrait.setChecked(true);
-            OccLibelleMvmCC.setText("VERSEMENT CPT COUR/"+adCode+ "DE "+adNom+" "+adPrenom);
+            OccLibelleMvmCC.setText("RETRAIT CPT COUR/\n"+
+                    ListCompteAdherentActivity_New.adherent.getAdCode()+ "DE "+
+                    ListCompteAdherentActivity_New.adherent.getAdNom()+" "+
+                    ListCompteAdherentActivity_New.adherent.getAdPrenom());
             onRadioButtonClicked(rb_retrait);
             rb_retrait.setVisibility(View.VISIBLE);
             rb_depot.setVisibility(View.GONE);
             rb_decouvert.setVisibility(View.GONE);
+            rb_avance_speciale.setVisibility(View.GONE);
         }else if(typeOperation.equals("decouvert")){
+            compteId = ListCompteDecouvertAdherentActivity.adherent.getNumero_compte()+"";
             tvHeaderOperationEAV.setText("DEMANDE DE DECOUVERT");
             rb_decouvert.setChecked(true);
-            OccLibelleMvmCC.setText("DECOUVERT CPT COUR/"+adCode+ "DE "+adNom+" "+adPrenom);
+            NumDossierEditText.setText("DECOUV SIMPLE/\n"+
+                    ListCompteAdherentActivity_New.adherent.getAdCode()+ "DE "+
+                    ListCompteAdherentActivity_New.adherent.getAdNom()+" "+
+                    ListCompteAdherentActivity_New.adherent.getAdPrenom());
             onRadioButtonClicked(rb_decouvert);
             rb_retrait.setVisibility(View.GONE);
             rb_depot.setVisibility(View.GONE);
+            rb_avance_speciale.setVisibility(View.GONE);
             rb_decouvert.setVisibility(View.VISIBLE);
+            layoutPiecesFournies.setHint("Pièces fournies");
+            layoutNumDossier.setHint("Numéro de dossier");
+        }else if(typeOperation.equals("avance_speciale")){
+            compteId = ListCompteAvanceSpecialeAdherentActivity.adherent.getNumero_compte()+"";
+            tvHeaderOperationEAV.setText("DEMANDE AVANCE SPECIALE");
+            rb_avance_speciale.setChecked(true);
+            NumDossierEditText.setText("AVANCE SPEC/\n"+
+                    ListCompteAdherentActivity_New.adherent.getAdCode()+ "DE "+
+                    ListCompteAdherentActivity_New.adherent.getAdNom()+" "+
+                    ListCompteAdherentActivity_New.adherent.getAdPrenom());
+            onRadioButtonClicked(rb_avance_speciale);
+            rb_retrait.setVisibility(View.GONE);
+            rb_depot.setVisibility(View.GONE);
+            rb_decouvert.setVisibility(View.GONE);
+            rb_avance_speciale.setVisibility(View.VISIBLE);
+
+            layoutPiecesFournies.setHint("Pièces fournies");
+            layoutNumDossier.setHint("Numéro de dossier");
+
         }
 
        /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
@@ -293,6 +341,14 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
             case R.id.rb_nature_operation_decouvert:
                 if (rb_decouvert.isChecked()) {
                     natureOperation = "V";
+                    // str = checked1?"Nature frais taux":"";
+
+                }
+
+                break;
+            case R.id.rb_nature_operation_avance_speciale:
+                if (rb_avance_speciale.isChecked()) {
+                    natureOperation = "A";
                     // str = checked1?"Nature frais taux":"";
 
                 }
@@ -421,14 +477,19 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
                 &&
                 !STRING_EMPTY.equals(OccLibelleMvmCC.getText().toString().trim())
                  ) {
-//String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
-String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
-
-            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
-            nf.setGroupingUsed(false);
+//            Log.e("**************",compteSolde);
+////String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
+//String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
+//
+//            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
+//            nf.setGroupingUsed(false);
             //nf.format(rr);
 //if (natureOperation.equals("R")&&
 //                    (Double.parseDouble(EavDepotMinEditText.getText().toString())<Double.parseDouble(rr))){
+            Double h1;
+
+            h1 = Double.valueOf(EavDepotMinEditText.getText().toString().replaceAll(",", "").trim());
+            EavDepotMinEditText.setText(h1+"");
 if (true){
 //                Toast.makeText(OperationEAV.this,
 //                        "Solde insuffisant!",
@@ -437,7 +498,8 @@ if (true){
 //                        rr.trim()+ "\n"+rr.length(),
 //                        Toast.LENGTH_LONG).show();
 
-   eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
+//   eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
+   eavDepotMin = EavDepotMinEditText.getText().toString();
 //    eavDepotMin = EavDepotMinEditText.getText().toString();
     adNumDossier = NumDossierEditText.getText().toString();
     st_OccLibelleMvmCC = OccLibelleMvmCC.getText().toString();
@@ -496,7 +558,12 @@ if (true){
             httpParams.put(KEY_OccLibelleMvmCC, st_OccLibelleMvmCC);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "operation_compte_courant_adherent.php", "POST", httpParams);
+                    BASE_URL + "operation_compte_courant_adherent_new.php", "POST", httpParams);
+            Log.e("***compteId",compteId+"\n");
+            Log.e("***eavDepotMin",eavDepotMin+"\n");
+            Log.e("***natureOperation",natureOperation+"\n");
+            Log.e("***KEY_CV_USER_CREE",MyData.USER_ID+"\n");
+            Log.e("***KEY_OccLibelleMvmCC",st_OccLibelleMvmCC+"\n");
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

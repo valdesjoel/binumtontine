@@ -11,6 +11,7 @@ public class Credit {
     private String CrNbreUPas;
     private String CrTypTxInter;
     private String CrValTxInter;
+    private String CrBaseTxInter;
     private Boolean CrIsTxIntNeg;
     private String CrNbreAvalDmde;
     private String CrNbreMinAvalExig;
@@ -70,6 +71,25 @@ public class Credit {
     private String CrCaisseId;
     private String CrGuichetId;
     private Boolean CrIsTxIntDegressif;
+    private String CrModeCalcInteret;
+    private String CrPeriodCalcInteret;
+    private String CrNbreJrDelaiGrace;
+    private Boolean CrIsDelaiGraceNegoc;
+    private Boolean CrIsJoursOuvresOnly;
+    private Boolean CrIsTxInteretJrOn;
+    private String CrNatureJrTxIntJr;
+    private String CrNatureTxPenRet;
+    private String CrValTxPenRet;
+    private String CrBaseTxPenRet;
+    private String CrPeriodNatureTxPenRet;
+    private Boolean CrIsTxPenRetardOn;
+    private String CrNatureJrTxPenRet;
+    private String CrNatureTxInt_IntRetCred;
+    private String CrTauxInt_IntRetCred;
+    private String CrBasexInt_IntRetCred;
+    private String CrPeriod_IntRetCred;
+    private Boolean CrIsTxIntJrOn_IntRetCred;
+    private String CrNatJrTxIntJr_IntRetCred;
 
     //Attributes END
 //JSON Parameters START
@@ -82,6 +102,7 @@ public class Credit {
     public static final String KEY_CREDIT_NbreUPas = "CrNbreUPas";
     public static final String KEY_CREDIT_TypTxInter = "CrTypTxInter";
     public static final String KEY_CREDIT_ValTxInter = "CrValTxInter";
+    public static final String KEY_CREDIT_Base_TxInter = "CrBaseTxInter";
     //Base taux à indiquer
     public static final String KEY_CREDIT_IsTxIntNeg = "CrIsTxIntNeg";
     public static final String KEY_CREDIT_NbreAvalDmde = "CrNbreAvalDmde";
@@ -142,6 +163,25 @@ public class Credit {
     public static final String KEY_CREDIT_CaisseId ="CrCaisseId";
     public static final String KEY_CREDIT_GuichetId ="CrGuichetId";
     public static final String KEY_CrIsTxIntDegressif ="CrIsTxIntDegressif";
+    public static final String KEY_CrModeCalcInteret ="CrModeCalcInteret";
+    public static final String KEY_CrPeriodCalcInteret ="CrPeriodCalcInteret";
+    public static final String KEY_CrNbreJrDelaiGrace ="CrNbreJrDelaiGrace";
+    public static final String KEY_CrIsDelaiGraceNegoc ="CrIsDelaiGraceNegoc";
+    public static final String KEY_CrIsJoursOuvresOnly ="CrIsJoursOuvresOnly";
+    public static final String KEY_CrIsTxInteretJrOn ="CrIsTxInteretJrOn";
+    public static final String KEY_CrNatureJrTxIntJr ="CrNatureJrTxIntJr";
+    public static final String KEY_CrNatureTxPenRet ="CrNatureTxPenRet";
+    public static final String KEY_CrValTxPenRet ="CrValTxPenRet";
+    public static final String KEY_CrBaseTxPenRet ="CrBaseTxPenRet";
+    public static final String KEY_CrPeriodNatureTxPenRet ="CrPeriodNatureTxPenRet";
+    public static final String KEY_CrIsTxPenRetardOn ="CrIsTxPenRetardOn";
+    public static final String KEY_CrNatureJrTxPenRet ="CrNatureJrTxPenRet";
+    public static final String KEY_CrNatureTxInt_IntRetCred ="CrNatureTxInt_IntRetCred";
+    public static final String KEY_CrTauxInt_IntRetCred ="CrTauxInt_IntRetCred";
+    public static final String KEY_CrBasexInt_IntRetCred ="CrBasexInt_IntRetCred";
+    public static final String KEY_CrPeriod_IntRetCred ="CrPeriod_IntRetCred";
+    public static final String KEY_CrIsTxIntJrOn_IntRetCred ="CrIsTxIntJrOn_IntRetCred";
+    public static final String KEY_CrNatJrTxIntJr_IntRetCred ="CrNatJrTxIntJr_IntRetCred";
 // JSON Parameters END
 
 
@@ -213,9 +253,12 @@ public class Credit {
      * @param crDatHModif
      * @param crCaisseId
      * @param crGuichetId
+     * @param crIsTxIntDegressif
+     * @param crModeCalcInteret
+     * @param crPeriodCalcInteret
      */
     public Credit(String crCode, String crLibelle, String crDureeMin, String crDureeMax, String crNaturePas,
-                  String crNbreUPas, String crTypTxInter, String crValTxInter, Boolean crIsTxIntNeg,
+                  String crNbreUPas, String crTypTxInter, String crValTxInter, String crBaseTxInter, Boolean crIsTxIntNeg,
                   String crNbreAvalDmde, String crNbreMinAvalExig, String crTxCouvCrAval, Boolean crIsTxCouvAvalOblig,
                   Boolean crIsCautionMorAvalAcc, Boolean crIsGarBloqCptOblig, Boolean crIsGarCptEAVOn, Boolean crIsGarCptEATOn,
                   Boolean crIsGarCptEAPOn, String crMtMaxSansAval, Boolean crIsAvalSansCredOn, Boolean crIsTxGarMemObl,
@@ -230,7 +273,12 @@ public class Credit {
                   String crModeRemb, Boolean crIsCptEATRemCredOn, Boolean crIsCptEAPRemCredOn, Boolean crIsInterOffSiCapRembAnt,
                   String crTxInterEchNHon, String crBaseInterEchNHon, String crPlanningRembCred, Boolean crIsRappDatEchCred,
                   String crModelTextRappEchRemb, String crNbreJrAvantDatEch, String crNbreJrApreEchSiNHon,
-                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId, Boolean crIsTxIntDegressif) {
+                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId,
+                  Boolean crIsTxIntDegressif, String crModeCalcInteret, String crPeriodCalcInteret, String crNbreJrDelaiGrace,
+                  Boolean crIsDelaiGraceNegoc, Boolean crIsJoursOuvresOnly, Boolean crIsTxInteretJrOn, String crNatureJrTxIntJr,
+                  String crNatureTxPenRet, String crValTxPenRet, String crBaseTxPenRet, String crPeriodNatureTxPenRet, Boolean crIsTxPenRetardOn,
+                  String crNatureJrTxPenRet, String crNatureTxInt_IntRetCred, String crTauxInt_IntRetCred, String crBasexInt_IntRetCred,
+                  String crPeriod_IntRetCred, Boolean crIsTxIntJrOn_IntRetCred, String crNatJrTxIntJr_IntRetCred) {
         CrCode = crCode;
         CrLibelle = crLibelle;
         CrDureeMin = crDureeMin;
@@ -239,6 +287,7 @@ public class Credit {
         CrNbreUPas = crNbreUPas;
         CrTypTxInter = crTypTxInter;
         CrValTxInter = crValTxInter;
+        CrBaseTxInter = crBaseTxInter;
         CrIsTxIntNeg = crIsTxIntNeg;
         CrNbreAvalDmde = crNbreAvalDmde;
         CrNbreMinAvalExig = crNbreMinAvalExig;
@@ -298,10 +347,29 @@ public class Credit {
         CrCaisseId = crCaisseId;
         CrGuichetId = crGuichetId;
         CrIsTxIntDegressif = crIsTxIntDegressif;
+        CrModeCalcInteret = crModeCalcInteret;
+        CrPeriodCalcInteret = crPeriodCalcInteret;
+        CrNbreJrDelaiGrace = crNbreJrDelaiGrace;
+        CrIsDelaiGraceNegoc = crIsDelaiGraceNegoc;
+        CrIsJoursOuvresOnly = crIsJoursOuvresOnly;
+        CrIsTxInteretJrOn = crIsTxInteretJrOn;
+        CrNatureJrTxIntJr = crNatureJrTxIntJr;
+        CrNatureTxPenRet = crNatureTxPenRet;
+        CrValTxPenRet = crValTxPenRet;
+        CrBaseTxPenRet = crBaseTxPenRet;
+        CrPeriodNatureTxPenRet = crPeriodNatureTxPenRet;
+        CrIsTxPenRetardOn = crIsTxPenRetardOn;
+        CrNatureJrTxPenRet = crNatureJrTxPenRet;
+        CrNatureTxInt_IntRetCred = crNatureTxInt_IntRetCred;
+        CrTauxInt_IntRetCred = crTauxInt_IntRetCred;
+        CrBasexInt_IntRetCred = crBasexInt_IntRetCred;
+        CrPeriod_IntRetCred = crPeriod_IntRetCred;
+        CrIsTxIntJrOn_IntRetCred = crIsTxIntJrOn_IntRetCred;
+        CrNatJrTxIntJr_IntRetCred = crNatJrTxIntJr_IntRetCred;
     }
 
     public Credit(String crNumero, String crCode, String crLibelle, String crDureeMin, String crDureeMax, String crNaturePas,
-                  String crNbreUPas, String crTypTxInter, String crValTxInter, Boolean crIsTxIntNeg, String crNbreAvalDmde,
+                  String crNbreUPas, String crTypTxInter, String crValTxInter,String crBaseTxInter, Boolean crIsTxIntNeg, String crNbreAvalDmde,
                   String crNbreMinAvalExig, String crTxCouvCrAval, Boolean crIsTxCouvAvalOblig, Boolean crIsCautionMorAvalAcc,
                   Boolean crIsGarBloqCptOblig, Boolean crIsGarCptEAVOn, Boolean crIsGarCptEATOn, Boolean crIsGarCptEAPOn,
                   String crMtMaxSansAval, Boolean crIsAvalSansCredOn, Boolean crIsTxGarMemObl, String crTauxGarMemb,
@@ -316,7 +384,12 @@ public class Credit {
                   Boolean crIsCptEAPRemCredOn, Boolean crIsInterOffSiCapRembAnt, String crTxInterEchNHon, String crBaseInterEchNHon,
                   String crPlanningRembCred, Boolean crIsRappDatEchCred, String crModelTextRappEchRemb, String crNbreJrAvantDatEch,
                   String crNbreJrApreEchSiNHon,
-                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId, Boolean crIsTxIntDegressif) {
+                  String crUser, String crDateHCree, String crUserModif, String crDatHModif, String crCaisseId, String crGuichetId, Boolean crIsTxIntDegressif,
+                  String crModeCalcInteret, String crPeriodCalcInteret, String crNbreJrDelaiGrace,Boolean crIsDelaiGraceNegoc,
+                  Boolean crIsJoursOuvresOnly, Boolean crIsTxInteretJrOn, String crNatureJrTxIntJr, String crNatureTxPenRet,
+                  String crValTxPenRet, String crBaseTxPenRet, String crPeriodNatureTxPenRet, Boolean crIsTxPenRetardOn, String crNatureJrTxPenRet,
+                  String crNatureTxInt_IntRetCred, String crTauxInt_IntRetCred, String crBasexInt_IntRetCred, String crPeriod_IntRetCred,
+                  Boolean crIsTxIntJrOn_IntRetCred, String crNatJrTxIntJr_IntRetCred) {
         CrNumero = crNumero;
         CrCode = crCode;
         CrLibelle = crLibelle;
@@ -326,6 +399,7 @@ public class Credit {
         CrNbreUPas = crNbreUPas;
         CrTypTxInter = crTypTxInter;
         CrValTxInter = crValTxInter;
+        CrBaseTxInter = crBaseTxInter;
         CrIsTxIntNeg = crIsTxIntNeg;
         CrNbreAvalDmde = crNbreAvalDmde;
         CrNbreMinAvalExig = crNbreMinAvalExig;
@@ -385,6 +459,25 @@ public class Credit {
         CrCaisseId = crCaisseId;
         CrGuichetId = crGuichetId;
         CrIsTxIntDegressif = crIsTxIntDegressif;
+        CrModeCalcInteret = crModeCalcInteret;
+        CrPeriodCalcInteret = crPeriodCalcInteret;
+        CrNbreJrDelaiGrace = crNbreJrDelaiGrace;
+        CrIsDelaiGraceNegoc = crIsDelaiGraceNegoc;
+        CrIsJoursOuvresOnly = crIsJoursOuvresOnly;
+        CrIsTxInteretJrOn = crIsTxInteretJrOn;
+        CrNatureJrTxIntJr = crNatureJrTxIntJr;
+        CrNatureTxPenRet = crNatureTxPenRet;
+        CrValTxPenRet = crValTxPenRet;
+        CrBaseTxPenRet = crBaseTxPenRet;
+        CrPeriodNatureTxPenRet = crPeriodNatureTxPenRet;
+        CrIsTxPenRetardOn = crIsTxPenRetardOn;
+        CrNatureJrTxPenRet = crNatureJrTxPenRet;
+        CrNatureTxInt_IntRetCred = crNatureTxInt_IntRetCred;
+        CrTauxInt_IntRetCred = crTauxInt_IntRetCred;
+        CrBasexInt_IntRetCred = crBasexInt_IntRetCred;
+        CrPeriod_IntRetCred = crPeriod_IntRetCred;
+        CrIsTxIntJrOn_IntRetCred = crIsTxIntJrOn_IntRetCred;
+        CrNatJrTxIntJr_IntRetCred = crNatJrTxIntJr_IntRetCred;
     }
 
     //Getters and setters
@@ -458,6 +551,30 @@ public class Credit {
 
     public void setCrValTxInter(String crValTxInter) {
         CrValTxInter = crValTxInter;
+    }
+
+    public String getCrBaseTxInter() {
+        return CrBaseTxInter;
+    }
+
+    public void setCrBaseTxInter(String crBaseTxInter) {
+        CrBaseTxInter = crBaseTxInter;
+    }
+
+    public Boolean getCrIsDelaiGraceNegoc() {
+        return CrIsDelaiGraceNegoc;
+    }
+
+    public void setCrIsDelaiGraceNegoc(Boolean crIsDelaiGraceNegoc) {
+        CrIsDelaiGraceNegoc = crIsDelaiGraceNegoc;
+    }
+
+    public Boolean getCrIsJoursOuvresOnly() {
+        return CrIsJoursOuvresOnly;
+    }
+
+    public void setCrIsJoursOuvresOnly(Boolean crIsJoursOuvresOnly) {
+        CrIsJoursOuvresOnly = crIsJoursOuvresOnly;
     }
 
     public Boolean getCrIsTxIntNeg() {
@@ -930,5 +1047,141 @@ public class Credit {
 
     public void setCrIsTxIntDegressif(Boolean crIsTxIntDegressif) {
         CrIsTxIntDegressif = crIsTxIntDegressif;
+    }
+
+    public String getCrModeCalcInteret() {
+        return CrModeCalcInteret;
+    }
+
+    public void setCrModeCalcInteret(String crModeCalcInteret) {
+        CrModeCalcInteret = crModeCalcInteret;
+    }
+
+    public String getCrPeriodCalcInteret() {
+        return CrPeriodCalcInteret;
+    }
+
+    public void setCrPeriodCalcInteret(String crPeriodCalcInteret) {
+        CrPeriodCalcInteret = crPeriodCalcInteret;
+    }
+
+    public String getCrNbreJrDelaiGrace() {
+        return CrNbreJrDelaiGrace;
+    }
+
+    public void setCrNbreJrDelaiGrace(String crNbreJrDelaiGrace) {
+        CrNbreJrDelaiGrace = crNbreJrDelaiGrace;
+    }
+
+    public Boolean getCrIsTxInteretJrOn() {
+        return CrIsTxInteretJrOn;
+    }
+
+    public void setCrIsTxInteretJrOn(Boolean crIsTxInteretJrOn) {
+        CrIsTxInteretJrOn = crIsTxInteretJrOn;
+    }
+
+    public String getCrNatureJrTxIntJr() {
+        return CrNatureJrTxIntJr;
+    }
+
+    public void setCrNatureJrTxIntJr(String crNatureJrTxIntJr) {
+        CrNatureJrTxIntJr = crNatureJrTxIntJr;
+    }
+
+    public String getCrNatureTxPenRet() {
+        return CrNatureTxPenRet;
+    }
+
+    public void setCrNatureTxPenRet(String crNatureTxPenRet) {
+        CrNatureTxPenRet = crNatureTxPenRet;
+    }
+
+    public String getCrValTxPenRet() {
+        return CrValTxPenRet;
+    }
+
+    public void setCrValTxPenRet(String crValTxPenRet) {
+        CrValTxPenRet = crValTxPenRet;
+    }
+
+    public String getCrBaseTxPenRet() {
+        return CrBaseTxPenRet;
+    }
+
+    public void setCrBaseTxPenRet(String crBaseTxPenRet) {
+        CrBaseTxPenRet = crBaseTxPenRet;
+    }
+
+    public String getCrPeriodNatureTxPenRet() {
+        return CrPeriodNatureTxPenRet;
+    }
+
+    public void setCrPeriodNatureTxPenRet(String crPeriodNatureTxPenRet) {
+        CrPeriodNatureTxPenRet = crPeriodNatureTxPenRet;
+    }
+
+    public Boolean getCrIsTxPenRetardOn() {
+        return CrIsTxPenRetardOn;
+    }
+
+    public void setCrIsTxPenRetardOn(Boolean crIsTxPenRetardOn) {
+        CrIsTxPenRetardOn = crIsTxPenRetardOn;
+    }
+
+    public String getCrNatureJrTxPenRet() {
+        return CrNatureJrTxPenRet;
+    }
+
+    public void setCrNatureJrTxPenRet(String crNatureJrTxPenRet) {
+        CrNatureJrTxPenRet = crNatureJrTxPenRet;
+    }
+
+    public String getCrNatureTxInt_IntRetCred() {
+        return CrNatureTxInt_IntRetCred;
+    }
+
+    public void setCrNatureTxInt_IntRetCred(String crNatureTxInt_IntRetCred) {
+        CrNatureTxInt_IntRetCred = crNatureTxInt_IntRetCred;
+    }
+
+    public String getCrTauxInt_IntRetCred() {
+        return CrTauxInt_IntRetCred;
+    }
+
+    public void setCrTauxInt_IntRetCred(String crTauxInt_IntRetCred) {
+        CrTauxInt_IntRetCred = crTauxInt_IntRetCred;
+    }
+
+    public String getCrBasexInt_IntRetCred() {
+        return CrBasexInt_IntRetCred;
+    }
+
+    public void setCrBasexInt_IntRetCred(String crBasexInt_IntRetCred) {
+        CrBasexInt_IntRetCred = crBasexInt_IntRetCred;
+    }
+
+    public String getCrPeriod_IntRetCred() {
+        return CrPeriod_IntRetCred;
+    }
+
+    public void setCrPeriod_IntRetCred(String crPeriod_IntRetCred) {
+        CrPeriod_IntRetCred = crPeriod_IntRetCred;
+    }
+
+    public Boolean getCrIsTxIntJrOn_IntRetCred() {
+        return CrIsTxIntJrOn_IntRetCred;
+    }
+
+    public void setCrIsTxIntJrOn_IntRetCred(Boolean crIsTxIntJrOn_IntRetCred) {
+        CrIsTxIntJrOn_IntRetCred = crIsTxIntJrOn_IntRetCred;
+    }
+
+    public String getCrNatJrTxIntJr_IntRetCred() {
+        return CrNatJrTxIntJr_IntRetCred;
+    }
+
+    public void setCrNatJrTxIntJr_IntRetCred(String crNatJrTxIntJr_IntRetCred) {
+        CrNatJrTxIntJr_IntRetCred = crNatJrTxIntJr_IntRetCred;
     }
 }

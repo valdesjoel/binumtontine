@@ -202,8 +202,8 @@ public class CalculFraisTenueCompteAnnuel extends AppCompatActivity implements A
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
 
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        //rb_depot.performClick();
-        //onRadioButtonClicked(rb_depot);
+        //rb_decision_accordee.performClick();
+        //onRadioButtonClicked(rb_decision_accordee);
         rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
         tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);

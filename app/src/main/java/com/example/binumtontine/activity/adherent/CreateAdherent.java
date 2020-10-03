@@ -487,7 +487,7 @@ if (testError==true){ addAdherent();}
             pDialog = new ProgressDialog(CreateAdherent.this);
             pDialog.setMessage("Chargement de la liste des types de membres...");
             pDialog.setCancelable(false);
-            pDialog.show();
+//            pDialog.show();
 
         }
 
@@ -502,6 +502,7 @@ if (testError==true){ addAdherent();}
             String jsonEAV = jsonParser.makeServiceCall(BASE_URL + "get_main_eav_by_guichet_id.php", ServiceHandler.GET,httpParams);
 
             Log.e("Response: ", "> " + jsonGuichet);
+            Log.e("Response: ", "> " + jsonEAV);
             //for manage list of guichet
             if (jsonGuichet != null) {
                 try {
@@ -542,7 +543,18 @@ if (testError==true){ addAdherent();}
                                     catObj.getString("name"));
                             cxName= mainEAV.getName().toUpperCase();
 //                            cxTitle.setTypeface(null, Typeface.BOLD);
-                            cxTitle.setText(cxTitle.getText()+" "+ cxName);
+                            runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+
+                                    // Stuff that updates the UI
+                                    cxTitle.setText(cxTitle.getText()+" "+ cxName);
+
+                                }
+                            });
+//                            cxTitle.setText(cxTitle.getText()+" "+ cxName);   //Génère des erreurs lorsqu'il est ici
+
                         }
                     }
 

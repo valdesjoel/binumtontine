@@ -64,6 +64,8 @@ public class ProduitEAVActivity extends AppCompatActivity implements SERVER_ADDR
 
         Toolbar toolbar = findViewById(R.id.toolbar_produitEAV);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         FloatingActionButton fab = findViewById(R.id.fab_produitEAV);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +82,11 @@ public class ProduitEAVActivity extends AppCompatActivity implements SERVER_ADDR
         });
     }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 /**
  * Fetches the list of movies from the server
  */

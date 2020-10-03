@@ -24,6 +24,101 @@
             app:popupTheme="@style/MyMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+    <!--<com.google.android.material.textfield.TextInputLayout-->
+    <!--android:id="@+id/input_layout_fromDate"-->
+    <!--style="@style/parent"-->
+    <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+    <!--<EditText-->
+    <!--android:id="@+id/input_txt_fromDate"-->
+    <!--style="@style/modifiedEditText"-->
+    <!--android:inputType="textPersonName"-->
+    <!--android:maxLines="1"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textStyle="bold"-->
+    <!--android:hint="Date de debut"-->
+    <!--/>-->
+    <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_fromDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="45"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/Widget.AppTheme.TextInputLayoutList"
+            android:textColorHint="@color/design_default_color_primary_dark"
+            app:boxStrokeColor="@color/design_default_color_primary_dark"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:id="@+id/input_txt_fromDate"
+                android:editable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Date de debut"
+                android:textColor="@color/jrspinner_black_transparent"
+                android:textSize="14dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_toDate"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="45"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/Widget.AppTheme.TextInputLayoutList"
+            android:textColorHint="@color/design_default_color_primary_dark"
+            app:boxStrokeColor="@color/design_default_color_primary_dark"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:id="@+id/input_txt_toDate"
+                android:editable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Date de fin"
+                android:textColor="@color/jrspinner_black_transparent"
+                android:textSize="14dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btn_afficher"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            style="@style/loginButton"
+
+            android:layout_marginRight="12dp"
+            android:text="@string/btn_afficher" />
+
+    </LinearLayout>
+
+    <!--<com.google.android.material.textfield.TextInputLayout-->
+    <!--android:id="@+id/input_layout_toDate"-->
+    <!--style="@style/parent"-->
+    <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+    <!--<EditText-->
+    <!--android:id="@+id/input_txt_toDate"-->
+    <!--style="@style/modifiedEditText"-->
+    <!--android:inputType="textPersonName"-->
+    <!--android:maxLines="1"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textStyle="bold"-->
+    <!--android:hint="Date de fin"/>-->
+    <!--</com.google.android.material.textfield.TextInputLayout>-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,69 +129,69 @@
             android:orientation="vertical">
 
             <!--<TextView-->
-                <!--style="@style/headerText"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="OPERATION SUR COMPTE"-->
-                <!--android:layout_marginTop="40dp"/>-->
+            <!--style="@style/headerText"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:text="OPERATION SUR COMPTE"-->
+            <!--android:layout_marginTop="40dp"/>-->
 
-        <TableLayout android:layout_marginTop="10dp"
-    android:id="@+id/table_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+            <TableLayout android:layout_marginTop="10dp"
+                android:id="@+id/table_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/table_row1"
-        android:padding="10dp">
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/table_row1"
+                    android:padding="10dp">
 
-        <TextView
-            android:id="@+id/name"
-            android:fontFamily="serif"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="20"
-            android:textColor="#000"
-            android:text="Date"/>
-        <TextView
-            android:id="@+id/age"
-            android:textColor="#000"
-            android:fontFamily="serif"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="15"
-            android:text="Sens"/>
-        <TextView
-            android:textColor="#000"
-            android:id="@+id/position"
-            android:fontFamily="serif"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="32.5"
-            android:text="Montant"/>
-        <TextView
-            android:textColor="#000"
-            android:id="@+id/address"
-            android:fontFamily="serif"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="32.5"
-            android:text="Solde"/>
+                    <TextView
+                        android:id="@+id/name"
+                        android:fontFamily="serif"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="27.5"
+                        android:textColor="#000"
+                        android:text="Date"/>
+                    <TextView
+                        android:id="@+id/age"
+                        android:textColor="#000"
+                        android:fontFamily="serif"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="25"
+                        android:text="Dépôt"/>
+                    <TextView
+                        android:textColor="#000"
+                        android:id="@+id/position"
+                        android:fontFamily="serif"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="32.5"
+                        android:text="Retrait"/>
+                    <TextView
+                        android:textColor="#000"
+                        android:id="@+id/address"
+                        android:fontFamily="serif"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="15"
+                        android:text="Solde"/>
 
-    </TableRow>
-    <View
-        android:layout_height="3dip"
-        android:layout_width="match_parent"
-        android:background="#ff0000"/>
-</TableLayout>
-    <!--// add a listview to display our table records-->
+                </TableRow>
+                <View
+                    android:layout_height="3dip"
+                    android:layout_width="match_parent"
+                    android:background="#ff0000"/>
+            </TableLayout>
+            <!--// add a listview to display our table records-->
             <ListView
-            android:id="@+id/records_view"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_marginTop="16dp">
+                android:id="@+id/records_view"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginTop="16dp">
             </ListView>
         </LinearLayout>
     </ScrollView>
-    </LinearLayout>
+</LinearLayout>

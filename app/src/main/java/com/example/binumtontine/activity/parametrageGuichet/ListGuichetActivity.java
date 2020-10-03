@@ -60,6 +60,10 @@ public class ListGuichetActivity extends AppCompatActivity implements SERVER_ADD
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Sélectionner un guichet") ;
 
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_produitEAV);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +79,11 @@ public class ListGuichetActivity extends AppCompatActivity implements SERVER_ADD
         });
     }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 /**
  * Fetches the list of movies from the server
  */

@@ -1,6 +1,8 @@
 package com.example.binumtontine.activity.adherent;
 
-public class ComptesAdherent {
+import java.io.Serializable;
+
+public class ComptesAdherent implements Serializable {
 
 
     //for manage accounts's adherent
@@ -11,6 +13,8 @@ public class ComptesAdherent {
     private String montant_solde;
     private String type_compte;
     private String taux_compte;
+    private String nomAffilie;
+    private String montantAccorde;
 
 
     public String getLibelleProduit() {
@@ -69,6 +73,22 @@ public class ComptesAdherent {
         this.taux_compte = taux_compte;
     }
 
+    public String getNomAffilie() {
+        return nomAffilie;
+    }
+
+    public void setNomAffilie(String nomAffilie) {
+        this.nomAffilie = nomAffilie;
+    }
+
+    public String getMontantAccorde() {
+        return montantAccorde;
+    }
+
+    public void setMontantAccorde(String montantAccorde) {
+        this.montantAccorde = montantAccorde;
+    }
+
     public ComptesAdherent(String libelle_produit, String numero_dossier, String dateHCree, String montant_solde) {
         this.libelle_produit = libelle_produit;
         this.numero_dossier = numero_dossier;
@@ -85,5 +105,18 @@ public class ComptesAdherent {
         this.montant_solde = montant_solde;
         this.type_compte = type_compte;
         this.taux_compte = taux_compte;
+    }
+    public ComptesAdherent(int numero_compte, String libelle_produit, String numero_dossier,
+                           String dateHCree, String montant_solde, String type_compte,
+                           String taux_compte, String nomAffilie, String montantAccorde) {
+        this.numero_compte = numero_compte;
+        this.libelle_produit = libelle_produit;
+        this.numero_dossier = numero_dossier;
+        this.dateHCree = dateHCree;
+        this.montant_solde = montant_solde;
+        this.type_compte = type_compte;
+        this.taux_compte = taux_compte;
+        this.nomAffilie = nomAffilie;
+        this.montantAccorde = montantAccorde;
     }
 }

@@ -28,10 +28,19 @@ public class CustomeAdapter extends BaseAdapter {
         this.context = context;
         this.editModelArrayList = editModelArrayList;
     }
-
+/*
     @Override
     public int getViewTypeCount() {
         return getCount();
+    } */
+    //For result this problem: java.lang.IllegalArgumentException: Can't have a viewTypeCount < 1
+    @Override
+    public int getViewTypeCount() {
+        if(getCount() > 0){
+            return getCount();
+        }else{
+            return super.getViewTypeCount();
+        }
     }
     @Override
     public int getItemViewType(int position) {

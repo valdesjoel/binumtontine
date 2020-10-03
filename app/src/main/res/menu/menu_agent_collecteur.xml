@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_all"
+        android:title="@string/action_all"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_demande_de_retrait"
+        android:orderInCategory="100"
+        android:title="@string/action_demande_de_retrait"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_paiement_cheque"
+        android:orderInCategory="100"
+        android:title="@string/action_paiement_cheque"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_transfert_solde_mensuel"
+        android:orderInCategory="100"
+        android:title="@string/action_transfert_solde_mensuel"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_demande_de_chequier"
+        android:orderInCategory="100"
+        android:title="@string/action_demande_de_chequier"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_ouverture_de_journee"
+        android:orderInCategory="100"
+        android:title="@string/action_ouverture_de_journee"
+        app:showAsAction="never" />
+</menu>

@@ -111,6 +111,8 @@ public class ProduitEAPActivity extends AppCompatActivity implements SERVER_ADDR
 
         Toolbar toolbar = findViewById(R.id.toolbar_produitEAP);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         FloatingActionButton fab = findViewById(R.id.fab_produitEAP);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +128,11 @@ public class ProduitEAPActivity extends AppCompatActivity implements SERVER_ADDR
             }
         });
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
 
     /**

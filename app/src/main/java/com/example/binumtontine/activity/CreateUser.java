@@ -133,6 +133,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     List<Integer> caisseListID = new ArrayList<Integer>();
     private int caisseID;
     private Spinner spinnerCaisse;
+    private JRSpinner spnNewProfil;
     private Button btnAddNewCategory;
     private TextView txtCategory ;
     // API urls
@@ -150,10 +151,27 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_user);
         setSupportActionBar(toolbar);
         setToolbarTitle();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
 
         btnAddNewCategory = (Button) findViewById(R.id.btn_save_Ux);
         spinnerCaisse = (Spinner) findViewById(R.id.spn_my_spinner_caisse1);
+        spnNewProfil = (JRSpinner) findViewById(R.id.spnNewProfil);
+        spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil)); //this is important, you must set it to set the item list
+        spnNewProfil.setTitle("Sélectionner un profil"); //change title of spinner-dialog programmatically
+        spnNewProfil.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        spnNewProfil.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+
+
+
         txtCategory = (TextView) findViewById(R.id.txtCategory);
 
         caisseList = new ArrayList<Category>();
@@ -236,6 +254,11 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     private void alreadyUpperCase(final EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
 
@@ -432,7 +455,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     public void onNothingSelected(AdapterView<?> arg0) {
     }
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Ajout d'un admin de caisse");
+        getSupportActionBar().setTitle("Ajout d'un utilisateur");
 
     }
 

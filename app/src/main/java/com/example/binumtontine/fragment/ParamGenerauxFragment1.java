@@ -140,7 +140,7 @@ public class ParamGenerauxFragment1 extends AppCompatActivity implements Adapter
             super.onPreExecute();
             //Display progress bar
             btn.startAnimation();
-           /* pDialog = new ProgressDialog(PrivacyPolicyActivity.this);
+           /* pDialog = new ProgressDialog(PreParametrageOFActivity.this);
             pDialog.setMessage("Loading Pre Paramètres Details. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);

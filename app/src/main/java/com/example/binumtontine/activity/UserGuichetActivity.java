@@ -91,11 +91,13 @@ public class UserGuichetActivity extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_DATA = "data";
     private static final String KEY_USER_GUICHET_ID = "ux_numero";
     private static final String KEY_USER_GUICHET_LOCALITE = "ux_nom";
+    private static final String KEY_ProfilCaisseOrGuichet = "profilCaisseOrGuichet";
 
 
     private ArrayList<HashMap<String, String>> userGuichetList;
     private ListView userGuichetListView;
     private ProgressDialog pDialog;
+    public static String profilCaisseOrGuichet ="caisse"; //Initialisation par défaut
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +114,9 @@ public class UserGuichetActivity extends AppCompatActivity implements SERVER_ADD
         setSupportActionBar(toolbar);
         setToolbarTitle();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_list_user_guichet);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,8 +132,21 @@ public class UserGuichetActivity extends AppCompatActivity implements SERVER_ADD
             }
         });
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Gestion des agents de guichets");
+        getSupportActionBar().setTitle("Gestion des profils");
+        if(profilCaisseOrGuichet.equals("caisse")){
+            getSupportActionBar().setSubtitle(MyData.CAISSE_NAME);
+        }else if (profilCaisseOrGuichet.equals("guichet")){
+
+            getSupportActionBar().setSubtitle(MyData.GUICHET_NAME);
+        }
+
 
     }
 
@@ -153,7 +171,14 @@ public class UserGuichetActivity extends AppCompatActivity implements SERVER_ADD
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
+//            httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
+            if (profilCaisseOrGuichet.equals("caisse")){
+                httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
+            }else if (profilCaisseOrGuichet.equals("guichet")){
+                httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+            }
+
+            httpParams.put(KEY_ProfilCaisseOrGuichet, profilCaisseOrGuichet);
 //            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
 //                    BASE_URL + "fetch_all_user_guichet.php", "GET", null);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(

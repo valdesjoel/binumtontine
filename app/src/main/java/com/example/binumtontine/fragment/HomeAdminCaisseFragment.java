@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.CaisseActivity;
 import com.example.binumtontine.activity.GuichetNewActivity;
-import com.example.binumtontine.activity.PrivacyPolicyActivity;
+import com.example.binumtontine.activity.PreParametrageOFActivity;
 import com.example.binumtontine.activity.UserGuichetActivity;
 import com.example.binumtontine.activity.UsersCaisseActivity;
 import com.example.binumtontine.activity.parametrageGuichet.ListGuichetActivity;
@@ -22,7 +22,6 @@ import com.example.binumtontine.activity.parametreGenerauxCx.ListEtapeDemandeCre
 import com.example.binumtontine.activity.parametreGenerauxCx.ListObjetCreditCx;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListStatutEtapeCreditCx;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFActivity;
-import com.example.binumtontine.activity.parametreGenerauxCx.ParametreGenerauxCxActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.TypeMembreCxActivity;
 
 
@@ -141,7 +140,7 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
                 Fragment myFragment = new FriendsFragment();
                 activityUserCard.getSupportFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), myFragment).addToBackStack(null).commit();*/
                  i = new Intent(getActivity(), UserGuichetActivity.class);
-
+                UserGuichetActivity.profilCaisseOrGuichet="caisse"; //A revoir car il faut éviter l'effet de board
                // i = new Intent(getActivity(), CreateUserGuichet.class);
                 startActivity(i);
                 break;
@@ -156,7 +155,7 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
                 startActivity(i);
                 break;
             case R.id.preParam_card :
-                i = new Intent(getActivity(), PrivacyPolicyActivity.class);
+                i = new Intent(getActivity(), PreParametrageOFActivity.class);
                 startActivity(i);
                 break;
             case R.id.param_guichet_card:

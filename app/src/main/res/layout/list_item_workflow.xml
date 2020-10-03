@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<TextView
+    android:id="@+id/movieId"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView"
+    android:textColor="#000000"
+    android:textSize="16sp"
+    android:textStyle="italic"
+    android:visibility="gone"/>
+    <TextView
+    android:id="@+id/movieCompteur"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView"
+    android:textColor="#1273EB"
+    android:textSize="16sp"
+    android:textStyle="italic"
+    />
+
+<TextView
+    android:id="@+id/movieName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView"
+    android:textColor="#000000"
+    android:textSize="16sp" />
+
+<TextView
+    android:id="@+id/movieNameDetails"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView"
+    android:textColor="#000000"
+    android:textSize="16sp" />
+<TextView
+    android:id="@+id/movieCvgTypeUsrValid"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="TextView"
+    android:textColor="#000000"
+    android:textSize="16sp" />
+</LinearLayout>

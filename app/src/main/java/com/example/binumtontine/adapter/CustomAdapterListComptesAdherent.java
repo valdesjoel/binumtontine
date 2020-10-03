@@ -4,20 +4,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,46 +20,31 @@ import com.example.binumtontine.activity.adherent.Adherent;
 import com.example.binumtontine.activity.adherent.ComiteCredit;
 import com.example.binumtontine.activity.adherent.ComptesAdherent;
 import com.example.binumtontine.activity.adherent.ConsulterCompte;
-import com.example.binumtontine.activity.adherent.CreateAdherent;
-import com.example.binumtontine.activity.adherent.CreateEAP;
-import com.example.binumtontine.activity.adherent.CreateEAT;
-import com.example.binumtontine.activity.adherent.CreateEAV;
 import com.example.binumtontine.activity.adherent.DeblocageCredit;
 import com.example.binumtontine.activity.adherent.DecaissementCredit;
-import com.example.binumtontine.activity.adherent.GetPieceAdherent;
 import com.example.binumtontine.activity.adherent.HistoriqueCpteCourant;
 import com.example.binumtontine.activity.adherent.HistoriqueEAV;
-import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity;
 import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity_New;
+import com.example.binumtontine.activity.adherent.ListCompteAvanceSpecialeAdherentActivity;
+import com.example.binumtontine.activity.adherent.ListCompteDecouvertAdherentActivity;
 import com.example.binumtontine.activity.adherent.OperationCompteCourant;
 import com.example.binumtontine.activity.adherent.OperationEAP;
 import com.example.binumtontine.activity.adherent.OperationEAT;
 import com.example.binumtontine.activity.adherent.OperationEAV;
 import com.example.binumtontine.activity.adherent.Record;
-import com.example.binumtontine.helper.CheckNetworkStatus;
-import com.example.binumtontine.helper.HttpJsonParser;
-import com.example.binumtontine.modele.FraisTenueCompteAnnuel;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.binumtontine.controleur.MyData;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import static com.example.binumtontine.dao.SERVER_ADDRESS.BASE_URL;
-import static java.lang.Double.parseDouble;
 
 //  import com.example.binumtontine.activity.adherent.MyList;
 
 
 /**
  * Created by Valdès on 13/02/20.
+ * It allows to customize List Comptes Adherent
  */
 
 public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<CustomAdapterListComptesAdherent.ViewHolder> {
@@ -143,76 +122,12 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
         holder.tvTypeCompte.setText(myList.getType_compte());
         holder.tvTaux.setText(myList.getTaux_compte());
         holder.tvLibelleProduit.setText(myList.getLibelleProduit());
+
         holder.tvNumDossier.setText(myList.getNumeroDossier());
         holder.tvDateCreation.setText(myList.getDateHCree());
         holder.tvSolde.setText(myList.getMontantSolde());
 
-
-
-//        if ((holder.tvTypeCompte.getText()).equals("EAV")){
-//            intent = new Intent(mCtx,
-//                    OperationEAV.class);
-//        }else if ((holder.tvTypeCompte.getText()).equals("EAT")){
-//            intent = new Intent(mCtx,
-//                    OperationEAT.class);
-//        }else{
-//            intent = new Intent(mCtx,
-//                    OperationEAP.class);
-//        }
-        /*
-        intent = new Intent(mCtx,
-                OperationEAV.class);
-
-        intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte());
-        intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
-        intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
-        intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
-        intent.putExtra(KEY_TAUX, myList.getTaux_compte());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
-        // bundle.putSerializable(KEY_ADHERENT, adherent);
-        intent.putExtras(bundle); */
-
-
 //pour mettre un évènement d'écoute lorsqu'on clique sur une ligne (un compte)
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Check for network connectivity
-//                if (CheckNetworkStatus.isNetworkAvailable(mCtx)) {
-//                   /* String movieId = ((TextView) view.findViewById(R.id.movieId))
-//                            .getText().toString();
-//                    Intent intent = new Intent(mCtx,
-//                            CaisseActivity.class);
-//                    intent.putExtra(KEY_CAISSE_ID, movieId);
-//                    //startActivityForResult(intent, 20);
-//
-//                    startActivity(intent); */
-//                    //handle menu0 click
-//                    Intent i = new Intent(mCtx, ListCompteAdherentActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(KEY_ADHERENT, (Serializable) myList);
-//                    // bundle.putSerializable(KEY_ADHERENT, adherent);
-//                    i.putExtras(bundle);
-//                    i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
-//                    ((Activity) mCtx).startActivityForResult(i, 20);
-//
-//
-//                    //mCtx.startActivity(i);
-////                    Toast.makeText(mCtx,
-////                            "Liste des comptes de l'adhérent en construction!!!",
-////                            Toast.LENGTH_LONG).show();
-//
-//                } else {
-//                    Toast.makeText(mCtx,
-//                            "Unable to connect to internet",
-//                            Toast.LENGTH_LONG).show();
-//
-//                }
-//            }
-//        });
-
-
         holder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,15 +170,17 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                 //PopupMenu popup = new PopupMenu(mCtx, holder.buttonViewOption);
                 PopupMenu popup = new PopupMenu(mCtx, holder.buttonViewOption); // i made holer final
                 //inflating menu from xml resource
-                popup.inflate(R.menu.options_menu_compte_adherent);
-                if ((holder.tvTypeCompte.getText()).equals("EAV")){
+//                popup.inflate(R.menu.options_menu_compte_adherent);
+                popup.inflate(R.menu.options_menu_compte_adherent_new);
+         /*       if ((holder.tvTypeCompte.getText()).equals("EAV")){
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
                     popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
-//                    popup.getMenu().findItem(R.id.eav_group).setVisible(true);
-//                    popup.getMenu().findItem(R.id.eap_group).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
+
 
                 }else if((holder.tvTypeCompte.getText()).equals("EAP")){
 
@@ -271,9 +188,6 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
 
-
-//                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-//                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
                 }else if((holder.tvTypeCompte.getText()).equals("COMPTE COURANT")){
 
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
@@ -281,19 +195,16 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
                     popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_decouvert).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(true);
                     popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE COURANT");
 
-
-//                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-//                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
                 }else if((holder.tvTypeCompte.getText()).equals("EAT")){
 
 
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
                     popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-//                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-//                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
                 }else if((holder.tvTypeCompte.getText()).equals("CREDIT")){
@@ -309,74 +220,229 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
 //                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
 //                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
                 }
+                */
+
+                if ((holder.tvTypeCompte.getText()).equals("EAV")){
+                    popup.getMenu().findItem(R.id.menu_depot).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_retrait).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique).setVisible(true);
+
+
+                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_anticipee).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture).setVisible(false);
+
+                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+
+                /*    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);*/
+
+
+                }else if((holder.tvTypeCompte.getText()).equals("EAP")){
+
+                 /*   popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);*/
+
+                    popup.getMenu().findItem(R.id.menu_depot).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_retrait).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique).setVisible(false);
+
+
+                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_anticipee).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture).setVisible(true);
+                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE EAP");
+
+                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+
+                }else if((holder.tvTypeCompte.getText()).equals("COMPTE COURANT")){
+
+                /*    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(true);
+                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE COURANT");*/
+
+
+                    popup.getMenu().findItem(R.id.menu_depot).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_retrait).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_historique).setVisible(true);
+
+
+                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_anticipee).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture).setVisible(false);
+                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE COURANT");
+
+                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+
+                }else if((holder.tvTypeCompte.getText()).equals("EAT")){
+
+
+                /*    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
+                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);*/
+
+
+                    popup.getMenu().findItem(R.id.menu_depot).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_retrait).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique).setVisible(false);
+
+
+                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_anticipee).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture).setVisible(true);
+                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE EAT");
+
+                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+
+                }else if((holder.tvTypeCompte.getText()).equals("CREDIT")){
+
+
+                /*    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
+                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, true);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);*/
+
+
+                    popup.getMenu().findItem(R.id.menu_depot).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_retrait).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique).setVisible(false);
+
+
+                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_anticipee).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture).setVisible(false);
+
+                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(true);
+                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("CREDIT");
+
+
+
+                    /* START PROVISOIRE*/
+//                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+                    /* END PROVISOIRE*/
+                }
+
                // popup.getMenu().findItem(R.id.next).setVisible(true);
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-
-//                            case R.id.menu0:
-//                                //handle menu0 click
-//                                  Intent i = new Intent(mCtx, GetPieceAdherent.class);
-//                                i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
-//                               // startActivityForResult(intent, 20);
-//                                mCtx.startActivity(i);
-//
-//                                break;
                             case R.id.menu_depot:
                                 //handle menu1 click
-                                //startActivityForResult(intent, 20);
                                 intent.putExtra(KEY_TYPE_OPERATION, "depot");
                                 ((Activity) mCtx).startActivityForResult(intent, 20);
 
-
-/*
-                                Intent ii = new Intent(mCtx, CreateAdherent.class);
-                                CreateAdherent.to_update_adherent = true;
-                                ii.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
-                                ((Activity) mCtx).startActivityForResult(ii, 20);
-                                */
-                               // CreateAdherent.to_update_adherent = false; //to reset default value
-
-
-//                                Toast.makeText(mCtx,
-//                                        "ID adhérent "+holder.textViewId.getText(), Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.menu_retrait:
                                 //handle menu2 click
                                 intent.putExtra(KEY_TYPE_OPERATION, "retrait");
                                 ((Activity) mCtx).startActivityForResult(intent, 20);
-                                /*
-                                Intent intentCreateEAV = new Intent(mCtx, CreateEAV.class);
-                                intentCreateEAV.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAV, 20);
-                                */
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                                //mCtx.startActivity(intentCreateEAV);
+
 
                                 break;
                             case R.id.menu_decouvert:
-                                //handle menu2 click
-                                intent.putExtra(KEY_TYPE_OPERATION, "decouvert");
-                                ((Activity) mCtx).startActivityForResult(intent, 20);
-                                /*
-                                Intent intentCreateEAV = new Intent(mCtx, CreateEAV.class);
-                                intentCreateEAV.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAV, 20);
-                                */
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                                //mCtx.startActivity(intentCreateEAV);
+                                MyData.LIBELLE_PRODUIT_CPTE_COURANT = myList.getLibelleProduit(); //A revoir pour optimisation
+                                Intent i = new Intent(mCtx, ListCompteDecouvertAdherentActivity.class);
+                                Bundle bundleDecouv = new Bundle();
+                                bundleDecouv.putSerializable(KEY_ADHERENT, (Serializable) myList);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                i.putExtras(bundleDecouv);
+                                i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
+                                ((Activity) mCtx).startActivityForResult(i, 20);
+
+
+                                break;
+                            case R.id.menu_avance_speciale:
+                                MyData.LIBELLE_PRODUIT_CPTE_COURANT = myList.getLibelleProduit(); //A revoir pour optimisation
+                                Intent intentAvanceSpec = new Intent(mCtx, ListCompteAvanceSpecialeAdherentActivity.class);
+                                Bundle bundleAvanceSpec = new Bundle();
+                                bundleAvanceSpec.putSerializable(KEY_ADHERENT, (Serializable) myList);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intentAvanceSpec.putExtras(bundleAvanceSpec);
+                                intentAvanceSpec.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
+                                ((Activity) mCtx).startActivityForResult(intentAvanceSpec, 20);
+
 
                                 break;
                             case R.id.menu_historique:
@@ -392,47 +458,8 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                             HistoriqueEAV.class);
                                     intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
                                 }
-//                                Log.d("*********************",myList.getNumero_compte()+"");
-//                                Toast.makeText(mCtx,
-//                                        myList.getNumero_compte(),
-//                                        Toast.LENGTH_LONG).show();
                                 ((Activity) mCtx).startActivityForResult(intent, 20);
                                 break;
-//                            case R.id.menu_interet:
-//                                //handle menu3 click
-//                                /*
-//                                Intent intentCreateEAT = new Intent(mCtx, CreateEAT.class);
-//                                intentCreateEAT.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-//                                intentCreateEAT.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-//                                intentCreateEAT.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-//                                intentCreateEAT.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-//                                intentCreateEAT.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-//                                ((Activity) mCtx).startActivityForResult(intentCreateEAT, 20);
-//                                */
-//                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-//                                // startActivityForResult(intent, 20);
-//                               // mCtx.startActivity(intentCreateEAT);
-//
-//                                break;
-//                            case R.id.menu_frais:
-//                                //handle menu3 click
-//                                /*
-//                                Intent intentCreateEAP = new Intent(mCtx, CreateEAP.class);
-//                                intentCreateEAP.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-//                                intentCreateEAP.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-//                                intentCreateEAP.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-//                                intentCreateEAP.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-//                                intentCreateEAP.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-//                                ((Activity) mCtx).startActivityForResult(intentCreateEAP, 20);
-//                                */
-//                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-//                                // startActivityForResult(intent, 20);
-//                               // mCtx.startActivity(intentCreateEAP);
-//                                compteId= myList.getNumero_compte()+"";
-//                                listOperationCompteAdherent = new ArrayList<>();
-//
-//                                break;
-
                             case R.id.menu_payer_mise:
                                 //handle menu3 click
                                 intent = new Intent(mCtx,

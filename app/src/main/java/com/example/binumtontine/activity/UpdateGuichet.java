@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.app.assist.AssistStructure;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -66,6 +67,8 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
     private static final String KEY_EAV_ID = "ev_numero";
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
+    private static final String KEY_JvNumero = "JvNumero";
+    private static final String KEY_JvDesign = "JvDesign";
 
     private static final String KEY_GX_LOCALITE = "gx_localite";
     private static final String KEY_GX_DENOMINATION = "gx_denomination";
@@ -87,6 +90,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private static final String KEY_GX_FREQ_REUN_COM_CRED = "gx_freq_reun_com_cred";
     private static final String KEY_GX_IS_RAPP_NET_MSG_CRED_ON = "gx_is_rapp_net_msg_cred_on";
     private static final String KEY_GX_DEFAULT_EAV_NUMERO = "gx_default_eav_numero";
+    private static final String KEY_GxCptCollecteDef = "GxCptCollecteDef";
 
 
     private static final String KEY_GxIsPreComGesGuPGC = "GxIsPreComGesGuPGC";
@@ -95,6 +99,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private static final String KEY_GxMtPlafDecAutPCG = "GxMtPlafDecAutPCG";
 
     private static final String KEY_GxNbMoisHistoDef = "GxNbMoisHistoDef";
+    private static final String KEY_GxIsJrSemInit = "GxIsJrSemInit";
 
     private TextView headerGuichetTextView;
 
@@ -153,12 +158,13 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private String gx_freq_reun_com_cred;
     private Boolean gx_is_rapp_net_msg_cred_on;
     private String gxDefaultEavDenomination;
+    private String gxDefaultEavForCollecteDenomination;
 
 
     private EditText GxMtPlafDecAutPCG;
     private String st_GxMtPlafDecAutPCG;
     private SwitchCompat GxIsPreComGesGuPGC,GxIsChefGuichCG,GxIsAgentGuichAG;
-    private Boolean bool_GxIsPreComGesGuPGC, bool_GxIsChefGuichCG,bool_GxIsAgentGuichAG;
+    private Boolean bool_GxIsPreComGesGuPGC, bool_GxIsChefGuichCG,bool_GxIsAgentGuichAG, bool_GxIsJrSemInit;
 
 
     private EditText GxNbMoisHistoDef;
@@ -167,12 +173,19 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     /* manage spinner*/
     // array list for spinner adapter
     private ArrayList<Category> defaultEavList;
+    private ArrayList<Category> defaultEavForCollecteList;
+    private ArrayList<Category> joursVillageList;
     List<Integer> defaultEavListID = new ArrayList<Integer>();
+    List<Integer> defaultEavForCollecteListID = new ArrayList<Integer>();
+    List<Integer> joursVillageListID = new ArrayList<Integer>();
     private int defaultEavId;
-    private Spinner spinnerDefaultEAV;
+    private int defaultEavForCollecteId;
+    private int todayDayId;
+    private Spinner spinnerDefaultEAV, spinnerDefaultEAVForCollecte, spinnerJoursVillage;
     private TextView tvCaisse;
     private TextInputLayout textInputLayoutCaisse;
     private LinearLayout LL_default_eav;
+    private LinearLayout LL_default_eav_for_collecte;
     /*end manage*/
 
 
@@ -185,7 +198,9 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private br.com.simplepass.loadingbutton.customViews.CircularProgressButton annulerButton;
     private br.com.simplepass.loadingbutton.customViews.CircularProgressButton deleteButton;
     private int success;
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog, pDialog1;
+    private LinearLayout block_Switch8jr_semaine_Gx, ll_getTodayDay;
+    private Switch SW_GuIsJrSemInit;
 
 
     @Override
@@ -304,6 +319,9 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
         gx_nbre_rapp_by_jourEditText = (EditText) findViewById(R.id.input_txt_Nombre_de_rappel_par_jour);
         gx_nbre_jr_av_rappEditText = (EditText) findViewById(R.id.input_txt_Nombre_jour_av_rappel);
         gx_is_jour8_onSwitch = (Switch) findViewById(R.id.Switch8jr_semaine_Gx);
+        block_Switch8jr_semaine_Gx = (LinearLayout) findViewById(R.id.block_Switch8jr_semaine_Gx);
+        SW_GuIsJrSemInit = (Switch) findViewById(R.id.Switch_GuIsJrSemInit);
+        ll_getTodayDay = (LinearLayout) findViewById(R.id.ll_getTodayDay);
         gx_is_credit_by_objetSwitch = (Switch) findViewById(R.id.Switch_credit_par_objet_Gx);
         gx_first_jr_onEditText = (EditText) findViewById(R.id.input_txt_GuFirstJrOn);
         gx_freq_reun_com_credEditText = (EditText) findViewById(R.id.input_txt_GuFreqReunComCred);
@@ -326,20 +344,29 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
         LL_default_eav = (LinearLayout) findViewById(R.id.ll_default_eav);
         LL_default_eav.setVisibility(View.VISIBLE);
+        LL_default_eav_for_collecte = (LinearLayout) findViewById(R.id.ll_default_eav_for_collecte);
+        LL_default_eav_for_collecte.setVisibility(View.VISIBLE);
 
         spinnerDefaultEAV = (Spinner) findViewById(R.id.spinner_default_eav);
+        spinnerDefaultEAVForCollecte = (Spinner) findViewById(R.id.spinner_default_eav_for_collecte);
+        spinnerJoursVillage = (Spinner) findViewById(R.id.spinner_getTodayDay);
 
         defaultEavList = new ArrayList<Category>();
+        defaultEavForCollecteList = new ArrayList<Category>();
+        joursVillageList = new ArrayList<Category>();
         // spinner item select listener
         spinnerDefaultEAV.setOnItemSelectedListener(UpdateGuichet.this);
-        new UpdateGuichet.GetCategories().execute();
+        spinnerDefaultEAVForCollecte.setOnItemSelectedListener(UpdateGuichet.this);
+        spinnerJoursVillage.setOnItemSelectedListener(UpdateGuichet.this);
+        new GetDefaultEAV().execute();
+        new GetTodayDay().execute();
 
         /*fin*/
         new FetchGuichetDetailsAsyncTask().execute();
         deleteButton = (CircularProgressButton) findViewById(R.id.btn_delete_guichet);
         deleteButton.setVisibility(View.VISIBLE);
         annulerButton = (CircularProgressButton) findViewById(R.id.btn_clean);
-        annulerButton.setVisibility(View.GONE);
+        annulerButton.setVisibility(View.VISIBLE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -363,10 +390,26 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
             }
         });
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                   finish();
+
+                } else {
+                    Toast.makeText(UpdateGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
 
 
 
     }
+
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Mise à jour d'une guichet");
 
@@ -424,6 +467,35 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                 }
             }
         });
+    }
+    public void onSwitchButtonClicked(View view) {
+        boolean checked1 = ((Switch) view).isChecked();
+        String str = "";
+        // Check which checkbox was clicked
+        switch (view.getId()) {
+//
+            case R.id.Switch8jr_semaine_Gx:
+                if (gx_is_jour8_onSwitch.isChecked()) {
+                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+
+                    block_Switch8jr_semaine_Gx.setVisibility(View.VISIBLE);
+                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+                } else {
+                    block_Switch8jr_semaine_Gx.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.Switch_GuIsJrSemInit:
+                if (SW_GuIsJrSemInit.isChecked()) {
+
+                    ll_getTodayDay.setVisibility(View.VISIBLE);
+                } else {
+                    ll_getTodayDay.setVisibility(View.GONE);
+                }
+
+                break;
+
+        }
     }
 
 
@@ -491,12 +563,16 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     gxDefaultEavDenomination = guichet.getString(KEY_GX_DEFAULT_EAV_NUMERO);
 
 
+
                     st_GxMtPlafDecAutPCG = guichet.getString(KEY_GxMtPlafDecAutPCG);
                     st_GxNbMoisHistoDef = guichet.getString(KEY_GxNbMoisHistoDef);
 
                     bool_GxIsPreComGesGuPGC = Boolean.parseBoolean(guichet.getString(KEY_GxIsPreComGesGuPGC));
                     bool_GxIsChefGuichCG = Boolean.parseBoolean(guichet.getString(KEY_GxIsChefGuichCG));
                     bool_GxIsAgentGuichAG = Boolean.parseBoolean(guichet.getString(KEY_GxIsAgentGuichAG));
+
+                    bool_GxIsJrSemInit = Boolean.parseBoolean(guichet.getString(KEY_GxIsJrSemInit));
+                    gxDefaultEavForCollecteDenomination = guichet.getString(KEY_GxCptCollecteDef);
 
 
                 }
@@ -531,6 +607,10 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     gx_nbre_rapp_by_jourEditText.setText(gx_nbre_rapp_by_jour);
                     gx_nbre_jr_av_rappEditText.setText(gx_nbre_jr_av_rapp);
                     gx_is_jour8_onSwitch.setChecked(gx_is_jour8_on);
+                   // Debut gestion des jours du village
+                    gx_is_jour8_onSwitch.setClickable(false);
+                   // onSwitchButtonClicked(gx_is_jour8_onSwitch);
+                    //Fin gestion des jours du village
                     gx_is_credit_by_objetSwitch.setChecked(gx_is_credit_by_objet);
                     gx_first_jr_onEditText.setText(gx_first_jr_on);
                     //gx_freq_reun_com_credEditText.setText(gx_freq_reun_com_cred);
@@ -544,6 +624,15 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     GxIsPreComGesGuPGC.setChecked(bool_GxIsPreComGesGuPGC);
                     GxIsChefGuichCG.setChecked(bool_GxIsChefGuichCG);
                     GxIsAgentGuichAG.setChecked(bool_GxIsAgentGuichAG);
+
+                    //Manage SW_GuIsJrSemInit
+                    SW_GuIsJrSemInit.setChecked(bool_GxIsJrSemInit);
+                    if (bool_GxIsJrSemInit){
+                        SW_GuIsJrSemInit.setClickable(false);
+                    }else{
+                        onSwitchButtonClicked(SW_GuIsJrSemInit);
+                    }
+
 
                 }
             });
@@ -688,6 +777,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                 bool_GxIsPreComGesGuPGC=  GxIsPreComGesGuPGC.isChecked();
                 bool_GxIsChefGuichCG=  GxIsChefGuichCG.isChecked();
                 bool_GxIsAgentGuichAG=  GxIsAgentGuichAG.isChecked();
+                bool_GxIsJrSemInit=  SW_GuIsJrSemInit.isChecked();
 
                 st_GxNbMoisHistoDef = GxNbMoisHistoDef.getText().toString();
             new UpdateGuichet.UpdateMovieAsyncTask().execute();
@@ -748,15 +838,18 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             httpParams.put(KEY_GX_FREQ_REUN_COM_CRED, gx_freq_reun_com_cred);
             httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on.toString());
             httpParams.put(KEY_GX_DEFAULT_EAV_NUMERO, String.valueOf(defaultEavId));
+            httpParams.put(KEY_GxCptCollecteDef, String.valueOf(defaultEavForCollecteId));//New
 
             httpParams.put(KEY_GxMtPlafDecAutPCG, st_GxMtPlafDecAutPCG);
             httpParams.put(KEY_GxIsPreComGesGuPGC, bool_GxIsPreComGesGuPGC.toString());
             httpParams.put(KEY_GxIsChefGuichCG, bool_GxIsChefGuichCG.toString());
             httpParams.put(KEY_GxIsAgentGuichAG, bool_GxIsAgentGuichAG.toString());
+            httpParams.put(KEY_GxIsJrSemInit, bool_GxIsJrSemInit.toString());
             httpParams.put(KEY_GxNbMoisHistoDef, st_GxNbMoisHistoDef);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_guichet.php", "POST", httpParams);
+
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -819,11 +912,73 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
         }
 
     }
+    /**
+     * Adding spinner data for EAV Collecte
+     * */
+    private void populateSpinnerEAVCollecte() {
+        List<String> lables = new ArrayList<String>();
+
+        //tvCaisse.setText("");
+
+        for (int i = 0; i < defaultEavForCollecteList.size(); i++) {
+            lables.add(defaultEavForCollecteList.get(i).getName());//recupère les noms
+            defaultEavForCollecteListID.add(defaultEavForCollecteList.get(i).getId()); //recupère les Id
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(UpdateGuichet.this,
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerDefaultEAVForCollecte.setAdapter(spinnerAdapter);
+
+        //Make uxCaisseDenomination as default Item in caisseList spinner
+        if (gxDefaultEavForCollecteDenomination!=null){
+            spinnerDefaultEAVForCollecte.setSelection(spinnerAdapter.getPosition(gxDefaultEavForCollecteDenomination));
+        }
+
+    }
+    /**
+     * Adding spinner data
+     * */
+    private void populateSpinnerJoursVillage() {
+        List<String> lables = new ArrayList<String>();
+
+        //tvCaisse.setText("");
+
+
+
+        for (int i = 0; i < joursVillageList.size(); i++) {
+            lables.add(joursVillageList.get(i).getName());//recupère les noms
+            joursVillageListID.add(joursVillageList.get(i).getId()); //recupère les Id
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(UpdateGuichet.this,
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerJoursVillage.setAdapter(spinnerAdapter);
+
+        //Make uxCaisseDenomination as default Item in caisseList spinner
+//        if (gxDefaultEavDenomination!=null){
+//            spinnerJoursVillage.setSelection(spinnerAdapter.getPosition(gxDefaultEavDenomination));
+//        }
+
+    }
 
     /**
-     * Async task to get all food categories
+     * Async task to get all EAV on a current guichet for select default's eav
      * */
-    private class GetCategories extends AsyncTask<Void, Void, Void> {
+    private class GetDefaultEAV extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -859,6 +1014,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                             Category cat = new Category(catObj.getInt(KEY_EAV_ID),
                                     catObj.getString(KEY_EAV_LIBELLE));
                             defaultEavList.add(cat);
+                            defaultEavForCollecteList.add(cat);
                         }
                     }
 
@@ -879,6 +1035,68 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             if (pDialog.isShowing())
                 pDialog.dismiss();
             populateSpinner();
+            populateSpinnerEAVCollecte();
+        }
+
+    }
+    /**
+     * Async task to get all EAV on a current guichet for select default's eav
+     * */
+    private class GetTodayDay extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog1 = new ProgressDialog(UpdateGuichet.this);
+            pDialog1.setMessage("Chargement..");
+            pDialog1.setCancelable(false);
+            //pDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, guichetId));
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_jours_village_by_guichet.php", ServiceHandler.GET, httpParams);
+
+
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray categories = jsonObj
+                                .getJSONArray(KEY_DATA);
+
+                        for (int i = 0; i < categories.length(); i++) {
+                            JSONObject catObj = (JSONObject) categories.get(i);
+                            Category cat = new Category(catObj.getInt(KEY_JvNumero),
+                                    catObj.getString(KEY_JvDesign));
+                            joursVillageList.add(cat);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("JSON Data", "Didn't receive any data from server!");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog1.isShowing())
+                pDialog1.dismiss();
+            populateSpinnerJoursVillage();
         }
 
     }
@@ -890,7 +1108,25 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 //                getApplicationContext(),
 //                parent.getItemAtPosition(position).toString() + " Selected" ,
 //                Toast.LENGTH_LONG).show();
-        defaultEavId = defaultEavListID.get(position);//pour recuperer l'ID de la caisse selectionnée
+        int idSpinner = parent.getId();
+        switch (idSpinner) {
+            case R.id.spinner_default_eav:
+                // your stuff here
+                defaultEavId = defaultEavListID.get(position);//pour recuperer l'ID de la caisse selectionnée
+
+                break;
+            case R.id.spinner_getTodayDay:
+                // your stuff here
+                todayDayId = joursVillageListID.get(position);//pour recuperer l'ID du jour selectionné
+                break;
+            case R.id.spinner_default_eav_for_collecte:
+                // your stuff here
+                defaultEavForCollecteId = defaultEavForCollecteListID.get(position);//pour recuperer l'ID de l'eav  selectionné
+                break;
+        }
+
+
+
 
     }
 

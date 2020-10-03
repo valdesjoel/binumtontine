@@ -182,6 +182,8 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
             httpParams.put(KEY_TYPE_MEMBRE, typeMembreId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_piece_by_guichet.php", "GET", httpParams);
+            Log.e("Response: ", "> " + jsonObject+"");
+            Log.e("Response: ", "> " + httpParams+"");
             //creating Arraylist
             //List<String> fruitList = new ArrayList<>();
             piecesList.clear();
@@ -498,6 +500,8 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
         }); */
 
     }
+
+
 
 
 }

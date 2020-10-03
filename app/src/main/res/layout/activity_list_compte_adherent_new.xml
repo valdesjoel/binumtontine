@@ -30,11 +30,78 @@
             app:popupTheme="@style/MyMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_bloc_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_fromDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="90"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/Widget.AppTheme.TextInputLayoutList"
+            android:textColorHint="@color/design_default_color_primary_dark"
+            app:boxStrokeColor="@color/design_default_color_primary_dark"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:id="@+id/input_txt_fromDate"
+                android:editable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Date de la demande"
+                android:textColor="@color/jrspinner_black_transparent"
+                android:textSize="14dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_toDate"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="45"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/Widget.AppTheme.TextInputLayoutList"
+            android:textColorHint="@color/design_default_color_primary_dark"
+            app:boxStrokeColor="@color/design_default_color_primary_dark"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:id="@+id/input_txt_toDate"
+                android:editable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Date de fin"
+                android:textColor="@color/jrspinner_black_transparent"
+                android:textSize="14dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btn_afficher"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            style="@style/loginButton"
+
+            android:layout_marginRight="12dp"
+            android:text="@string/btn_afficher" />
+
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/ll_bloc_date">
 
 
     </androidx.recyclerview.widget.RecyclerView>

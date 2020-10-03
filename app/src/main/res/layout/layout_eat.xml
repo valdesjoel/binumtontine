@@ -244,7 +244,7 @@
             style="@style/parent"
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
-            >
+
             <com.example.binumtontine.JRSpinner
                 android:id="@+id/spn_my_spinner_base_EtBaseTxInter"
                 android:layout_width="match_parent"
@@ -657,7 +657,18 @@
                 />
 
         </LinearLayout> -->
+        <TextView
+            android:id="@+id/tv_plage_EtValTxMtRupture"
 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
         <LinearLayout
             android:id="@+id/blk_EtValTxMtRupture"
             android:layout_width="match_parent"
@@ -748,18 +759,41 @@
         </LinearLayout>
 
         <!-- EtBaseTxPenal-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_BaseTxPenalEAT"-->
+            <!--style="@style/parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/input_txt_BaseTxPenalEAT"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:ems="2"-->
+                <!--android:maxLines="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:hint="Base du taux de pénalité"/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_BaseTxPenalEAT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
+            app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
+
+            <com.example.binumtontine.JRSpinner
                 android:id="@+id/input_txt_BaseTxPenalEAT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux de pénalité"
+                app:jrs_title="Choose"
                 style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:ems="2"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:hint="Base du taux de pénalité"/>
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--EtIsEparRetireFin-->
@@ -1114,6 +1148,13 @@
                     android:checked="true"
                     android:onClick="onRadioButtonClicked"
                     android:text="Fixe" />
+                <RadioButton
+                    android:id="@+id/rbEtTypeNouveauTxInteretRuptureEATTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Taux" />
 
                 <RadioButton
                     android:id="@+id/rbEtTypeNouveauTxInteretRuptureEATPlage"
@@ -1252,6 +1293,7 @@
         </LinearLayout>
         <!--Block btn-->
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/blk_btn_EtNewValTxInter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -1286,18 +1328,53 @@
         </LinearLayout>
 
         <!--EtBaseTxIntPenal-->
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:id="@+id/input_layout_BaseNewTxInteretEAT"-->
+            <!--style="@style/parent"-->
+            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
+            <!--<EditText-->
+                <!--android:id="@+id/txtBaseNewTxInteretEAT"-->
+                <!--style="@style/modifiedEditText"-->
+                <!--android:inputType="numberDecimal"-->
+                <!--android:maxLines="1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:hint="Base du nouveau taux d'interêt "/>-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_BaseNewTxInteretEAT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
+            app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
+
+            <com.example.binumtontine.JRSpinner
                 android:id="@+id/txtBaseNewTxInteretEAT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du nouveau taux d'interêt"
+                app:jrs_title="Choose"
                 style="@style/modifiedEditText"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:hint="Base du nouveau taux d'interêt "/>
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_plage_EtValTxIntPenal"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
 
         <!--EtTxIntPenalNeg-->
         <LinearLayout

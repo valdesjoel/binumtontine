@@ -785,13 +785,8 @@ private boolean validatePassword() {
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-populate();
-                    //mySpinnerCaisse.setText(gxCaisse);
-//                    userFound=true;
-//                    MyData.USER_ID = userId;
-//                    MyData.USER_NOM = userNom;
-//                    MyData.USER_PRENOM = userPrenom;
-//                    MyData.USER_EMAIL = userEmail;
+                    populate();
+
 
                 }
             });

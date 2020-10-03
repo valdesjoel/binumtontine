@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_tvcollecteur"
+            style="@style/headerTextPrimary"
+            android:text="RECAPITULATIF"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <LinearLayout
+            android:id="@+id/ll_montant_coffre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/title_montant_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text="Montant demande de retrait accordé: "
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <TextView android:id="@+id/tv_montant_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+<!--        Recapitulatif chéquier accordé de type 1-->
+        <LinearLayout
+            android:id="@+id/ll_chequier_accorde_type_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/title_chequier_accorde_type_1"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text="Nombre de chequier de type 1 accordé: "
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <TextView android:id="@+id/tv_chequier_accorde_type_1"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+<!--        Recapitulatif chéquier accordé de type 2-->
+        <LinearLayout
+            android:id="@+id/ll_chequier_accorde_type_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/title_chequier_accorde_type_2"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text="Nombre de chequier de type 2 accordé: "
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <TextView android:id="@+id/tv_chequier_accorde_type_2"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+<!--        Recapitulatif Paiement chéque-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_paiement_cheque"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/title_paiement_cheque"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Montant paiement chèque: "
+                android:textSize="18sp"
+                style="@style/parent"
+                />
+            <TextView android:id="@+id/tv_paiement_cheque"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_piece_monnaie_coffre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/title_piece_monnaie_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text="Pièces de monnaie: "
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/tv_piece_monnaie_coffre_usager"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_width="fill_parent"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="18sp"
+                style="@style/parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_que_voulez_vous_faire_usager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Choix opération:"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_que_voulez_vous_faire_usager"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/rg_que_voulez_vous_faire_usager" >
+
+                <RadioButton
+                    android:id="@+id/rb_que_voulez_vous_faire_NewDay_usager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Démarrer une nouvelle journée"
+                    android:onClick="onRadioButtonClicked"
+                    android:textSize="18sp"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rb_que_voulez_vous_faire_OldDay_usager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Se connecter à une date antérieure"
+                    android:textSize="18sp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_montant_demarrage_usager"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_montant_demarrage_usager"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:enabled="false"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_montant_demarrage"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:visibility="gone"
+
+            android:id="@+id/input_layout_montant_piece_monnaie_usager"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_montant_piece_monnaie_usager"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_montant_piece_monnaie"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Date antérieure-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_date_anterieure"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_date_anterieure"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_journee_ouverture"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/input_layout_FraisClotureCpteEAV"
+            android:orientation="horizontal"
+
+            android:paddingTop="5dp"
+            android:layout_marginTop="30dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save_montant_demarrage"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_valider" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -45,13 +45,24 @@
             android:theme="@style/MyMaterialTheme.NoActionBar" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.CreateCaisse" />
+        <activity android:name=".activity.BrouillardCaisse" />
         <activity android:name=".activity.CreateGuichet" />
+        <activity android:name=".activity.SituationGuichet" />
+        <activity android:name=".activity.ClotureJourneeActivity" />
         <activity android:name=".activity.adherent.CreateAdherent" />
+        <activity android:name=".activity.adherent.ListDemandeRetraitAffilierActivity" />
+        <activity android:name=".activity.adherent.ValidationOperationDemandeRetrait" />
+        <activity android:name=".activity.collecte.ListCollecteurActivity" />
+        <activity android:name=".activity.collecte.JourOuvertCollecteur" />
+        <activity android:name=".activity.adherent.ListCompteDecouvertAdherentActivity" />
+        <activity android:name=".activity.adherent.ListCompteAvanceSpecialeAdherentActivity" />
         <activity android:name=".activity.adherent.GetPieceAdherent" />
         <activity android:name=".activity.adherent.GetFraisAdherent" />
         <activity android:name=".activity.adherent.CreateCpteCourant" />
         <activity android:name=".activity.adherent.HistoriqueCpteCourant" />
         <activity android:name=".activity.adherent.OperationCompteCourant" />
+        <activity android:name=".activity.adherent.ControleOperationCompteCourant" />
+        <activity android:name=".activity.adherent.ValidationOperationCompteCourant" />
         <activity android:name=".activity.adherent.ComiteCredit" />
         <activity android:name=".activity.adherent.DeblocageCredit" />
         <activity android:name=".activity.adherent.DecaissementCredit" />
@@ -63,7 +74,11 @@
         <activity android:name=".activity.UpdateEAV" />
         <activity android:name=".activity.UpdateEAT" />
         <activity android:name=".activity.parametrageGuichet.UpdateEAVForGuichet" />
+        <activity android:name=".activity.parametrageGuichet.ListWorkflowGuichet" />
+        <activity android:name=".activity.parametrageGuichet.CreateWorkflowGx" />
         <activity android:name=".activity.parametrageGuichet.ProduitEATGuichetActivity" />
+        <activity android:name=".activity.parametrageGuichet.ProduitCreditGuichetActivity" />
+        <activity android:name=".activity.parametrageGuichet.UpdateProduitCreditForGuichet" />
         <activity android:name=".activity.parametrageGuichet.ProduitEAPGuichetActivity" />
         <activity android:name=".activity.parametrageGuichet.TypeMembreGxActivity" />
         <activity android:name=".activity.parametrageGuichet.ListTypeMembrePFgxActivity" />
@@ -168,8 +183,17 @@
             android:name=".activity.ProduitCreditActivity"
             android:label="@string/title_activity_produit_credit"
             android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <!--<activity-->
+            <!--android:name=".activity.LoginActivity"-->
+            <!--android:theme="@style/MyMaterialTheme.NoActionBar">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.LoginActivity_NEW"
             android:theme="@style/MyMaterialTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -185,7 +209,7 @@
             android:name=".activity.CaisseActivity"
             android:label="@string/title_activity_caisse"
             android:theme="@style/MyMaterialTheme.NoActionBar" />
-        <activity android:name=".activity.PrivacyPolicyActivity" />
+        <activity android:name=".activity.PreParametrageOFActivity" />
         <activity android:name=".activity.AboutUsActivity" /> <!-- <activity android:name=".activity.MainActivityBackup"></activity> -->
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.MainActivityAdminCaisse" />

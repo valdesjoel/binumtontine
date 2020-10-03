@@ -12,11 +12,11 @@ import androidx.fragment.app.Fragment; //import android.support.v4.app.Fragment;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.CaisseActivity;
+import com.example.binumtontine.activity.PreParametrageOFActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.ListEtapesDemandesCreditOF;
 import com.example.binumtontine.activity.parametreGenerauxOF.ListObjetCredit;
 import com.example.binumtontine.activity.parametreGenerauxOF.ListStatutEtapesDemandesCreditOF;
 import com.example.binumtontine.activity.parametreGenerauxOF.ParametreGenerauxOFActivity;
-import com.example.binumtontine.activity.PrivacyPolicyActivity;
 import com.example.binumtontine.activity.UpdateOrganeFaitier;
 import com.example.binumtontine.activity.UserActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.TypeMembreActivity;
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(i);
                 break;
             case R.id.preParam_card :
-                i = new Intent(getActivity(), PrivacyPolicyActivity.class);
+                i = new Intent(getActivity(), PreParametrageOFActivity.class);
                 startActivity(i);
                 break;
            /* case R.id.ownInfo_card :

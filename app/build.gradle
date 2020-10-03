@@ -4,9 +4,9 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.0"
     defaultConfig {
-//        applicationId "com.example.binumtontine"
-        applicationId "com.valdes.binumtontine"
-        minSdkVersion 19
+        applicationId "com.example.binumtontine"
+//        minSdkVersion 19
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 3
         versionName "3.0"
@@ -63,8 +63,8 @@ allprojects {
     implementation 'com.github.ekimual:country-picker-x:1.0.0' //to manage country picker
     implementation 'com.hbb20:ccp:2.3.4' //to manage country code and country
     implementation 'com.github.jpvs0101:Currencyfy:v1.0.2' //To Converts number to readable currency format. Lite, easy, error free & highly compatible with older versions of Android!
-
-    //  classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.0' //Library link: https://github.com/RamiJ3mli/PercentageChartView to customize progress bar
+        //  classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 //    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
 
 

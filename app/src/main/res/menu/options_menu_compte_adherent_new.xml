@@ -1,0 +1,101 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <!--<item-->
+        <!--android:id="@+id/menu_group"-->
+        <!--android:title="Opérations sur compte"-->
+        <!--app:showAsAction="always|withText"-->
+        <!--android:enabled="false"-->
+        <!--android:checkable="false"-->
+        <!---->
+
+        <!--/>-->
+    <item
+        android:id="@+id/title_group_eav"
+        android:title="COMPTE EAV"
+        android:enabled="false"
+        android:checkable="false"
+        />
+
+    <item
+        android:id="@+id/menu_depot"
+        android:title="Dépôt" />
+    <item
+        android:id="@+id/menu_retrait"
+        android:title="Retrait" />
+    <item
+        android:id="@+id/menu_decouvert"
+        android:title="Découverts" />
+    <item
+        android:id="@+id/menu_avance_speciale"
+        android:title="Avances spéciales" />
+    <item
+        android:id="@+id/menu_decouvert_permanent"
+        android:title="Découverts permanents" />
+    <item
+        android:id="@+id/menu_historique"
+        android:title="Historique" />
+    <!--<item-->
+        <!--android:title="COMPTE EPARGNE"-->
+        <!--android:enabled="false"-->
+        <!--android:checkable="false"-->
+        <!--/>-->
+    <item
+        android:id="@+id/menu_payer_mise"
+        android:title="Payer la mise" />
+    <item
+        android:id="@+id/menu_historique_mise"
+        android:title="Historique mises" />
+    <item
+        android:id="@+id/menu_consulter_compte"
+        android:title="Consulter le compte" />
+    <item
+        android:id="@+id/menu_cloture_anticipee"
+        android:title="Clôture anticipée" />
+    <item
+        android:id="@+id/menu_cloture"
+        android:title="Clôture" />
+
+    <!--<item-->
+        <!--android:title="CREDIT"-->
+        <!--android:enabled="false"-->
+        <!--android:checkable="false"-->
+        <!--/>-->
+    <item
+        android:id="@+id/menu_comite_credit"
+        android:title="Etape suivante" />
+    <!--android:title="Comité de crédit" />-->
+    <item
+
+        android:id="@+id/menu_deblocge_credit"
+        android:title="Déblocge du crédit" />
+    <item
+        android:id="@+id/menu_decaissement_credit"
+        android:title="Decaissement du crédit" />
+    <item
+        android:id="@+id/menu_remboursement_credit"
+        android:title="Remboursement des échéances" />
+
+    <item
+        android:id="@+id/menu_validation_dette_hors_bilan"
+        android:orderInCategory="100"
+        android:title="@string/action_validation_dette_hors_bilan"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_paiement_dette_hors_bilan"
+        android:orderInCategory="100"
+        android:title="@string/action_paiement_dette_hors_bilan"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_remboursement_anticipe"
+        android:orderInCategory="100"
+        android:title="@string/action_remboursement_anticipe"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_cloture_credit"
+        android:title="Clôture du crédit" />
+
+</menu>

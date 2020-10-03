@@ -107,6 +107,9 @@ public class UserActivity extends AppCompatActivity  implements SERVER_ADDRESS {
         setSupportActionBar(toolbar);
         setToolbarTitle();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_list_user);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +124,12 @@ public class UserActivity extends AppCompatActivity  implements SERVER_ADDRESS {
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void setToolbarTitle() {

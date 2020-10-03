@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.BrouillardCaisse;
+import com.example.binumtontine.activity.ClotureJourneeActivity;
+import com.example.binumtontine.activity.SituationGuichet;
+import com.example.binumtontine.activity.collecte.ListCollecteurActivity;
 import com.example.binumtontine.adapter.CustomAdapterListAdherent;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
@@ -94,7 +99,8 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
         //Toolbar toolbar = findViewById(R.id.toolbar_list_adherent);
         Toolbar toolbar = findViewById(R.id.toolbar_list_adherent);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(MyData.GUICHET_NAME) ;
+        getSupportActionBar().setTitle("ACCUEIL DU GUICHET") ;
+        getSupportActionBar().setSubtitle(MyData.GUICHET_NAME); ;
 
         //initializing views
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -165,16 +171,22 @@ public void onBackPressed() {
                 // startActivity(new Intent(this, About.class));
                 return true;
             case R.id.action_situation_guichet:
+                Intent intent_situation_guichet = new Intent(MainActivityUsager.this, SituationGuichet.class);
+                startActivityForResult(intent_situation_guichet,20);
                 //action_to_affect = false;
                 //new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
                 // startActivity(new Intent(this, Help.class));
                 return true;
             case R.id.action_brouillard_de_caisse:
                 //action_to_affect = true;
-                //new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
-                // startActivity(new Intent(this, Help.class));
+
+                Intent intent_brouillard = new Intent(MainActivityUsager.this, BrouillardCaisse.class);
+                startActivityForResult(intent_brouillard,20);
                 return true;
                 case R.id.action_cloturer_la_journee:
+
+                    Intent intent_cloture_journee = new Intent(MainActivityUsager.this, ClotureJourneeActivity.class);
+                    startActivityForResult(intent_cloture_journee,20);
                // action_to_affect = true;
              //   new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
                 // startActivity(new Intent(this, Help.class));
@@ -194,6 +206,30 @@ public void onBackPressed() {
                 //new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
                 // startActivity(new Intent(this, Help.class));
                 return true;
+                case R.id.action_collecte_journaliere:
+
+                    Intent intent_list_collecteur = new Intent(MainActivityUsager.this, ListCollecteurActivity.class);
+                    startActivityForResult(intent_list_collecteur,20);
+
+                return true;
+                case R.id.action_logout:
+
+                    new AlertDialog.Builder(this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Quitter l'application")
+                            .setMessage("Etes-vous sûr de vouloir vous déconnecter ?")
+                            .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+
+                            })
+                            .setNegativeButton("Non", null)
+                            .show();
+
+                return true;
 
 
             default:
@@ -204,41 +240,11 @@ public void onBackPressed() {
 
     private void loadRecyclerViewItem() {
         //you can fetch the data from server or some apis
-        //for this tutorial I am adding some dummy data directly
-     /*   for (int i = 1; i <= 5; i++) {
-            MyList myList = new MyList(
-                    "Dummy Heading " + i,
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi molestie nisi dui."
-            );
-            listAdherent.add(myList);
-        }
-        */
+
 
         adapter = new CustomAdapterListAdherent(listAdherent, this);
         recyclerView.setAdapter(adapter);
-        //Call MovieUpdateDeleteActivity when a movie is clicked
-       /* recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Check for network connectivity
-                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    String movieId = ((TextView) view.findViewById(R.id.movieId))
-                            .getText().toString();
-                    Intent intent = new Intent(getApplicationContext(),
-                            UpdateCaisse.class);
-                    intent.putExtra(KEY_CAISSE_ID, movieId);
-                    startActivityForResult(intent, 20);
 
-                } else {
-                    Toast.makeText(CaisseActivity.this,
-                            "Unable to connect to internet",
-                            Toast.LENGTH_LONG).show();
-
-                }
-
-
-            }
-        }); */
     }
 
     /**
@@ -266,6 +272,7 @@ public void onBackPressed() {
                     BASE_URL + "get_adherents.php", "GET", httpParams);
             //creating Arraylist
             //List<String> fruitList = new ArrayList<>();
+//            Log.e("*******",jsonObject.toString());
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONArray movies;
@@ -337,24 +344,10 @@ public void onBackPressed() {
                                 adherentNbreCompte
 
                         );
-                      /*  Integer guichetId = guichet.getInt(KEY_FC_NUMERO);
-                        String guichetDenomination = guichet.getString(KEY_FC_NEW_LIBELLE);
-                        String guichetDenomination = guichet.getString(KEY_FC_NEW_LIBELLE);
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put(KEY_FC_NUMERO, guichetId.toString());
-                        map.put(KEY_FC_NEW_LIBELLE, guichetDenomination);*/
-                        //adding String Objects to fruitsList ArrayList
-                        // MyData.fruitList.add(guichetDenomination);
-                       /* fraisList.add(map);*/
+
                         listAdherent.add(myList);
                     }
-                    // Log.d("convert to array","coucouuuuuuuuuuuuuuuuu"+fruitList.size());
-                    //String[] item = fruitList.toArray(new String[fruitList.size()]);
-                    // Log.d("*********item****",item.length+"");
-                    //MyData.animallist = item;
 
-                    // Log.d("********animallist",MyData.animallist.length+"");
-                    //Log.d("********animallist",MyData.animallist[0]+"");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

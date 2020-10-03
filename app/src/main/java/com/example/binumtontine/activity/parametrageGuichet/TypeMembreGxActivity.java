@@ -77,6 +77,9 @@ public class TypeMembreGxActivity extends AppCompatActivity implements SERVER_AD
         Toolbar toolbar = findViewById(R.id.toolbar_type_membre_cx);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Membres à affecter") ;
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        if (!action_to_affect){
 //            getSupportActionBar().setTitle("Types de membres à affecter") ;
 //        }else{
@@ -100,6 +103,12 @@ public class TypeMembreGxActivity extends AppCompatActivity implements SERVER_AD
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     private void showAddItemDialog(Context c) {
         final EditText taskEditText = new EditText(c);
@@ -316,7 +325,7 @@ private class FetchProduitEAVAsyncTask extends AsyncTask<String, String, String>
     private void confirmAffectation() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 TypeMembreGxActivity.this);
-        alertDialogBuilder.setMessage("Êtes-vous sûr de vouloir affecter ce type de membre à la cette caisse ?");
+        alertDialogBuilder.setMessage("Êtes-vous sûr de vouloir affecter ce type de membre ?");
         alertDialogBuilder.setPositiveButton("Affecter",
                 new DialogInterface.OnClickListener() {
                     @Override

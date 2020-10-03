@@ -3,6 +3,7 @@ package com.example.binumtontine.activity;
 
 
 import android.app.DatePickerDialog;
+import android.app.MediaRouteButton;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -81,6 +83,8 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private static final String KEY_GxMtPlafDecAutPCG = "GxMtPlafDecAutPCG";
     private static final String KEY_GxNbMoisHistoDef = "GxNbMoisHistoDef";
 
+    private static final String KEY_GxJoursVillage = "GxJoursVillage";
+
 
     private static String STRING_EMPTY = "";
 
@@ -113,6 +117,7 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private EditText gx_nbre_rapp_by_jourEditText;
     private EditText gx_nbre_jr_av_rappEditText;
     private Switch gx_is_jour8_onSwitch;
+    private Switch SW_GuIsJrSemInit;
     private Switch gx_is_credit_by_objetSwitch;
     private EditText gx_first_jr_onEditText;
     private EditText gx_freq_reun_com_credEditText;
@@ -165,6 +170,17 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private DatePickerDialog gx_date_debut_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
 
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
+    private LinearLayout block_Switch8jr_semaine_Gx, ll_getTodayDay;
+    private EditText jv_jour_1_EditText;
+    private EditText jv_jour_2_EditText;
+    private EditText jv_jour_3_EditText;
+    private EditText jv_jour_4_EditText;
+    private EditText jv_jour_5_EditText;
+    private EditText jv_jour_6_EditText;
+    private EditText jv_jour_7_EditText;
+    private EditText jv_jour_8_EditText;
+//    private String[] joursVillage = new String[8] ;
+    private String joursVillage = "" ;
 
 
     @Override
@@ -285,6 +301,17 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         gx_nbre_rapp_by_jourEditText = (EditText) findViewById(R.id.input_txt_Nombre_de_rappel_par_jour);
         gx_nbre_jr_av_rappEditText = (EditText) findViewById(R.id.input_txt_Nombre_jour_av_rappel);
         gx_is_jour8_onSwitch = (Switch) findViewById(R.id.Switch8jr_semaine_Gx);
+        //SW_GuIsJrSemInit = (Switch) findViewById(R.id.Switch_GuIsJrSemInit);
+        block_Switch8jr_semaine_Gx = (LinearLayout) findViewById(R.id.block_Switch8jr_semaine_Gx);
+        //ll_getTodayDay = (LinearLayout) findViewById(R.id.ll_getTodayDay);
+        jv_jour_1_EditText = (EditText) findViewById(R.id.input_txt_jour_1);
+        jv_jour_2_EditText = (EditText) findViewById(R.id.input_txt_jour_2);
+        jv_jour_3_EditText = (EditText) findViewById(R.id.input_txt_jour_3);
+        jv_jour_4_EditText = (EditText) findViewById(R.id.input_txt_jour_4);
+        jv_jour_5_EditText = (EditText) findViewById(R.id.input_txt_jour_5);
+        jv_jour_6_EditText = (EditText) findViewById(R.id.input_txt_jour_6);
+        jv_jour_7_EditText = (EditText) findViewById(R.id.input_txt_jour_7);
+        jv_jour_8_EditText = (EditText) findViewById(R.id.input_txt_jour_8);
         gx_is_credit_by_objetSwitch = (Switch) findViewById(R.id.Switch_credit_par_objet_Gx);
         gx_first_jr_onEditText = (EditText) findViewById(R.id.input_txt_GuFirstJrOn);
         gx_freq_reun_com_credEditText = (EditText) findViewById(R.id.input_txt_GuFreqReunComCred);
@@ -296,7 +323,8 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         GxMtPlafDecAutPCG = (EditText) findViewById(R.id.input_txt_GxMtPlafDecAutPCG);
         GxNbMoisHistoDef = (EditText) findViewById(R.id.input_txt_GxNbMoisHistoDef);
 
-
+        onSwitchButtonClicked(gx_is_jour8_onSwitch);
+   //     onSwitchButtonClicked(SW_GuIsJrSemInit);
         // spinner item select listener
         addButton = (CircularProgressButton) findViewById(R.id.btn_save_guichet);
         annulerButton = (CircularProgressButton) findViewById(R.id.btn_clean);
@@ -356,7 +384,35 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    public void onSwitchButtonClicked(View view) {
+        boolean checked1 = ((Switch) view).isChecked();
+        String str = "";
+        // Check which checkbox was clicked
+        switch (view.getId()) {
+//
+            case R.id.Switch8jr_semaine_Gx:
+                if (gx_is_jour8_onSwitch.isChecked()) {
+                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
+                    block_Switch8jr_semaine_Gx.setVisibility(View.VISIBLE);
+                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+                } else {
+                    block_Switch8jr_semaine_Gx.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.Switch_GuIsJrSemInit:
+                if (SW_GuIsJrSemInit.isChecked()) {
+
+                    ll_getTodayDay.setVisibility(View.VISIBLE);
+                } else {
+                    ll_getTodayDay.setVisibility(View.GONE);
+                }
+
+                break;
+
+        }
+    }
 
     private void addGuichet() {
        /* if (!STRING_EMPTY.equals(gx_denominationEditText.getText().toString()) &&
@@ -409,6 +465,18 @@ if (true){
     bool_GxIsPreComGesGuPGC=  GxIsPreComGesGuPGC.isChecked();
     bool_GxIsChefGuichCG=  GxIsChefGuichCG.isChecked();
     bool_GxIsAgentGuichAG=  GxIsAgentGuichAG.isChecked();
+
+    if (gx_is_jour8_onSwitch.isChecked()){
+        joursVillage +=jv_jour_1_EditText.getText().toString().trim();
+        joursVillage +=";"+jv_jour_2_EditText.getText().toString().trim();
+        joursVillage +=";"+jv_jour_3_EditText.getText().toString().trim();
+        joursVillage +=";"+jv_jour_4_EditText.getText().toString().trim();
+        joursVillage +=";"+jv_jour_5_EditText.getText().toString().trim();
+        joursVillage +=";"+jv_jour_6_EditText.getText().toString().trim();
+        joursVillage +=";"+jv_jour_7_EditText.getText().toString().trim();
+        joursVillage +=";"+jv_jour_8_EditText.getText().toString().trim();
+    }
+
 
 
             new AddGuichetAsyncTask().execute();
@@ -510,6 +578,9 @@ if (true){
             httpParams.put(KEY_GxIsPreComGesGuPGC, bool_GxIsPreComGesGuPGC.toString());
             httpParams.put(KEY_GxIsChefGuichCG, bool_GxIsChefGuichCG.toString());
             httpParams.put(KEY_GxIsAgentGuichAG, bool_GxIsAgentGuichAG.toString());
+
+
+            httpParams.put(KEY_GxJoursVillage, joursVillage);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_guichet.php", "POST", httpParams);

@@ -11,7 +11,6 @@
     android:background="@color/whiteCardColor">
 
 
-
     <LinearLayout
         style="@style/linearParent"
         android:layout_gravity="center"
@@ -20,41 +19,46 @@
         <TextView
             android:id="@+id/header_user_guichet"
             style="@style/headerTextPrimary"
-            android:text="Création d'un guichet"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>
-        <TextView android:id="@+id/tv_caisse_name"
             android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="Création d'un guichet" />
+
+        <TextView
+            android:id="@+id/tv_caisse_name"
+            style="@style/parent"
             android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
             android:text="@string/my_caisse_name"
-            style="@style/parent"
-            android:textSize="16sp"
-            android:layout_height="wrap_content"/>
+            android:textSize="16sp" />
         <!-- GONE -->
-        <TextView android:id="@+id/tv_caisse"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:layout_width="fill_parent"
-            android:text="@string/my_hint"
+
+        <TextView
+            android:id="@+id/tv_caisse"
             style="@style/parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="@string/my_hint"
             android:textSize="16sp"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
         <!-- GONE -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
             android:visibility="gone"
 
-            app:errorEnabled="true" >
-            <Spinner android:id="@+id/spn_my_spinner_caisse1"
-                android:layout_width="match_parent"
-                android:hint="@string/my_hint"
+            app:errorEnabled="true">
+
+            <Spinner
+                android:id="@+id/spn_my_spinner_caisse1"
                 style="@style/modifiedEditText"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/my_hint" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
 
         <!--<com.google.android.material.textfield.TextInputLayout
@@ -76,12 +80,13 @@
         </com.google.android.material.textfield.TextInputLayout> -->
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/modifiedEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:theme="@style/TextInputLayoutStyle"
-            style="@style/modifiedEditText"
-            app:errorEnabled="true" >
+            app:errorEnabled="true">
+
             <com.example.binumtontine.JRSpinner
 
                 android:id="@+id/spn_my_spinner_localite_guichet"
@@ -89,54 +94,60 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/my_locality"
                 android:textSize="16sp"
-                app:jrs_title="Choose"
                 android:textStyle="bold"
-                app:jrs_multiple="false"/>
+                app:jrs_multiple="false"
+                app:jrs_title="Choose" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_denomination_guichet"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_denomination_guichet"
                 style="@style/modifiedEditText"
+                android:hint="@string/hint_denominationCx_caisse"
                 android:inputType="textPersonName"
-                android:textAllCaps="true"
                 android:maxLines="1"
-                android:textStyle="bold"
+                android:textAllCaps="true"
                 android:textSize="16sp"
-                android:hint="@string/hint_denominationCx_caisse"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_dateDebut_guichet"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_dateDebut_guichet"
                 style="@style/modifiedEditText"
+                android:hint="@string/hint_date_debut_caisse"
                 android:inputType="date"
                 android:maxLines="1"
-                android:textStyle="bold"
                 android:textSize="16sp"
-                android:hint="@string/hint_date_debut_caisse"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_AdresseGx"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_AdresseGx"
                 style="@style/modifiedEditText"
-                android:gravity="start"
-                android:textSize="16sp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="start"
+                android:hint="@string/hint_adresse"
                 android:inputType="textPostalAddress"
-                android:maxLines="1"
                 android:maxLength="30"
-                android:textStyle="bold"
-                android:hint="@string/hint_adresse"/>
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
         <!-- <com.hbb20.CountryCodePicker
             android:id="@+id/ccp_new"
@@ -151,17 +162,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            >
+            android:gravity="center_vertical">
 
             <com.hbb20.CountryCodePicker
                 android:id="@+id/ccp_phone1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:ccp_countryPreference="CM,GA,GQ,CG,CD"
-                app:ccp_defaultNameCode="CM"
                 app:ccp_defaultLanguage="FRENCH"
-                />
+                app:ccp_defaultNameCode="CM" />
 
             <EditText
                 android:id="@+id/editText_carrierPhone1"
@@ -172,6 +181,7 @@
                 android:inputType="phone"
                 android:singleLine="true" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -184,9 +194,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:ccp_countryPreference="CM,GA,GQ,CG,CD"
-                app:ccp_defaultNameCode="CM"
                 app:ccp_defaultLanguage="FRENCH"
-                />
+                app:ccp_defaultNameCode="CM" />
 
             <EditText
                 android:id="@+id/editText_carrierPhone2"
@@ -197,19 +206,19 @@
                 android:inputType="phone"
                 android:singleLine="true" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            >
+            android:gravity="center_vertical">
 
             <com.hbb20.CountryCodePicker
                 android:id="@+id/ccp_phone3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:ccp_countryPreference="CM,GA,GQ,CG,CD"
-                app:ccp_defaultNameCode="CM"
                 app:ccp_defaultLanguage="FRENCH"
+                app:ccp_defaultNameCode="CM"
 
                 />
 
@@ -223,44 +232,50 @@
 
                 android:singleLine="true" />
         </LinearLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NomPCA_Gx"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_NomPCA_Gx"
                 style="@style/modifiedEditText"
+                android:hint="@string/hint_nomPCA"
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:hint="@string/hint_nomPCA"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_NomDG_Gx"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_NomDG_Gx"
                 style="@style/modifiedEditText"
+                android:hint="@string/hint_nomDG"
                 android:maxLines="1"
-                android:textStyle="bold"
                 android:textSize="16sp"
-                android:hint="@string/hint_nomDG"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lblForcer_la_clotureGx"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textStyle="bold"
+                android:text="Forcer la cloture"
                 android:textSize="16sp"
-                android:text="Forcer la cloture" />
+                android:textStyle="bold" />
 
             <Switch
                 android:id="@+id/SwitchForcer_la_clotureGx"
@@ -270,23 +285,24 @@
                 android:checked="false"
 
                 android:textOff="Non"
-                android:textOn="Oui"
-                />
+                android:textOn="Oui" />
 
         </LinearLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_heure_cloture_Gx"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_heure_cloture_Gx"
                 style="@style/modifiedEditText"
+                android:ems="10"
+                android:hint="@string/hint_heure_cloture"
                 android:inputType="time"
                 android:maxLines="1"
-                android:textStyle="bold"
                 android:textSize="16sp"
-                android:ems="10"
-                android:hint="@string/hint_heure_cloture"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -294,13 +310,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lblOperation_apres_cloture"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
-                android:text="Opération après clôture" />
+                android:text="Opération après clôture"
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/Switch_gx_is_oper_apres_clot"
@@ -310,48 +327,53 @@
                 android:checked="false"
 
                 android:textOff="Non"
-                android:textOn="Oui"
-                />
+                android:textOn="Oui" />
 
         </LinearLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_Nombre_de_rappel_par_jour"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_Nombre_de_rappel_par_jour"
                 style="@style/modifiedEditText"
+                android:hint="Nombre de rappel par jour"
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:hint="Nombre de rappel par jour"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_Nombre_jour_av_rappel"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_Nombre_jour_av_rappel"
                 style="@style/modifiedEditText"
+                android:hint="Nombre de jour avant rappel"
                 android:inputType="number"
                 android:maxLines="1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:hint="Nombre de jour avant rappel"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lbl_8jr_semaine_Gx"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
-                android:text="semaine à 8 jour" />
+                android:text="semaine à 8 jour"
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/Switch8jr_semaine_Gx"
@@ -359,24 +381,215 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
-                android:textOn="Oui"
-                />
+                android:textOn="Oui" />
+
 
         </LinearLayout>
+        <!--Block pour renseigner les 8 jours de la semaine-->
+        <LinearLayout
+            android:id="@+id/block_Switch8jr_semaine_Gx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_1"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_1"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 1"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_2"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_2"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 2"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_3"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_3"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 3"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_4"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_4"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 4"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_5"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_5"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 5"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_6"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_6"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 6"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_7"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_7"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 7"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_jour_8"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/input_txt_jour_8"
+                    style="@style/modifiedEditText"
+                    android:hint="Jour 8"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lbl_GuIsJrSemInit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jours de la semaine initialisés sur le guichet ?"
+                android:textSize="18dp" />
+
+            <Switch
+                android:id="@+id/Switch_GuIsJrSemInit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                android:onClick="onSwitchButtonClicked"
+                android:textOff="Non"
+                android:textOn="Oui" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_getTodayDay"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_getTodayDay"
+                style="@style/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="0"
+
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Quel jour sommes-nous aujourd'hui ?"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/spinner_getTodayDay"
+
+                style="@style/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1"
+                android:dropDownWidth="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lbl_credit_par_objet"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
-                android:text="Crédit par objet" />
+                android:text="Crédit par objet"
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/Switch_credit_par_objet_Gx"
@@ -386,8 +599,7 @@
                 android:checked="false"
 
                 android:textOff="Non"
-                android:textOn="Oui"
-                />
+                android:textOn="Oui" />
 
         </LinearLayout>
 
@@ -395,55 +607,56 @@
             android:id="@+id/input_layout_GuFirstJrOn"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_GuFirstJrOn"
                 style="@style/modifiedEditText"
+                android:hint="Premier jour"
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:hint="Premier jour"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_GuFreqReunComCred"
             style="@style/parent"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/loginViewsMargin">
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:visibility="gone">
+
             <EditText
                 android:id="@+id/input_txt_GuFreqReunComCred"
                 style="@style/modifiedEditText"
+                android:hint="GuFreqReunComCred"
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:hint="GuFreqReunComCred"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- GuFreqReunComCred -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_GuFreqReunComCred_new"
+            style="@style/parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
             android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin">
+            app:errorEnabled="true">
 
-
-            >
             <com.example.binumtontine.JRSpinner
 
                 android:id="@+id/spn_GuFreqReunComCred"
+                style="@style/modifiedEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Fréq réunion comité de crédit"
-                app:jrs_title="Choose"
 
-                style="@style/modifiedEditText"
-                app:jrs_multiple="false"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                app:jrs_multiple="false"
+                app:jrs_title="Choose" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -453,13 +666,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lbl_GuIsRappNetMsgCredOn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
-                android:text="Activer le rappel des crédits par SMS ?" />
+                android:text="Activer le rappel des crédits par SMS ?"
+                android:textSize="18dp" />
 
             <Switch
                 android:id="@+id/Switch_GuIsRappNetMsgCredOn"
@@ -469,40 +683,74 @@
                 android:checked="false"
 
                 android:textOff="Non"
-                android:textOn="Oui"
-                />
+                android:textOn="Oui" />
 
         </LinearLayout>
-<!--Select default produit EAV-->
+        <!--Select default produit EAV-->
         <!-- GONE -->
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_default_eav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_weight="1"
+            android:orientation="horizontal"
 
-            android:orientation="horizontal">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/lbl_default_eav"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="@dimen/loginViewsMargin"
-                android:layout_height="wrap_content"
                 style="@style/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
                 android:layout_weight="0"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="EAV principal:" />
+                android:text="EAV principal:"
+                android:textSize="18dp" />
 
             <Spinner
                 android:id="@+id/spinner_default_eav"
 
+                style="@style/parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+        <!--Select default produit EAV for collecte-->
+        <!-- GONE -->
+
+        <LinearLayout
+            android:id="@+id/ll_default_eav_for_collecte"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/lbl_default_eav_for_collecte"
                 style="@style/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:layout_weight="0"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="EAV Collecte:"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/spinner_default_eav_for_collecte"
+
+                style="@style/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/loginViewsMargin"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -512,13 +760,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lblGxIsPreComGesGuPGC"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
-                android:text="Existe t'il un Président de Gestion de Guichet ?" />
+                android:text="Existe t'il un Président de Gestion de Guichet ?"
+                android:textSize="18dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/SwitchGxIsPreComGesGuPGC"
@@ -526,10 +775,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-                app:showText="true"
                 android:textOff="Non"
                 android:textOn="Oui"
-                />
+                app:showText="true" />
 
         </LinearLayout>
         <!-- GxIsChefGuichCG /A1	** Pour Préciser si il existe un Chef de Guichet /CG		::R -->
@@ -538,13 +786,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lblGxIsChefGuichCG"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
-                android:text="Existe t'il un Chef de Guichet ?" />
+                android:text="Existe t'il un Chef de Guichet ?"
+                android:textSize="18dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/SwitchGxIsChefGuichCG"
@@ -552,10 +801,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-                app:showText="true"
                 android:textOff="Non"
                 android:textOn="Oui"
-                />
+                app:showText="true" />
 
         </LinearLayout>
         <!-- GxIsAgentGuichAG /A1	** Pour préciser si il existe des Agents de Guichet, toujours activé /Y		::P -->
@@ -564,13 +812,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/lblGxIsAgentGuichAG"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18dp"
-                android:text="Existe t'il des Agents de Guichet ?" />
+                android:text="Existe t'il des Agents de Guichet ?"
+                android:textSize="18dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/SwitchGxIsAgentGuichAG"
@@ -578,10 +827,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="true"
-                app:showText="true"
                 android:textOff="Non"
                 android:textOn="Oui"
-                />
+                app:showText="true" />
 
         </LinearLayout>
         <!-- GxMtPlafDecAutPCG /R	** Pour Préciser le montant plafond autorisé à gérer ou valider par le PCG -->
@@ -589,87 +837,56 @@
             android:id="@+id/input_layout_GxMtPlafDecAutPCG"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_GxMtPlafDecAutPCG"
                 style="@style/modifiedEditText"
+                android:hint="Mt plafond à gérer par le PCG"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:hint="Mt plafond à gérer par le PCG"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
         <!-- GxNbMoisHistoDef /I	* Pour renseigner le nombre de mois par défaut des Historiques du Guichet en eploitation, 2 par défaut. -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_GxNbMoisHistoDef"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
+
             <EditText
                 android:id="@+id/input_txt_GxNbMoisHistoDef"
                 style="@style/modifiedEditText"
+                android:hint="Nbre mois historique par defaut"
                 android:inputType="number"
-                android:text="2"
                 android:maxLines="1"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:hint="Nbre mois historique par defaut"/>
+                android:text="2"
+                android:textSize="16dp"
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <!-- <com.google.android.material.textfield.TextInputLayout
-             android:id="@+id/textInputPassword"
-             style="@style/parent"
-             android:layout_marginTop="@dimen/loginViewsMargin">
-             <EditText
-                 android:id="@+id/editTextPassword"
-                 style="@style/modifiedEditText"
-                 android:hint="@string/login_password_hint"
-                 android:maxLines="1"
-                 android:inputType="textPassword"/>
-         </com.google.android.material.textfield.TextInputLayout>
-
-         <TextView
-             style="@style/viewParent"
-             android:text="Forgot Password?"
-             android:textColor="@color/primaryTextColor"
-             android:textSize="@dimen/newsMoreTextSize"
-             android:layout_gravity="end"
-             android:onClick="viewForgotPAssword"
-             android:layout_marginTop="10dp"/> -->
-
-       <!-- <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/btn_save_guichet"
-            style="@style/loginButton"
-            android:text="Login"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>-->
-       <!-- <Button
-            android:id="@+id/btn_save_guichet"
-            style="@style/loginButton"
-            android:text="ENREGISTRER"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
+            android:layout_below="@+id/input_txt_email_user"
+            android:orientation="vertical"
 
-            android:layout_below="@+id/input_txt_email_user">
+            android:paddingTop="10dp">
 
             <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_save_guichet"
+                style="@style/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
-                style="@style/loginButton"
                 android:padding="12dp"
-                android:layout_marginRight="12dp"
                 android:text="@string/btn_enregistrer" />
+
             <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_clean"
-                style="@style/cancelButton"
+                style="@style/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -680,12 +897,12 @@
 
             <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btn_delete_guichet"
+                style="@style/cancelButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
-                style="@style/cancelButton"
 
                 android:padding="12dp"
                 android:text="@string/btn_supprimer" />
@@ -725,7 +942,7 @@
 
         </LinearLayout>-->
 
-      <!--  <Button android:id="@+id/btn_save_eav"
+        <!--  <Button android:id="@+id/btn_save_eav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -735,7 +952,7 @@
             android:layout_marginTop="5dp"
             android:textColor="@android:color/white"/> -->
 
-       <!-- <TextView
+        <!-- <TextView
             style="@style/parent"
             android:textAlignment="center"
             android:textStyle="bold"

@@ -84,6 +84,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private static final String KEY_CV_MT_SOLDE = "CvMtSolde";
     private static final String KEY_CV_NATURE_OPERATION = "NatureOp";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
+    private static final String KEY_OC_GUICHET = "OcGuichet";
     private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
 
     private static final String KEY_MONTANT_COMPTE = "MtSolde";
@@ -175,8 +176,8 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         OcLibelleMvmEAV = (EditText) findViewById(R.id.input_txt_OcLibelleMvmEAV);
 
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        //rb_depot.performClick();
-        //onRadioButtonClicked(rb_depot);
+        //rb_decision_accordee.performClick();
+        //onRadioButtonClicked(rb_decision_accordee);
         rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
         tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
@@ -473,6 +474,7 @@ if (true){
             httpParams.put(KEY_CV_MT_SOLDE, eavDepotMin );
             httpParams.put(KEY_CV_NATURE_OPERATION, natureOperation );
             httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
+            httpParams.put(KEY_OC_GUICHET, String.valueOf(MyData.GUICHET_ID));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "operation_eav_adherent_new.php", "POST", httpParams);
@@ -500,7 +502,7 @@ if (true){
 
                     } else {
                         Toast.makeText(OperationEAV.this,
-                                "Echec!\n Vérifiez votre solde ",
+                                "Echec!\n Solde du compte ou de la caisse insuffisant ! ",
                                 Toast.LENGTH_LONG).show();
 
                     }

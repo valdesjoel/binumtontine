@@ -1,14 +1,11 @@
 package com.example.binumtontine.activity.parametrageGuichet;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -21,12 +18,8 @@ import androidx.fragment.app.Fragment;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.AboutUsActivity;
 import com.example.binumtontine.activity.CaisseActivity;
-import com.example.binumtontine.activity.PrivacyPolicyActivity;
-import com.example.binumtontine.activity.ProduitCpteCourantActivity;
+import com.example.binumtontine.activity.PreParametrageOFActivity;
 import com.example.binumtontine.activity.ProduitCreditActivity;
-import com.example.binumtontine.activity.ProduitEAPActivity;
-import com.example.binumtontine.activity.ProduitEATActivity;
-import com.example.binumtontine.activity.ProduitEAVActivity;
 import com.example.binumtontine.activity.UsersCaisseActivity;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.fragment.UpdateOFFragment;
@@ -190,7 +183,8 @@ public class ProduitGuichetFragment extends AppCompatActivity implements View.On
                 startActivity(i);
                 break;
             case R.id.produitCredit_card :
-                i = new Intent(getBaseContext(), ProduitCreditActivity.class);
+//                i = new Intent(getBaseContext(), ProduitCreditActivity.class);
+                i = new Intent(getBaseContext(), ProduitCreditGuichetActivity.class);
                 startActivity(i);
                 break;
             case R.id.majOF_card :
@@ -212,7 +206,7 @@ public class ProduitGuichetFragment extends AppCompatActivity implements View.On
                 startActivity(i);
                 break;
             case R.id.preParam_card :
-                i = new Intent(getBaseContext(), PrivacyPolicyActivity.class);
+                i = new Intent(getBaseContext(), PreParametrageOFActivity.class);
                 startActivity(i);
                 break;
             case R.id.param_piece_frais_of_card:

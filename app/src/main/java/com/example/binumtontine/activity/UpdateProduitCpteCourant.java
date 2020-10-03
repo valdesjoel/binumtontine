@@ -115,7 +115,9 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
             CcNatureTxMtAgio,CcValTxMtAgio,CcPlageTxMtAgioFrom,CcPlageTxMtAgioTo,CcNatBaseAgio,
             CcNbPagesCheqM1,CcPrixVteCheqM1,CcNbPagesCheqM2,CcPrixVteCheqM2,CcNbPagesCheqM3,
             CcPrixVteCheqM3,CcDureeValidCheq,CcNbMinSignatChq,CcNatTxComm,CcValTxCommMvm,
-            CcPlageTxCommMvmFrom,CcPlageTxCommMvmTo, CcMtPlafondAvceSpec,CcTauxIntAvceSpec,CcTauxIntPenAvceSpec;
+            CcPlageTxCommMvmFrom,CcPlageTxCommMvmTo, CcMtPlafondAvceSpec,CcTauxIntAvceSpec,CcTauxIntPenAvceSpec,CcTauxInt_IntRetAvceSpec,
+            CcTauxIntPenRetard, CcTauxInt_IntRetDecouv;
+
     private Switch CcIsDecouvOn,CcIsMaxDecouvNeg,CcIsChequierM1On,CcIsChequierM2On,CcIsChequierM3On,
             CcIsTxCommMvmOper,CcIsAvanceSpecialOn, CcIsPlafAvceSpecNegoc, CcIsTxIntDegressif;
     private String st_CcCode,st_CcLibelle,st_CcMtMaxDecouv,
@@ -126,7 +128,8 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
             st_CcPrixVteCheqM2,st_CcNbPagesCheqM3,st_CcPrixVteCheqM3,
             st_CcDureeValidCheq,st_CcNbMinSignatChq,st_CcNatTxComm,st_CcValTxCommMvm,
             st_CcPlageTxCommMvmFrom,st_CcPlageTxCommMvmTo,st_CcMtPlafondAvceSpec, st_CcNatTauxIntAvceSpec,
-            st_CcTauxIntAvceSpec, st_CcNatTauxIntPenAvceSpec,st_CcTauxIntPenAvceSpec;
+            st_CcTauxIntAvceSpec, st_CcNatTauxIntPenAvceSpec,st_CcTauxIntPenAvceSpec,st_CcNatureTxInt_IntRetAvceSpec,
+            st_CcNatTauxIntPenRetard, st_CcNatureTxInt_IntRetDecouv;
 
     private Boolean st_CcIsDecouvOn, st_CcIsMaxDecouvNeg,st_CcIsChequierM1On,st_CcIsChequierM2On,
             st_CcIsChequierM3On,st_CcIsTxCommMvmOper,st_CcIsAvanceSpecialOn,st_CcIsPlafAvceSpecNegoc, st_CcIsTxIntDegressif;
@@ -138,14 +141,19 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
     private RadioButton CcNatureTxIntDecouvFixe,CcNatureTxIntDecouvTaux,CcNatureTxIntDecouvPlage;
     private RadioButton CcNatureTypDureDecouvJour,CcNatureTypDureDecouvSemaine,CcNatureTypDureDecouvMois;
     private RadioButton CcNatureTxMtAgioTaux, CcNatureTxMtAgioMontant, CcNatureTxMtAgioPlage;
+    private RadioButton CcNatTauxIntPenRetardFixe,CcNatTauxIntPenRetardTaux,CcNatTauxIntPenRetardPlage;
+    private RadioButton CcNatureTxInt_IntRetDecouvFixe,CcNatureTxInt_IntRetDecouvTaux,CcNatureTxInt_IntRetDecouvPlage;
     private RadioButton CcNatTxCommFixe, CcNatTxCommMontant, CcNatTxCommPlage;
     private RadioButton CcNatTauxIntAvceSpecFixe,CcNatTauxIntAvceSpecTaux,CcNatTauxIntAvceSpecPlage;
     private RadioButton CcNatTauxIntPenAvceSpecFixe,CcNatTauxIntPenAvceSpecTaux,CcNatTauxIntPenAvceSpecPlage;
+    private RadioButton CcNatureTxInt_IntRetAvceSpecFixe,CcNatureTxInt_IntRetAvceSpecTaux,CcNatureTxInt_IntRetAvceSpecPlage;
     private JRSpinner mySpinnerBaseTxIntDecouv; //pour gérer le spinner contenant les bases du Tx Int Decouvert
     private JRSpinner mySpinnerBaseTxMtAgio; //pour gérer le spinner contenant les bases taux
     private JRSpinner mySpinnerBaseTxCommMvm; //pour gérer le spinner contenant les bases taux
     private JRSpinner mySpinnerCcBaseTxIntAvceSpec; //pour gérer le spinner contenant les bases du Tx Int avance spéciale
     private JRSpinner mySpinnerCcBaseTxIntPenAvceSpec; //pour gérer le spinner contenant les bases du Tx Int penalités avance spéciale
+    private JRSpinner mySpinnerCcBaseTxIntPenRetard, mySpinnerCcBasexInt_IntRetDecouv ; //pour gérer le spinner contenant les bases du Tx Int Decouvert
+    private JRSpinner mySpinnerCcBasexInt_IntRetAvceSpec; //pour gérer le spinner contenant les bases du Tx Int penalités avance spéciale
 
 
     private TextInputLayout input_layout_CcValTxMtAgio;
@@ -156,6 +164,10 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
     private TextInputLayout input_layout_CcValTxCommMvm,
             input_layout_CcTauxIntAvceSpec, input_layout_CcTauxIntPenAvceSpec ,
             input_layout_CcBaseTxIntAvceSpec, input_layout_CcBaseTxIntPenAvceSpec;
+    private TextInputLayout input_layout_CcTauxIntPenRetard,input_layout_CcTauxInt_IntRetDecouv,
+            input_layout_CcTauxInt_IntRetAvceSpec,
+            input_layout_CcBaseTxIntPenRetard, input_layout_CcBasexInt_IntRetDecouv,
+            input_layout_CcBasexInt_IntRetAvceSpec;
     private LinearLayout bloc_cc1;
     private LinearLayout bloc_cc2;
     private LinearLayout bloc_cc3;
@@ -165,7 +177,9 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
     private LinearLayout blk_plage_agios_cc;
     private LinearLayout blk_plage_CcValTxCommMvm;
     private LinearLayout bloc_cc_avance_speciale;
-    private TextView tv_plageTxMtAgio,tv_plageCcTauxIntAvceSpec, tv_plageCcTauxIntPenAvceSpec;
+    //private TextView tv_plageTxMtAgio,tv_plageCcTauxIntAvceSpec, tv_plageCcTauxIntPenAvceSpec;
+    private TextView tv_plageTxMtAgio, tv_plage_pen_retard_decouv_simple,tv_plage_int_retard_decouv_simple,tv_plageCcTauxIntAvceSpec, tv_plageCcTauxIntPenAvceSpec,
+            tv_plage_CcTauxInt_IntRetAvceSpec;
     public static ArrayList<ModelPlageData> plageDataListCTP = new ArrayList<ModelPlageData>(); //to manage plageData
     private TextView tv_plageCalculAgiosCC;
     public static ArrayList<ModelPlageData> plageDataListCAP = new ArrayList<ModelPlageData>(); //to manage plageData
@@ -272,8 +286,8 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
         tv_header_produit.setText("Produit Compte Courant\n"+"Caisse: "+ MyData.CAISSE_NAME);
 
-
         bloc_cc1 = (LinearLayout) findViewById(R.id.ll_bloc_cc1);
+        bloc_cc_avance_speciale = (LinearLayout) findViewById(R.id.ll_bloc_ccAvancement);
         bloc_cc2 = (LinearLayout) findViewById(R.id.ll_bloc_cc2);
         bloc_cc3 = (LinearLayout) findViewById(R.id.ll_bloc_cc3);
         bloc_cc4 = (LinearLayout) findViewById(R.id.ll_bloc_cc4);
@@ -282,19 +296,44 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         blk_plage_agios_cc = (LinearLayout) findViewById(R.id.blk_plage_agios_cc);
         blk_plage_CcValTxCommMvm = (LinearLayout) findViewById(R.id.blk_plage_CcValTxCommMvm);
         input_layout_CcValTxMtAgio = (TextInputLayout) findViewById(R.id.input_layout_CcValTxMtAgio);
+        input_layout_CcTauxIntPenRetard = (TextInputLayout) findViewById(R.id.input_layout_CcTauxIntPenRetard);
+        input_layout_CcTauxInt_IntRetDecouv = (TextInputLayout) findViewById(R.id.input_layout_CcTauxInt_IntRetDecouv);
+        input_layout_CcTauxIntAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcTauxIntAvceSpec);
+        input_layout_CcTauxIntPenAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcTauxIntPenAvceSpec);
+        input_layout_CcTauxInt_IntRetAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcTauxInt_IntRetAvceSpec);
         input_layout_CcBaseTxMtAgio = (TextInputLayout) findViewById(R.id.input_layout_BaseCcValTxMtAgio);
+        input_layout_CcBaseTxIntPenRetard = (TextInputLayout) findViewById(R.id.input_layout_CcBaseTxIntPenRetard);
+        input_layout_CcBasexInt_IntRetDecouv = (TextInputLayout) findViewById(R.id.input_layout_CcBasexInt_IntRetDecouv);
+        input_layout_CcBaseTxIntAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcBaseTxIntAvceSpec);
+        input_layout_CcBaseTxIntPenAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcBaseTxIntPenAvceSpec);
+        input_layout_CcBasexInt_IntRetAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcBasexInt_IntRetAvceSpec);
         input_layout_CcBaseCalculAgiosCC = (TextInputLayout) findViewById(R.id.input_layout_txtNatureBaseCalculAgiosCC_new);
         input_layout_CcBaseTxCommMvmCC = (TextInputLayout) findViewById(R.id.input_layout_BaseCcTxCommMvm);
         input_layout_CcValTxIntDecouv = (TextInputLayout) findViewById(R.id.input_layout_CcValTxIntDecouv);
         input_layout_CcValTxCommMvm = (TextInputLayout) findViewById(R.id.input_layout_CcValTxCommMvm);
-        bloc_cc_avance_speciale = (LinearLayout) findViewById(R.id.ll_bloc_ccAvancement);
-        input_layout_CcTauxIntAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcTauxIntAvceSpec);
-        input_layout_CcTauxIntPenAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcTauxIntPenAvceSpec);
-        input_layout_CcBaseTxIntAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcBaseTxIntAvceSpec);
-        input_layout_CcBaseTxIntPenAvceSpec = (TextInputLayout) findViewById(R.id.input_layout_CcBaseTxIntPenAvceSpec);
+
+        CcCode = (EditText) findViewById(R.id.input_txtCodeCC);
+        CcLibelle = (EditText) findViewById(R.id.input_txt_LibelleCC);
+        CcIsDecouvOn= (Switch) findViewById(R.id.SwitchAutoriserDecouvertCC);
         CcIsAvanceSpecialOn= (Switch) findViewById(R.id.SwitchCcIsAvanceSpecialOn);
+        CcMtMaxDecouv= (EditText) findViewById(R.id.input_txt_MaxMtDecouvertAutoriseCC);
+        CcMtMaxDecouv.addTextChangedListener(MyData.onTextChangedListener(CcMtMaxDecouv));
         CcMtPlafondAvceSpec= (EditText) findViewById(R.id.input_txt_CcMtPlafondAvceSpec);
         CcIsMaxDecouvNeg= (Switch) findViewById(R.id.SwitchPlafondDecouvertNegociableCC);
+
+        //CcNatureTxIntDecouv= (EditText) findViewById(R.id.SwitchPlafondDecouvertNegociableCC);
+        CcNatureTxIntDecouvFixe = (RadioButton) findViewById(R.id.rb_CcNatureTxIntDecouv_Fixe);
+        CcNatureTxIntDecouvTaux = (RadioButton) findViewById(R.id.rb_CcNatureTxIntDecouv_Taux);
+        CcNatureTxIntDecouvPlage = (RadioButton) findViewById(R.id.rb_CcNatureTxIntDecouv_Plage);
+
+        CcNatTauxIntPenRetardFixe = (RadioButton) findViewById(R.id.rb_CcNatTauxIntPenRetard_Fixe);
+        CcNatTauxIntPenRetardTaux = (RadioButton) findViewById(R.id.rb_CcNatTauxIntPenRetard_Taux);
+        CcNatTauxIntPenRetardPlage = (RadioButton) findViewById(R.id.rb_CcNatTauxIntPenRetard_Plage);
+
+        CcNatureTxInt_IntRetDecouvFixe = (RadioButton) findViewById(R.id.rb_CcNatureTxInt_IntRetDecouv_Fixe);
+        CcNatureTxInt_IntRetDecouvTaux = (RadioButton) findViewById(R.id.rb_CcNatureTxInt_IntRetDecouv_Taux);
+        CcNatureTxInt_IntRetDecouvPlage = (RadioButton) findViewById(R.id.rb_CcNatureTxInt_IntRetDecouv_Plage);
+
         CcNatTauxIntAvceSpecFixe = (RadioButton) findViewById(R.id.rb_CcNatTauxIntAvceSpec_Fixe);
         CcNatTauxIntAvceSpecTaux = (RadioButton) findViewById(R.id.rb_CcNatTauxIntAvceSpec_Taux);
         CcNatTauxIntAvceSpecPlage = (RadioButton) findViewById(R.id.rb_CcNatTauxIntAvceSpec_Plage);
@@ -302,10 +341,73 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         CcNatTauxIntPenAvceSpecFixe = (RadioButton) findViewById(R.id.rb_CcNatTauxIntPenAvceSpec_Fixe);
         CcNatTauxIntPenAvceSpecTaux = (RadioButton) findViewById(R.id.rb_CcNatTauxIntPenAvceSpec_Taux);
         CcNatTauxIntPenAvceSpecPlage = (RadioButton) findViewById(R.id.rb_CcNatTauxIntPenAvceSpec_Plage);
+
+        CcNatureTxInt_IntRetAvceSpecFixe = (RadioButton) findViewById(R.id.rb_CcNatureTxInt_IntRetAvceSpec_Fixe);
+        CcNatureTxInt_IntRetAvceSpecTaux = (RadioButton) findViewById(R.id.rb_CcNatureTxInt_IntRetAvceSpec_Taux);
+        CcNatureTxInt_IntRetAvceSpecPlage = (RadioButton) findViewById(R.id.rb_CcNatureTxInt_IntRetAvceSpec_Plage);
+
+        CcValTxIntDecouv= (EditText) findViewById(R.id.input_txt_CcValTxMtAgio);
+        CcValTxIntDecouv.addTextChangedListener(MyData.onTextChangedListener(CcValTxIntDecouv));
+        CcTauxIntPenRetard= (EditText) findViewById(R.id.input_txt_CcTauxIntPenRetard);
+        CcTauxIntPenRetard.addTextChangedListener(MyData.onTextChangedListener(CcTauxIntPenRetard));
+        CcTauxInt_IntRetDecouv= (EditText) findViewById(R.id.input_txt_CcTauxInt_IntRetDecouv);
+        CcTauxInt_IntRetDecouv.addTextChangedListener(MyData.onTextChangedListener(CcTauxInt_IntRetDecouv));
         CcTauxIntAvceSpec= (EditText) findViewById(R.id.input_txt_CcTauxIntAvceSpec);
+        CcTauxIntAvceSpec.addTextChangedListener(MyData.onTextChangedListener(CcTauxIntAvceSpec));
         CcTauxIntPenAvceSpec= (EditText) findViewById(R.id.input_txt_CcTauxIntPenAvceSpec);
+        CcTauxIntPenAvceSpec.addTextChangedListener(MyData.onTextChangedListener(CcTauxIntPenAvceSpec));
+        CcTauxInt_IntRetAvceSpec= (EditText) findViewById(R.id.input_txt_CcTauxInt_IntRetAvceSpec);
+        CcTauxInt_IntRetAvceSpec.addTextChangedListener(MyData.onTextChangedListener(CcTauxInt_IntRetAvceSpec));
+        mySpinnerBaseTxIntDecouv = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcValTxMtAgio);
+        mySpinnerCcBaseTxIntPenRetard = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcBaseTxIntPenRetard);
+        mySpinnerCcBasexInt_IntRetDecouv = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcBasexInt_IntRetDecouv);
+        mySpinnerBaseTxMtAgio = (JRSpinner)findViewById(R.id.spn_my_spinner_BaseCalculAgiosCC);
+        mySpinnerBaseTxCommMvm = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcTxCommMvm);
         mySpinnerCcBaseTxIntAvceSpec = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcBaseTxIntAvceSpec);
         mySpinnerCcBaseTxIntPenAvceSpec = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcBaseTxIntPenAvceSpec);
+        mySpinnerCcBasexInt_IntRetAvceSpec = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcBasexInt_IntRetAvceSpec);
+        mySpinnerBaseTxIntDecouv.setItems(getResources().getStringArray(R.array.array_base_taux_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerBaseTxIntDecouv.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        mySpinnerBaseTxIntDecouv.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        mySpinnerBaseTxIntDecouv.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+
+        mySpinnerCcBaseTxIntPenRetard.setItems(getResources().getStringArray(R.array.array_base_taux_penal_retard_decouv_simple_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerCcBaseTxIntPenRetard.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        mySpinnerCcBaseTxIntPenRetard.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        mySpinnerCcBaseTxIntPenRetard.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+
+        mySpinnerCcBasexInt_IntRetAvceSpec.setItems(getResources().getStringArray(R.array.array_base_taux_penal_retard_decouv_simple_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerCcBasexInt_IntRetAvceSpec.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        mySpinnerCcBasexInt_IntRetAvceSpec.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        mySpinnerCcBasexInt_IntRetAvceSpec.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+        mySpinnerCcBasexInt_IntRetDecouv.setItems(getResources().getStringArray(R.array.array_base_taux_penal_retard_decouv_simple_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerCcBasexInt_IntRetDecouv.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        mySpinnerCcBasexInt_IntRetDecouv.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        mySpinnerCcBasexInt_IntRetDecouv.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
         /*Base tx int avance speciale debut*/
         mySpinnerCcBaseTxIntAvceSpec.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
         mySpinnerCcBaseTxIntAvceSpec.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
@@ -330,37 +432,6 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
             }
         });
         /*Base tx int pénalité avance speciale fin*/
-        tv_plageCcTauxIntAvceSpec= (TextView) findViewById(R.id.tv_plage_CcTauxIntAvceSpec);
-        tv_plageCcTauxIntPenAvceSpec= (TextView) findViewById(R.id.tv_plage_CcTauxIntPenAvceSpec);
-        CcIsPlafAvceSpecNegoc=(Switch) findViewById(R.id.SwitchCcIsPlafAvceSpecNegoc);
-        CcIsTxIntDegressif=(Switch) findViewById(R.id.SwitchCcIsTxIntDegressif);
-
-
-        CcCode = (EditText) findViewById(R.id.input_txtCodeCC);
-        CcLibelle = (EditText) findViewById(R.id.input_txt_LibelleCC);
-        CcIsDecouvOn= (Switch) findViewById(R.id.SwitchAutoriserDecouvertCC);
-        CcMtMaxDecouv= (EditText) findViewById(R.id.input_txt_MaxMtDecouvertAutoriseCC);
-        CcIsMaxDecouvNeg= (Switch) findViewById(R.id.SwitchPlafondDecouvertNegociableCC);
-
-        //CcNatureTxIntDecouv= (EditText) findViewById(R.id.SwitchPlafondDecouvertNegociableCC);
-        CcNatureTxIntDecouvFixe = (RadioButton) findViewById(R.id.rb_CcNatureTxIntDecouv_Fixe);
-        CcNatureTxIntDecouvTaux = (RadioButton) findViewById(R.id.rb_CcNatureTxIntDecouv_Taux);
-        CcNatureTxIntDecouvPlage = (RadioButton) findViewById(R.id.rb_CcNatureTxIntDecouv_Plage);
-
-        CcValTxIntDecouv= (EditText) findViewById(R.id.input_txt_CcValTxMtAgio);
-        mySpinnerBaseTxIntDecouv = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcValTxMtAgio);
-        mySpinnerBaseTxMtAgio = (JRSpinner)findViewById(R.id.spn_my_spinner_BaseCalculAgiosCC);
-        mySpinnerBaseTxCommMvm = (JRSpinner)findViewById(R.id.spn_my_spinner_base_CcTxCommMvm);
-        mySpinnerBaseTxIntDecouv.setItems(getResources().getStringArray(R.array.array_base_taux_cpte_courant)); //this is important, you must set it to set the item list
-        mySpinnerBaseTxIntDecouv.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
-        mySpinnerBaseTxIntDecouv.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
-        mySpinnerBaseTxIntDecouv.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
-            @Override
-            public void onItemClick(int position) {
-                //do what you want to the selected position
-
-            }
-        });
         mySpinnerBaseTxMtAgio.setItems(getResources().getStringArray(R.array.array_base_taux_cpte_courant)); //this is important, you must set it to set the item list
         mySpinnerBaseTxMtAgio.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerBaseTxMtAgio.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
@@ -382,6 +453,11 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
             }
         });
         tv_plageTxMtAgio= (TextView) findViewById(R.id.tv_plage_CcTxMtAgio);
+        tv_plage_pen_retard_decouv_simple= (TextView) findViewById(R.id.tv_plage_CcTauxIntPenRetard);
+        tv_plage_int_retard_decouv_simple= (TextView) findViewById(R.id.tv_plage_CcTauxInt_IntRetDecouv);
+        tv_plageCcTauxIntAvceSpec= (TextView) findViewById(R.id.tv_plage_CcTauxIntAvceSpec);
+        tv_plageCcTauxIntPenAvceSpec= (TextView) findViewById(R.id.tv_plage_CcTauxIntPenAvceSpec);
+        tv_plage_CcTauxInt_IntRetAvceSpec= (TextView) findViewById(R.id.tv_plage_CcTauxInt_IntRetAvceSpec);
         tv_plageCalculAgiosCC= (TextView) findViewById(R.id.tv_plage_CalculAgiosCC);
         tv_plageTxCommMvmCC= (TextView) findViewById(R.id.tv_plage_CcTxCommMvm);
         CcPlageTxIntDecouvFrom= (EditText) findViewById(R.id.txt_CcValTxIntDecouvFrom);
@@ -402,6 +478,8 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         CcPlageTxMtAgioTo=(EditText) findViewById(R.id.txt_CcValTxMtAgioTo);
 //                CcNatBaseAgio=(EditText) findViewById(R.id.input_txt_NatureBaseCalculAgiosCC);
         CcIsChequierM1On=(Switch) findViewById(R.id.Switch_txtDisponibiliteChequier1CC);
+        CcIsPlafAvceSpecNegoc=(Switch) findViewById(R.id.SwitchCcIsPlafAvceSpecNegoc);
+        CcIsTxIntDegressif=(Switch) findViewById(R.id.SwitchCcIsTxIntDegressif);
         CcNbPagesCheqM1=(EditText) findViewById(R.id.input_txt_NbrePageChequier1CC);
         CcPrixVteCheqM1=(EditText) findViewById(R.id.input_txt_txtPrixVenteChequier1CC);
         CcIsChequierM2On=(Switch) findViewById(R.id.Switch_txtDisponibiliteChequier2CC);
@@ -421,6 +499,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         CcValTxCommMvm=(EditText) findViewById(R.id.input_txt_CcValTxCommMvm);
         CcPlageTxCommMvmFrom=(EditText) findViewById(R.id.txt_CcValTxCommMvm_From);
         CcPlageTxCommMvmTo=(EditText) findViewById(R.id.txt_CcValTxCommMvm_To);
+
 
 
         cpteCourantId = intent.getStringExtra(KEY_CPTE_COURANT_ID);
@@ -563,10 +642,85 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             }
         });
+        tv_plage_CcTauxInt_IntRetAvceSpec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Tx int retard A.S";
+                    ListPlageDataPASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageDataPASActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateProduitCpteCourant.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+
+        //Provisoire
+        tv_plage_pen_retard_decouv_simple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux pénalité de retard";
+                    ListPlageDataCTPActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlageDataCTPActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateProduitCpteCourant.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        //Provisoire
+        tv_plage_int_retard_decouv_simple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux intérêt de retard";
+                    ListPlageDataCTPActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlageDataCTPActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateProduitCpteCourant.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+
+        /*Debut provisoire*/
+        onRadioButtonClicked(CcNatureTxIntDecouvFixe);
+        onRadioButtonClicked(CcNatTauxIntPenRetardFixe);
+        onRadioButtonClicked(CcNatureTxInt_IntRetDecouvFixe);
+        onRadioButtonClicked(CcNatureTypDureDecouvJour);
+        onRadioButtonClicked(CcNatureTxMtAgioTaux);
+        onRadioButtonClicked(CcNatTxCommFixe);
+        onRadioButtonClicked(CcNatTauxIntAvceSpecFixe);
+        onRadioButtonClicked(CcNatTauxIntPenAvceSpecFixe);
+        onRadioButtonClicked(CcNatureTxInt_IntRetAvceSpecFixe);
+        onSwitchButtonClicked(CcIsDecouvOn);
+
+        onSwitchButtonClicked(CcIsChequierM1On);
+        onSwitchButtonClicked(CcIsChequierM2On);
+        onSwitchButtonClicked(CcIsChequierM3On);
+        onSwitchButtonClicked(CcIsTxCommMvmOper);
+        onSwitchButtonClicked(CcIsAvanceSpecialOn);
+        /*Fin provisoire*/
 
 
 
     }
+
 
     public void onSwitchButtonClicked(View view) {
         boolean checked1 = ((Switch) view).isChecked();
@@ -585,7 +739,6 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 }
 
                 break;
-
             case R.id.SwitchCcIsAvanceSpecialOn:
                 if (CcIsAvanceSpecialOn.isChecked()) {
                     str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
@@ -649,12 +802,12 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
+
             case R.id.rb_CcNatTauxIntPenAvceSpec_Fixe:
                 if (CcNatTauxIntPenAvceSpecFixe.isChecked()) {
-                    // ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     st_CcNatTauxIntPenAvceSpec ="F";
                     str = checked1?"Type Fixe Selected":"Type Fixe Deselected";
-                    CcTauxIntPenAvceSpec.setHint("Montant");
+                    CcTauxIntPenAvceSpec.setHint("Montant FCFA");
                     tv_plageCcTauxIntPenAvceSpec.setVisibility(View.GONE);
                     input_layout_CcTauxIntPenAvceSpec.setVisibility(View.VISIBLE);
                     input_layout_CcBaseTxIntPenAvceSpec.setVisibility(View.GONE);
@@ -665,10 +818,9 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             case R.id.rb_CcNatTauxIntPenAvceSpec_Taux:
                 if (CcNatTauxIntPenAvceSpecTaux.isChecked()) {
-                    // ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     st_CcNatTauxIntPenAvceSpec ="T";
                     str = checked1?"Type Taux Selected":"Type Taux Deselected";
-                    CcTauxIntPenAvceSpec.setHint("Taux");
+                    CcTauxIntPenAvceSpec.setHint("Taux %");
                     tv_plageCcTauxIntPenAvceSpec.setVisibility(View.GONE);
                     input_layout_CcTauxIntPenAvceSpec.setVisibility(View.VISIBLE);
                     input_layout_CcBaseTxIntPenAvceSpec.setVisibility(View.VISIBLE);
@@ -679,15 +831,44 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             case R.id.rb_CcNatTauxIntPenAvceSpec_Plage:
                 if (CcNatTauxIntPenAvceSpecPlage.isChecked()){
-                    // ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     str = checked1?"Type Plage Selected":"Type Plage Deselected";
                     st_CcNatTauxIntPenAvceSpec ="P";
                     tv_plageCcTauxIntPenAvceSpec.setVisibility(View.VISIBLE);
                     input_layout_CcTauxIntPenAvceSpec.setVisibility(View.GONE);
                     input_layout_CcBaseTxIntPenAvceSpec.setVisibility(View.GONE);
                 }
+                break;
+            case R.id.rb_CcNatureTxInt_IntRetAvceSpec_Fixe:
+                if (CcNatureTxInt_IntRetAvceSpecFixe.isChecked()) {
+                    st_CcNatureTxInt_IntRetAvceSpec ="F";
+                    CcTauxInt_IntRetAvceSpec.setHint("Montant FCFA");
+                    tv_plage_CcTauxInt_IntRetAvceSpec.setVisibility(View.GONE);
+                    input_layout_CcTauxInt_IntRetAvceSpec.setVisibility(View.VISIBLE);
+                    input_layout_CcBasexInt_IntRetAvceSpec.setVisibility(View.GONE);
 
+                }
 
+                break;
+
+            case R.id.rb_CcNatureTxInt_IntRetAvceSpec_Taux:
+                if (CcNatureTxInt_IntRetAvceSpecTaux.isChecked()) {
+                    st_CcNatureTxInt_IntRetAvceSpec ="T";
+                    CcTauxInt_IntRetAvceSpec.setHint("Taux %");
+                    tv_plage_CcTauxInt_IntRetAvceSpec.setVisibility(View.GONE);
+                    input_layout_CcTauxInt_IntRetAvceSpec.setVisibility(View.VISIBLE);
+                    input_layout_CcBasexInt_IntRetAvceSpec.setVisibility(View.VISIBLE);
+
+                }
+
+                break;
+
+            case R.id.rb_CcNatureTxInt_IntRetAvceSpec_Plage:
+                if (CcNatureTxInt_IntRetAvceSpecPlage.isChecked()){
+                    st_CcNatureTxInt_IntRetAvceSpec ="P";
+                    tv_plage_CcTauxInt_IntRetAvceSpec.setVisibility(View.VISIBLE);
+                    input_layout_CcTauxInt_IntRetAvceSpec.setVisibility(View.GONE);
+                    input_layout_CcBasexInt_IntRetAvceSpec.setVisibility(View.GONE);
+                }
                 break;
             case R.id.rb_CcNatTauxIntAvceSpec_Fixe:
                 if (CcNatTauxIntAvceSpecFixe.isChecked()) {
@@ -729,8 +910,6 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
 
                 break;
-
-
             case R.id.rb_CcNatureTxIntDecouv_Fixe:
                 if (CcNatureTxIntDecouvFixe.isChecked()) {
                     // ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
@@ -772,12 +951,82 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
 
                 break;
+//                Taux pénalité de retard (découvert simple)
+            case R.id.rb_CcNatTauxIntPenRetard_Fixe:
+                if (CcNatTauxIntPenRetardFixe.isChecked()) {
+                    st_CcNatTauxIntPenRetard ="F";
+                    CcTauxIntPenRetard.setHint("Montant FCFA");
+//                    blk_plage_cc.setVisibility(View.GONE);
+                    tv_plage_pen_retard_decouv_simple.setVisibility(View.GONE);
+                    input_layout_CcTauxIntPenRetard.setVisibility(View.VISIBLE);
+                    input_layout_CcBaseTxIntPenRetard.setVisibility(View.GONE);
+
+                }
+
+                break;
+            case R.id.rb_CcNatTauxIntPenRetard_Taux:
+                if (CcNatTauxIntPenRetardTaux.isChecked()) {
+                    // ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
+                    st_CcNatTauxIntPenRetard ="T";
+                    str = checked1?"Type Taux Selected":"Type Taux Deselected";
+                    CcTauxIntPenRetard.setHint("Taux %");
+//                    blk_plage_cc.setVisibility(View.GONE);
+                    tv_plage_pen_retard_decouv_simple.setVisibility(View.GONE);
+                    input_layout_CcTauxIntPenRetard.setVisibility(View.VISIBLE);
+                    input_layout_CcBaseTxIntPenRetard.setVisibility(View.VISIBLE);
+                }
+
+                break;
+            case R.id.rb_CcNatTauxIntPenRetard_Plage:
+                if (CcNatTauxIntPenRetardPlage.isChecked()){
+                    st_CcNatTauxIntPenRetard ="P";
+//                    blk_plage_cc.setVisibility(View.GONE);
+                    tv_plage_pen_retard_decouv_simple.setVisibility(View.VISIBLE);
+                    input_layout_CcTauxIntPenRetard.setVisibility(View.GONE);
+                    input_layout_CcBaseTxIntPenRetard.setVisibility(View.GONE);
+                }
+
+
+                break;
+//                Taux intérêt de retard (découvert simple)
+            case R.id.rb_CcNatureTxInt_IntRetDecouv_Fixe:
+                if (CcNatureTxInt_IntRetDecouvFixe.isChecked()) {
+                    st_CcNatureTxInt_IntRetDecouv ="F";
+                    CcTauxInt_IntRetDecouv.setHint("Montant FCFA");
+//                    blk_plage_cc.setVisibility(View.GONE);
+                    tv_plage_int_retard_decouv_simple.setVisibility(View.GONE);
+                    input_layout_CcTauxInt_IntRetDecouv.setVisibility(View.VISIBLE);
+                    input_layout_CcBasexInt_IntRetDecouv.setVisibility(View.GONE);
+
+                }
+
+                break;
+            case R.id.rb_CcNatureTxInt_IntRetDecouv_Taux:
+                if (CcNatureTxInt_IntRetDecouvTaux.isChecked()) {
+                    st_CcNatureTxInt_IntRetDecouv ="T";
+                    CcTauxInt_IntRetDecouv.setHint("Taux %");
+                    tv_plage_int_retard_decouv_simple.setVisibility(View.GONE);
+                    input_layout_CcTauxInt_IntRetDecouv.setVisibility(View.VISIBLE);
+                    input_layout_CcBasexInt_IntRetDecouv.setVisibility(View.VISIBLE);
+                }
+
+                break;
+            case R.id.rb_CcNatureTxInt_IntRetDecouv_Plage:
+                if (CcNatureTxInt_IntRetDecouvPlage.isChecked()){
+                    st_CcNatureTxInt_IntRetDecouv ="P";
+//                    blk_plage_cc.setVisibility(View.GONE);
+                    tv_plage_int_retard_decouv_simple.setVisibility(View.VISIBLE);
+                    input_layout_CcTauxInt_IntRetDecouv.setVisibility(View.GONE);
+                    input_layout_CcBasexInt_IntRetDecouv.setVisibility(View.GONE);
+                }
+
+
+                break;
             case R.id.rb_CcNatureTypDureDecouv_jour:
                 if (CcNatureTypDureDecouvJour.isChecked()){
                     str = checked1?"Type Jour Selected":"Type Jour Deselected";
                     st_CcNatureTypDureDecouv ="J";
-                   /* blk_plage_cc.setVisibility(View.VISIBLE);
-                    input_layout_CcValTxMtAgio.setVisibility(View.GONE);*/
+
                 }
 
 
@@ -1092,6 +1341,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                     CcPlageTxCommMvmFrom.setText(st_CcPlageTxCommMvmFrom);
                     CcPlageTxCommMvmTo.setText(st_CcPlageTxCommMvmTo);
 
+                    onRadioButtonClicked(CcNatureTxInt_IntRetAvceSpecFixe);
 
                 }
             });

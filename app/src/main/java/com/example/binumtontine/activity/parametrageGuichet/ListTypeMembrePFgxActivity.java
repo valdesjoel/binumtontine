@@ -60,6 +60,9 @@ public class ListTypeMembrePFgxActivity extends AppCompatActivity implements SER
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Sélectionner un type de membre") ;
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab_produitEAV);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +78,11 @@ public class ListTypeMembrePFgxActivity extends AppCompatActivity implements SER
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
 /**
  * Fetches the list of movies from the server

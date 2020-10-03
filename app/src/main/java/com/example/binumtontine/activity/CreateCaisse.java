@@ -84,6 +84,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_CxIsDirCredDC = "CxIsDirCredDC";
     private static final String KEY_CxIsAgentCredAC = "CxIsAgentCredAC";
     private static final String KEY_CxIsDirGenCxDG = "CxIsDirGenCxDG";
+    private static final String KEY_CxIsMultiCpteCourByMemb = "CxIsMultiCpteCourByMemb";
 
 
     private static String STRING_EMPTY = "";
@@ -120,9 +121,9 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private String cx_nom_pca;
     private String cx_nom_dg;
 
-    private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG;
+    private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG, CxIsMultiCpteCourByMemb;
     private Boolean bool_CxIsPrConsAdmPCA, bool_CxIsPrComCredPCC,bool_CxIsDirCredDC,bool_CxIsAgentCredAC,
-            bool_CxIsDirGenCxDG;
+            bool_CxIsDirGenCxDG, bool_CxIsMultiCpteCourByMemb;
 
     private Button addButton;
     private Button annulerButton;
@@ -210,6 +211,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
         CxIsDirCredDC= (SwitchCompat) findViewById(R.id.SwitchCxIsDirCredDC);
         CxIsAgentCredAC= (SwitchCompat) findViewById(R.id.SwitchCxIsAgentCredAC);
         CxIsDirGenCxDG= (SwitchCompat) findViewById(R.id.SwitchCxIsDirGenCxDG);
+        CxIsMultiCpteCourByMemb= (SwitchCompat) findViewById(R.id.SwitchCxIsMultiCpteCourByMemb);
         addButton = (Button) findViewById(R.id.btn_save_Cx);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +314,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             bool_CxIsDirCredDC=  CxIsDirCredDC.isChecked();
             bool_CxIsAgentCredAC=  CxIsAgentCredAC.isChecked();
             bool_CxIsDirGenCxDG=  CxIsDirGenCxDG.isChecked();
+            bool_CxIsMultiCpteCourByMemb=  CxIsMultiCpteCourByMemb.isChecked();
 
             new AddCaisseAsyncTask().execute();
         } else {
@@ -410,6 +413,7 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC.toString());
             httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC.toString());
             httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG.toString());
+            httpParams.put(KEY_CxIsMultiCpteCourByMemb, bool_CxIsMultiCpteCourByMemb.toString());
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_caisse.php", "POST", httpParams);
             try {

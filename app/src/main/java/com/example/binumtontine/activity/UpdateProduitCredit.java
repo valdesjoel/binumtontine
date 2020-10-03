@@ -11,11 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
@@ -30,6 +32,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -132,14 +136,29 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private RadioButton rbCrNaturePasSaut;
     //    private String CrNaturePas;
     private EditText ET_CrNbreUPas;
+    private EditText ET_CrNbreJrDelaiGrace;
     private RadioButton rbCrTypTxInterFixe;
     private RadioButton rbCrTypTxInterPlage;
+    private RadioButton rbCrTypTxInterPenRetardFixe;
+    private RadioButton rbCrTypTxInterPenRetardPlage;
+    private RadioButton rbCrTypTxInterRetardFixe;
+    private RadioButton rbCrTypTxInterRetardPlage;
+    private RadioButton rbCrModeCalcInteretSimple;
+    private RadioButton rbCrModeCalcInteretCompose;
+    private RadioButton rbCrModeCalcInteretDegressif;
+    private RadioButton rbCrPeriodCalcInteretJournalier;
+    private RadioButton rbCrPeriodCalcInteretMensuel;
     private RadioButton rbCrTypTxInterMontant;
     private RadioButton rbCrTypTxInterDuree;
     private RadioButton rbCrTypTxInterMontantDuree;
     private String CrTypTxInter;
+    private String CrTypTxInterPenRetard;
+    private String CrTypTxInterRetard;
     private EditText ET_CrValTxInter;
+    private EditText ET_CrValTxInterPenRetard;
+    private EditText ET_CrValTxInterRetard;
     private Switch SW_CrIsTxIntNeg;
+    private Spinner SW_CrNbreUPas;
     private EditText ET_CrNbreAvalDmde;
     private EditText ET_CrNbreMinAvalExig;
     private EditText ET_CrTxCouvCrAval;
@@ -178,6 +197,9 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private String CrNatFraisDeblocCred;
     private EditText ET_CrValTxFraisDeblocCred;
     private JRSpinner JR_CrBaseTxFraisDeblocCred;
+    private JRSpinner JR_CrBase_tauxInt;
+    private JRSpinner JR_Crbase_tauxIntPenRetard;
+    private JRSpinner JR_Crbase_tauxIntRetard;
     private Switch SW_CrIsFraisDecaissCredOn;
 
     private RadioButton rbCrNatFraisDecaissCredFixe;
@@ -204,6 +226,8 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private EditText ET_CrNbreJrAvantDatEch;
     private EditText ET_CrNbreJrApreEchSiNHon;
     private Switch SW_CrIsTxIntDegressif;
+    private Switch SW_CrIsDelaiGraceNegoc;
+    private Switch SW_CrIsJoursOuvresOnly;
 //    private String CrUser;
 //    private String CrDateHCree;
 //    private String CrUserModif;
@@ -213,62 +237,33 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
 
 
 
+    private LinearLayout LL_CrNatFrEtudDoss;
+    private LinearLayout LL_CrNatFraisDeblocCred;
+    private LinearLayout LL_CrNatFraisDecaissCred;
 
-    private EditText CcCode,CcLibelle,CcMtMaxDecouv,CcNatureTxIntDecouv,CcValTxIntDecouv,
-            CcPlageTxIntDecouvFrom,CcPlageTxIntDecouvTo,CcDureeMaxDecouv,CcNatureTypDureDecouv,
-            CcNatureTxMtAgio,CcValTxMtAgio,CcPlageTxMtAgioFrom,CcPlageTxMtAgioTo,CcNatBaseAgio,
-            CcNbPagesCheqM1,CcPrixVteCheqM1,CcNbPagesCheqM2,CcPrixVteCheqM2,CcNbPagesCheqM3,
-            CcPrixVteCheqM3,CcDureeValidCheq,CcNbMinSignatChq,CcNatTxComm,CcValTxCommMvm,
-            CcPlageTxCommMvmFrom,CcPlageTxCommMvmTo;
-    private Switch CcIsDecouvOn,CcIsMaxDecouvNeg,CcIsChequierM1On,CcIsChequierM2On,CcIsChequierM3On,
-            CcIsTxCommMvmOper;
-    private String st_CcCode,st_CcLibelle,st_CcMtMaxDecouv,
-            st_CcNatureTxIntDecouv,st_CcValTxIntDecouv,st_CcPlageTxIntDecouvFrom,st_CcPlageTxIntDecouvTo,
-            st_CcDureeMaxDecouv,st_CcNatureTypDureDecouv,st_CcNatureTxMtAgio,st_CcValTxMtAgio,
-            st_CcPlageTxMtAgioFrom,st_CcPlageTxMtAgioTo,st_CcNatBaseAgio,
-            st_CcNbPagesCheqM1,st_CcPrixVteCheqM1,st_CcNbPagesCheqM2,
-            st_CcPrixVteCheqM2,st_CcNbPagesCheqM3,st_CcPrixVteCheqM3,
-            st_CcDureeValidCheq,st_CcNbMinSignatChq,st_CcNatTxComm,st_CcValTxCommMvm,
-            st_CcPlageTxCommMvmFrom,st_CcPlageTxCommMvmTo;
+    private TextInputLayout layout_TauxCrNatFrEtudDoss;
+    private TextInputLayout layout_TauxCrValTxFraisDeblocCred;
 
-    private Boolean st_CcIsDecouvOn, st_CcIsMaxDecouvNeg,st_CcIsChequierM1On,st_CcIsChequierM2On,
-            st_CcIsChequierM3On,st_CcIsTxCommMvmOper;
+    private Button addButton;
 
-
-
-
-
-    private RadioButton CcNatureTxIntDecouvFixe,CcNatureTxIntDecouvTaux,CcNatureTxIntDecouvPlage;
-    private RadioButton CcNatureTypDureDecouvJour,CcNatureTypDureDecouvSemaine,CcNatureTypDureDecouvMois;
-    private RadioButton CcNatureTxMtAgioTaux, CcNatureTxMtAgioMontant, CcNatureTxMtAgioPlage;
-    private RadioButton CcNatTxCommFixe, CcNatTxCommMontant, CcNatTxCommPlage;
-    private JRSpinner mySpinnerBaseTxIntDecouv; //pour gérer le spinner contenant les bases du Tx Int Decouvert
-    private JRSpinner mySpinnerBaseTxMtAgio; //pour gérer le spinner contenant les bases taux
-    private JRSpinner mySpinnerBaseTxCommMvm; //pour gérer le spinner contenant les bases taux
-
-
-    private TextInputLayout input_layout_CcValTxMtAgio;
-    private TextInputLayout input_layout_CcBaseTxMtAgio;
-    private TextInputLayout input_layout_CcBaseCalculAgiosCC;
-    private TextInputLayout input_layout_CcBaseTxCommMvmCC;
-    private TextInputLayout input_layout_CcValTxIntDecouv;
-    private TextInputLayout input_layout_CcValTxCommMvm;
-    private LinearLayout bloc_cc1;
-    private LinearLayout bloc_cc2;
-    private LinearLayout bloc_cc3;
-    private LinearLayout bloc_cc4;
-    private LinearLayout bloc_cc5;
-    private LinearLayout blk_plage_cc;
-    private LinearLayout blk_plage_agios_cc;
-    private LinearLayout blk_plage_CcValTxCommMvm;
-    private TextView tv_plageTxMtAgio;
+    private TextView tv_plage_CrNatFrEtudDoss;
+    private TextView tv_plage_CrTypTxInter;
+    private TextView tv_plage_cr_PenRetard;
+    private TextView tv_plage_cr_IntRetard;
+    private TextView tv_plage_CrNatFraisDeblocCred;
+    private TextView tv_plage_CrNatFraisDecaissCred;
+    public static ArrayList<ModelPlageData> plageDataListTIC = new ArrayList<ModelPlageData>(); //to manage plageData taux d'intérêt
+    public static ArrayList<ModelPlageData> plageDataListFEC = new ArrayList<ModelPlageData>(); //to manage plageData frais etude
+    public static ArrayList<ModelPlageData> plageDataListFDB = new ArrayList<ModelPlageData>(); //to manage plageData frais deblocage
+    public static ArrayList<ModelPlageData> plageDataListFCX = new ArrayList<ModelPlageData>(); //to manage plageData frais decaissement
+    private String CrModeCalcInteret;
+    private String CrPeriodCalcInteret;
     public static ArrayList<ModelPlageData> plageDataListCTP = new ArrayList<ModelPlageData>(); //to manage plageData
     private TextView tv_plageCalculAgiosCC;
     public static ArrayList<ModelPlageData> plageDataListCAP = new ArrayList<ModelPlageData>(); //to manage plageData
     private TextView tv_plageTxCommMvmCC;
     public static ArrayList<ModelPlageData> plageDataListTCP = new ArrayList<ModelPlageData>(); //to manage plageData
 
-    private Button addButton;
     private String baseCcTxIntDecouv;
     private String baseCcTxCommMvm;
 
@@ -315,22 +310,39 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
 
     //END
 
-    private TextView tv_plage_CrNatFrEtudDoss;
-    private TextView tv_plage_CrTypTxInter;
-    private TextView tv_plage_CrNatFraisDeblocCred;
-    private TextView tv_plage_CrNatFraisDecaissCred;
-    public static ArrayList<ModelPlageData> plageDataListTIC = new ArrayList<ModelPlageData>(); //to manage plageData taux d'intérêt
-    public static ArrayList<ModelPlageData> plageDataListFEC = new ArrayList<ModelPlageData>(); //to manage plageData frais etude
-    public static ArrayList<ModelPlageData> plageDataListFDB = new ArrayList<ModelPlageData>(); //to manage plageData frais deblocage
-    public static ArrayList<ModelPlageData> plageDataListFCX = new ArrayList<ModelPlageData>(); //to manage plageData frais decaissement
 
-
-    private LinearLayout LL_CrNatFrEtudDoss;
-    private LinearLayout LL_CrNatFraisDeblocCred;
-    private LinearLayout LL_CrNatFraisDecaissCred;
-
-    private TextInputLayout layout_TauxCrNatFrEtudDoss;
-    private TextInputLayout layout_TauxCrValTxFraisDeblocCred;
+    private RadioButton rbCrPeriodCalcInteretTrimestre;
+    private RadioButton rbCrPeriodCalcInteretAnnee;
+    private RadioButton rbCrPeriodCalcInteretPenRetardJournalier;
+    private RadioButton rbCrPeriodCalcInteretPenRetardMensuel;
+    private RadioButton rbCrPeriodCalcInteretPenRetardTrimestre;
+    private RadioButton rbCrPeriodCalcInteretPenRetardAnnee;
+    private RadioButton rbCrPeriodCalcInteretRetardJournalier;
+    private RadioButton rbCrPeriodCalcInteretRetardMensuel;
+    private RadioButton rbCrPeriodCalcInteretRetardTrimestre;
+    private RadioButton rbCrPeriodCalcInteretRetardAnnee;
+    private RadioButton rbCrNatureJrTxIntJrLunVen;
+    private RadioButton rbCrNatureJrTxIntJrLunSam;
+    private RadioButton rbCrNatureJrTxIntJrJrOuvertGu;
+    private RadioButton rbCrNatureJrTxIntJrTous;
+    private RadioButton rbCrNatureJrTxIntPenRetardJrLunVen;
+    private RadioButton rbCrNatureJrTxIntPenRetardJrLunSam;
+    private RadioButton rbCrNatureJrTxIntPenRetardJrJrOuvertGu;
+    private RadioButton rbCrNatureJrTxIntPenRetardJrTous;
+    private RadioButton rbCrNatureJrTxIntRetardJrLunVen;
+    private RadioButton rbCrNatureJrTxIntRetardJrLunSam;
+    private RadioButton rbCrNatureJrTxIntRetardJrJrOuvertGu;
+    private RadioButton rbCrNatureJrTxIntRetardJrTous;
+    private SwitchCompat SW_CrIsTxInteretJrOn;
+    private SwitchCompat SW_CrIsTxPenRetardOn;
+    private SwitchCompat SW_CrIsTxIntJrOn_IntRetCred;
+//    private String CrUser;
+    private String CrPeriodNatureTxPenRet;
+    private String CrNatureJrTxIntJr;
+    private String CrNatureJrTxPenRet;
+    private String CrNatureTxInt_IntRetCred;
+    private String CrPeriod_IntRetCred;
+    private String CrNatJrTxIntJr_IntRetCred;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -350,7 +362,10 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
 
         tv_header_produit.setText("Produit Crédit\n"+"Caisse: "+MyData.CAISSE_NAME);
 
+
         tv_plage_CrTypTxInter = (TextView) findViewById(R.id.tv_plage_tic_cc);
+        tv_plage_cr_PenRetard = (TextView) findViewById(R.id.tv_plage_cr_PenRetard);
+        tv_plage_cr_IntRetard = (TextView) findViewById(R.id.tv_plage_cr_IntRetard);
         tv_plage_CrNatFrEtudDoss = (TextView) findViewById(R.id.tv_plage_CrNatFrEtudDoss);
         tv_plage_CrNatFraisDeblocCred = (TextView) findViewById(R.id.tv_plage_CrNatFraisDeblocCred);
         tv_plage_CrNatFraisDecaissCred = (TextView) findViewById(R.id.tv_plage_CrNatFraisDecaissCred);
@@ -358,17 +373,59 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         ET_CrLibelle = (EditText) findViewById(R.id.input_txt_LibelleCredit);
         ET_CrDureeMax = (EditText) findViewById(R.id.input_txt_CrDureeMax);
         ET_CrDureeMin = (EditText) findViewById(R.id.input_txt_CrDureeMin);
+        ET_CrNbreJrDelaiGrace = (EditText) findViewById(R.id.input_txt_CrNbreJrDelaiGrace);
 //        rbCrNaturePasFixe = (RadioButton)findViewById(R.id.rbCrNaturePasFixe);
 //        rbCrNaturePasSaut = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
 //        ET_CrNbreUPas = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
         rbCrTypTxInterFixe = (RadioButton)findViewById(R.id.rbCrTypTxInterFixe);
         rbCrTypTxInterPlage = (RadioButton)findViewById(R.id.rbCrTypTxInterPlage);
+        rbCrTypTxInterPenRetardFixe = (RadioButton)findViewById(R.id.rbCrTypTxInterPenRetardFixe);
+        rbCrTypTxInterPenRetardPlage = (RadioButton)findViewById(R.id.rbCrTypTxInterPenRetardPlage);
+        rbCrTypTxInterRetardFixe = (RadioButton)findViewById(R.id.rbCrTypTxInterRetardFixe);
+        rbCrTypTxInterRetardPlage = (RadioButton)findViewById(R.id.rbCrTypTxInterRetardPlage);
         /*rbCrTypTxInterDuree = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
         rbCrTypTxInterMontant = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
         rbCrTypTxInterMontantDuree = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
         */
+        rbCrModeCalcInteretSimple = (RadioButton)findViewById(R.id.rbCrModeCalcInteretSimple);
+        rbCrModeCalcInteretCompose = (RadioButton)findViewById(R.id.rbCrModeCalcInteretCompose);
+        rbCrModeCalcInteretDegressif = (RadioButton)findViewById(R.id.rbCrModeCalcInteretDegressif);
+        rbCrPeriodCalcInteretMensuel = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretMensuel);
+        rbCrPeriodCalcInteretTrimestre = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretTrimestre);
+        rbCrPeriodCalcInteretAnnee = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretAnnee);
+        rbCrPeriodCalcInteretJournalier = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretJournalier);
+
+        rbCrPeriodCalcInteretPenRetardMensuel = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretPenRetardMensuel);
+        rbCrPeriodCalcInteretPenRetardTrimestre = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretPenRetardTrimestre);
+        rbCrPeriodCalcInteretPenRetardAnnee = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretPenRetardAnnee);
+        rbCrPeriodCalcInteretPenRetardJournalier = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretPenRetardJournalier);
+
+        rbCrPeriodCalcInteretRetardMensuel = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretRetardMensuel);
+        rbCrPeriodCalcInteretRetardTrimestre = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretRetardTrimestre);
+        rbCrPeriodCalcInteretRetardAnnee = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretRetardAnnee);
+        rbCrPeriodCalcInteretRetardJournalier = (RadioButton)findViewById(R.id.rbCrPeriodCalcInteretRetardJournalier);
+
+        rbCrNatureJrTxIntJrLunVen = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntJrLunVen);
+        rbCrNatureJrTxIntJrLunSam = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntJrLunSam);
+        rbCrNatureJrTxIntJrJrOuvertGu = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntJrJrOuvertGu);
+        rbCrNatureJrTxIntJrTous = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntJrTous);
+
+        rbCrNatureJrTxIntPenRetardJrLunVen = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntPenRetardJrLunVen);
+        rbCrNatureJrTxIntPenRetardJrLunSam = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntPenRetardJrLunSam);
+        rbCrNatureJrTxIntPenRetardJrJrOuvertGu = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntPenRetardJrJrOuvertGu);
+        rbCrNatureJrTxIntPenRetardJrTous = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntPenRetardJrTous);
+
+        rbCrNatureJrTxIntRetardJrLunVen = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntRetardJrLunVen);
+        rbCrNatureJrTxIntRetardJrLunSam = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntRetardJrLunSam);
+        rbCrNatureJrTxIntRetardJrJrOuvertGu = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntRetardJrJrOuvertGu);
+        rbCrNatureJrTxIntRetardJrTous = (RadioButton)findViewById(R.id.rbCrNatureJrTxIntRetardJrTous);
+
         ET_CrValTxInter = (EditText) findViewById(R.id.input_txt_CrValTxInter);
+        ET_CrValTxInterPenRetard = (EditText) findViewById(R.id.input_txt_CrValTxInterPenRetard);
+        ET_CrValTxInterRetard = (EditText) findViewById(R.id.input_txt_CrValTxInterRetard);
         SW_CrIsTxIntNeg = (Switch) findViewById(R.id.SwitchCrIsTxIntNeg);
+        SW_CrNbreUPas = (Spinner) findViewById(R.id.spn_list_duree);
+
         ET_CrNbreAvalDmde = (EditText) findViewById(R.id.input_txt_CrNbreAvalDmde);
         ET_CrNbreMinAvalExig = (EditText) findViewById(R.id.input_txt_CrNbreMinAvalExig);
         ET_CrTxCouvCrAval = (EditText) findViewById(R.id.input_txt_CrTxCouvCrAval);
@@ -413,6 +470,40 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         rbCrNatFraisDeblocCredTaux = (RadioButton) findViewById(R.id.rbCrNatFraisDeblocCredTaux);
         rbCrNatFraisDeblocCredPlage = (RadioButton) findViewById(R.id.rbCrNatFraisDeblocCredPlage);
         ET_CrValTxFraisDeblocCred = (EditText) findViewById(R.id.input_txt_CrValTxFraisDeblocCred);
+        JR_CrBase_tauxInt = (JRSpinner) findViewById(R.id.spn_my_spinner_base_tauxInt); //A revoir car c'est un JRSpinner
+        JR_CrBase_tauxInt.setItems(getResources().getStringArray(R.array.array_base_taux_interet_nominal_credit)); //this is important, you must set it to set the item list
+        JR_CrBase_tauxInt.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        JR_CrBase_tauxInt.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        JR_CrBase_tauxInt.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+        JR_Crbase_tauxIntPenRetard = (JRSpinner) findViewById(R.id.spn_my_spinner_base_tauxIntPenRetard); //A revoir car c'est un JRSpinner
+        JR_Crbase_tauxIntPenRetard.setItems(getResources().getStringArray(R.array.array_base_taux_penalite_retard_credit)); //this is important, you must set it to set the item list
+        JR_Crbase_tauxIntPenRetard.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        JR_Crbase_tauxIntPenRetard.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        JR_Crbase_tauxIntPenRetard.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+        JR_Crbase_tauxIntRetard = (JRSpinner) findViewById(R.id.spn_my_spinner_base_tauxInterRetard); //A revoir car c'est un JRSpinner
+        JR_Crbase_tauxIntRetard.setItems(getResources().getStringArray(R.array.array_base_taux_interet_retard_credit)); //this is important, you must set it to set the item list
+        JR_Crbase_tauxIntRetard.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        JR_Crbase_tauxIntRetard.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        JR_Crbase_tauxIntRetard.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+
+            }
+        });
+
         JR_CrBaseTxFraisDeblocCred = (JRSpinner) findViewById(R.id.spn_my_spinner_CrBaseTxFraisDeblocCred); //A revoir car c'est un JRSpinner
         JR_CrBaseTxFraisDeblocCred.setItems(getResources().getStringArray(R.array.array_base_taux_credit)); //this is important, you must set it to set the item list
         JR_CrBaseTxFraisDeblocCred.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
@@ -485,17 +576,36 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             }
         });
         SW_CrIsRappDatEchCred = (Switch) findViewById(R.id.SwitchCrIsRappDatEchCred);
+        SW_CrIsTxIntDegressif = (Switch) findViewById(R.id.SwitchCrIsTxIntDegressif);
+        SW_CrIsDelaiGraceNegoc = (Switch) findViewById(R.id.SwitchCrIsDelaiGraceNegoc);
+        SW_CrIsJoursOuvresOnly = (Switch) findViewById(R.id.SwitchCrIsJoursOuvresOnly);
+        SW_CrIsTxInteretJrOn = (SwitchCompat) findViewById(R.id.SwitchCrIsTxInteretJrOn);
+        SW_CrIsTxPenRetardOn = (SwitchCompat) findViewById(R.id.SwitchCrIsTxInteretPenRetardJrOn);
+        SW_CrIsTxIntJrOn_IntRetCred = (SwitchCompat) findViewById(R.id.SwitchCrIsTxInteretRetardJrOn);
         ET_CrModelTextRappEchRemb = (EditText) findViewById(R.id.input_txt_CrModelTextRappEchRemb);
         ET_CrNbreJrAvantDatEch = (EditText) findViewById(R.id.input_txt_CrNbreJrAvantDatEch);
         ET_CrNbreJrApreEchSiNHon = (EditText) findViewById(R.id.input_txt_CrNbreJrApreEchSiNHon);
-        SW_CrIsTxIntDegressif = (Switch) findViewById(R.id.SwitchCrIsTxIntDegressif);
+
         LL_CrNatFrEtudDoss = (LinearLayout) findViewById(R.id.ll_CrNatFrEtudDoss);
         LL_CrNatFraisDeblocCred = (LinearLayout) findViewById(R.id.ll_CrNatFraisDeblocCred);
         LL_CrNatFraisDecaissCred = (LinearLayout) findViewById(R.id.ll_CrNatFraisDecaissCred);
         layout_TauxCrNatFrEtudDoss = (TextInputLayout) findViewById(R.id.input_layout_TauxCrNatFrEtudDoss);
         layout_TauxCrValTxFraisDeblocCred = (TextInputLayout) findViewById(R.id.input_layout_TauxCrValTxFraisDeblocCred);
 
-//
+//provisoire
+
+        onRadioButtonClicked(rbCrTypTxInterFixe);
+        onRadioButtonClicked(rbCrTypTxInterPenRetardFixe);
+        onRadioButtonClicked(rbCrTypTxInterRetardFixe);
+        onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+        onRadioButtonClicked(rbCrNatFraisDeblocCredFixe);
+        onRadioButtonClicked(rbCrNatFraisDecaissCredFixe);
+        onSwitchButtonClicked(SW_CrIsTxGarMemObl);
+        onSwitchButtonClicked(SW_CrIsCouvPartSOn);
+//        onSwitchButtonClicked(SW_CrIsAffCollCredOn);
+        onSwitchButtonClicked(SW_CrIsFraisEtudDossOn);
+        onSwitchButtonClicked(SW_CrIsFraisDeblocCredOn);
+        onSwitchButtonClicked(SW_CrIsFraisDecaissCredOn);
 
 
         creditId = intent.getStringExtra(KEY_CREDIT_ID);
@@ -551,6 +661,44 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     ListPlageDataTICActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
                     Intent i = new Intent(UpdateProduitCredit.this, ListPlageDataTICActivity.class);
                     i.putExtra(KEY_CREDIT_ID, creditId);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateProduitCredit.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        //provisoire
+        tv_plage_cr_PenRetard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux pénalité de retard";
+                    ListPlageDataTICActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCredit.this, ListPlageDataTICActivity.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(UpdateProduitCredit.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        //provisoire
+        tv_plage_cr_IntRetard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux Intérêt de retard";
+                    ListPlageDataTICActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCredit.this, ListPlageDataFDBActivity.class);
                     startActivityForResult(i,20);
 
                 } else {
@@ -631,6 +779,17 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         // Check which checkbox was clicked
         switch(view.getId()) {
 //
+            case R.id.SwitchCrIsTxIntDegressif:
+                if (SW_CrIsTxIntDegressif.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    rbCrModeCalcInteretCompose.setChecked(true);
+                    onRadioButtonClicked(rbCrModeCalcInteretCompose);
+                }else{
+                    rbCrModeCalcInteretSimple.setChecked(true);
+                    onRadioButtonClicked(rbCrModeCalcInteretSimple);
+                }
+
+                break;
             case R.id.SwitchCrIsTxGarMemObl:
                 if (SW_CrIsTxGarMemObl.isChecked()) {
 //                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
@@ -752,54 +911,242 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         // Check which checkbox was clicked
         switch(view.getId()) {
 //
+            case R.id.rbCrModeCalcInteretSimple:
+                if (rbCrModeCalcInteretSimple.isChecked()) {
+                    CrModeCalcInteret ="S";
+                    SW_CrIsTxIntDegressif.setChecked(false);
+
+                }
+                break;
+            case R.id.rbCrModeCalcInteretCompose:
+                if (rbCrModeCalcInteretCompose.isChecked()) {
+                    CrModeCalcInteret ="C";
+                    SW_CrIsTxIntDegressif.setChecked(true);
+
+                }
+                break;
+            case R.id.rbCrModeCalcInteretDegressif:
+                if (rbCrModeCalcInteretDegressif.isChecked()) {
+                    CrModeCalcInteret ="D";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretJournalier:
+                if (rbCrPeriodCalcInteretJournalier.isChecked()) {
+                    CrPeriodCalcInteret ="J";
+
+                }
+                break;
+
+            case R.id.rbCrPeriodCalcInteretMensuel:
+                if (rbCrPeriodCalcInteretMensuel.isChecked()) {
+                    CrPeriodCalcInteret ="M";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretTrimestre:
+                if (rbCrPeriodCalcInteretTrimestre.isChecked()) {
+                    CrPeriodCalcInteret ="T";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretAnnee:
+                if (rbCrPeriodCalcInteretAnnee.isChecked()) {
+                    CrPeriodCalcInteret ="A";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretRetardJournalier:
+                if (rbCrPeriodCalcInteretRetardJournalier.isChecked()) {
+                    CrPeriod_IntRetCred ="J";
+
+                }
+                break;
+
+            case R.id.rbCrPeriodCalcInteretRetardMensuel:
+                if (rbCrPeriodCalcInteretRetardMensuel.isChecked()) {
+                    CrPeriod_IntRetCred ="M";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretRetardTrimestre:
+                if (rbCrPeriodCalcInteretRetardTrimestre.isChecked()) {
+                    CrPeriod_IntRetCred ="T";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretRetardAnnee:
+                if (rbCrPeriodCalcInteretRetardAnnee.isChecked()) {
+                    CrPeriod_IntRetCred ="A";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretPenRetardMensuel:
+                if (rbCrPeriodCalcInteretPenRetardMensuel.isChecked()) {
+                    CrPeriodNatureTxPenRet ="M";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretPenRetardJournalier:
+                if (rbCrPeriodCalcInteretPenRetardJournalier.isChecked()) {
+                    CrPeriodNatureTxPenRet ="J";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretPenRetardTrimestre:
+                if (rbCrPeriodCalcInteretPenRetardTrimestre.isChecked()) {
+                    CrPeriodNatureTxPenRet ="T";
+
+                }
+                break;
+            case R.id.rbCrPeriodCalcInteretPenRetardAnnee:
+                if (rbCrPeriodCalcInteretPenRetardAnnee.isChecked()) {
+                    CrPeriodNatureTxPenRet ="A";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntJrLunVen:
+                if (rbCrNatureJrTxIntJrLunVen.isChecked()) {
+                    CrNatureJrTxIntJr ="A";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntJrLunSam:
+                if (rbCrNatureJrTxIntJrLunSam.isChecked()) {
+                    CrNatureJrTxIntJr ="B";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntJrJrOuvertGu:
+                if (rbCrNatureJrTxIntJrJrOuvertGu.isChecked()) {
+                    CrNatureJrTxIntJr ="C";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntJrTous:
+                if (rbCrNatureJrTxIntJrTous.isChecked()) {
+                    CrNatureJrTxIntJr ="D";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntPenRetardJrLunVen:
+                if (rbCrNatureJrTxIntPenRetardJrLunVen.isChecked()) {
+                    CrNatureJrTxPenRet ="A";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntPenRetardJrLunSam:
+                if (rbCrNatureJrTxIntPenRetardJrLunSam.isChecked()) {
+                    CrNatureJrTxPenRet ="B";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntPenRetardJrJrOuvertGu:
+                if (rbCrNatureJrTxIntPenRetardJrJrOuvertGu.isChecked()) {
+                    CrNatureJrTxPenRet ="C";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntPenRetardJrTous:
+                if (rbCrNatureJrTxIntPenRetardJrTous.isChecked()) {
+                    CrNatureJrTxPenRet ="D";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntRetardJrLunVen:
+                if (rbCrNatureJrTxIntRetardJrLunVen.isChecked()) {
+                    CrNatJrTxIntJr_IntRetCred ="A";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntRetardJrLunSam:
+                if (rbCrNatureJrTxIntRetardJrLunSam.isChecked()) {
+                    CrNatJrTxIntJr_IntRetCred ="B";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntRetardJrJrOuvertGu:
+                if (rbCrNatureJrTxIntRetardJrJrOuvertGu.isChecked()) {
+                    CrNatJrTxIntJr_IntRetCred ="C";
+
+                }
+                break;
+            case R.id.rbCrNatureJrTxIntRetardJrTous:
+                if (rbCrNatureJrTxIntRetardJrTous.isChecked()) {
+                    CrNatJrTxIntJr_IntRetCred ="D";
+
+                }
+                break;
             case R.id.rbCrTypTxInterFixe:
                 if (rbCrTypTxInterFixe.isChecked()) {
-//                    str = checked1?"Type Fixe sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     CrTypTxInter ="F";
                     tv_plage_CrTypTxInter.setVisibility(View.GONE);
+                    JR_CrBase_tauxInt.setVisibility(View.VISIBLE);
                     ET_CrValTxInter.setVisibility(View.VISIBLE);
 
-                }else {
-                    CrTypTxInter ="P";
-                    tv_plage_CrTypTxInter.setVisibility(View.VISIBLE);
-                    ET_CrValTxInter.setVisibility(View.GONE);
                 }
+
                 break;
             case R.id.rbCrTypTxInterPlage:
                 if (rbCrTypTxInterPlage.isChecked()) {
                     CrTypTxInter ="P";
                     tv_plage_CrTypTxInter.setVisibility(View.VISIBLE);
                     ET_CrValTxInter.setVisibility(View.GONE);
+                    JR_CrBase_tauxInt.setVisibility(View.GONE);
 
-                }else {
-                    CrTypTxInter ="F";
-                    tv_plage_CrTypTxInter.setVisibility(View.VISIBLE);
-                    ET_CrValTxInter.setVisibility(View.GONE);
                 }
-//
+
+                break;
+            case R.id.rbCrTypTxInterPenRetardFixe:
+                if (rbCrTypTxInterPenRetardFixe.isChecked()) {
+                    CrTypTxInterPenRetard ="F";
+                    tv_plage_cr_PenRetard.setVisibility(View.GONE);
+                    JR_Crbase_tauxIntPenRetard.setVisibility(View.VISIBLE);
+                    ET_CrValTxInterPenRetard.setVisibility(View.VISIBLE);
+
+                }
+                break;
+            case R.id.rbCrTypTxInterPenRetardPlage:
+                if (rbCrTypTxInterPenRetardPlage.isChecked()) {
+                    CrTypTxInterPenRetard ="P";
+                    tv_plage_cr_PenRetard.setVisibility(View.VISIBLE);
+                    ET_CrValTxInterPenRetard.setVisibility(View.GONE);
+                    JR_Crbase_tauxIntPenRetard.setVisibility(View.GONE);
+
+                }
+                break;
+            case R.id.rbCrTypTxInterRetardFixe:
+                if (rbCrTypTxInterRetardFixe.isChecked()) {
+                    CrTypTxInterRetard ="F";
+                    tv_plage_cr_IntRetard.setVisibility(View.GONE);
+                    JR_Crbase_tauxIntRetard.setVisibility(View.VISIBLE);
+                    ET_CrValTxInterRetard.setVisibility(View.VISIBLE);
+
+                }
+                break;
+            case R.id.rbCrTypTxInterRetardPlage:
+                if (rbCrTypTxInterRetardPlage.isChecked()) {
+                    CrTypTxInterRetard ="P";
+                    tv_plage_cr_IntRetard.setVisibility(View.VISIBLE);
+                    ET_CrValTxInterRetard.setVisibility(View.GONE);
+                    JR_Crbase_tauxIntRetard.setVisibility(View.GONE);
+
+                }
                 break;
             case R.id.rbCrNatFrEtudDossFixe:
                 if (rbCrNatFrEtudDossFixe.isChecked()) {
-//                    str = checked1?"Type Fixe sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     CrNatFrEtudDoss ="F";
-
-//                    blkPlageEav.setVisibility(View.GONE);
-                    if(SW_CrIsFraisEtudDossOn.isChecked()) {
-//                        layout_TauxCrNatFrEtudDoss.setVisibility(View.VISIBLE);
-
                     ET_CrValTxFrEtudDoss.setVisibility(View.VISIBLE);
                     JR_CrBaseTxFrEtudDoss.setVisibility(View.GONE);
                     tv_plage_CrNatFrEtudDoss.setVisibility(View.GONE);
                     ET_CrValTxFrEtudDoss.setHint("Montant des frais d'étude");
-                    }
-                    else{
+//                    }
+                   /* else{
 //                        layout_TauxCrNatFrEtudDoss.setVisibility(View.GONE);
                         ET_CrValTxFrEtudDoss.setVisibility(View.GONE);
                         JR_CrBaseTxFrEtudDoss.setVisibility(View.GONE);
                         tv_plage_CrNatFrEtudDoss.setVisibility(View.GONE);
-                    }
+                    }*/
 //
                 }
 //
@@ -1001,6 +1348,10 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                         ET_CrValTxFraisDecaissCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDecaissCred.setVisibility(View.GONE);
                     }
+//                   // blkPlageEav.setVisibility(View.VISIBLE);
+//                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
+//                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
+//                    tv_config_plage_tiv.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -1039,88 +1390,102 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
 //                    creditJson = jsonObject.getJSONObject(KEY_DATA);
 
 
-                monProduitCredit = new Credit(jsonObject.getString(KEY_CREDIT_Code),jsonObject.getString(KEY_CREDIT_Libelle),jsonObject.getString(KEY_CREDIT_DureeMin),
-                        jsonObject.getString(KEY_CREDIT_DureeMax),jsonObject.getString(KEY_CREDIT_NaturePas),jsonObject.getString(KEY_CREDIT_NbreUPas),
-                        jsonObject.getString(KEY_CREDIT_TypTxInter),jsonObject.getString(KEY_CREDIT_ValTxInter),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxIntNeg)),jsonObject.getString(KEY_CREDIT_NbreAvalDmde),
-                        jsonObject.getString(KEY_CREDIT_NbreMinAvalExig),jsonObject.getString(KEY_CREDIT_TxCouvCrAval),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxCouvAvalOblig)), Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCautionMorAvalAcc)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarBloqCptOblig)),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEAVOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEATOn)),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEAPOn)),
-                        jsonObject.getString(KEY_CREDIT_MtMaxSansAval),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsAvalSansCredOn)),
+                monProduitCredit = new Credit(
+
+                URLEncoder.encode(jsonObject.getString(KEY_CREDIT_Code),"UTF-8"),
+                        jsonObject.getString(KEY_CREDIT_Libelle),
+                        jsonObject.getString(KEY_CREDIT_DureeMin),
+                        jsonObject.getString(KEY_CREDIT_DureeMax),
+                        jsonObject.getString(KEY_CREDIT_NaturePas),
+                        jsonObject.getString(KEY_CREDIT_NbreUPas),
+                        jsonObject.getString(KEY_CREDIT_TypTxInter),
+                        jsonObject.getString(KEY_CREDIT_ValTxInter),
+                        jsonObject.getString(KEY_CREDIT_Base_TxInter),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxIntNeg)),
+                        jsonObject.getString(KEY_CREDIT_NbreAvalDmde),
+                        jsonObject.getString(KEY_CREDIT_NbreMinAvalExig),
+                        jsonObject.getString(KEY_CREDIT_TxCouvCrAval),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxCouvAvalOblig)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCautionMorAvalAcc)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarBloqCptOblig)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEAVOn)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEATOn)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEAPOn)),
+                        jsonObject.getString(KEY_CREDIT_MtMaxSansAval),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsAvalSansCredOn)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxGarMemObl)),
-                        jsonObject.getString(KEY_CREDIT_TauxGarMemb),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsPersMorAvalOn)),
+                        jsonObject.getString(KEY_CREDIT_TauxGarMemb),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsPersMorAvalOn)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCouvPartSOn)),
-                        jsonObject.getString(KEY_CREDIT_TxCouvPSOblig),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsAffCollCredOn)),
+                        jsonObject.getString(KEY_CREDIT_TxCouvPSOblig),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsAffCollCredOn)),
                         jsonObject.getString(KEY_CREDIT_NbreAnAncMinCred),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_NbAnAncNeg)),jsonObject.getString(KEY_CREDIT_MtPlafondMax),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_NbAnAncNeg)),
+                        jsonObject.getString(KEY_CREDIT_MtPlafondMax),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsMtPlafCredLeve)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarMatExige)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisEtudDossOn)),
-                        jsonObject.getString(KEY_CREDIT_NatFrEtudDoss),jsonObject.getString(KEY_CREDIT_ValTxFrEtudDoss),
-                        jsonObject.getString(KEY_CREDIT_BaseTxFrEtudDoss),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDeblocCredOn)),
+                        jsonObject.getString(KEY_CREDIT_NatFrEtudDoss),
+                        jsonObject.getString(KEY_CREDIT_ValTxFrEtudDoss),
+                        jsonObject.getString(KEY_CREDIT_BaseTxFrEtudDoss),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDeblocCredOn)),
                         jsonObject.getString(KEY_CREDIT_NatFraisDeblocCred),
                         jsonObject.getString(KEY_CREDIT_ValTxFraisDeblocCred),
-                        jsonObject.getString(KEY_CREDIT_BaseTxFraisDeblocCred),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDecaissCredOn)),
-                        jsonObject.getString(KEY_CREDIT_NatFraisDecaissCred),jsonObject.getString(KEY_CREDIT_ValTxFraisDecaissCred),
+                        jsonObject.getString(KEY_CREDIT_BaseTxFraisDeblocCred),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDecaissCredOn)),
+                        jsonObject.getString(KEY_CREDIT_NatFraisDecaissCred),
+                        jsonObject.getString(KEY_CREDIT_ValTxFraisDecaissCred),
                         jsonObject.getString(KEY_CREDIT_BaseFraisDecaissCred),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisEtudByDAV)),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDeblocByDAV)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisEtudByDAV)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDeblocByDAV)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDecaissByDAV)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsModDecaissByObjet)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsDeblocTransfDAVOn)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsMtPlafByObjet)),
-                        jsonObject.getString(KEY_CREDIT_ModeRemb),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCptEATRemCredOn)),
+                        jsonObject.getString(KEY_CREDIT_ModeRemb),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCptEATRemCredOn)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCptEAPRemCredOn)),
                         Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsInterOffSiCapRembAnt)),
-                        jsonObject.getString(KEY_CREDIT_TxInterEchNHon), jsonObject.getString(KEY_CREDIT_BaseInterEchNHon),
-                        jsonObject.getString(KEY_CREDIT_PlanningRembCred),Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsRappDatEchCred)),
+                        jsonObject.getString(KEY_CREDIT_TxInterEchNHon),
+                        jsonObject.getString(KEY_CREDIT_BaseInterEchNHon),
+                        jsonObject.getString(KEY_CREDIT_PlanningRembCred),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsRappDatEchCred)),
                         jsonObject.getString(KEY_CREDIT_ModelTextRappEchRemb),
-                        jsonObject.getString(KEY_CREDIT_NbreJrAvantDatEch),jsonObject.getString(KEY_CREDIT_NbreJrApreEchSiNHon),
+                        jsonObject.getString(KEY_CREDIT_NbreJrAvantDatEch),
+                        jsonObject.getString(KEY_CREDIT_NbreJrApreEchSiNHon),
                         jsonObject.getString(KEY_CREDIT_User),
                         null,
                         MyData.USER_ID+"",
                         null,
                         MyData.CAISSE_ID+"",
                         null,
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxIntDegressif)));
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxIntDegressif)),
+                        jsonObject.getString(KEY_CrModeCalcInteret),
+                        jsonObject.getString(KEY_CrPeriodCalcInteret),
+                        jsonObject.getString(KEY_CrNbreJrDelaiGrace),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsDelaiGraceNegoc)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsJoursOuvresOnly)),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxInteretJrOn)),
+                        jsonObject.getString(KEY_CrNatureJrTxIntJr),
+                        jsonObject.getString(KEY_CrNatureTxPenRet),
+                        jsonObject.getString(KEY_CrValTxPenRet),
+                        jsonObject.getString(KEY_CrBaseTxPenRet),
+                        jsonObject.getString(KEY_CrPeriodNatureTxPenRet),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxPenRetardOn)),
+                        jsonObject.getString(KEY_CrNatureJrTxPenRet),
+                        jsonObject.getString(KEY_CrNatureTxInt_IntRetCred),
+                        jsonObject.getString(KEY_CrTauxInt_IntRetCred),
+                        jsonObject.getString(KEY_CrBasexInt_IntRetCred),
+                        jsonObject.getString(KEY_CrPeriod_IntRetCred),
+                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxIntJrOn_IntRetCred)),
+                        jsonObject.getString(KEY_CrNatJrTxIntJr_IntRetCred)
+                );
 
-  /*                  st_CcCode = jsonObject.getString(KEY_CcCode);
-                    st_CcCode = creditJson.getString(KEY_CcCode);
-                    st_CcLibelle = creditJson.getString(KEY_CcLibelle);
-                    st_CcIsDecouvOn = Boolean.parseBoolean(creditJson.getString(KEY_CcIsDecouvOn));
-                    st_CcMtMaxDecouv = creditJson.getString(KEY_CcMtMaxDecouv);
-                    st_CcIsMaxDecouvNeg = Boolean.parseBoolean(creditJson.getString(KEY_CcIsMaxDecouvNeg));
-                    st_CcNatureTxIntDecouv = creditJson.getString(KEY_CcNatureTxIntDecouv);
-                    st_CcValTxIntDecouv = creditJson.getString(KEY_CcValTxIntDecouv);
-                    st_CcPlageTxIntDecouvFrom = creditJson.getString(KEY_CcPlageTxIntDecouvFrom);
-                    st_CcPlageTxIntDecouvTo = creditJson.getString(KEY_CcPlageTxIntDecouvTo);
-                    st_CcDureeMaxDecouv = creditJson.getString(KEY_CcDureeMaxDecouv);
-                    st_CcNatureTypDureDecouv = creditJson.getString(KEY_CcNatureTypDureDecouv);
-                    st_CcNatureTxMtAgio = creditJson.getString(KEY_CcNatureTxMtAgio);
-                    st_CcValTxMtAgio = creditJson.getString(KEY_CcValTxMtAgio);
-                    st_CcPlageTxMtAgioFrom = creditJson.getString(KEY_CcPlageTxMtAgioFrom);
-                    st_CcPlageTxMtAgioTo = creditJson.getString(KEY_CcPlageTxMtAgioTo);
-                    st_CcNatBaseAgio = creditJson.getString(KEY_CcNatBaseAgio);
-                    st_CcIsChequierM1On = Boolean.parseBoolean(creditJson.getString(KEY_CcIsChequierM1On));
-                    st_CcNbPagesCheqM1 = creditJson.getString(KEY_CcNbPagesCheqM1);
-                    st_CcPrixVteCheqM1 = creditJson.getString(KEY_CcPrixVteCheqM1);
-                    st_CcIsChequierM2On = Boolean.parseBoolean(creditJson.getString(KEY_CcIsChequierM2On));
-                    st_CcNbPagesCheqM2 = creditJson.getString(KEY_CcNbPagesCheqM2);
-                    st_CcPrixVteCheqM2 = creditJson.getString(KEY_CcPrixVteCheqM2);
-                    st_CcIsChequierM3On = Boolean.parseBoolean(creditJson.getString(KEY_CcIsChequierM3On));
-                    st_CcNbPagesCheqM3 = creditJson.getString(KEY_CcNbPagesCheqM3);
-                    st_CcPrixVteCheqM3 = creditJson.getString(KEY_CcPrixVteCheqM3);
-                    st_CcDureeValidCheq = creditJson.getString(KEY_CcDureeValidCheq);
-                    st_CcNbMinSignatChq = creditJson.getString(KEY_CcNbMinSignatChq);
-                    st_CcIsTxCommMvmOper = Boolean.parseBoolean(creditJson.getString(KEY_CcIsTxCommMvmOper));
-                    st_CcNatTxComm = creditJson.getString(KEY_CcNatTxComm);
-                    st_CcValTxCommMvm = creditJson.getString(KEY_CcValTxCommMvm);
-                    st_CcPlageTxCommMvmFrom = creditJson.getString(KEY_CcPlageTxCommMvmFrom);
-                    st_CcPlageTxCommMvmTo = creditJson.getString(KEY_CcPlageTxCommMvmTo);
-*/
 
-//                }
+
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
             return null;
@@ -1133,10 +1498,113 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     //Populate the Edit Texts once the network activity is finished executing
 
 
-                    ET_CrCode.setText(monProduitCredit.getCrCode());
+                    try {
+                        ET_CrCode.setText(URLEncoder.encode(monProduitCredit.getCrCode(), "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     ET_CrLibelle.setText(monProduitCredit.getCrLibelle());
                     ET_CrDureeMin.setText(monProduitCredit.getCrDureeMin());
                     ET_CrDureeMax.setText(monProduitCredit.getCrDureeMax());
+                    ET_CrNbreJrDelaiGrace.setText(monProduitCredit.getCrNbreJrDelaiGrace());
+                    SW_CrIsDelaiGraceNegoc.setChecked(monProduitCredit.getCrIsDelaiGraceNegoc());
+                    SW_CrIsJoursOuvresOnly.setChecked(monProduitCredit.getCrIsJoursOuvresOnly());
+                    SW_CrIsTxInteretJrOn.setChecked(monProduitCredit.getCrIsTxInteretJrOn());
+                    if (monProduitCredit.getCrNatureJrTxIntJr().equals("A")){
+                        rbCrNatureJrTxIntJrLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntJrLunVen);
+                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("B")){
+                        rbCrNatureJrTxIntJrLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntJrLunSam);
+                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("C")){
+                        rbCrNatureJrTxIntJrJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntJrJrOuvertGu);
+                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("D")){
+                        rbCrNatureJrTxIntJrTous.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntJrTous);
+                    }
+
+                    if (monProduitCredit.getCrNatureTxPenRet().equals("F")){
+                        rbCrTypTxInterPenRetardFixe.setChecked(true);
+                        onRadioButtonClicked(rbCrTypTxInterPenRetardFixe);
+                    }else if (monProduitCredit.getCrNatureTxPenRet().equals("P")){
+                        rbCrTypTxInterPenRetardPlage.setChecked(true);
+                        onRadioButtonClicked(rbCrTypTxInterPenRetardPlage);
+                    }
+
+                    ET_CrValTxInterPenRetard.setText(monProduitCredit.getCrValTxPenRet());
+                    JR_Crbase_tauxIntPenRetard.setText(monProduitCredit.getCrBaseTxPenRet());
+
+                    if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("M")){
+                        rbCrPeriodCalcInteretPenRetardMensuel.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardMensuel);
+                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("J")){
+                        rbCrPeriodCalcInteretPenRetardJournalier.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardJournalier);
+                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("T")){
+                        rbCrPeriodCalcInteretPenRetardTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardTrimestre);
+                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("A")){
+                        rbCrPeriodCalcInteretPenRetardAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardAnnee);
+                    }
+
+                    SW_CrIsTxPenRetardOn.setChecked(monProduitCredit.getCrIsTxPenRetardOn());
+                    if (monProduitCredit.getCrNatureJrTxPenRet().equals("A")){
+                        rbCrNatureJrTxIntPenRetardJrLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunVen);
+                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("B")){
+                        rbCrNatureJrTxIntPenRetardJrLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunSam);
+                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("C")){
+                        rbCrNatureJrTxIntPenRetardJrJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrJrOuvertGu);
+                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("D")){
+                        rbCrNatureJrTxIntPenRetardJrTous.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrTous);
+                    }
+
+
+                    if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("F")){
+                        rbCrTypTxInterRetardFixe.setChecked(true);
+                        onRadioButtonClicked(rbCrTypTxInterRetardFixe);
+                    }else if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("P")){
+                        rbCrTypTxInterRetardPlage.setChecked(true);
+                        onRadioButtonClicked(rbCrTypTxInterRetardPlage);
+                    }
+
+                    ET_CrValTxInterRetard.setText(monProduitCredit.getCrTauxInt_IntRetCred());
+                    JR_Crbase_tauxIntRetard.setText(monProduitCredit.getCrBaseTxPenRet());
+
+                    if (monProduitCredit.getCrPeriod_IntRetCred().equals("M")){
+                        rbCrPeriodCalcInteretRetardMensuel.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardMensuel);
+                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("J")){
+                        rbCrPeriodCalcInteretRetardJournalier.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardJournalier);
+                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("T")){
+                        rbCrPeriodCalcInteretRetardTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardTrimestre);
+                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("A")){
+                        rbCrPeriodCalcInteretRetardAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardAnnee);
+                    }
+                    SW_CrIsTxIntJrOn_IntRetCred.setChecked(monProduitCredit.getCrIsTxIntJrOn_IntRetCred());
+
+                    if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("A")){
+                        rbCrNatureJrTxIntRetardJrLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunVen);
+                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("B")){
+                        rbCrNatureJrTxIntRetardJrLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunSam);
+                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("C")){
+                        rbCrNatureJrTxIntRetardJrJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrJrOuvertGu);
+                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("D")){
+                        rbCrNatureJrTxIntRetardJrTous.setChecked(true);
+                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrTous);
+                    }
+
 
                   /*  if (monProduitCredit.getCrNaturePas().equals("F")){
                         rbCrNaturePasFixe.setChecked(true);
@@ -1153,7 +1621,34 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                         rbCrTypTxInterPlage.setChecked(true);
                         onRadioButtonClicked(rbCrTypTxInterPlage);
                     }
+                    if (monProduitCredit.getCrModeCalcInteret().equals("S")){
+                        rbCrModeCalcInteretSimple.setChecked(true);
+                        onRadioButtonClicked(rbCrModeCalcInteretSimple);
+                    }else if (monProduitCredit.getCrModeCalcInteret().equals("C")){
+                        rbCrModeCalcInteretCompose.setChecked(true);
+                        onRadioButtonClicked(rbCrModeCalcInteretCompose);
+                    }else if (monProduitCredit.getCrModeCalcInteret().equals("D")){
+                        rbCrModeCalcInteretDegressif.setChecked(true);
+                        onRadioButtonClicked(rbCrModeCalcInteretDegressif);
+                    }
+
+
+
+                    if (monProduitCredit.getCrPeriodCalcInteret().equals("M")){
+                        rbCrPeriodCalcInteretMensuel.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretMensuel);
+                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("J")){
+                        rbCrPeriodCalcInteretJournalier.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretJournalier);
+                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("T")){
+                        rbCrPeriodCalcInteretTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretTrimestre);
+                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("A")){
+                        rbCrPeriodCalcInteretAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCrPeriodCalcInteretAnnee);
+                    }
                     ET_CrValTxInter.setText(monProduitCredit.getCrValTxInter());
+                    JR_CrBase_tauxInt.setText(monProduitCredit.getCrBaseTxInter());
                     SW_CrIsTxIntNeg.setChecked(monProduitCredit.getCrIsTxIntNeg());
                     onSwitchButtonClicked(SW_CrIsTxIntNeg);
 
@@ -1377,33 +1872,95 @@ monProduitCredit= null; //a revoir
                 !STRING_EMPTY.equals(ET_CrDureeMin.getText().toString().trim()) &&
                 !STRING_EMPTY.equals(ET_CrDureeMax.getText().toString().trim())
         ){
-            monProduitCredit = new Credit(ET_CrCode.getText().toString(),ET_CrLibelle.getText().toString(),ET_CrDureeMin.getText().toString(),
-                    ET_CrDureeMax.getText().toString(),"F","1",CrTypTxInter,ET_CrValTxInter.getText().toString(),
-                    SW_CrIsTxIntNeg.isChecked(),ET_CrNbreAvalDmde.getText().toString(),ET_CrNbreMinAvalExig.getText().toString(),
-                    ET_CrTxCouvCrAval.getText().toString(), SW_CrIsTxCouvAvalOblig.isChecked(), SW_CrIsCautionMorAvalAcc.isChecked(),
-                    SW_CrIsGarBloqCptOblig.isChecked(),SW_CrIsGarCptEAVOn.isChecked(),SW_CrIsGarCptEATOn.isChecked(),SW_CrIsGarCptEAPOn.isChecked(),
-                    ET_CrMtMaxSansAval.getText().toString(),SW_CrIsAvalSansCredOn.isChecked(),SW_CrIsTxGarMemObl.isChecked(),
-                    ET_CrTauxGarMemb.getText().toString(),SW_CrIsPersMorAvalOn.isChecked(),SW_CrIsCouvPartSOn.isChecked(),
-                    ET_CrTxCouvPSOblig.getText().toString(),SW_CrIsAffCollCredOn.isChecked(),ET_CrNbreAnAncMinCred.getText().toString(),
-                    SW_CrNbAnAncNeg.isChecked(),ET_CrMtPlafondMax.getText().toString(),SW_CrIsMtPlafCredLeve.isChecked(),
-                    SW_CrIsGarMatExige.isChecked(),SW_CrIsFraisEtudDossOn.isChecked(),CrNatFrEtudDoss,ET_CrValTxFrEtudDoss.getText().toString(),
-                    JR_CrBaseTxFrEtudDoss.getText().toString(),SW_CrIsFraisDeblocCredOn.isChecked(),CrNatFraisDeblocCred,
+            monProduitCredit = new Credit(
+                    ET_CrCode.getText().toString(),
+                    ET_CrLibelle.getText().toString(),
+                    ET_CrDureeMin.getText().toString(),
+                    ET_CrDureeMax.getText().toString(),
+                    "F",
+                    (String) SW_CrNbreUPas.getSelectedItem(),
+                    CrTypTxInter,
+                    ET_CrValTxInter.getText().toString(),
+                    JR_CrBase_tauxInt.getText().toString(),
+                    SW_CrIsTxIntNeg.isChecked(),
+                    ET_CrNbreAvalDmde.getText().toString(),
+                    ET_CrNbreMinAvalExig.getText().toString(),
+                    ET_CrTxCouvCrAval.getText().toString(),
+                    SW_CrIsTxCouvAvalOblig.isChecked(),
+                    SW_CrIsCautionMorAvalAcc.isChecked(),
+                    SW_CrIsGarBloqCptOblig.isChecked(),
+                    SW_CrIsGarCptEAVOn.isChecked(),
+                    SW_CrIsGarCptEATOn.isChecked(),
+                    SW_CrIsGarCptEAPOn.isChecked(),
+                    ET_CrMtMaxSansAval.getText().toString(),
+                    SW_CrIsAvalSansCredOn.isChecked(),
+                    SW_CrIsTxGarMemObl.isChecked(),
+                    ET_CrTauxGarMemb.getText().toString(),
+                    SW_CrIsPersMorAvalOn.isChecked(),
+                    SW_CrIsCouvPartSOn.isChecked(),
+                    ET_CrTxCouvPSOblig.getText().toString(),
+                    SW_CrIsAffCollCredOn.isChecked(),
+                    ET_CrNbreAnAncMinCred.getText().toString(),
+                    SW_CrNbAnAncNeg.isChecked(),
+                    ET_CrMtPlafondMax.getText().toString(),
+                    SW_CrIsMtPlafCredLeve.isChecked(),
+                    SW_CrIsGarMatExige.isChecked(),
+                    SW_CrIsFraisEtudDossOn.isChecked(),
+                    CrNatFrEtudDoss,
+                    ET_CrValTxFrEtudDoss.getText().toString(),
+                    JR_CrBaseTxFrEtudDoss.getText().toString(),
+                    SW_CrIsFraisDeblocCredOn.isChecked(),
+                    CrNatFraisDeblocCred,
                     ET_CrValTxFraisDeblocCred.getText().toString(),
-                    JR_CrBaseTxFraisDeblocCred.getText().toString(),SW_CrIsFraisDecaissCredOn.isChecked(),
-                    CrNatFraisDecaissCred,ET_CrValTxFraisDecaissCred.getText().toString(), JR_CrBaseTxFraisDecaissCred.getText().toString(),
-                    SW_CrIsFraisEtudByDAV.isChecked(),SW_CrIsFraisDeblocByDAV.isChecked(),SW_CrIsFraisDecaissByDAV.isChecked(),
-                    SW_CrIsModDecaissByObjet.isChecked(),SW_CrIsDeblocTransfDAVOn.isChecked(),SW_CrIsMtPlafByObjet.isChecked(),
-                    JR_CrModeRemb.getText().toString(),SW_CrIsCptEATRemCredOn.isChecked(),SW_CrIsCptEAPRemCredOn.isChecked(),
-                    SW_CrIsInterOffSiCapRembAnt.isChecked(),ET_CrTxInterEchNHon.getText().toString(), JR_CrBaseInterEchNHon.getText().toString(),
-                    JR_CrPlanningRembCred.getText().toString(),SW_CrIsRappDatEchCred.isChecked(),ET_CrModelTextRappEchRemb.getText().toString(),
-                    ET_CrNbreJrAvantDatEch.getText().toString(),ET_CrNbreJrApreEchSiNHon.getText().toString(),
+                    JR_CrBaseTxFraisDeblocCred.getText().toString(),
+                    SW_CrIsFraisDecaissCredOn.isChecked(),
+                    CrNatFraisDecaissCred,ET_CrValTxFraisDecaissCred.getText().toString(),
+                    JR_CrBaseTxFraisDecaissCred.getText().toString(),
+                    SW_CrIsFraisEtudByDAV.isChecked(),
+                    SW_CrIsFraisDeblocByDAV.isChecked(),
+                    SW_CrIsFraisDecaissByDAV.isChecked(),
+                    SW_CrIsModDecaissByObjet.isChecked(),
+                    SW_CrIsDeblocTransfDAVOn.isChecked(),
+                    SW_CrIsMtPlafByObjet.isChecked(),
+                    JR_CrModeRemb.getText().toString(),
+                    SW_CrIsCptEATRemCredOn.isChecked(),
+                    SW_CrIsCptEAPRemCredOn.isChecked(),
+                    SW_CrIsInterOffSiCapRembAnt.isChecked(),
+                    ET_CrTxInterEchNHon.getText().toString(),
+                    JR_CrBaseInterEchNHon.getText().toString(),
+                    JR_CrPlanningRembCred.getText().toString(),
+                    SW_CrIsRappDatEchCred.isChecked(),
+                    ET_CrModelTextRappEchRemb.getText().toString(),
+                    ET_CrNbreJrAvantDatEch.getText().toString(),
+                    ET_CrNbreJrApreEchSiNHon.getText().toString(),
                     MyData.USER_ID+"",
                     null,
                     MyData.USER_ID+"",
                     null,
                     MyData.CAISSE_ID+"",
                     null,
-                    SW_CrIsTxIntDegressif.isChecked());
+                    SW_CrIsTxIntDegressif.isChecked(),
+                    CrModeCalcInteret,
+                    CrPeriodCalcInteret,
+                    ET_CrNbreJrDelaiGrace.getText().toString(),
+                    SW_CrIsDelaiGraceNegoc.isChecked(),
+                    SW_CrIsJoursOuvresOnly.isChecked(),
+                    SW_CrIsTxInteretJrOn.isChecked(),
+                    CrNatureJrTxIntJr,
+                    CrTypTxInterPenRetard,
+                    ET_CrValTxInterPenRetard.getText().toString(),
+                    JR_Crbase_tauxIntPenRetard.getText().toString(),
+                    CrPeriodNatureTxPenRet,
+                    SW_CrIsTxPenRetardOn.isChecked(),
+                    CrNatureJrTxPenRet,
+                    CrTypTxInterRetard,
+                    ET_CrValTxInterRetard.getText().toString(),
+                    JR_Crbase_tauxIntRetard.getText().toString(),
+                    CrPeriod_IntRetCred,
+                    SW_CrIsTxIntJrOn_IntRetCred.isChecked(),
+                    CrNatJrTxIntJr_IntRetCred
+
+            );
 
 
 //    base_ev_mt_tx_agios_prelev = mySpinnerLocalite.getText().toString();
@@ -1479,6 +2036,7 @@ monProduitCredit= null; //a revoir
             httpParams.put(KEY_CREDIT_ID, creditId);
 
 //            httpParams.put(monProduitCredit.KEY_CREDIT_Numero, monProduitCredit.getCrNumero());
+
             httpParams.put(monProduitCredit.KEY_CREDIT_Code, monProduitCredit.getCrCode());
             httpParams.put(monProduitCredit.KEY_CREDIT_Libelle, monProduitCredit.getCrLibelle());
             httpParams.put(monProduitCredit.KEY_CREDIT_DureeMin, monProduitCredit.getCrDureeMin());
@@ -1487,6 +2045,7 @@ monProduitCredit= null; //a revoir
             httpParams.put(monProduitCredit.KEY_CREDIT_NbreUPas, monProduitCredit.getCrNbreUPas());
             httpParams.put(monProduitCredit.KEY_CREDIT_TypTxInter, monProduitCredit.getCrTypTxInter());
             httpParams.put(monProduitCredit.KEY_CREDIT_ValTxInter, monProduitCredit.getCrValTxInter());
+            httpParams.put(monProduitCredit.KEY_CREDIT_Base_TxInter, monProduitCredit.getCrBaseTxInter());
             httpParams.put(monProduitCredit.KEY_CREDIT_IsTxIntNeg, String.valueOf(monProduitCredit.getCrIsTxIntNeg()));
             httpParams.put(monProduitCredit.KEY_CREDIT_NbreAvalDmde, monProduitCredit.getCrNbreAvalDmde());
             httpParams.put(monProduitCredit.KEY_CREDIT_NbreMinAvalExig, monProduitCredit.getCrNbreMinAvalExig());
@@ -1546,6 +2105,26 @@ monProduitCredit= null; //a revoir
             httpParams.put(monProduitCredit.KEY_CREDIT_CaisseId, monProduitCredit.getCrCaisseId());
             httpParams.put(monProduitCredit.KEY_CREDIT_GuichetId, monProduitCredit.getCrGuichetId());
             httpParams.put(monProduitCredit.KEY_CrIsTxIntDegressif, String.valueOf(monProduitCredit.getCrIsTxIntDegressif()));
+            httpParams.put(monProduitCredit.KEY_CrModeCalcInteret, monProduitCredit.getCrModeCalcInteret());
+            httpParams.put(monProduitCredit.KEY_CrPeriodCalcInteret, monProduitCredit.getCrPeriodCalcInteret());
+            httpParams.put(monProduitCredit.KEY_CrNbreJrDelaiGrace, monProduitCredit.getCrNbreJrDelaiGrace());
+            httpParams.put(monProduitCredit.KEY_CrIsDelaiGraceNegoc, String.valueOf(monProduitCredit.getCrIsDelaiGraceNegoc()));
+            httpParams.put(monProduitCredit.KEY_CrIsJoursOuvresOnly, String.valueOf(monProduitCredit.getCrIsJoursOuvresOnly()));
+            httpParams.put(monProduitCredit.KEY_CrIsTxInteretJrOn, String.valueOf(monProduitCredit.getCrIsTxInteretJrOn()));
+            httpParams.put(monProduitCredit.KEY_CrNatureJrTxIntJr, String.valueOf(monProduitCredit.getCrNatureJrTxIntJr()));
+            httpParams.put(monProduitCredit.KEY_CrNatureTxPenRet, String.valueOf(monProduitCredit.getCrNatureTxPenRet()));
+            httpParams.put(monProduitCredit.KEY_CrValTxPenRet, String.valueOf(monProduitCredit.getCrValTxPenRet()));
+            httpParams.put(monProduitCredit.KEY_CrBaseTxPenRet, String.valueOf(monProduitCredit.getCrBaseTxPenRet()));
+            httpParams.put(monProduitCredit.KEY_CrPeriodNatureTxPenRet, String.valueOf(monProduitCredit.getCrPeriodNatureTxPenRet()));
+            httpParams.put(monProduitCredit.KEY_CrIsTxPenRetardOn, String.valueOf(monProduitCredit.getCrIsTxPenRetardOn()));
+            httpParams.put(monProduitCredit.KEY_CrNatureJrTxPenRet, String.valueOf(monProduitCredit.getCrNatureJrTxPenRet()));
+            httpParams.put(monProduitCredit.KEY_CrNatureTxInt_IntRetCred, String.valueOf(monProduitCredit.getCrNatureTxInt_IntRetCred()));
+            httpParams.put(monProduitCredit.KEY_CrTauxInt_IntRetCred, String.valueOf(monProduitCredit.getCrTauxInt_IntRetCred()));
+            httpParams.put(monProduitCredit.KEY_CrBasexInt_IntRetCred, String.valueOf(monProduitCredit.getCrBasexInt_IntRetCred()));
+            httpParams.put(monProduitCredit.KEY_CrPeriod_IntRetCred, String.valueOf(monProduitCredit.getCrPeriod_IntRetCred()));
+            httpParams.put(monProduitCredit.KEY_CrIsTxIntJrOn_IntRetCred, String.valueOf(monProduitCredit.getCrIsTxIntJrOn_IntRetCred()));
+            httpParams.put(monProduitCredit.KEY_CrNatJrTxIntJr_IntRetCred, String.valueOf(monProduitCredit.getCrNatJrTxIntJr_IntRetCred()));
+
 
 
 

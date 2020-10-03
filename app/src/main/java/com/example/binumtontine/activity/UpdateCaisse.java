@@ -59,6 +59,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_CxIsDirCredDC = "CxIsDirCredDC";
     private static final String KEY_CxIsAgentCredAC = "CxIsAgentCredAC";
     private static final String KEY_CxIsDirGenCxDG = "CxIsDirGenCxDG";
+    private static final String KEY_CxIsMultiCpteCourByMemb = "CxIsMultiCpteCourByMemb";
 
 
 
@@ -102,9 +103,9 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private String cx_nom_dg;
 
 
-    private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG;
+    private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG, CxIsMultiCpteCourByMemb;
     private Boolean bool_CxIsPrConsAdmPCA, bool_CxIsPrComCredPCC,bool_CxIsDirCredDC,bool_CxIsAgentCredAC,
-            bool_CxIsDirGenCxDG;
+            bool_CxIsDirGenCxDG, bool_CxIsMultiCpteCourByMemb;
 
     private Button deleteButton;
     private Button updateButton;
@@ -182,6 +183,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
         CxIsDirCredDC= (SwitchCompat) findViewById(R.id.SwitchCxIsDirCredDC);
         CxIsAgentCredAC= (SwitchCompat) findViewById(R.id.SwitchCxIsAgentCredAC);
         CxIsDirGenCxDG= (SwitchCompat) findViewById(R.id.SwitchCxIsDirGenCxDG);
+        CxIsMultiCpteCourByMemb= (SwitchCompat) findViewById(R.id.SwitchCxIsMultiCpteCourByMemb);
 
         Intent intent = getIntent();
         caisseId = intent.getStringExtra(KEY_CAISSE_ID);
@@ -330,6 +332,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                     bool_CxIsDirCredDC = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirCredDC));
                     bool_CxIsAgentCredAC = Boolean.parseBoolean(caisse.getString(KEY_CxIsAgentCredAC));
                     bool_CxIsDirGenCxDG = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirGenCxDG));
+                    bool_CxIsMultiCpteCourByMemb = Boolean.parseBoolean(caisse.getString(KEY_CxIsMultiCpteCourByMemb));
 
                 }
             } catch (JSONException e) {
@@ -365,6 +368,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                     CxIsDirCredDC.setChecked(bool_CxIsDirCredDC);
                     CxIsAgentCredAC.setChecked(bool_CxIsAgentCredAC);
                     CxIsDirGenCxDG.setChecked(bool_CxIsDirGenCxDG);
+                    CxIsMultiCpteCourByMemb.setChecked(bool_CxIsMultiCpteCourByMemb);
 
                 }
             });
@@ -499,6 +503,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             bool_CxIsDirCredDC=  CxIsDirCredDC.isChecked();
             bool_CxIsAgentCredAC=  CxIsAgentCredAC.isChecked();
             bool_CxIsDirGenCxDG=  CxIsDirGenCxDG.isChecked();
+            bool_CxIsMultiCpteCourByMemb=  CxIsMultiCpteCourByMemb.isChecked();
 
             new UpdateCaisseAsyncTask().execute();
         } else {
@@ -551,6 +556,7 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC.toString());
             httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC.toString());
             httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG.toString());
+            httpParams.put(KEY_CxIsMultiCpteCourByMemb, bool_CxIsMultiCpteCourByMemb.toString());
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_caisse.php", "POST", httpParams);
             try {
