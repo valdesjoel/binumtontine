@@ -153,7 +153,7 @@
         <item>Marié</item>
         <item>Divorcé</item>
         <item>Veuf</item>
-        <item>Concubinage</item>
+<!--        <item>Concubinage</item>-->
     </string-array>
     <string-array name="mode_paiement">
         <item>Espèce</item>
@@ -227,6 +227,10 @@
         <item>Décaissement du crédit</item>
         <item>Remboursement des échéances du crédit</item>
         <item>Clôture du crédit</item>
+    </string-array>
+    <string-array name="OeType">
+        <item>Charge</item>
+        <item>Produit</item>
     </string-array>
     <!-- Il serait mieux de gérer ces types plutot en BD pour faciliter la maintenance -->
     <string-array name="fonction_frais">
@@ -361,6 +365,14 @@
         <item>Intérêt cotisé</item>
         <item>Intérêt à cotiser</item>
     </string-array>
+    <string-array name="array_ev_base_tx_inter_an">
+        <item>1- Solde minimum mensuel</item>
+        <item>2- Solde moyen mensuel</item>
+        <item>3- Solde minimum trimestriel</item>
+        <item>4- Solde moyen trimestriel</item>
+        <item>5- Solde minimum bimensuel</item>
+        <item>6- Solde moyen bimensuel</item>
+    </string-array>
     <string-array name="array_base_taux_cpte_courant">
         <!--<item>Montant découvert</item>-->
         <!--<item>Montant + interet</item>-->
@@ -444,6 +456,16 @@
         <item>Solde maximum</item>
         <item>Solde moyen</item>
     </string-array>
+    <string-array name="array_ev_base_tx_agios_prelev">
+        <item>1- Somme des versements du mois</item>
+        <item>2- Cumul des mouvements créditeurs du mois</item>
+        <item>3- Solde des versements de la période</item>
+        <item>4- Valeur du minimum en compte</item>
+    </string-array>
+    <string-array name="array_EvBaseFraisCloture">
+        <item>1- Minimum en compte</item>
+        <item>2- Solde en compte</item>
+    </string-array>
     <string-array name="array_GuFreqReunComCred">
         <item>HEBDOMADAIRE</item>
         <item>BIHEBDOMADAIRE</item>
@@ -459,9 +481,10 @@
         <item>Carte de séjour</item>
         <item>Carte consulaire</item>
         <item>Carte professionnelle</item>
+        <item>Carte militaire</item>
         <item>Carte CNPS</item>
         <item>Permis de conduire</item>
-        <item>Passeport </item>
+        <item>Passeport</item>
 
     </string-array>
     <string-array name="array_pd_type_data">
@@ -692,6 +715,7 @@
     <string name="hint_Libelle_frais">Libellé du frais:</string>
     <string name="hint_Libelle_objet_credit">Libellé Objet de crédit:</string>
     <string name="hint_Libelle_etape_demande_credit">Libellé étape demande de crédit:</string>
+    <string name="hint_Libelle_operation_externe"> Libellé opération externe:</string>
     <string name="hint_Libelle_statut_etape_demande_credit">Libellé statut étape demande de crédit:</string>
     <string name="tv_statut_etape_demande_credit">Etape demande de crédit:</string>
     <string name="hint_Num_ordre_etape_demande_credit">Numéro d\'ordre de l\'étape:</string>
@@ -752,6 +776,7 @@
     <string name="hint_code_objet_credit">Code objet de crédit:</string>
     <string name="hint_code_statut_credit">Code statut de crédit:</string>
     <string name="hint_code_etape_demande_credit">Code étape demande de crédit:</string>
+    <string name="hint_code_operation_externe">Code opération Externe:</string>
     <string name="btn_annuler">ANNULER</string>
     <string name="btn_retour">RETOUR</string>
     <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
@@ -803,6 +828,8 @@
     <string name="action_penalites">Penalités</string>
     <string name="action_cloturer_la_journee">Cloturer la journée</string>
     <string name="action_operation_externe">Opérations externes</string>
+    <string name="action_add_operation_externe">Nouvelle Opération</string>
+    <string name="action_list_operation_externe">Liste des Opérations</string>
     <string name="action_cotisations_annuelle">Cotisations annuelle</string>
     <string name="action_jour_anterieur">Jour antérieur</string>
     <string name="action_collecte_journaliere">Collecte journalière</string>
@@ -816,6 +843,7 @@
     <string name="action_etape_suivante">Etape suivante</string>
     <string name="action_traitement_de_la_demande">Traitement de la demande</string>
     <string name="action_decouvert_add">Nouveau découvert simple</string>
+    <string name="action_decouvert_permanent_add">Nouveau découvert permanent</string>
     <string name="action_avance_speciale_add">Nouvelle avance spéciale</string>
     <string name="hint_montant_demarrage">Montant de démarrage</string>
     <string name="btn_valider">VALIDER</string>
@@ -878,6 +906,7 @@
     <string name="hint_observations">Observations:</string>
     <string name="hint_libelle_operation">Libellé de l\'opération</string>
     <string name="hint_OcMotifDemande">Objet de la demande</string>
+    <string name="hint_OcDocumentFournies">Pièces fournies</string>
     <string name="hint_montant_accorde">Montant accordé</string>
     <string name="hint_type_de_date_retrait">Date retrait (en jour):</string>
     <string name="hint_Libelle_type_membre">Libellé du type de membre</string>
@@ -895,10 +924,12 @@
     <string name="action_validation_dette_hors_bilan_decouvert">Validation de la dette hors bilan du découvert</string>
     <string name="action_validation_dette_hors_bilan_credit">Validation de la dette hors bilan du crédit</string>
     <string name="action_etape_to_affect">Etapes de crédit à affecter à la caisse</string>
+    <string name="action_operation_to_affect">Opération à affecter à la caisse</string>
     <string name="action_statut_to_affect">Statuts à affecter à la caisse</string>
     <string name="action_membre_already_affect">Membres déjà affectés à la caisse</string>
     <string name="action_objet_already_affect">Objets de crédit déjà affectés à la caisse</string>
     <string name="action_etape_already_affect">Etapes de crédit déjà affectés</string>
+    <string name="action_operation_already_affect">Opérations déjà affectées</string>
     <string name="action_statut_already_affect">Statuts de crédit déjà affectés</string>
     <string name="action_membre_to_affect_gx">Membre à affecter au guichet</string>
     <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>

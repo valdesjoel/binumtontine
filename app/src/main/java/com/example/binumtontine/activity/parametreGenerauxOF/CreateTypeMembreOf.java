@@ -101,7 +101,7 @@ public class CreateTypeMembreOf extends AppCompatActivity implements SERVER_ADDR
     private String FcCategAdh;
     private String FcTypeMembre;
     private boolean FpIsPieceOblig;
-    private boolean FpIsTmOn;
+    private String FpIsTmOn;
 
     /* manage spinner*/
     // array list for spinner adapter
@@ -361,7 +361,7 @@ public class CreateTypeMembreOf extends AppCompatActivity implements SERVER_ADDR
                         FpLibelle = eav.getString(KEY_FC_LIBELLE);
                         FpIsPieceOblig = (eav.getString(KEY_FC_Is_PIECE_OBLIG).equals("P"))?true:false;
                         //FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
-                        FpIsTmOn = Boolean.parseBoolean(eav.getString(KEY_FC_Is_TM_ON));
+                        FpIsTmOn = eav.getString(KEY_FC_Is_TM_ON);
 //
                     //}
 //
@@ -390,8 +390,13 @@ public class CreateTypeMembreOf extends AppCompatActivity implements SERVER_ADDR
     FpLibelleEditText.setText(FpLibelle);
     rbFpIsPersonnePhysiqueOui.setChecked(FpIsPieceOblig);
     rbFpISPersonnePhysiqueNon.setChecked(!FpIsPieceOblig);
-    rbFpIsTmOnOui.setChecked(FpIsTmOn);
-    rbFpIsTmOnNon.setChecked(!FpIsTmOn);
+    if (FpIsTmOn.equals("Y")){
+        rbFpIsTmOnOui.setChecked(true);
+    }else{
+        rbFpIsTmOnNon.setChecked(true);
+    }
+
+
 
 //}
 
@@ -701,8 +706,12 @@ if (!STRING_EMPTY.equals(FpLibelleEditText.getText().toString()) &&
 
 
 FpIsPieceOblig = rbFpIsPersonnePhysiqueOui.isChecked();
+if (rbFpIsTmOnOui.isChecked()){
+    FpIsTmOn = "Y";
+}else{
+    FpIsTmOn = "N";
+}
 
-FpIsTmOn = rbFpIsTmOnOui.isChecked();
     FpLibelle = FpLibelleEditText.getText().toString();
     FpCode = FpCodeEditText.getText().toString();
         new AddEAVAsyncTask().execute();
@@ -753,7 +762,7 @@ FpIsTmOn = rbFpIsTmOnOui.isChecked();
             httpParams.put(KEY_FC_LIBELLE, FpLibelle);
             httpParams.put(KEY_FC_CODE, FpCode);
             httpParams.put(KEY_FC_Is_PIECE_OBLIG, String.valueOf(FpIsPieceOblig));
-            httpParams.put(KEY_FC_Is_TM_ON, String.valueOf(FpIsTmOn));
+            httpParams.put(KEY_FC_Is_TM_ON, FpIsTmOn);
 
            // httpParams.put(KEY_FC_CAT_ADH, String.valueOf(guichetID)); // A modifier
             httpParams.put(KEY_FC_CAT_ADH, String.valueOf(FcTypeMembre));

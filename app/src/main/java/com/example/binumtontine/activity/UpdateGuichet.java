@@ -1000,6 +1000,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
 
 
+            Log.e("httpParams: ", "> " + httpParams+"");
             Log.e("Response: ", "> " + json);
 
             if (json != null) {

@@ -101,7 +101,7 @@ public class UpdateObjetCreditOF extends AppCompatActivity implements  SERVER_AD
         deleteButton = (CircularProgressButton) findViewById(R.id.btn_delete_objet_credit_of);
         deleteButton.setVisibility(View.VISIBLE);
         annulerButton = (CircularProgressButton) findViewById(R.id.btn_clean);
-        annulerButton.setVisibility(View.GONE);
+        annulerButton.setVisibility(View.VISIBLE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +115,21 @@ public class UpdateObjetCreditOF extends AppCompatActivity implements  SERVER_AD
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     updateObjetCredit();
+
+                } else {
+                    Toast.makeText(UpdateObjetCreditOF.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        annulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
 
                 } else {
                     Toast.makeText(UpdateObjetCreditOF.this,

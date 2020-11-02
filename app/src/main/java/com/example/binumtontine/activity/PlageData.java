@@ -613,7 +613,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
     private void savePlageForCreate(){
         ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
                 valeur,valeurDebut,valeurFin,base,"");
-        CreateProduitEAV.plageDataList.add(maPlage);
+        CreateProduitEAV.plageDataListTIV.add(maPlage);
         try {
             //success = jsonObject.getInt(KEY_SUCCESS);
             success = 1;
@@ -625,7 +625,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
         ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
                 valeur,valeurDebut,valeurFin,base,"");
         //CreateProduitEAV.plageDataListCTP.add(maPlage);
-        CreateProduitEAV.plageDataList.set(Integer.parseInt(plageDataId),maPlage);
+        CreateProduitEAV.plageDataListTIV.set(Integer.parseInt(plageDataId),maPlage);
         try {
             //success = jsonObject.getInt(KEY_SUCCESS);
             success = 1;
@@ -634,11 +634,11 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
         }
     }
     private void fetchPlageForCreate(){
-            EtTypTxInter = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdNature();
-        valeur = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdValTaux();
-        valeurDebut = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdValDe();
-        valeurFin = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdValA();
-        base = CreateProduitEAV.plageDataList.get(Integer.parseInt(plageDataId)).getPdBase();
+            EtTypTxInter = CreateProduitEAV.plageDataListTIV.get(Integer.parseInt(plageDataId)).getPdNature();
+        valeur = CreateProduitEAV.plageDataListTIV.get(Integer.parseInt(plageDataId)).getPdValTaux();
+        valeurDebut = CreateProduitEAV.plageDataListTIV.get(Integer.parseInt(plageDataId)).getPdValDe();
+        valeurFin = CreateProduitEAV.plageDataListTIV.get(Integer.parseInt(plageDataId)).getPdValA();
+        base = CreateProduitEAV.plageDataListTIV.get(Integer.parseInt(plageDataId)).getPdBase();
 
         try {
             //success = jsonObject.getInt(KEY_SUCCESS);

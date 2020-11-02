@@ -39,7 +39,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,8 +60,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
 public class CreateCaisse extends AppCompatActivity implements View.OnClickListener, SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
@@ -122,8 +119,12 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private String cx_nom_dg;
 
     private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG, CxIsMultiCpteCourByMemb;
-    private Boolean bool_CxIsPrConsAdmPCA, bool_CxIsPrComCredPCC,bool_CxIsDirCredDC,bool_CxIsAgentCredAC,
-            bool_CxIsDirGenCxDG, bool_CxIsMultiCpteCourByMemb;
+    private String bool_CxIsPrConsAdmPCA;
+    private String bool_CxIsPrComCredPCC;
+    private String bool_CxIsDirCredDC;
+    private String bool_CxIsAgentCredAC;
+    private String bool_CxIsDirGenCxDG;
+    private String bool_CxIsMultiCpteCourByMemb;
 
     private Button addButton;
     private Button annulerButton;
@@ -309,12 +310,43 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             cx_nom_pca = cx_nom_pcaEditText.getText().toString();
             cx_nom_dg = cx_nom_dgEditText.getText().toString();
 
-            bool_CxIsPrConsAdmPCA=  CxIsPrConsAdmPCA.isChecked();
-            bool_CxIsPrComCredPCC=  CxIsPrComCredPCC.isChecked();
-            bool_CxIsDirCredDC=  CxIsDirCredDC.isChecked();
-            bool_CxIsAgentCredAC=  CxIsAgentCredAC.isChecked();
-            bool_CxIsDirGenCxDG=  CxIsDirGenCxDG.isChecked();
-            bool_CxIsMultiCpteCourByMemb=  CxIsMultiCpteCourByMemb.isChecked();
+
+            if (CxIsPrConsAdmPCA.isChecked()){
+                bool_CxIsPrConsAdmPCA="Y";
+            }else{
+                bool_CxIsPrConsAdmPCA="N";
+            }
+
+            if (CxIsPrComCredPCC.isChecked()){
+                bool_CxIsPrComCredPCC="Y";
+            }else{
+                bool_CxIsPrComCredPCC="N";
+            }
+
+            if (CxIsDirCredDC.isChecked()){
+                bool_CxIsDirCredDC="Y";
+            }else{
+                bool_CxIsDirCredDC="N";
+            }
+
+
+            if (CxIsAgentCredAC.isChecked()){
+                bool_CxIsAgentCredAC="Y";
+            }else{
+                bool_CxIsAgentCredAC="N";
+            }
+
+            if (CxIsDirGenCxDG.isChecked()){
+                bool_CxIsDirGenCxDG="Y";
+            }else{
+                bool_CxIsDirGenCxDG="N";
+            }
+            if (CxIsMultiCpteCourByMemb.isChecked()){
+                bool_CxIsMultiCpteCourByMemb="Y";
+            }else{
+                bool_CxIsMultiCpteCourByMemb="N";
+            }
+
 
             new AddCaisseAsyncTask().execute();
         } else {
@@ -408,12 +440,12 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CX_NOM_PCA, cx_nom_pca);
             httpParams.put(KEY_CX_NOM_DG, cx_nom_dg);
 
-            httpParams.put(KEY_CxIsPrConsAdmPCA, bool_CxIsPrConsAdmPCA.toString());
-            httpParams.put(KEY_CxIsPrComCredPCC, bool_CxIsPrComCredPCC.toString());
-            httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC.toString());
-            httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC.toString());
-            httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG.toString());
-            httpParams.put(KEY_CxIsMultiCpteCourByMemb, bool_CxIsMultiCpteCourByMemb.toString());
+            httpParams.put(KEY_CxIsPrConsAdmPCA, bool_CxIsPrConsAdmPCA);
+            httpParams.put(KEY_CxIsPrComCredPCC, bool_CxIsPrComCredPCC);
+            httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC);
+            httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC);
+            httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG);
+            httpParams.put(KEY_CxIsMultiCpteCourByMemb, bool_CxIsMultiCpteCourByMemb);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_caisse.php", "POST", httpParams);
             try {

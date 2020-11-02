@@ -40,6 +40,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -171,6 +172,9 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
     private ProgressDialog pDialogFetchProduitEavList;
     public static TextView tvHeaderActivityConsulterCompte;
     public static TextView tvHeaderLayoutConsulterCompte;
+    public static LinearLayout ll_bloc_date_echeance;
+    public static LinearLayout ll_bloc_duree_compte;
+    public static LinearLayout ll_bloc_taux;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,20 +188,12 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         compteSolde = intent.getStringExtra(KEY_MONTANT_COMPTE);
         taux = intent.getStringExtra(KEY_TAUX);
         typeCompte = intent.getStringExtra(KEY_TYPE_COMPTE);
-        if (typeCompte.equals("EAV")){
-            typeCompte = "Epargne à vue";
-        }else if (typeCompte.equals("EAP")){
-            typeCompte = "Epargne à périodicité";
-        }else if (typeCompte.equals("EAT")){
-            typeCompte = "Epargne à terme";
-        }
+
 
         libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
 //        libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
 
-        if (typeCompte.equals("DECOUVERT SIMPLE") || typeCompte.equals("AVANCE SPECIALE")){
-                    libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
-        }
+
         Bundle bundle = intent.getExtras();
         adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
         adNom = adherent.getAdNom();
@@ -207,6 +203,9 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
 
         tvHeaderActivityConsulterCompte = (TextView) findViewById(R.id.header_consulter_compte);
         tvHeaderLayoutConsulterCompte = (TextView) findViewById(R.id.header_operation_eat_adherent);
+        ll_bloc_date_echeance = (LinearLayout) findViewById(R.id.ll_bloc_date_echeance);
+        ll_bloc_duree_compte = (LinearLayout) findViewById(R.id.ll_bloc_duree_compte);
+        ll_bloc_taux = (LinearLayout) findViewById(R.id.ll_bloc_taux);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
         tvAdherentNom.setText(adNom+"\n"+adPrenom);
         tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
@@ -235,18 +234,19 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-//        findViewsById();
-//
-//        setDateTimeField();
-
-       /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
-        tvAdherentNumDossier.setText(adNumDossier);*/
-/*
-        eavList = new ArrayList<Category>();
-        // spinner item select listener
-        spinnerListEAV.setOnItemSelectedListener(OperationEAV.this);
-        new GetProduitEAVList().execute();
-*/
+        if (typeCompte.equals("DECOUVERT SIMPLE") || typeCompte.equals("AVANCE SPECIALE")){
+            libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
+        }
+        if (typeCompte.equals("EAV")){
+            typeCompte = "Epargne à vue";
+            ll_bloc_date_echeance.setVisibility(View.GONE);
+            ll_bloc_duree_compte.setVisibility(View.GONE);
+            ll_bloc_taux.setVisibility(View.GONE);
+        }else if (typeCompte.equals("EAP")){
+            typeCompte = "Epargne à périodicité";
+        }else if (typeCompte.equals("EAT")){
+            typeCompte = "Epargne à terme";
+        }
         addButton = (Button) findViewById(R.id.btn_save_operation_eav);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {

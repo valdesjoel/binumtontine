@@ -208,7 +208,7 @@ public class CreateEtapeDemandeCreditOf extends AppCompatActivity implements SER
             case R.id.rb_Ed_On_of:
                 if (rbEtapeOn.isChecked()) {
                     str = checked1?"Etape activée":"";
-                    EdIson="TRUE";
+                    EdIson="Y";
                     //ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     //    FpTypeAdh="P";
 
@@ -218,7 +218,7 @@ public class CreateEtapeDemandeCreditOf extends AppCompatActivity implements SER
             case R.id.rb_Ed_Off_of:
                 if (rbEtapeOff.isChecked()){
                     str = checked1?"Etape désactivée":"";
-                    EdIson="FALSE";
+                    EdIson="N";
                     //ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     //  FpTypeAdh ="M";
 

@@ -75,20 +75,6 @@
                 android:textSize="18dp"
                 android:hint="@string/hint_duree_max_credit"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Nombre d’unités du pas-->
-        <!--<com.google.android.material.textfield.TextInputLayout-->
-            <!--android:id="@+id/input_layout_CrNbreUPas"-->
-            <!--style="@style/parent"-->
-            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
-            <!--<EditText-->
-                <!--android:id="@+id/input_txt_CrNbreUPas"-->
-                <!--style="@style/modifiedEditText"-->
-                <!--android:inputType="numberDecimal"-->
-                <!--android:maxLines="1"-->
-                <!--android:textSize="18dp"-->
-                <!--android:hint="@string/hint_nombre_unite_pas"/>-->
-        <!--</com.google.android.material.textfield.TextInputLayout>-->
         <!--Spinner Nombre d’unités du pas-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,8 +119,6 @@
                 android:text="7"
                 android:hint="Nbre jour delai de grâce"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-
         <!--- CrIsDelaiGraceNegoc /A1 * Pour indiquer si ce délai de grâce est négociable (N par défaut) *-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -242,19 +226,6 @@
 
             </RadioGroup>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_plage_tic_cc"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:padding="12dp"
-            android:textColor="@color/colorAccent1"
-            android:text="@string/btn_config_plage_tiv" />
-
         <!--valeur du taux d’intérêt dans le cas ou il est fixe (CrValTxInter/R)-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CrValTxInter"
@@ -293,6 +264,154 @@
                 android:textSize="18sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tv_plage_tic_cc"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+<!--        Taux interet annuel-->
+
+<!--        CrIsTauxInteretAnOn /A1 (Y/N/U)	* Pour préciser si le taux
+ d'intérêt annuel est disponible sur le Credit, Non/N par défaut, unique/U.-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblCrIsTauxInteretAnOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Le taux d'intérêt annuel est-il disponible ?" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchCrIsTauxInteretAnOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                app:showText="true"
+                android:onClick="onSwitchButtonClicked"
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_TauxInteretAnOn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <!-- radiogroup -->
+            <LinearLayout
+                android:id="@+id/ll_CrNatureTxIntAn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/lbl_CrNatureTxIntAn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="Type taux interêt Annuel"
+                    android:background="@color/colorAccent1"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_CrNatureTxIntAn"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:showDividers="beginning|middle|end"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/radioGroupCrNatureTxIntAn" >
+
+                    <RadioButton
+                        android:id="@+id/rbCrNatureTxIntAnFixe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fixe"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="true" />
+                    <RadioButton
+
+                        android:id="@+id/rbCrNatureTxIntAnTaux"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Taux"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+                    <RadioButton
+                        android:id="@+id/rbCrNatureTxIntAnPlage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Plage"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+                </RadioGroup>
+            </LinearLayout>
+            <!--valeur du taux d’intérêt annuel dans le cas ou il est fixe (CrIsTauxInteretAnOn/R)-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CrTauxValTxIntAn"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_CrTauxValTxIntAn"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:hint="Taux d'interêt annuel (%)"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Base du taux int annuel-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CrBaseTxIntAn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <com.example.binumtontine.JRSpinner
+                    android:id="@+id/spn_my_spinner_CrBaseTxIntAn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Base du taux d'intérêt annuel"
+                    app:jrs_title="Choose"
+                    style="@style/modifiedEditText"
+                    app:jrs_multiple="false"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/tv_plage_tia_cc"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:textColor="@color/colorAccent1"
+                android:text="@string/btn_config_plage_tiv" />
+
+        </LinearLayout>
+
 
         <!--- CrIsTxIntDegressif /A1(Y/N)	* Pour préciser si le taux d'intérêt du crédit est dégressif (Y) ou non (N)-->
         <LinearLayout
@@ -453,7 +572,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:checked="true"
+                android:checked="false"
+                android:onClick="onSwitchButtonClicked"
                 app:showText="true"
                 android:textOff="Non"
                 android:textOn="Oui"
@@ -557,7 +677,8 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:textSize="18dp"
-            android:text="PENALITE DE RETARD"
+            android:text="2- PENALITE DE RETARD"
+            android:background="@color/colorAccent1"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         <!-- radiogroup -->
         <LinearLayout
@@ -744,7 +865,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:checked="true"
+                android:checked="false"
+                android:onClick="onSwitchButtonClicked"
+
                 app:showText="true"
                 android:textOff="Non"
                 android:textOn="Oui"
@@ -810,327 +933,378 @@
                     android:checked="true" />
             </RadioGroup>
         </LinearLayout>
-        <!--Fin pénalité de retard-->
-
-        <!--Debut Intérêt de retard-->
-        <!-- radiogroup -->
-        <LinearLayout
-            android:id="@+id/ll_CrTypTxInterRetard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/lbl_CrTypTxInterRetard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:textSize="18dp"
-                android:text="Type taux interêt de retard"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_CrTypTxInterRetard"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal"
-                android:showDividers="beginning|middle|end"
-                android:layout_marginTop="10dp"
-                android:id="@+id/radioGroupCrTypTxInterRetard" >
-
-                <RadioButton
-                    android:id="@+id/rbCrTypTxInterRetardFixe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fixe"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="true" />
-                <RadioButton
-                    android:visibility="gone"
-                    android:id="@+id/rbCrTypTxInterRetardTaux"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Taux"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-
-                <RadioButton
-                    android:id="@+id/rbCrTypTxInterRetardPlage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Plage"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-
-            </RadioGroup>
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tv_plage_cr_IntRetard"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:padding="12dp"
-            android:textColor="@color/colorAccent1"
-            android:text="@string/btn_config_plage_tiv" />
-
-        <!--valeur du taux d’intérêt dans le cas ou il est fixe (CrValTxInter/R)-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_CrValTxInterRetard"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_CrValTxInterRetard"
-                style="@style/modifiedEditText"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:hint="Taux intérêt retard mensuel"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <!-- Base du taux  InterRetard-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_BaseTauxInterRetard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-
-            <com.example.binumtontine.JRSpinner
-
-                android:id="@+id/spn_my_spinner_base_tauxInterRetard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Base du taux Intérêt de retard"
-                app:jrs_title="Choose"
-
-                style="@style/modifiedEditText"
-                app:jrs_multiple="false"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--- CrIsTxIntDegressif /A1(Y/N)	* Pour préciser si le taux d'intérêt du crédit est dégressif (Y) ou non (N)-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:orientation="horizontal">-->
-            <!--<TextView-->
-                <!--android:id="@+id/lblCrIsTxIntRetardDegressif"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="18dp"-->
-                <!--android:text="Le taux intérêt de retard est-il dégressif ?" />-->
-
-            <!--<Switch-->
-                <!--android:id="@+id/SwitchCrIsTxIntRetardDegressif"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:checked="false"-->
-
-                <!--android:textOff="Non"-->
-                <!--android:textOn="Oui"-->
-                <!--/>-->
-
-        <!--</LinearLayout>-->
-
-        <!-- CrModeCalcInteret /A1(S/C/D)	** Pour renseigner le mode de calcul des intérêts du Credit (Simple/S, Composé/C, Dégressif/D) -->
-        <!--<LinearLayout-->
-            <!--android:id="@+id/ll_CrModeCalcInteretRetard"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
-            <!--android:orientation="vertical">-->
-            <!--<TextView-->
-                <!--android:id="@+id/lbl_CrModeCalcInteretRetard"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="18dp"-->
-                <!--android:text="Mode de calcul de l'intérêt de retard"-->
-                <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
-            <!--<RadioGroup-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/lbl_CrTypTxInterRetard"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:orientation="vertical"-->
-                <!--android:showDividers="beginning|middle|end"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:id="@+id/radioGroupCrModeCalcInteretRetard" >-->
-
-
-                <!--<RadioButton-->
-                    <!--android:id="@+id/rbCrModeCalcInteretRetardCompose"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Composé"-->
-                    <!--android:onClick="onRadioButtonClicked"-->
-                    <!--android:checked="true" />-->
-
-
-            <!--</RadioGroup>-->
-        <!--</LinearLayout>-->
-        <!-- CrPeriodCalcInteret /A1(J/M)	** Période définie pour le calcul des intérêts au choix: Mensuel/M, Journalier/J -->
-        <LinearLayout
-            android:id="@+id/ll_CrPeriodCalcInteretRetard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/lbl_CrPeriodCalcInteretRetard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:textSize="18dp"
-                android:text="Périodicité calcul intérêt de retard"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_CrTypTxInterRetard"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:showDividers="beginning|middle|end"
-                android:layout_marginTop="10dp"
-                android:id="@+id/radioGroupCrPeriodCalcInteretRetard" >
-
-
-                <RadioButton
-                    android:id="@+id/rbCrPeriodCalcInteretRetardJournalier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jour"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-                <RadioButton
-                    android:id="@+id/rbCrPeriodCalcInteretRetardMensuel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mois"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="true" />
-                <RadioButton
-                    android:id="@+id/rbCrPeriodCalcInteretRetardTrimestre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trimestre"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-                <RadioButton
-                    android:id="@+id/rbCrPeriodCalcInteretRetardAnnee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Annee"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-
-
-
-
-            </RadioGroup>
-        </LinearLayout>
-
-        <!-- CrIsTxIntJrOn_IntRetCred/A1(Y/N Préciser si ce taux d'intérêt peut être proraté par jour ou pas, si seulement le choix précédent est Mois/An. -->
+<!--        Ajout pour la gestion des pénalités-->
+<!--        CrIsSoldPenRetObligSiNewEchCred /A1	* Pour dire si il faudra obligatoirement solder ou payer-->
+<!--        toutes les pénalités en retard pour autoriser ou accepter de faire un nouveau échéancier de-->
+<!--        paiement de remboursement du Crédit.-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/lblCrIsTxInteretRetardJrOn"
+                android:id="@+id/lblCrIsSoldPenRetObligSiNewEchCred"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="18dp"
-                android:text="Le taux intérêt de retard peut être proraté par jour ?" />
+                android:text="Solder obligatoirement les pénalités de retard pour autoriser ou accepter de faire un nouveau échéancier de
+       paiement de remboursement du Crédit ?" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/SwitchCrIsTxInteretRetardJrOn"
+                android:id="@+id/SwitchCrIsSoldPenRetObligSiNewEchCred"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="true"
                 app:showText="true"
+                android:onClick="onSwitchButtonClicked"
+
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
 
-        <!-- CrNatJrTxIntJr_IntRetCred /A1	** 	Préciser la nature des jours à considérer dans le cas où le taux d'intérêt est pris journalièrement
-         Dans ce cas, on aura les Options suivantes: A:Lun-Ven, B:Lun-Sam, C:Jours ouverts du Guichet, D:Tous(30) -->
+        <!--Fin pénalité de retard-->
+
+
+        <!--Debut Intérêt de retard-->
+        <!--Debut pénalité de retard-->
+        <TextView
+            android:id="@+id/lbl_InterRetard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="3- INTERET DE RETARD"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <!--Pour dire si Oui ou Non on doit prendre en compte les intérêts de Retard sur les Credits, Yes, par défaut, et obligatoire.-->
         <LinearLayout
-            android:id="@+id/ll_CrNatureJrTxIntRetardJr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsIntRetCreditOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Prendre en compte les intérêts de Retard sur les Credits ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsIntRetCreditOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                android:onClick="onSwitchButtonClicked"
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_InteretDeRetard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/lbl_CrNatureJrTxIntRetardJr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:textSize="18dp"
-                android:text="Nature des jours à considérer dans le cas où le taux d'intérêt de retard est pris journalièrement"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_CrNatureJrTxIntRetardJr"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:showDividers="beginning|middle|end"
-                android:layout_marginTop="10dp"
-                android:id="@+id/radioGroupCrNatureJrTxIntRetardJr" >
 
-                <RadioButton
-                    android:id="@+id/rbCrNatureJrTxIntRetardJrLunVen"
+            <!-- radiogroup -->
+            <LinearLayout
+                android:id="@+id/ll_CrTypTxInterRetard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/lbl_CrTypTxInterRetard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="Type taux interêt de retard"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_CrTypTxInterRetard"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:showDividers="beginning|middle|end"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/radioGroupCrTypTxInterRetard" >
+
+                    <RadioButton
+                        android:id="@+id/rbCrTypTxInterRetardFixe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fixe"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="true" />
+                    <RadioButton
+                        android:visibility="gone"
+                        android:id="@+id/rbCrTypTxInterRetardTaux"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Taux"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:id="@+id/rbCrTypTxInterRetardPlage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Plage"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <!--valeur du taux d’intérêt dans le cas ou il est fixe (CrValTxInter/R)-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_CrValTxInterRetard"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_CrValTxInterRetard"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textSize="18dp"
+                    android:hint="Taux intérêt retard mensuel"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Base du taux  InterRetard-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_BaseTauxInterRetard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <com.example.binumtontine.JRSpinner
+
+                    android:id="@+id/spn_my_spinner_base_tauxInterRetard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Base du taux Intérêt de retard"
+                    app:jrs_title="Choose"
+
+                    style="@style/modifiedEditText"
+                    app:jrs_multiple="false"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/tv_plage_cr_IntRetard"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:textColor="@color/colorAccent1"
+                android:text="@string/btn_config_plage_tiv" />
+
+            <!-- CrPeriodCalcInteret /A1(J/M)	** Période définie pour le calcul des intérêts au choix: Mensuel/M, Journalier/J -->
+            <LinearLayout
+                android:id="@+id/ll_CrPeriodCalcInteretRetard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/lbl_CrPeriodCalcInteretRetard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="Périodicité calcul intérêt de retard"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_CrTypTxInterRetard"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:showDividers="beginning|middle|end"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/radioGroupCrPeriodCalcInteretRetard" >
+
+
+                    <RadioButton
+                        android:id="@+id/rbCrPeriodCalcInteretRetardJournalier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jour"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+                    <RadioButton
+                        android:id="@+id/rbCrPeriodCalcInteretRetardMensuel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mois"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="true" />
+                    <RadioButton
+                        android:id="@+id/rbCrPeriodCalcInteretRetardTrimestre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trimestre"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+                    <RadioButton
+                        android:id="@+id/rbCrPeriodCalcInteretRetardAnnee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Annee"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+
+
+
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <!-- CrIsTxIntJrOn_IntRetCred/A1(Y/N Préciser si ce taux d'intérêt peut être proraté par jour ou pas, si seulement le choix précédent est Mois/An. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblCrIsTxInteretRetardJrOn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:text="Le taux intérêt de retard peut être proraté par jour ?" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/SwitchCrIsTxInteretRetardJrOn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A- Lun-Ven"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-                <RadioButton
-                    android:id="@+id/rbCrNatureJrTxIntRetardJrLunSam"
+                    android:layout_gravity="center"
+                    android:checked="false"
+                    android:onClick="onSwitchButtonClicked"
+
+                    app:showText="true"
+                    android:textOff="Non"
+                    android:textOn="Oui"
+                    />
+
+            </LinearLayout>
+
+            <!-- CrNatJrTxIntJr_IntRetCred /A1	** 	Préciser la nature des jours à considérer dans le cas où le taux d'intérêt est pris journalièrement
+             Dans ce cas, on aura les Options suivantes: A:Lun-Ven, B:Lun-Sam, C:Jours ouverts du Guichet, D:Tous(30) -->
+            <LinearLayout
+                android:id="@+id/ll_CrNatureJrTxIntRetardJr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/lbl_CrNatureJrTxIntRetardJr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="Nature des jours à considérer dans le cas où le taux d'intérêt de retard est pris journalièrement"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_CrNatureJrTxIntRetardJr"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:showDividers="beginning|middle|end"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/radioGroupCrNatureJrTxIntRetardJr" >
+
+                    <RadioButton
+                        android:id="@+id/rbCrNatureJrTxIntRetardJrLunVen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A- Lun-Ven"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+                    <RadioButton
+                        android:id="@+id/rbCrNatureJrTxIntRetardJrLunSam"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="B- Lun-Sam"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+                    <RadioButton
+                        android:id="@+id/rbCrNatureJrTxIntRetardJrJrOuvertGu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="C- Jours ouverts du Guichet"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="false" />
+                    <RadioButton
+                        android:id="@+id/rbCrNatureJrTxIntRetardJrTous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="D- Tous (30)"
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="true" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <!--        CrIsSoldIntRetObligSiNewEchCred /A1	* Pour dire si il faudra obligatoirement solder ou payer tous les
+                        Intérêts en retard pour autoriser ou accepter de faire un nouveau échéancier de paiement
+                        de remboursement du Crédit.-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblCrIsSoldIntRetObligSiNewEchCred"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:text="Solder obligatoirement tous les Intérêts de retard pour autoriser ou accepter de faire un nouveau échéancier de
+       paiement de remboursement du Crédit ?" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/SwitchCrIsSoldIntRetObligSiNewEchCred"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="B- Lun-Sam"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-                <RadioButton
-                    android:id="@+id/rbCrNatureJrTxIntRetardJrJrOuvertGu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="C- Jours ouverts du Guichet"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="false" />
-                <RadioButton
-                    android:id="@+id/rbCrNatureJrTxIntRetardJrTous"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="D- Tous (30)"
-                    android:onClick="onRadioButtonClicked"
-                    android:checked="true" />
-            </RadioGroup>
+                    android:layout_gravity="center"
+                    android:checked="true"
+                    android:onClick="onSwitchButtonClicked"
+
+                    app:showText="true"
+                    android:textOff="Non"
+                    android:textOn="Oui"
+                    />
+
+            </LinearLayout>
+
+
         </LinearLayout>
         <!--Fin intérêt de retard-->
 
@@ -1196,6 +1370,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
+                android:onClick="onSwitchButtonClicked"
 
                 android:textOff="Non"
                 android:textOn="Oui"
@@ -1223,6 +1398,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
+                android:onClick="onSwitchButtonClicked"
 
                 android:textOff="Non"
                 android:textOn="Oui"
@@ -1250,7 +1426,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1277,7 +1453,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1304,7 +1480,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1331,13 +1507,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
-
 
         <!-- Ne pas exiger avaliste si le montant du crédit est inférieur à (CrMtMaxSansAval/R)-->
         <TextView
@@ -1355,7 +1530,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CrMtMaxSansAval"
             style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
+            android:layout_marginTop="@dimen/appbar_padding_top">
+<!--            android:layout_marginTop="@dimen/loginViewsMargin">-->
             <EditText
                 android:id="@+id/input_txt_CrMtMaxSansAval"
                 style="@style/modifiedEditText"
@@ -1387,7 +1563,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1457,7 +1633,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1571,7 +1747,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1614,7 +1790,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -1641,7 +1817,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2092,7 +2268,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2120,7 +2296,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2147,7 +2323,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2174,7 +2350,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2201,7 +2377,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2228,7 +2404,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2247,8 +2423,6 @@
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
 
-
-            >
             <com.example.binumtontine.JRSpinner
 
                 android:id="@+id/spn_my_spinner_CrModeRemb"
@@ -2264,6 +2438,64 @@
                 android:textSize="18sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Autoriser l’utilisation du compte courant) pour le remboursement du crédit
+         (CrIsCpteCourantOnRembCred/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsCpteCourantOnRembCred"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Autoriser l’utilisation du compte Courant pour le remboursement du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsCpteCourantOnRembCred"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                android:onClick="onSwitchButtonClicked"
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
+
+        <!--Autoriser l’utilisation du compte Epargne à vue(EAV) pour le remboursement du crédit
+         (CrIsCptEAVRemCredOn/A1)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CrIsCptEAVRemCredOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Autoriser l’utilisation du compte EAV pour le remboursement du crédit ?" />
+
+            <Switch
+                android:id="@+id/SwitchCrIsCptEAVRemCredOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                android:onClick="onSwitchButtonClicked"
+                android:textOff="Non"
+                android:textOn="Oui"
+                />
+
+        </LinearLayout>
 
         <!--Autoriser l’utilisation du compte Epargne à terme(EAT) pour le remboursement du crédit
          (CrIsCptEATRemCredOn/A1)-->
@@ -2287,7 +2519,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2315,7 +2547,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2343,7 +2575,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2442,7 +2674,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
@@ -2453,7 +2685,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CrModelTextRappEchRemb"
             style="@style/parent"
-            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/input_txt_CrModelTextRappEchRemb"
@@ -2495,6 +2726,8 @@
                 android:hint="Nbre jr après date échéance si non honorée"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
         <!--Pénalité de retard-->

@@ -23,6 +23,8 @@ import com.example.binumtontine.activity.parametreGenerauxCx.ListObjetCreditCx;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListStatutEtapeCreditCx;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.TypeMembreCxActivity;
+import com.example.binumtontine.activity.parametreGenerauxCx.operationExterne.ListOperationExterneCx;
+import com.example.binumtontine.activity.parametreGenerauxOF.operationExternes.ListOperationExterneOF;
 
 
 public class HomeAdminCaisseFragment extends Fragment implements View.OnClickListener{
@@ -36,6 +38,7 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
     private  CardView objetCreditCard;
     private  CardView etapesDemandeCreditCard;
     private  CardView statutEtapesDemandeCreditCard;
+    private  CardView operationExterneCard;
 
 
     public HomeAdminCaisseFragment() {
@@ -64,6 +67,7 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
         objetCreditCard = (CardView) rootView.findViewById(R.id.objet_credit_cx_card);
         etapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.etapes_demande_credit_cx_card);
         statutEtapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.statut_etape_demande_credit_cx_card);
+        operationExterneCard = (CardView) rootView.findViewById(R.id.operation_externe_cx_card);
 
         guichetCard.setOnClickListener(this);
         paramProduitCard.setOnClickListener(this);
@@ -75,6 +79,7 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
         objetCreditCard.setOnClickListener(this);
         etapesDemandeCreditCard.setOnClickListener(this);
         statutEtapesDemandeCreditCard.setOnClickListener(this);
+        operationExterneCard.setOnClickListener(this);
 
 
         // Inflate the layout for this fragment
@@ -177,6 +182,10 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
                 break;
             case R.id.statut_etape_demande_credit_cx_card:
                 i = new Intent(getActivity(), ListStatutEtapeCreditCx.class);
+                startActivity(i);
+                break;
+            case R.id.operation_externe_cx_card:
+                i = new Intent(getActivity(), ListOperationExterneCx.class);
                 startActivity(i);
                 break;
 

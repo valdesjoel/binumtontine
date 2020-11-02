@@ -27,6 +27,7 @@ import com.example.binumtontine.activity.adherent.HistoriqueEAV;
 import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity_New;
 import com.example.binumtontine.activity.adherent.ListCompteAvanceSpecialeAdherentActivity;
 import com.example.binumtontine.activity.adherent.ListCompteDecouvertAdherentActivity;
+import com.example.binumtontine.activity.adherent.ListCompteDecouvertPermanentAdherentActivity;
 import com.example.binumtontine.activity.adherent.OperationCompteCourant;
 import com.example.binumtontine.activity.adherent.OperationEAP;
 import com.example.binumtontine.activity.adherent.OperationEAT;
@@ -442,6 +443,18 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 intentAvanceSpec.putExtras(bundleAvanceSpec);
                                 intentAvanceSpec.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
                                 ((Activity) mCtx).startActivityForResult(intentAvanceSpec, 20);
+
+
+                                break;
+                            case R.id.menu_decouvert_permanent:
+                                MyData.LIBELLE_PRODUIT_CPTE_COURANT = myList.getLibelleProduit(); //A revoir pour optimisation
+                                Intent intentDecouvPer = new Intent(mCtx, ListCompteDecouvertPermanentAdherentActivity.class);
+                                Bundle bundleDecouvPer = new Bundle();
+                                bundleDecouvPer.putSerializable(KEY_ADHERENT, (Serializable) myList);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intentDecouvPer.putExtras(bundleDecouvPer);
+                                intentDecouvPer.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
+                                ((Activity) mCtx).startActivityForResult(intentDecouvPer, 20);
 
 
                                 break;

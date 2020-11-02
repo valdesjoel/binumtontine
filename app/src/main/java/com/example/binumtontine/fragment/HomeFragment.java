@@ -20,6 +20,7 @@ import com.example.binumtontine.activity.parametreGenerauxOF.ParametreGenerauxOF
 import com.example.binumtontine.activity.UpdateOrganeFaitier;
 import com.example.binumtontine.activity.UserActivity;
 import com.example.binumtontine.activity.parametreGenerauxOF.TypeMembreActivity;
+import com.example.binumtontine.activity.parametreGenerauxOF.operationExternes.ListOperationExterneOF;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
@@ -32,6 +33,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private  CardView objetCreditCard;
     private  CardView etapesDemandeCreditCard;
     private  CardView statutEtapesDemandeCreditCard;
+    private  CardView operationExterneCard;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -58,6 +60,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         objetCreditCard = (CardView) rootView.findViewById(R.id.objet_credit_card);
         etapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.etapes_demande_credit_of_card);
         statutEtapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.statut_etape_demande_credit_card);
+        operationExterneCard = (CardView) rootView.findViewById(R.id.operation_externe_card);
 
         caisseCard.setOnClickListener(this);
         majOFCard.setOnClickListener(this);
@@ -68,6 +71,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         objetCreditCard.setOnClickListener(this);
         etapesDemandeCreditCard.setOnClickListener(this);
         statutEtapesDemandeCreditCard.setOnClickListener(this);
+        operationExterneCard.setOnClickListener(this);
 
 
         // Inflate the layout for this fragment
@@ -143,6 +147,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.statut_etape_demande_credit_card:
                 i = new Intent(getActivity(), ListStatutEtapesDemandesCreditOF.class);
+                startActivity(i);
+                break;
+
+            case R.id.operation_externe_card:
+                i = new Intent(getActivity(), ListOperationExterneOF.class);
                 startActivity(i);
                 break;
 

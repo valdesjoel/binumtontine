@@ -120,10 +120,8 @@ public class ProduitEAPActivity extends AppCompatActivity implements SERVER_ADDR
             public void onClick(View view) {
                 Snackbar.make(view, "Ajouter un produit EAP", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                //  Intent i = new Intent(ProduitEAVActivity.this, AddMovieActivity.class);
                 Intent i = new Intent(ProduitEAPActivity.this, CreateProduitEAP.class);
                 startActivityForResult(i,20);
-
 
             }
         });

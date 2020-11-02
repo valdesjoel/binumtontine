@@ -87,6 +87,8 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
     private static final String KEY_CmMontant = "CmMontant";
     private static final String KEY_total_depot = "total_depot";
     private static final String KEY_total_retrait = "total_retrait";
+    private static final String KEY_total_produit = "total_produit";
+    private static final String KEY_total_charge = "total_charge";
     private static final String KEY_total_operation = "total_operation";
     private static final String KEY_cx_denomination = "cx_denomination";
     private NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
@@ -107,53 +109,14 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
     private static final String KEY_ADHERENT = "ADHERENT";
     private Adherent adherent;
     /*Param for get extra*/
-    private static final String KEY_ADHERENT_ID = "IpMembre";
-    private static final String KEY_COMPTE_ID = "Numero";
     private static final String KEY_CV_NUMERO = "CvNumero";
-    private static final String KEY_DATE_H_CREE = "DateHCree";
-    private static final String KEY_TAUX = "Taux";
-    private static final String KEY_LIBELLE_PRODUIT = "Libelle";
-    private static final String KEY_ADHERENT_NOM = "AdNom";
-    private static final String KEY_ADHERENT_PRENOM = "AdPrenom";
-    private static final String KEY_ADHERENT_NUM_MANUEL = "AdNumManuel";
-    private static final String KEY_ADHERENT_CODE = "AdCode";
-
-    private static final String KEY_HEADER_ACTIVITY_CONSULTER_COMPTE = "tvHeaderActivityConsulterCompte";
-    private static final String KEY_HEADER_LAYOUT_CONSULTER_COMPTE = "tvHeaderLayoutConsulterCompte";
-    private static final String KEY_TYPE_COMPTE = "TypeCompte";
-
-    private String headerActivity = "CONSULTATION DE COMPTE";
-    private String headerLayout = "Consultez votre compte";
-    private String typeCompte = "";
     private String total_operation = "";
 
 
 
     private static String STRING_EMPTY = "";
-
-    private EditText EavDepotMinEditText;
-    private EditText NumDossierEditText;
-    private TextView tvLibelleProduit;
-
-    private RadioButton rb_depot;
-    private RadioButton rb_retrait;
-
-
-    private String compteId;
-    private String eavDepotMin;
-    private String adNom;
-    private String adPrenom;
-    private String adNumManuel;
-    private String adCode;
-    private String compteSolde;
+ private String eavDepotMin;
     private String adNumDossier;
-    private String dateCreation;
-    private String taux;
-    private String libelleProduit;
-
-    private String AdValideDu;
-    private String AdValideAu;
-    private String natureOperation;
 
     /* manage spinner*/
     // array list for spinner adapter
@@ -208,7 +171,6 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
         setContentView(R.layout.activity_situation_guichet);
 
 
-        Intent intent = getIntent();
         tv_jour_ouvre = (TextView) findViewById(R.id.tv_jour_ouvre);
         tv_caisse = (TextView) findViewById(R.id.tv_caisse);
         tv_guichet = (TextView) findViewById(R.id.tv_guichet);
@@ -225,74 +187,7 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
         tv_charges = (TextView) findViewById(R.id.tv_charges);
         tv_produits = (TextView) findViewById(R.id.tv_produits);
         tv_total = (TextView) findViewById(R.id.tv_total);
-  /*      compteId = intent.getStringExtra(KEY_COMPTE_ID);
-        dateCreation = intent.getStringExtra(KEY_DATE_H_CREE);
-        compteSolde = intent.getStringExtra(KEY_MONTANT_COMPTE);
-        taux = intent.getStringExtra(KEY_TAUX);
-        typeCompte = intent.getStringExtra(KEY_TYPE_COMPTE);
-        if (typeCompte.equals("EAV")){
-            typeCompte = "Epargne à vue";
-        }else if (typeCompte.equals("EAP")){
-            typeCompte = "Epargne à périodicité";
-        }else if (typeCompte.equals("EAT")){
-            typeCompte = "Epargne à terme";
-        }
 
-        libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
-//        libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
-
-        if (typeCompte.equals("DECOUVERT SIMPLE") || typeCompte.equals("AVANCE SPECIALE")){
-                    libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
-        }
-        Bundle bundle = intent.getExtras();
-        adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
-        adNom = adherent.getAdNom();
-        adPrenom = adherent.getAdPrenom();
-        adNumManuel = adherent.getAdNumManuel();
-        adCode = adherent.getAdCode();
-
-        tvHeaderActivityConsulterCompte = (TextView) findViewById(R.id.header_consulter_compte);
-        tvHeaderLayoutConsulterCompte = (TextView) findViewById(R.id.header_situation_guichet);
-        tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
-        tvAdherentNom.setText(adNom+"\n"+adPrenom);
-        tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
-        tvAdherentNumManuel.setText(adNumManuel);
-        tvAdherentCode = (TextView) findViewById(R.id.tv_code_adherent);
-        tvAdherentCode.setText(adCode);
-        tvCompteSolde = (TextView) findViewById(R.id.tv_solde_compte);
-        tvCompteSolde.setText(compteSolde);
-        tvDateCreation = (TextView) findViewById(R.id.tv_date_creation_compte_adherent);
-        tvDateCreation.setText(dateCreation);
-        tvTypeCompte = (TextView) findViewById(R.id.tv_type_compte_adherent);
-        tvTypeCompte.setText(typeCompte);
-        tvTaux = (TextView) findViewById(R.id.tv_taux_compte_adherent);
-        tvTaux.setText(taux+" %");
-//manage header activity and layout
-        headerActivity = intent.getStringExtra(KEY_HEADER_ACTIVITY_CONSULTER_COMPTE);
-        headerLayout = intent.getStringExtra(KEY_HEADER_LAYOUT_CONSULTER_COMPTE);
-        tvHeaderActivityConsulterCompte.setText(headerActivity);
-        tvHeaderLayoutConsulterCompte.setText(headerLayout);
-        //end manage header activity and layout
-
-        tvLibelleProduit = (TextView) findViewById(R.id.tv_libelle_produit_adherent);
-        tvLibelleProduit.setText(libelleProduit);
-
-        spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
-
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-*/
-//        findViewsById();
-//
-//        setDateTimeField();
-
-       /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
-        tvAdherentNumDossier.setText(adNumDossier);*/
-/*
-        eavList = new ArrayList<Category>();
-        // spinner item select listener
-        spinnerListEAV.setOnItemSelectedListener(OperationEAV.this);
-        new GetProduitEAVList().execute();
-*/
         defaultFormat.setCurrency(Currency.getInstance("XAF"));
         new GetSituationGuichetAsyncTask().execute();
         addButton = (Button) findViewById(R.id.btn_save_operation_eav);
@@ -315,7 +210,7 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addEavAdherent();
+//                    addEavAdherent();
                 } else {
                     Toast.makeText(SituationGuichet.this,
                             "Impossible de se connecter à Internet",
@@ -325,53 +220,6 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
 
             }
         });
-
-
-    }
-
-
-    private void findViewsById() {
-
-        Ad_DateDelivranceEditText = (EditText) findViewById(R.id.input_txt_validite_debut_adherent);
-        Ad_DateDelivranceEditText.requestFocus();
-        Ad_DateDelivranceEditText.setInputType(InputType.TYPE_NULL);
-
-        Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_adherent);
-        Ad_DateExpirationEditText.requestFocus();
-        Ad_DateExpirationEditText.setInputType(InputType.TYPE_NULL);
-
-
-
-
-    }
-
-    private void setDateTimeField() {
-        Ad_DateDelivranceEditText.setOnClickListener(this);
-        Ad_DateExpirationEditText.setOnClickListener(this);
-
-
-        Calendar newCalendar = Calendar.getInstance();
-
-        Ad_DateDelivrance_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        Ad_DateExpiration_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
 
 
     }
@@ -466,8 +314,10 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
                         maSituationGuichet.setSortie_transfert("0 FCFA");
                         maSituationGuichet.setEntree_transfert("0 FCFA");
                         maSituationGuichet.setCotisation_annuelle("0 FCFA");
-                        maSituationGuichet.setCharges("0 FCFA");
-                        maSituationGuichet.setProduits("0 FCFA");
+//                        maSituationGuichet.setCharges("0 FCFA");
+                        maSituationGuichet.setCharges(defaultFormat.format(parseDouble(movies.getString(KEY_total_charge))));
+//                        maSituationGuichet.setProduits("0 FCFA");
+                        maSituationGuichet.setProduits(defaultFormat.format(parseDouble(movies.getString(KEY_total_produit))));
                     total_operation = defaultFormat.format(parseDouble(movies.getString(KEY_total_operation)));
 
 //                        eavList.add(cat);
@@ -477,7 +327,7 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
 
 
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -593,118 +443,5 @@ public class SituationGuichet extends AppCompatActivity implements  View.OnClick
     }
 
 
-    /**
-     * Checks whether all files are filled. If so then calls AddEavAdherentAsyncTask.
-     * Otherwise displays Toast message informing one or more fields left empty
-     */
-    private void addEavAdherent() {
-        if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
-                 ) {
-//String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
-String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
 
-            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
-            nf.setGroupingUsed(false);
-            //nf.format(rr);
-//if (natureOperation.equals("R")&&
-//                    (Double.parseDouble(EavDepotMinEditText.getText().toString())<Double.parseDouble(rr))){
-if (true){
-//                Toast.makeText(OperationEAV.this,
-//                        "Solde insuffisant!",
-//                        Toast.LENGTH_LONG).show();
-//                Toast.makeText(OperationEAV.this,
-//                        rr.trim()+ "\n"+rr.length(),
-//                        Toast.LENGTH_LONG).show();
-
-
-    eavDepotMin = EavDepotMinEditText.getText().toString();
-    adNumDossier = NumDossierEditText.getText().toString();
-
-    new AddEavAdherentAsyncTask().execute();
-            }else
-            {
-//
-//                eavDepotMin = EavDepotMinEditText.getText().toString();
-//                adNumDossier = NumDossierEditText.getText().toString();
-//
-//                new AddEavAdherentAsyncTask().execute();
-            }
-
-
-
-
-        } else {
-            Toast.makeText(SituationGuichet.this,
-                    "Un ou plusieurs champs sont vides!",
-                    Toast.LENGTH_LONG).show();
-
-        }
-
-
-    }
-
-    /**
-     * AsyncTask for adding a compte eav
-     */
-    private class AddEavAdherentAsyncTask extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //Display proggress bar
-            pDialog = new ProgressDialog(SituationGuichet.this);
-            pDialog.setMessage("Transaction en cours. Veuillez patienter...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            HttpJsonParser httpJsonParser = new HttpJsonParser();
-            Map<String, String> httpParams = new HashMap<>();
-            //Populating request parameters
-           // httpParams.put(KEY_EAV_ID, uxGuichetId);
-
-            httpParams.put(KEY_CV_NUMERO, compteId);
-
-            httpParams.put(KEY_CV_NUM_DOSSIER, adNumDossier);
-            httpParams.put(KEY_CV_MT_SOLDE, eavDepotMin );
-            httpParams.put(KEY_CV_NATURE_OPERATION, natureOperation );
-            httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
-
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "operation_eav_adherent.php", "POST", httpParams);
-            try {
-                success = jsonObject.getInt(KEY_SUCCESS);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onPostExecute(String result) {
-            pDialog.dismiss();
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (success == 1) {
-                        //Display success message
-                        Toast.makeText(SituationGuichet.this,
-                                "Opération réussie !", Toast.LENGTH_LONG).show();
-                        Intent i = getIntent();
-                        //send result code 20 to notify about movie update
-                        setResult(20, i);
-                        //Finish ths activity and go back to listing activity
-                        finish();
-
-                    } else {
-                        Toast.makeText(SituationGuichet.this,
-                                "Echec!\n Vérifiez votre solde ",
-                                Toast.LENGTH_LONG).show();
-
-                    }
-                }
-            });
-        }
-    }
 }

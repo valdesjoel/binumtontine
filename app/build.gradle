@@ -66,6 +66,8 @@ allprojects {
         implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.0' //Library link: https://github.com/RamiJ3mli/PercentageChartView to customize progress bar
         //  classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 //    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        implementation 'com.github.ybq:Android-SpinKit:1.2.0' //for manage Android Loading Animations – Spinkit Library
+        compile 'cn.pedant.sweetalert:library:1.3'
 
 
 }

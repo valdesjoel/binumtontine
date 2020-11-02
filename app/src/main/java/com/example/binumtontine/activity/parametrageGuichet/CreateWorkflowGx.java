@@ -49,7 +49,6 @@ import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.CreateProduitCredit;
 import com.example.binumtontine.activity.ListPlageDataFCXActivity;
-import com.example.binumtontine.activity.UpdateProduitCredit;
 import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;

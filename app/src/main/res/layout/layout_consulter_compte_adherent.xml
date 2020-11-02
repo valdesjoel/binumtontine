@@ -217,6 +217,7 @@
         </LinearLayout>
         <!--Date d'échéance-->
         <LinearLayout
+            android:id="@+id/ll_bloc_date_echeance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -246,8 +247,9 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
-        <!--Date d'échéance-->
+        <!--Durée du compte-->
         <LinearLayout
+            android:id="@+id/ll_bloc_duree_compte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -279,6 +281,7 @@
         </LinearLayout>
         <!--Taux-->
         <LinearLayout
+            android:id="@+id/ll_bloc_taux"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

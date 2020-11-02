@@ -71,7 +71,7 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
     /* end*/
     private static final String KEY_EAV_ID = "ev_numero";
     private static final String KEY_DfNumDoss = "DfNumDoss";
-//    private static final String KEY_DfNumDoss = "DfNumDoss";
+    private static final String KEY_DfType = "DfType";
     private static final String KEY_DfMtDecouv = "DfMtDecouv";
     private static final String KEY_DfDocumDecFCx = "DfDocumDecFCx";
     private static final String KEY_DfObjetDemande = "DfDetailsReponse";
@@ -122,6 +122,7 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
     public static RadioButton rb_DfRepAdherent_accepte;
     public static RadioButton rb_DfRepAdherent_refuse;
     public static RadioButton rb_decouvert;
+    public static RadioButton rb_decouvert_permanent;
     public static RadioButton rb_avance_speciale;
 
 
@@ -163,6 +164,7 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
     private String DfMtDecouv;
     private String DfDocumDecFCx;
     private String DfDetailsReponse;
+    private String DfType;
     private String DfNumDoss;
     private String DfRepComite;
     private String DfStatut;
@@ -194,6 +196,7 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
 
         EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
         EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
+        EavDepotMinEditText.setEnabled(false);
 
 
         layoutNumDossier = (TextInputLayout) findViewById(R.id.input_layout_numero_bordereau_operation);
@@ -218,6 +221,7 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
         rb_avance_speciale = (RadioButton) findViewById(R.id.rb_nature_operation_avance_speciale);
         tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
+        spinnerListEAV.setVisibility(View.GONE);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
 
         tvAdherentNom.setText(ListCompteAdherentActivity_New.adherent.getAdNom()+"\n"+ListCompteAdherentActivity_New.adherent.getAdPrenom());
@@ -341,34 +345,37 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
      * @param view
      */
     public void onRadioButtonClicked(View view) {
-//        boolean checked1 = ((RadioButton) view).isChecked();
-//        String str="";
-//        // Check which checkbox was clicked
-//        switch(view.getId()) {
-//
-//            case R.id.rb_nature_operation_depot:
-//                if (rb_decision_accordee.isChecked()) {
-//                    natureOperation = "D";
-//                    //str = checked1?"Nature frais fixe":"";
-//
-//                }
-//                break;
-//            case R.id.rb_nature_operation_retrait:
-//                if (rb_decision_refusee.isChecked()) {
+        boolean checked1 = ((RadioButton) view).isChecked();
+        String str="";
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+
+            case R.id.rb_nature_operation_depot:
+                if (rb_decision_accordee.isChecked()) {
+                    //natureOperation = "D";
+                    EavDepotMinEditText.setEnabled(false);
+                    //str = checked1?"Nature frais fixe":"";
+
+                }
+                break;
+            case R.id.rb_nature_operation_retrait:
+                if (rb_decision_refusee.isChecked()) {
 //                    natureOperation = "R";
-//                    // str = checked1?"Nature frais taux":"";
-//
-//                }
-//
-//                break;
-//            case R.id.rb_nature_operation_decouvert:
-//                if (rb_decouvert.isChecked()) {
+                    EavDepotMinEditText.setEnabled(false);
+                    // str = checked1?"Nature frais taux":"";
+
+                }
+
+                break;
+            case R.id.rb_decision_modifiee:
+                if (rb_decision_modifiee.isChecked()) {
 //                    natureOperation = "V";
-//                    // str = checked1?"Nature frais taux":"";
-//
-//                }
-//
-//                break;
+                    EavDepotMinEditText.setEnabled(true);
+                    // str = checked1?"Nature frais taux":"";
+
+                }
+
+                break;
 //            case R.id.rb_nature_operation_avance_speciale:
 //                if (rb_avance_speciale.isChecked()) {
 //                    natureOperation = "A";
@@ -377,9 +384,9 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
 //                }
 //
 //                break;
-//
-//
-//        }
+
+
+        }
         // Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
@@ -426,40 +433,6 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
 
         @Override
         protected Void doInBackground(Void... arg0) {
-//            ServiceHandler jsonParser = new ServiceHandler();
-//            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-//            httpParams.add(new BasicNameValuePair(KEY_DF_NUMERO, compteId));
-////            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
-//            String json = (String) jsonParser.makeServiceCall( BASE_URL + "get_decouvert_fcx_details.php", ServiceHandler.GET, httpParams);
-//           // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
-
-            /*if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray(KEY_DATA);
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            DfMtDecouv = catObj.getString(KEY_DfMtDecouv);
-                            DfNumDoss = catObj.getString(KEY_DfNumDoss);
-                            DfDocumDecFCx = catObj.getString(KEY_DfDocumDecFCx);
-                            DfDetailsReponse = catObj.getString(KEY_DfObjetDemande);
-                            Log.e("DfDetailsReponse: ", "> " + DfDetailsReponse);
-//                            Category cat = new Category(catObj.getInt(KEY_EAV_ID),
-//                                    catObj.getString(KEY_DfNumDoss));
-//                            eavList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data", "Didn't receive any data from server!");
-            }*/
 
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
@@ -481,6 +454,7 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
                 DfNumDoss = jsonObject.getString(KEY_DfNumDoss);
                 DfDocumDecFCx = jsonObject.getString(KEY_DfDocumDecFCx);
                 DfDetailsReponse = jsonObject.getString(KEY_DfObjetDemande);
+                DfType = jsonObject.getString(KEY_DfType);
                 Log.e("DfDetailsReponse: ", "> " + DfDetailsReponse);
 
             } catch (JSONException e) {
@@ -508,6 +482,14 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
                     OccLibelleMvmCC.setText(DfDocumDecFCx);
                     tvBodyMotifDemandeAdherent.setText(DfDetailsReponse);
                     tvBodyNumDossierAdherent.setText(DfNumDoss);
+                    if (DfType.equals("S")){
+                        tvHeaderOperationEAV.setText("VALIDATION DE LA DEMANDE DE DECOUVERT SIMPLE");
+                    }else if (DfType.equals("A")){
+                        tvHeaderOperationEAV.setText("VALIDATION DE LA DEMANDE DE L'AVANCE SPECIALE");
+                    }else if (DfType.equals("P")){
+                        tvHeaderOperationEAV.setText("VALIDATION DE LA DEMANDE DE DECOUVERT PERMANENT");
+                    }
+
                 }
             });
         }
@@ -517,11 +499,7 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-     /*   Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        */
+
         eavID = eavListID.get(position);//pour recuperer l'ID du guichet selectionnée
 
     }
@@ -551,19 +529,21 @@ public class ValidationOperationCompteCourant extends AppCompatActivity implemen
 
 //   DfMtAccordeCom = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
             if (rb_decision_accordee.isChecked()){
-                DfRepComite = "A";
+//                DfRepComite = "A";
+                DfRepComite = "Y";
                 DfStatut = "A";
             }else if (rb_decision_refusee.isChecked()){
-                DfRepComite = "R";
+//                DfRepComite = "R";
+                DfRepComite = "N";
                 DfStatut = "R";
-            }else if (rb_decision_modifiee.isChecked()){
-                DfRepComite = "M";
-                DfStatut = "R";
+            }else if (rb_decision_modifiee.isChecked() && rb_DfRepAdherent_accepte.isChecked()){
+                DfRepComite = "Y";
+                DfStatut = "A";
             }
             if (rb_DfRepAdherent_accepte.isChecked()){
-                DfRepAdherent = "TRUE";
+                DfRepAdherent = "Y";
             }else{
-                DfRepAdherent = "FALSE";
+                DfRepAdherent = "N";
             }
 
             DfMtAccordeCom = EavDepotMinEditText.getText().toString();

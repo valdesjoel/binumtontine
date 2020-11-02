@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
@@ -29,9 +31,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.binumtontine.modele.Credit.KEY_CREDIT_Code;
 
 public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVER_ADDRESS {
     private static String STRING_EMPTY = "";
@@ -66,14 +72,10 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
     private static final String KEY_CcNatureTxIntDecouv = "CcNatureTxIntDecouv";
     private static final String KEY_CcValTxIntDecouv = "CcValTxIntDecouv";
     private static final String KEY_CcBaseTxIntDecouv = "CcBaseTxIntDecouv";
-    private static final String KEY_CcPlageTxIntDecouvFrom = "CcPlageTxIntDecouvFrom";
-    private static final String KEY_CcPlageTxIntDecouvTo = "CcPlageTxIntDecouvTo";
     private static final String KEY_CcDureeMaxDecouv = "CcDureeMaxDecouv";
     private static final String KEY_CcNatureTypDureDecouv = "CcNatureTypDureDecouv";
     private static final String KEY_CcNatureTxMtAgio = "CcNatureTxMtAgio";
     private static final String KEY_CcValTxMtAgio = "CcValTxMtAgio";
-    private static final String KEY_CcPlageTxMtAgioFrom = "CcPlageTxMtAgioFrom";
-    private static final String KEY_CcPlageTxMtAgioTo = "CcPlageTxMtAgioTo";
     private static final String KEY_CcNatBaseAgio = "CcNatBaseAgio";
     private static final String KEY_CcIsChequierM1On = "CcIsChequierM1On";
     private static final String KEY_CcNbPagesCheqM1 = "CcNbPagesCheqM1";
@@ -90,8 +92,6 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
     private static final String KEY_CcNatTxComm = "CcNatTxComm";
     private static final String KEY_CcValTxCommMvm = "CcValTxCommMvm";
     private static final String KEY_CcBaseTxCommMvm = "CcBaseTxCommMvm";
-    private static final String KEY_CcPlageTxCommMvmFrom = "CcPlageTxCommMvmFrom";
-    private static final String KEY_CcPlageTxCommMvmTo = "CcPlageTxCommMvmTo";
     private static final String KEY_CC_CAISSE_NUMERO = "CcCaisseId";
 
     /*Update compte courant BEGIN*/
@@ -105,95 +105,245 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
     private static final String KEY_CcNatTauxIntPenAvceSpec = "CcNatTauxIntPenAvceSpec";
     private static final String KEY_CcTauxIntPenAvceSpec = "CcTauxIntPenAvceSpec";
     private static final String KEY_CcBaseTxIntPenAvceSpec = "CcBaseTxIntPenAvceSpec";
-
     private static final String KEY_CcIsTxIntDegressif = "CcIsTxIntDegressif";
+
+
+    private static final String KEY_CcIsDecouvertPermanentAutorise = "CcIsDecouvertPermanentAutorise";
+    private static final String KEY_CcMaxMontantDecouvertPermanentAutorise = "CcMaxMontantDecouvertPermanentAutorise";
+    private static final String KEY_CcMaxDureeDecouvertPermanentAutorise = "CcMaxDureeDecouvertPermanentAutorise";
+    private static final String KEY_CcModeCalcInteret = "CcModeCalcInteret";
+    private static final String KEY_CcModeCalcPenRetardAvceSpec = "CcModeCalcPenRetardAvceSpec";
+    private static final String KEY_CcModeCalcIntRetardAvceSpec = "CcModeCalcIntRetardAvceSpec";
+    private static final String KEY_CcModeCalcInteretAvceSpec = "CcModeCalcInteretAvceSpec";
+    private static final String KEY_CcNaturePerTxInteret = "CcNaturePerTxInteret";
+    private static final String KEY_CcIsTxInteretJrOn = "CcIsTxInteretJrOn";
+    private static final String KEY_CcNatureJrTxIntJr = "CcNatureJrTxIntJr";
+    private static final String KEY_CcNatTauxIntPenRetard = "CcNatTauxIntPenRetard";
+    private static final String KEY_CcTauxIntPenRetard = "CcTauxIntPenRetard";
+    private static final String KEY_CcBaseTxIntPenRetard = "CcBaseTxIntPenRetard";
+    private static final String KEY_CcNaturePerTxPenRet = "CcNaturePerTxPenRet";
+    private static final String KEY_CcIsTxPenRetardJrOn = "CcIsTxPenRetardJrOn";
+    private static final String KEY_CcNatureJrTxPenRet = "CcNatureJrTxPenRet";
+    private static final String KEY_CcNatureTxInt_IntRetDecouv = "CcNatureTxInt_IntRetDecouv";
+    private static final String KEY_CcTauxInt_IntRetDecouv = "CcTauxInt_IntRetDecouv";
+    private static final String KEY_CcBasexInt_IntRetDecouv = "CcBasexInt_IntRetDecouv";
+    private static final String KEY_CcPeriod_IntRetDecouv = "CcPeriod_IntRetDecouv";
+    private static final String KEY_CcIsTxIntJrOn_IntRetDecouv = "CcIsTxIntJrOn_IntRetDecouv";
+    private static final String KEY_CcNatJrTxIntJr_IntRetDecouv = "CcNatJrTxIntJr_IntRetDecouv";
+    private static final String KEY_CcDureeMaxAvceSpec = "CcDureeMaxAvceSpec";
+    private static final String KEY_CcNaturePerTxInteretAvceSpec = "CcNaturePerTxInteretAvceSpec";
+    private static final String KEY_CcIsTxInteretAvceSpecJrOn = "CcIsTxInteretAvceSpecJrOn";
+    private static final String KEY_CcNatureJrTxIntAvceSpecJr = "CcNatureJrTxIntAvceSpecJr";
+    private static final String KEY_CcIsTxPenRetardAvceSpecDegressif = "CcIsTxPenRetardAvceSpecDegressif";
+    private static final String KEY_CcIsTxIntAvceSpecDegressif = "CcIsTxIntAvceSpecDegressif";
+    private static final String KEY_CcPeriod_PenRetAvceSpec = "CcPeriod_PenRetAvceSpec";
+    private static final String KEY_CcIsTxIntJrOn_PenRetAvceSpe = "CcIsTxIntJrOn_PenRetAvceSpe";
+    private static final String KEY_CcNatJrTxIntJr_PenRetAvceSpe = "CcNatJrTxIntJr_PenRetAvceSpe";
+    private static final String KEY_CcIsTxIntRetardAvceSpecDegressif = "CcIsTxIntRetardAvceSpecDegressif";
+    private static final String KEY_CcNatureTxInt_IntRetAvceSpec = "CcNatureTxInt_IntRetAvceSpec";
+    private static final String KEY_CcTauxInt_IntRetAvceSpec = "CcTauxInt_IntRetAvceSpec";
+    private static final String KEY_CcBasexInt_IntRetAvceSpec = "CcBasexInt_IntRetAvceSpec";
+    private static final String KEY_CcPeriod_IntRetAvceSpec = "CcPeriod_IntRetAvceSpec";
+    private static final String KEY_CcIsTxIntJrOn_IntRetAvceSpe = "CcIsTxIntJrOn_IntRetAvceSpe";
+    private static final String KEY_CcNatJrTxIntJr_IntRetAvceSpe = "CcNatJrTxIntJr_IntRetAvceSpe";
     /*Update compte courant END*/
 
-
     private EditText CcCode,CcLibelle,CcMtMaxDecouv,CcNatureTxIntDecouv,CcValTxIntDecouv,
-            CcPlageTxIntDecouvFrom,CcPlageTxIntDecouvTo,CcDureeMaxDecouv,CcNatureTypDureDecouv,
-            CcNatureTxMtAgio,CcValTxMtAgio,CcPlageTxMtAgioFrom,CcPlageTxMtAgioTo,CcNatBaseAgio,
+            CcDureeMaxDecouv,CcNatureTypDureDecouv,
+            CcNatureTxMtAgio,CcValTxMtAgio,CcNatBaseAgio,
             CcNbPagesCheqM1,CcPrixVteCheqM1,CcNbPagesCheqM2,CcPrixVteCheqM2,CcNbPagesCheqM3,
             CcPrixVteCheqM3,CcDureeValidCheq,CcNbMinSignatChq,CcNatTxComm,CcValTxCommMvm,
-            CcPlageTxCommMvmFrom,CcPlageTxCommMvmTo, CcMtPlafondAvceSpec,CcTauxIntAvceSpec,CcTauxIntPenAvceSpec,CcTauxInt_IntRetAvceSpec,
+            CcMtPlafondAvceSpec,CcTauxIntAvceSpec,CcTauxIntPenAvceSpec,CcTauxInt_IntRetAvceSpec,
             CcTauxIntPenRetard, CcTauxInt_IntRetDecouv;
-
     private Switch CcIsDecouvOn,CcIsMaxDecouvNeg,CcIsChequierM1On,CcIsChequierM2On,CcIsChequierM3On,
-            CcIsTxCommMvmOper,CcIsAvanceSpecialOn, CcIsPlafAvceSpecNegoc, CcIsTxIntDegressif;
+            CcIsTxCommMvmOper,CcIsAvanceSpecialOn, CcIsPlafAvceSpecNegoc, CcIsTxIntDegressif, SwitchDecouvertPermanentAutoriseCC,
+            SwitchCcIsTxIntAvceSpecDegressif, SwitchCcIsTxPenRetardAvceSpecDegressif, SwitchCcIsTxIntRetardAvceSpecDegressif;
+    private SwitchCompat SwitchCcIsTxInteretJrOn, SwitchCcIsTxPenRetardJrOn, SwitchCcIsTxIntJrOn_IntRetDecouv, SwitchCcIsTxInteretAvceSpecJrOn,
+            SwitchCcIsTxIntJrOn_PenRetAvceSpe, SwitchCcIsTxIntJrOn_IntRetAvceSpe;
     private String st_CcCode,st_CcLibelle,st_CcMtMaxDecouv,
-            st_CcNatureTxIntDecouv,st_CcValTxIntDecouv,st_CcPlageTxIntDecouvFrom,st_CcPlageTxIntDecouvTo,
+            st_CcNatureTxIntDecouv,st_CcValTxIntDecouv,
             st_CcDureeMaxDecouv,st_CcNatureTypDureDecouv,st_CcNatureTxMtAgio,st_CcValTxMtAgio,
-            st_CcPlageTxMtAgioFrom,st_CcPlageTxMtAgioTo,st_CcNatBaseAgio,
+            st_CcNatBaseAgio,
             st_CcNbPagesCheqM1,st_CcPrixVteCheqM1,st_CcNbPagesCheqM2,
             st_CcPrixVteCheqM2,st_CcNbPagesCheqM3,st_CcPrixVteCheqM3,
             st_CcDureeValidCheq,st_CcNbMinSignatChq,st_CcNatTxComm,st_CcValTxCommMvm,
-            st_CcPlageTxCommMvmFrom,st_CcPlageTxCommMvmTo,st_CcMtPlafondAvceSpec, st_CcNatTauxIntAvceSpec,
-            st_CcTauxIntAvceSpec, st_CcNatTauxIntPenAvceSpec,st_CcTauxIntPenAvceSpec,st_CcNatureTxInt_IntRetAvceSpec,
-            st_CcNatTauxIntPenRetard, st_CcNatureTxInt_IntRetDecouv;
+            st_CcMtPlafondAvceSpec, st_CcNatTauxIntAvceSpec,
+            st_CcTauxIntAvceSpec, st_CcNatTauxIntPenAvceSpec,st_CcNatureTxInt_IntRetAvceSpec,st_CcTauxIntPenAvceSpec,
+            st_CcNatTauxIntPenRetard, st_CcNatureTxInt_IntRetDecouv, st_CcTauxIntPenRetard, st_CcTauxInt_IntRetDecouv, st_CcBasexInt_IntRetDecouv;
 
-    private Boolean st_CcIsDecouvOn, st_CcIsMaxDecouvNeg,st_CcIsChequierM1On,st_CcIsChequierM2On,
-            st_CcIsChequierM3On,st_CcIsTxCommMvmOper,st_CcIsAvanceSpecialOn,st_CcIsPlafAvceSpecNegoc, st_CcIsTxIntDegressif;
+    private String st_CcIsDecouvOn;
+    private String st_CcIsMaxDecouvNeg;
+    private String st_CcIsChequierM1On;
+    private String st_CcIsChequierM2On;
+    private String st_CcIsChequierM3On;
+    private String st_CcIsTxCommMvmOper;
+    private String st_CcIsAvanceSpecialOn;
+    private String st_CcIsPlafAvceSpecNegoc;
+    private String st_CcIsTxIntDegressif;
 
 
 
 
 
     private RadioButton CcNatureTxIntDecouvFixe,CcNatureTxIntDecouvTaux,CcNatureTxIntDecouvPlage;
-    private RadioButton CcNatureTypDureDecouvJour,CcNatureTypDureDecouvSemaine,CcNatureTypDureDecouvMois;
-    private RadioButton CcNatureTxMtAgioTaux, CcNatureTxMtAgioMontant, CcNatureTxMtAgioPlage;
     private RadioButton CcNatTauxIntPenRetardFixe,CcNatTauxIntPenRetardTaux,CcNatTauxIntPenRetardPlage;
     private RadioButton CcNatureTxInt_IntRetDecouvFixe,CcNatureTxInt_IntRetDecouvTaux,CcNatureTxInt_IntRetDecouvPlage;
-    private RadioButton CcNatTxCommFixe, CcNatTxCommMontant, CcNatTxCommPlage;
     private RadioButton CcNatTauxIntAvceSpecFixe,CcNatTauxIntAvceSpecTaux,CcNatTauxIntAvceSpecPlage;
     private RadioButton CcNatTauxIntPenAvceSpecFixe,CcNatTauxIntPenAvceSpecTaux,CcNatTauxIntPenAvceSpecPlage;
     private RadioButton CcNatureTxInt_IntRetAvceSpecFixe,CcNatureTxInt_IntRetAvceSpecTaux,CcNatureTxInt_IntRetAvceSpecPlage;
-    private JRSpinner mySpinnerBaseTxIntDecouv; //pour gérer le spinner contenant les bases du Tx Int Decouvert
-    private JRSpinner mySpinnerBaseTxMtAgio; //pour gérer le spinner contenant les bases taux
-    private JRSpinner mySpinnerBaseTxCommMvm; //pour gérer le spinner contenant les bases taux
+    private RadioButton CcNatureTypDureDecouvJour,CcNatureTypDureDecouvSemaine,CcNatureTypDureDecouvMois;
+    private RadioButton CcNatureTxMtAgioTaux, CcNatureTxMtAgioMontant, CcNatureTxMtAgioPlage;
+    private RadioButton CcNatTxCommFixe, CcNatTxCommMontant, CcNatTxCommPlage;
+    private JRSpinner mySpinnerBaseTxIntDecouv, mySpinnerCcBaseTxIntPenRetard, mySpinnerCcBasexInt_IntRetDecouv ; //pour gérer le spinner contenant les bases du Tx Int Decouvert
     private JRSpinner mySpinnerCcBaseTxIntAvceSpec; //pour gérer le spinner contenant les bases du Tx Int avance spéciale
     private JRSpinner mySpinnerCcBaseTxIntPenAvceSpec; //pour gérer le spinner contenant les bases du Tx Int penalités avance spéciale
-    private JRSpinner mySpinnerCcBaseTxIntPenRetard, mySpinnerCcBasexInt_IntRetDecouv ; //pour gérer le spinner contenant les bases du Tx Int Decouvert
     private JRSpinner mySpinnerCcBasexInt_IntRetAvceSpec; //pour gérer le spinner contenant les bases du Tx Int penalités avance spéciale
+    private JRSpinner mySpinnerBaseTxMtAgio; //pour gérer le spinner contenant les bases taux
+    private JRSpinner mySpinnerBaseTxCommMvm; //pour gérer le spinner contenant les bases taux
 
 
-    private TextInputLayout input_layout_CcValTxMtAgio;
-    private TextInputLayout input_layout_CcBaseTxMtAgio;
+    private TextInputLayout input_layout_CcValTxMtAgio,input_layout_CcTauxIntPenRetard,input_layout_CcTauxInt_IntRetDecouv, input_layout_CcTauxIntAvceSpec,
+            input_layout_CcTauxIntPenAvceSpec, input_layout_CcTauxInt_IntRetAvceSpec ;
+    private TextInputLayout input_layout_CcBaseTxMtAgio,input_layout_CcBaseTxIntPenRetard, input_layout_CcBasexInt_IntRetDecouv,
+            input_layout_CcBaseTxIntAvceSpec, input_layout_CcBaseTxIntPenAvceSpec, input_layout_CcBasexInt_IntRetAvceSpec;
     private TextInputLayout input_layout_CcBaseCalculAgiosCC;
     private TextInputLayout input_layout_CcBaseTxCommMvmCC;
     private TextInputLayout input_layout_CcValTxIntDecouv;
-    private TextInputLayout input_layout_CcValTxCommMvm,
-            input_layout_CcTauxIntAvceSpec, input_layout_CcTauxIntPenAvceSpec ,
-            input_layout_CcBaseTxIntAvceSpec, input_layout_CcBaseTxIntPenAvceSpec;
-    private TextInputLayout input_layout_CcTauxIntPenRetard,input_layout_CcTauxInt_IntRetDecouv,
-            input_layout_CcTauxInt_IntRetAvceSpec,
-            input_layout_CcBaseTxIntPenRetard, input_layout_CcBasexInt_IntRetDecouv,
-            input_layout_CcBasexInt_IntRetAvceSpec;
+    private TextInputLayout input_layout_CcValTxCommMvm;
     private LinearLayout bloc_cc1;
+    private LinearLayout bloc_cc_avance_speciale;
     private LinearLayout bloc_cc2;
     private LinearLayout bloc_cc3;
     private LinearLayout bloc_cc4;
     private LinearLayout bloc_cc5;
-    private LinearLayout blk_plage_cc;
-    private LinearLayout blk_plage_agios_cc;
-    private LinearLayout blk_plage_CcValTxCommMvm;
-    private LinearLayout bloc_cc_avance_speciale;
-    //private TextView tv_plageTxMtAgio,tv_plageCcTauxIntAvceSpec, tv_plageCcTauxIntPenAvceSpec;
+
+    private LinearLayout ll_CcNatureJrTxIntJr;
+    private LinearLayout ll_CcNatureJrTxIntAvceSpecJr;
+    private LinearLayout ll_CcNatJrTxIntJr_PenRetAvceSpe;
+    private LinearLayout ll_CcNatJrTxIntJr_IntRetAvceSpe;
+    private LinearLayout ll_CcNatureJrTxPenRet;
+    private LinearLayout ll_CcNatJrTxIntJr_IntRetDecouv;
+    private LinearLayout ll_decouv_permanent;
+
+
+    private RadioButton rbCrModeCalcInteretSimple;
+    private RadioButton rbCrModeCalcInteretCompose;
+    private RadioButton rbCrModeCalcInteretAvceSpecSimple;
+    private RadioButton rbCrModeCalcInteretAvceSpecCompose;
+
+    private RadioButton rbCcModeCalcPenRetardAvceSpecCompose;
+    private RadioButton rbCcModeCalcIntRetardAvceSpecCompose;
+
     private TextView tv_plageTxMtAgio, tv_plage_pen_retard_decouv_simple,tv_plage_int_retard_decouv_simple,tv_plageCcTauxIntAvceSpec, tv_plageCcTauxIntPenAvceSpec,
             tv_plage_CcTauxInt_IntRetAvceSpec;
     public static ArrayList<ModelPlageData> plageDataListCTP = new ArrayList<ModelPlageData>(); //to manage plageData
     private TextView tv_plageCalculAgiosCC;
     public static ArrayList<ModelPlageData> plageDataListCAP = new ArrayList<ModelPlageData>(); //to manage plageData
     private TextView tv_plageTxCommMvmCC;
-    public static ArrayList<ModelPlageData> plageDataListTCP = new ArrayList<ModelPlageData>(); //to manage plageData
 
-    public static ArrayList<ModelPlageData> plageDataListTAS = new ArrayList<ModelPlageData>(); //to manage plageData
-    public static ArrayList<ModelPlageData> plageDataListPAS = new ArrayList<ModelPlageData>(); //to manage plageData
-    private Button addButton;
     private String baseCcTxIntDecouv;
+    private String baseCcTxIntPenRetard;
     private String baseCcTxCommMvm;
-
     private String baseTxIntAvceSpec;
     private String baseTxIntPenAvceSpec;
+
+    /*START NEW*/
+    private RadioButton rbCcNaturePerTxInteretJour;
+    private RadioButton rbCcNaturePerTxInteretMois;
+    private RadioButton rbCcNaturePerTxInteretTrimestre;
+    private RadioButton rbCcNaturePerTxInteretAnnee;
+
+    private RadioButton rbCcNaturePerTxPenRetJour;
+    private RadioButton rbCcNaturePerTxPenRetMois;
+    private RadioButton rbCcNaturePerTxPenRetTrimestre;
+    private RadioButton rbCcNaturePerTxPenRetAnnee;
+
+    private RadioButton rbCcPeriod_IntRetDecouvJour;
+    private RadioButton rbCcPeriod_IntRetDecouvMois;
+    private RadioButton rbCcPeriod_IntRetDecouvTrimestre;
+    private RadioButton rbCcPeriod_IntRetDecouvAnnee;
+
+    private RadioButton rbCcNaturePerTxInteretAvceSpecJour;
+    private RadioButton rbCcNaturePerTxInteretAvceSpecMois;
+    private RadioButton rbCcNaturePerTxInteretAvceSpecTrimestre;
+    private RadioButton rbCcNaturePerTxInteretAvceSpecAnnee;
+
+    private RadioButton rbCcPeriod_PenRetAvceSpecJour;
+    private RadioButton rbCcPeriod_PenRetAvceSpecMois;
+    private RadioButton rbCcPeriod_PenRetAvceSpecTrimestre;
+    private RadioButton rbCcPeriod_PenRetAvceSpecAnnee;
+
+    private RadioButton rbCcPeriod_IntRetAvceSpecJour;
+    private RadioButton rbCcPeriod_IntRetAvceSpecMois;
+    private RadioButton rbCcPeriod_IntRetAvceSpecTrimestre;
+    private RadioButton rbCcPeriod_IntRetAvceSpecAnnee;
+
+
+    private RadioButton rbCcNatJrTxIntJr_IntRetDecouvLunVen;
+    private RadioButton rbCcNatJrTxIntJr_IntRetDecouvLunSam;
+    private RadioButton rbCcNatJrTxIntJr_IntRetDecouvJrOuvertGu;
+    private RadioButton rbCcNatJrTxIntJr_IntRetDecouvTous;
+
+    private RadioButton rbCcNatureJrTxIntJrLunVen;
+    private RadioButton rbCcNatureJrTxIntJrLunSam;
+    private RadioButton rbCcNatureJrTxIntJrJrOuvertGu;
+    private RadioButton rbCcNatureJrTxIntJrTous;
+
+    private RadioButton rbCcNatureJrTxIntAvceSpecJrLunVen;
+    private RadioButton rbCcNatureJrTxIntAvceSpecJrLunSam;
+    private RadioButton rbCcNatureJrTxIntAvceSpecJrJrOuvertGu;
+    private RadioButton rbCcNatureJrTxIntAvceSpecJrTous;
+
+    private RadioButton rbCcNatJrTxIntJr_PenRetAvceSpeLunVen;
+    private RadioButton rbCcNatJrTxIntJr_PenRetAvceSpeLunSam;
+    private RadioButton rbCcNatJrTxIntJr_PenRetAvceSpeJrOuvertGu;
+    private RadioButton rbCcNatJrTxIntJr_PenRetAvceSpeTous;
+
+    private RadioButton rbCcNatJrTxIntJr_IntRetAvceSpeLunVen;
+    private RadioButton rbCcNatJrTxIntJr_IntRetAvceSpeLunSam;
+    private RadioButton rbCcNatJrTxIntJr_IntRetAvceSpeJrOuvertGu;
+    private RadioButton rbCcNatJrTxIntJr_IntRetAvceSpeTous;
+
+    private RadioButton rbCcNatureJrTxPenRetLunVen;
+    private RadioButton rbCcNatureJrTxPenRetLunSam;
+    private RadioButton rbCcNatureJrTxPenRetJrOuvertGu;
+    private RadioButton rbCcNatureJrTxPenRetTous;
+    private String CcNaturePerTxInteret;
+    private String CcIsTxInteretJrOn;
+    private String CcNatureJrTxIntJr;
+    private String CcNaturePerTxPenRet;
+    private String CcIsTxPenRetardJrOn;
+    private String CcNatureJrTxPenRet;
+    private String CcPeriod_IntRetDecouv;
+    private String CcIsTxIntJrOn_IntRetDecouv;
+    private String CcNatJrTxIntJr_IntRetDecouv;
+    private EditText CcDureeMaxAvceSpec;
+    private EditText CcMaxMontantDecouvertPermanentAutorise;
+    private EditText CcMaxDureeDecouvertPermanentAutorise;
+    private String st_CcDureeMaxAvceSpec;
+    private String CcNaturePerTxInteretAvceSpec;
+    private String CcIsTxInteretAvceSpecJrOn;
+    private String CcNatureJrTxIntAvceSpecJr;
+    private String CcIsTxPenRetardAvceSpecDegressif;
+    private String CcIsTxIntAvceSpecDegressif;
+    private String CcPeriod_PenRetAvceSpec;
+    private String CcIsTxIntJrOn_PenRetAvceSpe;
+    private String CcNatJrTxIntJr_PenRetAvceSpe;
+    private String CcIsTxIntRetardAvceSpecDegressif;
+    private String st_CcTauxInt_IntRetAvceSpec;
+    private String st_CcBasexInt_IntRetAvceSpec;
+    private String CcPeriod_IntRetAvceSpec;
+    private String CcIsTxIntJrOn_IntRetAvceSpe;
+    private String CcNatJrTxIntJr_IntRetAvceSpe;
+    private String CcModeCalcInteret;
+    private String CcModeCalcInteretAvceSpec;
+    private String CcIsDecouvertPermanentAutorise;
+    private String st_CcMaxMontantDecouvertPermanentAutorise;
+    private String st_CcMaxDureeDecouvertPermanentAutorise;
+    private String CcModeCalcPenRetardAvceSpec;
+    private String CcModeCalcIntRetardAvceSpec;
+    /*END NEW*/
+
 
     //for manage plages
 //#plage CTP
@@ -292,9 +442,9 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         bloc_cc3 = (LinearLayout) findViewById(R.id.ll_bloc_cc3);
         bloc_cc4 = (LinearLayout) findViewById(R.id.ll_bloc_cc4);
         bloc_cc5 = (LinearLayout) findViewById(R.id.ll_bloc_cc5);
-        blk_plage_cc = (LinearLayout) findViewById(R.id.blk_plage_cc);
-        blk_plage_agios_cc = (LinearLayout) findViewById(R.id.blk_plage_agios_cc);
-        blk_plage_CcValTxCommMvm = (LinearLayout) findViewById(R.id.blk_plage_CcValTxCommMvm);
+//        blk_plage_cc = (LinearLayout) findViewById(R.id.blk_plage_cc);
+//        blk_plage_agios_cc = (LinearLayout) findViewById(R.id.blk_plage_agios_cc);
+//        blk_plage_CcValTxCommMvm = (LinearLayout) findViewById(R.id.blk_plage_CcValTxCommMvm);
         input_layout_CcValTxMtAgio = (TextInputLayout) findViewById(R.id.input_layout_CcValTxMtAgio);
         input_layout_CcTauxIntPenRetard = (TextInputLayout) findViewById(R.id.input_layout_CcTauxIntPenRetard);
         input_layout_CcTauxInt_IntRetDecouv = (TextInputLayout) findViewById(R.id.input_layout_CcTauxInt_IntRetDecouv);
@@ -460,8 +610,8 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         tv_plage_CcTauxInt_IntRetAvceSpec= (TextView) findViewById(R.id.tv_plage_CcTauxInt_IntRetAvceSpec);
         tv_plageCalculAgiosCC= (TextView) findViewById(R.id.tv_plage_CalculAgiosCC);
         tv_plageTxCommMvmCC= (TextView) findViewById(R.id.tv_plage_CcTxCommMvm);
-        CcPlageTxIntDecouvFrom= (EditText) findViewById(R.id.txt_CcValTxIntDecouvFrom);
-        CcPlageTxIntDecouvTo= (EditText) findViewById(R.id.txt_CcValTxIntDecouvTo);
+//                CcPlageTxIntDecouvFrom= (EditText) findViewById(R.id.txt_CcValTxIntDecouvFrom);
+//                CcPlageTxIntDecouvTo= (EditText) findViewById(R.id.txt_CcValTxIntDecouvTo);
         CcDureeMaxDecouv = (EditText) findViewById(R.id.input_txt_CcDureeMaxDecouv);
         //CcNatureTypDureDecouv= (EditText) findViewById(R.id.input_txt_CcDureeMaxDecouv);
         CcNatureTypDureDecouvJour= (RadioButton) findViewById(R.id.rb_CcNatureTypDureDecouv_jour);
@@ -474,8 +624,8 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         CcNatureTxMtAgioPlage= (RadioButton) findViewById(R.id.rb_CcNatureTxMtAgio_plage);
 
         CcValTxMtAgio=(EditText) findViewById(R.id.input_txt_CcValTxIntDecouv);
-        CcPlageTxMtAgioFrom=(EditText) findViewById(R.id.txt_CcValTxMtAgioFrom);
-        CcPlageTxMtAgioTo=(EditText) findViewById(R.id.txt_CcValTxMtAgioTo);
+//                CcPlageTxMtAgioFrom=(EditText) findViewById(R.id.txt_CcValTxMtAgioFrom);
+//                CcPlageTxMtAgioTo=(EditText) findViewById(R.id.txt_CcValTxMtAgioTo);
 //                CcNatBaseAgio=(EditText) findViewById(R.id.input_txt_NatureBaseCalculAgiosCC);
         CcIsChequierM1On=(Switch) findViewById(R.id.Switch_txtDisponibiliteChequier1CC);
         CcIsPlafAvceSpecNegoc=(Switch) findViewById(R.id.SwitchCcIsPlafAvceSpecNegoc);
@@ -497,8 +647,100 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         CcNatTxCommMontant= (RadioButton) findViewById(R.id.rb_CcNatTxComm_Montant);
         CcNatTxCommPlage= (RadioButton) findViewById(R.id.rb_CcNatTxComm_Plage);
         CcValTxCommMvm=(EditText) findViewById(R.id.input_txt_CcValTxCommMvm);
-        CcPlageTxCommMvmFrom=(EditText) findViewById(R.id.txt_CcValTxCommMvm_From);
-        CcPlageTxCommMvmTo=(EditText) findViewById(R.id.txt_CcValTxCommMvm_To);
+//                CcPlageTxCommMvmFrom=(EditText) findViewById(R.id.txt_CcValTxCommMvm_From);
+//                CcPlageTxCommMvmTo=(EditText) findViewById(R.id.txt_CcValTxCommMvm_To);
+        /*NEW START*/
+        SwitchDecouvertPermanentAutoriseCC=(Switch) findViewById(R.id.SwitchDecouvertPermanentAutoriseCC);
+        SwitchCcIsTxIntAvceSpecDegressif=(Switch) findViewById(R.id.SwitchCcIsTxIntAvceSpecDegressif);
+        SwitchCcIsTxPenRetardAvceSpecDegressif=(Switch) findViewById(R.id.SwitchCcIsTxPenRetardAvceSpecDegressif);
+        SwitchCcIsTxIntRetardAvceSpecDegressif=(Switch) findViewById(R.id.SwitchCcIsTxIntRetardAvceSpecDegressif);
+        SwitchCcIsTxInteretJrOn=(SwitchCompat) findViewById(R.id.SwitchCcIsTxInteretJrOn);
+        SwitchCcIsTxInteretAvceSpecJrOn=(SwitchCompat) findViewById(R.id.SwitchCcIsTxInteretAvceSpecJrOn);
+        SwitchCcIsTxIntJrOn_PenRetAvceSpe=(SwitchCompat) findViewById(R.id.SwitchCcIsTxIntJrOn_PenRetAvceSpe);
+        SwitchCcIsTxIntJrOn_IntRetAvceSpe=(SwitchCompat) findViewById(R.id.SwitchCcIsTxIntJrOn_IntRetAvceSpe);
+        SwitchCcIsTxPenRetardJrOn=(SwitchCompat) findViewById(R.id.SwitchCcIsTxPenRetardJrOn);
+        SwitchCcIsTxIntJrOn_IntRetDecouv=(SwitchCompat) findViewById(R.id.SwitchCcIsTxIntJrOn_IntRetDecouv);
+        rbCrModeCalcInteretSimple = (RadioButton)findViewById(R.id.rbCrModeCalcInteretSimple);
+        rbCrModeCalcInteretAvceSpecSimple = (RadioButton)findViewById(R.id.rbCrModeCalcInteretAvceSpecSimple);
+        rbCrModeCalcInteretAvceSpecCompose = (RadioButton)findViewById(R.id.rbCrModeCalcInteretAvceSpecCompose);
+        rbCrModeCalcInteretCompose = (RadioButton)findViewById(R.id.rbCrModeCalcInteretCompose);
+
+        rbCcModeCalcPenRetardAvceSpecCompose = (RadioButton)findViewById(R.id.rbCcModeCalcPenRetardAvceSpecCompose);
+
+        rbCcModeCalcIntRetardAvceSpecCompose = (RadioButton)findViewById(R.id.rbCcModeCalcIntRetardAvceSpecCompose);
+
+        rbCcNaturePerTxInteretJour = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretJour);
+        rbCcNaturePerTxInteretMois = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretMois);
+        rbCcNaturePerTxInteretTrimestre = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretTrimestre);
+        rbCcNaturePerTxInteretAnnee = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretAnnee);
+
+        rbCcNaturePerTxPenRetJour = (RadioButton)findViewById(R.id.rbCcNaturePerTxPenRetJour);
+        rbCcNaturePerTxPenRetMois = (RadioButton)findViewById(R.id.rbCcNaturePerTxPenRetMois);
+        rbCcNaturePerTxPenRetTrimestre = (RadioButton)findViewById(R.id.rbCcNaturePerTxPenRetTrimestre);
+        rbCcNaturePerTxPenRetAnnee = (RadioButton)findViewById(R.id.rbCcNaturePerTxPenRetAnnee);
+
+
+        rbCcPeriod_IntRetDecouvJour = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetDecouvJour);
+        rbCcPeriod_IntRetDecouvMois = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetDecouvMois);
+        rbCcPeriod_IntRetDecouvTrimestre = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetDecouvTrimestre);
+        rbCcPeriod_IntRetDecouvAnnee = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetDecouvAnnee);
+
+        rbCcNaturePerTxInteretAvceSpecJour = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretAvceSpecJour);
+        rbCcNaturePerTxInteretAvceSpecMois = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretAvceSpecMois);
+        rbCcNaturePerTxInteretAvceSpecTrimestre = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretAvceSpecTrimestre);
+        rbCcNaturePerTxInteretAvceSpecAnnee = (RadioButton)findViewById(R.id.rbCcNaturePerTxInteretAvceSpecAnnee);
+
+        rbCcPeriod_PenRetAvceSpecJour = (RadioButton)findViewById(R.id.rbCcPeriod_PenRetAvceSpecJour);
+        rbCcPeriod_PenRetAvceSpecMois = (RadioButton)findViewById(R.id.rbCcPeriod_PenRetAvceSpecMois);
+        rbCcPeriod_PenRetAvceSpecTrimestre = (RadioButton)findViewById(R.id.rbCcPeriod_PenRetAvceSpecTrimestre);
+        rbCcPeriod_PenRetAvceSpecAnnee = (RadioButton)findViewById(R.id.rbCcPeriod_PenRetAvceSpecAnnee);
+
+        rbCcPeriod_IntRetAvceSpecJour = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetAvceSpecJour);
+        rbCcPeriod_IntRetAvceSpecMois = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetAvceSpecMois);
+        rbCcPeriod_IntRetAvceSpecTrimestre = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetAvceSpecTrimestre);
+        rbCcPeriod_IntRetAvceSpecAnnee = (RadioButton)findViewById(R.id.rbCcPeriod_IntRetAvceSpecAnnee);
+
+        rbCcNatureJrTxIntJrLunVen = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntJrLunVen);
+        rbCcNatureJrTxIntJrLunSam = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntJrLunSam);
+        rbCcNatureJrTxIntJrJrOuvertGu = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntJrJrOuvertGu);
+        rbCcNatureJrTxIntJrTous = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntJrTous);
+
+        rbCcNatureJrTxPenRetLunVen = (RadioButton)findViewById(R.id.rbCcNatureJrTxPenRetLunVen);
+        rbCcNatJrTxIntJr_IntRetDecouvLunSam = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetDecouvLunSam);
+        rbCcNatJrTxIntJr_IntRetDecouvJrOuvertGu = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetDecouvJrOuvertGu);
+        rbCcNatJrTxIntJr_IntRetDecouvTous = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetDecouvTous);
+
+        rbCcNatJrTxIntJr_IntRetDecouvLunVen = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetDecouvLunVen);
+        rbCcNatureJrTxPenRetLunSam = (RadioButton)findViewById(R.id.rbCcNatureJrTxPenRetLunSam);
+        rbCcNatureJrTxPenRetJrOuvertGu = (RadioButton)findViewById(R.id.rbCcNatureJrTxPenRetJrOuvertGu);
+        rbCcNatureJrTxPenRetTous = (RadioButton)findViewById(R.id.rbCcNatureJrTxPenRetTous);
+
+        rbCcNatureJrTxIntAvceSpecJrLunVen = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntAvceSpecJrLunVen);
+        rbCcNatureJrTxIntAvceSpecJrLunSam = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntAvceSpecJrLunSam);
+        rbCcNatureJrTxIntAvceSpecJrJrOuvertGu = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntAvceSpecJrJrOuvertGu);
+        rbCcNatureJrTxIntAvceSpecJrTous = (RadioButton)findViewById(R.id.rbCcNatureJrTxIntAvceSpecJrTous);
+
+        rbCcNatJrTxIntJr_PenRetAvceSpeLunVen = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_PenRetAvceSpeLunVen);
+        rbCcNatJrTxIntJr_PenRetAvceSpeLunSam = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_PenRetAvceSpeLunSam);
+        rbCcNatJrTxIntJr_PenRetAvceSpeJrOuvertGu = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_PenRetAvceSpeJrOuvertGu);
+        rbCcNatJrTxIntJr_PenRetAvceSpeTous = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_PenRetAvceSpeTous);
+
+        rbCcNatJrTxIntJr_IntRetAvceSpeLunVen = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetAvceSpeLunVen);
+        rbCcNatJrTxIntJr_IntRetAvceSpeLunSam = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetAvceSpeLunSam);
+        rbCcNatJrTxIntJr_IntRetAvceSpeJrOuvertGu = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetAvceSpeJrOuvertGu);
+        rbCcNatJrTxIntJr_IntRetAvceSpeTous = (RadioButton)findViewById(R.id.rbCcNatJrTxIntJr_IntRetAvceSpeTous);
+
+        ll_CcNatureJrTxIntJr = (LinearLayout) findViewById(R.id.ll_CcNatureJrTxIntJr);
+        ll_CcNatureJrTxIntAvceSpecJr = (LinearLayout) findViewById(R.id.ll_CcNatureJrTxIntAvceSpecJr);
+        ll_CcNatJrTxIntJr_PenRetAvceSpe = (LinearLayout) findViewById(R.id.ll_CcNatJrTxIntJr_PenRetAvceSpe);
+        ll_CcNatJrTxIntJr_IntRetAvceSpe = (LinearLayout) findViewById(R.id.ll_CcNatJrTxIntJr_IntRetAvceSpe);
+        ll_CcNatureJrTxPenRet = (LinearLayout) findViewById(R.id.ll_CcNatureJrTxPenRet);
+        ll_CcNatJrTxIntJr_IntRetDecouv = (LinearLayout) findViewById(R.id.ll_CcNatJrTxIntJr_IntRetDecouv);
+        ll_decouv_permanent = (LinearLayout) findViewById(R.id.ll_decouv_permanent);
+        CcDureeMaxAvceSpec= (EditText) findViewById(R.id.input_txt_CcDureeMaxAvceSpec);
+        CcMaxMontantDecouvertPermanentAutorise= (EditText) findViewById(R.id.input_txt_MaxMontantDecouvertPermanentAutoriseCC);
+        CcMaxDureeDecouvertPermanentAutorise= (EditText) findViewById(R.id.input_txt_MaxDureeDecouvertPermanentAutoriseCC);
+        /*END START*/
 
 
 
@@ -545,13 +787,14 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             }
         });
+        //CTP
         tv_plageTxMtAgio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'intérêt découvert";
-                    ListPlageDataCTPActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlageDataCTPActivity.class);
+                    ListPlageCTP.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlageCTP.class);
                     i.putExtra(KEY_CPTE_COURANT_ID, cpteCourantId);
 
                     startActivityForResult(i,20);
@@ -560,18 +803,18 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                     Toast.makeText(UpdateProduitCpteCourant.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
 
             }
         });
+        //CAP
         tv_plageCalculAgiosCC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux des agios";
-                    ListPlageDataCAPActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageDataCAPActivity.class);
+                    ListPlageCAP.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageCAP.class);
                     i.putExtra(KEY_CPTE_COURANT_ID, cpteCourantId);
                     startActivityForResult(i,20);
 
@@ -584,13 +827,14 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             }
         });
+        //TCP
         tv_plageTxCommMvmCC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux de commission";
-                    ListPlageDataTCPActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageDataTCPActivity.class);
+                    ListPlageTCP.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageTCP.class);
                     i.putExtra(KEY_CPTE_COURANT_ID, cpteCourantId);
                     startActivityForResult(i,20);
 
@@ -604,13 +848,14 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
             }
         });
 
+        //TAS
         tv_plageCcTauxIntAvceSpec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Tx int avance spéciale";
-                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageDataTASActivity.class);
+                    ListPlageTAS.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageTAS.class);
                     i.putExtra(KEY_CPTE_COURANT_ID, cpteCourantId);
                     startActivityForResult(i,20);
 
@@ -623,13 +868,14 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             }
         });
+        //PAS
         tv_plageCcTauxIntPenAvceSpec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Tx int pénalité A.S";
-                    ListPlageDataPASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageDataPASActivity.class);
+                    ListPlagePAS.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlagePAS.class);
                     i.putExtra(KEY_CPTE_COURANT_ID, cpteCourantId);
                     startActivityForResult(i,20);
 
@@ -642,13 +888,14 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             }
         });
+        //IRA
         tv_plage_CcTauxInt_IntRetAvceSpec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Tx int retard A.S";
-                    ListPlageDataPASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageDataPASActivity.class);
+                    ListPlageIRA.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this,ListPlageIRA.class);
                     startActivityForResult(i,20);
 
                 } else {
@@ -661,14 +908,14 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
             }
         });
 
-        //Provisoire
+        //PRD
         tv_plage_pen_retard_decouv_simple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux pénalité de retard";
-                    ListPlageDataCTPActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlageDataCTPActivity.class);
+                    ListPlagePRD.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlagePRD.class);
                     startActivityForResult(i,20);
 
                 } else {
@@ -678,14 +925,14 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 }
             }
         });
-        //Provisoire
+        //IRD
         tv_plage_int_retard_decouv_simple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux intérêt de retard";
-                    ListPlageDataCTPActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlageDataCTPActivity.class);
+                    ListPlageIRD.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateProduitCpteCourant.this, ListPlageIRD.class);
                     startActivityForResult(i,20);
 
                 } else {
@@ -708,13 +955,33 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         onRadioButtonClicked(CcNatTauxIntAvceSpecFixe);
         onRadioButtonClicked(CcNatTauxIntPenAvceSpecFixe);
         onRadioButtonClicked(CcNatureTxInt_IntRetAvceSpecFixe);
+        onRadioButtonClicked(rbCcModeCalcPenRetardAvceSpecCompose);
+        onRadioButtonClicked(rbCcModeCalcIntRetardAvceSpecCompose);
+        onRadioButtonClicked(rbCrModeCalcInteretSimple);
+        onRadioButtonClicked(rbCcNaturePerTxInteretMois);
+        onRadioButtonClicked(rbCcNatureJrTxIntJrTous);
+        onRadioButtonClicked(rbCcNaturePerTxPenRetMois);
+        onRadioButtonClicked(rbCcNatureJrTxPenRetTous);
+        onRadioButtonClicked(rbCcPeriod_IntRetDecouvMois);
+        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetDecouvTous);
+        onRadioButtonClicked(CcNatTxCommFixe);
+        onRadioButtonClicked(rbCrModeCalcInteretAvceSpecSimple);
+        onRadioButtonClicked(rbCcNaturePerTxInteretAvceSpecMois);
+        onRadioButtonClicked(rbCcNatureJrTxIntAvceSpecJrTous);
+        onRadioButtonClicked(rbCcPeriod_PenRetAvceSpecMois);
+        onRadioButtonClicked(rbCcNatJrTxIntJr_PenRetAvceSpeTous);
+        onRadioButtonClicked(rbCcPeriod_IntRetAvceSpecMois);
+        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetAvceSpeTous);
+
         onSwitchButtonClicked(CcIsDecouvOn);
+        onSwitchButtonClicked(SwitchDecouvertPermanentAutoriseCC);
 
         onSwitchButtonClicked(CcIsChequierM1On);
         onSwitchButtonClicked(CcIsChequierM2On);
         onSwitchButtonClicked(CcIsChequierM3On);
         onSwitchButtonClicked(CcIsTxCommMvmOper);
         onSwitchButtonClicked(CcIsAvanceSpecialOn);
+
         /*Fin provisoire*/
 
 
@@ -723,14 +990,101 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
 
     public void onSwitchButtonClicked(View view) {
-        boolean checked1 = ((Switch) view).isChecked();
+        // boolean checked1 = ((Switch) view).isChecked();
         String str = "";
         // Check which checkbox was clicked
         switch (view.getId()) {
+
+            case R.id.SwitchDecouvertPermanentAutoriseCC:
+                if (SwitchDecouvertPermanentAutoriseCC.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    ll_decouv_permanent.setVisibility(View.VISIBLE);
+
+                }else{
+                    ll_decouv_permanent.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxIntAvceSpecDegressif:
+                if (SwitchCcIsTxIntAvceSpecDegressif.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    rbCrModeCalcInteretAvceSpecCompose.setChecked(true);
+                    onRadioButtonClicked(rbCrModeCalcInteretAvceSpecCompose);
+                }else{
+                    rbCrModeCalcInteretAvceSpecSimple.setChecked(true);
+                    onRadioButtonClicked(rbCrModeCalcInteretAvceSpecSimple);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxIntDegressif:
+                if (CcIsTxIntDegressif.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    rbCrModeCalcInteretCompose.setChecked(true);
+                    onRadioButtonClicked(rbCrModeCalcInteretCompose);
+                }else{
+                    rbCrModeCalcInteretSimple.setChecked(true);
+                    onRadioButtonClicked(rbCrModeCalcInteretSimple);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxInteretJrOn:
+                if (SwitchCcIsTxInteretJrOn.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    ll_CcNatureJrTxIntJr.setVisibility(View.VISIBLE);
+                }else{
+                    ll_CcNatureJrTxIntJr.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxInteretAvceSpecJrOn:
+                if (SwitchCcIsTxInteretAvceSpecJrOn.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    ll_CcNatureJrTxIntAvceSpecJr.setVisibility(View.VISIBLE);
+                }else{
+                    ll_CcNatureJrTxIntAvceSpecJr.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxIntJrOn_PenRetAvceSpe:
+                if (SwitchCcIsTxIntJrOn_PenRetAvceSpe.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    ll_CcNatJrTxIntJr_PenRetAvceSpe.setVisibility(View.VISIBLE);
+                }else{
+                    ll_CcNatJrTxIntJr_PenRetAvceSpe.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxIntJrOn_IntRetAvceSpe:
+                if (SwitchCcIsTxIntJrOn_IntRetAvceSpe.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    ll_CcNatJrTxIntJr_IntRetAvceSpe.setVisibility(View.VISIBLE);
+                }else{
+                    ll_CcNatJrTxIntJr_IntRetAvceSpe.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxPenRetardJrOn:
+                if (SwitchCcIsTxPenRetardJrOn.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    ll_CcNatureJrTxPenRet.setVisibility(View.VISIBLE);
+                }else{
+                    ll_CcNatureJrTxPenRet.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.SwitchCcIsTxIntJrOn_IntRetDecouv:
+                if (SwitchCcIsTxIntJrOn_IntRetDecouv.isChecked()) {
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+                    ll_CcNatJrTxIntJr_IntRetDecouv.setVisibility(View.VISIBLE);
+                }else{
+                    ll_CcNatJrTxIntJr_IntRetDecouv.setVisibility(View.GONE);
+                }
+
+                break;
 //
             case R.id.SwitchAutoriserDecouvertCC:
                 if (CcIsDecouvOn.isChecked()) {
-                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc1.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -741,7 +1095,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 break;
             case R.id.SwitchCcIsAvanceSpecialOn:
                 if (CcIsAvanceSpecialOn.isChecked()) {
-                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc_avance_speciale.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -752,7 +1106,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 break;
             case R.id.Switch_txtDisponibiliteChequier1CC:
                 if (CcIsChequierM1On.isChecked()) {
-                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc2.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -763,7 +1117,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 break;
             case R.id.Switch_txtDisponibiliteChequier2CC:
                 if (CcIsChequierM2On.isChecked()) {
-                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc3.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -774,7 +1128,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 break;
             case R.id.Switch_txtDisponibiliteChequier3CC:
                 if (CcIsChequierM3On.isChecked()) {
-                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc4.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -785,7 +1139,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 break;
             case R.id.SwitchActiverTxCommissionCC:
                 if (CcIsTxCommMvmOper.isChecked()) {
-                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc5.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -802,6 +1156,37 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
         String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
+
+            case R.id.rbCcModeCalcIntRetardAvceSpecCompose:
+                if (rbCcModeCalcIntRetardAvceSpecCompose.isChecked()) {
+                    CcModeCalcIntRetardAvceSpec ="C";
+                }
+                break;
+            case R.id.rbCcModeCalcPenRetardAvceSpecCompose:
+                if (rbCcModeCalcPenRetardAvceSpecCompose.isChecked()) {
+                    CcModeCalcPenRetardAvceSpec ="C";
+                }
+                break;
+            case R.id.rbCrModeCalcInteretSimple:
+                if (rbCrModeCalcInteretSimple.isChecked()) {
+                    CcModeCalcInteret ="S";
+                }
+                break;
+            case R.id.rbCrModeCalcInteretCompose:
+                if (rbCrModeCalcInteretCompose.isChecked()) {
+                    CcModeCalcInteret ="C";
+                }
+                break;
+            case R.id.rbCrModeCalcInteretAvceSpecSimple:
+                if (rbCrModeCalcInteretAvceSpecSimple.isChecked()) {
+                    CcModeCalcInteretAvceSpec ="S";
+                }
+                break;
+            case R.id.rbCrModeCalcInteretAvceSpecCompose:
+                if (rbCrModeCalcInteretAvceSpecCompose.isChecked()) {
+                    CcModeCalcInteretAvceSpec ="C";
+                }
+                break;
 
             case R.id.rb_CcNatTauxIntPenAvceSpec_Fixe:
                 if (CcNatTauxIntPenAvceSpecFixe.isChecked()) {
@@ -916,7 +1301,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                     st_CcNatureTxIntDecouv ="F";
                     str = checked1?"Type Fixe Selected":"Type Fixe Deselected";
                     CcValTxIntDecouv.setHint("Montant");
-                    blk_plage_cc.setVisibility(View.GONE);
+//                    blk_plage_cc.setVisibility(View.GONE);
                     tv_plageTxMtAgio.setVisibility(View.GONE);
                     input_layout_CcValTxMtAgio.setVisibility(View.VISIBLE);
                     input_layout_CcBaseTxMtAgio.setVisibility(View.GONE);
@@ -930,7 +1315,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                     st_CcNatureTxIntDecouv ="T";
                     str = checked1?"Type Taux Selected":"Type Taux Deselected";
                     CcValTxIntDecouv.setHint("Taux");
-                    blk_plage_cc.setVisibility(View.GONE);
+//                    blk_plage_cc.setVisibility(View.GONE);
                     tv_plageTxMtAgio.setVisibility(View.GONE);
                     input_layout_CcValTxMtAgio.setVisibility(View.VISIBLE);
                     input_layout_CcBaseTxMtAgio.setVisibility(View.VISIBLE);
@@ -943,7 +1328,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                     // ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     str = checked1?"Type Plage Selected":"Type Plage Deselected";
                     st_CcNatureTxIntDecouv ="P";
-                    blk_plage_cc.setVisibility(View.GONE);
+//                    blk_plage_cc.setVisibility(View.GONE);
                     tv_plageTxMtAgio.setVisibility(View.VISIBLE);
                     input_layout_CcValTxMtAgio.setVisibility(View.GONE);
                     input_layout_CcBaseTxMtAgio.setVisibility(View.GONE);
@@ -1055,7 +1440,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 if (CcNatureTxMtAgioTaux.isChecked()){
                     str = checked1?"Type Taux Selected":"Type Taux Deselected";
                     st_CcNatureTxMtAgio ="T";
-                    blk_plage_agios_cc.setVisibility(View.GONE);
+//                    blk_plage_agios_cc.setVisibility(View.GONE);
                     tv_plageCalculAgiosCC.setVisibility(View.GONE);
                     CcValTxMtAgio.setHint("Taux agios");
                     input_layout_CcValTxIntDecouv.setVisibility(View.VISIBLE);
@@ -1068,7 +1453,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 if (CcNatureTxMtAgioMontant.isChecked()){
                     str = checked1?"Type Montant Selected":"Type Montant Deselected";
                     st_CcNatureTxMtAgio ="M";
-                    blk_plage_agios_cc.setVisibility(View.GONE);
+//                    blk_plage_agios_cc.setVisibility(View.GONE);
                     tv_plageCalculAgiosCC.setVisibility(View.GONE);
                     CcValTxMtAgio.setHint("Montant agios");
                     input_layout_CcValTxIntDecouv.setVisibility(View.VISIBLE);
@@ -1082,7 +1467,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 if (CcNatureTxMtAgioPlage.isChecked()){
                     str = checked1?"Type Plage Selected":"Type Plage Deselected";
                     st_CcNatureTxMtAgio ="P";
-                    blk_plage_agios_cc.setVisibility(View.GONE);
+//                    blk_plage_agios_cc.setVisibility(View.GONE);
                     tv_plageCalculAgiosCC.setVisibility(View.VISIBLE);
                     input_layout_CcValTxIntDecouv.setVisibility(View.GONE);
                     input_layout_CcBaseCalculAgiosCC.setVisibility(View.GONE);
@@ -1094,7 +1479,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 if (CcNatTxCommFixe.isChecked()){
                     str = checked1?"Type Fixe Selected":"Type Fixe Deselected";
                     st_CcNatTxComm ="T";
-                    blk_plage_CcValTxCommMvm.setVisibility(View.GONE);
+//                    blk_plage_CcValTxCommMvm.setVisibility(View.GONE);
                     tv_plageTxCommMvmCC.setVisibility(View.GONE);
                     input_layout_CcValTxCommMvm.setVisibility(View.VISIBLE);
                     CcValTxCommMvm.setHint("Taux commission");
@@ -1107,7 +1492,7 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 if (CcNatTxCommMontant.isChecked()){
                     str = checked1?"Type Montant Selected":"Type Montant Deselected";
                     st_CcNatTxComm ="M";
-                    blk_plage_CcValTxCommMvm.setVisibility(View.GONE);
+//                    blk_plage_CcValTxCommMvm.setVisibility(View.GONE);
                     tv_plageTxCommMvmCC.setVisibility(View.GONE);
                     input_layout_CcValTxCommMvm.setVisibility(View.VISIBLE);
                     CcValTxCommMvm.setHint("Montant commission");
@@ -1120,13 +1505,256 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 if (CcNatTxCommPlage.isChecked()){
                     str = checked1?"Type Plage Selected":"Type Plage Deselected";
                     st_CcNatTxComm ="P";
-                    blk_plage_CcValTxCommMvm.setVisibility(View.GONE);// a supprimer tout le bloc car inutile
+//                    blk_plage_CcValTxCommMvm.setVisibility(View.GONE);// a supprimer tout le bloc car inutile
                     tv_plageTxCommMvmCC.setVisibility(View.VISIBLE);
                     input_layout_CcValTxCommMvm.setVisibility(View.GONE);
                     input_layout_CcBaseTxCommMvmCC.setVisibility(View.GONE);
                 }
 
 
+                break;
+            case R.id.rbCcNaturePerTxInteretJour:
+                if (rbCcNaturePerTxInteretJour.isChecked()){
+                    CcNaturePerTxInteret ="J";
+
+                }
+                break;
+            case R.id.rbCcNaturePerTxInteretMois:
+                if (rbCcNaturePerTxInteretMois.isChecked()){
+                    CcNaturePerTxInteret ="M";
+                }
+                break;
+            case R.id.rbCcNaturePerTxInteretTrimestre:
+                if (rbCcNaturePerTxInteretTrimestre.isChecked()){
+                    CcNaturePerTxInteret ="T";
+                }
+                break;
+            case R.id.rbCcNaturePerTxInteretAnnee:
+                if (rbCcNaturePerTxInteretAnnee.isChecked()){
+                    CcNaturePerTxInteret ="A";
+                }
+                break;
+            case R.id.rbCcNaturePerTxPenRetJour:
+                if (rbCcNaturePerTxPenRetJour.isChecked()){
+                    CcNaturePerTxPenRet ="J";
+
+                }
+                break;
+            case R.id.rbCcNaturePerTxPenRetMois:
+                if (rbCcNaturePerTxPenRetMois.isChecked()){
+                    CcNaturePerTxPenRet ="M";
+                }
+                break;
+            case R.id.rbCcNaturePerTxPenRetTrimestre:
+                if (rbCcNaturePerTxPenRetTrimestre.isChecked()){
+                    CcNaturePerTxPenRet ="T";
+                }
+                break;
+            case R.id.rbCcNaturePerTxPenRetAnnee:
+                if (rbCcNaturePerTxPenRetAnnee.isChecked()){
+                    CcNaturePerTxPenRet ="A";
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetDecouvJour:
+                if (rbCcPeriod_IntRetDecouvJour.isChecked()){
+                    CcPeriod_IntRetDecouv ="J";
+
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetDecouvMois:
+                if (rbCcPeriod_IntRetDecouvMois.isChecked()){
+                    CcPeriod_IntRetDecouv ="M";
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetDecouvTrimestre:
+                if (rbCcPeriod_IntRetDecouvTrimestre.isChecked()){
+                    CcPeriod_IntRetDecouv ="T";
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetDecouvAnnee:
+                if (rbCcPeriod_IntRetDecouvAnnee.isChecked()){
+                    CcPeriod_IntRetDecouv ="A";
+                }
+                break;
+            case R.id.rbCcNaturePerTxInteretAvceSpecJour:
+                if (rbCcNaturePerTxInteretAvceSpecJour.isChecked()){
+                    CcNaturePerTxInteretAvceSpec ="J";
+                }
+                break;
+            case R.id.rbCcNaturePerTxInteretAvceSpecMois:
+                if (rbCcNaturePerTxInteretAvceSpecMois.isChecked()){
+                    CcNaturePerTxInteretAvceSpec ="M";
+                }
+                break;
+            case R.id.rbCcNaturePerTxInteretAvceSpecTrimestre:
+                if (rbCcNaturePerTxInteretAvceSpecTrimestre.isChecked()){
+                    CcNaturePerTxInteretAvceSpec ="T";
+                }
+                break;
+            case R.id.rbCcNaturePerTxInteretAvceSpecAnnee:
+                if (rbCcNaturePerTxInteretAvceSpecAnnee.isChecked()){
+                    CcNaturePerTxInteretAvceSpec ="A";
+                }
+                break;
+            case R.id.rbCcPeriod_PenRetAvceSpecJour:
+                if (rbCcPeriod_PenRetAvceSpecJour.isChecked()){
+                    CcPeriod_PenRetAvceSpec ="J";
+                }
+                break;
+            case R.id.rbCcPeriod_PenRetAvceSpecMois:
+                if (rbCcPeriod_PenRetAvceSpecMois.isChecked()){
+                    CcPeriod_PenRetAvceSpec ="M";
+                }
+                break;
+            case R.id.rbCcPeriod_PenRetAvceSpecTrimestre:
+                if (rbCcPeriod_PenRetAvceSpecTrimestre.isChecked()){
+                    CcPeriod_PenRetAvceSpec ="T";
+                }
+                break;
+            case R.id.rbCcPeriod_PenRetAvceSpecAnnee:
+                if (rbCcPeriod_PenRetAvceSpecAnnee.isChecked()){
+                    CcPeriod_PenRetAvceSpec ="A";
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetAvceSpecJour:
+                if (rbCcPeriod_IntRetAvceSpecJour.isChecked()){
+                    CcPeriod_IntRetAvceSpec ="J";
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetAvceSpecMois:
+                if (rbCcPeriod_IntRetAvceSpecMois.isChecked()){
+                    CcPeriod_IntRetAvceSpec ="M";
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetAvceSpecTrimestre:
+                if (rbCcPeriod_IntRetAvceSpecTrimestre.isChecked()){
+                    CcPeriod_IntRetAvceSpec ="T";
+                }
+                break;
+            case R.id.rbCcPeriod_IntRetAvceSpecAnnee:
+                if (rbCcPeriod_IntRetAvceSpecAnnee.isChecked()){
+                    CcPeriod_IntRetAvceSpec ="A";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntJrLunVen:
+                if (rbCcNatureJrTxIntJrLunVen.isChecked()){
+                    CcNatureJrTxIntJr ="V";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntJrLunSam:
+                if (rbCcNatureJrTxIntJrLunSam.isChecked()){
+                    CcNatureJrTxIntJr ="S";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntJrJrOuvertGu:
+                if (rbCcNatureJrTxIntJrJrOuvertGu.isChecked()){
+                    CcNatureJrTxIntJr ="G";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntJrTous:
+                if (rbCcNatureJrTxIntJrTous.isChecked()){
+                    CcNatureJrTxIntJr ="T";
+                }
+                break;
+            case R.id.rbCcNatureJrTxPenRetLunVen:
+                if (rbCcNatureJrTxPenRetLunVen.isChecked()){
+                    CcNatureJrTxPenRet ="V";
+                }
+                break;
+            case R.id.rbCcNatureJrTxPenRetLunSam:
+                if (rbCcNatureJrTxPenRetLunSam.isChecked()){
+                    CcNatureJrTxPenRet ="S";
+                }
+                break;
+            case R.id.rbCcNatureJrTxPenRetJrOuvertGu:
+                if (rbCcNatureJrTxPenRetJrOuvertGu.isChecked()){
+                    CcNatureJrTxPenRet ="G";
+                }
+                break;
+            case R.id.rbCcNatureJrTxPenRetTous:
+                if (rbCcNatureJrTxPenRetTous.isChecked()){
+                    CcNatureJrTxPenRet ="T";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetDecouvLunVen:
+                if (rbCcNatJrTxIntJr_IntRetDecouvLunVen.isChecked()){
+                    CcNatJrTxIntJr_IntRetDecouv ="V";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetDecouvLunSam:
+                if (rbCcNatJrTxIntJr_IntRetDecouvLunSam.isChecked()){
+                    CcNatJrTxIntJr_IntRetDecouv ="S";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetDecouvJrOuvertGu:
+                if (rbCcNatJrTxIntJr_IntRetDecouvJrOuvertGu.isChecked()){
+                    CcNatJrTxIntJr_IntRetDecouv ="G";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetDecouvTous:
+                if (rbCcNatJrTxIntJr_IntRetDecouvTous.isChecked()){
+                    CcNatJrTxIntJr_IntRetDecouv ="T";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntAvceSpecJrLunVen:
+                if (rbCcNatureJrTxIntAvceSpecJrLunVen.isChecked()){
+                    CcNatureJrTxIntAvceSpecJr ="V";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntAvceSpecJrLunSam:
+                if (rbCcNatureJrTxIntAvceSpecJrLunSam.isChecked()){
+                    CcNatureJrTxIntAvceSpecJr ="S";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntAvceSpecJrJrOuvertGu:
+                if (rbCcNatureJrTxIntAvceSpecJrJrOuvertGu.isChecked()){
+                    CcNatureJrTxIntAvceSpecJr ="G";
+                }
+                break;
+            case R.id.rbCcNatureJrTxIntAvceSpecJrTous:
+                if (rbCcNatureJrTxIntAvceSpecJrTous.isChecked()){
+                    CcNatureJrTxIntAvceSpecJr ="T";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_PenRetAvceSpeLunVen:
+                if (rbCcNatJrTxIntJr_PenRetAvceSpeLunVen.isChecked()){
+                    CcNatJrTxIntJr_PenRetAvceSpe ="V";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_PenRetAvceSpeLunSam:
+                if (rbCcNatJrTxIntJr_PenRetAvceSpeLunSam.isChecked()){
+                    CcNatJrTxIntJr_PenRetAvceSpe ="S";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_PenRetAvceSpeJrOuvertGu:
+                if (rbCcNatJrTxIntJr_PenRetAvceSpeJrOuvertGu.isChecked()){
+                    CcNatJrTxIntJr_PenRetAvceSpe ="G";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_PenRetAvceSpeTous:
+                if (rbCcNatJrTxIntJr_PenRetAvceSpeTous.isChecked()){
+                    CcNatJrTxIntJr_PenRetAvceSpe ="T";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetAvceSpeLunVen:
+                if (rbCcNatJrTxIntJr_IntRetAvceSpeLunVen.isChecked()){
+                    CcNatJrTxIntJr_IntRetAvceSpe ="V";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetAvceSpeLunSam:
+                if (rbCcNatJrTxIntJr_IntRetAvceSpeLunSam.isChecked()){
+                    CcNatJrTxIntJr_IntRetAvceSpe ="S";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetAvceSpeJrOuvertGu:
+                if (rbCcNatJrTxIntJr_IntRetAvceSpeJrOuvertGu.isChecked()){
+                    CcNatJrTxIntJr_IntRetAvceSpe ="G";
+                }
+                break;
+            case R.id.rbCcNatJrTxIntJr_IntRetAvceSpeTous:
+                if (rbCcNatJrTxIntJr_IntRetAvceSpeTous.isChecked()){
+                    CcNatJrTxIntJr_IntRetAvceSpe ="T";
+                }
                 break;
            /* case R.id.rbEpTypTxInterPlage:
                 if (rbEpTypTxInterPlage.isChecked()) {
@@ -1165,61 +1793,99 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_cpte_courant_details.php", "GET", httpParams);
             try {
-                int success = jsonObject.getInt(KEY_SUCCESS);
-                JSONObject cpteCourant;
-                if (success == 1) {
+//                int success = jsonObject.getInt(KEY_SUCCESS);
+//                JSONObject cpteCourant;
+//                if (success == 1) {
                     //Parse the JSON response
-                    cpteCourant = jsonObject.getJSONObject(KEY_DATA);
+//                    cpteCourant = jsonObject.getJSONObject(KEY_DATA);
+//                    URLEncoder.encode(jsonObject.getString(KEY_CREDIT_Code),"UTF-8"),
 
-                    st_CcCode = cpteCourant.getString(KEY_CcCode);
-                    st_CcLibelle = cpteCourant.getString(KEY_CcLibelle);
-                    st_CcIsDecouvOn = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsDecouvOn));
-                    st_CcMtMaxDecouv = cpteCourant.getString(KEY_CcMtMaxDecouv);
-                    st_CcIsMaxDecouvNeg = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsMaxDecouvNeg));
-                    st_CcNatureTxIntDecouv = cpteCourant.getString(KEY_CcNatureTxIntDecouv);
-                    st_CcValTxIntDecouv = cpteCourant.getString(KEY_CcValTxIntDecouv);
-                    st_CcPlageTxIntDecouvFrom = cpteCourant.getString(KEY_CcPlageTxIntDecouvFrom);
-                    st_CcPlageTxIntDecouvTo = cpteCourant.getString(KEY_CcPlageTxIntDecouvTo);
-                    st_CcDureeMaxDecouv = cpteCourant.getString(KEY_CcDureeMaxDecouv);
-                    st_CcNatureTypDureDecouv = cpteCourant.getString(KEY_CcNatureTypDureDecouv);
-                    st_CcNatureTxMtAgio = cpteCourant.getString(KEY_CcNatureTxMtAgio);
-                    st_CcValTxMtAgio = cpteCourant.getString(KEY_CcValTxMtAgio);
-                    st_CcPlageTxMtAgioFrom = cpteCourant.getString(KEY_CcPlageTxMtAgioFrom);
-                    st_CcPlageTxMtAgioTo = cpteCourant.getString(KEY_CcPlageTxMtAgioTo);
-                    st_CcNatBaseAgio = cpteCourant.getString(KEY_CcNatBaseAgio);
-                    st_CcIsChequierM1On = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsChequierM1On));
-                    st_CcNbPagesCheqM1 = cpteCourant.getString(KEY_CcNbPagesCheqM1);
-                    st_CcPrixVteCheqM1 = cpteCourant.getString(KEY_CcPrixVteCheqM1);
-                    st_CcIsChequierM2On = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsChequierM2On));
-                    st_CcNbPagesCheqM2 = cpteCourant.getString(KEY_CcNbPagesCheqM2);
-                    st_CcPrixVteCheqM2 = cpteCourant.getString(KEY_CcPrixVteCheqM2);
-                    st_CcIsChequierM3On = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsChequierM3On));
-                    st_CcNbPagesCheqM3 = cpteCourant.getString(KEY_CcNbPagesCheqM3);
-                    st_CcPrixVteCheqM3 = cpteCourant.getString(KEY_CcPrixVteCheqM3);
-                    st_CcDureeValidCheq = cpteCourant.getString(KEY_CcDureeValidCheq);
-                    st_CcNbMinSignatChq = cpteCourant.getString(KEY_CcNbMinSignatChq);
-                    st_CcIsTxCommMvmOper = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsTxCommMvmOper));
-                    st_CcNatTxComm = cpteCourant.getString(KEY_CcNatTxComm);
-                    st_CcValTxCommMvm = cpteCourant.getString(KEY_CcValTxCommMvm);
-                    st_CcPlageTxCommMvmFrom = cpteCourant.getString(KEY_CcPlageTxCommMvmFrom);
-                    st_CcPlageTxCommMvmTo = cpteCourant.getString(KEY_CcPlageTxCommMvmTo);
+                    st_CcCode = URLEncoder.encode(jsonObject.getString(KEY_CcCode),"UTF-8");
+//                    st_CcCode = cpteCourant.getString(KEY_CcCode);
+                    st_CcLibelle =  MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_CcLibelle));
+                    st_CcIsDecouvOn = jsonObject.getString(KEY_CcIsDecouvOn);
+                    st_CcMtMaxDecouv = jsonObject.getString(KEY_CcMtMaxDecouv);
+                    st_CcIsMaxDecouvNeg = jsonObject.getString(KEY_CcIsMaxDecouvNeg);
+                    st_CcDureeMaxDecouv = jsonObject.getString(KEY_CcDureeMaxDecouv);
+                    st_CcNatureTypDureDecouv = jsonObject.getString(KEY_CcNatureTypDureDecouv);
+                    st_CcNatureTxIntDecouv = jsonObject.getString(KEY_CcNatureTxIntDecouv);
+                    st_CcValTxIntDecouv = jsonObject.getString(KEY_CcValTxIntDecouv);
+                    baseCcTxIntDecouv = MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_CcBaseTxIntDecouv));
+                    st_CcIsTxIntDegressif = jsonObject.getString(KEY_CcIsTxIntDegressif);
+                    CcModeCalcInteret = jsonObject.getString(KEY_CcModeCalcInteret);
+                    CcNaturePerTxInteret = jsonObject.getString(KEY_CcNaturePerTxInteret);
+                    CcIsTxInteretJrOn = jsonObject.getString(KEY_CcIsTxInteretJrOn);
+                    CcNatureJrTxIntJr = jsonObject.getString(KEY_CcNatureJrTxIntJr);
+                    st_CcNatTauxIntPenRetard = jsonObject.getString(KEY_CcNatTauxIntPenRetard);
+                    st_CcTauxIntPenRetard = jsonObject.getString(KEY_CcTauxIntPenRetard);
+                    baseCcTxIntPenRetard = jsonObject.getString(KEY_CcBaseTxIntPenRetard);
+                    CcNaturePerTxPenRet = jsonObject.getString(KEY_CcNaturePerTxPenRet);
+                    CcIsTxPenRetardJrOn = jsonObject.getString(KEY_CcIsTxPenRetardJrOn);
+                    CcNatureJrTxPenRet = jsonObject.getString(KEY_CcNatureJrTxPenRet);
+                    st_CcNatureTxInt_IntRetDecouv = jsonObject.getString(KEY_CcNatureTxInt_IntRetDecouv);
+                    st_CcTauxInt_IntRetDecouv = jsonObject.getString(KEY_CcTauxInt_IntRetDecouv);
+                    st_CcBasexInt_IntRetDecouv = jsonObject.getString(KEY_CcBasexInt_IntRetDecouv);
+                    CcPeriod_IntRetDecouv = jsonObject.getString(KEY_CcPeriod_IntRetDecouv);
+                    CcIsTxIntJrOn_IntRetDecouv = jsonObject.getString(KEY_CcIsTxIntJrOn_IntRetDecouv);
+                    CcNatJrTxIntJr_IntRetDecouv = jsonObject.getString(KEY_CcNatJrTxIntJr_IntRetDecouv);
+                    CcIsDecouvertPermanentAutorise = jsonObject.getString(KEY_CcIsDecouvertPermanentAutorise);
+                    st_CcMaxMontantDecouvertPermanentAutorise = jsonObject.getString(KEY_CcMaxMontantDecouvertPermanentAutorise);
+                    st_CcMaxDureeDecouvertPermanentAutorise = jsonObject.getString(KEY_CcMaxDureeDecouvertPermanentAutorise);
+                    st_CcNatureTxMtAgio = jsonObject.getString(KEY_CcNatureTxMtAgio);
+                    st_CcValTxMtAgio = jsonObject.getString(KEY_CcValTxMtAgio);
+                    st_CcNatBaseAgio = jsonObject.getString(KEY_CcNatBaseAgio);
+                    st_CcIsChequierM1On = jsonObject.getString(KEY_CcIsChequierM1On);
+                    st_CcNbPagesCheqM1 = jsonObject.getString(KEY_CcNbPagesCheqM1);
+                    st_CcPrixVteCheqM1 = jsonObject.getString(KEY_CcPrixVteCheqM1);
+                    st_CcIsChequierM2On = jsonObject.getString(KEY_CcIsChequierM2On);
+                    st_CcNbPagesCheqM2 = jsonObject.getString(KEY_CcNbPagesCheqM2);
+                    st_CcPrixVteCheqM2 = jsonObject.getString(KEY_CcPrixVteCheqM2);
+                    st_CcIsChequierM3On = jsonObject.getString(KEY_CcIsChequierM3On);
+                    st_CcNbPagesCheqM3 = jsonObject.getString(KEY_CcNbPagesCheqM3);
+                    st_CcPrixVteCheqM3 = jsonObject.getString(KEY_CcPrixVteCheqM3);
+                    st_CcDureeValidCheq = jsonObject.getString(KEY_CcDureeValidCheq);
+                    st_CcNbMinSignatChq = jsonObject.getString(KEY_CcNbMinSignatChq);
+                    st_CcIsTxCommMvmOper = jsonObject.getString(KEY_CcIsTxCommMvmOper);
+                    st_CcNatTxComm = jsonObject.getString(KEY_CcNatTxComm);
+                    st_CcValTxCommMvm = jsonObject.getString(KEY_CcValTxCommMvm);
+                    baseCcTxCommMvm = jsonObject.getString(KEY_CcBaseTxCommMvm);
 
-                    st_CcIsAvanceSpecialOn = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsAvanceSpecialOn));
-                    st_CcIsTxIntDegressif = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsTxIntDegressif));
-                    st_CcMtPlafondAvceSpec = cpteCourant.getString(KEY_CcMtPlafondAvceSpec);
-                    st_CcIsPlafAvceSpecNegoc = Boolean.parseBoolean(cpteCourant.getString(KEY_CcIsPlafAvceSpecNegoc));
-                    st_CcNatTauxIntAvceSpec = cpteCourant.getString(KEY_CcNatTauxIntAvceSpec);
-                    st_CcTauxIntAvceSpec = cpteCourant.getString(KEY_CcTauxIntAvceSpec);
-                    baseTxIntAvceSpec = cpteCourant.getString(KEY_CcBaseTxIntAvceSpec);
-                    st_CcNatTauxIntPenAvceSpec = cpteCourant.getString(KEY_CcNatTauxIntPenAvceSpec);
-                    st_CcTauxIntPenAvceSpec = cpteCourant.getString(KEY_CcTauxIntPenAvceSpec);
-                    baseTxIntPenAvceSpec = cpteCourant.getString(KEY_CcBaseTxIntPenAvceSpec);
+                    st_CcIsAvanceSpecialOn = jsonObject.getString(KEY_CcIsAvanceSpecialOn);
+                    st_CcMtPlafondAvceSpec = jsonObject.getString(KEY_CcMtPlafondAvceSpec);
+                    st_CcIsPlafAvceSpecNegoc = jsonObject.getString(KEY_CcIsPlafAvceSpecNegoc);
+                    st_CcDureeMaxAvceSpec = jsonObject.getString(KEY_CcDureeMaxAvceSpec);
+                    CcIsTxIntAvceSpecDegressif = jsonObject.getString(KEY_CcIsTxIntAvceSpecDegressif);
+                    CcModeCalcInteretAvceSpec = jsonObject.getString(KEY_CcModeCalcInteretAvceSpec);
+                    st_CcNatTauxIntAvceSpec = jsonObject.getString(KEY_CcNatTauxIntAvceSpec);
+                    st_CcTauxIntAvceSpec = jsonObject.getString(KEY_CcTauxIntAvceSpec);
+                    baseTxIntAvceSpec = jsonObject.getString(KEY_CcBaseTxIntAvceSpec);
+                    CcNaturePerTxInteretAvceSpec = jsonObject.getString(KEY_CcNaturePerTxInteretAvceSpec);
+                    CcIsTxInteretAvceSpecJrOn = jsonObject.getString(KEY_CcIsTxInteretAvceSpecJrOn);
+                    CcNatureJrTxIntAvceSpecJr = jsonObject.getString(KEY_CcNatureJrTxIntAvceSpecJr);
+                    CcIsTxPenRetardAvceSpecDegressif = jsonObject.getString(KEY_CcIsTxPenRetardAvceSpecDegressif);
+                    CcModeCalcPenRetardAvceSpec = jsonObject.getString(KEY_CcModeCalcPenRetardAvceSpec);
+                    st_CcNatTauxIntPenAvceSpec = jsonObject.getString(KEY_CcNatTauxIntPenAvceSpec);
+                    st_CcTauxIntPenAvceSpec = jsonObject.getString(KEY_CcTauxIntPenAvceSpec);
+                    baseTxIntPenAvceSpec = jsonObject.getString(KEY_CcBaseTxIntPenAvceSpec);
+                CcPeriod_PenRetAvceSpec = jsonObject.getString(KEY_CcPeriod_PenRetAvceSpec);
+                CcIsTxIntJrOn_PenRetAvceSpe = jsonObject.getString(KEY_CcIsTxIntJrOn_PenRetAvceSpe);
+                CcNatJrTxIntJr_PenRetAvceSpe = jsonObject.getString(KEY_CcNatJrTxIntJr_PenRetAvceSpe);
+                CcIsTxIntRetardAvceSpecDegressif = jsonObject.getString(KEY_CcIsTxIntRetardAvceSpecDegressif);
+                CcModeCalcIntRetardAvceSpec = jsonObject.getString(KEY_CcModeCalcIntRetardAvceSpec);
+                st_CcNatureTxInt_IntRetAvceSpec = jsonObject.getString(KEY_CcNatureTxInt_IntRetAvceSpec);
+                st_CcTauxInt_IntRetAvceSpec = jsonObject.getString(KEY_CcTauxInt_IntRetAvceSpec);
+                st_CcBasexInt_IntRetAvceSpec = jsonObject.getString(KEY_CcBasexInt_IntRetAvceSpec);
+                CcPeriod_IntRetAvceSpec = jsonObject.getString(KEY_CcPeriod_IntRetAvceSpec);
+                CcIsTxIntJrOn_IntRetAvceSpe = jsonObject.getString(KEY_CcIsTxIntJrOn_IntRetAvceSpe);
+                CcNatJrTxIntJr_IntRetAvceSpe = jsonObject.getString(KEY_CcNatJrTxIntJr_IntRetAvceSpe);
 
 
-                }
-            } catch (JSONException e) {
+                //}
+            } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }/* catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }*/
             return null;
         }
 
@@ -1229,63 +1895,28 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
 
+                    CcCode.setText(st_CcCode); //2
+                    CcLibelle.setText(st_CcLibelle);//3
 
-
-                    CcIsAvanceSpecialOn.setChecked(st_CcIsAvanceSpecialOn);
-                    onSwitchButtonClicked(CcIsAvanceSpecialOn);
-                    CcMtPlafondAvceSpec.setText(st_CcMtPlafondAvceSpec);
-                    CcIsPlafAvceSpecNegoc.setChecked(st_CcIsPlafAvceSpecNegoc);
-                    CcIsTxIntDegressif.setChecked(st_CcIsTxIntDegressif);
-                    onSwitchButtonClicked(CcIsPlafAvceSpecNegoc);
-                    if (st_CcNatTauxIntAvceSpec.equals("F")){
-                        CcNatTauxIntAvceSpecFixe.setChecked(true);
-                        onRadioButtonClicked(CcNatTauxIntAvceSpecFixe);
-                    }else if (st_CcNatTauxIntAvceSpec.equals("T")){
-                        CcNatTauxIntAvceSpecTaux.setChecked(true);
-                        onRadioButtonClicked(CcNatTauxIntAvceSpecTaux);
-                    }else if (st_CcNatTauxIntAvceSpec.equals("P")){
-                        CcNatTauxIntAvceSpecPlage.setChecked(true);
-                        onRadioButtonClicked(CcNatTauxIntAvceSpecPlage);
+                    if (st_CcIsDecouvOn.equals("Y")){ //4
+                        CcIsDecouvOn.setChecked(true);
+                    }else{
+                        CcIsDecouvOn.setChecked(false);
                     }
-                    CcTauxIntAvceSpec.setText(st_CcTauxIntAvceSpec);
-                    mySpinnerCcBaseTxIntAvceSpec.setText(baseTxIntAvceSpec);
-
-                    if (st_CcNatTauxIntPenAvceSpec.equals("F")){
-                        CcNatTauxIntPenAvceSpecFixe.setChecked(true);
-                        onRadioButtonClicked(CcNatTauxIntPenAvceSpecFixe);
-                    }else if (st_CcNatTauxIntPenAvceSpec.equals("T")){
-                        CcNatTauxIntPenAvceSpecTaux.setChecked(true);
-                        onRadioButtonClicked(CcNatTauxIntPenAvceSpecTaux);
-                    }else if (st_CcNatTauxIntPenAvceSpec.equals("P")){
-                        CcNatTauxIntPenAvceSpecPlage.setChecked(true);
-                        onRadioButtonClicked(CcNatTauxIntPenAvceSpecPlage);
-                    }
-                    CcTauxIntPenAvceSpec.setText(st_CcTauxIntPenAvceSpec);
-                    mySpinnerCcBaseTxIntPenAvceSpec.setText(baseTxIntPenAvceSpec);
-
-                    CcCode.setText(st_CcCode);
-                    CcLibelle.setText(st_CcLibelle);
-                    CcIsDecouvOn.setChecked(st_CcIsDecouvOn);
                     onSwitchButtonClicked(CcIsDecouvOn);
-                    CcMtMaxDecouv.setText(st_CcMtMaxDecouv);
-                    CcIsMaxDecouvNeg.setChecked(st_CcIsMaxDecouvNeg);
-                    onSwitchButtonClicked(CcIsMaxDecouvNeg);
-                    if (st_CcNatureTxIntDecouv.equals("F")){
-                        CcNatureTxIntDecouvFixe.setChecked(true);
-                        onRadioButtonClicked(CcNatureTxIntDecouvFixe);
-                    }else if (st_CcNatureTxIntDecouv.equals("T")){
-                        CcNatureTxIntDecouvTaux.setChecked(true);
-                        onRadioButtonClicked(CcNatureTxIntDecouvTaux);
-                    }else if (st_CcNatureTxIntDecouv.equals("P")){
-                        CcNatureTxIntDecouvPlage.setChecked(true);
-                        onRadioButtonClicked(CcNatureTxIntDecouvPlage);
+
+                    CcMtMaxDecouv.setText(st_CcMtMaxDecouv); //5
+
+                    if (st_CcIsMaxDecouvNeg.equals("Y")){ //6
+                        CcIsMaxDecouvNeg.setChecked(true);
+                    }else{
+                        CcIsMaxDecouvNeg.setChecked(false);
                     }
-                    CcValTxIntDecouv.setText(st_CcValTxIntDecouv);
-                    mySpinnerBaseTxIntDecouv.setText(baseCcTxIntDecouv);
-                    CcPlageTxIntDecouvFrom.setText(st_CcPlageTxIntDecouvFrom);
-                    CcPlageTxIntDecouvTo.setText(st_CcPlageTxIntDecouvTo);
-                    CcDureeMaxDecouv.setText(st_CcDureeMaxDecouv);
-                    if (st_CcNatureTypDureDecouv.equals("J")){
+                    onSwitchButtonClicked(CcIsMaxDecouvNeg);
+
+                    CcDureeMaxDecouv.setText(st_CcDureeMaxDecouv);//7
+
+                    if (st_CcNatureTypDureDecouv.equals("J")){  //8
                         CcNatureTypDureDecouvJour.setChecked(true);
                         onRadioButtonClicked(CcNatureTypDureDecouvJour);
                     }else if (st_CcNatureTypDureDecouv.equals("S")){
@@ -1295,6 +1926,185 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                         CcNatureTypDureDecouvMois.setChecked(true);
                         onRadioButtonClicked(CcNatureTypDureDecouvMois);
                     }
+
+                    if (st_CcNatureTxIntDecouv.equals("F")){ //9
+                        CcNatureTxIntDecouvFixe.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxIntDecouvFixe);
+                    }else if (st_CcNatureTxIntDecouv.equals("T")){
+                        CcNatureTxIntDecouvTaux.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxIntDecouvTaux);
+                    }else if (st_CcNatureTxIntDecouv.equals("P")){
+                        CcNatureTxIntDecouvPlage.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxIntDecouvPlage);
+                    }
+                    CcValTxIntDecouv.setText(st_CcValTxIntDecouv); //10
+                    mySpinnerBaseTxIntDecouv.setText(baseCcTxIntDecouv); //11
+
+                    if (st_CcIsTxIntDegressif.equals("Y")){ //12
+                        CcIsTxIntDegressif.setChecked(true);
+                    }else{
+                        CcIsTxIntDegressif.setChecked(false);
+                    }
+                    onSwitchButtonClicked(CcIsTxIntDegressif);
+
+                    if (CcModeCalcInteret.equals("S")){ //13
+                        rbCrModeCalcInteretSimple.setChecked(true);
+                        onRadioButtonClicked(rbCrModeCalcInteretSimple);
+                    }else{
+                        rbCrModeCalcInteretCompose.setChecked(true);
+                        onRadioButtonClicked(rbCrModeCalcInteretCompose);
+                    }
+
+                    if (CcNaturePerTxInteret.equals("J")){ //16
+                        rbCcNaturePerTxInteretJour.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretJour);
+                    }else if (CcNaturePerTxInteret.equals("M")){
+                        rbCcNaturePerTxInteretMois.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretMois);
+                    }else if (CcNaturePerTxInteret.equals("T")){
+                        rbCcNaturePerTxInteretTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretTrimestre);
+                    }else{
+                        rbCcNaturePerTxInteretAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretAnnee);
+                    }
+
+                    if (CcIsTxInteretJrOn.equals("Y")){ //17
+                        SwitchCcIsTxInteretJrOn.setChecked(true);
+                    }else{
+                        SwitchCcIsTxInteretJrOn.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxInteretJrOn);
+
+                    //18
+                    if (CcNatureJrTxIntJr.equals("V")){
+                        rbCcNatureJrTxIntJrLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntJrLunVen);
+                    }else if (CcNatureJrTxIntJr.equals("S")){
+                        rbCcNatureJrTxIntJrLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntJrLunSam);
+                    }else if (CcNatureJrTxIntJr.equals("G")){
+                        rbCcNatureJrTxIntJrJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntJrJrOuvertGu);
+                    }else {
+                        rbCcNatureJrTxIntJrTous.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntJrTous);
+                    }
+                    //19
+                    if (st_CcNatTauxIntPenRetard.equals("F")){
+                        CcNatTauxIntPenRetardFixe.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntPenRetardFixe);
+                    }else if (st_CcNatTauxIntPenRetard.equals("T")){
+                        CcNatTauxIntPenRetardTaux.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntPenRetardTaux);
+                    }else {
+                        CcNatTauxIntPenRetardPlage.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntPenRetardPlage);
+                    }
+                    //20
+                    CcTauxIntPenRetard.setText(st_CcTauxIntPenRetard);
+                    //21
+                    mySpinnerCcBaseTxIntPenRetard.setText(baseCcTxIntPenRetard);
+                    //22
+                    if(CcNaturePerTxPenRet.equals("J")){
+                        rbCcNaturePerTxPenRetJour.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxPenRetJour);
+                    }else if(CcNaturePerTxPenRet.equals("M")){
+                        rbCcNaturePerTxPenRetMois.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxPenRetMois);
+                    }else if(CcNaturePerTxPenRet.equals("T")){
+                        rbCcNaturePerTxPenRetTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxPenRetTrimestre);
+                    }else{
+                        rbCcNaturePerTxPenRetAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxPenRetAnnee);
+                    }
+                    //23
+                    if(CcIsTxPenRetardJrOn.equals("Y")){
+                        SwitchCcIsTxPenRetardJrOn.setChecked(true);
+                    }else {
+                        SwitchCcIsTxPenRetardJrOn.setChecked(false);
+                    }
+                    //24
+                    if (CcNatureJrTxPenRet.equals("V")){
+                        rbCcNatureJrTxPenRetLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxPenRetLunVen);
+                    }else if (CcNatureJrTxPenRet.equals("S")){
+                        rbCcNatureJrTxPenRetLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxPenRetLunSam);
+                    }else if (CcNatureJrTxPenRet.equals("G")){
+                        rbCcNatureJrTxPenRetJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxPenRetJrOuvertGu);
+                    }else{
+                        rbCcNatureJrTxPenRetTous.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxPenRetTous);
+                    }
+                    //25
+
+                    if (st_CcNatureTxInt_IntRetDecouv.equals("F")){
+                        CcNatureTxInt_IntRetDecouvFixe.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxInt_IntRetDecouvFixe);
+                    }else if (st_CcNatureTxInt_IntRetDecouv.equals("T")){
+                        CcNatureTxInt_IntRetDecouvTaux.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxInt_IntRetDecouvTaux);
+                    }else{
+                        CcNatureTxInt_IntRetDecouvPlage.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxInt_IntRetDecouvPlage);
+                    }
+                    //26
+                    CcTauxInt_IntRetDecouv.setText(st_CcTauxInt_IntRetDecouv);
+                    //27
+                     mySpinnerCcBasexInt_IntRetDecouv.setText(st_CcBasexInt_IntRetDecouv);
+                     //28
+                    if(CcPeriod_IntRetDecouv.equals("J")){
+                        rbCcPeriod_IntRetDecouvJour.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetDecouvJour);
+                    }else if(CcPeriod_IntRetDecouv.equals("M")){
+                        rbCcPeriod_IntRetDecouvMois.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetDecouvMois);
+                    }else if(CcPeriod_IntRetDecouv.equals("T")){
+                        rbCcPeriod_IntRetDecouvTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetDecouvTrimestre);
+                    }else{
+                        rbCcPeriod_IntRetDecouvAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetDecouvAnnee);
+                    }
+                    //29
+                    if(CcIsTxIntJrOn_IntRetDecouv.equals("Y")){
+                        SwitchCcIsTxIntJrOn_IntRetDecouv.setChecked(true);
+                    }else{
+                        SwitchCcIsTxIntJrOn_IntRetDecouv.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxIntJrOn_IntRetDecouv);
+                    //30
+
+                    if (CcNatJrTxIntJr_IntRetDecouv.equals("V")){
+                        rbCcNatJrTxIntJr_IntRetDecouvLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetDecouvLunVen);
+                    }else if (CcNatJrTxIntJr_IntRetDecouv.equals("S")){
+                        rbCcNatJrTxIntJr_IntRetDecouvLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetDecouvLunSam);
+                    }else if (CcNatJrTxIntJr_IntRetDecouv.equals("G")){
+                        rbCcNatJrTxIntJr_IntRetDecouvJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetDecouvJrOuvertGu);
+                    }else{
+                        rbCcNatJrTxIntJr_IntRetDecouvTous.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetDecouvTous);
+                    }
+                    //31
+                    if(CcIsDecouvertPermanentAutorise.equals("Y")){
+                        SwitchDecouvertPermanentAutoriseCC.setChecked(true);
+                    }else{
+                        SwitchDecouvertPermanentAutoriseCC.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchDecouvertPermanentAutoriseCC);
+
+                    //32
+                    CcMaxMontantDecouvertPermanentAutorise.setText(st_CcMaxMontantDecouvertPermanentAutorise);
+                    //33
+                    CcMaxDureeDecouvertPermanentAutorise.setText(st_CcMaxDureeDecouvertPermanentAutorise);
+
+                    //34
                     if (st_CcNatureTxMtAgio.equals("T")){
                         CcNatureTxMtAgioTaux.setChecked(true);
                         onRadioButtonClicked(CcNatureTxMtAgioTaux);
@@ -1305,27 +2115,46 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                         CcNatureTxMtAgioPlage.setChecked(true);
                         onRadioButtonClicked(CcNatureTxMtAgioPlage);
                     }
-
+                    //35
                     CcValTxMtAgio.setText(st_CcValTxMtAgio);
+                    //38
                     mySpinnerBaseTxMtAgio.setText(st_CcNatBaseAgio);
-                    CcPlageTxMtAgioFrom.setText(st_CcPlageTxMtAgioFrom);
-                    CcPlageTxMtAgioTo.setText(st_CcPlageTxMtAgioTo);
-                    CcIsChequierM1On.setChecked(st_CcIsChequierM1On);
+                    //39-49
+
+                    if (st_CcIsChequierM1On.equals("Y")){
+                        CcIsChequierM1On.setChecked(true);
+                    }else{
+                        CcIsChequierM1On.setChecked(false);
+                    }
+                    if (st_CcIsChequierM2On.equals("Y")){
+                        CcIsChequierM2On.setChecked(true);
+                    }else{
+                        CcIsChequierM2On.setChecked(false);
+                    }
+                    if (st_CcIsChequierM3On.equals("Y")){
+                        CcIsChequierM3On.setChecked(true);
+                    }else{
+                        CcIsChequierM3On.setChecked(false);
+                    }
                     onSwitchButtonClicked(CcIsChequierM1On);
                     CcNbPagesCheqM1.setText(st_CcNbPagesCheqM1);
                     CcPrixVteCheqM1.setText(st_CcPrixVteCheqM1);
-                    CcIsChequierM2On.setChecked(st_CcIsChequierM2On);
                     onSwitchButtonClicked(CcIsChequierM2On);
                     CcNbPagesCheqM2.setText(st_CcNbPagesCheqM2);
                     CcPrixVteCheqM2.setText(st_CcPrixVteCheqM2);
-                    CcIsChequierM3On.setChecked(st_CcIsChequierM3On);
                     onSwitchButtonClicked(CcIsChequierM3On);
                     CcNbPagesCheqM3.setText(st_CcNbPagesCheqM3);
                     CcPrixVteCheqM3.setText(st_CcPrixVteCheqM3);
                     CcDureeValidCheq.setText(st_CcDureeValidCheq);
                     CcNbMinSignatChq.setText(st_CcNbMinSignatChq);
-                    CcIsTxCommMvmOper.setChecked(st_CcIsTxCommMvmOper);
+                    //50
+                    if (st_CcIsTxCommMvmOper.equals("Y")){
+                        CcIsTxCommMvmOper.setChecked(true);
+                    }else{
+                        CcIsTxCommMvmOper.setChecked(false);
+                    }
                     onSwitchButtonClicked(CcIsTxCommMvmOper);
+                    //51
                     if (st_CcNatTxComm.equals("T")){
                         CcNatTxCommFixe.setChecked(true);
                         onRadioButtonClicked(CcNatTxCommFixe);
@@ -1336,12 +2165,228 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
                         CcNatTxCommPlage.setChecked(true);
                         onRadioButtonClicked(CcNatTxCommPlage);
                     }
+                    //52
                     CcValTxCommMvm.setText(st_CcValTxCommMvm);
+                    //53
                     mySpinnerBaseTxCommMvm.setText(baseCcTxCommMvm);
-                    CcPlageTxCommMvmFrom.setText(st_CcPlageTxCommMvmFrom);
-                    CcPlageTxCommMvmTo.setText(st_CcPlageTxCommMvmTo);
+                    //56
+                    if (st_CcIsAvanceSpecialOn.equals("Y")){
+                        CcIsAvanceSpecialOn.setChecked(true);
+                    }else{
+                        CcIsAvanceSpecialOn.setChecked(false);
+                    }
+                    onSwitchButtonClicked(CcIsAvanceSpecialOn);
+                    //57
+                    CcMtPlafondAvceSpec.setText(st_CcMtPlafondAvceSpec);
+                    //58
+                    if (st_CcIsPlafAvceSpecNegoc.equals("Y")){
+                        CcIsPlafAvceSpecNegoc.setChecked(true);
+                    }else{
+                        CcIsPlafAvceSpecNegoc.setChecked(false);
+                    }
+                    onSwitchButtonClicked(CcIsPlafAvceSpecNegoc);
 
-                    onRadioButtonClicked(CcNatureTxInt_IntRetAvceSpecFixe);
+                    //59
+                    CcDureeMaxAvceSpec.setText(st_CcDureeMaxAvceSpec);
+                    //60
+                    if (CcIsTxIntAvceSpecDegressif.equals("Y")){
+                        SwitchCcIsTxIntAvceSpecDegressif.setChecked(true);
+                    }else{
+                        SwitchCcIsTxIntAvceSpecDegressif.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxIntAvceSpecDegressif);
+                    //61
+                    if (CcModeCalcInteretAvceSpec.equals("S")){
+                        rbCrModeCalcInteretAvceSpecSimple.setChecked(true);
+                        onRadioButtonClicked(rbCrModeCalcInteretAvceSpecSimple);
+                    }else{
+                        rbCrModeCalcInteretAvceSpecCompose.setChecked(true);
+                        onRadioButtonClicked(rbCrModeCalcInteretAvceSpecCompose);
+                    }
+                    //62
+                    if (st_CcNatTauxIntAvceSpec.equals("F")){
+                        CcNatTauxIntAvceSpecFixe.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntAvceSpecFixe);
+                    }else if (st_CcNatTauxIntAvceSpec.equals("T")){
+                        CcNatTauxIntAvceSpecTaux.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntAvceSpecTaux);
+                    }else if (st_CcNatTauxIntAvceSpec.equals("P")){
+                        CcNatTauxIntAvceSpecPlage.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntAvceSpecPlage);
+                    }
+                    //63
+                    CcTauxIntAvceSpec.setText(st_CcTauxIntAvceSpec);
+                    //64
+                    mySpinnerCcBaseTxIntAvceSpec.setText(baseTxIntAvceSpec);
+                    //65
+                    if(CcNaturePerTxInteretAvceSpec.equals("J")){
+                        rbCcNaturePerTxInteretAvceSpecJour.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretAvceSpecJour);
+                    }else if(CcNaturePerTxInteretAvceSpec.equals("M")){
+                        rbCcNaturePerTxInteretAvceSpecMois.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretAvceSpecMois);
+                    }else if(CcNaturePerTxInteretAvceSpec.equals("T")){
+                        rbCcNaturePerTxInteretAvceSpecTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretAvceSpecTrimestre);
+                    }else{
+                        rbCcNaturePerTxInteretAvceSpecAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCcNaturePerTxInteretAvceSpecAnnee);
+                    }
+                    //66
+
+                    if (CcIsTxInteretAvceSpecJrOn.equals("Y")){
+                        SwitchCcIsTxInteretAvceSpecJrOn.setChecked(true);
+                    }else{
+                        SwitchCcIsTxInteretAvceSpecJrOn.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxInteretAvceSpecJrOn);
+
+                    //67
+                    if (CcNatureJrTxIntAvceSpecJr.equals("V")){
+                        rbCcNatureJrTxIntAvceSpecJrLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntAvceSpecJrLunVen);
+                    }else if (CcNatureJrTxIntAvceSpecJr.equals("S")){
+                        rbCcNatureJrTxIntAvceSpecJrLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntAvceSpecJrLunSam);
+                    }else if (CcNatureJrTxIntAvceSpecJr.equals("G")){
+                        rbCcNatureJrTxIntAvceSpecJrJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntAvceSpecJrJrOuvertGu);
+                    }else{
+                        rbCcNatureJrTxIntAvceSpecJrTous.setChecked(true);
+                        onRadioButtonClicked(rbCcNatureJrTxIntAvceSpecJrTous);
+                    }
+                    //68
+                    if (CcIsTxPenRetardAvceSpecDegressif.equals("Y")){
+                        SwitchCcIsTxPenRetardAvceSpecDegressif.setChecked(true);
+                    }else{
+                        SwitchCcIsTxPenRetardAvceSpecDegressif.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxPenRetardAvceSpecDegressif);
+
+                    //69
+
+                    if (CcModeCalcPenRetardAvceSpec.equals("C")){
+                        rbCcModeCalcPenRetardAvceSpecCompose.setChecked(true);
+                        onRadioButtonClicked(rbCcModeCalcPenRetardAvceSpecCompose);
+                    }
+                    //70
+                    if (st_CcNatTauxIntPenAvceSpec.equals("F")){
+                        CcNatTauxIntPenAvceSpecFixe.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntPenAvceSpecFixe);
+                    }else if (st_CcNatTauxIntPenAvceSpec.equals("T")){
+                        CcNatTauxIntPenAvceSpecTaux.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntPenAvceSpecTaux);
+                    }else if (st_CcNatTauxIntPenAvceSpec.equals("P")){
+                        CcNatTauxIntPenAvceSpecPlage.setChecked(true);
+                        onRadioButtonClicked(CcNatTauxIntPenAvceSpecPlage);
+                    }
+                    //71
+                    CcTauxIntPenAvceSpec.setText(st_CcTauxIntPenAvceSpec);
+                    //72
+                    mySpinnerCcBaseTxIntPenAvceSpec.setText(baseTxIntPenAvceSpec);
+                    //73
+
+                    if(CcPeriod_PenRetAvceSpec.equals("J")){
+                        rbCcPeriod_PenRetAvceSpecJour.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_PenRetAvceSpecJour);
+                    }else if(CcPeriod_PenRetAvceSpec.equals("M")){
+                        rbCcPeriod_PenRetAvceSpecMois.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_PenRetAvceSpecMois);
+                    }else if(CcPeriod_PenRetAvceSpec.equals("T")){
+                        rbCcPeriod_PenRetAvceSpecTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_PenRetAvceSpecTrimestre);
+                    }else{
+                        rbCcPeriod_PenRetAvceSpecAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_PenRetAvceSpecAnnee);
+                    }
+
+                    //74
+                    if (CcIsTxIntJrOn_PenRetAvceSpe.equals("Y")){
+                        SwitchCcIsTxIntJrOn_PenRetAvceSpe.setChecked(true);
+                    }else{
+                        SwitchCcIsTxIntJrOn_PenRetAvceSpe.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxIntJrOn_PenRetAvceSpe);
+                    //75
+                    if (CcNatJrTxIntJr_PenRetAvceSpe.equals("V")){
+                        rbCcNatJrTxIntJr_PenRetAvceSpeLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_PenRetAvceSpeLunVen);
+                    }else if (CcNatJrTxIntJr_PenRetAvceSpe.equals("S")){
+                        rbCcNatJrTxIntJr_PenRetAvceSpeLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_PenRetAvceSpeLunSam);
+                    }else if (CcNatJrTxIntJr_PenRetAvceSpe.equals("G")){
+                        rbCcNatJrTxIntJr_PenRetAvceSpeJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_PenRetAvceSpeJrOuvertGu);
+                    }else{
+                        rbCcNatJrTxIntJr_PenRetAvceSpeTous.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_PenRetAvceSpeTous);
+                    }
+                    //76
+                    if (CcIsTxIntRetardAvceSpecDegressif.equals("Y")){
+                        SwitchCcIsTxIntRetardAvceSpecDegressif.setChecked(true);
+                    }else{
+                        SwitchCcIsTxIntRetardAvceSpecDegressif.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxIntRetardAvceSpecDegressif);
+                    //77
+                    if (CcModeCalcIntRetardAvceSpec.equals("C")){
+                        rbCcModeCalcIntRetardAvceSpecCompose.setChecked(true);
+                        onRadioButtonClicked(rbCcModeCalcIntRetardAvceSpecCompose);
+                    }
+                    //78
+                    if (st_CcNatureTxInt_IntRetAvceSpec.equals("F")){
+                        CcNatureTxInt_IntRetAvceSpecFixe.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxInt_IntRetAvceSpecFixe);
+                    }else if (st_CcNatureTxInt_IntRetAvceSpec.equals("T")){
+                        CcNatureTxInt_IntRetAvceSpecTaux.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxInt_IntRetAvceSpecTaux);
+                    }else if (st_CcNatureTxInt_IntRetAvceSpec.equals("P")){
+                        CcNatureTxInt_IntRetAvceSpecPlage.setChecked(true);
+                        onRadioButtonClicked(CcNatureTxInt_IntRetAvceSpecPlage);
+                    }
+                    //79
+                    CcTauxInt_IntRetAvceSpec.setText(st_CcTauxInt_IntRetAvceSpec);
+                    //80
+                    mySpinnerCcBasexInt_IntRetAvceSpec.setText(st_CcBasexInt_IntRetAvceSpec);
+                            //81
+
+                    if(CcPeriod_IntRetAvceSpec.equals("J")){
+                        rbCcPeriod_IntRetAvceSpecJour.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetAvceSpecJour);
+                    }else if(CcPeriod_IntRetAvceSpec.equals("M")){
+                        rbCcPeriod_IntRetAvceSpecMois.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetAvceSpecMois);
+                    }else if(CcPeriod_IntRetAvceSpec.equals("T")){
+                        rbCcPeriod_IntRetAvceSpecTrimestre.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetAvceSpecTrimestre);
+                    }else{
+                        rbCcPeriod_IntRetAvceSpecAnnee.setChecked(true);
+                        onRadioButtonClicked(rbCcPeriod_IntRetAvceSpecAnnee);
+                    }
+
+                    //82
+
+                    if (CcIsTxIntJrOn_IntRetAvceSpe.equals("Y")){
+                        SwitchCcIsTxIntJrOn_IntRetAvceSpe.setChecked(true);
+                    }else{
+                        SwitchCcIsTxIntJrOn_IntRetAvceSpe.setChecked(false);
+                    }
+                    onSwitchButtonClicked(SwitchCcIsTxIntJrOn_IntRetAvceSpe);
+                    //83
+
+                    if (CcNatJrTxIntJr_IntRetAvceSpe.equals("V")){
+                        rbCcNatJrTxIntJr_IntRetAvceSpeLunVen.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetAvceSpeLunVen);
+                    }else if (CcNatJrTxIntJr_IntRetAvceSpe.equals("S")){
+                        rbCcNatJrTxIntJr_IntRetAvceSpeLunSam.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetAvceSpeLunSam);
+                    }else if (CcNatJrTxIntJr_IntRetAvceSpe.equals("G")){
+                        rbCcNatJrTxIntJr_IntRetAvceSpeJrOuvertGu.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetAvceSpeJrOuvertGu);
+                    }else{
+                        rbCcNatJrTxIntJr_IntRetAvceSpeTous.setChecked(true);
+                        onRadioButtonClicked(rbCcNatJrTxIntJr_IntRetAvceSpeTous);
+                    }
 
                 }
             });
@@ -1439,21 +2484,96 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
      * Checks whether all files are filled. If so then calls UpdateCompteCourantAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
-    private void updateCpteCourant() {
-
-
-      /*  if (!STRING_EMPTY.equals(movieNameEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(genreEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(yearEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ratingEditText.getText().toString())) {*/
-        if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
-                !STRING_EMPTY.equals(CcLibelle.getText().toString().trim())){
-
+//    private void updateCpteCourant1() {
+//
+//
+//      /*  if (!STRING_EMPTY.equals(movieNameEditText.getText().toString()) &&
+//                !STRING_EMPTY.equals(genreEditText.getText().toString()) &&
+//                !STRING_EMPTY.equals(yearEditText.getText().toString()) &&
+//                !STRING_EMPTY.equals(ratingEditText.getText().toString())) {*/
+//        if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
+//                !STRING_EMPTY.equals(CcLibelle.getText().toString().trim())){
+//
+////            st_CcCode=  CcCode.getText().toString();
+////            st_CcLibelle=  CcLibelle.getText().toString();
+////            st_CcIsDecouvOn=  CcIsDecouvOn.isChecked();
+////            st_CcMtMaxDecouv=  CcMtMaxDecouv.getText().toString();
+////            st_CcIsMaxDecouvNeg=  CcIsMaxDecouvNeg.isChecked();
+////            //st_CcNatureTxIntDecouv=  CcNatureTxIntDecouv.getText().toString();
+////            st_CcValTxIntDecouv=  CcValTxIntDecouv.getText().toString();
+////            baseCcTxIntDecouv = mySpinnerBaseTxIntDecouv.getText().toString();
+////            st_CcPlageTxIntDecouvFrom=  CcPlageTxIntDecouvFrom.getText().toString();
+////            st_CcPlageTxIntDecouvTo=  CcPlageTxIntDecouvTo.getText().toString();
+////            st_CcDureeMaxDecouv=  CcDureeMaxDecouv.getText().toString();
+////            // st_CcNatureTypDureDecouv=  CcNatureTypDureDecouv.getText().toString();
+////            //st_CcNatureTxMtAgio=  CcNatureTxMtAgio.getText().toString();
+////            st_CcValTxMtAgio=  CcValTxMtAgio.getText().toString();
+////            st_CcNatBaseAgio = mySpinnerBaseTxMtAgio.getText().toString();
+////            st_CcPlageTxMtAgioFrom=  CcPlageTxMtAgioFrom.getText().toString();
+////            st_CcPlageTxMtAgioTo=  CcPlageTxMtAgioTo.getText().toString();
+////            //st_CcNatBaseAgio=  CcNatBaseAgio.getText().toString();
+////            st_CcIsChequierM1On=  CcIsChequierM1On.isChecked();
+////            st_CcNbPagesCheqM1=  CcNbPagesCheqM1.getText().toString();
+////            st_CcPrixVteCheqM1=  CcPrixVteCheqM1.getText().toString();
+////            st_CcIsChequierM2On=  CcIsChequierM2On.isChecked();
+////            st_CcNbPagesCheqM2=  CcNbPagesCheqM2.getText().toString();
+////            st_CcPrixVteCheqM2=  CcPrixVteCheqM2.getText().toString();
+////            st_CcIsChequierM3On=  CcIsChequierM3On.isChecked();
+////            st_CcNbPagesCheqM3=  CcNbPagesCheqM3.getText().toString();
+////            st_CcPrixVteCheqM3=  CcPrixVteCheqM3.getText().toString();
+////            st_CcDureeValidCheq=  CcDureeValidCheq.getText().toString();
+////            st_CcNbMinSignatChq=  CcNbMinSignatChq.getText().toString();
+////            st_CcIsTxCommMvmOper=  CcIsTxCommMvmOper.isChecked();
+////            //st_CcNatTxComm=  CcNatTxComm.getText().toString();
+////            st_CcValTxCommMvm=  CcValTxCommMvm.getText().toString();
+////            baseCcTxCommMvm  = mySpinnerBaseTxCommMvm.getText().toString();
+////            st_CcPlageTxCommMvmFrom=  CcPlageTxCommMvmFrom.getText().toString();
+////            st_CcPlageTxCommMvmTo=  CcPlageTxCommMvmTo.getText().toString();
+////
+////            //to manage plage data
+////            //#CTP
+////            for (int i=0; i<plageDataListCTP.size();i++){
+////                tabPlageDebutCTP +=";"+plageDataListCTP.get(i).getPdValDe();
+////                tabPlageFinCTP +=";"+plageDataListCTP.get(i).getPdValA();
+////                tabPlageValeurCTP +=";"+plageDataListCTP.get(i).getPdValTaux();
+////                tabPlageBaseCTP +=";"+plageDataListCTP.get(i).getPdBase();
+////                tabPlageNatureCTP +=";"+plageDataListCTP.get(i).getPdNature();
+////            }
+////            //#CAP
+////            for (int i=0; i<plageDataListCAP.size();i++){
+////                tabPlageDebutCAP +=";"+plageDataListCAP.get(i).getPdValDe();
+////                tabPlageFinCAP +=";"+plageDataListCAP.get(i).getPdValA();
+////                tabPlageValeurCAP +=";"+plageDataListCAP.get(i).getPdValTaux();
+////                tabPlageBaseCAP +=";"+plageDataListCAP.get(i).getPdBase();
+////                tabPlageNatureCAP +=";"+plageDataListCAP.get(i).getPdNature();
+////            }
+////            //#TCP
+////            for (int i=0; i<plageDataListTCP.size();i++){
+////                tabPlageDebutTCP +=";"+plageDataListTCP.get(i).getPdValDe();
+////                tabPlageFinTCP +=";"+plageDataListTCP.get(i).getPdValA();
+////                tabPlageValeurTCP +=";"+plageDataListTCP.get(i).getPdValTaux();
+////                tabPlageBaseTCP +=";"+plageDataListTCP.get(i).getPdBase();
+////                tabPlageNatureTCP +=";"+plageDataListTCP.get(i).getPdNature();
+////            }
 //            st_CcCode=  CcCode.getText().toString();
 //            st_CcLibelle=  CcLibelle.getText().toString();
-//            st_CcIsDecouvOn=  CcIsDecouvOn.isChecked();
+//            if (CcIsDecouvOn.isChecked()){
+//                st_CcIsDecouvOn = "Y";
+//            }else{
+//                st_CcIsDecouvOn = "N";
+//            }
 //            st_CcMtMaxDecouv=  CcMtMaxDecouv.getText().toString();
-//            st_CcIsMaxDecouvNeg=  CcIsMaxDecouvNeg.isChecked();
+//            st_CcMtPlafondAvceSpec=  CcMtPlafondAvceSpec.getText().toString();
+//            if (CcIsMaxDecouvNeg.isChecked()){
+//                st_CcIsMaxDecouvNeg = "Y";
+//            }else{
+//                st_CcIsMaxDecouvNeg = "N";
+//            }
+//            if (CcIsAvanceSpecialOn.isChecked()){
+//                st_CcIsAvanceSpecialOn = "Y";
+//            }else{
+//                st_CcIsAvanceSpecialOn = "N";
+//            }
 //            //st_CcNatureTxIntDecouv=  CcNatureTxIntDecouv.getText().toString();
 //            st_CcValTxIntDecouv=  CcValTxIntDecouv.getText().toString();
 //            baseCcTxIntDecouv = mySpinnerBaseTxIntDecouv.getText().toString();
@@ -1467,23 +2587,58 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 //            st_CcPlageTxMtAgioFrom=  CcPlageTxMtAgioFrom.getText().toString();
 //            st_CcPlageTxMtAgioTo=  CcPlageTxMtAgioTo.getText().toString();
 //            //st_CcNatBaseAgio=  CcNatBaseAgio.getText().toString();
-//            st_CcIsChequierM1On=  CcIsChequierM1On.isChecked();
+//            if (CcIsChequierM1On.isChecked()){
+//                st_CcIsChequierM1On = "Y";
+//            }else{
+//                st_CcIsChequierM1On = "N";
+//            }
+//            if (CcIsPlafAvceSpecNegoc.isChecked()){
+//                st_CcIsPlafAvceSpecNegoc = "Y";
+//            }else{
+//                st_CcIsPlafAvceSpecNegoc = "N";
+//            }
+//            if (CcIsTxIntDegressif.isChecked()){
+//                st_CcIsTxIntDegressif = "Y";
+//            }else{
+//                st_CcIsTxIntDegressif = "N";
+//            }
+//
+//            if (CcIsChequierM2On.isChecked()){
+//                st_CcIsChequierM2On = "Y";
+//            }else{
+//                st_CcIsChequierM2On = "N";
+//            }
+//            if (CcIsChequierM3On.isChecked()){
+//                st_CcIsChequierM3On = "Y";
+//            }else{
+//                st_CcIsChequierM3On = "N";
+//            }
+//            if (CcIsTxCommMvmOper.isChecked()){
+//                st_CcIsTxCommMvmOper = "Y";
+//            }else{
+//                st_CcIsTxCommMvmOper = "N";
+//            }
+//
+//
 //            st_CcNbPagesCheqM1=  CcNbPagesCheqM1.getText().toString();
 //            st_CcPrixVteCheqM1=  CcPrixVteCheqM1.getText().toString();
-//            st_CcIsChequierM2On=  CcIsChequierM2On.isChecked();
 //            st_CcNbPagesCheqM2=  CcNbPagesCheqM2.getText().toString();
 //            st_CcPrixVteCheqM2=  CcPrixVteCheqM2.getText().toString();
-//            st_CcIsChequierM3On=  CcIsChequierM3On.isChecked();
 //            st_CcNbPagesCheqM3=  CcNbPagesCheqM3.getText().toString();
 //            st_CcPrixVteCheqM3=  CcPrixVteCheqM3.getText().toString();
 //            st_CcDureeValidCheq=  CcDureeValidCheq.getText().toString();
 //            st_CcNbMinSignatChq=  CcNbMinSignatChq.getText().toString();
-//            st_CcIsTxCommMvmOper=  CcIsTxCommMvmOper.isChecked();
 //            //st_CcNatTxComm=  CcNatTxComm.getText().toString();
 //            st_CcValTxCommMvm=  CcValTxCommMvm.getText().toString();
 //            baseCcTxCommMvm  = mySpinnerBaseTxCommMvm.getText().toString();
 //            st_CcPlageTxCommMvmFrom=  CcPlageTxCommMvmFrom.getText().toString();
 //            st_CcPlageTxCommMvmTo=  CcPlageTxCommMvmTo.getText().toString();
+//
+//            st_CcTauxIntAvceSpec=  CcTauxIntAvceSpec.getText().toString();
+//            baseTxIntAvceSpec  = mySpinnerCcBaseTxIntAvceSpec.getText().toString();
+//            st_CcTauxIntPenAvceSpec=  CcTauxIntPenAvceSpec.getText().toString();
+//            baseTxIntPenAvceSpec  = mySpinnerCcBaseTxIntPenAvceSpec.getText().toString();
+//
 //
 //            //to manage plage data
 //            //#CTP
@@ -1510,100 +2665,267 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 //                tabPlageBaseTCP +=";"+plageDataListTCP.get(i).getPdBase();
 //                tabPlageNatureTCP +=";"+plageDataListTCP.get(i).getPdNature();
 //            }
-            st_CcCode=  CcCode.getText().toString();
-            st_CcLibelle=  CcLibelle.getText().toString();
-            st_CcIsDecouvOn=  CcIsDecouvOn.isChecked();
-            st_CcMtMaxDecouv=  CcMtMaxDecouv.getText().toString();
-            st_CcMtPlafondAvceSpec=  CcMtPlafondAvceSpec.getText().toString();
+//            //#TAS
+//            for (int i=0; i<plageDataListTAS.size();i++){
+//                tabPlageDebutTAS +=";"+plageDataListTAS.get(i).getPdValDe();
+//                tabPlageFinTAS +=";"+plageDataListTAS.get(i).getPdValA();
+//                tabPlageValeurTAS +=";"+plageDataListTAS.get(i).getPdValTaux();
+//                tabPlageBaseTAS +=";"+plageDataListTAS.get(i).getPdBase();
+//                tabPlageNatureTAS +=";"+plageDataListTAS.get(i).getPdNature();
+//            }
+//            //#PAS
+//            for (int i=0; i<plageDataListPAS.size();i++){
+//                tabPlageDebutPAS +=";"+plageDataListPAS.get(i).getPdValDe();
+//                tabPlageFinPAS +=";"+plageDataListPAS.get(i).getPdValA();
+//                tabPlageValeurPAS +=";"+plageDataListPAS.get(i).getPdValTaux();
+//                tabPlageBasePAS +=";"+plageDataListPAS.get(i).getPdBase();
+//                tabPlageNaturePAS +=";"+plageDataListPAS.get(i).getPdNature();
+//            }
+//
+//
+//
+//
+//
+//            new UpdateCompteCourantAsyncTask().execute();
+//        } else {
+//            Toast.makeText(UpdateProduitCpteCourant.this,
+//                    "Un ou plusieurs champs sont vides!",
+//                    Toast.LENGTH_LONG).show();
+//
+//        }
+//
+//
+//    }
+    private void updateCpteCourant() {
 
-            st_CcIsMaxDecouvNeg=  CcIsMaxDecouvNeg.isChecked();
-            st_CcIsAvanceSpecialOn=  CcIsAvanceSpecialOn.isChecked();
-            //st_CcNatureTxIntDecouv=  CcNatureTxIntDecouv.getText().toString();
-            st_CcValTxIntDecouv=  CcValTxIntDecouv.getText().toString();
-            baseCcTxIntDecouv = mySpinnerBaseTxIntDecouv.getText().toString();
-            st_CcPlageTxIntDecouvFrom=  CcPlageTxIntDecouvFrom.getText().toString();
-            st_CcPlageTxIntDecouvTo=  CcPlageTxIntDecouvTo.getText().toString();
-            st_CcDureeMaxDecouv=  CcDureeMaxDecouv.getText().toString();
-            // st_CcNatureTypDureDecouv=  CcNatureTypDureDecouv.getText().toString();
-            //st_CcNatureTxMtAgio=  CcNatureTxMtAgio.getText().toString();
-            st_CcValTxMtAgio=  CcValTxMtAgio.getText().toString();
-            st_CcNatBaseAgio = mySpinnerBaseTxMtAgio.getText().toString();
-            st_CcPlageTxMtAgioFrom=  CcPlageTxMtAgioFrom.getText().toString();
-            st_CcPlageTxMtAgioTo=  CcPlageTxMtAgioTo.getText().toString();
-            //st_CcNatBaseAgio=  CcNatBaseAgio.getText().toString();
-            st_CcIsChequierM1On=  CcIsChequierM1On.isChecked();
-            st_CcIsPlafAvceSpecNegoc=  CcIsPlafAvceSpecNegoc.isChecked();
-            st_CcNbPagesCheqM1=  CcNbPagesCheqM1.getText().toString();
-            st_CcPrixVteCheqM1=  CcPrixVteCheqM1.getText().toString();
-            st_CcIsChequierM2On=  CcIsChequierM2On.isChecked();
-            st_CcNbPagesCheqM2=  CcNbPagesCheqM2.getText().toString();
-            st_CcPrixVteCheqM2=  CcPrixVteCheqM2.getText().toString();
-            st_CcIsChequierM3On=  CcIsChequierM3On.isChecked();
-            st_CcNbPagesCheqM3=  CcNbPagesCheqM3.getText().toString();
-            st_CcPrixVteCheqM3=  CcPrixVteCheqM3.getText().toString();
-            st_CcDureeValidCheq=  CcDureeValidCheq.getText().toString();
-            st_CcNbMinSignatChq=  CcNbMinSignatChq.getText().toString();
-            st_CcIsTxCommMvmOper=  CcIsTxCommMvmOper.isChecked();
-            //st_CcNatTxComm=  CcNatTxComm.getText().toString();
-            st_CcValTxCommMvm=  CcValTxCommMvm.getText().toString();
-            baseCcTxCommMvm  = mySpinnerBaseTxCommMvm.getText().toString();
-            st_CcPlageTxCommMvmFrom=  CcPlageTxCommMvmFrom.getText().toString();
-            st_CcPlageTxCommMvmTo=  CcPlageTxCommMvmTo.getText().toString();
 
-            st_CcTauxIntAvceSpec=  CcTauxIntAvceSpec.getText().toString();
-            baseTxIntAvceSpec  = mySpinnerCcBaseTxIntAvceSpec.getText().toString();
-            st_CcTauxIntPenAvceSpec=  CcTauxIntPenAvceSpec.getText().toString();
-            baseTxIntPenAvceSpec  = mySpinnerCcBaseTxIntPenAvceSpec.getText().toString();
+        if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
+                !STRING_EMPTY.equals(CcLibelle.getText().toString().trim())
+        ){
 
-            st_CcIsTxIntDegressif=  CcIsTxIntDegressif.isChecked();
+            try {
+                Double h1, h2, h3, h4, h5, h6, h7;
+                if (!(CcMtMaxDecouv.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
+                    h1 = Double.valueOf(CcMtMaxDecouv.getText().toString().replaceAll(",", "").trim());
+                    CcMtMaxDecouv.setText(h1+"");
+                }
 
-            //to manage plage data
-            //#CTP
-            for (int i=0; i<plageDataListCTP.size();i++){
-                tabPlageDebutCTP +=";"+plageDataListCTP.get(i).getPdValDe();
-                tabPlageFinCTP +=";"+plageDataListCTP.get(i).getPdValA();
-                tabPlageValeurCTP +=";"+plageDataListCTP.get(i).getPdValTaux();
-                tabPlageBaseCTP +=";"+plageDataListCTP.get(i).getPdBase();
-                tabPlageNatureCTP +=";"+plageDataListCTP.get(i).getPdNature();
+
+
+                if (!(CcValTxIntDecouv.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
+                    h2 = Double.valueOf(CcValTxIntDecouv.getText().toString().replaceAll(",", "").trim());
+                    CcValTxIntDecouv.setText(h2+"");
+                }
+
+                if (!(CcTauxIntPenRetard.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
+                    h3 = Double.valueOf(CcTauxIntPenRetard.getText().toString().replaceAll(",", "").trim());
+                    CcTauxIntPenRetard.setText(h3+"");
+                }
+
+
+                if (!(CcTauxInt_IntRetDecouv.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
+                    h4 = Double.valueOf(CcTauxInt_IntRetDecouv.getText().toString().replaceAll(",", "").trim());
+                    CcTauxInt_IntRetDecouv.setText(h4+"");
+                }
+                if (!(CcTauxIntAvceSpec.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
+                    h5 = Double.valueOf(CcTauxIntAvceSpec.getText().toString().replaceAll(",", "").trim());
+                    CcTauxIntAvceSpec.setText(h5+"");
+                }
+                if (!(CcTauxIntPenAvceSpec.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
+                    h6 = Double.valueOf(CcTauxIntPenAvceSpec.getText().toString().replaceAll(",", "").trim());
+                    CcTauxIntPenAvceSpec.setText(h6+"");
+                }
+                if (!(CcTauxInt_IntRetAvceSpec.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
+                    h7 = Double.valueOf(CcTauxInt_IntRetAvceSpec.getText().toString().replaceAll(",", "").trim());
+                    CcTauxInt_IntRetAvceSpec.setText(h7+"");
+                }
+
+
+
+
+                st_CcCode=  CcCode.getText().toString();
+//                st_CcLibelle=  CcLibelle.getText().toString();
+                st_CcLibelle =  MyData.normalizeSymbolsAndAccents(CcLibelle.getText().toString());//Pour échapper les accents
+                if (CcIsDecouvOn.isChecked()){
+                    st_CcIsDecouvOn = "Y";
+                }else{
+                    st_CcIsDecouvOn = "N";
+                }
+//            st_CcIsDecouvOn=  CcIsDecouvOn.isChecked();
+                st_CcMtMaxDecouv=  CcMtMaxDecouv.getText().toString();
+                st_CcMtPlafondAvceSpec=  CcMtPlafondAvceSpec.getText().toString();
+
+                if (CcIsMaxDecouvNeg.isChecked()){
+                    st_CcIsMaxDecouvNeg = "Y";
+                }else{
+                    st_CcIsMaxDecouvNeg = "N";
+                }
+
+                if (CcIsAvanceSpecialOn.isChecked()){
+                    st_CcIsAvanceSpecialOn = "Y";
+                }else{
+                    st_CcIsAvanceSpecialOn = "N";
+                }
+//            st_CcIsMaxDecouvNeg=  CcIsMaxDecouvNeg.isChecked();
+//            st_CcIsAvanceSpecialOn=  CcIsAvanceSpecialOn.isChecked();
+                //st_CcNatureTxIntDecouv=  CcNatureTxIntDecouv.getText().toString();
+                st_CcValTxIntDecouv=  CcValTxIntDecouv.getText().toString();
+                baseCcTxIntDecouv = mySpinnerBaseTxIntDecouv.getText().toString();
+                baseCcTxIntPenRetard = mySpinnerCcBaseTxIntPenRetard.getText().toString();
+//    st_CcPlageTxIntDecouvFrom=  CcPlageTxIntDecouvFrom.getText().toString();
+//    st_CcPlageTxIntDecouvTo=  CcPlageTxIntDecouvTo.getText().toString();
+                st_CcDureeMaxDecouv=  CcDureeMaxDecouv.getText().toString();
+                // st_CcNatureTypDureDecouv=  CcNatureTypDureDecouv.getText().toString();
+                //st_CcNatureTxMtAgio=  CcNatureTxMtAgio.getText().toString();
+                st_CcValTxMtAgio=  CcValTxMtAgio.getText().toString();
+                st_CcNatBaseAgio = mySpinnerBaseTxMtAgio.getText().toString();
+//    st_CcPlageTxMtAgioFrom=  CcPlageTxMtAgioFrom.getText().toString();
+//            st_CcPlageTxMtAgioTo=  CcPlageTxMtAgioTo.getText().toString();
+                //st_CcNatBaseAgio=  CcNatBaseAgio.getText().toString();
+                if (CcIsChequierM1On.isChecked()){
+                    st_CcIsChequierM1On = "Y";
+                }else{
+                    st_CcIsChequierM1On = "N";
+                }
+                if (CcIsPlafAvceSpecNegoc.isChecked()){
+                    st_CcIsPlafAvceSpecNegoc = "Y";
+                }else{
+                    st_CcIsPlafAvceSpecNegoc = "N";
+                }
+                if (CcIsTxIntDegressif.isChecked()){
+                    st_CcIsTxIntDegressif = "Y";
+                }else{
+                    st_CcIsTxIntDegressif = "N";
+                }
+
+                if (CcIsChequierM2On.isChecked()){
+                    st_CcIsChequierM2On = "Y";
+                }else{
+                    st_CcIsChequierM2On = "N";
+                }
+                if (CcIsChequierM3On.isChecked()){
+                    st_CcIsChequierM3On = "Y";
+                }else{
+                    st_CcIsChequierM3On = "N";
+                }
+                if (CcIsTxCommMvmOper.isChecked()){
+                    st_CcIsTxCommMvmOper = "Y";
+                }else{
+                    st_CcIsTxCommMvmOper = "N";
+                }
+//    st_CcIsChequierM1On=  CcIsChequierM1On.isChecked();
+//    st_CcIsPlafAvceSpecNegoc=  CcIsPlafAvceSpecNegoc.isChecked();
+//    st_CcIsTxIntDegressif=  CcIsTxIntDegressif.isChecked();
+                st_CcNbPagesCheqM1=  CcNbPagesCheqM1.getText().toString();
+                st_CcPrixVteCheqM1=  CcPrixVteCheqM1.getText().toString();
+//    st_CcIsChequierM2On=  CcIsChequierM2On.isChecked();
+                st_CcNbPagesCheqM2=  CcNbPagesCheqM2.getText().toString();
+                st_CcPrixVteCheqM2=  CcPrixVteCheqM2.getText().toString();
+//    st_CcIsChequierM3On=  CcIsChequierM3On.isChecked();
+                st_CcNbPagesCheqM3=  CcNbPagesCheqM3.getText().toString();
+                st_CcPrixVteCheqM3=  CcPrixVteCheqM3.getText().toString();
+                st_CcDureeValidCheq=  CcDureeValidCheq.getText().toString();
+                st_CcNbMinSignatChq=  CcNbMinSignatChq.getText().toString();
+//    st_CcIsTxCommMvmOper=  CcIsTxCommMvmOper.isChecked();
+                //st_CcNatTxComm=  CcNatTxComm.getText().toString();
+                st_CcValTxCommMvm=  CcValTxCommMvm.getText().toString();
+                baseCcTxCommMvm  = mySpinnerBaseTxCommMvm.getText().toString();
+//    st_CcPlageTxCommMvmFrom=  CcPlageTxCommMvmFrom.getText().toString();
+//    st_CcPlageTxCommMvmTo=  CcPlageTxCommMvmTo.getText().toString();
+
+                st_CcTauxIntAvceSpec=  CcTauxIntAvceSpec.getText().toString();
+                baseTxIntAvceSpec  = mySpinnerCcBaseTxIntAvceSpec.getText().toString();
+                st_CcTauxIntPenAvceSpec=  CcTauxIntPenAvceSpec.getText().toString();
+                baseTxIntPenAvceSpec  = mySpinnerCcBaseTxIntPenAvceSpec.getText().toString();
+                /*START NEW*/
+
+                if(SwitchCcIsTxInteretJrOn.isChecked()){
+                    CcIsTxInteretJrOn  = "Y";
+                }else{
+                    CcIsTxInteretJrOn  = "N";
+                }
+                if(SwitchCcIsTxPenRetardJrOn.isChecked()){
+                    CcIsTxPenRetardJrOn  = "Y";
+                }else{
+                    CcIsTxPenRetardJrOn  = "N";
+                }
+                if(SwitchCcIsTxIntJrOn_IntRetDecouv.isChecked()){
+                    CcIsTxIntJrOn_IntRetDecouv  = "Y";
+                }else{
+                    CcIsTxIntJrOn_IntRetDecouv  = "N";
+                }
+                if(SwitchCcIsTxInteretAvceSpecJrOn.isChecked()){
+                    CcIsTxInteretAvceSpecJrOn  = "Y";
+                }else{
+                    CcIsTxInteretAvceSpecJrOn  = "N";
+                }
+                if(SwitchCcIsTxIntAvceSpecDegressif.isChecked()){
+                    CcIsTxIntAvceSpecDegressif  = "Y";
+                }else{
+                    CcIsTxIntAvceSpecDegressif  = "N";
+                }
+                if(SwitchCcIsTxPenRetardAvceSpecDegressif.isChecked()){
+                    CcIsTxPenRetardAvceSpecDegressif  = "Y";
+                }else{
+                    CcIsTxPenRetardAvceSpecDegressif  = "N";
+                }
+                if(SwitchCcIsTxIntJrOn_PenRetAvceSpe.isChecked()){
+                    CcIsTxIntJrOn_PenRetAvceSpe  = "Y";
+                }else{
+                    CcIsTxIntJrOn_PenRetAvceSpe  = "N";
+                }
+                if(SwitchCcIsTxIntRetardAvceSpecDegressif.isChecked()){
+                    CcIsTxIntRetardAvceSpecDegressif  = "Y";
+                }else{
+                    CcIsTxIntRetardAvceSpecDegressif  = "N";
+                }
+                if(SwitchCcIsTxIntJrOn_IntRetAvceSpe.isChecked()){
+                    CcIsTxIntJrOn_IntRetAvceSpe  = "Y";
+                }else{
+                    CcIsTxIntJrOn_IntRetAvceSpe  = "N";
+                }
+                if(SwitchDecouvertPermanentAutoriseCC.isChecked()){
+                    CcIsDecouvertPermanentAutorise  = "Y";
+                }else{
+                    CcIsDecouvertPermanentAutorise  = "N";
+                }
+                st_CcTauxIntPenRetard = CcTauxIntPenRetard.getText().toString();
+                st_CcTauxInt_IntRetDecouv = CcTauxInt_IntRetDecouv.getText().toString();
+                st_CcBasexInt_IntRetDecouv = mySpinnerCcBasexInt_IntRetDecouv.getText().toString();
+                st_CcDureeMaxAvceSpec=  CcDureeMaxAvceSpec.getText().toString();
+                st_CcTauxInt_IntRetAvceSpec=  CcTauxInt_IntRetAvceSpec.getText().toString();
+                st_CcBasexInt_IntRetAvceSpec=  mySpinnerCcBasexInt_IntRetAvceSpec.getText().toString();
+                st_CcMaxMontantDecouvertPermanentAutorise=  CcMaxMontantDecouvertPermanentAutorise.getText().toString();
+                st_CcMaxDureeDecouvertPermanentAutorise=  CcMaxDureeDecouvertPermanentAutorise.getText().toString();
+
+                /*END NEW*/
+                //to manage plage data
+                //#CTP
+     /*           for (int i=0; i<plageDataListCTP.size();i++){
+                    tabPlageDebutCTP +=";"+plageDataListCTP.get(i).getPdValDe();
+                    tabPlageFinCTP +=";"+plageDataListCTP.get(i).getPdValA();
+                    tabPlageValeurCTP +=";"+plageDataListCTP.get(i).getPdValTaux();
+                    tabPlageBaseCTP +=";"+plageDataListCTP.get(i).getPdBase();
+                    tabPlageNatureCTP +=";"+plageDataListCTP.get(i).getPdNature();
+                }
+                //#CAP
+                for (int i=0; i<plageDataListCAP.size();i++){
+                    tabPlageDebutCAP +=";"+plageDataListCAP.get(i).getPdValDe();
+                    tabPlageFinCAP +=";"+plageDataListCAP.get(i).getPdValA();
+                    tabPlageValeurCAP +=";"+plageDataListCAP.get(i).getPdValTaux();
+                    tabPlageBaseCAP +=";"+plageDataListCAP.get(i).getPdBase();
+                    tabPlageNatureCAP +=";"+plageDataListCAP.get(i).getPdNature();
+                }
+              */
+
+
+
+                new UpdateProduitCpteCourant.UpdateCompteCourantAsyncTask().execute();
+
+
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            //#CAP
-            for (int i=0; i<plageDataListCAP.size();i++){
-                tabPlageDebutCAP +=";"+plageDataListCAP.get(i).getPdValDe();
-                tabPlageFinCAP +=";"+plageDataListCAP.get(i).getPdValA();
-                tabPlageValeurCAP +=";"+plageDataListCAP.get(i).getPdValTaux();
-                tabPlageBaseCAP +=";"+plageDataListCAP.get(i).getPdBase();
-                tabPlageNatureCAP +=";"+plageDataListCAP.get(i).getPdNature();
-            }
-            //#TCP
-            for (int i=0; i<plageDataListTCP.size();i++){
-                tabPlageDebutTCP +=";"+plageDataListTCP.get(i).getPdValDe();
-                tabPlageFinTCP +=";"+plageDataListTCP.get(i).getPdValA();
-                tabPlageValeurTCP +=";"+plageDataListTCP.get(i).getPdValTaux();
-                tabPlageBaseTCP +=";"+plageDataListTCP.get(i).getPdBase();
-                tabPlageNatureTCP +=";"+plageDataListTCP.get(i).getPdNature();
-            }
-            //#TAS
-            for (int i=0; i<plageDataListTAS.size();i++){
-                tabPlageDebutTAS +=";"+plageDataListTAS.get(i).getPdValDe();
-                tabPlageFinTAS +=";"+plageDataListTAS.get(i).getPdValA();
-                tabPlageValeurTAS +=";"+plageDataListTAS.get(i).getPdValTaux();
-                tabPlageBaseTAS +=";"+plageDataListTAS.get(i).getPdBase();
-                tabPlageNatureTAS +=";"+plageDataListTAS.get(i).getPdNature();
-            }
-            //#PAS
-            for (int i=0; i<plageDataListPAS.size();i++){
-                tabPlageDebutPAS +=";"+plageDataListPAS.get(i).getPdValDe();
-                tabPlageFinPAS +=";"+plageDataListPAS.get(i).getPdValA();
-                tabPlageValeurPAS +=";"+plageDataListPAS.get(i).getPdValTaux();
-                tabPlageBasePAS +=";"+plageDataListPAS.get(i).getPdBase();
-                tabPlageNaturePAS +=";"+plageDataListPAS.get(i).getPdNature();
-            }
-
-
-
-
-
-            new UpdateCompteCourantAsyncTask().execute();
         } else {
             Toast.makeText(UpdateProduitCpteCourant.this,
                     "Un ou plusieurs champs sont vides!",
@@ -1639,77 +2961,128 @@ public class UpdateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             httpParams.put(KEY_CcCode, st_CcCode);
             httpParams.put(KEY_CcLibelle, st_CcLibelle);
-            httpParams.put(KEY_CcIsDecouvOn, st_CcIsDecouvOn.toString());
+            httpParams.put(KEY_CcIsDecouvOn, st_CcIsDecouvOn);
             httpParams.put(KEY_CcMtMaxDecouv, st_CcMtMaxDecouv);
-            httpParams.put(KEY_CcIsMaxDecouvNeg, st_CcIsMaxDecouvNeg.toString());
+            httpParams.put(KEY_CcIsMaxDecouvNeg, st_CcIsMaxDecouvNeg);
+            httpParams.put(KEY_CcDureeMaxDecouv, st_CcDureeMaxDecouv);
+            httpParams.put(KEY_CcNatureTypDureDecouv, st_CcNatureTypDureDecouv);
+
             httpParams.put(KEY_CcNatureTxIntDecouv, st_CcNatureTxIntDecouv);
             httpParams.put(KEY_CcValTxIntDecouv, st_CcValTxIntDecouv);
             httpParams.put(KEY_CcBaseTxIntDecouv, baseCcTxIntDecouv);
-            httpParams.put(KEY_CcPlageTxIntDecouvFrom, st_CcPlageTxIntDecouvFrom);
-            httpParams.put(KEY_CcPlageTxIntDecouvTo, st_CcPlageTxIntDecouvTo);
-            httpParams.put(KEY_CcDureeMaxDecouv, st_CcDureeMaxDecouv);
-            httpParams.put(KEY_CcNatureTypDureDecouv, st_CcNatureTypDureDecouv);
+
+            httpParams.put(KEY_CcIsTxIntDegressif, st_CcIsTxIntDegressif);
+            httpParams.put(KEY_CcModeCalcInteret, CcModeCalcInteret);
+            httpParams.put(KEY_CcNaturePerTxInteret, CcNaturePerTxInteret);
+            httpParams.put(KEY_CcIsTxInteretJrOn, CcIsTxInteretJrOn);
+            httpParams.put(KEY_CcNatureJrTxIntJr, CcNatureJrTxIntJr);
+
+//            httpParams.put(KEY_CcPlageTxIntDecouvFrom, st_CcPlageTxIntDecouvFrom);
+//            httpParams.put(KEY_CcPlageTxIntDecouvTo, st_CcPlageTxIntDecouvTo);
+
+            //Début pénalité de retard decouv simple
+
+            httpParams.put(KEY_CcNatTauxIntPenRetard, st_CcNatTauxIntPenRetard);
+            httpParams.put(KEY_CcTauxIntPenRetard, st_CcTauxIntPenRetard);
+            httpParams.put(KEY_CcBaseTxIntPenRetard, baseCcTxIntPenRetard);
+            httpParams.put(KEY_CcNaturePerTxPenRet, CcNaturePerTxPenRet);
+            httpParams.put(KEY_CcIsTxPenRetardJrOn, CcIsTxPenRetardJrOn);
+            httpParams.put(KEY_CcNatureJrTxPenRet, CcNatureJrTxPenRet);
+
+            //Fin pénalité de retard decouv simple
+
+            //Début intérêt de retard decouv simple
+            httpParams.put(KEY_CcNatureTxInt_IntRetDecouv, st_CcNatureTxInt_IntRetDecouv);
+            httpParams.put(KEY_CcTauxInt_IntRetDecouv, st_CcTauxInt_IntRetDecouv);
+            httpParams.put(KEY_CcBasexInt_IntRetDecouv, st_CcBasexInt_IntRetDecouv);
+            httpParams.put(KEY_CcPeriod_IntRetDecouv, CcPeriod_IntRetDecouv);
+            httpParams.put(KEY_CcIsTxIntJrOn_IntRetDecouv, CcIsTxIntJrOn_IntRetDecouv);
+            httpParams.put(KEY_CcNatJrTxIntJr_IntRetDecouv, CcNatJrTxIntJr_IntRetDecouv);
+            //Fin intérêt de retard decouv simple
+
+            //Début decouv permanent
+            httpParams.put(KEY_CcIsDecouvertPermanentAutorise, CcIsDecouvertPermanentAutorise);
+            httpParams.put(KEY_CcMaxMontantDecouvertPermanentAutorise, st_CcMaxMontantDecouvertPermanentAutorise);
+            httpParams.put(KEY_CcMaxDureeDecouvertPermanentAutorise, st_CcMaxDureeDecouvertPermanentAutorise);
+            //Fin decouv permanent
+
+            //Début Agios ou frais de tenue de compte
             httpParams.put(KEY_CcNatureTxMtAgio, st_CcNatureTxMtAgio);
             httpParams.put(KEY_CcValTxMtAgio, st_CcValTxMtAgio);
-            httpParams.put(KEY_CcPlageTxMtAgioFrom, st_CcPlageTxMtAgioFrom);
-            httpParams.put(KEY_CcPlageTxMtAgioTo, st_CcPlageTxMtAgioTo);
             httpParams.put(KEY_CcNatBaseAgio, st_CcNatBaseAgio);
-            httpParams.put(KEY_CcIsChequierM1On, st_CcIsChequierM1On.toString());
+//            httpParams.put(KEY_CcPlageTxMtAgioFrom, st_CcPlageTxMtAgioFrom);
+//            httpParams.put(KEY_CcPlageTxMtAgioTo, st_CcPlageTxMtAgioTo);
+
+            //Fin Agios ou frais de tenue de compte
+
+            //Début chéquier
+            httpParams.put(KEY_CcIsChequierM1On, st_CcIsChequierM1On);
             httpParams.put(KEY_CcNbPagesCheqM1, st_CcNbPagesCheqM1);
             httpParams.put(KEY_CcPrixVteCheqM1, st_CcPrixVteCheqM1);
-            httpParams.put(KEY_CcIsChequierM2On, st_CcIsChequierM2On.toString());
+            httpParams.put(KEY_CcIsChequierM2On, st_CcIsChequierM2On);
             httpParams.put(KEY_CcNbPagesCheqM2, st_CcNbPagesCheqM2);
             httpParams.put(KEY_CcPrixVteCheqM2, st_CcPrixVteCheqM2);
-            httpParams.put(KEY_CcIsChequierM3On, st_CcIsChequierM3On.toString());
+            httpParams.put(KEY_CcIsChequierM3On, st_CcIsChequierM3On);
             httpParams.put(KEY_CcNbPagesCheqM3, st_CcNbPagesCheqM3);
             httpParams.put(KEY_CcPrixVteCheqM3, st_CcPrixVteCheqM3);
             httpParams.put(KEY_CcDureeValidCheq, st_CcDureeValidCheq);
             httpParams.put(KEY_CcNbMinSignatChq, st_CcNbMinSignatChq);
-            httpParams.put(KEY_CcIsTxCommMvmOper, st_CcIsTxCommMvmOper.toString());
+            //Fin chéquier
+
+            //Début Taux de commission par mouvement
+
+            httpParams.put(KEY_CcIsTxCommMvmOper, st_CcIsTxCommMvmOper);
             httpParams.put(KEY_CcNatTxComm, st_CcNatTxComm);
             httpParams.put(KEY_CcValTxCommMvm, st_CcValTxCommMvm);
             httpParams.put(KEY_CcBaseTxCommMvm, baseCcTxCommMvm);
-            httpParams.put(KEY_CcPlageTxCommMvmFrom, st_CcPlageTxCommMvmFrom);
-            httpParams.put(KEY_CcPlageTxCommMvmTo, st_CcPlageTxCommMvmTo);
-            httpParams.put(KEY_CC_CAISSE_NUMERO, String.valueOf(MyData.CAISSE_ID));
+//            httpParams.put(KEY_CcPlageTxCommMvmFrom, st_CcPlageTxCommMvmFrom);
+//            httpParams.put(KEY_CcPlageTxCommMvmTo, st_CcPlageTxCommMvmTo);
+            //Fin Taux de commission par mouvement
 
 
-
-            httpParams.put(KEY_CC_PLAGE_TAUX_INTERET_DECOUVERT_DEBUT, tabPlageDebutCTP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_INTERET_DECOUVERT_FIN, tabPlageFinCTP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_INTERET_DECOUVERT_VALEUR, tabPlageValeurCTP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_INTERET_DECOUVERT_BASE, tabPlageBaseCTP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_INTERET_DECOUVERT_NATURE, tabPlageNatureCTP);
-
-            httpParams.put(KEY_CC_PLAGE_TAUX_CALCUL_AGIO_DEBUT, tabPlageDebutCAP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_CALCUL_AGIO_FIN, tabPlageFinCAP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_CALCUL_AGIO_VALEUR, tabPlageValeurCAP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_CALCUL_AGIO_BASE, tabPlageBaseCAP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_CALCUL_AGIO_NATURE, tabPlageNatureCAP);
-
-            httpParams.put(KEY_CC_PLAGE_TAUX_COMMISSION_DEBUT, tabPlageDebutTCP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_COMMISSION_FIN, tabPlageFinTCP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_COMMISSION_VALEUR, tabPlageValeurTCP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_COMMISSION_BASE, tabPlageBaseTCP);
-            httpParams.put(KEY_CC_PLAGE_TAUX_COMMISSION_NATURE, tabPlageNatureTCP);
-
-
-            httpParams.put(KEY_CcIsAvanceSpecialOn, st_CcIsAvanceSpecialOn.toString());
+            //Début Taux d'interet nominal avance speciale
+            httpParams.put(KEY_CcIsAvanceSpecialOn, st_CcIsAvanceSpecialOn);
             httpParams.put(KEY_CcMtPlafondAvceSpec, st_CcMtPlafondAvceSpec);
-            httpParams.put(KEY_CcIsPlafAvceSpecNegoc, st_CcIsPlafAvceSpecNegoc.toString());
+            httpParams.put(KEY_CcIsPlafAvceSpecNegoc, st_CcIsPlafAvceSpecNegoc);
+            httpParams.put(KEY_CcDureeMaxAvceSpec, st_CcDureeMaxAvceSpec);
+            httpParams.put(KEY_CcIsTxIntAvceSpecDegressif, CcIsTxIntAvceSpecDegressif);
+            httpParams.put(KEY_CcModeCalcInteretAvceSpec, CcModeCalcInteretAvceSpec);
+
             httpParams.put(KEY_CcNatTauxIntAvceSpec, st_CcNatTauxIntAvceSpec);
             httpParams.put(KEY_CcTauxIntAvceSpec, st_CcTauxIntAvceSpec);
             httpParams.put(KEY_CcBaseTxIntAvceSpec, baseTxIntAvceSpec);
+            httpParams.put(KEY_CcNaturePerTxInteretAvceSpec, CcNaturePerTxInteretAvceSpec);
+            httpParams.put(KEY_CcIsTxInteretAvceSpecJrOn, CcIsTxInteretAvceSpecJrOn);
+            httpParams.put(KEY_CcNatureJrTxIntAvceSpecJr, CcNatureJrTxIntAvceSpecJr);
+            //Fin Taux d'interet nominal avance speciale
 
-
+            //Début Pénalité de retard avance speciale
+            httpParams.put(KEY_CcIsTxPenRetardAvceSpecDegressif, CcIsTxPenRetardAvceSpecDegressif);
+            httpParams.put(KEY_CcModeCalcPenRetardAvceSpec, CcModeCalcPenRetardAvceSpec);
             httpParams.put(KEY_CcNatTauxIntPenAvceSpec, st_CcNatTauxIntPenAvceSpec);
             httpParams.put(KEY_CcTauxIntPenAvceSpec, st_CcTauxIntPenAvceSpec);
             httpParams.put(KEY_CcBaseTxIntPenAvceSpec, baseTxIntPenAvceSpec);
 
-            httpParams.put(KEY_CcIsTxIntDegressif, st_CcIsTxIntDegressif.toString());
+            httpParams.put(KEY_CcPeriod_PenRetAvceSpec, CcPeriod_PenRetAvceSpec);
+            httpParams.put(KEY_CcIsTxIntJrOn_PenRetAvceSpe, CcIsTxIntJrOn_PenRetAvceSpe);
+            httpParams.put(KEY_CcNatJrTxIntJr_PenRetAvceSpe, CcNatJrTxIntJr_PenRetAvceSpe);
+            //Fin Pénalité de retard avance speciale
+
+            //Début Interêt de retard avance speciale
+            httpParams.put(KEY_CcIsTxIntRetardAvceSpecDegressif, CcIsTxIntRetardAvceSpecDegressif);
+            httpParams.put(KEY_CcModeCalcIntRetardAvceSpec, CcModeCalcIntRetardAvceSpec);
+            httpParams.put(KEY_CcNatureTxInt_IntRetAvceSpec, st_CcNatureTxInt_IntRetAvceSpec);
+            httpParams.put(KEY_CcTauxInt_IntRetAvceSpec, st_CcTauxInt_IntRetAvceSpec);
+            httpParams.put(KEY_CcBasexInt_IntRetAvceSpec, st_CcBasexInt_IntRetAvceSpec);
+            httpParams.put(KEY_CcPeriod_IntRetAvceSpec, CcPeriod_IntRetAvceSpec);
+            httpParams.put(KEY_CcIsTxIntJrOn_IntRetAvceSpe, CcIsTxIntJrOn_IntRetAvceSpe);
+            httpParams.put(KEY_CcNatJrTxIntJr_IntRetAvceSpe, CcNatJrTxIntJr_IntRetAvceSpe);
+            //Fin Interêt de retard avance speciale
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_cpte_courant.php", "POST", httpParams);
+            Log.e("httpParams****",httpParams+"");
+            Log.e("jsonObject****",jsonObject+"");
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

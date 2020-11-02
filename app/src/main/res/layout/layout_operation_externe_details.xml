@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:theme="@style/MyMaterialTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+
+            android:id="@+id/toolbar_list_operation_compte_adherent"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:layout_gravity="center"
+            app:title="OPERATION EXTERNE"
+            app:subtitle="Liste des opérations externes"
+            app:popupTheme="@style/MyMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+<!--    Bloc date GONE-->
+    <LinearLayout
+        android:id="@+id/bloc_date"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_fromDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+            android:layout_weight="45"
+            android:theme="@style/TextInputLayoutStyle"
+        style="@style/Widget.AppTheme.TextInputLayoutList"
+        android:textColorHint="@color/design_default_color_primary_dark"
+        app:boxStrokeColor="@color/design_default_color_primary_dark"
+        app:errorEnabled="true"
+        >
+
+        <EditText
+            android:id="@+id/input_txt_fromDate"
+            android:editable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="Date de debut"
+            android:textColor="@color/jrspinner_black_transparent"
+            android:textSize="14dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_toDate"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="45"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/Widget.AppTheme.TextInputLayoutList"
+            android:textColorHint="@color/design_default_color_primary_dark"
+            app:boxStrokeColor="@color/design_default_color_primary_dark"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:id="@+id/input_txt_toDate"
+                android:editable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Date de fin"
+                android:textColor="@color/jrspinner_black_transparent"
+                android:textSize="14dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btn_afficher"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            style="@style/loginButton"
+
+            android:layout_marginRight="12dp"
+            android:text="@string/btn_afficher" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TableLayout android:layout_marginTop="10dp"
+    android:id="@+id/table_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/table_row1"
+        android:padding="5dp"
+        android:background="@color/colorAccent1">
+
+        <TextView
+            android:id="@+id/heure"
+            android:fontFamily="serif"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="12"
+            android:textColor="#000"
+            android:text="Heure"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/libelle"
+            android:textColor="#000"
+            android:fontFamily="serif"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="48"
+            android:text="  Libellé"
+            android:textAlignment="center"/>
+        <TextView
+            android:textColor="#000"
+            android:id="@+id/produit"
+            android:fontFamily="serif"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:text="Produit"
+            android:textAlignment="center"/>
+        <TextView
+            android:textColor="#000"
+            android:id="@+id/charge"
+            android:fontFamily="serif"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:text="Charge"
+            android:textAlignment="center"/>
+
+    </TableRow>
+    <View
+        android:layout_height="3dip"
+        android:layout_width="match_parent"
+        android:background="@color/colorAccent1"/>
+</TableLayout>
+    <!--// add a listview to display our table records-->
+            <ListView
+            android:id="@+id/records_view"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="16dp">
+            </ListView>
+        </LinearLayout>
+    </ScrollView>
+    </LinearLayout>

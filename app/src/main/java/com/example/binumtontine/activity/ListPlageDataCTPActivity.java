@@ -100,13 +100,13 @@ private void loadPlageForCreate(){
             movieList = new ArrayList<>();
             // movies = jsonObject.getJSONArray(KEY_DATA);
             //Parcours la liste des plages du produit
-            for (int i = 0; i < CreateProduitEAV.plageDataList.size(); i++) {
+            for (int i = 0; i < CreateProduitEAV.plageDataListTIV.size(); i++) {
                 // JSONObject movie = movies.getJSONObject(i);
                 Integer movieId = i;
 
-                String movieName = CreateProduitEAV.plageDataList.get(i).getPdValDe()+
-                        " - "+CreateProduitEAV.plageDataList.get(i).getPdValA()+
-                        " ( "+CreateProduitEAV.plageDataList.get(i).getPdValTaux()+" )";
+                String movieName = CreateProduitEAV.plageDataListTIV.get(i).getPdValDe()+
+                        " - "+CreateProduitEAV.plageDataListTIV.get(i).getPdValA()+
+                        " ( "+CreateProduitEAV.plageDataListTIV.get(i).getPdValTaux()+" )";
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put(KEY_EAV_ID, movieId.toString());
                 map.put(KEY_EAV_LIBELLE, movieName);

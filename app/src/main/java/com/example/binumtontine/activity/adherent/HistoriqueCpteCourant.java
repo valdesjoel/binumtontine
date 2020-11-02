@@ -68,7 +68,7 @@ public class HistoriqueCpteCourant extends AppCompatActivity {
     private static EditText fromdate; private static String dateDebut; //dateDebut permet de stocker fromDate au format YYYY-MM-DD
     private static EditText todate; private static String dateFin; //dateFin permet de stocker toDate au format YYYY-MM-DD
     private static String maDate;
-    private CircularProgressButton btnHistorique;
+    private static CircularProgressButton btnHistorique;
     //    private String maDate = "" ;
     private static String endDate ="";
 
@@ -322,7 +322,7 @@ public class HistoriqueCpteCourant extends AppCompatActivity {
                 fromdate.setText(day + "/" + selectedMonth  + "/" + year);
                 dateDebut = year+"-"+selectedMonth+"-"+day;
             }
-
+            btnHistorique.performClick();
         }
 
     }
@@ -373,7 +373,7 @@ public class HistoriqueCpteCourant extends AppCompatActivity {
                 dateFin = year+"-"+selectedMonth+"-"+day;
             }
 //            lanceur();
-
+            btnHistorique.performClick();
         }
 
     }

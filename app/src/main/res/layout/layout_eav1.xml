@@ -128,19 +128,6 @@
                 android:textSize="18dp"
                 android:hint="Taux d'interêt mensuel"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <!-- <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_BaseInteretAnnuelEAV"
-            style="@style/parent"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_BaseInteretAnnuelEAV"
-                style="@style/modifiedEditText"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:hint="Taux d'interêt mensuel"/>
-        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!-- Base du taux -->
         <com.google.android.material.textfield.TextInputLayout
@@ -153,16 +140,12 @@
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
 
-
-            >
             <com.example.binumtontine.JRSpinner
-
                 android:id="@+id/spn_my_spinner_base_taux_mensuel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Base du taux d'interêt mensuel"
                 app:jrs_title="Choose"
-
                 style="@style/modifiedEditText"
                 app:jrs_multiple="false"
                 android:textAllCaps="true"
@@ -350,21 +333,6 @@
                 android:textSize="18dp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <!-- android:hint="Taux mensuel à préléver"-->
-
-        <!-- <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_BaseTauxAPreleveCpteEAV"
-            style="@style/parent"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_BaseTauxAPreleveCpteEAV"
-                style="@style/modifiedEditText"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:hint="Base du taux à préléver sur le compte"/>
-        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!-- Base du taux -->
         <com.google.android.material.textfield.TextInputLayout
@@ -375,9 +343,6 @@
             style="@style/parent"
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
-
-
-            >
             <com.example.binumtontine.JRSpinner
 
                 android:id="@+id/spn_my_spinner_base_taux"
@@ -385,7 +350,6 @@
                 android:layout_height="wrap_content"
                 android:hint="Base du taux à préléver sur le compte"
                 app:jrs_title="Choose"
-
                 style="@style/modifiedEditText"
                 app:jrs_multiple="false"
                 android:textAllCaps="true"
@@ -407,60 +371,60 @@
             android:text="@string/btn_config_plage_tiv" />
 
         <!--valeur plage -->
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/blk_plage_eav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:visibility="gone"-->
+<!--            android:id="@+id/blk_plage_eav"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginTop="@dimen/loginViewsMargin"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:id="@+id/lblTypeFraisCpteEavForPlage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:inputType="numberDecimal"
-                android:text="From:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+<!--            <TextView-->
+<!--                android:id="@+id/lblTypeFraisCpteEavForPlage"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:inputType="numberDecimal"-->
+<!--                android:text="From:"-->
+<!--                android:textAppearance="?android:attr/textAppearanceMedium" />-->
 
-            <EditText
-                android:id="@+id/txt_EvTypTxInterFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAP"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                android:showDividers="beginning|middle|end" />
+<!--            <EditText-->
+<!--                android:id="@+id/txt_EvTypTxInterFrom"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/lblNatureTauxInteretEAP"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_weight="1"-->
+<!--                android:inputType="numberDecimal"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:showDividers="beginning|middle|end" />-->
 
-            <TextView
-                android:id="@+id/lblTypeFraisCpteEavForPlageFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="To:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+<!--            <TextView-->
+<!--                android:id="@+id/lblTypeFraisCpteEavForPlageFrom"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="To:"-->
+<!--                android:textAppearance="?android:attr/textAppearanceMedium" />-->
 
-            <EditText
-                android:id="@+id/txt_EvTypTxInterTo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAP"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                android:showDividers="beginning|middle|end"/>
+<!--            <EditText-->
+<!--                android:id="@+id/txt_EvTypTxInterTo"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/lblNatureTauxInteretEAP"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_weight="1"-->
+<!--                android:inputType="numberDecimal"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:showDividers="beginning|middle|end"/>-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -622,52 +586,125 @@
             </LinearLayout>
 </LinearLayout>
 
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:visibility="gone"-->
+<!--            android:id="@+id/input_layout_FraisClotureCpteEAV"-->
+<!--            style="@style/parent"-->
+<!--            android:layout_marginTop="@dimen/loginViewsMargin">-->
+<!--            <EditText-->
+<!--                android:id="@+id/input_txt_FraisClotureCpteEAV"-->
+<!--                style="@style/modifiedEditText"-->
+<!--                android:inputType="numberDecimal"-->
+<!--                android:maxLines="1"-->
+<!--                android:textSize="18dp"-->
+<!--                android:hint="Frais de clôture de compte"/>-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--        EvNatureFraisClot /Enum('F','T','P')   * pour les cas de Fixe ou valeur/F, de taux/T,
+donc ayant une base, ou de Plage, avec code "FCV" pour "Frais de Clôture EAV" dans le cas de Plage.-->
+        <!-- radiogroup -->
+        <LinearLayout
+            android:id="@+id/ll_EvNatureFraisClot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblEvNatureFraisClot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Type de frais de Clôture de compte"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblEvNatureFraisClot"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupEvNatureFraisClot" >
+
+                <RadioButton
+                    android:id="@+id/rbEvNatureFraisClotFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbEvNatureFraisClotTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbEvNatureFraisClotPlage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- EvValFraisCloture/R. **  pour renseigner sa valeur si fixe ou la valeur du taux au besoin. -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_FraisClotureCpteEAV"
+            android:id="@+id/input_layout_EvValFraisCloture"
             style="@style/parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
-                android:id="@+id/input_txt_FraisClotureCpteEAV"
+                android:id="@+id/input_txt_EvValFraisCloture"
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Frais de clôture de compte"/>
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- <com.google.android.material.textfield.TextInputLayout
-             android:id="@+id/textInputPassword"
-             style="@style/parent"
-             android:layout_marginTop="@dimen/loginViewsMargin">
-             <EditText
-                 android:id="@+id/editTextPassword"
-                 style="@style/modifiedEditText"
-                 android:hint="@string/login_password_hint"
-                 android:maxLines="1"
-                 android:inputType="textPassword"/>
-         </com.google.android.material.textfield.TextInputLayout>
+        <!-- EvBaseFraisCloture /A3 *  Pour renseigner sa base du taux -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_EvBaseFraisCloture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <com.example.binumtontine.JRSpinner
 
-         <TextView
-             style="@style/viewParent"
-             android:text="Forgot Password?"
-             android:textColor="@color/primaryTextColor"
-             android:textSize="@dimen/newsMoreTextSize"
-             android:layout_gravity="end"
-             android:onClick="viewForgotPAssword"
-             android:layout_marginTop="10dp"/> -->
+                android:id="@+id/spn_my_spinner_EvBaseFraisCloture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux clôture"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        Lien pour accéder à la plage data-->
+        <TextView
+            android:id="@+id/tv_plage_fcv_eav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
 
-        <!--<br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/cirLoginButton"
-            style="@style/loginButton"
-            android:text="Login"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>-->
-        <!--<Button
-            android:id="@+id/btn_save_eav"
-            style="@style/loginButton"
-            android:text="ENREGISTRER"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

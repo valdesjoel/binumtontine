@@ -51,6 +51,7 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -109,6 +110,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private EditText EavDepotMinEditText;
     private EditText NumDossierEditText;
     private EditText OcLibelleMvmEAV;
+    private TextInputLayout input_layout_numero_bordereau_operation;
 
     public static RadioButton rb_depot;
     public static RadioButton rb_retrait;
@@ -173,6 +175,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
 
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
+        input_layout_numero_bordereau_operation = (TextInputLayout) findViewById(R.id.input_layout_numero_bordereau_operation);
         OcLibelleMvmEAV = (EditText) findViewById(R.id.input_txt_OcLibelleMvmEAV);
 
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
@@ -200,6 +203,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
             rb_depot.setChecked(true);
             rb_retrait.setVisibility(View.GONE);
             rb_depot.setVisibility(View.VISIBLE);
+            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
             onRadioButtonClicked(rb_depot);
             OcLibelleMvmEAV.setText("VERSEMENT EAV/"+adCode+ "DE "+adNom+" "+adPrenom);
         }else if(typeOperation.equals("retrait")){
@@ -209,6 +213,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
             onRadioButtonClicked(rb_retrait);
             rb_retrait.setVisibility(View.VISIBLE);
             rb_depot.setVisibility(View.GONE);
+            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
         }
 
        /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);

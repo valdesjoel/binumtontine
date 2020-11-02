@@ -140,81 +140,19 @@ public class CustomAdapterListDecouvertAdherent extends RecyclerView.Adapter<Cus
             holder.tvLibelleProduit.setBackgroundColor(Color.GRAY);
         }
 
-        holder.tvNumDossier.setText(myList.getNumeroDossier());
+//        holder.tvNumDossier.setText(myList.getNumeroDossier());
+        holder.tvNumDossier.setText(myList.getType_compte());
         holder.tvDateCreation.setText(myList.getDateHCree());
         holder.tvSolde.setText(myList.getMontantSolde());
 
-
-
-//        if ((holder.tvTypeCompte.getText()).equals("EAV")){
-//            intent = new Intent(mCtx,
-//                    OperationEAV.class);
-//        }else if ((holder.tvTypeCompte.getText()).equals("EAT")){
-//            intent = new Intent(mCtx,
-//                    OperationEAT.class);
-//        }else{
-//            intent = new Intent(mCtx,
-//                    OperationEAP.class);
-//        }
-        /*
-        intent = new Intent(mCtx,
-                OperationEAV.class);
-
-        intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte());
-        intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
-        intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
-        intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
-        intent.putExtra(KEY_TAUX, myList.getTaux_compte());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
-        // bundle.putSerializable(KEY_ADHERENT, adherent);
-        intent.putExtras(bundle); */
-
-
-//pour mettre un évènement d'écoute lorsqu'on clique sur une ligne (un compte)
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Check for network connectivity
-//                if (CheckNetworkStatus.isNetworkAvailable(mCtx)) {
-//                   /* String movieId = ((TextView) view.findViewById(R.id.movieId))
-//                            .getText().toString();
-//                    Intent intent = new Intent(mCtx,
-//                            CaisseActivity.class);
-//                    intent.putExtra(KEY_CAISSE_ID, movieId);
-//                    //startActivityForResult(intent, 20);
-//
-//                    startActivity(intent); */
-//                    //handle menu0 click
-//                    Intent i = new Intent(mCtx, ListCompteAdherentActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(KEY_ADHERENT, (Serializable) myList);
-//                    // bundle.putSerializable(KEY_ADHERENT, adherent);
-//                    i.putExtras(bundle);
-//                    i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
-//                    ((Activity) mCtx).startActivityForResult(i, 20);
-//
-//
-//                    //mCtx.startActivity(i);
-////                    Toast.makeText(mCtx,
-////                            "Liste des comptes de l'adhérent en construction!!!",
-////                            Toast.LENGTH_LONG).show();
-//
-//                } else {
-//                    Toast.makeText(mCtx,
-//                            "Unable to connect to internet",
-//                            Toast.LENGTH_LONG).show();
-//
-//                }
-//            }
-//        });
 
 
         holder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                if (myList.getType_compte().equals("COMPTE COURANT")){
-                if (myList.getType_compte().equals("DECOUVERT SIMPLE")|| myList.getType_compte().equals("AVANCE SPECIALE")){
+//                if (myList.getType_compte().equals("DECOUVERT SIMPLE")|| myList.getType_compte().equals("AVANCE SPECIALE")){
+                if (myList.getType_compte().equals("S")|| myList.getType_compte().equals("A")|| myList.getType_compte().equals("P")){
                     intent = new Intent(mCtx,
                             OperationCompteCourant.class);
                     intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
@@ -265,64 +203,7 @@ public class CustomAdapterListDecouvertAdherent extends RecyclerView.Adapter<Cus
                     popup.getMenu().findItem(R.id.action_etape_suivante).setTitle("Etape suivante: Aucune");
                     popup.getMenu().findItem(R.id.action_etape_suivante).setEnabled(false);
                 }
-//
-//                if ((holder.tvTypeCompte.getText()).equals("EAV")){
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-//                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
-//                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
-//                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
-//                    popup.getMenu().findItem(R.id.menu_avance_permanent).setVisible(false);
-////                    popup.getMenu().findItem(R.id.eav_group).setVisible(true);
-////                    popup.getMenu().findItem(R.id.eap_group).setVisible(false);
-//
-//                }else if((holder.tvTypeCompte.getText()).equals("EAP")){
-//
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-//
-//
-////                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-////                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
-//                }else if((holder.tvTypeCompte.getText()).equals("DECOUVERT")){
-//
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-//                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
-//                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(true);
-//                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(true);
-//                    popup.getMenu().findItem(R.id.menu_avance_permanent).setVisible(true);
-//                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("DECOUVERT");
-//
-//
-////                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-////                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
-//                }else if((holder.tvTypeCompte.getText()).equals("EAT")){
-//
-//
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-////                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-////                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
-//                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
-//                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
-//                }else if((holder.tvTypeCompte.getText()).equals("CREDIT")){
-//
-//
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
-//                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, true);
-//                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
-//
-////                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-////                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
-////                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
-////                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
-//                }
+
                // popup.getMenu().findItem(R.id.next).setVisible(true);
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -378,10 +259,12 @@ public class CustomAdapterListDecouvertAdherent extends RecyclerView.Adapter<Cus
                                     intent = new Intent(mCtx,
                                             ValidationOperationCompteCourant.class);
                                 }
-                                if (myList.getType_compte().equals("DECOUVERT SIMPLE")){
+                                if (myList.getType_compte().equals("S")){
                                     intent.putExtra(KEY_TYPE_OPERATION, "decouvert");
-                                }else if (myList.getType_compte().equals("AVANCE SPECIALE")){
+                                }else if (myList.getType_compte().equals("A")){
                                     intent.putExtra(KEY_TYPE_OPERATION, "avance_speciale");
+                                }else if (myList.getType_compte().equals("P")){
+                                    intent.putExtra(KEY_TYPE_OPERATION, "P");
                                 }
 
 //                                ((Activity) mCtx).startActivityForResult(intent, 20);

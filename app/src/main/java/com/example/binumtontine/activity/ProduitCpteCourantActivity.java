@@ -115,6 +115,7 @@ private class FetchCpteCourantAsyncTask extends AsyncTask<String, String, String
                     JSONObject movie = movies.getJSONObject(i);
                     Integer movieId = movie.getInt(KEY_CPTE_COURANT_ID);
                     String movieName = movie.getString(KEY_CPTE_COURANT_LIBELLE);
+                    movieName =  MyData.normalizeSymbolsAndAccents(movieName);//Pour échapper les accents
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put(KEY_CPTE_COURANT_ID, movieId.toString());
                     map.put(KEY_CPTE_COURANT_LIBELLE, movieName);

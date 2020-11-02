@@ -29,7 +29,9 @@ package com.example.binumtontine.activity;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -47,6 +49,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
@@ -69,10 +72,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static java.lang.Double.parseDouble;
 
@@ -449,7 +455,22 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
 //                SoldeReelEditText.addTextChangedListener(MyData.onTextChangedListener(SoldeReelEditText));
 //                tv_montant_ecart.setText(defaultFormat.format((parseDouble(total_operation_bis) - parseDouble(SoldeReelEditText.getText().toString()))));
                             eavDepotMin = SoldeReelEditText.getText().toString().replaceAll(",", "").trim();
-                            tv_montant_ecart.setText(defaultFormat.format(parseDouble(total_operation_bis) - parseDouble(eavDepotMin))+"");
+                            try {
+//                                tv_montant_ecart.setText(defaultFormat.format(parseDouble(total_operation_bis) - parseDouble(eavDepotMin))+"");
+                                tv_montant_ecart.setText(defaultFormat.format(parseDouble(eavDepotMin) - parseDouble(total_operation_bis))+"");
+                                if((parseDouble(eavDepotMin) - parseDouble(total_operation_bis))<0){
+                                    tv_montant_ecart.setBackgroundColor(Color.RED);
+                                }else{
+                                    tv_montant_ecart.setBackgroundColor(Color.GREEN);
+                                }
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                eavDepotMin="0.0";
+                                SoldeReelEditText.setText("0,0");
+                            } finally {
+
+                            }
+
                             // yourEditText...
 //                MontantReel = parseDouble(SoldeReelEditText.getText().toString()+"");
                             MontantReel = parseDouble(eavDepotMin);
@@ -473,6 +494,9 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
 
 
                                 tv_totalite_10000.setText(defaultFormat.format(parseDouble("0")));
+//                                et_nombre_10000.setText("0");
+                                solde10000 = parseDouble("0")*10000;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_10000.setText((parseDouble(et_nombre_10000.getText().toString().trim())*10000)+"");
@@ -500,6 +524,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
 
 //                                tv_totalite_10000.setText((parseDouble(et_nombre_10000.getText().toString().trim())*10000)+"");
                                 tv_totalite_5000.setText(defaultFormat.format(parseDouble("0")));
+                                solde5000 = parseDouble("0")*5000;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_5000.setText((parseDouble(et_nombre_5000.getText().toString().trim())*5000)+"");
@@ -527,6 +553,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_2000.getText().toString().trim()).equals("")){
 
                                 tv_totalite_2000.setText(defaultFormat.format(parseDouble("0")));
+                                solde2000 = parseDouble("0")*2000;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_2000.setText((parseDouble(et_nombre_2000.getText().toString().trim())*2000)+"");
@@ -553,6 +581,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_1000.getText().toString().trim()).equals("")){
 
                                 tv_totalite_1000.setText(defaultFormat.format(parseDouble("0")));
+                                solde1000 = parseDouble("0")*1000;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_1000.setText((parseDouble(et_nombre_1000.getText().toString().trim())*1000)+"");
@@ -580,6 +610,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_500.getText().toString().trim()).equals("")){
 
                                 tv_totalite_500.setText(defaultFormat.format(parseDouble("0")));
+                                solde500 = parseDouble("0")*500;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_500.setText((parseDouble(et_nombre_500.getText().toString().trim())*500)+"");
@@ -608,6 +640,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_piece_500.getText().toString().trim()).equals("")){
 
                                 tv_totalite_piece_500.setText(defaultFormat.format(parseDouble("0")));
+                                soldePiece500 = parseDouble("0")*500;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_piece_500.setText((parseDouble(et_nombre_piece_500.getText().toString().trim())*500)+"");
@@ -635,6 +669,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_piece_100.getText().toString().trim()).equals("")){
 
                                 tv_totalite_piece_100.setText(defaultFormat.format(parseDouble("0")));
+                                soldePiece100 = parseDouble("0")*100;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_piece_100.setText((parseDouble(et_nombre_piece_100.getText().toString().trim())*100)+"");
@@ -661,6 +697,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_piece_50.getText().toString().trim()).equals("")){
 
                                 tv_totalite_piece_50.setText(defaultFormat.format(parseDouble("0")));
+                                soldePiece50 = parseDouble("0")*50;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_piece_50.setText((parseDouble(et_nombre_piece_50.getText().toString().trim())*50)+"");
@@ -687,6 +725,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_piece_25.getText().toString().trim()).equals("")){
 
                                 tv_totalite_piece_25.setText(defaultFormat.format(parseDouble("0")));
+                                soldePiece25 = parseDouble("0")*25;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_piece_25.setText((parseDouble(et_nombre_piece_25.getText().toString().trim())*25)+"");
@@ -713,6 +753,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_piece_10.getText().toString().trim()).equals("")){
 
                                 tv_totalite_piece_10.setText(defaultFormat.format(parseDouble("0")));
+                                soldePiece10 = parseDouble("0")*10;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_piece_10.setText((parseDouble(et_nombre_piece_10.getText().toString().trim())*10)+"");
@@ -739,6 +781,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_piece_5.getText().toString().trim()).equals("")){
 
                                 tv_totalite_piece_5.setText(defaultFormat.format(parseDouble("0")));
+                                soldePiece5 = parseDouble("0")*5;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_piece_5.setText((parseDouble(et_nombre_piece_5.getText().toString().trim())*5)+"");
@@ -766,6 +810,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                             if ((et_nombre_piece_1.getText().toString().trim()).equals("")){
 
                                 tv_totalite_piece_1.setText(defaultFormat.format(parseDouble("0")));
+                                soldePiece1 = parseDouble("0")*1;
+                                sumBilletage();
                             }else {
 
                                 tv_totalite_piece_1.setText((parseDouble(et_nombre_piece_1.getText().toString().trim())*1)+"");
@@ -1059,7 +1105,115 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
     }
+    public void avertissement() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Récapitulatif !")
+                .setMessage("Montant Démarrage: " + tv_montant_demarrage.getText().toString()+
+                "\nTotal Dépôt: " + tv_depot.getText().toString()+
+                "\nTotal Retrait: " + tv_retrait.getText().toString()+
+                "\nSolde Théorique: " + tv_total.getText().toString()+
+                "\nSolde Réel: " + SoldeReelEditText.getText().toString().replaceAll(",", "").trim() +
+                "\nMontant écart: " + tv_montant_ecart.getText().toString()+
+                "\nTotal Billetage: " + tv_total_billetage.getText().toString()+
+                        "\n\t\t Etes-vous sûr de vouloir fermer cette journée ?")
+                .setNegativeButton("Non", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+                    }
 
+                })
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new ClotureJourneetAsyncTask().execute();
+                    }
+
+                })
+                .show();
+    }
+    public void notificationCloture() {
+        Date todayDate = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatterHeure = new SimpleDateFormat("HH:mm:ss");
+        String todayString = formatter.format(todayDate);
+        String todayStringHeure = formatterHeure.format(todayDate);
+        //todayDate.getTime();
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Clôture effectuée avec succès !")
+                .setMessage("La journée du " + tv_jour_ouvre.getText().toString()+
+                "\na été clôturée avec succès ce  " + todayString+ " à "+todayStringHeure
+               )
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//
+//                        finish();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity_NEW.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("LOGOUT", true);
+                        startActivity(intent);
+                    }
+
+                })
+                .show();
+    }
+    public void notificationBilletage() {
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Billetage incorrect !")
+                .setMessage("Le total du billetage est différent du solde réel!")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SoldeReelEditText.setError("Le solde réel doit correspondre au total du billetage");
+                        SoldeReelEditText.requestFocus();
+                    }
+
+                })
+                .show();
+    }
+    public void notificationObservations() {
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Renseignez le champ Observations ")
+                .setMessage("Donnez vos observations SVP!")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NumDossierEditText.setError("Donnez vos observations SVP!");
+                        NumDossierEditText.requestFocus();
+                    }
+
+                })
+                .show();
+    }
+    public void notificationChampsVides() {
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Renseignez le solde réel ")
+                .setMessage("Veuillez renseigner le solde réel!")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SoldeReelEditText.setError("Veuillez renseigner le solde réel SVP!");
+                        SoldeReelEditText.requestFocus();
+                    }
+
+                })
+                .show();
+    }
 
     /**
      * Checks whether all files are filled. If so then calls AddEavAdherentAsyncTask.
@@ -1067,75 +1221,24 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
      */
     private void addEavAdherent() {
         if (!STRING_EMPTY.equals(SoldeReelEditText.getText().toString().trim()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())
+            !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim()) &&
+                MontantReel== TotalBilletge
                  ) {
-//String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
-/*String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
+            eavDepotMin = SoldeReelEditText.getText().toString();
+            adNumDossier = NumDossierEditText.getText().toString();
 
-            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
-            nf.setGroupingUsed(false);
-            */
-      /*      TotalBilletge = 0.0;
-            TotalBilletge += solde10000;
-            TotalBilletge += solde5000;
-            TotalBilletge += solde2000;
-            TotalBilletge += solde1000;
-            TotalBilletge += solde500;
-            TotalBilletge += soldePiece500;
-            TotalBilletge += soldePiece100;
-            TotalBilletge += soldePiece50;
-            TotalBilletge += soldePiece25;
-            TotalBilletge += soldePiece10;
-            TotalBilletge += soldePiece5;
-            TotalBilletge += soldePiece1;
-            tv_total_billetage.setText(defaultFormat.format(TotalBilletge));*/
-          /*
-            TotalBilletge += parseDouble((((tv_totalite_10000.getText().toString()).replace( " FCFA","")).replaceAll(",","")).replaceAll(" ",""));
-            TotalBilletge += parseDouble(tv_totalite_5000.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_2000.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_1000.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_500.getText().toString());
+            avertissement();
 
-            TotalBilletge += parseDouble(tv_totalite_piece_500.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_piece_100.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_piece_50.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_piece_25.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_piece_10.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_piece_5.getText().toString());
-            TotalBilletge += parseDouble(tv_totalite_piece_1.getText().toString());
-            */
+        }else if (MontantReel != TotalBilletge) {
+            notificationBilletage();
 
-if (MontantReel== TotalBilletge){
-//                Toast.makeText(OperationEAV.this,
-//                        "Solde insuffisant!",
-//                        Toast.LENGTH_LONG).show();
-//                Toast.makeText(OperationEAV.this,
-//                        rr.trim()+ "\n"+rr.length(),
-//                        Toast.LENGTH_LONG).show();
+        }else if (STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())) {
+            notificationObservations();
+//            notificationCloture();
 
 
-    eavDepotMin = SoldeReelEditText.getText().toString();
-    adNumDossier = NumDossierEditText.getText().toString();
-    Toast.makeText(ClotureJourneeActivity.this,
-            "MontantReel "+MontantReel+" \n tv_total_billetage "+TotalBilletge,
-            Toast.LENGTH_LONG).show();
-//    new AddEavAdherentAsyncTask().execute();
-    new ClotureJourneetAsyncTask().execute();
-            }else{
-                Toast.makeText(ClotureJourneeActivity.this,
-                        "Le total du billetage est différent du solde réel!",
-                        Toast.LENGTH_LONG).show();
-            }
-
-
-
-
-        } else {
-            NumDossierEditText.setError("Donnez vos observations SVP!");
-            Toast.makeText(ClotureJourneeActivity.this,
-                    "Un ou plusieurs champs sont vides!",
-                    Toast.LENGTH_LONG).show();
-
+        }else{
+            notificationChampsVides();
         }
 
 
@@ -1170,6 +1273,10 @@ if (MontantReel== TotalBilletge){
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+//            new SweetAlertDialog(ClotureJourneeActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+//                    .setTitleText("Good job!")
+//                    .setContentText("You clicked the button!")
+//                    .show();
         }
 
         @Override
@@ -1204,18 +1311,19 @@ if (MontantReel== TotalBilletge){
                 public void run() {
                     if (success == 1) {
                         //Display success message
-                        Toast.makeText(ClotureJourneeActivity.this,
-                                "Journée du"+ tv_jour_ouvre+" fermée avec succès !", Toast.LENGTH_LONG).show();
+                        notificationCloture();
+//                        Toast.makeText(ClotureJourneeActivity.this,
+//                                "Journée du"+ tv_jour_ouvre+" fermée avec succès !", Toast.LENGTH_LONG).show();
                       /*  Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);
                         //Finish ths activity and go back to listing activity
                         finish();*/
-
+/*
                         Intent intent = new Intent(getApplicationContext(), LoginActivity_NEW.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("LOGOUT", true);
-                        startActivity(intent);
+                        startActivity(intent);*/
 
                     } else {
                         Toast.makeText(ClotureJourneeActivity.this,

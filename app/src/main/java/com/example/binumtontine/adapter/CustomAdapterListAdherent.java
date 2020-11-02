@@ -237,6 +237,7 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
 
     @Override
     public int getItemCount() {
+//        return this.list.size()+this.list.size();
         return list.size();
     }
 
@@ -251,7 +252,7 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
         public TextView textViewNom;
         public TextView textViewPrenom;
         public TextView textViewNationalite;
-        public Button btnClick;
+//        public Button btnClick;
         public TextView buttonViewOption;
 
         public ViewHolder(View itemView) {
@@ -260,7 +261,7 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
             textViewId = (TextView) itemView.findViewById(R.id.textViewId);
             textViewNom = (TextView) itemView.findViewById(R.id.textViewNom);
             textViewNationalite = (TextView) itemView.findViewById(R.id.textViewNationalite);
-            btnClick = (Button)itemView.findViewById(R.id.btnClick);
+//            btnClick = (Button)itemView.findViewById(R.id.btnClick);
             buttonViewOption = (TextView) itemView.findViewById(R.id.textViewOptions);
         }
     }

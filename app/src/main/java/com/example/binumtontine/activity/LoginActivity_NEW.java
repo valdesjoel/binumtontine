@@ -464,6 +464,11 @@ private boolean validatePassword() {
             MyData.USER_NOM = userNom;
             MyData.USER_PRENOM = userPrenom;
             MyData.USER_EMAIL = userEmail;
+            try {
+                MyData.CAISSE_ID = Integer.parseInt(userCxNumero);//NEW
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
 
             new LoginActivity_NEW.GetIfJourOuvertIsOn().execute();
 
@@ -485,7 +490,31 @@ private boolean validatePassword() {
 
         }
     }
+    public void avertissement(String dateJournee) {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Journée non clôturée !")
+                .setMessage("La journée du: " + dateJournee+" n'a pas été correctement clôturée"+
+                        "\n\t\t Voulez-vous clôturer cette journée ?")
+                .setNegativeButton("Non", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
 
+                })
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(LoginActivity_NEW.this, ClotureJourneeActivity.class);
+                        startActivity(i);
+                    }
+
+                })
+                .show();
+    }
     private void populateJourOuvert(){
         Date todayDate = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -493,6 +522,15 @@ private boolean validatePassword() {
         if (!Boolean.valueOf(jourIsClosed) && maDate.substring(0,10).equals(todayString)){
              Intent i = new Intent(this, MainActivityUsager.class);
             startActivity(i);
+
+        }else if (!Boolean.valueOf(jourIsClosed) && !(maDate.substring(0,10).equals(todayString))){
+            Toast.makeText(LoginActivity_NEW.this,
+                    "Que voulez-vous faire ?", Toast.LENGTH_LONG).show();
+//            //warningInfo.setText("SQL: "+maDate+"  NOW: "+new Date()+" Isclosed: "+jourIsClosed);
+//
+//            Intent i = new Intent(this, JourOuvert.class);
+//            startActivity(i);
+avertissement(maDate.substring(0,10));
 
         }else{
             Toast.makeText(LoginActivity_NEW.this,
@@ -566,7 +604,12 @@ private boolean validatePassword() {
 
         for (int i = 0; i < jourOuvertList.size(); i++) {
             maDate = jourOuvertList.get(i).getMyDate(); //recupère la date
-            jourIsClosed = jourOuvertList.get(i).getName(); //recupère l'état de jourIsClosed
+//            jourIsClosed = jourOuvertList.get(i).getName(); //recupère l'état de jourIsClosed
+            if(jourOuvertList.get(i).getName().equals("Y")){
+                jourIsClosed="TRUE";
+            }else{
+                jourIsClosed="FALSE";
+            }
 
 
         }
@@ -988,6 +1031,7 @@ populate();
                     userNom = user.getString(KEY_UX_NOM);
                     userPrenom = user.getString(KEY_UX_PRENOM);
                     userEmail = user.getString(KEY_UX_EMAIL);
+                    userCxNumero = user.getString(KEY_UX_CAISSE);//new
                     Log.d("username",userNom);
 
 

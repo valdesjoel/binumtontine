@@ -273,60 +273,6 @@
             android:text="@string/btn_config_plage_tiv" />
 
 
-        <!-- EtPlageTxInterFrom && EtPlageTxInterTo-->
-       <!-- <LinearLayout
-            android:id="@+id/blk_plage_tx_eat"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_EtValTxInterForPlage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:inputType="numberDecimal"
-                android:text="De:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EtValTxInterFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAT"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-            <TextView
-                android:id="@+id/tv_EtValTxInterForPlageFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="A:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EtValTxInterTo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAT"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-        </LinearLayout> -->
 
         <!-- EtPlageTxInterFrom && EtPlageTxInterTo-->
         <LinearLayout

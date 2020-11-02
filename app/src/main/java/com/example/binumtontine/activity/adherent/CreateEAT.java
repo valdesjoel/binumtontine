@@ -99,7 +99,8 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
     private static final String KEY_CT_NBRE_UNITE = "CtNbUnites";
     private static final String KEY_CT_USER_CREE = "CtUserCree";
     private static final String KEY_CT_MOD_RENOUV = "CtModRenouv";
-    private static final String KEY_ADHERENT_NUM_DOSSIER = "CtNumDossier";
+    private static final String KEY_CtDateDebut = "CtDateDebut";
+    private static final String KEY_CtDateFin = "CtDateFin";
 
     /*Param for get extra*/
     private static final String KEY_ADHERENT_ID = "IpMembre";
@@ -195,6 +196,7 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
 
         spinnerListEAT = (Spinner) findViewById(R.id.spn_list_eat);
         spinnerNbreUnite = (Spinner) findViewById(R.id.spn_list_duree);
+//        spinnerNbreUnite.setOnItemSelectedListener(this);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
         tvAdherentNom.setText(adNom+"\n"+adPrenom);
         tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
@@ -299,6 +301,7 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
 
         //Date de fin
         Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_eat_adherent);
+        Ad_DateExpirationEditText.setEnabled(false);
         til_EatDateFin = (TextInputLayout) findViewById(R.id.input_layout_validite_fin_eat_adherent);
         Ad_DateExpirationEditText.requestFocus();
         Ad_DateExpirationEditText.setInputType(InputType.TYPE_NULL);
@@ -323,7 +326,10 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
+
                 Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
+                newDate.add(Calendar.MONTH, Integer.parseInt(spinnerNbreUnite.getSelectedItem().toString()));
+                Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -506,6 +512,8 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
        // EatMinMontantMise = eatList.get(position).getEtMtMinMise();
         EatMinMontantMise =  Double.valueOf(eatList.get(position).getEtMtMinMise());
         EatMaxMontantMise =  Double.valueOf(eatList.get(position).getEtMtMaxMise());
+        Ad_DateDelivranceEditText.setText("");
+        Ad_DateExpirationEditText.setText("");
 //        EatMaxMontantMise = eatList.get(position).getEtMtMaxMise();
 
 
@@ -731,6 +739,8 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
             httpParams.put(KEY_CT_USER_CREE, String.valueOf(MyData.USER_ID));
             httpParams.put(KEY_CT_TAUX, eatTaux);
             httpParams.put(KEY_CT_MOD_RENOUV, eatCtModRenouv);
+            httpParams.put(KEY_CtDateDebut, Ad_DateDelivranceEditText.getText().toString());
+            httpParams.put(KEY_CtDateFin, Ad_DateExpirationEditText.getText().toString());
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_eat_adherent.php", "POST", httpParams);

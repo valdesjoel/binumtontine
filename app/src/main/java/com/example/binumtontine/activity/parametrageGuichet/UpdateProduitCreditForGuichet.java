@@ -25,6 +25,7 @@ import com.example.binumtontine.activity.ListPlageDataFCXActivity;
 import com.example.binumtontine.activity.ListPlageDataFDBActivity;
 import com.example.binumtontine.activity.ListPlageDataFECActivity;
 import com.example.binumtontine.activity.ListPlageDataTICActivity;
+import com.example.binumtontine.activity.UpdateProduitCpteCourant;
 import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
@@ -1429,55 +1430,55 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
                         jsonObject.getString(KEY_CREDIT_TypTxInter),
                         jsonObject.getString(KEY_CREDIT_ValTxInter),
                         jsonObject.getString(KEY_CREDIT_Base_TxInter),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxIntNeg)),
+                        jsonObject.getString(KEY_CREDIT_IsTxIntNeg),
                         jsonObject.getString(KEY_CREDIT_NbreAvalDmde),
                         jsonObject.getString(KEY_CREDIT_NbreMinAvalExig),
                         jsonObject.getString(KEY_CREDIT_TxCouvCrAval),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxCouvAvalOblig)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCautionMorAvalAcc)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarBloqCptOblig)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEAVOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEATOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarCptEAPOn)),
+                        jsonObject.getString(KEY_CREDIT_IsTxCouvAvalOblig),
+                        jsonObject.getString(KEY_CREDIT_IsCautionMorAvalAcc),
+                        jsonObject.getString(KEY_CREDIT_IsGarBloqCptOblig),
+                        jsonObject.getString(KEY_CREDIT_IsGarCptEAVOn),
+                        jsonObject.getString(KEY_CREDIT_IsGarCptEATOn),
+                        jsonObject.getString(KEY_CREDIT_IsGarCptEAPOn),
                         jsonObject.getString(KEY_CREDIT_MtMaxSansAval),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsAvalSansCredOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsTxGarMemObl)),
+                        jsonObject.getString(KEY_CREDIT_IsAvalSansCredOn),
+                        jsonObject.getString(KEY_CREDIT_IsTxGarMemObl),
                         jsonObject.getString(KEY_CREDIT_TauxGarMemb),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsPersMorAvalOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCouvPartSOn)),
+                        jsonObject.getString(KEY_CREDIT_IsPersMorAvalOn),
+                        jsonObject.getString(KEY_CREDIT_IsCouvPartSOn),
                         jsonObject.getString(KEY_CREDIT_TxCouvPSOblig),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsAffCollCredOn)),
+                        jsonObject.getString(KEY_CREDIT_IsAffCollCredOn),
                         jsonObject.getString(KEY_CREDIT_NbreAnAncMinCred),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_NbAnAncNeg)),
+                        jsonObject.getString(KEY_CREDIT_NbAnAncNeg),
                         jsonObject.getString(KEY_CREDIT_MtPlafondMax),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsMtPlafCredLeve)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsGarMatExige)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisEtudDossOn)),
+                        jsonObject.getString(KEY_CREDIT_IsMtPlafCredLeve),
+                        jsonObject.getString(KEY_CREDIT_IsGarMatExige),
+                        jsonObject.getString(KEY_CREDIT_IsFraisEtudDossOn),
                         jsonObject.getString(KEY_CREDIT_NatFrEtudDoss),
                         jsonObject.getString(KEY_CREDIT_ValTxFrEtudDoss),
                         jsonObject.getString(KEY_CREDIT_BaseTxFrEtudDoss),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDeblocCredOn)),
+                        jsonObject.getString(KEY_CREDIT_IsFraisDeblocCredOn),
                         jsonObject.getString(KEY_CREDIT_NatFraisDeblocCred),
                         jsonObject.getString(KEY_CREDIT_ValTxFraisDeblocCred),
                         jsonObject.getString(KEY_CREDIT_BaseTxFraisDeblocCred),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDecaissCredOn)),
+                        jsonObject.getString(KEY_CREDIT_IsFraisDecaissCredOn),
                         jsonObject.getString(KEY_CREDIT_NatFraisDecaissCred),
                         jsonObject.getString(KEY_CREDIT_ValTxFraisDecaissCred),
                         jsonObject.getString(KEY_CREDIT_BaseFraisDecaissCred),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisEtudByDAV)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDeblocByDAV)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsFraisDecaissByDAV)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsModDecaissByObjet)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsDeblocTransfDAVOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsMtPlafByObjet)),
+                        jsonObject.getString(KEY_CREDIT_IsFraisEtudByDAV),
+                        jsonObject.getString(KEY_CREDIT_IsFraisDeblocByDAV),
+                        jsonObject.getString(KEY_CREDIT_IsFraisDecaissByDAV),
+                        jsonObject.getString(KEY_CREDIT_IsModDecaissByObjet),
+                        jsonObject.getString(KEY_CREDIT_IsDeblocTransfDAVOn),
+                        jsonObject.getString(KEY_CREDIT_IsMtPlafByObjet),
                         jsonObject.getString(KEY_CREDIT_ModeRemb),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCptEATRemCredOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsCptEAPRemCredOn)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsInterOffSiCapRembAnt)),
+                        jsonObject.getString(KEY_CREDIT_IsCptEATRemCredOn),
+                        jsonObject.getString(KEY_CREDIT_IsCptEAPRemCredOn),
+                        jsonObject.getString(KEY_CREDIT_IsInterOffSiCapRembAnt),
                         jsonObject.getString(KEY_CREDIT_TxInterEchNHon),
                         jsonObject.getString(KEY_CREDIT_BaseInterEchNHon),
                         jsonObject.getString(KEY_CREDIT_PlanningRembCred),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CREDIT_IsRappDatEchCred)),
+                        jsonObject.getString(KEY_CREDIT_IsRappDatEchCred),
                         jsonObject.getString(KEY_CREDIT_ModelTextRappEchRemb),
                         jsonObject.getString(KEY_CREDIT_NbreJrAvantDatEch),
                         jsonObject.getString(KEY_CREDIT_NbreJrApreEchSiNHon),
@@ -1487,26 +1488,29 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
                         null,
                         MyData.CAISSE_ID+"",
                         null,
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxIntDegressif)),
+                        jsonObject.getString(KEY_CrIsTxIntDegressif),
                         jsonObject.getString(KEY_CrModeCalcInteret),
                         jsonObject.getString(KEY_CrPeriodCalcInteret),
                         jsonObject.getString(KEY_CrNbreJrDelaiGrace),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsDelaiGraceNegoc)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsJoursOuvresOnly)),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxInteretJrOn)),
+                        jsonObject.getString(KEY_CrIsDelaiGraceNegoc),
+                        jsonObject.getString(KEY_CrIsJoursOuvresOnly),
+                        jsonObject.getString(KEY_CrIsTxInteretJrOn),
                         jsonObject.getString(KEY_CrNatureJrTxIntJr),
                         jsonObject.getString(KEY_CrNatureTxPenRet),
                         jsonObject.getString(KEY_CrValTxPenRet),
                         jsonObject.getString(KEY_CrBaseTxPenRet),
                         jsonObject.getString(KEY_CrPeriodNatureTxPenRet),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxPenRetardOn)),
+                        jsonObject.getString(KEY_CrIsTxPenRetardOn),
                         jsonObject.getString(KEY_CrNatureJrTxPenRet),
                         jsonObject.getString(KEY_CrNatureTxInt_IntRetCred),
                         jsonObject.getString(KEY_CrTauxInt_IntRetCred),
                         jsonObject.getString(KEY_CrBasexInt_IntRetCred),
                         jsonObject.getString(KEY_CrPeriod_IntRetCred),
-                        Boolean.parseBoolean(jsonObject.getString(KEY_CrIsTxIntJrOn_IntRetCred)),
-                        jsonObject.getString(KEY_CrNatJrTxIntJr_IntRetCred)
+                        jsonObject.getString(KEY_CrIsTxIntJrOn_IntRetCred),
+                        jsonObject.getString(KEY_CrNatJrTxIntJr_IntRetCred),
+                        jsonObject.getString(KEY_CrIsCpteEAVOnRembCred),
+                        jsonObject.getString(KEY_CrIsCpteCourantOnRembCred),
+                        jsonObject.getString(KEY_CrIsIntRetCreditOn)
                 );
 
 
@@ -1524,278 +1528,280 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-
-
-                    try {
-                        ET_CrCode.setText(URLEncoder.encode(monProduitCredit.getCrCode(), "UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    ET_CrLibelle.setText(monProduitCredit.getCrLibelle());
-                    ET_CrDureeMin.setText(monProduitCredit.getCrDureeMin());
-                    ET_CrDureeMax.setText(monProduitCredit.getCrDureeMax());
-                    ET_CrNbreJrDelaiGrace.setText(monProduitCredit.getCrNbreJrDelaiGrace());
-                    SW_CrIsDelaiGraceNegoc.setChecked(monProduitCredit.getCrIsDelaiGraceNegoc());
-                    SW_CrIsJoursOuvresOnly.setChecked(monProduitCredit.getCrIsJoursOuvresOnly());
-                    SW_CrIsTxInteretJrOn.setChecked(monProduitCredit.getCrIsTxInteretJrOn());
-                    if (monProduitCredit.getCrNatureJrTxIntJr().equals("A")){
-                        rbCrNatureJrTxIntJrLunVen.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntJrLunVen);
-                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("B")){
-                        rbCrNatureJrTxIntJrLunSam.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntJrLunSam);
-                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("C")){
-                        rbCrNatureJrTxIntJrJrOuvertGu.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntJrJrOuvertGu);
-                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("D")){
-                        rbCrNatureJrTxIntJrTous.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntJrTous);
-                    }
-
-                    if (monProduitCredit.getCrNatureTxPenRet().equals("F")){
-                        rbCrTypTxInterPenRetardFixe.setChecked(true);
-                        onRadioButtonClicked(rbCrTypTxInterPenRetardFixe);
-                    }else if (monProduitCredit.getCrNatureTxPenRet().equals("P")){
-                        rbCrTypTxInterPenRetardPlage.setChecked(true);
-                        onRadioButtonClicked(rbCrTypTxInterPenRetardPlage);
-                    }
-
-                    ET_CrValTxInterPenRetard.setText(monProduitCredit.getCrValTxPenRet());
-                    JR_Crbase_tauxIntPenRetard.setText(monProduitCredit.getCrBaseTxPenRet());
-
-                    if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("M")){
-                        rbCrPeriodCalcInteretPenRetardMensuel.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardMensuel);
-                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("J")){
-                        rbCrPeriodCalcInteretPenRetardJournalier.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardJournalier);
-                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("T")){
-                        rbCrPeriodCalcInteretPenRetardTrimestre.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardTrimestre);
-                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("A")){
-                        rbCrPeriodCalcInteretPenRetardAnnee.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardAnnee);
-                    }
-
-                    SW_CrIsTxPenRetardOn.setChecked(monProduitCredit.getCrIsTxPenRetardOn());
-                    if (monProduitCredit.getCrNatureJrTxPenRet().equals("A")){
-                        rbCrNatureJrTxIntPenRetardJrLunVen.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunVen);
-                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("B")){
-                        rbCrNatureJrTxIntPenRetardJrLunSam.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunSam);
-                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("C")){
-                        rbCrNatureJrTxIntPenRetardJrJrOuvertGu.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrJrOuvertGu);
-                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("D")){
-                        rbCrNatureJrTxIntPenRetardJrTous.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrTous);
-                    }
-
-
-                    if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("F")){
-                        rbCrTypTxInterRetardFixe.setChecked(true);
-                        onRadioButtonClicked(rbCrTypTxInterRetardFixe);
-                    }else if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("P")){
-                        rbCrTypTxInterRetardPlage.setChecked(true);
-                        onRadioButtonClicked(rbCrTypTxInterRetardPlage);
-                    }
-
-                    ET_CrValTxInterRetard.setText(monProduitCredit.getCrTauxInt_IntRetCred());
-                    JR_Crbase_tauxIntRetard.setText(monProduitCredit.getCrBaseTxPenRet());
-
-                    if (monProduitCredit.getCrPeriod_IntRetCred().equals("M")){
-                        rbCrPeriodCalcInteretRetardMensuel.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardMensuel);
-                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("J")){
-                        rbCrPeriodCalcInteretRetardJournalier.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardJournalier);
-                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("T")){
-                        rbCrPeriodCalcInteretRetardTrimestre.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardTrimestre);
-                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("A")){
-                        rbCrPeriodCalcInteretRetardAnnee.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardAnnee);
-                    }
-                    SW_CrIsTxIntJrOn_IntRetCred.setChecked(monProduitCredit.getCrIsTxIntJrOn_IntRetCred());
-
-                    if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("A")){
-                        rbCrNatureJrTxIntRetardJrLunVen.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunVen);
-                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("B")){
-                        rbCrNatureJrTxIntRetardJrLunSam.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunSam);
-                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("C")){
-                        rbCrNatureJrTxIntRetardJrJrOuvertGu.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrJrOuvertGu);
-                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("D")){
-                        rbCrNatureJrTxIntRetardJrTous.setChecked(true);
-                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrTous);
-                    }
-
-
-                  /*  if (monProduitCredit.getCrNaturePas().equals("F")){
-                        rbCrNaturePasFixe.setChecked(true);
-                        onRadioButtonClicked(rbCrNaturePasFixe);
-                    }else if (monProduitCredit.getCrNaturePas().equals("S")){
-                        rbCrNaturePasSaut.setChecked(true);
-                        onRadioButtonClicked(rbCrNaturePasSaut);
-                    }
-                    */
-                    if (monProduitCredit.getCrTypTxInter().equals("F")){
-                        rbCrTypTxInterFixe.setChecked(true);
-                        onRadioButtonClicked(rbCrTypTxInterFixe);
-                    }else if (monProduitCredit.getCrTypTxInter().equals("P")){
-                        rbCrTypTxInterPlage.setChecked(true);
-                        onRadioButtonClicked(rbCrTypTxInterPlage);
-                    }
-                    if (monProduitCredit.getCrModeCalcInteret().equals("S")){
-                        rbCrModeCalcInteretSimple.setChecked(true);
-                        onRadioButtonClicked(rbCrModeCalcInteretSimple);
-                    }else if (monProduitCredit.getCrModeCalcInteret().equals("C")){
-                        rbCrModeCalcInteretCompose.setChecked(true);
-                        onRadioButtonClicked(rbCrModeCalcInteretCompose);
-                    }else if (monProduitCredit.getCrModeCalcInteret().equals("D")){
-                        rbCrModeCalcInteretDegressif.setChecked(true);
-                        onRadioButtonClicked(rbCrModeCalcInteretDegressif);
-                    }
-
-
-
-                    if (monProduitCredit.getCrPeriodCalcInteret().equals("M")){
-                        rbCrPeriodCalcInteretMensuel.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretMensuel);
-                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("J")){
-                        rbCrPeriodCalcInteretJournalier.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretJournalier);
-                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("T")){
-                        rbCrPeriodCalcInteretTrimestre.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretTrimestre);
-                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("A")){
-                        rbCrPeriodCalcInteretAnnee.setChecked(true);
-                        onRadioButtonClicked(rbCrPeriodCalcInteretAnnee);
-                    }
-                    ET_CrValTxInter.setText(monProduitCredit.getCrValTxInter());
-                    JR_CrBase_tauxInt.setText(monProduitCredit.getCrBaseTxInter());
-                    SW_CrIsTxIntNeg.setChecked(monProduitCredit.getCrIsTxIntNeg());
-                    onSwitchButtonClicked(SW_CrIsTxIntNeg);
-
-                    ET_CrNbreAvalDmde.setText(monProduitCredit.getCrNbreAvalDmde());
-                    ET_CrNbreMinAvalExig.setText(monProduitCredit.getCrNbreMinAvalExig());
-                    ET_CrTxCouvCrAval.setText(monProduitCredit.getCrTxCouvCrAval());
-                    SW_CrIsTxCouvAvalOblig.setChecked(monProduitCredit.getCrIsTxCouvAvalOblig());
-                    onSwitchButtonClicked(SW_CrIsTxCouvAvalOblig);
-                    SW_CrIsCautionMorAvalAcc.setChecked(monProduitCredit.getCrIsCautionMorAvalAcc());
-                    onSwitchButtonClicked(SW_CrIsCautionMorAvalAcc);
-                    SW_CrIsGarCptEAVOn.setChecked(monProduitCredit.getCrIsGarCptEAVOn());
-                    onSwitchButtonClicked(SW_CrIsGarCptEAVOn);
-                    SW_CrIsGarCptEATOn.setChecked(monProduitCredit.getCrIsGarCptEATOn());
-                    onSwitchButtonClicked(SW_CrIsGarCptEATOn);
-                    SW_CrIsGarCptEAPOn.setChecked(monProduitCredit.getCrIsGarCptEAPOn());
-                    onSwitchButtonClicked(SW_CrIsGarCptEAPOn);
-                    ET_CrMtMaxSansAval.setText(monProduitCredit.getCrMtMaxSansAval());
-
-                    SW_CrIsAvalSansCredOn.setChecked(monProduitCredit.getCrIsAvalSansCredOn());
-                    onSwitchButtonClicked(SW_CrIsAvalSansCredOn);
-                    SW_CrIsTxGarMemObl.setChecked(monProduitCredit.getCrIsTxGarMemObl());
-                    onSwitchButtonClicked(SW_CrIsTxGarMemObl);
-                    ET_CrTauxGarMemb.setText(monProduitCredit.getCrTauxGarMemb());
-                    SW_CrIsPersMorAvalOn.setChecked(monProduitCredit.getCrIsPersMorAvalOn());
-                    onSwitchButtonClicked(SW_CrIsPersMorAvalOn);
-                    SW_CrIsCouvPartSOn.setChecked(monProduitCredit.getCrIsCouvPartSOn());
-                    onSwitchButtonClicked(SW_CrIsCouvPartSOn);
-                    ET_CrTxCouvPSOblig.setText(monProduitCredit.getCrTxCouvPSOblig());
-                    SW_CrIsAffCollCredOn.setChecked(monProduitCredit.getCrIsAffCollCredOn());
-                    onSwitchButtonClicked(SW_CrIsAffCollCredOn);
-                    ET_CrNbreAnAncMinCred.setText(monProduitCredit.getCrNbreAnAncMinCred());
-                    SW_CrNbAnAncNeg.setChecked(monProduitCredit.getCrNbAnAncNeg());
-                    onSwitchButtonClicked(SW_CrNbAnAncNeg);
-                    ET_CrMtPlafondMax.setText(monProduitCredit.getCrMtPlafondMax());
-                    SW_CrIsMtPlafCredLeve.setChecked(monProduitCredit.getCrIsMtPlafCredLeve());
-                    onSwitchButtonClicked(SW_CrIsMtPlafCredLeve);
-                    SW_CrIsGarMatExige.setChecked(monProduitCredit.getCrIsGarMatExige());
-                    onSwitchButtonClicked(SW_CrIsGarMatExige);
-
-                    if (monProduitCredit.getCrNatFrEtudDoss().equals("F")){
-                        rbCrNatFrEtudDossFixe.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFrEtudDossFixe);
-                    }else if (monProduitCredit.getCrNatFrEtudDoss().equals("T")){
-                        rbCrNatFrEtudDossTaux.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFrEtudDossTaux);
-                    }else if (monProduitCredit.getCrNatFrEtudDoss().equals("P")){
-                        rbCrNatFrEtudDossPlage.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFrEtudDossPlage);
-                    }
-
-                    SW_CrIsFraisEtudDossOn.setChecked(monProduitCredit.getCrIsFraisEtudDossOn());
-                    onSwitchButtonClicked(SW_CrIsFraisEtudDossOn);
-
-                    ET_CrValTxFrEtudDoss.setText(monProduitCredit.getCrValTxFrEtudDoss());
-                    JR_CrBaseTxFrEtudDoss.setText(monProduitCredit.getCrBaseTxFrEtudDoss());
-
-                    SW_CrIsFraisDeblocCredOn.setChecked(monProduitCredit.getCrIsFraisDeblocCredOn());
-                    onSwitchButtonClicked(SW_CrIsFraisDeblocCredOn);
-                    if (monProduitCredit.getCrNatFraisDeblocCred().equals("F")){
-                        rbCrNatFraisDeblocCredFixe.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFraisDeblocCredFixe);
-                    }else if (monProduitCredit.getCrNatFraisDeblocCred().equals("T")){
-                        rbCrNatFraisDeblocCredTaux.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFraisDeblocCredTaux);
-                    }else if (monProduitCredit.getCrNatFraisDeblocCred().equals("P")){
-                        rbCrNatFraisDeblocCredPlage.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFraisDeblocCredPlage);
-                    }
-
-                    ET_CrValTxFraisDeblocCred.setText(monProduitCredit.getCrValTxFraisDeblocCred());
-                    JR_CrBaseTxFraisDeblocCred.setText(monProduitCredit.getCrBaseTxFraisDeblocCred());
-
-                    SW_CrIsFraisDecaissCredOn.setChecked(monProduitCredit.getCrIsFraisDecaissCredOn());
-                    onSwitchButtonClicked(SW_CrIsFraisDecaissCredOn);
-                    if (monProduitCredit.getCrNatFraisDecaissCred().equals("F")){
-                        rbCrNatFraisDecaissCredFixe.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFraisDecaissCredFixe);
-                    }else if (monProduitCredit.getCrNatFraisDecaissCred().equals("T")){
-                        rbCrNatFraisDecaissCredTaux.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFraisDecaissCredTaux);
-                    }else if (monProduitCredit.getCrNatFraisDecaissCred().equals("P")){
-                        rbCrNatFraisDecaissCredPlage.setChecked(true);
-                        onRadioButtonClicked(rbCrNatFraisDecaissCredPlage);
-                    }
-
-                    ET_CrValTxFraisDecaissCred.setText(monProduitCredit.getCrValTxFraisDecaissCred());
-                    JR_CrBaseTxFraisDecaissCred.setText(monProduitCredit.getCrBaseFraisDecaissCred());
-
-                    SW_CrIsFraisEtudByDAV.setChecked(monProduitCredit.getCrIsFraisEtudByDAV());
-                    onSwitchButtonClicked(SW_CrIsFraisEtudByDAV);
-                    SW_CrIsFraisDeblocByDAV.setChecked(monProduitCredit.getCrIsFraisDeblocByDAV());
-                    onSwitchButtonClicked(SW_CrIsFraisDeblocByDAV);
-                    SW_CrIsFraisDecaissByDAV.setChecked(monProduitCredit.getCrIsFraisDecaissByDAV());
-                    onSwitchButtonClicked(SW_CrIsFraisDecaissByDAV);
-                    SW_CrIsModDecaissByObjet.setChecked(monProduitCredit.getCrIsModDecaissByObjet());
-                    onSwitchButtonClicked(SW_CrIsModDecaissByObjet);
-                    SW_CrIsDeblocTransfDAVOn.setChecked(monProduitCredit.getCrIsDeblocTransfDAVOn());
-                    onSwitchButtonClicked(SW_CrIsDeblocTransfDAVOn);
-                    SW_CrIsMtPlafByObjet.setChecked(monProduitCredit.getCrIsMtPlafByObjet());
-                    onSwitchButtonClicked(SW_CrIsMtPlafByObjet);
-                    JR_CrModeRemb.setText(monProduitCredit.getCrModeRemb());
-                    SW_CrIsCptEATRemCredOn.setChecked(monProduitCredit.getCrIsCptEATRemCredOn());
-                    onSwitchButtonClicked(SW_CrIsCptEATRemCredOn);
-                    SW_CrIsCptEAPRemCredOn.setChecked(monProduitCredit.getCrIsCptEAPRemCredOn());
-                    onSwitchButtonClicked(SW_CrIsCptEAPRemCredOn);
-                    SW_CrIsInterOffSiCapRembAnt.setChecked(monProduitCredit.getCrIsInterOffSiCapRembAnt());
-                    onSwitchButtonClicked(SW_CrIsInterOffSiCapRembAnt);
-                    ET_CrTxInterEchNHon.setText(monProduitCredit.getCrTxInterEchNHon());
-                    JR_CrBaseInterEchNHon.setText(monProduitCredit.getCrBaseInterEchNHon());
-                    JR_CrPlanningRembCred.setText(monProduitCredit.getCrPlanningRembCred());
-
-                    SW_CrIsRappDatEchCred.setChecked(monProduitCredit.getCrIsRappDatEchCred());
-                    SW_CrIsTxIntDegressif.setChecked(monProduitCredit.getCrIsTxIntDegressif());
-                    onSwitchButtonClicked(SW_CrIsRappDatEchCred);
-                    ET_CrModelTextRappEchRemb.setText(monProduitCredit.getCrModelTextRappEchRemb());
-                    ET_CrNbreJrAvantDatEch.setText(monProduitCredit.getCrNbreJrAvantDatEch());
-                    ET_CrNbreJrApreEchSiNHon.setText(monProduitCredit.getCrNbreJrApreEchSiNHon());
-
-                    monProduitCredit= null; //a revoir
+//
+//
+//                    try {
+//                        ET_CrCode.setText(URLEncoder.encode(monProduitCredit.getCrCode(), "UTF-8"));
+//                    } catch (UnsupportedEncodingException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    ET_CrLibelle.setText(monProduitCredit.getCrLibelle());
+//                    ET_CrDureeMin.setText(monProduitCredit.getCrDureeMin());
+//                    ET_CrDureeMax.setText(monProduitCredit.getCrDureeMax());
+//                    ET_CrNbreJrDelaiGrace.setText(monProduitCredit.getCrNbreJrDelaiGrace());
+//                    SW_CrIsDelaiGraceNegoc.setChecked(monProduitCredit.getCrIsDelaiGraceNegoc());
+//                    SW_CrIsJoursOuvresOnly.setChecked(monProduitCredit.getCrIsJoursOuvresOnly());
+//                    SW_CrIsTxInteretJrOn.setChecked(monProduitCredit.getCrIsTxInteretJrOn());
+//                    if (monProduitCredit.getCrNatureJrTxIntJr().equals("A")){
+//                        rbCrNatureJrTxIntJrLunVen.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntJrLunVen);
+//                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("B")){
+//                        rbCrNatureJrTxIntJrLunSam.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntJrLunSam);
+//                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("C")){
+//                        rbCrNatureJrTxIntJrJrOuvertGu.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntJrJrOuvertGu);
+//                    }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("D")){
+//                        rbCrNatureJrTxIntJrTous.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntJrTous);
+//                    }
+//
+//                    if (monProduitCredit.getCrNatureTxPenRet().equals("F")){
+//                        rbCrTypTxInterPenRetardFixe.setChecked(true);
+//                        onRadioButtonClicked(rbCrTypTxInterPenRetardFixe);
+//                    }else if (monProduitCredit.getCrNatureTxPenRet().equals("P")){
+//                        rbCrTypTxInterPenRetardPlage.setChecked(true);
+//                        onRadioButtonClicked(rbCrTypTxInterPenRetardPlage);
+//                    }
+//
+//                    ET_CrValTxInterPenRetard.setText(monProduitCredit.getCrValTxPenRet());
+//                    JR_Crbase_tauxIntPenRetard.setText(monProduitCredit.getCrBaseTxPenRet());
+//
+//                    if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("M")){
+//                        rbCrPeriodCalcInteretPenRetardMensuel.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardMensuel);
+//                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("J")){
+//                        rbCrPeriodCalcInteretPenRetardJournalier.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardJournalier);
+//                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("T")){
+//                        rbCrPeriodCalcInteretPenRetardTrimestre.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardTrimestre);
+//                    }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("A")){
+//                        rbCrPeriodCalcInteretPenRetardAnnee.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardAnnee);
+//                    }
+//
+//                    SW_CrIsTxPenRetardOn.setChecked(monProduitCredit.getCrIsTxPenRetardOn());
+//                    if (monProduitCredit.getCrNatureJrTxPenRet().equals("A")){
+//                        rbCrNatureJrTxIntPenRetardJrLunVen.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunVen);
+//                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("B")){
+//                        rbCrNatureJrTxIntPenRetardJrLunSam.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunSam);
+//                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("C")){
+//                        rbCrNatureJrTxIntPenRetardJrJrOuvertGu.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrJrOuvertGu);
+//                    }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("D")){
+//                        rbCrNatureJrTxIntPenRetardJrTous.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrTous);
+//                    }
+//
+//
+//                    if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("F")){
+//                        rbCrTypTxInterRetardFixe.setChecked(true);
+//                        onRadioButtonClicked(rbCrTypTxInterRetardFixe);
+//                    }else if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("P")){
+//                        rbCrTypTxInterRetardPlage.setChecked(true);
+//                        onRadioButtonClicked(rbCrTypTxInterRetardPlage);
+//                    }
+//
+//                    ET_CrValTxInterRetard.setText(monProduitCredit.getCrTauxInt_IntRetCred());
+//                    JR_Crbase_tauxIntRetard.setText(monProduitCredit.getCrBaseTxPenRet());
+//
+//                    if (monProduitCredit.getCrPeriod_IntRetCred().equals("M")){
+//                        rbCrPeriodCalcInteretRetardMensuel.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardMensuel);
+//                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("J")){
+//                        rbCrPeriodCalcInteretRetardJournalier.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardJournalier);
+//                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("T")){
+//                        rbCrPeriodCalcInteretRetardTrimestre.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardTrimestre);
+//                    }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("A")){
+//                        rbCrPeriodCalcInteretRetardAnnee.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretRetardAnnee);
+//                    }
+//                    SW_CrIsTxIntJrOn_IntRetCred.setChecked(monProduitCredit.getCrIsTxIntJrOn_IntRetCred());
+//
+//                    if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("A")){
+//                        rbCrNatureJrTxIntRetardJrLunVen.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunVen);
+//                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("B")){
+//                        rbCrNatureJrTxIntRetardJrLunSam.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunSam);
+//                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("C")){
+//                        rbCrNatureJrTxIntRetardJrJrOuvertGu.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrJrOuvertGu);
+//                    }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("D")){
+//                        rbCrNatureJrTxIntRetardJrTous.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrTous);
+//                    }
+//
+//
+//                  /*  if (monProduitCredit.getCrNaturePas().equals("F")){
+//                        rbCrNaturePasFixe.setChecked(true);
+//                        onRadioButtonClicked(rbCrNaturePasFixe);
+//                    }else if (monProduitCredit.getCrNaturePas().equals("S")){
+//                        rbCrNaturePasSaut.setChecked(true);
+//                        onRadioButtonClicked(rbCrNaturePasSaut);
+//                    }
+//                    */
+//                    if (monProduitCredit.getCrTypTxInter().equals("F")){
+//                        rbCrTypTxInterFixe.setChecked(true);
+//                        onRadioButtonClicked(rbCrTypTxInterFixe);
+//                    }else if (monProduitCredit.getCrTypTxInter().equals("P")){
+//                        rbCrTypTxInterPlage.setChecked(true);
+//                        onRadioButtonClicked(rbCrTypTxInterPlage);
+//                    }
+//                    if (monProduitCredit.getCrModeCalcInteret().equals("S")){
+//                        rbCrModeCalcInteretSimple.setChecked(true);
+//                        onRadioButtonClicked(rbCrModeCalcInteretSimple);
+//                    }else if (monProduitCredit.getCrModeCalcInteret().equals("C")){
+//                        rbCrModeCalcInteretCompose.setChecked(true);
+//                        onRadioButtonClicked(rbCrModeCalcInteretCompose);
+//                    }else if (monProduitCredit.getCrModeCalcInteret().equals("D")){
+//                        rbCrModeCalcInteretDegressif.setChecked(true);
+//                        onRadioButtonClicked(rbCrModeCalcInteretDegressif);
+//                    }
+//
+//
+//
+//                    if (monProduitCredit.getCrPeriodCalcInteret().equals("M")){
+//                        rbCrPeriodCalcInteretMensuel.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretMensuel);
+//                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("J")){
+//                        rbCrPeriodCalcInteretJournalier.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretJournalier);
+//                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("T")){
+//                        rbCrPeriodCalcInteretTrimestre.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretTrimestre);
+//                    }else if (monProduitCredit.getCrPeriodCalcInteret().equals("A")){
+//                        rbCrPeriodCalcInteretAnnee.setChecked(true);
+//                        onRadioButtonClicked(rbCrPeriodCalcInteretAnnee);
+//                    }
+//                    ET_CrValTxInter.setText(monProduitCredit.getCrValTxInter());
+//                    JR_CrBase_tauxInt.setText(monProduitCredit.getCrBaseTxInter());
+//                    SW_CrIsTxIntNeg.setChecked(monProduitCredit.getCrIsTxIntNeg());
+//                    onSwitchButtonClicked(SW_CrIsTxIntNeg);
+//
+//                    ET_CrNbreAvalDmde.setText(monProduitCredit.getCrNbreAvalDmde());
+//                    ET_CrNbreMinAvalExig.setText(monProduitCredit.getCrNbreMinAvalExig());
+//                    ET_CrTxCouvCrAval.setText(monProduitCredit.getCrTxCouvCrAval());
+//                    SW_CrIsTxCouvAvalOblig.setChecked(monProduitCredit.getCrIsTxCouvAvalOblig());
+//                    onSwitchButtonClicked(SW_CrIsTxCouvAvalOblig);
+//                    SW_CrIsCautionMorAvalAcc.setChecked(monProduitCredit.getCrIsCautionMorAvalAcc());
+//                    onSwitchButtonClicked(SW_CrIsCautionMorAvalAcc);
+//                    SW_CrIsGarCptEAVOn.setChecked(monProduitCredit.getCrIsGarCptEAVOn());
+//                    onSwitchButtonClicked(SW_CrIsGarCptEAVOn);
+//                    SW_CrIsGarCptEATOn.setChecked(monProduitCredit.getCrIsGarCptEATOn());
+//                    onSwitchButtonClicked(SW_CrIsGarCptEATOn);
+//                    SW_CrIsGarCptEAPOn.setChecked(monProduitCredit.getCrIsGarCptEAPOn());
+//                    onSwitchButtonClicked(SW_CrIsGarCptEAPOn);
+//                    ET_CrMtMaxSansAval.setText(monProduitCredit.getCrMtMaxSansAval());
+//
+//                    SW_CrIsAvalSansCredOn.setChecked(monProduitCredit.getCrIsAvalSansCredOn());
+//                    onSwitchButtonClicked(SW_CrIsAvalSansCredOn);
+//                    SW_CrIsTxGarMemObl.setChecked(monProduitCredit.getCrIsTxGarMemObl());
+//                    onSwitchButtonClicked(SW_CrIsTxGarMemObl);
+//                    ET_CrTauxGarMemb.setText(monProduitCredit.getCrTauxGarMemb());
+//                    SW_CrIsPersMorAvalOn.setChecked(monProduitCredit.getCrIsPersMorAvalOn());
+//                    onSwitchButtonClicked(SW_CrIsPersMorAvalOn);
+//                    SW_CrIsCouvPartSOn.setChecked(monProduitCredit.getCrIsCouvPartSOn());
+//                    onSwitchButtonClicked(SW_CrIsCouvPartSOn);
+//                    ET_CrTxCouvPSOblig.setText(monProduitCredit.getCrTxCouvPSOblig());
+//                    SW_CrIsAffCollCredOn.setChecked(monProduitCredit.getCrIsAffCollCredOn());
+//                    onSwitchButtonClicked(SW_CrIsAffCollCredOn);
+//                    ET_CrNbreAnAncMinCred.setText(monProduitCredit.getCrNbreAnAncMinCred());
+//                    SW_CrNbAnAncNeg.setChecked(monProduitCredit.getCrNbAnAncNeg());
+//                    onSwitchButtonClicked(SW_CrNbAnAncNeg);
+//                    ET_CrMtPlafondMax.setText(monProduitCredit.getCrMtPlafondMax());
+//                    SW_CrIsMtPlafCredLeve.setChecked(monProduitCredit.getCrIsMtPlafCredLeve());
+//                    onSwitchButtonClicked(SW_CrIsMtPlafCredLeve);
+//                    SW_CrIsGarMatExige.setChecked(monProduitCredit.getCrIsGarMatExige());
+//                    onSwitchButtonClicked(SW_CrIsGarMatExige);
+//
+//                    if (monProduitCredit.getCrNatFrEtudDoss().equals("F")){
+//                        rbCrNatFrEtudDossFixe.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+//                    }else if (monProduitCredit.getCrNatFrEtudDoss().equals("T")){
+//                        rbCrNatFrEtudDossTaux.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFrEtudDossTaux);
+//                    }else if (monProduitCredit.getCrNatFrEtudDoss().equals("P")){
+//                        rbCrNatFrEtudDossPlage.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFrEtudDossPlage);
+//                    }
+//
+//                    SW_CrIsFraisEtudDossOn.setChecked(monProduitCredit.getCrIsFraisEtudDossOn());
+//                    onSwitchButtonClicked(SW_CrIsFraisEtudDossOn);
+//
+//                    ET_CrValTxFrEtudDoss.setText(monProduitCredit.getCrValTxFrEtudDoss());
+//                    JR_CrBaseTxFrEtudDoss.setText(monProduitCredit.getCrBaseTxFrEtudDoss());
+//
+//                    SW_CrIsFraisDeblocCredOn.setChecked(monProduitCredit.getCrIsFraisDeblocCredOn());
+//                    onSwitchButtonClicked(SW_CrIsFraisDeblocCredOn);
+//                    if (monProduitCredit.getCrNatFraisDeblocCred().equals("F")){
+//                        rbCrNatFraisDeblocCredFixe.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFraisDeblocCredFixe);
+//                    }else if (monProduitCredit.getCrNatFraisDeblocCred().equals("T")){
+//                        rbCrNatFraisDeblocCredTaux.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFraisDeblocCredTaux);
+//                    }else if (monProduitCredit.getCrNatFraisDeblocCred().equals("P")){
+//                        rbCrNatFraisDeblocCredPlage.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFraisDeblocCredPlage);
+//                    }
+//
+//                    ET_CrValTxFraisDeblocCred.setText(monProduitCredit.getCrValTxFraisDeblocCred());
+//                    JR_CrBaseTxFraisDeblocCred.setText(monProduitCredit.getCrBaseTxFraisDeblocCred());
+//
+//                    SW_CrIsFraisDecaissCredOn.setChecked(monProduitCredit.getCrIsFraisDecaissCredOn());
+//                    onSwitchButtonClicked(SW_CrIsFraisDecaissCredOn);
+//                    if (monProduitCredit.getCrNatFraisDecaissCred().equals("F")){
+//                        rbCrNatFraisDecaissCredFixe.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFraisDecaissCredFixe);
+//                    }else if (monProduitCredit.getCrNatFraisDecaissCred().equals("T")){
+//                        rbCrNatFraisDecaissCredTaux.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFraisDecaissCredTaux);
+//                    }else if (monProduitCredit.getCrNatFraisDecaissCred().equals("P")){
+//                        rbCrNatFraisDecaissCredPlage.setChecked(true);
+//                        onRadioButtonClicked(rbCrNatFraisDecaissCredPlage);
+//                    }
+//
+//                    ET_CrValTxFraisDecaissCred.setText(monProduitCredit.getCrValTxFraisDecaissCred());
+//                    JR_CrBaseTxFraisDecaissCred.setText(monProduitCredit.getCrBaseFraisDecaissCred());
+//
+//                    SW_CrIsFraisEtudByDAV.setChecked(monProduitCredit.getCrIsFraisEtudByDAV());
+//                    onSwitchButtonClicked(SW_CrIsFraisEtudByDAV);
+//                    SW_CrIsFraisDeblocByDAV.setChecked(monProduitCredit.getCrIsFraisDeblocByDAV());
+//                    onSwitchButtonClicked(SW_CrIsFraisDeblocByDAV);
+//                    SW_CrIsFraisDecaissByDAV.setChecked(monProduitCredit.getCrIsFraisDecaissByDAV());
+//                    onSwitchButtonClicked(SW_CrIsFraisDecaissByDAV);
+//                    SW_CrIsModDecaissByObjet.setChecked(monProduitCredit.getCrIsModDecaissByObjet());
+//                    onSwitchButtonClicked(SW_CrIsModDecaissByObjet);
+//                    SW_CrIsDeblocTransfDAVOn.setChecked(monProduitCredit.getCrIsDeblocTransfDAVOn());
+//                    onSwitchButtonClicked(SW_CrIsDeblocTransfDAVOn);
+//                    SW_CrIsMtPlafByObjet.setChecked(monProduitCredit.getCrIsMtPlafByObjet());
+//                    onSwitchButtonClicked(SW_CrIsMtPlafByObjet);
+//                    JR_CrModeRemb.setText(monProduitCredit.getCrModeRemb());
+//                    SW_CrIsCptEATRemCredOn.setChecked(monProduitCredit.getCrIsCptEATRemCredOn());
+//                    onSwitchButtonClicked(SW_CrIsCptEATRemCredOn);
+//                    SW_CrIsCptEAPRemCredOn.setChecked(monProduitCredit.getCrIsCptEAPRemCredOn());
+//                    onSwitchButtonClicked(SW_CrIsCptEAPRemCredOn);
+//                    SW_CrIsInterOffSiCapRembAnt.setChecked(monProduitCredit.getCrIsInterOffSiCapRembAnt());
+//                    onSwitchButtonClicked(SW_CrIsInterOffSiCapRembAnt);
+//                    ET_CrTxInterEchNHon.setText(monProduitCredit.getCrTxInterEchNHon());
+//                    JR_CrBaseInterEchNHon.setText(monProduitCredit.getCrBaseInterEchNHon());
+//                    JR_CrPlanningRembCred.setText(monProduitCredit.getCrPlanningRembCred());
+//
+//                    SW_CrIsRappDatEchCred.setChecked(monProduitCredit.getCrIsRappDatEchCred());
+//                    SW_CrIsTxIntDegressif.setChecked(monProduitCredit.getCrIsTxIntDegressif());
+//                    onSwitchButtonClicked(SW_CrIsRappDatEchCred);
+//                    ET_CrModelTextRappEchRemb.setText(monProduitCredit.getCrModelTextRappEchRemb());
+//                    ET_CrNbreJrAvantDatEch.setText(monProduitCredit.getCrNbreJrAvantDatEch());
+//                    ET_CrNbreJrApreEchSiNHon.setText(monProduitCredit.getCrNbreJrApreEchSiNHon());
+//
+//                    monProduitCredit= null; //a revoir
+//
                 }
             });
         }
@@ -1900,95 +1906,95 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
                 !STRING_EMPTY.equals(ET_CrDureeMin.getText().toString().trim()) &&
                 !STRING_EMPTY.equals(ET_CrDureeMax.getText().toString().trim())
         ){
-            monProduitCredit = new Credit(
-                    ET_CrCode.getText().toString(),
-                    ET_CrLibelle.getText().toString(),
-                    ET_CrDureeMin.getText().toString(),
-                    ET_CrDureeMax.getText().toString(),
-                    "F",
-                    (String) SW_CrNbreUPas.getSelectedItem(),
-                    CrTypTxInter,
-                    ET_CrValTxInter.getText().toString(),
-                    JR_CrBase_tauxInt.getText().toString(),
-                    SW_CrIsTxIntNeg.isChecked(),
-                    ET_CrNbreAvalDmde.getText().toString(),
-                    ET_CrNbreMinAvalExig.getText().toString(),
-                    ET_CrTxCouvCrAval.getText().toString(),
-                    SW_CrIsTxCouvAvalOblig.isChecked(),
-                    SW_CrIsCautionMorAvalAcc.isChecked(),
-                    SW_CrIsGarBloqCptOblig.isChecked(),
-                    SW_CrIsGarCptEAVOn.isChecked(),
-                    SW_CrIsGarCptEATOn.isChecked(),
-                    SW_CrIsGarCptEAPOn.isChecked(),
-                    ET_CrMtMaxSansAval.getText().toString(),
-                    SW_CrIsAvalSansCredOn.isChecked(),
-                    SW_CrIsTxGarMemObl.isChecked(),
-                    ET_CrTauxGarMemb.getText().toString(),
-                    SW_CrIsPersMorAvalOn.isChecked(),
-                    SW_CrIsCouvPartSOn.isChecked(),
-                    ET_CrTxCouvPSOblig.getText().toString(),
-                    SW_CrIsAffCollCredOn.isChecked(),
-                    ET_CrNbreAnAncMinCred.getText().toString(),
-                    SW_CrNbAnAncNeg.isChecked(),
-                    ET_CrMtPlafondMax.getText().toString(),
-                    SW_CrIsMtPlafCredLeve.isChecked(),
-                    SW_CrIsGarMatExige.isChecked(),
-                    SW_CrIsFraisEtudDossOn.isChecked(),
-                    CrNatFrEtudDoss,
-                    ET_CrValTxFrEtudDoss.getText().toString(),
-                    JR_CrBaseTxFrEtudDoss.getText().toString(),
-                    SW_CrIsFraisDeblocCredOn.isChecked(),
-                    CrNatFraisDeblocCred,
-                    ET_CrValTxFraisDeblocCred.getText().toString(),
-                    JR_CrBaseTxFraisDeblocCred.getText().toString(),
-                    SW_CrIsFraisDecaissCredOn.isChecked(),
-                    CrNatFraisDecaissCred,ET_CrValTxFraisDecaissCred.getText().toString(),
-                    JR_CrBaseTxFraisDecaissCred.getText().toString(),
-                    SW_CrIsFraisEtudByDAV.isChecked(),
-                    SW_CrIsFraisDeblocByDAV.isChecked(),
-                    SW_CrIsFraisDecaissByDAV.isChecked(),
-                    SW_CrIsModDecaissByObjet.isChecked(),
-                    SW_CrIsDeblocTransfDAVOn.isChecked(),
-                    SW_CrIsMtPlafByObjet.isChecked(),
-                    JR_CrModeRemb.getText().toString(),
-                    SW_CrIsCptEATRemCredOn.isChecked(),
-                    SW_CrIsCptEAPRemCredOn.isChecked(),
-                    SW_CrIsInterOffSiCapRembAnt.isChecked(),
-                    ET_CrTxInterEchNHon.getText().toString(),
-                    JR_CrBaseInterEchNHon.getText().toString(),
-                    JR_CrPlanningRembCred.getText().toString(),
-                    SW_CrIsRappDatEchCred.isChecked(),
-                    ET_CrModelTextRappEchRemb.getText().toString(),
-                    ET_CrNbreJrAvantDatEch.getText().toString(),
-                    ET_CrNbreJrApreEchSiNHon.getText().toString(),
-                    MyData.USER_ID+"",
-                    null,
-                    MyData.USER_ID+"",
-                    null,
-                    MyData.CAISSE_ID+"",
-                    MyData.GUICHET_ID+"",
-                    SW_CrIsTxIntDegressif.isChecked(),
-                    CrModeCalcInteret,
-                    CrPeriodCalcInteret,
-                    ET_CrNbreJrDelaiGrace.getText().toString(),
-                    SW_CrIsDelaiGraceNegoc.isChecked(),
-                    SW_CrIsJoursOuvresOnly.isChecked(),
-                    SW_CrIsTxInteretJrOn.isChecked(),
-                    CrNatureJrTxIntJr,
-                    CrTypTxInterPenRetard,
-                    ET_CrValTxInterPenRetard.getText().toString(),
-                    JR_Crbase_tauxIntPenRetard.getText().toString(),
-                    CrPeriodNatureTxPenRet,
-                    SW_CrIsTxPenRetardOn.isChecked(),
-                    CrNatureJrTxPenRet,
-                    CrTypTxInterRetard,
-                    ET_CrValTxInterRetard.getText().toString(),
-                    JR_Crbase_tauxIntRetard.getText().toString(),
-                    CrPeriod_IntRetCred,
-                    SW_CrIsTxIntJrOn_IntRetCred.isChecked(),
-                    CrNatJrTxIntJr_IntRetCred
-
-            );
+//            monProduitCredit = new Credit(
+//                    ET_CrCode.getText().toString(),
+//                    ET_CrLibelle.getText().toString(),
+//                    ET_CrDureeMin.getText().toString(),
+//                    ET_CrDureeMax.getText().toString(),
+//                    "F",
+//                    (String) SW_CrNbreUPas.getSelectedItem(),
+//                    CrTypTxInter,
+//                    ET_CrValTxInter.getText().toString(),
+//                    JR_CrBase_tauxInt.getText().toString(),
+//                    SW_CrIsTxIntNeg.isChecked(),
+//                    ET_CrNbreAvalDmde.getText().toString(),
+//                    ET_CrNbreMinAvalExig.getText().toString(),
+//                    ET_CrTxCouvCrAval.getText().toString(),
+//                    SW_CrIsTxCouvAvalOblig.isChecked(),
+//                    SW_CrIsCautionMorAvalAcc.isChecked(),
+//                    SW_CrIsGarBloqCptOblig.isChecked(),
+//                    SW_CrIsGarCptEAVOn.isChecked(),
+//                    SW_CrIsGarCptEATOn.isChecked(),
+//                    SW_CrIsGarCptEAPOn.isChecked(),
+//                    ET_CrMtMaxSansAval.getText().toString(),
+//                    SW_CrIsAvalSansCredOn.isChecked(),
+//                    SW_CrIsTxGarMemObl.isChecked(),
+//                    ET_CrTauxGarMemb.getText().toString(),
+//                    SW_CrIsPersMorAvalOn.isChecked(),
+//                    SW_CrIsCouvPartSOn.isChecked(),
+//                    ET_CrTxCouvPSOblig.getText().toString(),
+//                    SW_CrIsAffCollCredOn.isChecked(),
+//                    ET_CrNbreAnAncMinCred.getText().toString(),
+//                    SW_CrNbAnAncNeg.isChecked(),
+//                    ET_CrMtPlafondMax.getText().toString(),
+//                    SW_CrIsMtPlafCredLeve.isChecked(),
+//                    SW_CrIsGarMatExige.isChecked(),
+//                    SW_CrIsFraisEtudDossOn.isChecked(),
+//                    CrNatFrEtudDoss,
+//                    ET_CrValTxFrEtudDoss.getText().toString(),
+//                    JR_CrBaseTxFrEtudDoss.getText().toString(),
+//                    SW_CrIsFraisDeblocCredOn.isChecked(),
+//                    CrNatFraisDeblocCred,
+//                    ET_CrValTxFraisDeblocCred.getText().toString(),
+//                    JR_CrBaseTxFraisDeblocCred.getText().toString(),
+//                    SW_CrIsFraisDecaissCredOn.isChecked(),
+//                    CrNatFraisDecaissCred,ET_CrValTxFraisDecaissCred.getText().toString(),
+//                    JR_CrBaseTxFraisDecaissCred.getText().toString(),
+//                    SW_CrIsFraisEtudByDAV.isChecked(),
+//                    SW_CrIsFraisDeblocByDAV.isChecked(),
+//                    SW_CrIsFraisDecaissByDAV.isChecked(),
+//                    SW_CrIsModDecaissByObjet.isChecked(),
+//                    SW_CrIsDeblocTransfDAVOn.isChecked(),
+//                    SW_CrIsMtPlafByObjet.isChecked(),
+//                    JR_CrModeRemb.getText().toString(),
+//                    SW_CrIsCptEATRemCredOn.isChecked(),
+//                    SW_CrIsCptEAPRemCredOn.isChecked(),
+//                    SW_CrIsInterOffSiCapRembAnt.isChecked(),
+//                    ET_CrTxInterEchNHon.getText().toString(),
+//                    JR_CrBaseInterEchNHon.getText().toString(),
+//                    JR_CrPlanningRembCred.getText().toString(),
+//                    SW_CrIsRappDatEchCred.isChecked(),
+//                    ET_CrModelTextRappEchRemb.getText().toString(),
+//                    ET_CrNbreJrAvantDatEch.getText().toString(),
+//                    ET_CrNbreJrApreEchSiNHon.getText().toString(),
+//                    MyData.USER_ID+"",
+//                    null,
+//                    MyData.USER_ID+"",
+//                    null,
+//                    MyData.CAISSE_ID+"",
+//                    MyData.GUICHET_ID+"",
+//                    SW_CrIsTxIntDegressif.isChecked(),
+//                    CrModeCalcInteret,
+//                    CrPeriodCalcInteret,
+//                    ET_CrNbreJrDelaiGrace.getText().toString(),
+//                    SW_CrIsDelaiGraceNegoc.isChecked(),
+//                    SW_CrIsJoursOuvresOnly.isChecked(),
+//                    SW_CrIsTxInteretJrOn.isChecked(),
+//                    CrNatureJrTxIntJr,
+//                    CrTypTxInterPenRetard,
+//                    ET_CrValTxInterPenRetard.getText().toString(),
+//                    JR_Crbase_tauxIntPenRetard.getText().toString(),
+//                    CrPeriodNatureTxPenRet,
+//                    SW_CrIsTxPenRetardOn.isChecked(),
+//                    CrNatureJrTxPenRet,
+//                    CrTypTxInterRetard,
+//                    ET_CrValTxInterRetard.getText().toString(),
+//                    JR_Crbase_tauxIntRetard.getText().toString(),
+//                    CrPeriod_IntRetCred,
+//                    SW_CrIsTxIntJrOn_IntRetCred.isChecked(),
+//                    CrNatJrTxIntJr_IntRetCred
+//
+//            );
 
 
 //    base_ev_mt_tx_agios_prelev = mySpinnerLocalite.getText().toString();

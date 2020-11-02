@@ -104,8 +104,12 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
 
 
     private SwitchCompat CxIsPrConsAdmPCA,CxIsPrComCredPCC,CxIsDirCredDC,CxIsAgentCredAC,CxIsDirGenCxDG, CxIsMultiCpteCourByMemb;
-    private Boolean bool_CxIsPrConsAdmPCA, bool_CxIsPrComCredPCC,bool_CxIsDirCredDC,bool_CxIsAgentCredAC,
-            bool_CxIsDirGenCxDG, bool_CxIsMultiCpteCourByMemb;
+    private String bool_CxIsPrConsAdmPCA;
+    private String bool_CxIsPrComCredPCC;
+    private String bool_CxIsDirCredDC;
+    private String bool_CxIsAgentCredAC;
+    private String bool_CxIsDirGenCxDG;
+    private String bool_CxIsMultiCpteCourByMemb;
 
     private Button deleteButton;
     private Button updateButton;
@@ -327,12 +331,18 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                     cx_nom_pca = caisse.getString(KEY_CX_NOM_PCA);
                     cx_nom_dg = caisse.getString(KEY_CX_NOM_DG);
 
-                    bool_CxIsPrConsAdmPCA = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrConsAdmPCA));
-                    bool_CxIsPrComCredPCC = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrComCredPCC));
-                    bool_CxIsDirCredDC = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirCredDC));
-                    bool_CxIsAgentCredAC = Boolean.parseBoolean(caisse.getString(KEY_CxIsAgentCredAC));
-                    bool_CxIsDirGenCxDG = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirGenCxDG));
-                    bool_CxIsMultiCpteCourByMemb = Boolean.parseBoolean(caisse.getString(KEY_CxIsMultiCpteCourByMemb));
+//                    bool_CxIsPrConsAdmPCA = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrConsAdmPCA));
+//                    bool_CxIsPrComCredPCC = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrComCredPCC));
+//                    bool_CxIsDirCredDC = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirCredDC));
+//                    bool_CxIsAgentCredAC = Boolean.parseBoolean(caisse.getString(KEY_CxIsAgentCredAC));
+//                    bool_CxIsDirGenCxDG = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirGenCxDG));
+//                    bool_CxIsMultiCpteCourByMemb = Boolean.parseBoolean(caisse.getString(KEY_CxIsMultiCpteCourByMemb));
+                    bool_CxIsPrConsAdmPCA = caisse.getString(KEY_CxIsPrConsAdmPCA);
+                    bool_CxIsPrComCredPCC = caisse.getString(KEY_CxIsPrComCredPCC);
+                    bool_CxIsDirCredDC = caisse.getString(KEY_CxIsDirCredDC);
+                    bool_CxIsAgentCredAC = caisse.getString(KEY_CxIsAgentCredAC);
+                    bool_CxIsDirGenCxDG = caisse.getString(KEY_CxIsDirGenCxDG);
+                    bool_CxIsMultiCpteCourByMemb = caisse.getString(KEY_CxIsMultiCpteCourByMemb);
 
                 }
             } catch (JSONException e) {
@@ -363,12 +373,39 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                     cx_nom_pcaEditText.setText(cx_nom_pca);
                     cx_nom_dgEditText.setText(cx_nom_dg);
 
-                    CxIsPrConsAdmPCA.setChecked(bool_CxIsPrConsAdmPCA);
-                    CxIsPrComCredPCC.setChecked(bool_CxIsPrComCredPCC);
-                    CxIsDirCredDC.setChecked(bool_CxIsDirCredDC);
-                    CxIsAgentCredAC.setChecked(bool_CxIsAgentCredAC);
-                    CxIsDirGenCxDG.setChecked(bool_CxIsDirGenCxDG);
-                    CxIsMultiCpteCourByMemb.setChecked(bool_CxIsMultiCpteCourByMemb);
+                    if (bool_CxIsPrConsAdmPCA.equals("Y")){
+                        CxIsPrConsAdmPCA.setChecked(true);
+                    }else{
+                        CxIsPrConsAdmPCA.setChecked(false);
+                    }
+                    if (bool_CxIsPrComCredPCC.equals("Y")){
+                        CxIsPrComCredPCC.setChecked(true);
+                    }else{
+                        CxIsPrComCredPCC.setChecked(false);
+                    }
+
+                    if (bool_CxIsDirCredDC.equals("Y")){
+                        CxIsDirCredDC.setChecked(true);
+                    }else{
+                        CxIsDirCredDC.setChecked(false);
+                    }
+
+                    if (bool_CxIsAgentCredAC.equals("Y")){
+                        CxIsAgentCredAC.setChecked(true);
+                    }else{
+                        CxIsAgentCredAC.setChecked(false);
+                    }
+                    if (bool_CxIsDirGenCxDG.equals("Y")){
+                        CxIsDirGenCxDG.setChecked(true);
+                    }else{
+                        CxIsDirGenCxDG.setChecked(false);
+                    }
+                    if (bool_CxIsMultiCpteCourByMemb.equals("Y")){
+                        CxIsMultiCpteCourByMemb.setChecked(true);
+                    }else{
+                        CxIsMultiCpteCourByMemb.setChecked(false);
+                    }
+
 
                 }
             });
@@ -383,8 +420,8 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private void confirmDelete() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 UpdateCaisse.this);
-        alertDialogBuilder.setMessage("Are you sure, you want to delete this Caisse?");
-        alertDialogBuilder.setPositiveButton("Delete",
+        alertDialogBuilder.setMessage("Êtes-vous sûr de vouloir supprimer cette Caisse ?");
+        alertDialogBuilder.setPositiveButton("Supprimer",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -393,14 +430,14 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                             new DeleteCaisseAsyncTask().execute();
                         } else {
                             Toast.makeText(UpdateCaisse.this,
-                                    "Unable to connect to internet",
+                                    "Impossible de se connecter à Internet",
                                     Toast.LENGTH_LONG).show();
 
                         }
                     }
                 });
 
-        alertDialogBuilder.setNegativeButton("Cancel", null);
+        alertDialogBuilder.setNegativeButton("Annuler", null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -498,12 +535,41 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             cx_nom_dg = cx_nom_dgEditText.getText().toString();
 
 
-            bool_CxIsPrConsAdmPCA=  CxIsPrConsAdmPCA.isChecked();
-            bool_CxIsPrComCredPCC=  CxIsPrComCredPCC.isChecked();
-            bool_CxIsDirCredDC=  CxIsDirCredDC.isChecked();
-            bool_CxIsAgentCredAC=  CxIsAgentCredAC.isChecked();
-            bool_CxIsDirGenCxDG=  CxIsDirGenCxDG.isChecked();
-            bool_CxIsMultiCpteCourByMemb=  CxIsMultiCpteCourByMemb.isChecked();
+            if (CxIsPrConsAdmPCA.isChecked()){
+                bool_CxIsPrConsAdmPCA="Y";
+            }else{
+                bool_CxIsPrConsAdmPCA="N";
+            }
+
+            if (CxIsPrComCredPCC.isChecked()){
+                bool_CxIsPrComCredPCC="Y";
+            }else{
+                bool_CxIsPrComCredPCC="N";
+            }
+
+            if (CxIsDirCredDC.isChecked()){
+                bool_CxIsDirCredDC="Y";
+            }else{
+                bool_CxIsDirCredDC="N";
+            }
+
+
+            if (CxIsAgentCredAC.isChecked()){
+                bool_CxIsAgentCredAC="Y";
+            }else{
+                bool_CxIsAgentCredAC="N";
+            }
+
+            if (CxIsDirGenCxDG.isChecked()){
+                bool_CxIsDirGenCxDG="Y";
+            }else{
+                bool_CxIsDirGenCxDG="N";
+            }
+            if (CxIsMultiCpteCourByMemb.isChecked()){
+                bool_CxIsMultiCpteCourByMemb="Y";
+            }else{
+                bool_CxIsMultiCpteCourByMemb="N";
+            }
 
             new UpdateCaisseAsyncTask().execute();
         } else {

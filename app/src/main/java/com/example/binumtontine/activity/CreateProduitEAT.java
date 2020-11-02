@@ -166,28 +166,28 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private String EtBaseTxInter;
     private String EtPlageTxInterFrom;
     private String EtPlageTxInterTo;
-    private Boolean EtIsTxIntNeg ;
-    private Boolean EtIsPriseIntMiseOn;
-    private Boolean EtIsPenalRupAnt ;
+    private String EtIsTxIntNeg ;
+    private String EtIsPriseIntMiseOn;
+    private String EtIsPenalRupAnt ;
     private String EtNatureRupAn ;
     private String EtValTxMtRupture;
     private String EtPlageTxMtRuptureFrom;
     private String EtPlageTxMtRuptureTo ;
     private String EtBaseTxPenal ;
-    private Boolean EtIsEparRetireFin;
-    private Boolean EtIsEparTransfFin;
-    private Boolean EtIsOnlyTotTransf;
-    private Boolean EtIsEparRenouvFin;
-    private Boolean EtActionDefATerme;
-    private Boolean EtIsMultiEATOn ;
-    private Boolean EtIsInterDusRupAnt;
-    private Boolean EtIsNewTxIntRupAnt ;
+    private String EtIsEparRetireFin;
+    private String EtIsEparTransfFin;
+    private String EtIsOnlyTotTransf;
+    private String EtIsEparRenouvFin;
+    private String EtActionDefATerme;
+    private String EtIsMultiEATOn ;
+    private String EtIsInterDusRupAnt;
+    private String EtIsNewTxIntRupAnt ;
     private String EtTypNewTxIntRupAnt;
     private String EtValTxIntPenal;
     private String EtPlageTxIntPenalFrom;
     private String EtPlageTxIntPenalTo;
     private String EtBaseTxIntPenal ;
-    private Boolean EtTxIntPenalNeg ;
+    private String EtTxIntPenalNeg ;
 
 
 
@@ -243,6 +243,8 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private TextView tv_plage_EtValTxMtRupture;
     private TextView tv_plage_EtValTxIntPenal;
     public static ArrayList<ModelPlageData> plageDataListTIT = new ArrayList<ModelPlageData>(); //to manage plageData
+    public static ArrayList<ModelPlageData> plageDataListTPT = new ArrayList<ModelPlageData>(); //to manage plageData TPT
+    public static ArrayList<ModelPlageData> plageDataListRAT = new ArrayList<ModelPlageData>(); //to manage plageData RAT
 
     //#TIT
     private static final String KEY_EAT_PLAGE_TX_INTER_DEBUT = "EtTitDebut";
@@ -256,6 +258,32 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private String tabPlageValeurTIT ="";
     private String tabPlageBaseTIT ="";
     private String tabPlageNatureTIT ="";
+
+    //#TPT
+    private static final String KEY_EAT_PLAGE_TPT_DEBUT = "EtTptDebut";
+    private static final String KEY_EAT_PLAGE_TPT_FIN = "EtTptFin";
+    private static final String KEY_EAT_PLAGE_TPT_VALEUR = "EtTptValeur";
+    private static final String KEY_EAT_PLAGE_TPT_BASE = "EtTptBase";
+    private static final String KEY_EAT_PLAGE_TPT_NATURE = "EtTptNature";
+
+    private String tabPlageDebutTPT ="";
+    private String tabPlageFinTPT ="";
+    private String tabPlageValeurTPT ="";
+    private String tabPlageBaseTPT ="";
+    private String tabPlageNatureTPT ="";
+
+    //#RAT
+    private static final String KEY_EAT_PLAGE_RAT_DEBUT = "EtRatDebut";
+    private static final String KEY_EAT_PLAGE_RAT_FIN = "EtRatFin";
+    private static final String KEY_EAT_PLAGE_RAT_VALEUR = "EtRatValeur";
+    private static final String KEY_EAT_PLAGE_RAT_BASE = "EtRatBase";
+    private static final String KEY_EAT_PLAGE_RAT_NATURE = "EtRatNature";
+
+    private String tabPlageDebutRAT ="";
+    private String tabPlageFinRAT ="";
+    private String tabPlageValeurRAT ="";
+    private String tabPlageBaseRAT ="";
+    private String tabPlageNatureRAT ="";
 
 
     @Override
@@ -389,8 +417,9 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'intérêt";
-                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = true;
-                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
+                    ListPlageTIT.IS_TO_CREATE_OR_TO_UPDATE = true;
+//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
+                    Intent i = new Intent(CreateProduitEAT.this, ListPlageTIT.class);
                     startActivityForResult(i,20);
 
                 } else {
@@ -409,8 +438,8 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux de pénalité";
-                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = true;
-                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
+                    ListPlageTPT.IS_TO_CREATE_OR_TO_UPDATE = true;
+                    Intent i = new Intent(CreateProduitEAT.this,ListPlageTPT.class);
                     startActivityForResult(i,20);
 
                 } else {
@@ -429,8 +458,8 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Nouveau Taux d'intérêt";
-                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = true;
-                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
+                    ListPlageRAT.IS_TO_CREATE_OR_TO_UPDATE = true;
+                    Intent i = new Intent(CreateProduitEAT.this,ListPlageRAT.class);
                     startActivityForResult(i,20);
 
                 } else {
@@ -1099,28 +1128,88 @@ if (!STRING_EMPTY.equals(EtCode_ET.getText().toString()) &&
     EtBaseTxInter  = mySpinnerEtBaseTxInter.getText().toString();
 //    EtPlageTxInterFrom  = EtPlageTxInterFrom_ET.getText().toString();
 //    EtPlageTxInterTo  = EtPlageTxInterFrom_ET.getText().toString();
-    EtIsTxIntNeg   = EtIsTxIntNeg_SW.isChecked();
-    EtIsPriseIntMiseOn  = EtIsPriseIntMiseOn_SW.isChecked();
-    EtIsPenalRupAnt   = EtIsPenalRupAnt_SW.isChecked();
+    if (EtIsTxIntNeg_SW.isChecked()){
+        EtIsTxIntNeg = "Y";
+    }else{
+        EtIsTxIntNeg = "N";
+    }
+//    EtIsTxIntNeg   = EtIsTxIntNeg_SW.isChecked();
+    if (EtIsPriseIntMiseOn_SW.isChecked()){
+        EtIsPriseIntMiseOn = "Y";
+    }else{
+        EtIsPriseIntMiseOn = "N";
+    }
+//    EtIsPriseIntMiseOn  = EtIsPriseIntMiseOn_SW.isChecked();
+    if (EtIsPenalRupAnt_SW.isChecked()){
+        EtIsPenalRupAnt = "Y";
+    }else{
+        EtIsPenalRupAnt = "N";
+    }
+//    EtIsPenalRupAnt   = EtIsPenalRupAnt_SW.isChecked();
    // EtNatureRupAn   = ;
     EtValTxMtRupture  = EtValTxMtRupture_ET.getText().toString() ;
     EtPlageTxMtRuptureFrom  = EtPlageTxMtRuptureFrom_ET.getText().toString();
     EtPlageTxMtRuptureTo   = EtPlageTxMtRuptureTo_ET.getText().toString();
     EtBaseTxPenal   = EtBaseTxPenal_ET.getText().toString();
-    EtIsEparRetireFin  = EtIsEparRetireFin_SW.isChecked();
-    EtIsEparTransfFin  = EtIsEparTransfFin_SW.isChecked();
-    EtIsOnlyTotTransf  = EtIsOnlyTotTransf_SW.isChecked();
-    EtIsEparRenouvFin  = EtIsEparRenouvFin_SW.isChecked();
-    EtActionDefATerme  = EtActionDefATerme_SW.isChecked();
-    EtIsMultiEATOn   = EtIsMultiEATOn_SW.isChecked();
-    EtIsInterDusRupAnt  = EtIsInterDusRupAnt_SW.isChecked();
-    EtIsNewTxIntRupAnt   = EtIsNewTxIntRupAnt_SW.isChecked();
+    if (EtIsEparRetireFin_SW.isChecked()){
+        EtIsEparRetireFin = "Y";
+    }else{
+        EtIsEparRetireFin = "N";
+    }
+//    EtIsEparRetireFin  = EtIsEparRetireFin_SW.isChecked();
+    if (EtIsEparTransfFin_SW.isChecked()){
+        EtIsEparTransfFin = "Y";
+    }else{
+        EtIsEparTransfFin = "N";
+    }
+//    EtIsEparTransfFin  = EtIsEparTransfFin_SW.isChecked();
+    if (EtIsOnlyTotTransf_SW.isChecked()){
+        EtIsOnlyTotTransf = "Y";
+    }else{
+        EtIsOnlyTotTransf = "N";
+    }
+//    EtIsOnlyTotTransf  = EtIsOnlyTotTransf_SW.isChecked();
+    if (EtIsEparRenouvFin_SW.isChecked()){
+        EtIsEparRenouvFin = "Y";
+    }else{
+        EtIsEparRenouvFin = "N";
+    }
+//    EtIsEparRenouvFin  = EtIsEparRenouvFin_SW.isChecked();
+    if (EtActionDefATerme_SW.isChecked()){
+        EtActionDefATerme = "Y";
+    }else{
+        EtActionDefATerme = "N";
+    }
+//    EtActionDefATerme  = EtActionDefATerme_SW.isChecked();
+    if (EtIsMultiEATOn_SW.isChecked()){
+        EtIsMultiEATOn = "Y";
+    }else{
+        EtIsMultiEATOn = "N";
+    }
+//    EtIsMultiEATOn   = EtIsMultiEATOn_SW.isChecked();
+    if (EtIsInterDusRupAnt_SW.isChecked()){
+        EtIsInterDusRupAnt = "Y";
+    }else{
+        EtIsInterDusRupAnt = "N";
+    }
+//    EtIsInterDusRupAnt  = EtIsInterDusRupAnt_SW.isChecked();
+    if (EtIsNewTxIntRupAnt_SW.isChecked()){
+        EtIsNewTxIntRupAnt = "Y";
+    }else{
+        EtIsNewTxIntRupAnt = "N";
+    }
+//    EtIsNewTxIntRupAnt   = EtIsNewTxIntRupAnt_SW.isChecked();
    // EtTypNewTxIntRupAnt  = ;
     EtValTxIntPenal  = EtValTxIntPenal_ET.getText().toString();
     EtPlageTxIntPenalFrom  = EtPlageTxIntPenalFrom_ET.getText().toString();
     EtPlageTxIntPenalTo  = EtPlageTxIntPenalTo_ET.getText().toString();
     EtBaseTxIntPenal   = EtBaseTxIntPenal_ET.getText().toString();
-    EtTxIntPenalNeg   = EtTxIntPenalNeg_SW.isChecked();
+    if (EtTxIntPenalNeg_SW.isChecked()){
+        EtTxIntPenalNeg = "Y";
+    }else{
+        EtTxIntPenalNeg = "N";
+    }
+//    EtTxIntPenalNeg   = EtTxIntPenalNeg_SW.isChecked();
 
 
     //#TIT
@@ -1130,6 +1219,22 @@ if (!STRING_EMPTY.equals(EtCode_ET.getText().toString()) &&
         tabPlageValeurTIT +=";"+plageDataListTIT.get(i).getPdValTaux();
         tabPlageBaseTIT +=";"+plageDataListTIT.get(i).getPdBase();
         tabPlageNatureTIT +=";"+plageDataListTIT.get(i).getPdNature();
+    }
+    //#TPT
+    for (int i=0; i<plageDataListTPT.size();i++){
+        tabPlageDebutTPT +=";"+plageDataListTPT.get(i).getPdValDe();
+        tabPlageFinTPT +=";"+plageDataListTPT.get(i).getPdValA();
+        tabPlageValeurTPT +=";"+plageDataListTPT.get(i).getPdValTaux();
+        tabPlageBaseTPT +=";"+plageDataListTPT.get(i).getPdBase();
+        tabPlageNatureTPT +=";"+plageDataListTPT.get(i).getPdNature();
+    }
+    //#RAT
+    for (int i=0; i<plageDataListRAT.size();i++){
+        tabPlageDebutRAT +=";"+plageDataListRAT.get(i).getPdValDe();
+        tabPlageFinRAT +=";"+plageDataListRAT.get(i).getPdValA();
+        tabPlageValeurRAT +=";"+plageDataListRAT.get(i).getPdValTaux();
+        tabPlageBaseRAT +=";"+plageDataListRAT.get(i).getPdBase();
+        tabPlageNatureRAT +=";"+plageDataListRAT.get(i).getPdNature();
     }
 
 
@@ -1165,7 +1270,9 @@ Add_Line_EtValTxMtRupture();
     Remove_Line_EtValTxMtRupture();
 Add_Line_EtValTxIntPenal();
     Remove_Line_EtValTxIntPenal();
+
 if (EtTypTxInter.equals("P")){
+  /*
     for (int i=0; i<tabPlageDebutList.size();i++){
         tabPlageDebut+=";"+tabPlageDebutList.get(i);
     }
@@ -1200,6 +1307,8 @@ if (EtTypNewTxIntRupAnt.equals("P")) {
 
     }
 }
+*/
+
 
 
     Toast.makeText(CreateProduitEAT.this,
@@ -1280,8 +1389,8 @@ if (EtTypNewTxIntRupAnt.equals("P")) {
             httpParams.put(KEY_EAT_PLAGE_TX_INTER_BASE, tabPlageBaseTIT);
             httpParams.put(KEY_EAT_PLAGE_TX_INTER_NATURE, tabPlageNatureTIT);
 
-            httpParams.put(ET_IS_TX_INT_NEG, EtIsTxIntNeg.toString());
-            httpParams.put(ET_IS_PRISE_INT_MISE_ON, EtIsPriseIntMiseOn.toString());
+            httpParams.put(ET_IS_TX_INT_NEG, EtIsTxIntNeg);
+            httpParams.put(ET_IS_PRISE_INT_MISE_ON, EtIsPriseIntMiseOn);
             httpParams.put(ET_IS_PENAL_RUP_ANT, EtIsPenalRupAnt.toString());
             httpParams.put(ET_NATURE_RUP_AN, EtNatureRupAn);
             httpParams.put(ET_VAL_TX_MT_RUPTURE, EtValTxMtRupture);
@@ -1312,6 +1421,19 @@ if (EtTypNewTxIntRupAnt.equals("P")) {
             httpParams.put(ET_BASE_TX_INT_PENAL, EtBaseTxIntPenal);
             httpParams.put(ET_TX_INT_PENAL_NEG, EtTxIntPenalNeg.toString());
             httpParams.put(ET_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+
+            //TPT
+            httpParams.put(KEY_EAT_PLAGE_TPT_DEBUT, tabPlageDebutTPT);
+            httpParams.put(KEY_EAT_PLAGE_TPT_FIN, tabPlageFinTPT);
+            httpParams.put(KEY_EAT_PLAGE_TPT_VALEUR, tabPlageValeurTPT);
+            httpParams.put(KEY_EAT_PLAGE_TPT_BASE, tabPlageBaseTPT);
+            httpParams.put(KEY_EAT_PLAGE_TPT_NATURE, tabPlageNatureTPT);
+            //RAT
+            httpParams.put(KEY_EAT_PLAGE_RAT_DEBUT, tabPlageDebutRAT);
+            httpParams.put(KEY_EAT_PLAGE_RAT_FIN, tabPlageFinRAT);
+            httpParams.put(KEY_EAT_PLAGE_RAT_VALEUR, tabPlageValeurRAT);
+            httpParams.put(KEY_EAT_PLAGE_RAT_BASE, tabPlageBaseRAT);
+            httpParams.put(KEY_EAT_PLAGE_RAT_NATURE, tabPlageNatureRAT);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_eat.php", "POST", httpParams);

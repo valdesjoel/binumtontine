@@ -47,7 +47,7 @@
                 <TextView
                     style="@style/headerText"
                     android:layout_gravity="center"
-                    android:text="OPERATION SUR COMPTE"
+                    android:text="VALIDATION "
                     android:layout_marginTop="40dp"/>
                 <include
                     layout="@layout/layout_validation_operation_compte_courant_adherent"/>

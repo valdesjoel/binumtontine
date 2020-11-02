@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,11 +18,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.adherent.Brouillard;
 import com.example.binumtontine.activity.adherent.Record;
-import com.example.binumtontine.adapter.RecordAdapter;
+import com.example.binumtontine.adapter.RecordBrouillardAdapter;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.OperationExterneDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +48,9 @@ import static java.lang.Double.parseDouble;
 public class BrouillardCaisse extends AppCompatActivity {
 
     private static final String KEY_SUCCESS = "success";
-    private static final String KEY_DATA = "data";
+    private static final String KEY_DATA = "jour_ouvre";
+    private static final String KEY_DATA_EAV = "EAV";
+    private static final String KEY_DATA_OP_EXT = "OP_EXT";
     private static final String KEY_COMPTE_ID = "Numero";
     private static final String KEY_CODE_COMPTE_EAV = "OcCodeCompteEAV";
     private static final String KEY_TYPE_OPERATION = "OcTypeOperation";
@@ -55,11 +60,14 @@ public class BrouillardCaisse extends AppCompatActivity {
     private static final String KEY_OC_DATE_DEBUT = "OcDateDebut";
     private static final String KEY_OC_DATE_FIN = "OcDateFin";
     private static final String KEY_AdNom = "AdNom";
+    private static final String KEY_gx_numero = "gx_numero";
 
-    private List<Record> listOperationCompteAdherent;
+//    private List<Record> listOperationCompteAdherent;
+    private List<Brouillard> listOperationCompteAdherent;
+    private Double totalCaisse = 0.0;
 //    private ListView recordsView;
 
-    private RecordAdapter recordAdapter;
+    private RecordBrouillardAdapter recordBrouillardAdapter;
     private ProgressDialog pDialog;
     private String compteId;
 //    private NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
@@ -88,9 +96,6 @@ public class BrouillardCaisse extends AppCompatActivity {
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
 
-//        Toast.makeText(HistoriqueEAV.this,
-//                compteId,
-//                Toast.LENGTH_LONG).show();
         /*BEGIN
         To manage format number with currency symbol*/
         DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) defaultFormat).getDecimalFormatSymbols();
@@ -99,15 +104,6 @@ public class BrouillardCaisse extends AppCompatActivity {
 
         /*END
         To manage format number with currency symbol*/
-
-//        defaultFormat.setCurrency(Currency.getInstance("XAF"));
-//        defaultFormat.setCurrency(Currency.getInstance("Fcf"));
-//        listOperationCompteAdherent = new ArrayList<>();
-//new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();
-//        final ListView recordsView = (ListView) findViewById(R.id.records_view);
-//        recordAdapter= new RecordAdapter(this, new ArrayList<Record>());
-//        recordsView.setAdapter(recordAdapter);
-
 
         fromdate = (EditText) findViewById(R.id.input_txt_fromDate);
         todate = (EditText) findViewById(R.id.input_txt_toDate);
@@ -133,8 +129,6 @@ public class BrouillardCaisse extends AppCompatActivity {
         //SimpleDateFormat formatterInint = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatterInint = new SimpleDateFormat("dd/MM/yyyy");
         maDate = formatterInint.format(todayDateInit);
-//        fromdate.setText(maDate);
-//        fromdate.performClick();
 
         fromdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,14 +165,7 @@ public class BrouillardCaisse extends AppCompatActivity {
         cal1.set(Calendar.DAY_OF_MONTH, 1);
         System.out.println("Start of the month:       " + cal1.getTime());
         System.out.println("... in milliseconds:      " + cal1.getTimeInMillis());
-/*
-// get start of the next month
-        cal.add(Calendar.MONTH, 1);
-        System.out.println("Start of the next month:  " + cal.getTime());
-        System.out.println("... in milliseconds:      " + cal.getTimeInMillis());
-//        new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute(); */
-// Create a Calendar instance
-// and set it to the date of interest
+
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(cal1.getTime());
@@ -227,52 +214,9 @@ public class BrouillardCaisse extends AppCompatActivity {
         System.out.println("dateFin ********:       " + dateFin);
     }
     private  void loadByIntervalle(){
- /*       // get today and clear time of day
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-        cal.clear(Calendar.MINUTE);
-        cal.clear(Calendar.SECOND);
-        cal.clear(Calendar.MILLISECOND);
 
-// get start of the month
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        System.out.println("Start of the month:       " + cal1.getTime());
-        System.out.println("... in milliseconds:      " + cal1.getTimeInMillis());
-
-// get start of the next month
-        cal.add(Calendar.MONTH, 1);
-        System.out.println("Start of the next month:  " + cal.getTime());
-        System.out.println("... in milliseconds:      " + cal.getTimeInMillis()); */
         new BrouillardCaisse.FetchListOperationsOnCompteAdherentAsyncTask().execute();
-/*
-// Create a Calendar instance
-// and set it to the date of interest
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(cal1.getTime());
-//        cal.setTime(date);
-
-// Set the day of the month to the first day of the month
-
-        cal.set(Calendar.DAY_OF_MONTH,
-                cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-
-// Extract the Date from the Calendar instance
-
-        Date firstDayOfTheMonth = cal.getTime();
-        System.out.println("Start of the month ********firstDayOfTheMonth:       " + firstDayOfTheMonth);
-        Date todayDateInit = Calendar.getInstance().getTime();
-        //SimpleDateFormat formatterInint = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatterInint = new SimpleDateFormat("dd/MM/yyyy");
-//        SimpleDateFormat formatterEnd = new SimpleDateFormat("dd/MM/yyyy");
-        String maDate = formatterInint.format(firstDayOfTheMonth);
-        String endDate = formatterInint.format(todayDateInit);
-        System.out.println("Start of the month ********maDate:       " + maDate);
-        System.out.println("End of the month ********endDate:       " + endDate);
-        fromdate.setText(maDate);
-        todate.setText(endDate);
-//        String maDate = formatterInint.format(todayDateInit);
-                new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();*/
     }
     public void showTruitonDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
@@ -291,16 +235,6 @@ public class BrouillardCaisse extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-       /*     final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog datePickerDialog;
-            datePickerDialog = new DatePickerDialog(getActivity(),this, year,
-                    month,day);
-            return datePickerDialog;
-            */
-
             String getfrom[] = (fromdate.getText().toString().trim()).split("/");
             int year,month,day;
             year= Integer.parseInt(getfrom[2]);
@@ -318,7 +252,6 @@ public class BrouillardCaisse extends AppCompatActivity {
             if (selectedMonth<10 && day<10){
                 fromdate.setText("0"+day + "/0" + selectedMonth  + "/" + year);
                 dateDebut = year+"-0"+selectedMonth+"-0"+day;
-
             }else if (day<10){
                 fromdate.setText("0"+day + "/" + selectedMonth  + "/" + year);
                 dateDebut = year+"-"+selectedMonth+"-0"+day;
@@ -339,18 +272,6 @@ public class BrouillardCaisse extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-//            String getfromdate = fromdate.getText().toString().trim();
-//            String getfrom[] = getfromdate.split("/");
-//            int year,month,day;
-//            year= Integer.parseInt(getfrom[2]);
-//            month = Integer.parseInt(getfrom[1])-1;
-//            day = Integer.parseInt(getfrom[0]);
-//            final Calendar c = Calendar.getInstance();
-//            c.set(year,month,day+1);
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),this, year,month,day);
-//            datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
-//            return datePickerDialog;
-
             String getTo[] = (todate.getText().toString().trim()).split("/");
 
             int yearTo,monthTo,dayTo;
@@ -411,10 +332,14 @@ public class BrouillardCaisse extends AppCompatActivity {
             Map<String, String> httpParams = new HashMap<>();
 //            httpParams.put(KEY_CODE_COMPTE_EAV, compteId);
             httpParams.put(KEY_CODE_COMPTE_EAV, String.valueOf(MyData.USER_ID));
+            httpParams.put(KEY_gx_numero, String.valueOf(MyData.GUICHET_ID));
             httpParams.put(KEY_OC_DATE_DEBUT, dateDebut);
             httpParams.put(KEY_OC_DATE_FIN, dateFin);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_operation_collecteur_by_jour_ouvert.php", "GET", httpParams);
+                    BASE_URL + "get_brouillard_guichet.php", "GET", httpParams);
+            Log.e("jsonObject****", jsonObject+"");
+            Log.e("jsonObject****", jsonObject+"");
+
 
             try {
                 listOperationCompteAdherent = new ArrayList<>();
@@ -425,36 +350,76 @@ public class BrouillardCaisse extends AppCompatActivity {
                     //list opération on EAV's account
                     movies = jsonObject.getJSONArray(KEY_DATA);
                     //Iterate through the response and populate movies list
-                    Double total_retait = 0.0, total_depot = 0.0, body_total = 0.0;
-                    String title_total = " TOTAL ";
+//                    Double total_retait = 0.0, total_depot = 0.0, body_total = 0.0;
+//                    String title_total = " TOTAL ";
                     for (int i = 0; i < movies.length(); i++) {
 //                    for (int i = 0; i < 1; i++) {
                         JSONObject operation = movies.getJSONObject(i);
-                        String typeOperation = operation.getString(KEY_TYPE_OPERATION);
-                        String dateOperation = operation.getString(KEY_DATE_OPERATION);
-                        String montantOperation = operation.getString(KEY_OC_MONTANT);
-                        String nouveauSolde = operation.getString(KEY_OC_NEW_SOLDE);
-                        String nomAffilier = operation.getString(KEY_AdNom);
 
-//                        Record record = new Record("12","jurhdd","bfbfb","cbbbfb");
-                        Record record = new Record(typeOperation,dateOperation.substring(11,16),defaultFormat.format(parseDouble(montantOperation)),
-                                defaultFormat.format(parseDouble(nouveauSolde)),nomAffilier);
-                        if (typeOperation.equals("D")){
-                            total_depot += parseDouble(montantOperation);
-                        }else if (typeOperation.equals("R")){
-                            total_retait += parseDouble(montantOperation);
+                        String dateOperation = operation.getString(KEY_DATE_OPERATION);
+//                        String nomAffilier = "Guichet "+MyData.GUICHET_NAME;
+                        String nomAffilier = "Guichet";
+                        String libelle = "Montant démarrage";
+                        String compte = "caisse";
+                        String montantOperation = operation.getString(KEY_OC_MONTANT);
+//                        String soldeCaisse = operation.getString(KEY_OC_MONTANT);
+                        totalCaisse = Double.valueOf(montantOperation);
+                        Brouillard brouillard = new Brouillard(dateOperation.substring(11,16),nomAffilier,libelle,compte,defaultFormat.format(parseDouble(montantOperation)),defaultFormat.format(totalCaisse));
+
+                        listOperationCompteAdherent.add(brouillard);
+                    }
+                    //list opération on EAV's account
+                    movies = jsonObject.getJSONArray(KEY_DATA_EAV);
+                    //Iterate through the response and populate movies list
+
+                    for (int i = 0; i < movies.length(); i++) {
+                        JSONObject operation = movies.getJSONObject(i);
+
+                        String dateOperation = operation.getString(KEY_DATE_OPERATION);
+                        String nomAffilier = operation.getString(KEY_AdNom);
+                        String libelle = operation.getString(KEY_TYPE_OPERATION);
+                        String compte = "EAV";
+                        String montantOperation = operation.getString(KEY_OC_MONTANT);
+//                        String soldeCaisse = operation.getString(KEY_OC_MONTANT);
+                        if (libelle.equals("D")){
+                            libelle = "dépôt";
+                            totalCaisse += parseDouble(montantOperation);
+                        }else if (libelle.equals("R")){
+                            libelle = "retrait";
+                            totalCaisse -= parseDouble(montantOperation);
                         }
 
-                        listOperationCompteAdherent.add(record);
+                        Brouillard brouillard = new Brouillard(dateOperation.substring(11,16),nomAffilier,libelle,compte,defaultFormat.format(parseDouble(montantOperation)),defaultFormat.format(totalCaisse));
+
+                        listOperationCompteAdherent.add(brouillard);
                     }
-                    //To make a empty row between recording and total
-                    Record recordEmpty = new Record("","","",
-                            "");
-                    listOperationCompteAdherent.add(recordEmpty);
-                    body_total = total_depot - total_retait;
-                    Record recordTotal = new Record(defaultFormat.format(total_depot),title_total,defaultFormat.format(total_retait),
-                            defaultFormat.format((body_total)));
-                    listOperationCompteAdherent.add(recordTotal);
+
+                    //list opération on OP_EXT's account
+                    movies = jsonObject.getJSONArray(KEY_DATA_OP_EXT);
+                    //Iterate through the response and populate movies list
+
+                    for (int i = 0; i < movies.length(); i++) {
+                        JSONObject operation = movies.getJSONObject(i);
+
+                        String dateOperation = operation.getString(OperationExterneDetails.KEY_OdDatHCree);
+                        String nomAffilier = "Guichet";
+                        String libelle = operation.getString(MyData.normalizeSymbolsAndAccents(OperationExterneDetails.KEY_OdLibelle));
+                        String sens = operation.getString(OperationExterneDetails.KEY_OdSensOper);
+                        String compte = "Oper Ext";
+                        String montantOperation = operation.getString(OperationExterneDetails.KEY_OdMontant);
+//                        String soldeCaisse = operation.getString(KEY_OC_MONTANT);
+                        if (sens.equals("E")){
+//                            libelle = "produit";
+                            totalCaisse += parseDouble(montantOperation);
+                        }else if (sens.equals("S")){
+//                            libelle = "charge";
+                            totalCaisse -= parseDouble(montantOperation);
+                        }
+
+                        Brouillard brouillard = new Brouillard(dateOperation.substring(11,16),nomAffilier,libelle,compte,defaultFormat.format(parseDouble(montantOperation)),defaultFormat.format(totalCaisse));
+
+                        listOperationCompteAdherent.add(brouillard);
+                    }
 
                 }
             } catch (JSONException e) {
@@ -467,7 +432,6 @@ public class BrouillardCaisse extends AppCompatActivity {
             pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
-                    //populateGuichetList();
                     loadRecyclerViewItem();
                 }
             });
@@ -477,8 +441,8 @@ public class BrouillardCaisse extends AppCompatActivity {
     private void loadRecyclerViewItem() {
         final ListView recordsView = (ListView) findViewById(R.id.records_view);
 //        recordAdapter= new RecordAdapter(this, new ArrayList<Record>());
-        recordAdapter= new RecordAdapter(this, listOperationCompteAdherent);
-        recordsView.setAdapter(recordAdapter);
+        recordBrouillardAdapter = new RecordBrouillardAdapter(this, listOperationCompteAdherent);
+        recordsView.setAdapter(recordBrouillardAdapter);
         //Call MovieUpdateDeleteActivity when a movie is clicked
     }
 }

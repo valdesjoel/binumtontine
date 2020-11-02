@@ -327,64 +327,15 @@ public class ListCompteDecouvertAdherentActivity extends AppCompatActivity imple
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_ADHERENT_ID, adherentId);
+            httpParams.put(KEY_TYPE_OPERATION, "S");
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_decouvert_by_adherent.php", "GET", httpParams);
-            Log.e("Response: ", "> **********" + adherentId);
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONArray movies;
                 if (success == 1) {
                     compteAdherentList = new ArrayList<>();
-                    Log.e("Response: ", "> **********test covid19 " + adherentId);
-                    //list EAV
-//                    movies = jsonObject.getJSONArray(KEY_DATA_EAV);
-//                    //Iterate through the response and populate movies list
-//                    for (int i = 0; i < movies.length(); i++) {
-//                        JSONObject compte = movies.getJSONObject(i);
-//                        Integer compteId = compte.getInt(KEY_COMPTE_ID);
-//                        String compteDetail = compte.getString(KEY_LIBELLE_PRODUIT);
-//                        String compteNumDossier = compte.getString(KEY_NUM_DOSSIER_COMPTE);
-//                        String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
-//                        String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
-//
-//                        HashMap<String, String> map = new HashMap<String, String>();
-//                        map.put(KEY_COMPTE_ID, compteId.toString());
-//                        map.put(KEY_LIBELLE_PRODUIT, compteDetail);
-//                        map.put(KEY_NUM_DOSSIER_COMPTE, compteNumDossier);
-//                        map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
-//                        map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
-//                        map.put(KEY_TYPE_COMPTE, "EAV");
-//                        compteAdherentList.add(map);
-//                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
-//                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
-//                                "EAV","");
-//                        listComptesAdherent.add(mesComptes);
-//                    }
-//                    //list Compte courant
-//                    movies = jsonObject.getJSONArray(KEY_DATA_COMPTE_COURANT);
-//                    //Iterate through the response and populate movies list
-//                    for (int i = 0; i < movies.length(); i++) {
-//                        JSONObject compte = movies.getJSONObject(i);
-//                        Integer compteId = compte.getInt(KEY_COMPTE_ID);
-//                        String compteDetail = compte.getString(KEY_LIBELLE_PRODUIT);
-//                        String compteNumDossier = compte.getString(KEY_NUM_DOSSIER_COMPTE);
-//                        String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
-//                        String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
-//
-//                        HashMap<String, String> map = new HashMap<String, String>();
-//                        map.put(KEY_COMPTE_ID, compteId.toString());
-//                        map.put(KEY_LIBELLE_PRODUIT, compteDetail);
-//                        map.put(KEY_NUM_DOSSIER_COMPTE, compteNumDossier);
-//                        map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
-//                        map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
-//                        map.put(KEY_TYPE_COMPTE, "COMPTE COURANT");
-//                        compteAdherentList.add(map);
-//                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
-//                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
-//                                "COMPTE COURANT","");
-//                        listComptesAdherent.add(mesComptes);
-//                    }
-//                    Log.e("Response: ", "> **********test covid19 " + adherentId);
+
 //                    //list Decouvert
                     movies = jsonObject.getJSONArray(KEY_DATA_DECOUVERT);
                     //Iterate through the response and populate movies list
@@ -406,87 +357,11 @@ public class ListCompteDecouvertAdherentActivity extends AppCompatActivity imple
                         compteAdherentList.add(map);
                         ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
                                 compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
-                                "DECOUVERT SIMPLE","");
+                                "S","");
                         listComptesAdherent.add(mesComptes);
                         Log.e("Response: ", "> **********compteNumDossier" + compteNumDossier);
                     }
-                    //list EAT
-//                    movies = jsonObject.getJSONArray(KEY_DATA_EAT);
-//                    //Iterate through the response and populate movies list
-//                    for (int i = 0; i < movies.length(); i++) {
-//                        JSONObject compte = movies.getJSONObject(i);
-//                        Integer compteId = compte.getInt(KEY_COMPTE_ID);
-//                        String compteDetail = compte.getString(KEY_LIBELLE_PRODUIT);
-//                        String compteNumDossier = compte.getString(KEY_NUM_DOSSIER_COMPTE);
-//                        String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
-//                        String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
-//                        String compteTaux = compte.getString(KEY_TAUX);
-//                        HashMap<String, String> map = new HashMap<String, String>();
-//                        map.put(KEY_COMPTE_ID, compteId.toString());
-//                        map.put(KEY_LIBELLE_PRODUIT, compteDetail);
-//                        map.put(KEY_NUM_DOSSIER_COMPTE, compteNumDossier);
-//                        map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
-//                        map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
-//                        map.put(KEY_TAUX, compteTaux);
-//                        map.put(KEY_TYPE_COMPTE, "EAT");
-//                        compteAdherentList.add(map);
-//                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
-//                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
-//                                "EAT",compteTaux);
-//                        listComptesAdherent.add(mesComptes);
-//                    }
-//                    //list EAP
-//                    movies = jsonObject.getJSONArray(KEY_DATA_EAP);
-//                    //Iterate through the response and populate movies list
-//                    for (int i = 0; i < movies.length(); i++) {
-//                        JSONObject compte = movies.getJSONObject(i);
-//                        Integer compteId = compte.getInt(KEY_COMPTE_ID);
-//                        String compteDetail = compte.getString(KEY_LIBELLE_PRODUIT);
-//                        String compteNumDossier = compte.getString(KEY_NUM_DOSSIER_COMPTE);
-//                        String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
-//                        String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
-//                        String compteTaux = compte.getString(KEY_TAUX);
-//                        HashMap<String, String> map = new HashMap<String, String>();
-//                        map.put(KEY_COMPTE_ID, compteId.toString());
-//                        map.put(KEY_LIBELLE_PRODUIT, compteDetail);
-//                        map.put(KEY_NUM_DOSSIER_COMPTE, compteNumDossier);
-//                        map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
-//                        map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
-//                        map.put(KEY_TAUX, compteTaux);
-//                        map.put(KEY_TYPE_COMPTE, "EAP");
-//                        compteAdherentList.add(map);
-//
-//                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
-//                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
-//                                "EAP",compteTaux);
-//                        listComptesAdherent.add(mesComptes);
-//                    }
-//                    //list Demande de crédit
-//                    movies = jsonObject.getJSONArray(KEY_DATA_DEMANDE_CREDIT);
-//                    //Iterate through the response and populate movies list
-//                    for (int i = 0; i < movies.length(); i++) {
-//                        JSONObject compte = movies.getJSONObject(i);
-//                        Integer compteId = compte.getInt(KEY_COMPTE_ID);
-//                        String compteDetail = compte.getString(KEY_LIBELLE_PRODUIT);
-//                        String compteNumDossier = compte.getString(KEY_NUM_DOSSIER_COMPTE);
-//                        String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
-//                        String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
-//                        String compteTaux = compte.getString(KEY_TAUX);
-//                        HashMap<String, String> map = new HashMap<String, String>();
-//                        map.put(KEY_COMPTE_ID, compteId.toString());
-//                        map.put(KEY_LIBELLE_PRODUIT, compteDetail);
-//                        map.put(KEY_NUM_DOSSIER_COMPTE, compteNumDossier);
-//                        map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
-//                        map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
-//                        map.put(KEY_TAUX, compteTaux);
-//                        map.put(KEY_TYPE_COMPTE, "CREDIT");
-//                        compteAdherentList.add(map);
-//
-//                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
-//                                compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
-//                                "CREDIT",compteTaux);
-//                        listComptesAdherent.add(mesComptes);
-//                    }
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -498,147 +373,13 @@ public class ListCompteDecouvertAdherentActivity extends AppCompatActivity imple
             pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
-                    //populateGuichetList();
                     loadRecyclerViewItem();
                 }
             });
         }
 
     }
-    /**
-     * Fetches the listAdherent of movies from the server
-     */
-    public  class FetchAdherentGuichetAsyncTask extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //Display progress bar
-            pDialog = new ProgressDialog(ListCompteDecouvertAdherentActivity.this);
-            pDialog.setMessage("Loading adherents. Please wait...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
 
-        @Override
-        protected String doInBackground(String... params) {
-            HttpJsonParser httpJsonParser = new HttpJsonParser();
-            Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_AD_GUICHET, String.valueOf(MyData.GUICHET_ID));
-            //httpParams.put(KEY_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "get_adherents.php", "GET", httpParams);
-            //creating Arraylist
-            //List<String> fruitList = new ArrayList<>();
-            try {
-                int success = jsonObject.getInt(KEY_SUCCESS);
-                JSONArray movies;
-                if (success == 1) {
-                    //fraisList = new ArrayList<>();
-                    movies = jsonObject.getJSONArray(KEY_DATA);
-
-                    //Iterate through the response and populate movies listAdherent
-                    for (int i = 0; i < movies.length(); i++) {
-                        JSONObject guichet = movies.getJSONObject(i);
-                        String adherentID = guichet.getString(KEY_AD_AdNumero);
-                        String adherentCode = guichet.getString(KEY_AD_AdCode);
-                        String adherentNumManuel = guichet.getString(KEY_AD_AdNumManuel);
-                        String adherentNom = guichet.getString(KEY_AD_AdNom);
-                        String adherentPrenom = guichet.getString(KEY_AD_AdPrenom);
-                        String adherentDateNaiss = guichet.getString(KEY_AD_AdDateNaiss);
-                        String adherentLieuNaiss = guichet.getString(KEY_AD_AdLieuNaiss);
-                        String adherentSexe = guichet.getString(KEY_AD_AdSexe);
-                        String adherentNationalite = guichet.getString(KEY_AD_AdNationalite);
-                        String adherentSituaFamiliale = guichet.getString(KEY_AD_AdSitFam);
-                        String adherentNbreEnfant = guichet.getString(KEY_AD_AdNbreEnfACh);
-                        String adherentTel1 = guichet.getString(KEY_AD_AdTel1);
-                        String adherentTel2 = guichet.getString(KEY_AD_AdTel2);
-                        String adherentTel3 = guichet.getString(KEY_AD_AdTel3);
-                        String adherentEmail = guichet.getString(KEY_AD_AdEMail);
-                        String adherentProfession = guichet.getString(KEY_AD_AdProfess);
-                        String adherentDomicile = guichet.getString(KEY_AD_AdDomicile);
-                        String adherentLieuTravail = guichet.getString(KEY_AD_AdLieuTrav);
-                        String adherentActivitePrincipale = guichet.getString(KEY_AD_AdActivitePr);
-                        String adherentTypeCarteID = guichet.getString(KEY_AD_AdTypCarteID);
-                        String adherentNumCarteID = guichet.getString(KEY_AD_AdNumCarteID);
-                        String adherentValideDu = guichet.getString(KEY_AD_AdValideDu);
-                        String adherentValideAu = guichet.getString(KEY_AD_AdValideAu);
-                        String adherentTypHabite = guichet.getString(KEY_AD_AdTypHabite);
-                        String adherentEstParti = guichet.getString(KEY_AD_AdEstParti);
-                        String adherentPartiLe = guichet.getString(KEY_AD_AdPartiLe);
-                        String adherentRemplacePar = guichet.getString(KEY_AD_AdRemplacePar);
-                        String adherentNbreCompte = guichet.getString(KEY_AD_NBRE_COMPTE);
-                        //MyList myList = new MyList(
-                        Adherent myList = new Adherent(
-                                adherentID ,
-                                adherentCode,
-                                adherentNumManuel,
-                                adherentNom ,
-                                adherentPrenom,
-                                adherentDateNaiss,
-                                adherentLieuNaiss,
-                                adherentSexe,
-                                adherentNationalite,
-                                adherentSituaFamiliale,
-                                adherentNbreEnfant,
-                                adherentTel1,
-                                adherentTel2,
-                                adherentTel3,
-                                adherentEmail,
-                                adherentProfession,
-                                adherentDomicile,
-                                adherentLieuTravail,
-                                adherentActivitePrincipale,
-                                adherentTypeCarteID,
-                                adherentNumCarteID,
-                                adherentValideDu,
-                                adherentValideAu,
-                                adherentTypHabite,
-                                adherentEstParti,
-                                adherentPartiLe,
-                                adherentRemplacePar,
-                                MyData.GUICHET_ID,
-                                adherentNbreCompte
-
-                        );
-                      /*  Integer guichetId = guichet.getInt(KEY_FC_NUMERO);
-                        String guichetDenomination = guichet.getString(KEY_FC_NEW_LIBELLE);
-                        String guichetDenomination = guichet.getString(KEY_FC_NEW_LIBELLE);
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put(KEY_FC_NUMERO, guichetId.toString());
-                        map.put(KEY_FC_NEW_LIBELLE, guichetDenomination);*/
-                        //adding String Objects to fruitsList ArrayList
-                        // MyData.fruitList.add(guichetDenomination);
-                       /* fraisList.add(map);*/
-                        listAdherent.add(myList);
-                    }
-                    // Log.d("convert to array","coucouuuuuuuuuuuuuuuuu"+fruitList.size());
-                    //String[] item = fruitList.toArray(new String[fruitList.size()]);
-                    // Log.d("*********item****",item.length+"");
-                    //MyData.animallist = item;
-
-                    // Log.d("********animallist",MyData.animallist.length+"");
-                    //Log.d("********animallist",MyData.animallist[0]+"");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onPostExecute(String result) {
-            pDialog.dismiss();
-            runOnUiThread(new Runnable() {
-                public void run() {
-                   // populateGuichetList();
-                    loadRecyclerViewItem();
-                }
-            });
-        }
-
-
-
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -651,44 +392,4 @@ public class ListCompteDecouvertAdherentActivity extends AppCompatActivity imple
             startActivity(intent);
         }
     }
-
-    /**
-     * Updating parsed JSON data into ListView
-     * */
-    private void populateGuichetList() {
-      /*  ListAdapter adapter = new SimpleAdapter(
-                GetFraisAdherent.this, fraisList,
-                R.layout.list_item, new String[]{KEY_FC_NUMERO,
-                KEY_FC_NEW_LIBELLE},
-                new int[]{R.id.movieId, R.id.movieName});
-        // updating listview
-        lv.setAdapter(adapter); */
-        //lv.setAdapter(customAdapterListViewCheckbox);
-        //Call MovieUpdateDeleteActivity when a movie is clicked
-      /*  lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Check for network connectivity
-                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    String guichetId = ((TextView) view.findViewById(R.id.movieId))
-                            .getText().toString();
-                    Intent intent = new Intent(getApplicationContext(),
-                            UpdateGuichet.class);
-                    intent.putExtra(KEY_GUICHET_ID, guichetId);
-                    startActivityForResult(intent, 20);
-
-                } else {
-                    Toast.makeText(GetPieceAdherent.this,
-                            "Unable to connect to internet",
-                            Toast.LENGTH_LONG).show();
-
-                }
-
-
-            }
-        }); */
-
-    }
-
-
 }

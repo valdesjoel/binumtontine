@@ -44,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,10 +83,11 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_AD_VALIDE_DU = "AdValideDu";
     private static final String KEY_AD_VALIDE_AU = "AdValideAu";
     private static final String KEY_AD_TYPE_HABITE = "AdTypHabite";
+    private static final String KEY_AdTypMemb2 = "AdTypMemb2";
 
     private static final String KEY_ADHERENT = "ADHERENT";
     private static final String KEY_TYPE_MEMBRE = "FcCategAdh";
-//    private static final String KEY_CV_USER_CREE = "CvUserCree";
+    private static final String KEY_CV_USER_CREE = "CvUserCree";
 
 
     private static String STRING_EMPTY = "";
@@ -145,6 +147,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private String AdValideDu;
     private String AdValideAu;
     private String AdTypHabite;
+    private String AdDetailsTypeNature;
 
     private Adherent adherent;
     private Spinner spinnerGuichet;
@@ -180,6 +183,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
     private String eavId;
     public static boolean to_update_adherent=false;
     private ProgressDialog pDialog_update;
+    private TextView header_user_guichet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,7 +193,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
 
 
         /*end manage*/
-
+        header_user_guichet = (TextView) findViewById(R.id.header_user_guichet);
         /* Begin manage country*/
 
         cxTitle = (TextView) findViewById(R.id.tv_caisse_name);
@@ -238,6 +242,22 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onItemClick(int position) {
                 //do what you want to the selected position
+                if (Ad_TypePieceSpinner.getText().toString().equals("Carte nationale d'identité")){
+                    AdTypCarteID = "CN";
+                }else if (Ad_TypePieceSpinner.getText().toString().equals("Carte de séjour")){
+                    AdTypCarteID = "CS";
+                }else if (Ad_TypePieceSpinner.getText().toString().equals("Carte consulaire")){
+                    AdTypCarteID = "CC";
+                }else if (Ad_TypePieceSpinner.getText().toString().equals("Carte militaire")){
+                    AdTypCarteID = "CM";
+                }else if (Ad_TypePieceSpinner.getText().toString().equals("Carte CNPS")){
+                    AdTypCarteID = "PS";
+                }else if (Ad_TypePieceSpinner.getText().toString().equals("Permis de conduire")){
+                    AdTypCarteID = "PC";
+                }else if (Ad_TypePieceSpinner.getText().toString().equals("Passeport")){
+                    AdTypCarteID = "PP";
+                }
+
 
             }
         });
@@ -297,10 +317,12 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
         Ad_TypeLocationSpinner = (Spinner) findViewById(R.id.spn_location);
 
         new CreateAdherent.GetCategories().execute();
+
         if (to_update_adherent){
 
             Intent intent = getIntent();
             eavId = intent.getStringExtra(KEY_ADHERENT_ID);
+            header_user_guichet.setText("Modification d'un adhérent");
             new FetchEavDetailsAsyncTask().execute();
 
         }
@@ -621,7 +643,7 @@ private void getEditText(){
         AdSexe = "F";
     }
     AdNationalite = Ad_NationaliteSpinner.getSelectedCountryName();
-    AdSitFam = Ad_SituationMatSpinner.getSelectedItem().toString();
+//    AdSitFam = Ad_SituationMatSpinner.getSelectedItem().toString();
     AdNbreEnfACh = Ad_NombreEnfantEditText.getText().toString();
     AdTel1 = ccp_phone1.getFullNumberWithPlus();
     AdTel2 = ccp_phone2.getFullNumberWithPlus();
@@ -631,10 +653,11 @@ private void getEditText(){
     AdDomicile = Ad_DomicileEditText.getText().toString();
     AdLieuTrav = Ad_LieuTravailEditText.getText().toString();
     AdActivitePr = Ad_ActivitePrincipaleEditText.getText().toString();
-    AdTypCarteID = Ad_TypePieceSpinner.getText().toString();
+//    AdTypCarteID = Ad_TypePieceSpinner.getText().toString();
     AdNumCarteID = Ad_NumPieceEditText.getText().toString();
     AdValideDu = Ad_DateDelivranceEditText.getText().toString();
     AdValideAu = Ad_DateExpirationEditText.getText().toString();
+    AdDetailsTypeNature = Ad_DetailsTypeNatureEditText.getText().toString();
 
     if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Propriétaire")) {
         AdTypHabite = "P";
@@ -644,6 +667,20 @@ private void getEditText(){
 
     } else {
         AdTypHabite = "C";
+    }
+
+    if (Ad_SituationMatSpinner.getSelectedItem().toString().equals("Célibataire")) {
+        AdSitFam = "C";
+    }else if (Ad_SituationMatSpinner.getSelectedItem().toString().equals("Marié")){
+
+        AdSitFam = "M";
+
+    }else if (Ad_SituationMatSpinner.getSelectedItem().toString().equals("Divorcé")){
+
+        AdSitFam = "D";
+
+    } else {
+        AdSitFam = "V"; //V: veuf
     }
 }
 
@@ -721,25 +758,27 @@ private void getEditText(){
                     AdValideDu,
                     AdValideAu,
                     AdTypHabite,
-                    "false",
+                    "N",
                     null,
                     null,
                     MyData.GUICHET_ID
 
 
             );
+            if (to_update_adherent){
+                new AddAdherentAsyncTask().execute();
+            }else{
+                Intent i = new Intent(CreateAdherent.this, GetPieceAdherent.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(KEY_ADHERENT, (Serializable) adherent);
+                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                i.putExtras(bundle);
+                i.putExtra(KEY_TYPE_MEMBRE, typeMembreID); // extra pour gérer le type de membre
+                // startActivityForResult(intent, 20);
+                startActivityForResult(i,20);
+                //finish();
+            }
 
-            Intent i = new Intent(CreateAdherent.this, GetPieceAdherent.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(KEY_ADHERENT, (Serializable) adherent);
-           // bundle.putSerializable(KEY_ADHERENT, adherent);
-            i.putExtras(bundle);
-            i.putExtra(KEY_TYPE_MEMBRE, typeMembreID); // extra pour gérer le type de membre
-            // startActivityForResult(intent, 20);
-            startActivityForResult(i,20);
-            //finish();
-
-           // new AddAdherentAsyncTask().execute();
         } else if (cxName.equals("")) {
 //            Toast.makeText(CreateAdherent.this,
 //                    "Un ou plusieurs champs sont vides!",
@@ -853,6 +892,7 @@ public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth
             //Populating request parameters
            // httpParams.put(KEY_AD_GX_NUMERO, gxCaisse);
             //httpParams.put(KEY_AD_GX_NUMERO, String.valueOf(caisseID));
+            /*
             httpParams.put(KEY_AD_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
             httpParams.put(KEY_AD_NUM_MANUEL, AdNumManuel);
             httpParams.put(KEY_AD_NOM, AdNom);
@@ -876,8 +916,49 @@ public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth
             httpParams.put(KEY_AD_VALIDE_DU, AdValideDu);
             httpParams.put(KEY_AD_VALIDE_AU, AdValideAu);
             httpParams.put(KEY_AD_TYPE_HABITE, AdTypHabite);
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_adherent.php", "POST", httpParams);
+            httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
+            httpParams.put(KEY_AdTypMemb2, AdDetailsTypeNature);
+
+            if (to_update_adherent)httpParams.put(KEY_ADHERENT_ID, String.valueOf(eavId));
+//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                    BASE_URL + "add_adherent.php", "POST", httpParams);
+
+            JSONObject jsonObject = (to_update_adherent)? httpJsonParser.makeHttpRequest(
+                    BASE_URL + "update_adherent.php", "POST", httpParams):
+                    httpJsonParser.makeHttpRequest(
+                            BASE_URL + "add_adherent.php", "POST", httpParams);
+            */
+            httpParams.put(KEY_AD_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
+            httpParams.put(KEY_AD_NUM_MANUEL, AdNumManuel);
+            httpParams.put(KEY_AD_NOM, AdNom);
+            httpParams.put(KEY_AD_PRENOM, AdPrenom);
+            httpParams.put(KEY_AD_DATE_NAISS, AdDateNaiss);
+            httpParams.put(KEY_AD_LIEU_NAISS, AdLieuNaiss);
+            httpParams.put(KEY_AD_SEXE, AdSexe);
+            httpParams.put(KEY_AD_NATIONALITE, AdNationalite);
+            httpParams.put(KEY_AD_SIT_FAM, AdSitFam);
+            httpParams.put(KEY_AD_NBRE_ENFANT, AdNbreEnfACh);
+            httpParams.put(KEY_AD_TEL1, AdTel1);
+            httpParams.put(KEY_AD_TEL2, AdTel2);
+            httpParams.put(KEY_AD_TEL3, AdTel3);
+            httpParams.put(KEY_AD_EMAIL, AdEMail);
+            httpParams.put(KEY_AD_PROFESSION, AdProfess);
+            httpParams.put(KEY_AD_DOMICILE, AdDomicile);
+            httpParams.put(KEY_AD_LIEU_TRAVAIL, AdLieuTrav);
+            httpParams.put(KEY_AD_ACTIVITE_PRINC, AdActivitePr);
+            httpParams.put(KEY_AD_TYPE_CARTE_ID, AdTypCarteID);
+            httpParams.put(KEY_AD_NUM_CARTE_ID, AdNumCarteID);
+            httpParams.put(KEY_AD_VALIDE_DU, AdValideDu);
+            httpParams.put(KEY_AD_VALIDE_AU, AdValideAu);
+            httpParams.put(KEY_AD_TYPE_HABITE, AdTypHabite);
+            httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
+            httpParams.put(KEY_AdTypMemb2, AdDetailsTypeNature);
+            if (to_update_adherent)httpParams.put(KEY_ADHERENT_ID, String.valueOf(eavId));
+            JSONObject jsonObject = (to_update_adherent)? httpJsonParser.makeHttpRequest(
+                    BASE_URL + "update_adherent.php", "POST", httpParams):
+                    httpJsonParser.makeHttpRequest(
+                            BASE_URL + "add_adherent.php", "POST", httpParams);
+
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -893,13 +974,13 @@ public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth
                 public void run() {
                     if (success == 1) {
                         //Display success message
-                     /*   Toast.makeText(CreateAdherent.this,
-                                "Adhérent ajouté mais inactif, veuillez compléter ses informations", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreateAdherent.this,
+                                "Adhérent mis à jour !", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);
                         //Finish ths activity and go back to listing activity
-                        finish();*/
+                        finish();
 
                     } else {
                         Toast.makeText(CreateAdherent.this,
@@ -941,7 +1022,6 @@ public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth
                 if (success == 1) {
                     //Parse the JSON response
                     eav = jsonObject.getJSONObject(KEY_DATA);
-
                     AdNumManuel = eav.getString(KEY_AD_NUM_MANUEL);
                     AdNom = eav.getString(KEY_AD_NOM);
                     AdPrenom = eav.getString(KEY_AD_PRENOM);
@@ -964,7 +1044,7 @@ public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth
                     AdValideDu = eav.getString(KEY_AD_VALIDE_DU);
                     AdValideAu = eav.getString(KEY_AD_VALIDE_AU);
                     AdTypHabite = eav.getString(KEY_AD_TYPE_HABITE);
-
+                    AdDetailsTypeNature = eav.getString(KEY_AdTypMemb2);
 
 
                 }
@@ -979,6 +1059,92 @@ public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
+
+/*
+                    Ad_NumManuelEditText.setText(AdNumManuel);
+                    Ad_NomEditText.setText(AdNom);
+                    Ad_PrenomEditText.setText(AdPrenom);
+                    Ad_DateNaissEditText.setText(AdDateNaiss);
+                    Ad_LieuNaissEditText.setText(AdLieuNaiss);
+
+                    //debut AdSexe
+                    String compareValue = "Masculin";
+
+                    if (AdSexe.equals("M")){
+
+                        compareValue = "Masculin";
+
+                    }else{
+                        compareValue = "Féminin";
+                    }
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(CreateAdherent.this, R.array.type_sexe, android.R.layout.simple_spinner_item);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Ad_SexeSpinner.setAdapter(adapter);
+                    if (compareValue != null) {
+                        int spinnerPosition = adapter.getPosition(compareValue);
+                        Ad_SexeSpinner.setSelection(spinnerPosition);}
+                    //Fin AdSexe
+                    //debut AdSitFam
+                    String compareAdSitFam = "C";
+                    if (AdSitFam.equals("C")){
+                        compareAdSitFam = "Célibataire";
+                    }else if (AdSitFam.equals("M")){
+                        compareAdSitFam = "Marié";
+                    }else if (AdSitFam.equals("D")){
+                        compareAdSitFam = "Divorcé";
+                    }else if (AdSitFam.equals("V")){
+                        compareAdSitFam = "Veuf";
+                    }
+                    ArrayAdapter<CharSequence> adapterAdSitFam = ArrayAdapter.createFromResource(CreateAdherent.this, R.array.type_situation_matrimoniale, android.R.layout.simple_spinner_item);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Ad_SituationMatSpinner.setAdapter(adapterAdSitFam);
+                    if (compareAdSitFam != null) {
+                        int spinnerPosition = adapterAdSitFam.getPosition(compareAdSitFam);
+                        Ad_SituationMatSpinner.setSelection(spinnerPosition);
+                    }
+                    //Fin AdSitFam
+
+                    //debut Ad_TypePieceSpinner
+                    String comparePiece = "";
+
+                    if (AdTypCarteID.equals("CN")){
+                        comparePiece = "Carte nationale d'identité";
+                    }else if (AdTypCarteID.equals("CS")){
+                        comparePiece = "Carte de séjour";
+                    }else if (AdTypCarteID.equals("CC")){
+                        comparePiece = "Carte consulaire";
+                    }else if (AdTypCarteID.equals("CP")){
+                        comparePiece = "Carte professionnelle";
+                    }else if (AdTypCarteID.equals("CM")){
+                        comparePiece = "Carte militaire";
+                    }else if (AdTypCarteID.equals("PS")){
+                        comparePiece = "Carte CNPS";
+                    }else if (AdTypCarteID.equals("PC")){
+                        comparePiece = "Permis de conduire";
+                    }else if (AdTypCarteID.equals("PP")){
+                        comparePiece = "Passeport";
+                    }
+                    Ad_TypePieceSpinner.setText(comparePiece);
+
+                    //Fin Ad_TypePieceSpinner
+
+                    //Ad_NationaliteSpinner.setsele(AdNationalite);
+                    //Ad_SituationMatSpinner.setsele(AdSitFam);
+                    Ad_NombreEnfantEditText.setText(AdNbreEnfACh);
+                    //AdTel1.setText(AdTel1);
+                    Ad_EmailEditText.setText(AdEMail);
+                    Ad_ProfessionSpinner.setText(AdProfess);
+                    Ad_DomicileEditText.setText(AdDomicile);
+                    Ad_LieuTravailEditText.setText(AdLieuTrav);
+                    Ad_ActivitePrincipaleEditText.setText(AdActivitePr);
+//                    Ad_TypePieceSpinner.setText(AdTypCarteID);
+                    Ad_NumPieceEditText.setText(AdNumCarteID);
+                    Ad_DateDelivranceEditText.setText(AdValideDu);
+                    Ad_DateExpirationEditText.setText(AdValideAu);
+                    Ad_DetailsTypeNatureEditText.setText(AdDetailsTypeNature);
+
+                    //AdTypHabite = eav.getString(KEY_AD_TYPE_HABITE);
+                    */
 
 
                     Ad_NumManuelEditText.setText(AdNumManuel);
@@ -1005,21 +1171,68 @@ public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth
                         int spinnerPosition = adapter.getPosition(compareValue);
                         Ad_SexeSpinner.setSelection(spinnerPosition);}
 
+
+                    //debut AdSitFam
+                    String compareAdSitFam = "C";
+                    if (AdSitFam.equals("C")){
+                        compareAdSitFam = "Célibataire";
+                    }else if (AdSitFam.equals("M")){
+                        compareAdSitFam = "Marié";
+                    }else if (AdSitFam.equals("D")){
+                        compareAdSitFam = "Divorcé";
+                    }else if (AdSitFam.equals("V")){
+                        compareAdSitFam = "Veuf";
+                    }
+                    ArrayAdapter<CharSequence> adapterAdSitFam = ArrayAdapter.createFromResource(CreateAdherent.this, R.array.type_situation_matrimoniale, android.R.layout.simple_spinner_item);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Ad_SituationMatSpinner.setAdapter(adapterAdSitFam);
+                    if (compareAdSitFam != null) {
+                        int spinnerPosition = adapterAdSitFam.getPosition(compareAdSitFam);
+                        Ad_SituationMatSpinner.setSelection(spinnerPosition);
+                    }
+                    //Fin AdSitFam
+
+                    //debut Ad_TypePieceSpinner
+                    String comparePiece = "";
+
+                    if (AdTypCarteID.equals("CN")){
+                        comparePiece = "Carte nationale d'identité";
+                    }else if (AdTypCarteID.equals("CS")){
+                        comparePiece = "Carte de séjour";
+                    }else if (AdTypCarteID.equals("CC")){
+                        comparePiece = "Carte consulaire";
+                    }else if (AdTypCarteID.equals("CP")){
+                        comparePiece = "Carte professionnelle";
+                    }else if (AdTypCarteID.equals("CM")){
+                        comparePiece = "Carte militaire";
+                    }else if (AdTypCarteID.equals("PS")){
+                        comparePiece = "Carte CNPS";
+                    }else if (AdTypCarteID.equals("PC")){
+                        comparePiece = "Permis de conduire";
+                    }else if (AdTypCarteID.equals("PP")){
+                        comparePiece = "Passeport";
+                    }
+                    Ad_TypePieceSpinner.setText(comparePiece);
+
+                    //Fin Ad_TypePieceSpinner
                     //Ad_NationaliteSpinner.setsele(AdNationalite);
+                    Ad_NationaliteSpinner.setCountryForNameCode(AdNationalite);
                     //Ad_SituationMatSpinner.setsele(AdSitFam);
                     Ad_NombreEnfantEditText.setText(AdNbreEnfACh);
+                    ccp_phone1.setFullNumber(AdTel1);
+                    ccp_phone2.setFullNumber(AdTel2);
+                    ccp_phone3.setFullNumber(AdTel3);
                     //AdTel1.setText(AdTel1);
                     Ad_EmailEditText.setText(AdEMail);
-                   // Ad_ProfessionSpinner.setText(AdProfess);
+                    Ad_ProfessionSpinner.setText(AdProfess);
                     Ad_DomicileEditText.setText(AdDomicile);
                     Ad_LieuTravailEditText.setText(AdLieuTrav);
                     Ad_ActivitePrincipaleEditText.setText(AdActivitePr);
-                    Ad_TypePieceSpinner.setText(AdTypCarteID);
+//                    Ad_TypePieceSpinner.setText(AdTypCarteID);
                     Ad_NumPieceEditText.setText(AdNumCarteID);
                     Ad_DateDelivranceEditText.setText(AdValideDu);
                     Ad_DateExpirationEditText.setText(AdValideAu);
-
-                    //AdTypHabite = eav.getString(KEY_AD_TYPE_HABITE);
+                    Ad_DetailsTypeNatureEditText.setText(AdDetailsTypeNature);
 
 
                 }

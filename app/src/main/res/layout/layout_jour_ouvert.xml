@@ -101,6 +101,7 @@
                     android:textSize="18sp"
                     android:checked="true" />
                 <RadioButton
+                    android:visibility="gone"
                     android:id="@+id/rb_que_voulez_vous_faire_OldDay_usager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

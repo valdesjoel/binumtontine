@@ -156,28 +156,28 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
     private String EtBaseTxInter;
     private String EtPlageTxInterFrom;
     private String EtPlageTxInterTo;
-    private Boolean EtIsTxIntNeg ;
-    private Boolean EtIsPriseIntMiseOn;
-    private Boolean EtIsPenalRupAnt ;
+    private String EtIsTxIntNeg ;
+    private String EtIsPriseIntMiseOn;
+    private String EtIsPenalRupAnt ;
     private String EtNatureRupAn ;
     private String EtValTxMtRupture;
     private String EtPlageTxMtRuptureFrom;
     private String EtPlageTxMtRuptureTo ;
     private String EtBaseTxPenal ;
-    private Boolean EtIsEparRetireFin;
-    private Boolean EtIsEparTransfFin;
-    private Boolean EtIsOnlyTotTransf;
-    private Boolean EtIsEparRenouvFin;
-    private Boolean EtActionDefATerme;
-    private Boolean EtIsMultiEATOn ;
-    private Boolean EtIsInterDusRupAnt;
-    private Boolean EtIsNewTxIntRupAnt ;
+    private String EtIsEparRetireFin;
+    private String EtIsEparTransfFin;
+    private String EtIsOnlyTotTransf;
+    private String EtIsEparRenouvFin;
+    private String EtActionDefATerme;
+    private String EtIsMultiEATOn ;
+    private String EtIsInterDusRupAnt;
+    private String EtIsNewTxIntRupAnt ;
     private String EtTypNewTxIntRupAnt;
     private String EtValTxIntPenal;
     private String EtPlageTxIntPenalFrom;
     private String EtPlageTxIntPenalTo;
     private String EtBaseTxIntPenal ;
-    private Boolean EtTxIntPenalNeg ;
+    private String EtTxIntPenalNeg ;
 
 
 
@@ -401,8 +401,10 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'intérêt";
-                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateEAT.this,ListPlageDataTASActivity.class);
+                    ListPlageTIT.IS_TO_CREATE_OR_TO_UPDATE = false;
+//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
+                    Intent i = new Intent(UpdateEAT.this, ListPlageTIT.class);
+                    i.putExtra(KEY_EAT_ID, eatId);
                     startActivityForResult(i,20);
 
                 } else {
@@ -421,8 +423,9 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux de pénalité";
-                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateEAT.this,ListPlageDataTASActivity.class);
+                    ListPlageTPT.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEAT.this,ListPlageTPT.class);
+                    i.putExtra(KEY_EAT_ID, eatId);
                     startActivityForResult(i,20);
 
                 } else {
@@ -441,8 +444,9 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Nouveau Taux d'intérêt";
-                    ListPlageDataTASActivity.IS_TO_CREATE_OR_TO_UPDATE = false;
-                    Intent i = new Intent(UpdateEAT.this,ListPlageDataTASActivity.class);
+                    ListPlageRAT.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEAT.this,ListPlageRAT.class);
+                    i.putExtra(KEY_EAT_ID, eatId);
                     startActivityForResult(i,20);
 
                 } else {
@@ -1143,10 +1147,10 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
                     EtBaseTxInter = eav.getString(KEY_EAT_BaseTxInter);
 
 
-                    EtIsTxIntNeg = Boolean.valueOf(eav.getString(ET_IS_TX_INT_NEG));
-                    EtIsPriseIntMiseOn = Boolean.valueOf(eav.getString(ET_IS_PRISE_INT_MISE_ON));
+                    EtIsTxIntNeg = eav.getString(ET_IS_TX_INT_NEG);
+                    EtIsPriseIntMiseOn = eav.getString(ET_IS_PRISE_INT_MISE_ON);
 
-                    EtIsPenalRupAnt = Boolean.valueOf(eav.getString(ET_IS_PENAL_RUP_ANT));
+                    EtIsPenalRupAnt = eav.getString(ET_IS_PENAL_RUP_ANT);
 
                     // EtNatureRupAn
                     EtNatureRupAn = eav.getString(ET_NATURE_RUP_AN);
@@ -1156,14 +1160,14 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
                     EtPlageTxMtRuptureFrom = eav.getString(ET_PLAGE_TX_MT_RUPTURE_FROM);
                     EtPlageTxMtRuptureTo = eav.getString(ET_PLAGE_TX_MT_RUPTURE_TO);
                     EtBaseTxPenal = eav.getString(ET_BASE_TX_PENAL);
-                    EtIsEparRetireFin = Boolean.valueOf(eav.getString(ET_IS_EPAR_RETIRE_FIN));
-                    EtIsEparTransfFin = Boolean.valueOf(eav.getString(ET_IS_EPAR_TRANSF_FIN));
-                    EtIsOnlyTotTransf = Boolean.valueOf(eav.getString(ET_IS_ONLY_TOT_TRANSF));
-                    EtIsEparRenouvFin = Boolean.valueOf(eav.getString(ET_IS_EPAR_RENOUV_FIN));
-                    EtActionDefATerme = Boolean.valueOf(eav.getString(ET_ACTION_DEF_A_TERME));
-                    EtIsMultiEATOn = Boolean.valueOf(eav.getString(ET_IS_MULTI_EAT_ON));
-                    EtIsInterDusRupAnt = Boolean.valueOf(eav.getString(ET_IS_INTER_DUS_RUP_ANT));
-                    EtIsNewTxIntRupAnt = Boolean.valueOf(eav.getString(ET_IS_NEW_TX_INT_RUP_ANT));
+                    EtIsEparRetireFin = eav.getString(ET_IS_EPAR_RETIRE_FIN);
+                    EtIsEparTransfFin = eav.getString(ET_IS_EPAR_TRANSF_FIN);
+                    EtIsOnlyTotTransf = eav.getString(ET_IS_ONLY_TOT_TRANSF);
+                    EtIsEparRenouvFin = eav.getString(ET_IS_EPAR_RENOUV_FIN);
+                    EtActionDefATerme = eav.getString(ET_ACTION_DEF_A_TERME);
+                    EtIsMultiEATOn = eav.getString(ET_IS_MULTI_EAT_ON);
+                    EtIsInterDusRupAnt = eav.getString(ET_IS_INTER_DUS_RUP_ANT);
+                    EtIsNewTxIntRupAnt = eav.getString(ET_IS_NEW_TX_INT_RUP_ANT);
 
                     // EtTypNewTxIntRupAnt  = ;
                     EtTypNewTxIntRupAnt = eav.getString(ET_TYP_NEW_TX_INT_RUP_ANT);
@@ -1173,7 +1177,7 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
                     EtPlageTxIntPenalFrom = eav.getString(ET_PLAGE_TX_INT_PENAL_FROM);
                     EtPlageTxIntPenalTo = eav.getString(ET_PLAGE_TX_INT_PENAL_TO);
                     EtBaseTxIntPenal = eav.getString(ET_BASE_TX_INT_PENAL);
-                    EtTxIntPenalNeg = Boolean.valueOf(eav.getString(ET_TX_INT_PENAL_NEG));
+                    EtTxIntPenalNeg =eav.getString(ET_TX_INT_PENAL_NEG);
 
 
                 }
@@ -1250,8 +1254,19 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
 //    EtPlageTxInterFrom  = EtPlageTxInterFrom_ET.getText().toString();
 //    EtPlageTxInterTo  = EtPlageTxInterFrom_ET.getText().toString();
 
-                    EtIsTxIntNeg_SW.setChecked(EtIsTxIntNeg);
-                    EtIsPriseIntMiseOn_SW.setChecked(EtIsPriseIntMiseOn);
+                    if (EtIsTxIntNeg.equals("Y")){
+                        EtIsTxIntNeg_SW.setChecked(true);
+                    }else{
+                        EtIsTxIntNeg_SW.setChecked(false);
+                    }
+//                    EtIsTxIntNeg_SW.setChecked(EtIsTxIntNeg);
+
+                    if (EtIsPriseIntMiseOn.equals("Y")){
+                        EtIsPriseIntMiseOn_SW.setChecked(true);
+                    }else{
+                        EtIsPriseIntMiseOn_SW.setChecked(false);
+                    }
+//                    EtIsPriseIntMiseOn_SW.setChecked(EtIsPriseIntMiseOn);
 
                     if (EtNatureRupAn.equals("M")){
                         rbEtNatureRupAnMontant.setChecked(true);
@@ -1265,7 +1280,12 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
                         rbEtNatureRupAnPlage.setChecked(true);
                         onRadioButtonClicked(rbEtNatureRupAnPlage);
                     }
-                    EtIsPenalRupAnt_SW.setChecked(EtIsPenalRupAnt);
+                    if (EtIsPenalRupAnt.equals("Y")){
+                        EtIsPenalRupAnt_SW.setChecked(true);
+                    }else{
+                        EtIsPenalRupAnt_SW.setChecked(false);
+                    }
+//                    EtIsPenalRupAnt_SW.setChecked(EtIsPenalRupAnt);
                     onSwitchButtonClicked(EtIsPenalRupAnt_SW);
 
                     // EtNatureRupAn   = ;
@@ -1273,13 +1293,50 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
                     EtPlageTxMtRuptureFrom_ET.setText(EtPlageTxMtRuptureFrom);
                     EtPlageTxMtRuptureTo_ET.setText(EtPlageTxMtRuptureTo);
                     EtBaseTxPenal_ET.setText(EtBaseTxPenal);
-                    EtIsEparRetireFin_SW.setChecked(EtIsEparRetireFin);
-                    EtIsEparTransfFin_SW.setChecked(EtIsEparTransfFin);
-                    EtIsOnlyTotTransf_SW.setChecked(EtIsOnlyTotTransf);
-                    EtIsEparRenouvFin_SW.setChecked(EtIsEparRenouvFin);
-                    EtActionDefATerme_SW.setChecked(EtActionDefATerme);
-                    EtIsMultiEATOn_SW.setChecked(EtIsMultiEATOn);
-                    EtIsInterDusRupAnt_SW.setChecked(EtIsInterDusRupAnt);
+
+                    if (EtIsEparRetireFin.equals("Y")){
+                        EtIsEparRetireFin_SW.setChecked(true);
+                    }else{
+                        EtIsEparRetireFin_SW.setChecked(false);
+                    }
+
+//                    EtIsEparRetireFin_SW.setChecked(EtIsEparRetireFin);
+                    if (EtIsEparTransfFin.equals("Y")){
+                        EtIsEparTransfFin_SW.setChecked(true);
+                    }else{
+                        EtIsEparTransfFin_SW.setChecked(false);
+                    }
+//                    EtIsEparTransfFin_SW.setChecked(EtIsEparTransfFin);
+                    if (EtIsOnlyTotTransf.equals("Y")){
+                        EtIsOnlyTotTransf_SW.setChecked(true);
+                    }else{
+                        EtIsOnlyTotTransf_SW.setChecked(false);
+                    }
+//                    EtIsOnlyTotTransf_SW.setChecked(EtIsOnlyTotTransf);
+                    if (EtIsEparRenouvFin.equals("Y")){
+                        EtIsEparRenouvFin_SW.setChecked(true);
+                    }else{
+                        EtIsEparRenouvFin_SW.setChecked(false);
+                    }
+//                    EtIsEparRenouvFin_SW.setChecked(EtIsEparRenouvFin);
+                    if (EtActionDefATerme.equals("Y")){
+                        EtActionDefATerme_SW.setChecked(true);
+                    }else{
+                        EtActionDefATerme_SW.setChecked(false);
+                    }
+//                    EtActionDefATerme_SW.setChecked(EtActionDefATerme);
+                    if (EtIsMultiEATOn.equals("Y")){
+                        EtIsMultiEATOn_SW.setChecked(true);
+                    }else{
+                        EtIsMultiEATOn_SW.setChecked(false);
+                    }
+//                    EtIsMultiEATOn_SW.setChecked(EtIsMultiEATOn);
+                    if (EtIsInterDusRupAnt.equals("Y")){
+                        EtIsInterDusRupAnt_SW.setChecked(true);
+                    }else{
+                        EtIsInterDusRupAnt_SW.setChecked(false);
+                    }
+//                    EtIsInterDusRupAnt_SW.setChecked(EtIsInterDusRupAnt);
                     // EtTypNewTxIntRupAnt  = ;
                     if (EtTypNewTxIntRupAnt.equals("F")){
                         rbEtTypNewTxIntRupAntFixe.setChecked(true);
@@ -1294,14 +1351,25 @@ public class UpdateEAT extends AppCompatActivity implements SERVER_ADDRESS {
                         onRadioButtonClicked(rbEtTypNewTxIntRupAntPlage);
                     }
 
-                    EtIsNewTxIntRupAnt_SW.setChecked(EtIsNewTxIntRupAnt);
+                    if (EtIsNewTxIntRupAnt.equals("Y")){
+                        EtIsNewTxIntRupAnt_SW.setChecked(true);
+                    }else{
+                        EtIsNewTxIntRupAnt_SW.setChecked(false);
+                    }
+
+//                    EtIsNewTxIntRupAnt_SW.setChecked(EtIsNewTxIntRupAnt);
                     onSwitchButtonClicked(EtIsNewTxIntRupAnt_SW);
 
                     EtValTxIntPenal_ET.setText(EtValTxIntPenal);
                     EtPlageTxIntPenalFrom_ET.setText(EtPlageTxIntPenalFrom);
                     EtPlageTxIntPenalTo_ET.setText(EtPlageTxIntPenalTo);
                      EtBaseTxIntPenal_ET.setText(EtBaseTxIntPenal);
-                    EtTxIntPenalNeg_SW.setChecked(EtTxIntPenalNeg);
+                    if (EtTxIntPenalNeg.equals("Y")){
+                        EtTxIntPenalNeg_SW.setChecked(true);
+                    }else{
+                        EtTxIntPenalNeg_SW.setChecked(false);
+                    }
+//                    EtTxIntPenalNeg_SW.setChecked(EtTxIntPenalNeg);
                 }
             });
         }
@@ -1420,28 +1488,100 @@ if(true){
 //    EtValTxInter  = EtValTxInter_ET.getText().toString();
 //    EtPlageTxInterFrom  = EtPlageTxInterFrom_ET.getText().toString();
 //    EtPlageTxInterTo  = EtPlageTxInterFrom_ET.getText().toString();
-    EtIsTxIntNeg   = EtIsTxIntNeg_SW.isChecked();
+   /* EtIsTxIntNeg   = EtIsTxIntNeg_SW.isChecked();
     EtIsPriseIntMiseOn  = EtIsPriseIntMiseOn_SW.isChecked();
-    EtIsPenalRupAnt   = EtIsPenalRupAnt_SW.isChecked();
+    EtIsPenalRupAnt   = EtIsPenalRupAnt_SW.isChecked();*/
     // EtNatureRupAn   = ;
     EtValTxMtRupture  = EtValTxMtRupture_ET.getText().toString() ;
     EtPlageTxMtRuptureFrom  = EtPlageTxMtRuptureFrom_ET.getText().toString();
     EtPlageTxMtRuptureTo   = EtPlageTxMtRuptureTo_ET.getText().toString();
-    EtBaseTxPenal   = EtBaseTxPenal_ET.getText().toString();;
-    EtIsEparRetireFin  = EtIsEparRetireFin_SW.isChecked();
+    EtBaseTxPenal   = EtBaseTxPenal_ET.getText().toString();
+   /* EtIsEparRetireFin  = EtIsEparRetireFin_SW.isChecked();
     EtIsEparTransfFin  = EtIsEparTransfFin_SW.isChecked();
     EtIsOnlyTotTransf  = EtIsOnlyTotTransf_SW.isChecked();
     EtIsEparRenouvFin  = EtIsEparRenouvFin_SW.isChecked();
     EtActionDefATerme  = EtActionDefATerme_SW.isChecked();
     EtIsMultiEATOn   = EtIsMultiEATOn_SW.isChecked();
     EtIsInterDusRupAnt  = EtIsInterDusRupAnt_SW.isChecked();
-    EtIsNewTxIntRupAnt   = EtIsNewTxIntRupAnt_SW.isChecked();
+    EtIsNewTxIntRupAnt   = EtIsNewTxIntRupAnt_SW.isChecked();*/
     // EtTypNewTxIntRupAnt  = ;
     EtValTxIntPenal  = EtValTxIntPenal_ET.getText().toString();
     EtPlageTxIntPenalFrom  = EtPlageTxIntPenalFrom_ET.getText().toString();
     EtPlageTxIntPenalTo  = EtPlageTxIntPenalTo_ET.getText().toString();
     EtBaseTxIntPenal   = EtBaseTxIntPenal_ET.getText().toString();
-    EtTxIntPenalNeg   = EtTxIntPenalNeg_SW.isChecked();
+//    EtTxIntPenalNeg   = EtTxIntPenalNeg_SW.isChecked();
+
+
+    if (EtIsTxIntNeg_SW.isChecked()){
+        EtIsTxIntNeg = "Y";
+    }else{
+        EtIsTxIntNeg = "N";
+    }
+//    EtIsTxIntNeg   = EtIsTxIntNeg_SW.isChecked();
+    if (EtIsPriseIntMiseOn_SW.isChecked()){
+        EtIsPriseIntMiseOn = "Y";
+    }else{
+        EtIsPriseIntMiseOn = "N";
+    }
+//    EtIsPriseIntMiseOn  = EtIsPriseIntMiseOn_SW.isChecked();
+    if (EtIsPenalRupAnt_SW.isChecked()){
+        EtIsPenalRupAnt = "Y";
+    }else{
+        EtIsPenalRupAnt = "N";
+    }
+    if (EtIsEparRetireFin_SW.isChecked()){
+        EtIsEparRetireFin = "Y";
+    }else{
+        EtIsEparRetireFin = "N";
+    }
+//    EtIsEparRetireFin  = EtIsEparRetireFin_SW.isChecked();
+    if (EtIsEparTransfFin_SW.isChecked()){
+        EtIsEparTransfFin = "Y";
+    }else{
+        EtIsEparTransfFin = "N";
+    }
+//    EtIsEparTransfFin  = EtIsEparTransfFin_SW.isChecked();
+    if (EtIsOnlyTotTransf_SW.isChecked()){
+        EtIsOnlyTotTransf = "Y";
+    }else{
+        EtIsOnlyTotTransf = "N";
+    }
+
+    if (EtIsEparRenouvFin_SW.isChecked()){
+        EtIsEparRenouvFin = "Y";
+    }else{
+        EtIsEparRenouvFin = "N";
+    }
+//    EtIsEparRenouvFin  = EtIsEparRenouvFin_SW.isChecked();
+    if (EtActionDefATerme_SW.isChecked()){
+        EtActionDefATerme = "Y";
+    }else{
+        EtActionDefATerme = "N";
+    }
+//    EtActionDefATerme  = EtActionDefATerme_SW.isChecked();
+    if (EtIsMultiEATOn_SW.isChecked()){
+        EtIsMultiEATOn = "Y";
+    }else{
+        EtIsMultiEATOn = "N";
+    }
+//    EtIsMultiEATOn   = EtIsMultiEATOn_SW.isChecked();
+    if (EtIsInterDusRupAnt_SW.isChecked()){
+        EtIsInterDusRupAnt = "Y";
+    }else{
+        EtIsInterDusRupAnt = "N";
+    }
+//    EtIsInterDusRupAnt  = EtIsInterDusRupAnt_SW.isChecked();
+    if (EtIsNewTxIntRupAnt_SW.isChecked()){
+        EtIsNewTxIntRupAnt = "Y";
+    }else{
+        EtIsNewTxIntRupAnt = "N";
+    }
+
+    if (EtTxIntPenalNeg_SW.isChecked()){
+        EtTxIntPenalNeg = "Y";
+    }else{
+        EtTxIntPenalNeg = "N";
+    }
 
 
     if (numberOfLinesDebut==0){

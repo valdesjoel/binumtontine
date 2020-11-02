@@ -102,6 +102,7 @@ public class TypeMembreActivity extends AppCompatActivity implements SERVER_ADDR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_type_membre);
+
         /* begin */
         //  setContentView(R.layout.activity_movie_listing);
         caisseListView = (ListView) findViewById(R.id.typeMembreList);
@@ -111,7 +112,10 @@ public class TypeMembreActivity extends AppCompatActivity implements SERVER_ADDR
 
         Toolbar toolbar = findViewById(R.id.toolbar_list_type_membre);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Liste des types de membres");
+        getSupportActionBar().setTitle("Types de membres");
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         FloatingActionButton fab = findViewById(R.id.fab_list_type_membre);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +132,11 @@ public class TypeMembreActivity extends AppCompatActivity implements SERVER_ADDR
 
             }
         });
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 /*
     @Override

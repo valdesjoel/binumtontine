@@ -20,11 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.ListPlageFCV;
+import com.example.binumtontine.activity.ListPlageTIV;
+import com.example.binumtontine.activity.UpdateEAV;
 import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.ProduitEAV;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
@@ -55,10 +59,10 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_EAV_IS_AGIOS_ON = "ev_is_agios_on";
     private static final String KEY_EAV_TYP_FR_AGIOS = "ev_typ_fr_agios";
     private static final String KEY_EAV_MT_TX_AGIOS_PRELEV = "ev_mt_tx_agios_prelev";
-    private static final String KEY_EAV_PLAGE_AGIOS_FROM = "ev_plage_agios_from";
-    private static final String KEY_EAV_PLAGE_AGIOS_TO = "ev_plage_agios_to";
+//    private static final String KEY_EAV_PLAGE_AGIOS_FROM = "ev_plage_agios_from";
+//    private static final String KEY_EAV_PLAGE_AGIOS_TO = "ev_plage_agios_to";
     private static final String KEY_EAV_IS_CHEQUE_ON = "ev_is_cheque_on";
-    private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
+//    private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
     private static final String KEY_CAISSE_ID = "ev_caisse_id";
     private static final String KEY_GX_NUMERO = "ev_gx_numero";
 
@@ -98,28 +102,28 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
     // private EditText ev_typ_fr_agiosEditText;RadioButton
     private RadioButton ev_typ_fr_agiosEditText;
     private EditText ev_mt_tx_agios_prelevEditText;
-    private EditText ev_plage_agios_fromEditText;
-    private EditText ev_plage_agios_toEditText;
+//    private EditText ev_plage_agios_fromEditText;
+//    private EditText ev_plage_agios_toEditText;
     private Switch ev_is_cheque_onSwitch;
-    private EditText ev_frais_clot_cptEditText;
+//    private EditText ev_frais_clot_cptEditText;
 
     private String ev_code;
     private String ev_libelle;
     private String ev_min_cpte;
-    private Boolean ev_is_min_cpte_oblig;
+    private String ev_is_min_cpte_oblig;
     private String ev_tx_inter_an;
-    private Boolean ev_is_tx_inter_an_oblig;
+    private String ev_is_tx_inter_an_oblig;
     private String ev_typ_dat_val;
     private String ev_typ_dat_retrait_val;
-    private Boolean ev_is_multi_eav_on;
-    private Boolean ev_is_paie_ps_on;
-    private Boolean ev_is_agios_on;
+    private String ev_is_multi_eav_on;
+    private String ev_is_paie_ps_on;
+    private String ev_is_agios_on;
     private String ev_typ_fr_agios;
     private String ev_mt_tx_agios_prelev;
     private String ev_plage_agios_from;
     private String ev_plage_agios_to;
-    private Boolean ev_is_cheque_on;
-    private String ev_frais_clot_cpt;
+    private String ev_is_cheque_on;
+//    private String ev_frais_clot_cpt;
 
     private LinearLayout blkPlageEav;
     private LinearLayout LL_TypeFraisCpteEAV;
@@ -176,6 +180,37 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
     public static ArrayList<ModelPlageData> plageDataList; //to manage plageData
     private TextView tv_config_plage_tiv;
+    //START 27/10/2020
+
+    private static final String KEY_EvNatureFraisClot = "EvNatureFraisClot";
+    private static final String KEY_EvValFraisCloture = "EvValFraisCloture";
+    private static final String KEY_EvBaseFraisCloture = "EvBaseFraisCloture";
+    private static final String KEY_EAV_FCV_DEBUT = "EvFcvDebut";
+    private static final String KEY_EAV_FCV_FIN = "EvFcvFin";
+    private static final String KEY_EAV_FCV_VALEUR = "EvFcvValeur";
+    private static final String KEY_EAV_FCV_BASE = "EvFcvBase";
+    private static final String KEY_EAV_FCV_NATURE = "EvFcvNature";
+
+
+    private String tabPlageDebutFCV ="";
+    private String tabPlageFinFCV ="";
+    private String tabPlageValeurFCV ="";
+    private String tabPlageBaseFCV ="";
+    private String tabPlageNatureFCV ="";
+    public static ArrayList<ModelPlageData> plageDataListFCV = new ArrayList<>(); //to manage plageData FCV
+    private EditText ET_EvValFraisCloture;
+    private JRSpinner JR_EvBaseFraisCloture; //pour gérer le spinner contenant les bases des taux pour les frais de clôture de compte
+    private RadioButton rbEvNatureFraisClotFixe;
+    private RadioButton rbEvNatureFraisClotTaux;
+    private RadioButton rbEvNatureFraisClotPlage;
+
+    private TextInputLayout layout_EvValFraisCloture;
+    private TextInputLayout layout_EvBaseFraisCloture;
+    private TextView tv_config_plage_fcv;
+    private String EvNatureFraisClot;
+    private String EvValFraisCloture;
+    private String EvBaseFraisCloture;
+    //END 27/10/2020
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,8 +244,10 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
         /*Begin*/
         ev_codeEditText = (EditText) findViewById(R.id.input_txt_Code_EAV);
+        ev_codeEditText.setEnabled(false);
         ev_libelleEditText = (EditText) findViewById(R.id.input_txt_LibelleEAV);
         ev_min_cpteEditText = (EditText) findViewById(R.id.input_txt_MinCompteEAV);
+        ev_min_cpteEditText.addTextChangedListener(MyData.onTextChangedListener(ev_min_cpteEditText));
         ev_is_min_cpte_obligSwitch = (Switch) findViewById(R.id.SwitchMinCpteEAVOblig);
         ev_tx_inter_anEditText = (EditText) findViewById(R.id.input_txt_TauxInteretAnnuelEAV);
         ev_is_tx_inter_an_obligSwitch = (Switch) findViewById(R.id.SwitchTauxInteretAnnuelEAV);
@@ -222,12 +259,38 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
 
         //ev_typ_fr_agiosEditText = (EditText) findViewById(R.id.input_txt_TauxAPreleveCpteEAV);
+        //START 27/10/2020
+        ET_EvValFraisCloture = (EditText) findViewById(R.id.input_txt_EvValFraisCloture);
+        ET_EvValFraisCloture.addTextChangedListener(MyData.onTextChangedListener(ET_EvValFraisCloture));
+        rbEvNatureFraisClotFixe = (RadioButton) findViewById(R.id.rbEvNatureFraisClotFixe);
+        rbEvNatureFraisClotTaux = (RadioButton) findViewById(R.id.rbEvNatureFraisClotTaux);
+        rbEvNatureFraisClotPlage = (RadioButton) findViewById(R.id.rbEvNatureFraisClotPlage);
+        layout_EvValFraisCloture = (TextInputLayout) findViewById(R.id.input_layout_EvValFraisCloture);
+        layout_EvBaseFraisCloture = (TextInputLayout) findViewById(R.id.input_layout_EvBaseFraisCloture);
+        tv_config_plage_fcv = (TextView) findViewById(R.id.tv_plage_fcv_eav);
+        onRadioButtonClicked(rbEvNatureFraisClotFixe);
+        JR_EvBaseFraisCloture = (JRSpinner)findViewById(R.id.spn_my_spinner_EvBaseFraisCloture);
+        JR_EvBaseFraisCloture.setItems(getResources().getStringArray(R.array.array_EvBaseFraisCloture)); //this is important, you must set it to set the item list
+        JR_EvBaseFraisCloture.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        JR_EvBaseFraisCloture.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+
+        JR_EvBaseFraisCloture.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+                //  cxLocalite = mySpinnerLocalite.getText().toString();
+                // Log.d("iddddddd***",caisseLocalite);
+            }
+        });
+
+        //END 27/10/2020
+
 
         ev_mt_tx_agios_prelevEditText = (EditText) findViewById(R.id.input_txt_TauxAPreleveCpteEAV);
-        ev_plage_agios_fromEditText = (EditText) findViewById(R.id.txt_EvTypTxInterFrom);
-        ev_plage_agios_toEditText = (EditText) findViewById(R.id.txt_EvTypTxInterTo);
+//        ev_plage_agios_fromEditText = (EditText) findViewById(R.id.txt_EvTypTxInterFrom);
+//        ev_plage_agios_toEditText = (EditText) findViewById(R.id.txt_EvTypTxInterTo);
         ev_is_cheque_onSwitch = (Switch) findViewById(R.id.SwitchChequeOnEAV);
-        ev_frais_clot_cptEditText = (EditText) findViewById(R.id.input_txt_FraisClotureCpteEAV);
+//        ev_frais_clot_cptEditText = (EditText) findViewById(R.id.input_txt_FraisClotureCpteEAV);
 
         //ev_frais_clot_cptEditText.addTextChangedListener(new DigitFormatWatcher(ev_frais_clot_cptEditText));
 
@@ -251,7 +314,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
         mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_my_spinner_base_taux);
         mySpinnerBaseTxIntMensuel = (JRSpinner)findViewById(R.id.spn_my_spinner_base_taux_mensuel);
 
-        mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_base_taux_frais_tenue_compte)); //this is important, you must set it to set the item list
+        mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_ev_base_tx_agios_prelev)); //this is important, you must set it to set the item list
         mySpinnerLocalite.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerLocalite.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
 
@@ -263,7 +326,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 // Log.d("iddddddd***",caisseLocalite);
             }
         });
-        mySpinnerBaseTxIntMensuel.setItems(getResources().getStringArray(R.array.array_base_taux)); //this is important, you must set it to set the item list
+        mySpinnerBaseTxIntMensuel.setItems(getResources().getStringArray(R.array.array_ev_base_tx_inter_an)); //this is important, you must set it to set the item list
         mySpinnerBaseTxIntMensuel.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerBaseTxIntMensuel.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
 
@@ -328,6 +391,48 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
             }
         });
+        //TIV
+        tv_config_plage_tiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Frais de tenue de compte";
+                    ListPlageTIV.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEAVForGuichet.this,ListPlageTIV.class);
+
+                    i.putExtra(KEY_EAV_ID, eavId);
+                    startActivityForResult(i, 20);
+
+                } else {
+                    Toast.makeText(UpdateEAVForGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+//FCV
+        tv_config_plage_fcv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Frais de clôture de compte";
+                    ListPlageFCV.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEAVForGuichet.this,ListPlageFCV.class);
+
+                    i.putExtra(KEY_EAV_ID, eavId);
+                    startActivityForResult(i, 20);
+
+                } else {
+                    Toast.makeText(UpdateEAVForGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
 
 
     }
@@ -336,15 +441,16 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
     }
 
+
     public void onSwitchButtonClicked(View view) {
-        boolean checked1 = ((Switch) view).isChecked();
-        String str="";
+//        boolean checked1 = ((Switch) view).isChecked();
+//        String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
 
             case R.id.SwitchMinCpteEAVOblig:
                 if (ev_is_min_cpte_obligSwitch.isChecked()) {
-                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
+//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
 
                     layout_MinCompteEAV.setVisibility(View.VISIBLE);
                 }else{
@@ -354,7 +460,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.SwitchTauxInteretAnnuelEAV:
                 if (ev_is_tx_inter_an_obligSwitch.isChecked()){
-                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
+//                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
 
                     layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
                     layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
@@ -372,7 +478,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.SwitchFraisTenuCpteOnEAV:
                 if (ev_is_agios_onSwitch.isChecked()){
-                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
+//                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
 
                     LL_TypeFraisCpteEAV.setVisibility(View.VISIBLE);
                     //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
@@ -381,8 +487,6 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 }else{
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
                     LL_TypeFraisCpteEAV.setVisibility(View.GONE);
-                    blkPlageEav.setVisibility(View.GONE);
-
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
                     tv_config_plage_tiv.setVisibility(View.GONE);
                 }
@@ -392,7 +496,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
             case R.id.SwitchChequeOnEAV:
                 if (ev_is_cheque_onSwitch.isChecked()) {
-                    str = checked1 ? "Chèque disponible" : "Chèque non disponible";
+//                    str = checked1 ? "Chèque disponible" : "Chèque non disponible";
 
                     ll_bloc_chequier.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -404,7 +508,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
             case R.id.Switch_txtDisponibiliteChequier1CC:
                 if (CcIsChequierM1On.isChecked()) {
-                    str = checked1 ? "Chèque 1 disponible" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc2.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -415,7 +519,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.Switch_txtDisponibiliteChequier2CC:
                 if (CcIsChequierM2On.isChecked()) {
-                    str = checked1 ? "Chèque 2 disponible" : "le minimum en compte n'est pas obligatoire";
+//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     bloc_cc3.setVisibility(View.VISIBLE);
                     //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
@@ -425,25 +529,48 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
                 break;
 
-
-
         }
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
     public void onRadioButtonClicked(View view) {
-        boolean checked1 = ((RadioButton) view).isChecked();
-        String str="";
+//        boolean checked1 = ((RadioButton) view).isChecked();
+//        String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
 
+            case R.id.rbEvNatureFraisClotFixe:
+                if (rbEvNatureFraisClotFixe.isChecked()) {
+                    EvNatureFraisClot ="F";
+                    layout_EvValFraisCloture.setHint("Montant (FCFA)");
+                    layout_EvValFraisCloture.setVisibility(View.VISIBLE);
+                    layout_EvBaseFraisCloture.setVisibility(View.GONE);
+                    tv_config_plage_fcv.setVisibility(View.GONE);
+
+                }
+                break;
+            case R.id.rbEvNatureFraisClotTaux:
+                if (rbEvNatureFraisClotTaux.isChecked()){
+                    EvNatureFraisClot ="T";
+                    layout_EvValFraisCloture.setHint("Taux (%)");
+                    layout_EvValFraisCloture.setVisibility(View.VISIBLE);
+                    layout_EvBaseFraisCloture.setVisibility(View.VISIBLE);
+                    tv_config_plage_fcv.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.rbEvNatureFraisClotPlage:
+                if (rbEvNatureFraisClotPlage.isChecked()) {
+                    EvNatureFraisClot ="P";
+                    layout_EvValFraisCloture.setVisibility(View.GONE);
+                    layout_EvBaseFraisCloture.setVisibility(View.GONE);
+                    tv_config_plage_fcv.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.rbEpTypTxInterFixe:
                 if (rbEpTypTxInterFixe.isChecked()) {
-                    str = checked1?"Type Fixe sélectionné":"";
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="F";
-                    blkPlageEav.setVisibility(View.GONE);
-                    ev_mt_tx_agios_prelevEditText.setHint("Montant mensuel à préléver");
+                    layout_TauxAPreleveCpteEAV.setHint("Montant mensuel à préléver");
                     layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
                     tv_config_plage_tiv.setVisibility(View.GONE);
@@ -453,11 +580,8 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.rbEpTypTxInterTaux:
                 if (rbEpTypTxInterTaux.isChecked()){
-                    str = checked1?"Type Taux sélectionné":"";
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="T";
-                    blkPlageEav.setVisibility(View.GONE);
-                    ev_mt_tx_agios_prelevEditText.setHint("Taux mensuel à préléver");
+                    layout_TauxAPreleveCpteEAV.setHint("Taux mensuel à préléver");
                     layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     tv_config_plage_tiv.setVisibility(View.GONE);
@@ -467,18 +591,14 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.rbEpTypTxInterPlage:
                 if (rbEpTypTxInterPlage.isChecked()) {
-
-                    str = checked1?"Type Plage sélectionné":"";
-                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     ev_typ_fr_agios ="P";
-                    // blkPlageEav.setVisibility(View.VISIBLE);
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
                     tv_config_plage_tiv.setVisibility(View.VISIBLE);
                 }
                 break;
         }
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -505,43 +625,49 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_eav_details.php", "GET", httpParams);
             try {
-                int success = jsonObject.getInt(KEY_SUCCESS);
+       /*         int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONObject eav;
                 if (success == 1) {
                     //Parse the JSON response
                     eav = jsonObject.getJSONObject(KEY_DATA);
+*/
+                    ev_code = MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_EAV_CODE));
+                    ev_libelle = MyData.normalizeSymbolsAndAccents( jsonObject.getString(KEY_EAV_LIBELLE));
 
-                    ev_code = eav.getString(KEY_EAV_CODE);
-                    ev_libelle = eav.getString(KEY_EAV_LIBELLE);
-                    ev_min_cpte = eav.getString(KEY_EAV_MIN_CPTE);
-                    ev_is_min_cpte_oblig = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_MIN_CPTE_OBLIG));
-                    Log.e("***KEY_EAV_IS_MIN_CPTE_OBLIG",ev_is_min_cpte_oblig+"");
-                    ev_tx_inter_an = eav.getString(KEY_EAV_TX_INTER_AN);
-                    base_ev_tx_inter_an = eav.getString(KEY_EAV_BASE_TX_INTER_AN);
-                    ev_is_tx_inter_an_oblig = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_TX_INTER_AN_OBLIG));
-                    ev_typ_dat_val = eav.getString(KEY_EAV_TYP_DAT_VAL);
-                    ev_typ_dat_retrait_val = eav.getString(KEY_EAV_TYP_DAT_RETRAIT_VAL);
-                    ev_is_multi_eav_on = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_MULTI_EAV_ON));
-                    ev_is_paie_ps_on = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_PAIE_PS_ON));
-                    ev_is_agios_on = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_AGIOS_ON));
-                    ev_typ_fr_agios =eav.getString(KEY_EAV_TYP_FR_AGIOS);
-                    ev_mt_tx_agios_prelev = eav.getString(KEY_EAV_MT_TX_AGIOS_PRELEV);
-                    base_ev_mt_tx_agios_prelev = eav.getString(KEY_EAV_BASE_TX_AGIOS_PRELEV);
-                    ev_plage_agios_from = eav.getString(KEY_EAV_PLAGE_AGIOS_FROM);
-                    ev_plage_agios_to = eav.getString(KEY_EAV_PLAGE_AGIOS_TO);
-                    ev_is_cheque_on = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_CHEQUE_ON));
-                    ev_frais_clot_cpt = eav.getString(KEY_EAV_FRAIS_CLOT_CPT);
+                    ev_min_cpte = jsonObject.getString(KEY_EAV_MIN_CPTE);
+                    ev_is_min_cpte_oblig = jsonObject.getString(KEY_EAV_IS_MIN_CPTE_OBLIG);
+//                    Log.e("***KEY_EAV_IS_MIN_CPTE_OBLIG",ev_is_min_cpte_oblig+"");
+                    ev_tx_inter_an = jsonObject.getString(KEY_EAV_TX_INTER_AN);
+                base_ev_tx_inter_an =ProduitEAV.decodeEvBaseTxInterAn(jsonObject.getString(KEY_EAV_BASE_TX_INTER_AN));
+                    ev_is_tx_inter_an_oblig = jsonObject.getString(KEY_EAV_IS_TX_INTER_AN_OBLIG);
+                    ev_typ_dat_val = jsonObject.getString(KEY_EAV_TYP_DAT_VAL);
+                    ev_typ_dat_retrait_val = jsonObject.getString(KEY_EAV_TYP_DAT_RETRAIT_VAL);
+                    ev_is_multi_eav_on = jsonObject.getString(KEY_EAV_IS_MULTI_EAV_ON);
+                    ev_is_paie_ps_on = jsonObject.getString(KEY_EAV_IS_PAIE_PS_ON);
+                    ev_is_agios_on = jsonObject.getString(KEY_EAV_IS_AGIOS_ON);
+                    ev_typ_fr_agios =jsonObject.getString(KEY_EAV_TYP_FR_AGIOS);
+                    ev_mt_tx_agios_prelev = jsonObject.getString(KEY_EAV_MT_TX_AGIOS_PRELEV);
+                base_ev_mt_tx_agios_prelev = ProduitEAV.decodeEvBaseTxAgiosPrelev(jsonObject.getString(KEY_EAV_BASE_TX_AGIOS_PRELEV));
+//                    ev_plage_agios_from = jsonObject.getString(KEY_EAV_PLAGE_AGIOS_FROM);
+//                    ev_plage_agios_to = jsonObject.getString(KEY_EAV_PLAGE_AGIOS_TO);
+                    ev_is_cheque_on = jsonObject.getString(KEY_EAV_IS_CHEQUE_ON);
+//                    ev_frais_clot_cpt = jsonObject.getString(KEY_EAV_FRAIS_CLOT_CPT);
 
-                    st_CcIsChequierM1On = eav.getString(KEY_CcIsChequierM1On);
-                    st_CcNbPagesCheqM1 = eav.getString(KEY_CcNbPagesCheqM1);
-                    st_CcPrixVteCheqM1 = eav.getString(KEY_CcPrixVteCheqM1);
-                    st_CcIsChequierM2On = eav.getString(KEY_CcIsChequierM2On);
-                    st_CcNbPagesCheqM2 = eav.getString(KEY_CcNbPagesCheqM2);
-                    st_CcPrixVteCheqM2 = eav.getString(KEY_CcPrixVteCheqM2);
+                    st_CcIsChequierM1On = jsonObject.getString(KEY_CcIsChequierM1On);
+                    st_CcNbPagesCheqM1 = jsonObject.getString(KEY_CcNbPagesCheqM1);
+                    st_CcPrixVteCheqM1 = jsonObject.getString(KEY_CcPrixVteCheqM1);
+                    st_CcIsChequierM2On = jsonObject.getString(KEY_CcIsChequierM2On);
+                    st_CcNbPagesCheqM2 = jsonObject.getString(KEY_CcNbPagesCheqM2);
+                    st_CcPrixVteCheqM2 = jsonObject.getString(KEY_CcPrixVteCheqM2);
 
 
-                }
-            } catch (JSONException e) {
+                    EvNatureFraisClot = jsonObject.getString(KEY_EvNatureFraisClot);
+                    EvValFraisCloture = jsonObject.getString(KEY_EvValFraisCloture);
+                    EvBaseFraisCloture = ProduitEAV.decodeEvBaseFraisCloture(jsonObject.getString(KEY_EvBaseFraisCloture));
+
+
+                //}
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -557,18 +683,37 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                     ev_codeEditText.setText(ev_code);
                     ev_libelleEditText.setText(ev_libelle);
                     ev_min_cpteEditText.setText(ev_min_cpte);
-                    ev_is_min_cpte_obligSwitch.setChecked(ev_is_min_cpte_oblig);
+                    if (ev_is_min_cpte_oblig.equals("Y")){
+                        ev_is_min_cpte_obligSwitch.setChecked(true);
+                    }else{
+                        ev_is_min_cpte_obligSwitch.setChecked(false);
+                    }
                     onSwitchButtonClicked(ev_is_min_cpte_obligSwitch);
                     ev_tx_inter_anEditText.setText(ev_tx_inter_an);
                     mySpinnerBaseTxIntMensuel.setText(base_ev_tx_inter_an);
-
-                    ev_is_tx_inter_an_obligSwitch.setChecked(ev_is_tx_inter_an_oblig);
+                    if (ev_is_tx_inter_an_oblig.equals("Y")){
+                        ev_is_tx_inter_an_obligSwitch.setChecked(true);
+                    }else{
+                        ev_is_tx_inter_an_obligSwitch.setChecked(false);
+                    }
                     onSwitchButtonClicked(ev_is_tx_inter_an_obligSwitch);
                     ev_typ_dat_valEditText.setText(ev_typ_dat_val);
                     ev_typ_dat_retrait_valEditText.setText(ev_typ_dat_retrait_val);
-                    ev_is_multi_eav_onSwitch.setChecked(ev_is_multi_eav_on);
-                    ev_is_paie_ps_onSwitch.setChecked(ev_is_paie_ps_on);
-                    ev_is_agios_onSwitch.setChecked(ev_is_agios_on);
+                    if (ev_is_multi_eav_on.equals("Y")){
+                        ev_is_multi_eav_onSwitch.setChecked(true);
+                    }else{
+                        ev_is_multi_eav_onSwitch.setChecked(false);
+                    }
+                    if (ev_is_paie_ps_on.equals("Y")){
+                        ev_is_paie_ps_onSwitch.setChecked(true);
+                    }else{
+                        ev_is_paie_ps_onSwitch.setChecked(false);
+                    }
+                    if (ev_is_agios_on.equals("Y")){
+                        ev_is_agios_onSwitch.setChecked(true);
+                    }else{
+                        ev_is_agios_onSwitch.setChecked(false);
+                    }
 
                     if (ev_typ_fr_agios.equals("F")){
                         rbEpTypTxInterFixe.setChecked(true);
@@ -584,10 +729,14 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                     //ev_typ_fr_agiosEditText.setText(ev_typ_fr_agios);
                     ev_mt_tx_agios_prelevEditText.setText(ev_mt_tx_agios_prelev);
                     mySpinnerLocalite.setText(base_ev_mt_tx_agios_prelev);
-                    ev_plage_agios_fromEditText.setText(ev_plage_agios_from);
-                    ev_plage_agios_toEditText.setText(ev_plage_agios_to);
-                    ev_is_cheque_onSwitch.setChecked(ev_is_cheque_on);
-                    ev_frais_clot_cptEditText.setText(ev_frais_clot_cpt);
+//                    ev_plage_agios_fromEditText.setText(ev_plage_agios_from);
+//                    ev_plage_agios_toEditText.setText(ev_plage_agios_to);
+                    if (ev_is_cheque_on.equals("Y")){
+                        ev_is_cheque_onSwitch.setChecked(true);
+                    }else{
+                        ev_is_cheque_onSwitch.setChecked(false);
+                    }
+//                    ev_frais_clot_cptEditText.setText(ev_frais_clot_cpt);
 
                     if (st_CcIsChequierM1On.equals("Y") || st_CcIsChequierM1On.equals("y")){
                         CcIsChequierM1On.setChecked(true);
@@ -608,6 +757,21 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                     CcPrixVteCheqM1.setText(st_CcPrixVteCheqM1);
                     CcNbPagesCheqM2.setText(st_CcNbPagesCheqM2);
                     CcPrixVteCheqM2.setText(st_CcPrixVteCheqM2);
+
+                    if (EvNatureFraisClot.equals("F")){
+                        rbEvNatureFraisClotFixe.setChecked(true);
+                        onRadioButtonClicked(rbEvNatureFraisClotFixe);
+                    }else if (EvNatureFraisClot.equals("T")){
+                        rbEvNatureFraisClotTaux.setChecked(true);
+                        onRadioButtonClicked(rbEvNatureFraisClotTaux);
+                    }else if (EvNatureFraisClot.equals("P")){
+                        rbEvNatureFraisClotPlage.setChecked(true);
+                        onRadioButtonClicked(rbEvNatureFraisClotPlage);
+                    }
+
+                    ET_EvValFraisCloture.setText(EvValFraisCloture);
+                    JR_EvBaseFraisCloture.setText(EvBaseFraisCloture);
+
 
                 }
             });
@@ -707,51 +871,97 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
     private void updateEAV() {
 
+        if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
+                !STRING_EMPTY.equals(ev_libelleEditText.getText().toString().trim())
+        ){
+            try {
 
-      /*  if (!STRING_EMPTY.equals(movieNameEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(genreEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(yearEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ratingEditText.getText().toString())) {*/
-        if(!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_libelleEditText.getText().toString())){
-            ev_code = ev_codeEditText.getText().toString();
-            ev_libelle = ev_libelleEditText.getText().toString();
-            ev_min_cpte = ev_min_cpteEditText.getText().toString();
-            ev_is_min_cpte_oblig = ev_is_min_cpte_obligSwitch.isChecked();
-            ev_tx_inter_an = ev_tx_inter_anEditText.getText().toString();
-            ev_is_tx_inter_an_oblig = ev_is_tx_inter_an_obligSwitch.isChecked();
-            ev_typ_dat_val = ev_typ_dat_valEditText.getText().toString();
-            ev_typ_dat_retrait_val = ev_typ_dat_retrait_valEditText.getText().toString();
-            ev_is_multi_eav_on = ev_is_multi_eav_onSwitch.isChecked();
-            ev_is_paie_ps_on = ev_is_paie_ps_onSwitch.isChecked();
-            ev_is_agios_on = ev_is_agios_onSwitch.isChecked();
 
-            //ev_typ_fr_agios = ev_typ_fr_agiosEditText.getText().toString();
+                ev_code = MyData.normalizeSymbolsAndAccents( ev_codeEditText.getText().toString());
+                ev_libelle = MyData.normalizeSymbolsAndAccents( ev_libelleEditText.getText().toString());
 
-            ev_mt_tx_agios_prelev = ev_mt_tx_agios_prelevEditText.getText().toString();
-            base_ev_mt_tx_agios_prelev = mySpinnerLocalite.getText().toString();
-            base_ev_tx_inter_an = mySpinnerBaseTxIntMensuel.getText().toString();
-            ev_plage_agios_from = ev_plage_agios_fromEditText.getText().toString();
-            ev_plage_agios_to = ev_plage_agios_toEditText.getText().toString();
-            ev_is_cheque_on = ev_is_cheque_onSwitch.isChecked();
-            ev_frais_clot_cpt = ev_frais_clot_cptEditText.getText().toString();
+                Double min_cpte, ev_cloture;
 
-            if (CcIsChequierM1On.isChecked()){
-                st_CcIsChequierM1On = "Y";
-            }else{
-                st_CcIsChequierM1On = "N";
+
+                if (!(ev_min_cpteEditText.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)) {
+                    min_cpte = Double.valueOf(ev_min_cpteEditText.getText().toString().replaceAll(",", "").trim());
+                    ev_min_cpteEditText.setText(min_cpte + "");
+                }
+
+                ev_min_cpte = ev_min_cpteEditText.getText().toString();
+
+                if (ev_is_min_cpte_obligSwitch.isChecked()) {
+                    ev_is_min_cpte_oblig = "Y";
+                } else {
+                    ev_is_min_cpte_oblig = "N";
+                }
+                if (ev_is_tx_inter_an_obligSwitch.isChecked()) {
+                    ev_is_tx_inter_an_oblig = "Y";
+                } else {
+                    ev_is_tx_inter_an_oblig = "N";
+                }
+                ev_tx_inter_an = ev_tx_inter_anEditText.getText().toString();
+                ev_typ_dat_val = ev_typ_dat_valEditText.getText().toString();
+                ev_typ_dat_retrait_val = ev_typ_dat_retrait_valEditText.getText().toString();
+                if (ev_is_multi_eav_onSwitch.isChecked()) {
+                    ev_is_multi_eav_on = "Y";
+                } else {
+                    ev_is_multi_eav_on = "N";
+                }
+                if (ev_is_paie_ps_onSwitch.isChecked()) {
+                    ev_is_paie_ps_on = "Y";
+                } else {
+                    ev_is_paie_ps_on = "N";
+                }
+                if (ev_is_agios_onSwitch.isChecked()) {
+                    ev_is_agios_on = "Y";
+                } else {
+                    ev_is_agios_on = "N";
+                }
+
+                //ev_typ_fr_agios = ev_typ_fr_agiosEditText.getText().toString();
+
+                ev_mt_tx_agios_prelev = ev_mt_tx_agios_prelevEditText.getText().toString();
+
+                base_ev_mt_tx_agios_prelev = ProduitEAV.encodeEvBaseTxAgiosPrelev(mySpinnerLocalite.getText().toString()) ;
+                base_ev_tx_inter_an = ProduitEAV.encodeEvBaseTxInterAn(mySpinnerBaseTxIntMensuel.getText().toString());
+
+                if (CcIsChequierM1On.isChecked()) {
+                    st_CcIsChequierM1On = "Y";
+                } else {
+                    st_CcIsChequierM1On = "N";
+                }
+                if (CcIsChequierM2On.isChecked()) {
+                    st_CcIsChequierM2On = "Y";
+                } else {
+                    st_CcIsChequierM2On = "N";
+                }
+
+                if (ev_is_cheque_onSwitch.isChecked()) {
+                    ev_is_cheque_on = "Y";
+                } else {
+                    ev_is_cheque_on = "N";
+                }
+
+                st_CcNbPagesCheqM1 = CcNbPagesCheqM1.getText().toString();
+                st_CcPrixVteCheqM1 = CcPrixVteCheqM1.getText().toString();
+                st_CcNbPagesCheqM2 = CcNbPagesCheqM2.getText().toString();
+                st_CcPrixVteCheqM2 = CcPrixVteCheqM2.getText().toString();
+
+
+                if (!(ET_EvValFraisCloture.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)) {
+                    ev_cloture = Double.valueOf(ET_EvValFraisCloture.getText().toString().replaceAll(",", "").trim());
+                    ET_EvValFraisCloture.setText(ev_cloture + "");
+                }
+                EvValFraisCloture = ET_EvValFraisCloture.getText().toString();
+                EvBaseFraisCloture = ProduitEAV.encodeEvBaseFraisCloture(JR_EvBaseFraisCloture.getText().toString()) ;
+
+
+
+                new UpdateEAVForGuichet.UpdateEavAsyncTask().execute();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            if (CcIsChequierM2On.isChecked()){
-                st_CcIsChequierM2On = "Y";
-            }else{
-                st_CcIsChequierM2On = "N";
-            }
-
-            st_CcNbPagesCheqM1=  CcNbPagesCheqM1.getText().toString();
-            st_CcPrixVteCheqM1=  CcPrixVteCheqM1.getText().toString();
-            st_CcNbPagesCheqM2=  CcNbPagesCheqM2.getText().toString();
-            st_CcPrixVteCheqM2=  CcPrixVteCheqM2.getText().toString();
-            new UpdateEavAsyncTask().execute();
         } else {
             Toast.makeText(UpdateEAVForGuichet.this,
                     "One or more fields left empty!",
@@ -788,7 +998,6 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
 
-
             /**/
             httpParams.put(KEY_EAV_ID, eavId);
 
@@ -808,14 +1017,10 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
             httpParams.put(KEY_EAV_TYP_FR_AGIOS, ev_typ_fr_agios);
             httpParams.put(KEY_EAV_MT_TX_AGIOS_PRELEV, ev_mt_tx_agios_prelev);
             httpParams.put(KEY_EAV_BASE_TX_AGIOS_PRELEV, base_ev_mt_tx_agios_prelev);
-            httpParams.put(KEY_EAV_PLAGE_AGIOS_FROM, ev_plage_agios_from);
-            httpParams.put(KEY_EAV_PLAGE_AGIOS_TO, ev_plage_agios_to);
+//            httpParams.put(KEY_EAV_PLAGE_AGIOS_FROM, ev_plage_agios_from);
+//            httpParams.put(KEY_EAV_PLAGE_AGIOS_TO, ev_plage_agios_to);
             httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on.toString());
-            httpParams.put(KEY_EAV_FRAIS_CLOT_CPT, ev_frais_clot_cpt);
-
-            httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
-            httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
-
+//            httpParams.put(KEY_EAV_FRAIS_CLOT_CPT, ev_frais_clot_cpt);
 
             httpParams.put(KEY_CcIsChequierM1On, st_CcIsChequierM1On);
             httpParams.put(KEY_CcNbPagesCheqM1, st_CcNbPagesCheqM1);
@@ -823,6 +1028,13 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
             httpParams.put(KEY_CcIsChequierM2On, st_CcIsChequierM2On);
             httpParams.put(KEY_CcNbPagesCheqM2, st_CcNbPagesCheqM2);
             httpParams.put(KEY_CcPrixVteCheqM2, st_CcPrixVteCheqM2);
+            //FCV
+            httpParams.put(KEY_EvNatureFraisClot, EvNatureFraisClot);
+            httpParams.put(KEY_EvValFraisCloture, EvValFraisCloture);
+            httpParams.put(KEY_EvBaseFraisCloture, EvBaseFraisCloture);
+
+            httpParams.put(KEY_GX_NUMERO, MyData.GUICHET_ID+"");
+            httpParams.put(KEY_CAISSE_ID, MyData.CAISSE_ID+"");
             /**/
 
 

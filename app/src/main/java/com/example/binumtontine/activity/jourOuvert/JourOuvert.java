@@ -560,7 +560,8 @@ if (validateLogin() && valueNew<=valueLAst){
             //Populating request parameters
             httpParams.put(KEY_JO_MT_DEMARRAGE, JoMtDemarr);
             httpParams.put(KEY_JO_MT_PIECE_MONNAIE, JoMtPMonnaie);
-            httpParams.put(KEY_JO_IS_CLOSED, JoIsClosed.toString());
+//            httpParams.put(KEY_JO_IS_CLOSED, JoIsClosed.toString());
+            httpParams.put(KEY_JO_IS_CLOSED, "N");
             httpParams.put(KEY_JO_GUICHET, String.valueOf(MyData.GUICHET_ID));
             httpParams.put(KEY_JO_TYPE, JoType);//new
 

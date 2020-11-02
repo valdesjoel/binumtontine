@@ -114,6 +114,7 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
     public static RadioButton rb_depot;
     public static RadioButton rb_retrait;
     public static RadioButton rb_decouvert;
+    public static RadioButton rb_decouvert_permanent;
     public static RadioButton rb_avance_speciale;
 
 
@@ -195,6 +196,7 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
         //onRadioButtonClicked(rb_decision_accordee);
         rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
         rb_decouvert = (RadioButton) findViewById(R.id.rb_nature_operation_decouvert);
+        rb_decouvert_permanent = (RadioButton) findViewById(R.id.rb_nature_operation_decouvert_permanent);
         rb_avance_speciale = (RadioButton) findViewById(R.id.rb_nature_operation_avance_speciale);
         tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
@@ -217,6 +219,7 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
             rb_depot.setChecked(true);
             rb_retrait.setVisibility(View.GONE);
             rb_decouvert.setVisibility(View.GONE);
+            rb_decouvert_permanent.setVisibility(View.GONE);
             rb_avance_speciale.setVisibility(View.GONE);
             rb_depot.setVisibility(View.VISIBLE);
             onRadioButtonClicked(rb_depot);
@@ -235,10 +238,11 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
             rb_retrait.setVisibility(View.VISIBLE);
             rb_depot.setVisibility(View.GONE);
             rb_decouvert.setVisibility(View.GONE);
+            rb_decouvert_permanent.setVisibility(View.GONE);
             rb_avance_speciale.setVisibility(View.GONE);
         }else if(typeOperation.equals("decouvert")){
             compteId = ListCompteDecouvertAdherentActivity.adherent.getNumero_compte()+"";
-            tvHeaderOperationEAV.setText("DEMANDE DE DECOUVERT");
+            tvHeaderOperationEAV.setText("DEMANDE DE DECOUVERT SIMPLE");
             rb_decouvert.setChecked(true);
             NumDossierEditText.setText("DECOUV SIMPLE/\n"+
                     ListCompteAdherentActivity_New.adherent.getAdCode()+ "DE "+
@@ -248,7 +252,24 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
             rb_retrait.setVisibility(View.GONE);
             rb_depot.setVisibility(View.GONE);
             rb_avance_speciale.setVisibility(View.GONE);
+            rb_decouvert_permanent.setVisibility(View.GONE);
             rb_decouvert.setVisibility(View.VISIBLE);
+            layoutPiecesFournies.setHint("Pièces fournies");
+            layoutNumDossier.setHint("Numéro de dossier");
+        }else if(typeOperation.equals("P")){
+            compteId = ListCompteDecouvertPermanentAdherentActivity.adherent.getNumero_compte()+"";
+            tvHeaderOperationEAV.setText("DEMANDE DE DECOUVERT PERMANENT");
+            rb_decouvert_permanent.setChecked(true);
+            NumDossierEditText.setText("DECOUV PERM/\n"+
+                    ListCompteAdherentActivity_New.adherent.getAdCode()+ "DE "+
+                    ListCompteAdherentActivity_New.adherent.getAdNom()+" "+
+                    ListCompteAdherentActivity_New.adherent.getAdPrenom());
+            onRadioButtonClicked(rb_decouvert_permanent);
+            rb_retrait.setVisibility(View.GONE);
+            rb_depot.setVisibility(View.GONE);
+            rb_avance_speciale.setVisibility(View.GONE);
+            rb_decouvert.setVisibility(View.GONE);
+            rb_decouvert_permanent.setVisibility(View.VISIBLE);
             layoutPiecesFournies.setHint("Pièces fournies");
             layoutNumDossier.setHint("Numéro de dossier");
         }else if(typeOperation.equals("avance_speciale")){
@@ -263,6 +284,7 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
             rb_retrait.setVisibility(View.GONE);
             rb_depot.setVisibility(View.GONE);
             rb_decouvert.setVisibility(View.GONE);
+            rb_decouvert_permanent.setVisibility(View.GONE);
             rb_avance_speciale.setVisibility(View.VISIBLE);
 
             layoutPiecesFournies.setHint("Pièces fournies");
@@ -340,7 +362,7 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
                 break;
             case R.id.rb_nature_operation_decouvert:
                 if (rb_decouvert.isChecked()) {
-                    natureOperation = "V";
+                    natureOperation = "S";
                     // str = checked1?"Nature frais taux":"";
 
                 }
@@ -349,6 +371,14 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
             case R.id.rb_nature_operation_avance_speciale:
                 if (rb_avance_speciale.isChecked()) {
                     natureOperation = "A";
+                    // str = checked1?"Nature frais taux":"";
+
+                }
+
+                break;
+            case R.id.rb_nature_operation_decouvert_permanent:
+                if (rb_decouvert_permanent.isChecked()) {
+                    natureOperation = "P";
                     // str = checked1?"Nature frais taux":"";
 
                 }
@@ -386,78 +416,12 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
         spinnerListEAV.setAdapter(spinnerAdapter);
     }
 
-    /**
-     * Async task to get all food categories
-     * */
-    private class GetProduitEAVList extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialogFetchProduitEavList = new ProgressDialog(OperationCompteCourant.this);
-            pDialogFetchProduitEavList.setMessage("Fetching produits's list..");
-            pDialogFetchProduitEavList.setCancelable(false);
-            pDialogFetchProduitEavList.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
-            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
-            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
-           // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
-
-
-
-            Log.e("Response: ", "> " + json);
-
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray(KEY_DATA);
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt(KEY_EAV_ID),
-                                    catObj.getString(KEY_EAV_LIBELLE));
-                            eavList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data", "Didn't receive any data from server!");
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialogFetchProduitEavList.isShowing())
-                pDialogFetchProduitEavList.dismiss();
-            populateSpinner();
-        }
-
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-     /*   Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        */
+
         eavID = eavListID.get(position);//pour recuperer l'ID du guichet selectionnée
 
     }
@@ -473,8 +437,6 @@ public class OperationCompteCourant extends AppCompatActivity implements Adapter
      */
     private void addEavAdherent() {
         if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
-                &&
                 !STRING_EMPTY.equals(OccLibelleMvmCC.getText().toString().trim())
                  ) {
 //            Log.e("**************",compteSolde);
@@ -507,11 +469,7 @@ if (true){
     new AddEavAdherentAsyncTask().execute();
             }else
             {
-//
-//                eavDepotMin = EavDepotMinEditText.getText().toString();
-//                adNumDossier = NumDossierEditText.getText().toString();
-//
-//                new AddEavAdherentAsyncTask().execute();
+
             }
 
 
