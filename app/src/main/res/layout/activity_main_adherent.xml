@@ -33,12 +33,41 @@
 
     <!--    Bloc date GONE-->
     <LinearLayout
-        android:id="@+id/bloc_date"
-        android:visibility="gone"
+        android:id="@+id/bloc_nbre_adherent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_lbl_nbre_adherent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="60"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="18dp"
+            android:text="Nombre d'adhérent:"
+            android:fontFamily="serif"
+            android:textColor="#000"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/tv_nbre_adherent"
+            android:fontFamily="serif"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="30"
+            android:textColor="@color/colorAccent1"
+            android:text="0"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/bloc_date"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/bloc_nbre_adherent">
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_fromDate"
             android:layout_width="0dp"
@@ -98,21 +127,22 @@
             android:text="@string/btn_afficher" />
 
     </LinearLayout>
-    <com.github.ybq.android.spinkit.SpinKitView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:visibility="gone"
-        android:id="@+id/spin_kit"
-        style="@style/SpinKitView.Large.Circle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:SpinKit_Color="@color/colorAccent"
-        android:layout_marginTop="60dp"/>
+<!--    <com.github.ybq.android.spinkit.SpinKitView-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--        android:visibility="gone"-->
+<!--        android:id="@+id/spin_kit"-->
+<!--        style="@style/SpinKitView.Large.Circle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        app:SpinKit_Color="@color/colorAccent"-->
+<!--        android:layout_marginTop="60dp"/>-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/bloc_date">
 
 

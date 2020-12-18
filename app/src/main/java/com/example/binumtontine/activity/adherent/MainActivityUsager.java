@@ -37,6 +37,8 @@ import com.example.binumtontine.R;
 import com.example.binumtontine.activity.BrouillardCaisse;
 import com.example.binumtontine.activity.ClotureJourneeActivity;
 import com.example.binumtontine.activity.CreateOperationExterneDetails;
+import com.example.binumtontine.activity.CreateOperationTransfertEnvoyer;
+import com.example.binumtontine.activity.CreateOperationTransfertRetrait;
 import com.example.binumtontine.activity.ListOperationExterneDetails;
 import com.example.binumtontine.activity.SituationGuichet;
 import com.example.binumtontine.activity.collecte.ListCollecteurActivity;
@@ -109,6 +111,9 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
     //    private String maDate = "" ;
     private static String endDate ="";
     private static LinearLayout bloc_date;
+    private static TextView tv_lbl_nbre_adherent;
+    private static TextView tv_nbre_adherent;
+
 
     //recyclerview objects
     private RecyclerView recyclerView;
@@ -123,6 +128,7 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
     //private List<MyList> listAdherent;
     private List<Adherent> listAdherent;
     private boolean isNewAdherent=true;
+    private int nbreAdherent= 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +140,7 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
         getSupportActionBar().setTitle("ACCUEIL DU GUICHET") ;
         getSupportActionBar().setSubtitle(MyData.GUICHET_NAME);
 
-        progressBar = (ProgressBar)findViewById(R.id.spin_kit);
+//        progressBar = (ProgressBar)findViewById(R.id.spin_kit);
 //        Sprite doubleBounce = new DoubleBounce();
 //        progressBar.setIndeterminateDrawable(doubleBounce);
 
@@ -146,6 +152,8 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
         listAdherent = new ArrayList<>();
 
         //START Manage Bloc Date
+        tv_lbl_nbre_adherent = (TextView) findViewById(R.id.tv_lbl_nbre_adherent);
+        tv_nbre_adherent = (TextView) findViewById(R.id.tv_nbre_adherent);
         bloc_date = (LinearLayout) findViewById(R.id.bloc_date);
         fromdate = (EditText) findViewById(R.id.input_txt_fromDate);
         todate = (EditText) findViewById(R.id.input_txt_toDate);
@@ -210,14 +218,7 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
         cal1.set(Calendar.DAY_OF_MONTH, 1);
         System.out.println("Start of the month:       " + cal1.getTime());
         System.out.println("... in milliseconds:      " + cal1.getTimeInMillis());
-/*
-// get start of the next month
-        cal.add(Calendar.MONTH, 1);
-        System.out.println("Start of the next month:  " + cal.getTime());
-        System.out.println("... in milliseconds:      " + cal.getTimeInMillis());
-//        new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute(); */
-// Create a Calendar instance
-// and set it to the date of interest
+
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(cal1.getTime());
@@ -243,7 +244,7 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
         fromdate.setText(maDate);
         todate.setText(endDate);
 //        String maDate = formatterInint.format(todayDateInit);
-        new MainActivityUsager.FetchAdherentGuichetAsyncTask().execute();
+        new MainActivityUsager.FetchNewAdherentGuichetAsyncTask().execute();
 
 //        String getfromdate = fromdate.getText().toString().trim();
         String getfrom[] = maDate.split("/");
@@ -347,7 +348,8 @@ public void onBackPressed() {
     //                    recyclerView.setLayoutParams(marginLayoutParams);
     //                progressBar.setVisibility(View.VISIBLE);
                         item.setTitle("Tous les Adhérents");
-                        new FetchNewAdherentGuichetAsyncTask().execute();
+                        isNewAdherent= false;
+//                        new FetchNewAdherentGuichetAsyncTask().execute();
                     }else{
                         new FetchAdherentGuichetAsyncTask().execute();
                         item.setTitle("Nouveaux Adhérents");
@@ -382,6 +384,20 @@ public void onBackPressed() {
                     startActivityForResult(intent_list_OperationExterneDetails,20);
 //                    Intent intent_OperationExterneDetails = new Intent(MainActivityUsager.this, CreateOperationExterneDetails.class);
 //                    startActivityForResult(intent_OperationExterneDetails,20);
+
+                return true;
+                case R.id.action_transfert:
+
+                return true;
+                case R.id.action_transfert_envoie:
+                    Intent intent_transfert_envoie = new Intent(MainActivityUsager.this, CreateOperationTransfertEnvoyer.class);
+                    startActivityForResult(intent_transfert_envoie,20);
+
+                return true;
+                case R.id.action_transfert_retrait:
+
+                    Intent intent_transfert_retrait = new Intent(MainActivityUsager.this, CreateOperationTransfertRetrait.class);
+                    startActivityForResult(intent_transfert_retrait,20);
 
                 return true;
                 case R.id.action_cotisations_annuelle:
@@ -429,7 +445,7 @@ public void onBackPressed() {
     private void loadRecyclerViewItem() {
         //you can fetch the data from server or some apis
 
-
+        tv_nbre_adherent.setText(listAdherent.size()+"");
         adapter = new CustomAdapterListAdherent(listAdherent, this);
         recyclerView.setAdapter(adapter);
 
@@ -647,7 +663,13 @@ public void onBackPressed() {
             runOnUiThread(new Runnable() {
                 public void run() {
                    // populateGuichetList();
-                    loadRecyclerViewItem();
+//                    loadRecyclerViewItem();
+
+                    try {
+                        loadRecyclerViewItem();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -758,6 +780,7 @@ public void onBackPressed() {
 
                         listAdherent.add(myList);
                     }
+                    nbreAdherent = listAdherent.size();
 
                 }
             } catch (JSONException e) {
@@ -768,7 +791,7 @@ public void onBackPressed() {
 
         protected void onPostExecute(String result) {
             pDialogNewAdherent.dismiss();
-            isNewAdherent=false;
+//            isNewAdherent=false;
 //            progressBar.setVisibility(View.GONE);
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -789,7 +812,12 @@ public void onBackPressed() {
 //                               .setNegativeButton("Non", null)
 //                               .show();
 //                   }
-                    loadRecyclerViewItem();
+//                    loadRecyclerViewItem();
+                   try {
+                        loadRecyclerViewItem();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });

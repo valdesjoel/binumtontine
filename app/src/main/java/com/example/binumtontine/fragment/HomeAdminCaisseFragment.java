@@ -25,6 +25,10 @@ import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFAct
 import com.example.binumtontine.activity.parametreGenerauxCx.TypeMembreCxActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.operationExterne.ListOperationExterneCx;
 import com.example.binumtontine.activity.parametreGenerauxOF.operationExternes.ListOperationExterneOF;
+import com.example.binumtontine.activity.pdf.ItextPDF;
+import com.example.binumtontine.activity.pdf.PDFWriterDemo;
+import com.example.binumtontine.activity.pdf.PdfActivity;
+import com.example.binumtontine.activity.pdf.RetraitEavPDFWriter;
 
 
 public class HomeAdminCaisseFragment extends Fragment implements View.OnClickListener{
@@ -174,6 +178,10 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
 
             case R.id.objet_credit_cx_card:
                 i = new Intent(getActivity(), ListObjetCreditCx.class);
+//                i = new Intent(getActivity(), PdfActivity.class);
+//                i = new Intent(getActivity(), PDFWriterDemo.class);
+//                i = new Intent(getActivity(), RetraitEavPDFWriter.class);
+//                i = new Intent(getActivity(), ItextPDF.class);
                 startActivity(i);
                 break;
             case R.id.etapes_demande_credit_cx_card:

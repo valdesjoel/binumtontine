@@ -356,54 +356,58 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-                    cx_denominationEditText.setText(cxDenomination);
-                    cx_siegeEditText.setText(cxSiege);
-                    mySpinnerLocalite.setText(cxLocalite);
-                    cx_num_agremEditText.setText(cx_num_agrem);
-                    cx_date_agremEditText.setText(cx_date_agrem);
-                    cx_date_debutEditText.setText(cx_date_debut);
-                    cx_adresseEditText.setText(cx_num_agrem);
+                    try {
+                        cx_denominationEditText.setText(cxDenomination);
+                        cx_siegeEditText.setText(cxSiege);
+                        mySpinnerLocalite.setText(cxLocalite);
+                        cx_num_agremEditText.setText(cx_num_agrem);
+                        cx_date_agremEditText.setText(cx_date_agrem);
+                        cx_date_debutEditText.setText(cx_date_debut);
+                        cx_adresseEditText.setText(cx_num_agrem);
                    /* cx_tel1EditText.setText(cx_tel1);
                     cx_tel2EditText.setText(cx_tel2);
                     cx_tel3EditText.setText(cx_tel3); */
 
-                    ccp_phone1.setFullNumber(cx_tel1);
-                    ccp_phone2.setFullNumber(cx_tel2);
-                    ccp_phone3.setFullNumber(cx_tel3);
-                    cx_nom_pcaEditText.setText(cx_nom_pca);
-                    cx_nom_dgEditText.setText(cx_nom_dg);
+                        ccp_phone1.setFullNumber(cx_tel1);
+                        ccp_phone2.setFullNumber(cx_tel2);
+                        ccp_phone3.setFullNumber(cx_tel3);
+                        cx_nom_pcaEditText.setText(cx_nom_pca);
+                        cx_nom_dgEditText.setText(cx_nom_dg);
 
-                    if (bool_CxIsPrConsAdmPCA.equals("Y")){
-                        CxIsPrConsAdmPCA.setChecked(true);
-                    }else{
-                        CxIsPrConsAdmPCA.setChecked(false);
-                    }
-                    if (bool_CxIsPrComCredPCC.equals("Y")){
-                        CxIsPrComCredPCC.setChecked(true);
-                    }else{
-                        CxIsPrComCredPCC.setChecked(false);
-                    }
+                        if (bool_CxIsPrConsAdmPCA.equals("Y")){
+                            CxIsPrConsAdmPCA.setChecked(true);
+                        }else{
+                            CxIsPrConsAdmPCA.setChecked(false);
+                        }
+                        if (bool_CxIsPrComCredPCC.equals("Y")){
+                            CxIsPrComCredPCC.setChecked(true);
+                        }else{
+                            CxIsPrComCredPCC.setChecked(false);
+                        }
 
-                    if (bool_CxIsDirCredDC.equals("Y")){
-                        CxIsDirCredDC.setChecked(true);
-                    }else{
-                        CxIsDirCredDC.setChecked(false);
-                    }
+                        if (bool_CxIsDirCredDC.equals("Y")){
+                            CxIsDirCredDC.setChecked(true);
+                        }else{
+                            CxIsDirCredDC.setChecked(false);
+                        }
 
-                    if (bool_CxIsAgentCredAC.equals("Y")){
-                        CxIsAgentCredAC.setChecked(true);
-                    }else{
-                        CxIsAgentCredAC.setChecked(false);
-                    }
-                    if (bool_CxIsDirGenCxDG.equals("Y")){
-                        CxIsDirGenCxDG.setChecked(true);
-                    }else{
-                        CxIsDirGenCxDG.setChecked(false);
-                    }
-                    if (bool_CxIsMultiCpteCourByMemb.equals("Y")){
-                        CxIsMultiCpteCourByMemb.setChecked(true);
-                    }else{
-                        CxIsMultiCpteCourByMemb.setChecked(false);
+                        if (bool_CxIsAgentCredAC.equals("Y")){
+                            CxIsAgentCredAC.setChecked(true);
+                        }else{
+                            CxIsAgentCredAC.setChecked(false);
+                        }
+                        if (bool_CxIsDirGenCxDG.equals("Y")){
+                            CxIsDirGenCxDG.setChecked(true);
+                        }else{
+                            CxIsDirGenCxDG.setChecked(false);
+                        }
+                        if (bool_CxIsMultiCpteCourByMemb.equals("Y")){
+                            CxIsMultiCpteCourByMemb.setChecked(true);
+                        }else{
+                            CxIsMultiCpteCourByMemb.setChecked(false);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
 

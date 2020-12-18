@@ -472,7 +472,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
         rbCrNatFrEtudDossPlage = (RadioButton) findViewById(R.id.rbCrNatFrEtudDossPlage);
         ET_CrValTxFrEtudDoss = (EditText) findViewById(R.id.input_txt_CrNatFrEtudDoss);
         JR_CrBaseTxFrEtudDoss = (JRSpinner) findViewById(R.id.spn_my_spinner_base_tauxCrNatFrEtudDoss); //A revoir car c'est un JRSpinner
-        JR_CrBaseTxFrEtudDoss.setItems(getResources().getStringArray(R.array.array_base_taux_credit)); //this is important, you must set it to set the item list
+        JR_CrBaseTxFrEtudDoss.setItems(getResources().getStringArray(R.array.array_CrBaseTxFrEtudDoss)); //this is important, you must set it to set the item list
         JR_CrBaseTxFrEtudDoss.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         JR_CrBaseTxFrEtudDoss.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         JR_CrBaseTxFrEtudDoss.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -524,7 +524,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
         });
 
         JR_CrBaseTxFraisDeblocCred = (JRSpinner) findViewById(R.id.spn_my_spinner_CrBaseTxFraisDeblocCred); //A revoir car c'est un JRSpinner
-        JR_CrBaseTxFraisDeblocCred.setItems(getResources().getStringArray(R.array.array_base_taux_credit)); //this is important, you must set it to set the item list
+        JR_CrBaseTxFraisDeblocCred.setItems(getResources().getStringArray(R.array.array_CrBaseTxFraisDeblocCred)); //this is important, you must set it to set the item list
         JR_CrBaseTxFraisDeblocCred.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         JR_CrBaseTxFraisDeblocCred.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         JR_CrBaseTxFraisDeblocCred.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -554,7 +554,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
         rbCrNatFraisDecaissCredPlage = (RadioButton) findViewById(R.id.rbCrNatFraisDecaissCredPlage);
         ET_CrValTxFraisDecaissCred = (EditText) findViewById(R.id.input_txt_CrValTxFraisDecaissCred);
         JR_CrBaseTxFraisDecaissCred = (JRSpinner) findViewById(R.id.spn_my_spinner_CrBaseFraisDecaissCred); //A revoir car c'est un JRSpinner
-        JR_CrBaseTxFraisDecaissCred.setItems(getResources().getStringArray(R.array.array_base_taux_credit)); //this is important, you must set it to set the item list
+        JR_CrBaseTxFraisDecaissCred.setItems(getResources().getStringArray(R.array.array_CrBaseFraisDecaissCred)); //this is important, you must set it to set the item list
         JR_CrBaseTxFraisDecaissCred.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         JR_CrBaseTxFraisDecaissCred.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         JR_CrBaseTxFraisDecaissCred.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -1801,11 +1801,11 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrIsJoursOuvresOnly(CrIsJoursOuvresOnly);
     monProduitCredit.setCrTypTxInter(CrTypTxInter);
     monProduitCredit.setCrValTxInter(ET_CrValTxInter.getText().toString());
-    monProduitCredit.setCrBaseTxInter(JR_CrBase_tauxInt.getText().toString());
+    monProduitCredit.setCrBaseTxInter(Credit.encodeCrBaseTxInter(JR_CrBase_tauxInt.getText().toString()));
     monProduitCredit.setCrIsTauxInteretAnOn(CrIsTauxInteretAnOn);
     monProduitCredit.setCrNatureTxIntAn(CrNatureTxIntAn);
     monProduitCredit.setCrTauxValTxIntAn(ET_CrTauxValTxIntAn.getText().toString());
-    monProduitCredit.setCrBaseTxIntAn(JR_CrBaseTxIntAn.getText().toString());
+    monProduitCredit.setCrBaseTxIntAn(Credit.encodeCrBaseTxIntAn(JR_CrBaseTxIntAn.getText().toString()));
     monProduitCredit.setCrIsTxIntDegressif(CrIsTxIntDegressif);
     monProduitCredit.setCrModeCalcInteret(CrModeCalcInteret);
     monProduitCredit.setCrPeriodCalcInteret(CrPeriodCalcInteret);
@@ -1814,7 +1814,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrIsTxIntNeg(CrIsTxIntNeg);
     monProduitCredit.setCrNatureTxPenRet(CrNatureTxPenRet);
     monProduitCredit.setCrValTxPenRet(ET_CrValTxInterPenRetard.getText().toString());
-    monProduitCredit.setCrBaseTxPenRet(JR_Crbase_tauxIntPenRetard.getText().toString());
+    monProduitCredit.setCrBaseTxPenRet(Credit.encodeCrBaseTxPenRet(JR_Crbase_tauxIntPenRetard.getText().toString()));
     monProduitCredit.setCrPeriodNatureTxPenRet(CrPeriodNatureTxPenRet);
     monProduitCredit.setCrIsTxPenRetardOn(CrIsTxPenRetardOn);
     monProduitCredit.setCrNatureJrTxPenRet(CrNatureJrTxPenRet);
@@ -1822,7 +1822,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrIsIntRetCreditOn(CrIsIntRetCreditOn);
     monProduitCredit.setCrNatureTxInt_IntRetCred(CrNatureTxInt_IntRetCred);
     monProduitCredit.setCrTauxInt_IntRetCred(ET_CrValTxInterRetard.getText().toString());
-    monProduitCredit.setCrBasexInt_IntRetCred(JR_Crbase_tauxIntRetard.getText().toString());
+    monProduitCredit.setCrBasexInt_IntRetCred(Credit.encodeCrBasexInt_IntRetCred(JR_Crbase_tauxIntRetard.getText().toString()));
     monProduitCredit.setCrPeriod_IntRetCred(CrPeriod_IntRetCred);
     monProduitCredit.setCrIsTxIntJrOn_IntRetCred(CrIsTxIntJrOn_IntRetCred);
     monProduitCredit.setCrNatJrTxIntJr_IntRetCred(CrNatJrTxIntJr_IntRetCred);
@@ -1852,15 +1852,15 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrIsFraisEtudDossOn(CrIsFraisEtudDossOn);
     monProduitCredit.setCrNatFrEtudDoss(CrNatFrEtudDoss);
     monProduitCredit.setCrValTxFrEtudDoss(ET_CrValTxFrEtudDoss.getText().toString());
-    monProduitCredit.setCrBaseTxFrEtudDoss(JR_CrBaseTxFrEtudDoss.getText().toString());
+    monProduitCredit.setCrBaseTxFrEtudDoss(Credit.encodeCrBaseTxFrEtudDoss(JR_CrBaseTxFrEtudDoss.getText().toString()));
     monProduitCredit.setCrIsFraisDeblocCredOn(CrIsFraisDeblocCredOn);
     monProduitCredit.setCrNatFraisDeblocCred(CrNatFraisDeblocCred);
     monProduitCredit.setCrValTxFraisDeblocCred(ET_CrValTxFraisDeblocCred.getText().toString());
-    monProduitCredit.setCrBaseTxFraisDeblocCred(JR_CrBaseTxFraisDeblocCred.getText().toString());
+    monProduitCredit.setCrBaseTxFraisDeblocCred(Credit.encodeCrBaseTxFraisDeblocCred(JR_CrBaseTxFraisDeblocCred.getText().toString()));
     monProduitCredit.setCrIsFraisDecaissCredOn(CrIsFraisDecaissCredOn);
     monProduitCredit.setCrNatFraisDecaissCred(CrNatFraisDecaissCred);
     monProduitCredit.setCrValTxFraisDecaissCred(ET_CrValTxFraisDecaissCred.getText().toString());
-    monProduitCredit.setCrBaseFraisDecaissCred(JR_CrBaseTxFraisDecaissCred.getText().toString());
+    monProduitCredit.setCrBaseFraisDecaissCred(Credit.encodeCrBaseFraisDecaissCred(JR_CrBaseTxFraisDecaissCred.getText().toString()));
     monProduitCredit.setCrIsFraisEtudByDAV(CrIsFraisEtudByDAV);
     monProduitCredit.setCrIsFraisDeblocByDAV(CrIsFraisDeblocByDAV);
     monProduitCredit.setCrIsFraisDecaissByDAV(CrIsFraisDecaissByDAV);
@@ -1874,7 +1874,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrIsCptEAPRemCredOn(CrIsCptEAPRemCredOn);
     monProduitCredit.setCrIsInterOffSiCapRembAnt(CrIsInterOffSiCapRembAnt);
     monProduitCredit.setCrTxInterEchNHon(ET_CrTxInterEchNHon.getText().toString());
-    monProduitCredit.setCrBaseInterEchNHon(JR_CrBaseInterEchNHon.getText().toString());
+    monProduitCredit.setCrBaseInterEchNHon(Credit.encodeCrBaseInterEchNHon(JR_CrBaseInterEchNHon.getText().toString()));
     monProduitCredit.setCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString());
     monProduitCredit.setCrIsRappDatEchCred(CrIsRappDatEchCred);
     monProduitCredit.setCrModelTextRappEchRemb(ET_CrModelTextRappEchRemb.getText().toString());

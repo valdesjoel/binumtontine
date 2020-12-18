@@ -115,6 +115,61 @@
                 />
 
         </LinearLayout>
+
+    <!--Debut Bloc Taux interet mensuel/annuel-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/LL_bloc_Tx_Int_VIB"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMargin"
+        android:orientation="vertical">
+        <!-- EvNatureTxInt /Enum('T','P')   * pour les cas de taux/T,
+        donc ayant une base, ou de Plage, avec code "VIB" dans le cas de Plage.-->
+        <!-- radiogroup -->
+        <LinearLayout
+            android:id="@+id/ll_EvNatureTxInt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblEvNatureTxInt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Type du taux d'intérêt mensuel"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblEvNatureFraisClot"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupEvNatureTxInt" >
+                <RadioButton
+                    android:id="@+id/rbEvNatureTxIntTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbEvNatureTxIntPlage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- ev_tx_inter_an/R. **  pour renseigner sa valeur si taux fixe.  -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_TauxInteretAnnuelEAV"
             style="@style/parent"
@@ -126,10 +181,9 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="18dp"
-                android:hint="Taux d'interêt mensuel"/>
+                android:hint="Taux d'interêt mensuel (%)"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Base du taux -->
+        <!-- EvBaseFraisCloture /A3 *  Pour renseigner sa base du taux -->
         <com.google.android.material.textfield.TextInputLayout
             android:visibility="gone"
             android:id="@+id/input_layout_BaseInteretAnnuelEAV"
@@ -153,6 +207,18 @@
                 android:textSize="18sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+        <!-- Lien pour accéder à la plage data VIB-->
+        <TextView
+            android:id="@+id/tv_plage_vib_eav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
         <!--Type date-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_type_de_date"
@@ -182,6 +248,10 @@
                 android:text="-15"
                 android:hint="@string/hint_type_de_date_retrait"/>
         </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+        <!--Fin Bloc Taux interet mensuel/annuel-->
+
+
 
         <!--Multi EAV-->
         <LinearLayout
@@ -357,6 +427,7 @@
                 android:textSize="18sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+        <!--valeur plage -->
         <TextView
             android:id="@+id/tv_plage_tiv_eav"
 
@@ -370,61 +441,7 @@
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
 
-        <!--valeur plage -->
-<!--        <LinearLayout-->
-<!--            android:visibility="gone"-->
-<!--            android:id="@+id/blk_plage_eav"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_marginTop="@dimen/loginViewsMargin"-->
-<!--            android:orientation="horizontal">-->
 
-<!--            <TextView-->
-<!--                android:id="@+id/lblTypeFraisCpteEavForPlage"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentTop="true"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_weight="1"-->
-<!--                android:gravity="center"-->
-<!--                android:inputType="numberDecimal"-->
-<!--                android:text="From:"-->
-<!--                android:textAppearance="?android:attr/textAppearanceMedium" />-->
-
-<!--            <EditText-->
-<!--                android:id="@+id/txt_EvTypTxInterFrom"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/lblNatureTauxInteretEAP"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_weight="1"-->
-<!--                android:inputType="numberDecimal"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:showDividers="beginning|middle|end" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/lblTypeFraisCpteEavForPlageFrom"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentTop="true"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_weight="1"-->
-<!--                android:gravity="center"-->
-<!--                android:text="To:"-->
-<!--                android:textAppearance="?android:attr/textAppearanceMedium" />-->
-
-<!--            <EditText-->
-<!--                android:id="@+id/txt_EvTypTxInterTo"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/lblNatureTauxInteretEAP"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_weight="1"-->
-<!--                android:inputType="numberDecimal"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:showDividers="beginning|middle|end"/>-->
-
-<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

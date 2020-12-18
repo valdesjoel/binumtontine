@@ -51,6 +51,7 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.CompteCourant;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
@@ -542,7 +543,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
             }
         });
 
-        mySpinnerCcBasexInt_IntRetAvceSpec.setItems(getResources().getStringArray(R.array.array_base_taux_penal_retard_decouv_simple_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerCcBasexInt_IntRetAvceSpec.setItems(getResources().getStringArray(R.array.array_CcBasexInt_IntRetAvceSpec)); //this is important, you must set it to set the item list
         mySpinnerCcBasexInt_IntRetAvceSpec.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerCcBasexInt_IntRetAvceSpec.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerCcBasexInt_IntRetAvceSpec.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -552,7 +553,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             }
         });
-        mySpinnerCcBasexInt_IntRetDecouv.setItems(getResources().getStringArray(R.array.array_base_taux_penal_retard_decouv_simple_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerCcBasexInt_IntRetDecouv.setItems(getResources().getStringArray(R.array.array_base_taux_int_retard_decouv_simple_cpte_courant)); //this is important, you must set it to set the item list
         mySpinnerCcBasexInt_IntRetDecouv.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerCcBasexInt_IntRetDecouv.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerCcBasexInt_IntRetDecouv.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -563,7 +564,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
             }
         });
         /*Base tx int avance speciale debut*/
-        mySpinnerCcBaseTxIntAvceSpec.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        mySpinnerCcBaseTxIntAvceSpec.setItems(getResources().getStringArray(R.array.array_CcBaseTxIntAvceSpec)); //this is important, you must set it to set the item list
         mySpinnerCcBaseTxIntAvceSpec.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerCcBaseTxIntAvceSpec.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerCcBaseTxIntAvceSpec.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -575,7 +576,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
         });
         /*Base tx int avance speciale fin*/
         /*Base tx int pénalité avance speciale debut*/
-        mySpinnerCcBaseTxIntPenAvceSpec.setItems(getResources().getStringArray(R.array.array_base_taux_int_pen_avce_spec)); //this is important, you must set it to set the item list
+        mySpinnerCcBaseTxIntPenAvceSpec.setItems(getResources().getStringArray(R.array.array_CcBaseTxIntPenAvceSpec)); //this is important, you must set it to set the item list
         mySpinnerCcBaseTxIntPenAvceSpec.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerCcBaseTxIntPenAvceSpec.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerCcBaseTxIntPenAvceSpec.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -586,7 +587,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
             }
         });
         /*Base tx int pénalité avance speciale fin*/
-        mySpinnerBaseTxMtAgio.setItems(getResources().getStringArray(R.array.array_base_taux_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerBaseTxMtAgio.setItems(getResources().getStringArray(R.array.array_base_agios_cpte_courant)); //this is important, you must set it to set the item list
         mySpinnerBaseTxMtAgio.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerBaseTxMtAgio.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerBaseTxMtAgio.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -596,7 +597,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
 
             }
         });
-        mySpinnerBaseTxCommMvm.setItems(getResources().getStringArray(R.array.array_base_taux_cpte_courant)); //this is important, you must set it to set the item list
+        mySpinnerBaseTxCommMvm.setItems(getResources().getStringArray(R.array.array_CcBaseTxCommMvm)); //this is important, you must set it to set the item list
         mySpinnerBaseTxCommMvm.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerBaseTxCommMvm.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerBaseTxCommMvm.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -752,6 +753,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
         addButton = (Button) findViewById(R.id.btn_save_cc);
         cancelButton = (Button) findViewById(R.id.btn_clean);
 
+        //CTP
         tv_plageTxMtAgio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1833,15 +1835,15 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
 //            st_CcIsAvanceSpecialOn=  CcIsAvanceSpecialOn.isChecked();
                 //st_CcNatureTxIntDecouv=  CcNatureTxIntDecouv.getText().toString();
                 st_CcValTxIntDecouv=  CcValTxIntDecouv.getText().toString();
-                baseCcTxIntDecouv = mySpinnerBaseTxIntDecouv.getText().toString();
-                baseCcTxIntPenRetard = mySpinnerCcBaseTxIntPenRetard.getText().toString();
+                baseCcTxIntDecouv = CompteCourant.encodeCcBaseTxIntDecouv(mySpinnerBaseTxIntDecouv.getText().toString());
+                baseCcTxIntPenRetard = CompteCourant.encodeCcBaseTxIntPenRetard(mySpinnerCcBaseTxIntPenRetard.getText().toString());
 //    st_CcPlageTxIntDecouvFrom=  CcPlageTxIntDecouvFrom.getText().toString();
 //    st_CcPlageTxIntDecouvTo=  CcPlageTxIntDecouvTo.getText().toString();
                 st_CcDureeMaxDecouv=  CcDureeMaxDecouv.getText().toString();
                 // st_CcNatureTypDureDecouv=  CcNatureTypDureDecouv.getText().toString();
                 //st_CcNatureTxMtAgio=  CcNatureTxMtAgio.getText().toString();
                 st_CcValTxMtAgio=  CcValTxMtAgio.getText().toString();
-                st_CcNatBaseAgio = mySpinnerBaseTxMtAgio.getText().toString();
+                st_CcNatBaseAgio = CompteCourant.encodeCcNatBaseAgio(mySpinnerBaseTxMtAgio.getText().toString());
 //    st_CcPlageTxMtAgioFrom=  CcPlageTxMtAgioFrom.getText().toString();
 //            st_CcPlageTxMtAgioTo=  CcPlageTxMtAgioTo.getText().toString();
                 //st_CcNatBaseAgio=  CcNatBaseAgio.getText().toString();
@@ -1892,14 +1894,14 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
 //    st_CcIsTxCommMvmOper=  CcIsTxCommMvmOper.isChecked();
                 //st_CcNatTxComm=  CcNatTxComm.getText().toString();
                 st_CcValTxCommMvm=  CcValTxCommMvm.getText().toString();
-                baseCcTxCommMvm  = mySpinnerBaseTxCommMvm.getText().toString();
+                baseCcTxCommMvm  = CompteCourant.encodeCcBaseTxCommMvm(mySpinnerBaseTxCommMvm.getText().toString());
 //    st_CcPlageTxCommMvmFrom=  CcPlageTxCommMvmFrom.getText().toString();
 //    st_CcPlageTxCommMvmTo=  CcPlageTxCommMvmTo.getText().toString();
 
                 st_CcTauxIntAvceSpec=  CcTauxIntAvceSpec.getText().toString();
-                baseTxIntAvceSpec  = mySpinnerCcBaseTxIntAvceSpec.getText().toString();
+                baseTxIntAvceSpec  = CompteCourant.encodeCcBaseTxIntAvceSpec(mySpinnerCcBaseTxIntAvceSpec.getText().toString());
                 st_CcTauxIntPenAvceSpec=  CcTauxIntPenAvceSpec.getText().toString();
-                baseTxIntPenAvceSpec  = mySpinnerCcBaseTxIntPenAvceSpec.getText().toString();
+                baseTxIntPenAvceSpec  = CompteCourant.encodeCcBaseTxIntPenAvceSpec(mySpinnerCcBaseTxIntPenAvceSpec.getText().toString());
                 /*START NEW*/
 
                 if(SwitchCcIsTxInteretJrOn.isChecked()){
@@ -1954,10 +1956,10 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
                 }
                 st_CcTauxIntPenRetard = CcTauxIntPenRetard.getText().toString();
                 st_CcTauxInt_IntRetDecouv = CcTauxInt_IntRetDecouv.getText().toString();
-                st_CcBasexInt_IntRetDecouv = mySpinnerCcBasexInt_IntRetDecouv.getText().toString();
+                st_CcBasexInt_IntRetDecouv = CompteCourant.encodeCcBasexInt_IntRetDecouv(mySpinnerCcBasexInt_IntRetDecouv.getText().toString());
                 st_CcDureeMaxAvceSpec=  CcDureeMaxAvceSpec.getText().toString();
                 st_CcTauxInt_IntRetAvceSpec=  CcTauxInt_IntRetAvceSpec.getText().toString();
-                st_CcBasexInt_IntRetAvceSpec=  mySpinnerCcBasexInt_IntRetAvceSpec.getText().toString();
+                st_CcBasexInt_IntRetAvceSpec=  CompteCourant.encodeCcBasexInt_IntRetAvceSpec(mySpinnerCcBasexInt_IntRetAvceSpec.getText().toString());
                 st_CcMaxMontantDecouvertPermanentAutorise=  CcMaxMontantDecouvertPermanentAutorise.getText().toString();
                 st_CcMaxDureeDecouvertPermanentAutorise=  CcMaxDureeDecouvertPermanentAutorise.getText().toString();
 

@@ -12,37 +12,31 @@
 
     <!-- for server address -->
     <!-- navigation drawer item labels  -->
-    <string-array name="nav_drawer_labels">
-        <item>@string/menu_network</item>
-        <item>@string/menu_produit</item>
-        <item>@string/menu_operation_externe</item>
-        <item>@string/menu_activation_zone_activite</item>
-    </string-array>
+    <string name="menu_network">Mise en place du réseau</string>
     <!-- <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_friends</item>
         <item>@string/nav_item_notifications</item>
     </string-array> -->
-    <string name="menu_network">Mise en place du réseau</string>
     <string name="menu_produit">Mise en place des produits</string>
     <string name="menu_operation_externe">Oprérations externes</string>
     <string name="menu_activation_zone_activite">Zones d\'activités</string>
-
     <string name="title_messages">Messages</string>
+
     <string name="title_friends">Friends</string>
     <string name="title_home">Home</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
+
+
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="openDrawer">open_drawer</string>
     <string name="closeDrawer">close_drawer</string>
+    <string name="nav_photos">Mise en place des produits bancaires</string>
 
     <!-- Navigation Drawer menu labels -->
-    <string name="nav_photos">Mise en place des produits bancaires</string>
     <string name="nav_home">Mise en place des caisses</string>
     <string name="nav_movies">Création des administrateurs de caisses</string>
     <string name="nav_movies1">Paramétrages des pièces et frais </string>
@@ -51,42 +45,24 @@
     <string name="nav_notifications">Notifications</string>
     <string name="nav_settings">Zones d\'activités</string>
     <string name="nav_about_us">A propos de nous</string>
+    <string name="activity_title_about_us">About Us</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
-    <string-array name="nav_item_activity_titles">
-        <item>Accueil</item>
-        <item>Produits</item>
-        <item>Oprérations externes</item>
-        <item>Notifications</item>
-        <item>Zones d\'activités</item>
-    </string-array>
-    <!-- Toolbar titles when navigation menu item is selected for admn caisse-->
-    <string-array name="nav_item_activity_titles_caisse">
-        <item>Accueil</item>
-        <item>Produits</item>
-        <item>Guichets</item>
-        <item>Agent de guichets</item>
-        <item>Types de membres</item>
-        <item>Pièces et Frais</item>
-        <item>Paramétrage guichet</item>
-        <item>Notifications</item>
-        <item>Zones d\'activités</item>
-    </string-array>
-
-    <string name="activity_title_about_us">About Us</string>
     <string name="activity_title_privacy_policy">Privacy Policy</string>
+    <!-- Toolbar titles when navigation menu item is selected for admn caisse-->
     <string name="action_clear_all">Clear All</string>
+
     <string name="action_logout">Se déconnecter</string>
     <string name="action_mark_all_read">Mark All as Read</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email: (*)</string>
+    <string name="hint_password">Password: (*)</string>
 
 
     <!-- For TextFieldsFloating -->
 
 
-    <string name="hint_name">Full Name</string>
-    <string name="hint_email">Email: (*)</string>
-    <string name="hint_password">Password: (*)</string>
     <string name="btn_sign_up">Sign Up</string>
     <string name="err_msg_name">Entrer votre nom complet</string>
     <string name="err_msg_login">Entrer votre identifiant</string>
@@ -132,6 +108,9 @@
     <string name="my_products">Choisir vos produits</string>
     <string name="my_locality">Choisir votre localité</string>
     <string name="my_guichet">Choisir votre guichet: (*)</string>
+    <string name="produit_eav">Produit EAV</string>
+    <string name="produit_eap">Produit EAP</string>
+    <string name="produit_eat">Produit EAT</string>
 
 
     <!--<string-array name="array_pre_parametrage">
@@ -142,6 +121,363 @@
 
     </string-array>
     -->
+    <string name="produit_dav">Produit DAV</string>
+    <string name="produit_dap">Produit DAP</string>
+    <string name="produit_dat">Produit DAT</string>
+    <string name="produit_cc">Produit compte courant</string>
+    <string name="objet_credit">Objet crédit</string>
+    <string name="produit_credit">Produit Crédit</string>
+
+    <string name="produit_transfert_classique">Produit Transfert classique</string>
+    <string name="produit_transfert_to_mtn">Produit Transfert vers MTN</string>
+    <string name="produit_transfert_to_orange">Produit Transfert vers ORANGE</string>
+    <!-- Il serait mieux de gérer ces types plutot en BD pour faciliter la maintenance -->
+    <string name="produit_transfert_to_eu">Produit Transfert vers EXPRESS UNION</string>
+
+    <string name="op_ext">Opérations externes</string>
+
+    <!-- String of product-->
+    <string name="title_activity_caisse">Gestion des caisses</string>
+    <string name="tab_text_1">Créer une caisse</string>
+    <string name="tab_text_2">Liste des caisses</string>
+    <string name="title_activity_users_caisse">Responsables de caisses</string>
+    <string name="tab_title_create_user_caisse">Créer un utilisateur</string>
+    <string name="tab_title_list_user_caisse">Liste des utilisateurs</string>
+    <string name="title_activity_guichet">Gestion des guichets</string>
+    <string name="tab_title_create_guichet">Créer un guichet</string>
+    <string name="tab_title_list_pieces">Pièces à fournir</string>
+    <string name="tab_title_list_frais">Frais à payer</string>
+    <string name="tab_title_param1">Paramètres 1</string>
+    <string name="tab_title_param2">Paramètres 2</string>
+    <string name="tab_title_list_guichet">Liste des guichets</string>
+    <string name="tab_title_param_generaux">PIECES ET FRAIS</string>
+    <string name="nav_create_guichet">Menu</string>
+    <string name="nav_create_produit">Mise en place des produits</string>
+
+
+    <string name="nav_create_user_on_guichet">Ajouter des usagers</string>
+    <string name="nav_parametrage_general_caisse">Paramétrage général</string>
+    <string name="title_activity_produit_caisse">Paramétrage des produits</string>
+    <string name="tab_title_param_produit_eav_caisse">EAV</string>
+    <string name="tab_title_param_produit_eap_caisse">EAP</string>
+    <string name="tab_title_param_produit_eat_caisse">EAT</string>
+    <string name="tab_title_param_produit_cc_caisse">Compte courant</string>
+    <string name="tab_title_param_produit_transfert_caisse">Transfert</string>
+    <string name="tab_title_param_produit_credit_caisse">Crédit</string>
+    <string name="hint_taux_mensuel">Appliquer le taux d\'interêt mensuel</string>
+    <string name="hint_taux_interet">Taux d\'interêt(%)</string>
+    <string name="hint_taux_interet_mensuel">Taux d\'interêt mensuel(%)</string>
+    <string name="hint_code_EAV">Code EAV</string>
+
+    <string name="hint_code_credit">Code crédit</string>
+
+    <string name="hint_Libelle_EAV">Libellé</string>
+    <string name="hint_Libelle_piece">Libellé de la pièce:</string>
+    <string name="hint_Libelle_frais">Libellé du frais:</string>
+    <string name="hint_Libelle_objet_credit">Libellé Objet de crédit:</string>
+    <!--    DEBUT BASE EAV-->
+    <string name="hint_Libelle_etape_demande_credit">Libellé étape demande de crédit:</string>
+    <string name="hint_Libelle_operation_externe"> Libellé opération externe:</string>
+    <!--    FIN BASE EAV-->
+
+    <!--    DEBUT BASE EAP-->
+    <string name="hint_Libelle_statut_etape_demande_credit">Libellé statut étape demande de crédit:</string>
+    <string name="tv_statut_etape_demande_credit">Etape demande de crédit:</string>
+    <string name="hint_Num_ordre_etape_demande_credit">Numéro d\'ordre de l\'étape:</string>
+    <string name="hint_Num_ordre_statut_etape_demande_credit">Numéro d\'ordre du statut:</string>
+    <!--    FIN BASE EAP-->
+
+
+    <!--    DEBUT BASE EAT-->
+    <string name="hint_Details_objet_credit">Détails Objet de crédit:</string>
+    <string name="hint_Min_compte_eav">Minimum compte:</string>
+    <string name="hint_duree_min_credit">Durée min crédit (en mois)</string>
+    <string name="hint_nombre_unite_pas">Nombre d’unités du pas</string>
+    <!--    FIN BASE EAT-->
+
+    <string name="hint_duree_max_credit">Durée max crédit (en mois) </string>
+    <string name="hint_code_EAP">Code EAP</string>
+
+    <string name="hint_Min_Mt_Mise_eav">Montant minimum mise</string>
+    <string name="select_caisse">Choisir une caisse</string>
+
+    <string name="title_activity_produit_eav">Liste des produits EAV</string>
+    <string name="title_activity_produit_eap">Liste des produits EAP</string>
+
+    <string name="title_activity_produit_eat">Liste des produits EAT</string>
+
+    <string name="title_activity_produit_cc">Liste des comptes courants</string>
+    <string name="title_activity_produit_credit">Liste des produits crédits</string>
+    <string name="view_all">View All Movies</string>
+
+    <string name="add_new">Add New Movie</string>
+    <string name="title_activity_movie_update_delete">MovieUpdateDeleteActivity</string>
+    <string name="movieName">Movie Name</string>
+
+    <string name="genre">Genre</string>
+    <string name="year">Year</string>
+    <string name="rating">Rating</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
+    <string name="btn_enregistrer">ENREGISTRER</string>
+    <string name="btn_afficher">OK</string>
+
+    <string name="meat">meat</string>
+    <string name="cheese">cheese</string>
+    <string name="btn_supprimer">SUPPRIMER</string>
+    <string name="appellation_produit">APPELLATION DES PRODUITS</string>
+
+    <string name="appellation_client">APPELLATION DES CLIENTS</string>
+    <string name="appellation_periodicite_cc">Périodicité par défaut des taux d\'intérét utilisés pour le Compte courant</string>
+    <string name="appellation_periodicite_cr">Périodicité par défaut des taux d\'intérét utilisés pour le Crédit</string>
+    <string name="ordre_remboursement_decouvert">Ordre de remboursement du Découvert</string>
+    <string name="ordre_remboursement_credit">Ordre de remboursement du Crédit</string>
+    <string name="hint_type_de_date">Date depôt (en jour):</string>
+    <string name="register">REGISTER</string>
+    <string name="login_email_hint">Login</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_login_hint">Vous avez déjà un compte? Se connecter</string>
+    <string name="login_signup_hint">Je n\'ai pas de compte? S\'inscrire</string>
+    <string name="hint_heure_cloture">Heure de clôture</string>
+    <string name="hint_code_EAT">Code EAT</string>
+    <string name="hint_code_Cpte_Courant">Code Compte Courant</string>
+    <string name="hint_code_piece">Code de la pièce:</string>
+    <string name="hint_code_frais">Code du frais:</string>
+    <string name="hint_code_objet_credit">Code objet de crédit:</string>
+    <string name="hint_code_statut_credit">Code statut de crédit:</string>
+    <string name="hint_code_etape_demande_credit">Code étape demande de crédit:</string>
+    <string name="hint_code_operation_externe">Code opération Externe:</string>
+    <string name="btn_annuler">ANNULER</string>
+    <string name="btn_retour">RETOUR</string>
+    <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
+    <string name="action_all">Tous</string>
+    <string name="action_to_affect">Produit à affecter au guichet</string>
+    <string name="action_demande_de_retrait">Demande de retrait</string>
+    <string name="action_paiement_cheque">Paiement chèque</string>
+    <string name="action_transfert_solde_mensuel">Transfert solde mensuel</string>
+    <string name="action_demande_de_chequier">Demande de chéquier</string>
+    <string name="action_ouverture_de_journee">Ouverture de journée</string>
+    <string name="action_already_affect">Produit déjà affecté au guichet</string>
+    <string name="action_membre">MEMBRE</string>
+    <string name="action_usager">USAGER</string>
+    <string name="action_salarie">SALARIE</string>
+    <string name="action_affilie">AFFILIE COLLECTE</string>
+
+
+    <!-- begin remotemysqlconnection-->
+
+    <string name="action_entreprise">ENTREPRISE</string>
+    <string name="action_gic">GIC</string>
+    <string name="action_cooperative">COOPERATIVE</string>
+    <string name="action_association">ASSOCIATION</string>
+    <string name="action_groupe_jeune">GROUPE JEUNE</string>
+    <string name="action_groupe_femme">GROUPE FEMME</string>
+    <string name="action_groupe_homme">GROUPE HOMME</string>
+    <string name="action_groupe_mixte">GROUPE MIXTE</string>
+    <string name="action_organisation_paysanne">ORGANISATION PAYSANNE</string>
+    <string name="my_caisse_name">Caisse:</string>
+    <string name="produit_title">Produit épargne</string>
+    <string name="produit_main">EAV PRINCIPAL:</string>
+    <string name="produit_name">DAV ORDINAIRE</string>
+    <string name="hint_TrRefOper">Saisir le numéro de la transaction (*)</string>
+    <string name="nom_exp">Nom expéditeur (*)</string>
+    <string name="nom_dest">Nom bénéficiaire (*)</string>
+    <string name="nom_adherent">Nom adhérent (*)</string>
+    <string name="prenom_adherent">Prénom adherent</string>
+    <string name="prenom_exp">Prénom expéditeur</string>
+    <string name="prenom_dest">Prénom bénéficiaire</string>
+    <string name="lieu_naiss_adherent">Lieu de naissance (*)</string>
+    <string name="nom_conjoint_adherent">Nom complet du conjoint</string>
+    <string name="numero_manuel_adherent">Numéro manuel (*)</string>
+    <string name="hint_type_piece">Type de pièce (*)</string>
+    <string name="numero_piece_adherent">Numéro de la pièce (*)</string>
+    <string name="personne_a_contacter_adherent">Personne à contacter</string>
+    <string name="hint_profession">Profession (*)</string>
+
+    <!--end remotemysqlconnection -->
+
+    <string name="nationalite">Nationalité (*)</string>
+    <!--<string name="login_email_hint">Email</string> -->
+    <string name="autre_statut1_adherent">Autre statut 1</string>
+    <string name="autre_statut2_adherent">Autre statut 2</string>
+    <string name="domicile_adherent">Domicile</string>
+    <string name="adresse">Adresse</string>
+    <string name="hint_TrCodeSecret">Code secret</string>
+    <string name="details">Détails</string>
+    <string name="distance_adherent">Distance</string>
+    <string name="hint_fax">Fax</string>
+    <string name="hint_date_naiss_adherent">Date de naissance (*)</string>
+    <string name="nbre_enfant_adherent">Nombre d\'enfant (*)</string>
+    <string name="action_situation_guichet">Situation du guichet</string>
+    <string name="action_interets">Interêts</string>
+    <string name="action_brouillard_de_caisse">Brouillard de caisse</string>
+    <string name="action_penalites">Penalités</string>
+    <string name="action_cloturer_la_journee">Cloturer la journée</string>
+    <string name="action_transfert_envoie">Envoyer de l\'argent</string>
+    <string name="action_transfert_retrait">Retirer de l\'argent</string>
+    <string name="action_transfert_transactions">Les transactions</string>
+    <string name="action_operation_externe">Opérations externes</string>
+    <string name="action_add_operation_externe">Nouvelle Opération</string>
+    <string name="action_list_operation_externe">Liste des Opérations</string>
+    <string name="action_cotisations_annuelle">Cotisations annuelle</string>
+    <string name="action_jour_anterieur">Jour antérieur</string>
+    <string name="action_collecte_journaliere">Collecte journalière</string>
+    <string name="action_nouveaux_adherent">Nouveaux adhérents</string>
+    <string name="action_remboursements">Remboursements</string>
+    <string name="action_validation_dette_hors_bilan">Validation Dette Hors bilan</string>
+    <string name="action_paiement_dette_hors_bilan">Paiement Dette Hors bilan</string>
+    <string name="action_remboursement_anticipe">Remboursement anticipé</string>
+    <string name="action_transfert">Transfert</string>
+    <string name="action_person_add">Ajouter un adherent</string>
+    <string name="action_etape_suivante">Etape suivante</string>
+    <string name="action_traitement_de_la_demande">Traitement de la demande</string>
+    <string name="action_decouvert_add">Nouveau découvert simple</string>
+    <string name="action_decouvert_permanent_add">Nouveau découvert permanent</string>
+    <string name="action_avance_speciale_add">Nouvelle avance spéciale</string>
+    <string name="hint_montant_demarrage">Montant de démarrage</string>
+    <string name="btn_valider">VALIDER</string>
+    <string name="hint_montant_piece_monnaie">Montant pièces de monnaie</string>
+    <string name="my_town">Ville:</string>
+    <string name="lieu_travail_adherent">Lieu de travail:</string>
+    <string name="activite_principal_adherent">Activité principale:</string>
+    <string name="hint_validite_fin_adherent">Date d\'expiration: (*)</string>
+    <string name="hint_validite_debut_adherent">Date de délivrance: (*)</string>
+    <string name="hint_date_debut">Date de début: (*)</string>
+    <string name="hint_date_fin">Date de fin: (*)</string>
+    <string name="enter_number">saisissez un montant valide</string>
+    <string name="hint_depot_minimum">Dépôt minimum</string>
+    <string name="hint_CcaMtMaxDecouv">Plafond decouvert </string>
+    <string name="hint_montant_demande_credit">Montant sollicité</string>
+    <string name="hint_duree_emprunt">Durée emprunt (en mois)</string>
+    <string name="hint_credit_anterieur1">Crédit antérieur N°1</string>
+    <string name="hint_credit_anterieur2">Crédit antérieur N°2</string>
+    <string name="hint_credit_anterieur3">Crédit antérieur N°3</string>
+    <string name="hint_cumul_dette_encours">Cumul dette encours</string>
+    <string name="hint_mt_bloque">Montant bloqué</string>
+    <string name="hint_moyenne_epargne_mensuelle">Moyenne epargne mensuelle</string>
+    <string name="hint_total_epargne">Total épargne</string>
+    <string name="hint_montant_autre_revenus">Montant Autres Revenus</string>
+    <string name="hint_epargne1">Epargne</string>
+    <string name="hint_montant_revenus_fixes">Montant revenus fixes</string>
+    <string name="produit_a_vue">Produit à vue:</string>
+    <string name="pd_type_data">Type frais</string>
+    <string name="hint_numero_dossier">Numéro de dossier</string>
+    <string name="hint_dc_description">Description de la demande</string>
+    <string name="hint_nature_activite">Nature activité (revenus)</string>
+    <string name="hint_frequence_revenus">Fréquence revenus</string>
+    <string name="hint_nomAval1_1">Nom avaliste 1</string>
+    <string name="hint_numCompte1">Numéro de compte</string>
+    <string name="hint_nomAval1_2">Nom avaliste 2</string>
+    <string name="produit_a_terme">Produit à terme</string>
+    <string name="produit_a_periodicite">Produit à périodicité</string>
+    <string name="duree_produit">Durée (en mois):</string>
+    <string name="hint_montant_mise">Montant mise</string>
+    <string name="hint_montant_dat">Montant DAT</string>
+    <string name="hint_montant_initialisation">Montant d\'initialisation</string>
+    <string name="hint_Tx_Int_min_autorise_decouvert">Tx Int min découvert</string>
+    <string name="hint_Tx_Int_min_autorise_decouvert_perm">Tx Int min découv perm</string>
+    <string name="hint_Tx_Int_min_autorise_credit">Tx Int min crédit</string>
+    <string name="hint_Tx_Int_max_autorise_credit">Tx Int max crédit</string>
+    <string name="hint_nbre_max_mois_decouv">Nbre max mois Découv +AvceSpec + Dec_Perm pr suivi hors Bilan</string>
+    <string name="hint_nbre_max_mois_credit">Nbre max mois Crédit pour le suivi hors Bilan</string>
+    <string name="hint_Tx_Int_max_autorise_decouvert_perm">Tx Int max découv perm</string>
+    <string name="hint_Tx_Int_max_autorise_decouvert">Tx Int max découvert</string>
+    <string name="hint_Tx_Int_min_autorise_AvSpec_ou_Fcx">Tx Int min AvSpec ou Fcx</string>
+    <string name="hint_Tx_Int_max_autorise_AvSpec_ou_Fcx">Tx Int max AvSpec ou Fcx</string>
+    <string name="hint_montant_actuel">Montant actuel</string>
+    <string name="mode_paiement">Mode de paiement</string>
+    <string name="motif_decision">Motif:</string>
+    <string name="hint_numero_bordereau">Numéro de bordereau</string>
+    <string name="hint_detail_motif">Détails motif</string>
+    <string name="hint_detail_deblocage">Détails déblocage</string>
+    <string name="hint_detail_decaissement">Détails décaissement</string>
+    <string name="hint_montant_operation">Montant</string>
+    <string name="hint_frais_operation">Frais</string>
+    <string name="hint_taxes_operation">Taxes</string>
+    <string name="hint_observations">Observations:</string>
+    <string name="hint_libelle_operation">Libellé de l\'opération</string>
+    <string name="hint_OcMotifDemande">Objet de la demande</string>
+    <string name="hint_OcDocumentFournies">Pièces fournies</string>
+    <string name="hint_montant_accorde">Montant accordé</string>
+    <string name="hint_type_de_date_retrait">Date retrait (en jour):</string>
+    <string name="hint_Libelle_type_membre">Libellé du type de membre</string>
+    <string name="hint_nature_type_membre">Nature membre</string>
+    <string name="details_type_membre">Détails type de membre</string>
+    <string name="hint_PoCodTransfInt">Code ou abregé du Transfert Interne</string>
+    <string name="hint_PoLibelTaxe1">Libellé ou intitulé utilisé pour la Taxe 1 sur Transfert int</string>
+    <string name="hint_PoLibelTaxe2">Libellé ou intitulé utilisé pour la Taxe 2 sur Transfert int</string>
+    <string name="hint_PoLibelTaxe3">Libellé ou intitulé utilisé pour la Taxe 3 sur Transfert int</string>
+    <string name="hint_PoCodTaxe1">Code ou abregé de la taxe 1</string>
+    <string name="hint_PoCodTaxe2">Code ou abregé de la taxe 2</string>
+    <string name="hint_PoCodTaxe3">Code ou abregé de la taxe 3</string>
+    <string name="hint_PoLibelTransfInt">Libellé ou intitulé utilisé pour le transfert Interne</string>
+    <string name="hint_PoPrefDepot">Préfixe pour les Dépôts</string>
+    <string name="hint_PoPrefRetrait">Préfixe pour les Retraits</string>
+    <string name="hint_PoSuffDepot">Suffixe pour les Dépôts</string>
+    <string name="hint_PoSuffRetrait">Suffixe pour les Retraits</string>
+    <string name="hint_PoSuffDecouv">Suffixe pour les Découverts</string>
+    <string name="hint_PoSuffAvceSpec">Suffixe pour les Avances spéciales</string>
+    <string name="hint_PoSuffDecouvPerm">Suffixe pour les Découverts permanents</string>
+    <string name="hint_PoSuffCredit">Suffixe pour les opérations de Crédit</string>
+    <string name="hint_PoSuffPartSoc">Suffixe pour les opérations de Part sociales</string>
+    <string name="hint_PoSuffFondSolid">Suffixe pour les opérations de Fond de solidarité</string>
+    <string name="hint_PoSuffProduit">Suffixe pour les opérations de Produits</string>
+    <string name="hint_PoSuffCharge">Suffixe pour les opérations de Charges</string>
+    <string name="hint_PoSuffTransfert">Suffixe pour les opérations de Transferts</string>
+    <string name="action_membre_to_affect">Membre à affecter à la caisse</string>
+    <string name="action_objet_to_affect">Objets de crédit à affecter à la caisse</string>
+    <string name="action_decouvert">Découvert</string>
+    <string name="action_facilite_caisse">Facilité de caisse</string>
+    <string name="action_decouvert_permanent">Découvert Permanent</string>
+    <string name="action_modification_decouvert">Modification Découvert</string>
+    <string name="action_credit">Crédit</string>
+    <string name="action_reechelonnement_credit">Re-échelonnement Echéances crédit</string>
+    <string name="action_remise_sur_interet">Remise sur intérêt</string>
+    <string name="action_validation_dette_hors_bilan_decouvert">Validation de la dette hors bilan du découvert</string>
+    <string name="action_validation_dette_hors_bilan_credit">Validation de la dette hors bilan du crédit</string>
+    <string name="action_etape_to_affect">Etapes de crédit à affecter à la caisse</string>
+    <string name="action_operation_to_affect">Opération à affecter à la caisse</string>
+    <string name="action_statut_to_affect">Statuts à affecter à la caisse</string>
+    <string name="action_membre_already_affect">Membres déjà affectés à la caisse</string>
+    <string name="action_objet_already_affect">Objets de crédit déjà affectés à la caisse</string>
+    <string name="action_etape_already_affect">Etapes de crédit déjà affectés</string>
+    <string name="action_operation_already_affect">Opérations déjà affectées</string>
+    <string name="action_statut_already_affect">Statuts de crédit déjà affectés</string>
+    <string name="action_membre_to_affect_gx">Membre à affecter au guichet</string>
+    <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
+    <string name="btn_config_plage_tiv">Cliquer ici pour paramétrer les plages</string>
+    <string name="hint_journee_anterieure">Journee anterieure</string>
+    <string name="hint_journee_ouverture">Journee d\'ouverture</string>
+    <string name="hint_nombre_echeance">Nombre Echéances</string>
+    <string name="hint_montant_echeance">Montant échéance</string>
+    <string name="hint_garanties_acceptees">Garanties acceptées</string>
+    <string name="hint_periodicite">Périodicité</string>
+    <string name="hint_code_deblocage">Code déblocage</string>
+    <string-array name="nav_drawer_labels">
+        <item>@string/menu_network</item>
+        <item>@string/menu_produit</item>
+        <item>@string/menu_operation_externe</item>
+        <item>@string/menu_activation_zone_activite</item>
+    </string-array>
+    <string-array name="nav_item_activity_titles">
+        <item>Accueil</item>
+        <item>Produits</item>
+        <item>Oprérations externes</item>
+        <item>Notifications</item>
+        <item>Zones d\'activités</item>
+    </string-array>
+    <string-array name="nav_item_activity_titles_caisse">
+        <item>Accueil</item>
+        <item>Produits</item>
+        <item>Guichets</item>
+        <item>Agent de guichets</item>
+        <item>Types de membres</item>
+        <item>Pièces et Frais</item>
+        <item>Paramétrage guichet</item>
+        <item>Notifications</item>
+        <item>Zones d\'activités</item>
+    </string-array>
     <string-array name="type_location">
         <item>Propriétaire</item>
         <item>Locataire</item>
@@ -153,7 +489,7 @@
         <item>Marié</item>
         <item>Divorcé</item>
         <item>Veuf</item>
-<!--        <item>Concubinage</item>-->
+        <!--        <item>Concubinage</item>-->
     </string-array>
     <string-array name="mode_paiement">
         <item>Espèce</item>
@@ -215,7 +551,6 @@
         <item>ORGANISATION PAYSANNE</item>
 
     </string-array>
-
     <string-array name="type_sexe">
         <item>Masculin</item>
         <item>Féminin</item>
@@ -232,7 +567,6 @@
         <item>Charge</item>
         <item>Produit</item>
     </string-array>
-    <!-- Il serait mieux de gérer ces types plutot en BD pour faciliter la maintenance -->
     <string-array name="fonction_frais">
         <item>Frais d\'adhésion</item>
         <item>Fonds de solidarité</item>
@@ -240,7 +574,6 @@
         <item>Dépôt initial DAV</item>
         <item>Frais de fonctionnement</item>
     </string-array>
-
     <string-array name="array_pre_parametrage">
         <item>Produit EAV</item>
         <item>Produit EAP</item>
@@ -254,22 +587,6 @@
         <item>Opérations externes</item>
 
     </string-array>
-
-    <!-- String of product-->
-    <string name="produit_eav">Produit EAV</string>
-    <string name="produit_eap">Produit EAP</string>
-    <string name="produit_eat">Produit EAT</string>
-    <string name="produit_dav">Produit DAV</string>
-    <string name="produit_dap">Produit DAP</string>
-    <string name="produit_dat">Produit DAT</string>
-    <string name="produit_cc">Produit compte courant</string>
-    <string name="objet_credit">Objet crédit</string>
-    <string name="produit_credit">Produit Crédit</string>
-    <string name="produit_transfert_classique">Produit Transfert classique</string>
-    <string name="produit_transfert_to_mtn">Produit Transfert vers MTN</string>
-    <string name="produit_transfert_to_orange">Produit Transfert vers ORANGE</string>
-    <string name="produit_transfert_to_eu">Produit Transfert vers EXPRESS UNION</string>
-    <string name="op_ext">Opérations externes</string>
     <string-array name="type_admin">
         <item>Administrateur OF</item>
         <item>Administrateur caisse</item>
@@ -295,13 +612,12 @@
         <item>CMEC BINUM TONTINE</item>
 
     </string-array>
-
-
     <string-array name="array_localite">
         <item>BALAIN</item>
         <item>BABADJOU</item>
         <item>BABOATE (LAKO)</item>
         <item>BABONE CARREFOUR</item>
+        <item>MAKENENE</item>
         <item>BALOUMGOU</item>
         <item>BAMEKA</item>
         <item>BAMEKA MARCHE</item>
@@ -328,6 +644,7 @@
         <item>CARREFOUR LITIEU</item>
         <item>KOMBOU-BACHUA</item>
         <item>DEMDEM</item>
+        <item>DOUALA AKWA</item>
         <item>PETTE BANDJOUN</item>
         <item>POUMOUGNE</item>
         <item>DIDIPE EP</item>
@@ -374,17 +691,54 @@
         <item>6- Solde moyen bimensuel</item>
     </string-array>
     <string-array name="array_base_taux_cpte_courant">
-        <!--<item>Montant découvert</item>-->
-        <!--<item>Montant + interet</item>-->
-        <item>Capital restant dû</item>
-        <item>Mt restant dû(Capital+Pen ret.+Inter ret)</item>
-        <item>Mt restant dû(Capital+Pen ret.+Inter ret+Commissions échues = frais de tenue de comptes)</item>
+        <item>1- Capital restant dû</item>
+        <item>2- Montant restant dû (Capital restant dû + Intérêt échu)</item>
     </string-array>
     <string-array name="array_base_taux_penal_retard_decouv_simple_cpte_courant">
-        <!--<item>Montant découvert</item>-->
-        <!--<item>Montant + interet</item>-->
-        <item>Mt restant dû(Capital+Pen ret.+Inter ret)</item>
-        <item>Mt restant dû(Capital+Pen ret.+Inter ret+Commissions échues = frais de tenue de comptes)</item>
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû 1 (Capital restant dû + Intérêt échu)</item>
+        <item>3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)</item>
+        <item>4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)</item>
+        <item>5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)</item>
+    </string-array>
+    <string-array name="array_base_taux_int_retard_decouv_simple_cpte_courant">
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû 1 (Capital restant dû + Intérêt échu)</item>
+        <item>3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)</item>
+        <item>4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)</item>
+        <item>5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)</item>
+    </string-array>
+    <string-array name="array_base_agios_cpte_courant">
+        <item>1- Cumul des versements du mois</item>
+        <item>2- Cumul des retraits du mois</item>
+        <item>3- Solde Minimum en Compte</item>
+        <item>4- Solde du Compte</item>
+    </string-array>
+    <string-array name="array_CcBaseTxCommMvm">
+        <item>1- Nombre de mouvements sur la période</item>
+        <item>2- Mouvements de débit effectué</item>
+        <item>3- Mouvements de débit avant date de valeur</item>
+    </string-array>
+
+    <string-array name="array_CcBaseTxIntAvceSpec">
+        <item>1- Capital restant dû</item>
+        <item>2- Montant restant dû (Capital restant dû + Intérêt échu)</item>
+    </string-array>
+
+    <string-array name="array_CcBaseTxIntPenAvceSpec">
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû 1 (Capital restant dû + Intérêt échu)</item>
+        <item>3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)</item>
+        <item>4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)</item>
+        <item>5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)</item>
+    </string-array>
+
+    <string-array name="array_CcBasexInt_IntRetAvceSpec">
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû 1 (Capital restant dû + Intérêt échu)</item>
+        <item>3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)</item>
+        <item>4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)</item>
+        <item>5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)</item>
     </string-array>
     <string-array name="array_profil">
         <item>President du Conseil d\'Administration</item>
@@ -407,24 +761,39 @@
         <item>Mt restant dû(Capital+Pen ret.+Inter ret)</item>
     </string-array>
     <string-array name="array_base_taux_credit">
-        <item>Montant credit</item>
-        <item>Montant + interet</item>
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû(Capital + Intérêt échue + Pen. Retard + Intérêt Retard)</item>
     </string-array>
     <string-array name="array_base_taux_interet_nominal_credit">
-        <item>Capital restant dû</item>
-        <item>Mt restant dû(Capital  + Intérêt échue + Pen ret.+Inter ret)</item>
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû(Capital + Intérêt échue + Pen. Retard + Intérêt Retard)</item>
     </string-array>
     <string-array name="array_base_taux_penalite_retard_credit">
-        <item>Capital restant dû</item>
-        <item>Mt restant dû(Capital + Intérêt échue +Inter ret)</item>
-        <item>Mt restant dû total (Capital + Intérêt échue  +Pen ret. +Inter ret)</item>
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû 1 (Capital restant dû + Intérêt échu)</item>
+        <item>3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)</item>
+        <item>4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)</item>
+        <item>5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)</item>
     </string-array>
     <string-array name="array_base_taux_interet_retard_credit">
-        <item>Capital restant dû</item>
-        <item>Mt restant dû(Capital + Intérêt échue )</item>
-        <item>Mt restant dû total(Capital + Intérêt échue  +Inter ret. échus)</item>
+        <item>1- Capital restant dû</item>
+        <item>2- Mt restant dû 1 (Capital restant dû + Intérêt échu)</item>
+        <item>3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)</item>
+        <item>4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)</item>
+        <item>5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)</item>
     </string-array>
-
+    <string-array name="array_CrBaseTxFrEtudDoss">
+        <item>1- Montant du Crédit Sollicité</item>
+        <item>2- Montant du Crédit Accordé</item>
+    </string-array>
+    <string-array name="array_CrBaseTxFraisDeblocCred">
+        <item>1- Montant du Crédit Sollicité</item>
+        <item>2- Montant du Crédit Accordé + Intérêt</item>
+    </string-array>
+    <string-array name="array_CrBaseFraisDecaissCred">
+        <item>1- Montant du Crédit Sollicité</item>
+        <item>2- Montant du Crédit Accordé + Intérêt</item>
+    </string-array>
     <string-array name="array_all_profil">
         <item></item>
         <item>President du Conseil d\'Administration</item>
@@ -437,15 +806,14 @@
         <item>Chef de Guichet</item>
 
     </string-array>
-
     <string-array name="array_mode_remboursement_credit">
         <item>Interet puis capital</item>
         <item>Capital puis interet</item>
         <item>Capital et interet ensemble</item>
     </string-array>
     <string-array name="array_base_interet_echeance_non_honoree">
-        <item>CumulBase</item>
-        <item>CumulBase + interet</item>
+        <item>1- Cumul base</item>
+        <item>2- Cumul base + Intérêt</item>
     </string-array>
     <string-array name="array_nature_planning_remboursement">
         <item>Manuel</item>
@@ -466,16 +834,66 @@
         <item>1- Minimum en compte</item>
         <item>2- Solde en compte</item>
     </string-array>
-    <string-array name="array_GuFreqReunComCred">
+    <string-array name="array_PoBaseFrais">
+        <item>1- Montant du transfert</item>
+    </string-array>
+    <string-array name="array_EpBaseTxInter">
+        <item>1- Montant de la mise périodique</item>
+        <item>2- Total de la mise périodique</item>
+        <item>3- Mise périodique + Intérêt</item>
+        <item>4- Cumul des mises effectuées</item>
+    </string-array>
+    <string-array name="array_EpBaseTxPenal">
+        <item>1- Total de la mise périodique</item>
+        <item>2- Mise périodique + Intérêt</item>
+        <item>3- Cumul des mises effectuées + Intérêt</item>
+    </string-array>
+    <string-array name="array_EpBaseTxIntRupant">
+        <item>1- Cumul des mises effectuées</item>
+        <item>2- Total de la mise périodique</item>
+    </string-array>
+    <string-array name="array_EpBaseTxMtPenal">
+        <item>1- Total de la mise périodique</item>
+        <item>2- Mise périodique + Intérêt</item>
+        <item>3- Cumul des mises effectuées + Intérêt</item>
+    </string-array>
+    <string-array name="array_EtBaseTxInter">
+        <item>1- Capital déposé en début de période</item>
+        <item>2- Solde du contrat de souscription</item>
+        <item>3- Capital déposé + Intérêt</item>
+        <item>4- Solde du compte</item>
+    </string-array>
+    <string-array name="array_EtBaseTxPenal">
+        <item>1- Capital déposé en début de période</item>
+        <item>2- Solde du contrat de souscription</item>
+        <item>3- Capital déposé + Intérêt</item>
+        <item>4- Solde du compte</item>
+    </string-array>
+    <string-array name="array_EtBaseTxIntPenal">
+        <item>1- Capital déposé en début de période</item>
+        <item>2- Solde du contrat de souscription</item>
+        <item>3- Capital déposé + Intérêt</item>
+        <item>4- Solde du compte</item>
+    </string-array>
+    <string-array name="array_EtBaseTxMtPenalDeblocage">
+        <item>1- Capital déposé en début de période</item>
+        <item>2- Solde du contrat de souscription</item>
+        <item>3- Capital déposé + Intérêt</item>
+        <item>4- Solde du compte</item>
+    </string-array>
+    <string-array name="array_GuFreqReunComCred_old">
         <item>HEBDOMADAIRE</item>
         <item>BIHEBDOMADAIRE</item>
         <item>MENSUELLE</item>
         <item>BIMENSUELLE</item>
         <item>BIMESTRIELLE</item>
         <item>TRIMESTRIELLE</item>
-
     </string-array>
-
+    <string-array name="array_GuFreqReunComCred">
+        <item>HEBDOMADAIRE</item>
+        <item>MENSUELLE</item>
+        <item>TRIMESTRIELLE</item>
+    </string-array>
     <string-array name="array_type_piece">
         <item>Carte nationale d\'identité</item>
         <item>Carte de séjour</item>
@@ -493,7 +911,6 @@
         <item>Nouveaux Taux d\'interet en cas de rupture anticipée</item>
 
     </string-array>
-
     <string-array name="array_list_profession">
         <item>Agriculteur</item>
         <item>Eleveur</item>
@@ -662,7 +1079,6 @@
 
 
     </string-array>
-
     <string-array name="array_produit">
         <item>DAV</item>
         <item>DAP</item>
@@ -675,272 +1091,6 @@
         <item>Transfert EU</item>
         <item>Opération externe</item>
     </string-array>
-
-    <string name="title_activity_caisse">Gestion des caisses</string>
-    <string name="tab_text_1">Créer une caisse</string>
-    <string name="tab_text_2">Liste des caisses</string>
-
-    <string name="title_activity_users_caisse">Responsables de caisses</string>
-    <string name="tab_title_create_user_caisse">Créer un utilisateur</string>
-    <string name="tab_title_list_user_caisse">Liste des utilisateurs</string>
-
-    <string name="title_activity_guichet">Gestion des guichets</string>
-    <string name="tab_title_create_guichet">Créer un guichet</string>
-    <string name="tab_title_list_pieces">Pièces à fournir</string>
-    <string name="tab_title_list_frais">Frais à payer</string>
-    <string name="tab_title_param1">Paramètres 1</string>
-    <string name="tab_title_param2">Paramètres 2</string>
-    <string name="tab_title_list_guichet">Liste des guichets</string>
-    <string name="tab_title_param_generaux">PIECES ET FRAIS</string>
-
-    <string name="nav_create_guichet">Menu</string>
-    <string name="nav_create_produit">Mise en place des produits</string>
-    <string name="nav_create_user_on_guichet">Ajouter des usagers</string>
-    <string name="nav_parametrage_general_caisse">Paramétrage général</string>
-
-    <string name="title_activity_produit_caisse">Paramétrage des produits</string>
-    <string name="tab_title_param_produit_eav_caisse">EAV</string>
-    <string name="tab_title_param_produit_eap_caisse">EAP</string>
-    <string name="tab_title_param_produit_eat_caisse">EAT</string>
-    <string name="tab_title_param_produit_cc_caisse">Compte courant</string>
-    <string name="tab_title_param_produit_transfert_caisse">Transfert</string>
-    <string name="tab_title_param_produit_credit_caisse">Crédit</string>
-    <string name="hint_taux_mensuel">Appliquer le taux d\'interêt mensuel</string>
-    <string name="hint_taux_interet">Taux d\'interêt(%)</string>
-    <string name="hint_taux_interet_mensuel">Taux d\'interêt mensuel(%)</string>
-    <string name="hint_code_EAV">Code EAV</string>
-    <string name="hint_code_credit">Code crédit</string>
-    <string name="hint_Libelle_EAV">Libellé</string>
-    <string name="hint_Libelle_piece">Libellé de la pièce:</string>
-    <string name="hint_Libelle_frais">Libellé du frais:</string>
-    <string name="hint_Libelle_objet_credit">Libellé Objet de crédit:</string>
-    <string name="hint_Libelle_etape_demande_credit">Libellé étape demande de crédit:</string>
-    <string name="hint_Libelle_operation_externe"> Libellé opération externe:</string>
-    <string name="hint_Libelle_statut_etape_demande_credit">Libellé statut étape demande de crédit:</string>
-    <string name="tv_statut_etape_demande_credit">Etape demande de crédit:</string>
-    <string name="hint_Num_ordre_etape_demande_credit">Numéro d\'ordre de l\'étape:</string>
-    <string name="hint_Num_ordre_statut_etape_demande_credit">Numéro d\'ordre du statut:</string>
-    <string name="hint_Details_objet_credit">Détails Objet de crédit:</string>
-    <string name="hint_Min_compte_eav">Minimum compte:</string>
-    <string name="hint_duree_min_credit">Durée min crédit (en mois)</string>
-    <string name="hint_nombre_unite_pas">Nombre d’unités du pas</string>
-    <string name="hint_duree_max_credit">Durée max crédit (en mois) </string>
-    <string name="hint_code_EAP">Code EAP</string>
-    <string name="hint_Min_Mt_Mise_eav">Montant minimum mise</string>
-    <string name="select_caisse">Choisir une caisse</string>
-    <string name="title_activity_produit_eav">Liste des produits EAV</string>
-    <string name="title_activity_produit_eap">Liste des produits EAP</string>
-    <string name="title_activity_produit_eat">Liste des produits EAT</string>
-    <string name="title_activity_produit_cc">Liste des comptes courants</string>
-    <string name="title_activity_produit_credit">Liste des produits crédits</string>
-
-
-    <!-- begin remotemysqlconnection-->
-
-    <string name="view_all">View All Movies</string>
-    <string name="add_new">Add New Movie</string>
-    <string name="title_activity_movie_update_delete">MovieUpdateDeleteActivity</string>
-    <string name="movieName">Movie Name</string>
-    <string name="genre">Genre</string>
-    <string name="year">Year</string>
-    <string name="rating">Rating</string>
-    <string name="update">Update</string>
-    <string name="delete">Delete</string>
-    <string name="add">Add</string>
-    <string name="btn_enregistrer">ENREGISTRER</string>
-    <string name="btn_afficher">OK</string>
-    <string name="meat">meat</string>
-    <string name="cheese">cheese</string>
-    <string name="btn_supprimer">SUPPRIMER</string>
-    <string name="appellation_produit">APPELLATION DES PRODUITS</string>
-    <string name="appellation_client">APPELLATION DES CLIENTS</string>
-    <string name="appellation_periodicite_cc">Périodicité par défaut des taux d\'intérét utilisés pour le Compte courant</string>
-    <string name="appellation_periodicite_cr">Périodicité par défaut des taux d\'intérét utilisés pour le Crédit</string>
-    <string name="ordre_remboursement_decouvert">Ordre de remboursement du Découvert</string>
-    <string name="ordre_remboursement_credit">Ordre de remboursement du Crédit</string>
-    <string name="hint_type_de_date">Date depôt (en jour):</string>
-
-    <!--end remotemysqlconnection -->
-
-    <string name="register">REGISTER</string>
-    <!--<string name="login_email_hint">Email</string> -->
-    <string name="login_email_hint">Login</string>
-    <string name="login_password_hint">Password</string>
-    <string name="signup_login_hint">Vous avez déjà un compte? Se connecter</string>
-    <string name="login_signup_hint">Je n\'ai pas de compte? S\'inscrire</string>
-    <string name="hint_heure_cloture">Heure de clôture</string>
-    <string name="hint_code_EAT">Code EAT</string>
-    <string name="hint_code_Cpte_Courant">Code Compte Courant</string>
-    <string name="hint_code_piece">Code de la pièce:</string>
-    <string name="hint_code_frais">Code du frais:</string>
-    <string name="hint_code_objet_credit">Code objet de crédit:</string>
-    <string name="hint_code_statut_credit">Code statut de crédit:</string>
-    <string name="hint_code_etape_demande_credit">Code étape demande de crédit:</string>
-    <string name="hint_code_operation_externe">Code opération Externe:</string>
-    <string name="btn_annuler">ANNULER</string>
-    <string name="btn_retour">RETOUR</string>
-    <string name="title_activity_param_guichet">PARAMETRAGE DU GUICHET</string>
-    <string name="action_all">Tous</string>
-    <string name="action_to_affect">Produit à affecter au guichet</string>
-    <string name="action_demande_de_retrait">Demande de retrait</string>
-    <string name="action_paiement_cheque">Paiement chèque</string>
-    <string name="action_transfert_solde_mensuel">Transfert solde mensuel</string>
-    <string name="action_demande_de_chequier">Demande de chéquier</string>
-    <string name="action_ouverture_de_journee">Ouverture de journée</string>
-    <string name="action_already_affect">Produit déjà affecté au guichet</string>
-    <string name="action_membre">MEMBRE</string>
-    <string name="action_usager">USAGER</string>
-    <string name="action_salarie">SALARIE</string>
-    <string name="action_affilie">AFFILIE COLLECTE</string>
-    <string name="action_entreprise">ENTREPRISE</string>
-    <string name="action_gic">GIC</string>
-    <string name="action_cooperative">COOPERATIVE</string>
-    <string name="action_association">ASSOCIATION</string>
-    <string name="action_groupe_jeune">GROUPE JEUNE</string>
-    <string name="action_groupe_femme">GROUPE FEMME</string>
-    <string name="action_groupe_homme">GROUPE HOMME</string>
-    <string name="action_groupe_mixte">GROUPE MIXTE</string>
-    <string name="action_organisation_paysanne">ORGANISATION PAYSANNE</string>
-    <string name="my_caisse_name">Caisse:</string>
-    <string name="produit_title">Produit épargne</string>
-    <string name="produit_main">EAV PRINCIPAL:</string>
-    <string name="produit_name">DAV ORDINAIRE</string>
-    <string name="nom_adherent">Nom adhérent (*)</string>
-    <string name="prenom_adherent">Prenom adherent</string>
-    <string name="lieu_naiss_adherent">Lieu de naissance (*)</string>
-    <string name="nom_conjoint_adherent">Nom complet du conjoint</string>
-    <string name="numero_manuel_adherent">Numéro manuel (*)</string>
-    <string name="hint_type_piece">Type de pièce (*)</string>
-    <string name="numero_piece_adherent">Numéro de la pièce (*)</string>
-    <string name="personne_a_contacter_adherent">Personne à contacter</string>
-    <string name="hint_profession">Profession (*)</string>
-    <string name="nationalite">Nationalité (*)</string>
-    <string name="autre_statut1_adherent">Autre statut 1</string>
-    <string name="autre_statut2_adherent">Autre statut 2</string>
-    <string name="domicile_adherent">Domicile</string>
-    <string name="distance_adherent">Distance</string>
-    <string name="hint_fax">Fax</string>
-    <string name="hint_date_naiss_adherent">Date de naissance (*)</string>
-    <string name="nbre_enfant_adherent">Nombre d\'enfant (*)</string>
-    <string name="action_situation_guichet">Situation du guichet</string>
-    <string name="action_interets">Interêts</string>
-    <string name="action_brouillard_de_caisse">Brouillard de caisse</string>
-    <string name="action_penalites">Penalités</string>
-    <string name="action_cloturer_la_journee">Cloturer la journée</string>
-    <string name="action_operation_externe">Opérations externes</string>
-    <string name="action_add_operation_externe">Nouvelle Opération</string>
-    <string name="action_list_operation_externe">Liste des Opérations</string>
-    <string name="action_cotisations_annuelle">Cotisations annuelle</string>
-    <string name="action_jour_anterieur">Jour antérieur</string>
-    <string name="action_collecte_journaliere">Collecte journalière</string>
-    <string name="action_nouveaux_adherent">Nouveaux adhérents</string>
-    <string name="action_remboursements">Remboursements</string>
-    <string name="action_validation_dette_hors_bilan">Validation Dette Hors bilan</string>
-    <string name="action_paiement_dette_hors_bilan">Paiement Dette Hors bilan</string>
-    <string name="action_remboursement_anticipe">Remboursement anticipé</string>
-    <string name="action_transfert">Transfert</string>
-    <string name="action_person_add">Ajouter un adherent</string>
-    <string name="action_etape_suivante">Etape suivante</string>
-    <string name="action_traitement_de_la_demande">Traitement de la demande</string>
-    <string name="action_decouvert_add">Nouveau découvert simple</string>
-    <string name="action_decouvert_permanent_add">Nouveau découvert permanent</string>
-    <string name="action_avance_speciale_add">Nouvelle avance spéciale</string>
-    <string name="hint_montant_demarrage">Montant de démarrage</string>
-    <string name="btn_valider">VALIDER</string>
-    <string name="hint_montant_piece_monnaie">Montant pièces de monnaie</string>
-    <string name="my_town">Ville:</string>
-    <string name="lieu_travail_adherent">Lieu de travail:</string>
-    <string name="activite_principal_adherent">Activité principale:</string>
-    <string name="hint_validite_fin_adherent">Date d\'expiration: (*)</string>
-    <string name="hint_validite_debut_adherent">Date de délivrance: (*)</string>
-    <string name="hint_date_debut">Date de début: (*)</string>
-    <string name="hint_date_fin">Date de fin: (*)</string>
-    <string name="enter_number">saisissez un montant valide</string>
-    <string name="hint_depot_minimum">Dépôt minimum</string>
-    <string name="hint_CcaMtMaxDecouv">Plafond decouvert </string>
-    <string name="hint_montant_demande_credit">Montant sollicité</string>
-    <string name="hint_duree_emprunt">Durée emprunt (en mois)</string>
-    <string name="hint_credit_anterieur1">Crédit antérieur N°1</string>
-    <string name="hint_credit_anterieur2">Crédit antérieur N°2</string>
-    <string name="hint_credit_anterieur3">Crédit antérieur N°3</string>
-    <string name="hint_cumul_dette_encours">Cumul dette encours</string>
-    <string name="hint_mt_bloque">Montant bloqué</string>
-    <string name="hint_moyenne_epargne_mensuelle">Moyenne epargne mensuelle</string>
-    <string name="hint_total_epargne">Total épargne</string>
-    <string name="hint_montant_autre_revenus">Montant Autres Revenus</string>
-    <string name="hint_epargne1">Epargne</string>
-    <string name="hint_montant_revenus_fixes">Montant revenus fixes</string>
-    <string name="produit_a_vue">Produit à vue:</string>
-    <string name="pd_type_data">Type frais</string>
-    <string name="hint_numero_dossier">Numéro de dossier</string>
-    <string name="hint_dc_description">Description de la demande</string>
-    <string name="hint_nature_activite">Nature activité (revenus)</string>
-    <string name="hint_frequence_revenus">Fréquence revenus</string>
-    <string name="hint_nomAval1_1">Nom avaliste 1</string>
-    <string name="hint_numCompte1">Numéro de compte</string>
-    <string name="hint_nomAval1_2">Nom avaliste 2</string>
-    <string name="produit_a_terme">Produit à terme</string>
-    <string name="produit_a_periodicite">Produit à périodicité</string>
-    <string name="duree_produit">Durée (en mois):</string>
-    <string name="hint_montant_mise">Montant mise</string>
-    <string name="hint_montant_dat">Montant DAT</string>
-    <string name="hint_montant_initialisation">Montant d\'initialisation</string>
-    <string name="hint_Tx_Int_min_autorise_decouvert">Tx Int min découvert</string>
-    <string name="hint_Tx_Int_min_autorise_decouvert_perm">Tx Int min découv perm</string>
-    <string name="hint_Tx_Int_min_autorise_credit">Tx Int min crédit</string>
-    <string name="hint_Tx_Int_max_autorise_credit">Tx Int max crédit</string>
-    <string name="hint_nbre_max_mois_decouv">Nbre max mois Découv +AvceSpec + Dec_Perm pr suivi hors Bilan</string>
-    <string name="hint_nbre_max_mois_credit">Nbre max mois Crédit pour le suivi hors Bilan</string>
-    <string name="hint_Tx_Int_max_autorise_decouvert_perm">Tx Int max découv perm</string>
-    <string name="hint_Tx_Int_max_autorise_decouvert">Tx Int max découvert</string>
-    <string name="hint_Tx_Int_min_autorise_AvSpec_ou_Fcx">Tx Int min AvSpec ou Fcx</string>
-    <string name="hint_Tx_Int_max_autorise_AvSpec_ou_Fcx">Tx Int max AvSpec ou Fcx</string>
-    <string name="hint_montant_actuel">Montant actuel</string>
-    <string name="mode_paiement">Mode de paiement</string>
-    <string name="motif_decision">Motif:</string>
-    <string name="hint_numero_bordereau">Numéro de bordereau</string>
-    <string name="hint_detail_motif">Détails motif</string>
-    <string name="hint_detail_deblocage">Détails déblocage</string>
-    <string name="hint_detail_decaissement">Détails décaissement</string>
-    <string name="hint_montant_operation">Montant</string>
-    <string name="hint_observations">Observations:</string>
-    <string name="hint_libelle_operation">Libellé de l\'opération</string>
-    <string name="hint_OcMotifDemande">Objet de la demande</string>
-    <string name="hint_OcDocumentFournies">Pièces fournies</string>
-    <string name="hint_montant_accorde">Montant accordé</string>
-    <string name="hint_type_de_date_retrait">Date retrait (en jour):</string>
-    <string name="hint_Libelle_type_membre">Libellé du type de membre</string>
-    <string name="hint_nature_type_membre">Nature membre</string>
-    <string name="details_type_membre">Détails type de membre</string>
-    <string name="action_membre_to_affect">Membre à affecter à la caisse</string>
-    <string name="action_objet_to_affect">Objets de crédit à affecter à la caisse</string>
-    <string name="action_decouvert">Découvert</string>
-    <string name="action_facilite_caisse">Facilité de caisse</string>
-    <string name="action_decouvert_permanent">Découvert Permanent</string>
-    <string name="action_modification_decouvert">Modification Découvert</string>
-    <string name="action_credit">Crédit</string>
-    <string name="action_reechelonnement_credit">Re-échelonnement Echéances crédit</string>
-    <string name="action_remise_sur_interet">Remise sur intérêt</string>
-    <string name="action_validation_dette_hors_bilan_decouvert">Validation de la dette hors bilan du découvert</string>
-    <string name="action_validation_dette_hors_bilan_credit">Validation de la dette hors bilan du crédit</string>
-    <string name="action_etape_to_affect">Etapes de crédit à affecter à la caisse</string>
-    <string name="action_operation_to_affect">Opération à affecter à la caisse</string>
-    <string name="action_statut_to_affect">Statuts à affecter à la caisse</string>
-    <string name="action_membre_already_affect">Membres déjà affectés à la caisse</string>
-    <string name="action_objet_already_affect">Objets de crédit déjà affectés à la caisse</string>
-    <string name="action_etape_already_affect">Etapes de crédit déjà affectés</string>
-    <string name="action_operation_already_affect">Opérations déjà affectées</string>
-    <string name="action_statut_already_affect">Statuts de crédit déjà affectés</string>
-    <string name="action_membre_to_affect_gx">Membre à affecter au guichet</string>
-    <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
-    <string name="btn_config_plage_tiv">Cliquer ici pour paramétrer les plages</string>
-    <string name="hint_journee_anterieure">Journee anterieure</string>
-    <string name="hint_journee_ouverture">Journee d\'ouverture</string>
-    <string name="hint_nombre_echeance">Nombre Echéances</string>
-    <string name="hint_montant_echeance">Montant échéance</string>
-    <string name="hint_garanties_acceptees">Garanties acceptées</string>
-    <string name="hint_periodicite">Périodicité</string>
-    <string name="hint_code_deblocage">Code déblocage</string>
 
 </resources>
 

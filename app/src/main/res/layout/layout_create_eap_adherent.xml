@@ -345,6 +345,48 @@
             </RadioGroup>
         </LinearLayout>
 
+
+        <!-- Date Debut -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_validite_debut_eap_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_validite_debut_eap_adherent"
+                android:visibility="gone"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_date_debut"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Date Fin -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_validite_fin_eap_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_validite_fin_eap_adherent"
+                android:visibility="gone"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_date_fin"
+
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <!-- End -->
 
         <LinearLayout

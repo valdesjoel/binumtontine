@@ -112,6 +112,8 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_user);
         setSupportActionBar(toolbar);
         setToolbarTitle();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         uxCaisseIdSpinner = (JRSpinner) findViewById(R.id.spn_my_spinner_caisse);
 
@@ -167,7 +169,22 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
         deleteButton = (Button) findViewById(R.id.btn_delete_Ux);
         deleteButton.setVisibility(View.VISIBLE);
         cancelButton = (Button) findViewById(R.id.btn_clean);
-        cancelButton.setVisibility(View.GONE);
+        cancelButton.setVisibility(View.VISIBLE);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    finish();
+
+                } else {
+                    Toast.makeText(UpdateUser.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,11 +209,16 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
 
-
     }
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Mise à jour d'un utilisateur");
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     /**
      * Async task to get all caisses in organe faitier
@@ -351,19 +373,23 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-                    uxCaisseIdSpinner.setText(uxCaisseDenomination); //pas indispensable car on le fait directement dans populate
-                    uxProfilEditText.setText(uxProfil);
-                    uxNomEditText.setText(uxNom);
-                    uxPrenomEditText.setText(uxPrenom);
-                    uxAdresseEditText.setText(uxAdresse);
-                    ccp_phone1.setFullNumber(uxTel1);
-                    ccp_phone2.setFullNumber(uxTel2);
-                    ccp_phone3.setFullNumber(uxTel3);
+                    try {
+                        uxCaisseIdSpinner.setText(uxCaisseDenomination); //pas indispensable car on le fait directement dans populate
+                        uxProfilEditText.setText(uxProfil);
+                        uxNomEditText.setText(uxNom);
+                        uxPrenomEditText.setText(uxPrenom);
+                        uxAdresseEditText.setText(uxAdresse);
+                        ccp_phone1.setFullNumber(uxTel1);
+                        ccp_phone2.setFullNumber(uxTel2);
+                        ccp_phone3.setFullNumber(uxTel3);
 
-                    uxLoginEditText.setText(uxLogin);
-                    uxPasswordEditText.setText(uxPassword);
-                    uxConfirmPasswordEditText.setText(uxConfirmPassword);
-                    uxEmailEditText.setText(uxEmail);
+                        uxLoginEditText.setText(uxLogin);
+                        uxPasswordEditText.setText(uxPassword);
+                        uxConfirmPasswordEditText.setText(uxConfirmPassword);
+                        uxEmailEditText.setText(uxEmail);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });

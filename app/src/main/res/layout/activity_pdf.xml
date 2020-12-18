@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".activity.pdf.RetraitEavPDFWriter"
+android:padding="5dp">
+
+<!--EditText: Input text to be saved as pdf file-->
+<EditText
+    android:visibility="gone"
+    android:id="@+id/textEt"
+    android:hint="Enter text..."
+    android:inputType="text|textMultiLine"
+    android:padding="5dp"
+    android:minHeight="200dp"
+    android:gravity="start"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+<!--EditText: Input text to be saved as pdf file-->
+<TextView
+    android:id="@+id/text"
+    android:hint="Enter text..."
+    android:inputType="text|textMultiLine"
+    android:padding="5dp"
+    android:minHeight="200dp"
+    android:gravity="start"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+
+<!--Button:   Saves inputted data as pdf file-->
+<Button
+    android:visibility="gone"
+    android:id="@+id/saveBtn"
+    android:text="Save PDF"
+    android:gravity="center"
+    android:drawablePadding="5dp"
+    style="@style/Base.Widget.AppCompat.Button.Colored"
+    android:layout_gravity="end"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+</LinearLayout>

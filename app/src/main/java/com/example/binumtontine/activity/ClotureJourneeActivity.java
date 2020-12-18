@@ -54,7 +54,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.adherent.Adherent;
-import com.example.binumtontine.activity.adherent.MainActivityUsager;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -78,8 +77,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 import static java.lang.Double.parseDouble;
 
 public class ClotureJourneeActivity extends AppCompatActivity implements  View.OnClickListener, AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
@@ -96,6 +93,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
     private static final String KEY_CmMontant = "CmMontant";
     private static final String KEY_total_depot = "total_depot";
     private static final String KEY_total_retrait = "total_retrait";
+    private static final String KEY_total_charge = "total_charge";
+    private static final String KEY_total_produit = "total_produit";
     private static final String KEY_total_operation = "total_operation";
     private static final String KEY_cx_denomination = "cx_denomination";
     private NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
@@ -243,6 +242,7 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
     private double solde2000=0.0;
     private double solde1000=0.0;
     private double solde500=0.0;
+    private boolean isMontantEcartNull =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -460,8 +460,12 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                                 tv_montant_ecart.setText(defaultFormat.format(parseDouble(eavDepotMin) - parseDouble(total_operation_bis))+"");
                                 if((parseDouble(eavDepotMin) - parseDouble(total_operation_bis))<0){
                                     tv_montant_ecart.setBackgroundColor(Color.RED);
+                                }else if((parseDouble(eavDepotMin) - parseDouble(total_operation_bis))>0){
+                                    tv_montant_ecart.setBackgroundColor(Color.rgb(255,165,0));
+
                                 }else{
                                     tv_montant_ecart.setBackgroundColor(Color.GREEN);
+                                    isMontantEcartNull = true;
                                 }
                             } catch (NumberFormatException e) {
                                 e.printStackTrace();
@@ -979,8 +983,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                         maSituationGuichet.setSortie_transfert("0 FCFA");
                         maSituationGuichet.setEntree_transfert("0 FCFA");
                         maSituationGuichet.setCotisation_annuelle("0 FCFA");
-                        maSituationGuichet.setCharges("0 FCFA");
-                        maSituationGuichet.setProduits("0 FCFA");
+                        maSituationGuichet.setCharges(defaultFormat.format(parseDouble(movies.getString(KEY_total_charge))));
+                        maSituationGuichet.setProduits(defaultFormat.format(parseDouble(movies.getString(KEY_total_produit))));
                     total_operation = defaultFormat.format(parseDouble(movies.getString(KEY_total_operation)));
                     total_operation_bis = movies.getString(KEY_total_operation);
 
@@ -1221,7 +1225,7 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
      */
     private void addEavAdherent() {
         if (!STRING_EMPTY.equals(SoldeReelEditText.getText().toString().trim()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim()) &&
+                (isMontantEcartNull || !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())) &&
                 MontantReel== TotalBilletge
                  ) {
             eavDepotMin = SoldeReelEditText.getText().toString();
@@ -1232,7 +1236,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
         }else if (MontantReel != TotalBilletge) {
             notificationBilletage();
 
-        }else if (STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())) {
+//        }else if (STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())) {
+        }else if (!isMontantEcartNull) {
             notificationObservations();
 //            notificationCloture();
 

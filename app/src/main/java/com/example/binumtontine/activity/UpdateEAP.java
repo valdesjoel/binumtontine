@@ -23,6 +23,7 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.ProduitEAP;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
@@ -39,26 +40,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
     private static final String EP_CAISSE_ID = "EpCaisseId";
 
-    private List<String> tabPlageDebutList;
-    private List<String> tabPlageDebutList1;
-    private List<String> tabPlageDebutList2;
-    private List<String> tabPlageDebutList3;
-    private List<String> tabPlageFinList;
-    private List<String> tabPlageFinList1;
-    private List<String> tabPlageFinList2;
-    private List<String> tabPlageFinList3;
-    private List<String> tabPlageValeurList;
-    private List<String> tabPlageValeurList1;
-    private List<String> tabPlageValeurList2;
-    private List<String> tabPlageValeurList3;
-    public int numberOfLinesFin = 0;
-    public int numberOfLinesFin1 = 0;
-    public int numberOfLinesFin2 = 0;
-    public int numberOfLinesFin3 = 0;
-    public int numberOfLinesValeur = 0;
-    public int numberOfLinesValeur1 = 0;
-    public int numberOfLinesValeur2 = 0;
-    public int numberOfLinesValeur3 = 0;
 
 
     private static final String KEY_EAP_CODE = "EpCode";
@@ -72,6 +53,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_EAP_NBRE_U_PAS = "EpNbreUPas";
     private static final String KEY_EAP_TYP_TX_INTER = "EpTypTxInter";
     private static final String KEY_EpValTxInter = "EpValTxInter";
+    private static final String KEY_EpBaseTxInter = "EpBaseTxInter";
     private static final String KEY_EpPlageTxInterFrom = "EpPlageTxInterFrom";
     private static final String KEY_EpPlageTxInterTo = "EpPlageTxInterTo";
     private static final String KEY_EpIsTxIntNeg = "EpIsTxIntNeg";
@@ -122,6 +104,11 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
 
 
     private static String STRING_EMPTY = "";
+
+    private JRSpinner JR_EpBaseTxInter;
+    private TextInputLayout input_layout_EpBaseTxInter;
+    private TextInputLayout input_layout_ValeurTauxInteretEAP;
+    private String EpBaseTxInter;
 
     private JRSpinner EpBaseTxPenal_ET;
     private TextView tv_plageEpValTxInter;
@@ -258,23 +245,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
         tv_header_produit.setText("Produit EAP\n"+"Caisse: "+ MyData.CAISSE_NAME);
 
-        tabPlageDebutList = new ArrayList<>();
-        tabPlageFinList = new ArrayList<>();
-        tabPlageValeurList = new ArrayList<>();
-
-
-        tabPlageDebutList1 = new ArrayList<>();
-        tabPlageFinList1 = new ArrayList<>();
-        tabPlageValeurList1 = new ArrayList<>();
-
-        tabPlageDebutList2 = new ArrayList<>();
-        tabPlageFinList2 = new ArrayList<>();
-        tabPlageValeurList2 = new ArrayList<>();
-        tabPlageDebutList3 = new ArrayList<>();
-        tabPlageFinList3 = new ArrayList<>();
-        tabPlageValeurList3 = new ArrayList<>();
-
-
         ll_EcheancePenaliteSuccessiveEAP = (LinearLayout)findViewById(R.id.ll_EcheancePenaliteSuccessiveEAP);
         ll_NatureFraisPenaliteEAP = (LinearLayout)findViewById(R.id.ll_NatureFraisPenaliteEAP);
 
@@ -284,6 +254,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         ll_EpNaturePenal = (LinearLayout)findViewById(R.id.ll_EpNaturePenal);
 
         EpCode_ET = (EditText) findViewById(R.id.input_txt_Code_EAP);
+        EpCode_ET.setEnabled(false);
         EpLibelle_ET = (EditText) findViewById(R.id.input_txt_LibelleEAP);
         Ep_MinMtMiseEAP_ET = (EditText) findViewById(R.id.input_txt_MinMtMiseEAP);
         EpIsMtMultMise_SW = (Switch) findViewById(R.id.SwitchMtMultMiseEAP);
@@ -298,6 +269,21 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         rbEpTypTxInterFixe = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
         EpValTxInter_ET = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAP);
+        /*Base JR_EpBaseTxInter debut*/
+        JR_EpBaseTxInter = (JRSpinner) findViewById(R.id.input_txt_EpBaseTxInter); //Nouveau champ 04/11/2020
+        input_layout_EpBaseTxInter = (TextInputLayout) findViewById(R.id.input_layout_EpBaseTxInter);
+        input_layout_ValeurTauxInteretEAP = (TextInputLayout) findViewById(R.id.input_layout_ValeurTauxInteretEAP);
+
+        JR_EpBaseTxInter.setItems(getResources().getStringArray(R.array.array_EpBaseTxInter)); //this is important, you must set it to set the item list
+        JR_EpBaseTxInter.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        JR_EpBaseTxInter.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        JR_EpBaseTxInter.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+            }
+        });
+        /*Base JR_EpBaseTxInter fin*/
 
         EpIsTxIntNeg_SW = (Switch) findViewById(R.id.SwitchTauxInteretNegocieEAP);
         EpIsPriseIntMiseOn_SW = (Switch) findViewById(R.id.SwitchPrendreInteretDesLaMiseEAP);
@@ -316,7 +302,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         input_layout_BaseTxPenalEAP = (TextInputLayout) findViewById(R.id.input_layout_BaseTxPenalEAP);
 
 
-        EpBaseTxPenal_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EpBaseTxPenal_ET.setItems(getResources().getStringArray(R.array.array_EpBaseTxPenal)); //this is important, you must set it to set the item list
         EpBaseTxPenal_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         EpBaseTxPenal_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         EpBaseTxPenal_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -347,7 +333,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         input_layout_BaseNewTxInteretEAP = (TextInputLayout) findViewById(R.id.input_layout_BaseNewTxInteretEAP);
 
 
-        EpBaseTxIntRupant_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EpBaseTxIntRupant_ET.setItems(getResources().getStringArray(R.array.array_EpBaseTxIntRupant)); //this is important, you must set it to set the item list
         EpBaseTxIntRupant_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         EpBaseTxIntRupant_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         EpBaseTxIntRupant_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -372,7 +358,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         input_layout_EpBaseTxPenal = (TextInputLayout) findViewById(R.id.input_layout_EpBaseTxPenal);
 
 
-        EpBaseTxMtPenal_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EpBaseTxMtPenal_ET.setItems(getResources().getStringArray(R.array.array_EpBaseTxMtPenal)); //this is important, you must set it to set the item list
         EpBaseTxMtPenal_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         EpBaseTxMtPenal_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         EpBaseTxMtPenal_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -398,7 +384,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux pénalité";
                     ListPlageTEP.IS_TO_CREATE_OR_TO_UPDATE = false;
-//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
                     Intent i = new Intent(UpdateEAP.this,ListPlageTEP.class);
                     i.putExtra(KEY_EAP_ID, eapId);
                     startActivityForResult(i,20);
@@ -420,7 +405,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'intérêt";
                     ListPlageTIP.IS_TO_CREATE_OR_TO_UPDATE = false;
-//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
                     Intent i = new Intent(UpdateEAP.this,ListPlageTIP.class);
                     i.putExtra(KEY_EAP_ID, eapId);
                     startActivityForResult(i,20);
@@ -442,7 +426,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'int Rup";
                     ListPlageNTP.IS_TO_CREATE_OR_TO_UPDATE = false;
-//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
                     Intent i = new Intent(UpdateEAP.this,ListPlageNTP.class);
                     i.putExtra(KEY_EAP_ID, eapId);
                     startActivityForResult(i,20);
@@ -464,7 +447,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux pén débloc";
                     ListPlageRAP.IS_TO_CREATE_OR_TO_UPDATE = false;
-//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
                     Intent i = new Intent(UpdateEAP.this,ListPlageRAP.class);
                     i.putExtra(KEY_EAP_ID, eapId);
                     startActivityForResult(i,20);
@@ -563,15 +545,17 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
             httpParams.put(KEY_EAP_ID, eapId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_eap_details.php", "GET", httpParams);
-            Log.e("jsonObject**",jsonObject+"");
+//            Log.e("jsonObject**",jsonObject+"");
             try {
+                Log.e("httpParams",jsonObject+"");
 //                int success = jsonObject.getInt(KEY_SUCCESS);
                 //JSONObject jsonObject;
 //                if (success == 1) {
                     //Parse the JSON response
 //                    eav = jsonObject.getJSONObject(KEY_DATA);
-                    EpCode = jsonObject.getString(KEY_EAP_CODE);
-                    EpLibelle = URLEncoder.encode(jsonObject.getString(KEY_EAP_LIBELLE),"UTF-8");
+                    EpCode = MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_EAP_CODE));
+                    EpLibelle = MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_EAP_LIBELLE));
+//                    EpLibelle = URLEncoder.encode(jsonObject.getString(KEY_EAP_LIBELLE),"UTF-8");
                     EpMinMtMise = jsonObject.getString(KEY_EAP_MT_MIN_MISE_PER);
                     EpDureeMin = jsonObject.getString(KEY_EAP_DUREE_MIN);
                     EpIsMtMultMise = jsonObject.getString(KEY_EAP_IS_MT_MULT_MISE);
@@ -581,6 +565,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                     EpNbreUPas = jsonObject.getString(KEY_EAP_NBRE_U_PAS);
                     EpTypTxInter = jsonObject.getString(KEY_EAP_TYP_TX_INTER);
                     EpValTxInter = jsonObject.getString(KEY_EpValTxInter);
+                    EpBaseTxInter = ProduitEAP.decodeEpBaseTxInter(jsonObject.getString(KEY_EpBaseTxInter));//Add at 04/11/2020
                     EpIsTxIntNeg = jsonObject.getString(KEY_EpIsTxIntNeg);
                     EpIsPriseIntMiseOn = jsonObject.getString(KEY_EpIsPriseIntMiseOn);
                     EpIsPenalNRespMise = jsonObject.getString(EP_IsPenalNRespMise);
@@ -588,7 +573,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                     EpIsEchPenalSucces = jsonObject.getString(EP_IsEchPenalSucces);
                     EpNatureRupAn = jsonObject.getString(EP_NatureRupAn);
                     EpValTxMtRupture = jsonObject.getString(EP_ValTxMtRupture);
-                    EpBaseTxPenal = jsonObject.getString(EP_BaseTxPenal);
+                    EpBaseTxPenal = ProduitEAP.decodeEpBaseTxPenal(jsonObject.getString(EP_BaseTxPenal));
                     EpIsEparRetireFin = jsonObject.getString(EP_IsEparRetireFin);
                     EpIsEparTransfFin = jsonObject.getString(EP_IsEparTransfFin);
                     EpIsOnlyTotTransf = jsonObject.getString(EP_IsOnlyTotTransf);
@@ -599,19 +584,19 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                     EpIsNewTxIntRupAnt = jsonObject.getString(EP_IsNewTxIntRupAnt);
                     EpTypNewTxIntRupAnt = jsonObject.getString(EP_TypNewTxIntRupAnt);
                     EpValTxIntRupant = jsonObject.getString(EP_ValTxIntRupant);
-                    EpBaseTxIntRupant = jsonObject.getString(EP_BaseTxIntRupant);
+                    EpBaseTxIntRupant = ProduitEAP.decodeEpBaseTxIntRupant(jsonObject.getString(EP_BaseTxIntRupant));
                     EpTxIntRupantNeg = jsonObject.getString(EP_TxIntRupantNeg);
                     EpIsPenalRupAnt = jsonObject.getString(EP_IsPenalRupAnt);
                     EpNaturePenal = jsonObject.getString(EP_NaturePenal);
                     EpValTxMtPenalite = jsonObject.getString(EP_ValTxMtPenalite);
-                    EpBaseTxMtPenal = jsonObject.getString(EP_BaseTxMtPenal);
+                    EpBaseTxMtPenal = ProduitEAP.decodeEpBaseTxMtPenal(jsonObject.getString(EP_BaseTxMtPenal));
 
 
 
 
 
 //                }
-            } catch (JSONException | UnsupportedEncodingException e) {
+            } catch (Exception  e) {
                 e.printStackTrace();
             }
             return null;
@@ -922,6 +907,7 @@ try {
                 }else{
                     ll_DefinirNouveauTxInteretEAP.setVisibility(View.GONE);
                     EpValTxIntRupant_ET.setVisibility(View.GONE);
+                    input_layout_BaseNewTxInteretEAP.setVisibility(View.GONE);
                     ll_TypeNouveauTxInteretRuptureEAP.setVisibility(View.GONE);
                     ll_TxNewInteretNegociableEAP.setVisibility(View.GONE);
                 }
@@ -937,12 +923,14 @@ try {
                     ll_TypeNouveauTxInteretRuptureEAP.setVisibility(View.VISIBLE);
                     ll_TxNewInteretNegociableEAP.setVisibility(View.VISIBLE);
                     EpValTxIntRupant_ET.setVisibility(View.VISIBLE);
+                    input_layout_BaseNewTxInteretEAP.setVisibility(View.VISIBLE);
 
 
                 }else{
                     ll_TypeNouveauTxInteretRuptureEAP.setVisibility(View.GONE);
                     ll_TxNewInteretNegociableEAP.setVisibility(View.GONE);
                     EpValTxIntRupant_ET.setVisibility(View.GONE);
+                    input_layout_BaseNewTxInteretEAP.setVisibility(View.GONE);
                 }
 
                 break;
@@ -1004,12 +992,14 @@ try {
                 if (rbEpTypTxInterFixe.isChecked()) {
                     EpTypTxInter ="F";
                     EpValTxInter_ET.setVisibility(View.VISIBLE);
+                    input_layout_EpBaseTxInter.setVisibility(View.VISIBLE);
                     tv_plageEpValTxInter.setVisibility(View.GONE);
                 }
                 break;
             case R.id.rbEpTypTxInterPlage:
                 if (rbEpTypTxInterPlage.isChecked()) {
                     EpTypTxInter ="P";
+                    input_layout_EpBaseTxInter.setVisibility(View.GONE);
                     EpValTxInter_ET.setVisibility(View.GONE);
                     tv_plageEpValTxInter.setVisibility(View.VISIBLE);
                 }
@@ -1057,7 +1047,7 @@ try {
                 if (rbEpTypNewTxIntRupAntPlage.isChecked()) {
                     EpTypNewTxIntRupAnt="P";
                     EpValTxIntRupant_ET.setVisibility(View.GONE);
-                    EpBaseTxIntRupant_ET.setVisibility(View.GONE);
+                    //EpBaseTxIntRupant_ET.setVisibility(View.GONE);
                     input_layout_BaseNewTxInteretEAP.setVisibility(View.GONE);
                     tv_plageEpValTxIntRupant.setVisibility(View.VISIBLE);
                 }
@@ -1104,71 +1094,15 @@ try {
      * Checks whether all files are filled. If so then calls UpdateEapAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
-    /*private void updateEAP() {
-        if (!STRING_EMPTY.equals(EpCode_ET.getText().toString()) &&
-                !STRING_EMPTY.equals(EpLibelle_ET.getText().toString()) &&
-                !STRING_EMPTY.equals(Ep_MinMtMiseEAP_ET.getText().toString()) &&
-                !STRING_EMPTY.equals(EP_DureeMinEAP_ET.getText().toString())) {
-
-            EpCode = EpCode_ET.getText().toString();
-            EpLibelle = EpLibelle_ET.getText().toString();
-            EpMinMtMise = Ep_MinMtMiseEAP_ET.getText().toString();
-            EpDureeMin = EP_DureeMinEAP_ET.getText().toString();
-
-            EpIsMtMultMise = EpIsMtMultMise_SW.isChecked();
-            EpIsVersemAntic = EpIsVersemAntic_SW.isChecked();
-            EpDureeMax = EpDureeMax_ET.getText().toString();
-            //EpNaturePas = ;
-            EpNbreUPas = EpNbreUPas_ET.getText().toString();
-            //EpTypTxInter = ;
-            EpValTxInter = EpValTxInter_ET.getText().toString();
-            //    EpPlageTxInterFrom, EpPlageTxInterTo;
-            EpIsTxIntNeg = EpIsTxIntNeg_SW.isChecked();
-            EpIsPriseIntMiseOn = EpIsPriseIntMiseOn_SW.isChecked();
-            EpIsPenalNRespMise = EpIsPenalNRespMise_SW.isChecked();
-            EpNbEchPenalOn = EpNbEchPenalOn_ET.getText().toString();
-            EpIsEchPenalSucces = EpIsEchPenalSucces_SW.isChecked();
-            //   EpNatureRupAn;
-            EpValTxMtRupture = EpValTxMtRupture_ET.getText().toString();
-            // EpPlageTxMtRuptureFrom,EpPlageTxMtRuptureTo;
-            EpBaseTxPenal = EpBaseTxPenal_ET.getText().toString();
-            EpIsEparRetireFin = EpIsEparRetireFin_SW.isChecked();
-            EpIsEparTransfFin = EpIsEparTransfFin_SW.isChecked();
-            EpIsOnlyTotTransf = EpIsOnlyTotTransf_SW.isChecked();
-            EpIsEparRenouvFin = EpIsEparRenouvFin_SW.isChecked();
-            EpActionDefATerme = EpActionDefATerme_SW.isChecked();
-            EpIsMultiEAPOn = EpIsMultiEAPOn_SW.isChecked();
-            EpIsInterDusRupAnt = EpIsInterDusRupAnt_SW.isChecked();
-            EpIsNewTxIntRupAnt = EpIsNewTxIntRupAnt_SW.isChecked();
-            // EpTypNewTxIntRupAnt;
-            EpValTxIntRupant = EpValTxIntRupant_ET.getText().toString();
-            //  EpPlageTxIntRupantFrom, EpPlageTxIntRupantTo;
-            EpBaseTxIntRupant = EpBaseTxIntRupant_ET.getText().toString();
-            EpTxIntRupantNeg = EpTxIntRupantNeg_SW.isChecked();
-            EpIsPenalRupAnt = EpIsPenalRupAnt_SW.isChecked();
-            // EpNaturePenal;
-            EpValTxMtPenalite = EpValTxMtPenalite_ET.getText().toString();
-            // EpPlageTxMtPenaliteFrom, EpPlageTxMtPenaliteTo;
-            EpBaseTxMtPenal = EpBaseTxMtPenal_ET.getText().toString();
-
-            new UpdateEapAsyncTask().execute();
-        } else {
-            Toast.makeText(UpdateEAP.this,
-                    "Un ou plusieurs champs sont vides!",
-                    Toast.LENGTH_LONG).show();
-
-        }
-
-
-    }*/
     private void updateEAP() {
         if (!STRING_EMPTY.equals(EpCode_ET.getText().toString()) &&
                 !STRING_EMPTY.equals(EpLibelle_ET.getText().toString()) &&
                 !STRING_EMPTY.equals(Ep_MinMtMiseEAP_ET.getText().toString()) &&
                 !STRING_EMPTY.equals(EP_DureeMinEAP_ET.getText().toString())) {
 
-            EpCode = EpCode_ET.getText().toString();
-            EpLibelle = EpLibelle_ET.getText().toString();
+
+            EpCode = MyData.normalizeSymbolsAndAccents(EpCode_ET.getText().toString());
+            EpLibelle = MyData.normalizeSymbolsAndAccents(EpLibelle_ET.getText().toString());
             EpMinMtMise = Ep_MinMtMiseEAP_ET.getText().toString();
             EpDureeMin = EP_DureeMinEAP_ET.getText().toString();
             if (EpIsMtMultMise_SW.isChecked()){
@@ -1186,6 +1120,18 @@ try {
             EpDureeMax = EpDureeMax_ET.getText().toString();
             EpNbreUPas = EpNbreUPas_ET.getText().toString();
             EpValTxInter = EpValTxInter_ET.getText().toString();
+            EpBaseTxInter = ProduitEAP.encodeEpBaseTxInter(JR_EpBaseTxInter.getText().toString());
+
+            if (EpTypTxInter.equals("F") && EpValTxInter.equals(STRING_EMPTY)){
+                input_layout_ValeurTauxInteretEAP.setError("Entrez la valeur du taux d'intérêt");
+                input_layout_ValeurTauxInteretEAP.requestFocus();
+                return;
+            }
+            if (EpTypTxInter.equals("F") && EpValTxInter.equals(STRING_EMPTY)){
+                input_layout_ValeurTauxInteretEAP.setError("Entrez la valeur du taux d'intérêt");
+                input_layout_ValeurTauxInteretEAP.requestFocus();
+                return;
+            }
             if (EpIsTxIntNeg_SW.isChecked()){
                 EpIsTxIntNeg = "Y";
             }else{
@@ -1213,7 +1159,8 @@ try {
             }
 //            EpIsEchPenalSucces = EpIsEchPenalSucces_SW.isChecked();
             EpValTxMtRupture = EpValTxMtRupture_ET.getText().toString();
-            EpBaseTxPenal = EpBaseTxPenal_ET.getText().toString();
+            EpBaseTxPenal = ProduitEAP.encodeEpBaseTxPenal(EpBaseTxPenal_ET.getText().toString());
+
             if (EpIsEparRetireFin_SW.isChecked()){
                 EpIsEparRetireFin = "Y";
             }else{
@@ -1260,7 +1207,7 @@ try {
             // EpTypNewTxIntRupAnt;
             EpValTxIntRupant = EpValTxIntRupant_ET.getText().toString();
             //  EpPlageTxIntRupantFrom, EpPlageTxIntRupantTo;
-            EpBaseTxIntRupant = EpBaseTxIntRupant_ET.getText().toString();
+            EpBaseTxIntRupant = ProduitEAP.encodeEpBaseTxIntRupant(EpBaseTxIntRupant_ET.getText().toString());
             if (EpTxIntRupantNeg_SW.isChecked()){
                 EpTxIntRupantNeg = "Y";
             }else{
@@ -1277,6 +1224,7 @@ try {
             EpValTxMtPenalite = EpValTxMtPenalite_ET.getText().toString();
             // EpPlageTxMtPenaliteFrom, EpPlageTxMtPenaliteTo;
             EpBaseTxMtPenal = EpBaseTxMtPenal_ET.getText().toString();
+            EpBaseTxMtPenal = ProduitEAP.encodeEpBaseTxMtPenal(EpBaseTxMtPenal_ET.getText().toString());
 
             new UpdateEapAsyncTask().execute();
         } else {
@@ -1328,6 +1276,7 @@ try {
             httpParams.put(KEY_EAP_NBRE_U_PAS, EpNbreUPas);
             httpParams.put(KEY_EAP_TYP_TX_INTER, EpTypTxInter);
             httpParams.put(KEY_EpValTxInter, EpValTxInter);
+            httpParams.put(KEY_EpBaseTxInter, EpBaseTxInter); //Add at 04/11/2020
             httpParams.put(KEY_EpIsTxIntNeg, String.valueOf(EpIsTxIntNeg));
             httpParams.put(KEY_EpIsPriseIntMiseOn, String.valueOf(EpIsPriseIntMiseOn));
             httpParams.put(EP_IsPenalNRespMise, String.valueOf(EpIsPenalNRespMise));
@@ -1356,13 +1305,7 @@ try {
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_eap.php", "POST", httpParams);
 
-        /*    EpIsTxIntNeg, EpIsPriseIntMiseOn, EpIsPenalNRespMise,EpNbEchPenalOn,EpIsEchPenalSucces;
-            EpNatureRupAn,EpValTxMtRupture,EpPlageTxMtRuptureFrom,EpPlageTxMtRuptureTo;
-            EpBaseTxPenal,EpIsEparRetireFin,EpIsEparTransfFin,EpIsOnlyTotTransf,EpIsEparRenouvFin;
-            EpActionDefATerme,EpIsMultiEAPOn,EpIsInterDusRupAnt,EpIsNewTxIntRupAnt,EpTypNewTxIntRupAnt;
-            EpValTxIntRupant, EpPlageTxIntRupantFrom, EpPlageTxIntRupantTo;
-            EpBaseTxIntRupant, EpTxIntRupantNeg, EpIsPenalRupAnt, EpNaturePenal, EpValTxMtPenalite;
-            EpPlageTxMtPenaliteFrom, EpPlageTxMtPenaliteTo, EpBaseTxMtPenal*/
+
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {

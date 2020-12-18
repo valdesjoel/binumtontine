@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/header_eav_adherent"
+            style="@style/headerTextPrimary"
+            android:text="Effectuer un transfert d'argent"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+        <!-- Begin -->
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="1- Transaction"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!--TrRefOper-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_TrRefOper"
+                style="@style/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Réf: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_TrRefOper"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:background="@color/colorYellow"/>
+
+        </LinearLayout>
+        <!--- - TrTypTransf/A2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_TrTypTransf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Sélectionner le type de transaction:"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_TrTypTransf"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/rg_OdSensOper" >
+
+                <RadioButton
+                    android:id="@+id/rb_TrTypTransf_CC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Compte à Compte"
+                    android:onClick="onRadioButtonClicked"
+                    android:textSize="16sp"
+                    android:checked="false" />
+                <RadioButton
+                    android:id="@+id/rb_TrTypTransf_CE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Compte à Espèce"
+                    android:textSize="16sp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+                <RadioButton
+                    android:id="@+id/rb_TrTypTransf_EC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Espèce à Compte"
+                    android:textSize="16sp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+                <RadioButton
+                    android:id="@+id/rb_TrTypTransf_EE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Espèce à Espèce"
+                    android:textSize="16sp"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="30dp"
+
+        android:layout_below="@+id/tv_title_TrRefOper">
+
+        <!-- TrMontant/R   ** Montant de l'opération -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrMontant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+
+            <EditText
+                android:id="@+id/input_txt_TrMontant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_montant_operation"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- TrMtFrais/R   ** Frais de l'opération -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrMtFrais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+
+            <EditText
+                android:id="@+id/input_txt_TrMtFrais"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_frais_operation"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:editable="false"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- TrMtTaxes/R   ** Taxe de l'opération -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrMtTaxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+
+            <EditText
+                android:id="@+id/input_txt_TrMtTaxes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_taxes_operation"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:editable="false"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Total à payer-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_total"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Total à payer:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_total"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="2- Expéditeur"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!--- Adherent/I   **  Champ de reférence pour relier à l'opération externe de reference-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_OdOperExterne"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sélectionner l'expéditeur"
+                android:textSize="16sp" />
+            <Spinner
+                android:id="@+id/spn_list_nom_exp"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="@string/nom_exp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textAllCaps="true"
+            android:text="Status"
+            android:layout_marginTop="12dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:visibility="visible"
+            android:id="@+id/acet_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/parent"
+
+            android:hint="@string/nom_exp"
+            android:inputType="none"
+            android:clickable="false"
+            android:focusable="false"
+            />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_error_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="8dp"
+
+            android:text="You should add a Status"
+            />
+        <!-- TrNomExp-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrNomExp"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrNomExp"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/nom_exp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- TrPrenomExp-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrPrenomExp"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrPrenomExp"
+                style="@style/modifiedEditText"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/prenom_exp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Telephones-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_TrTelExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierTrTelExp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone1"
+                android:inputType="phone"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <!-- Type de pièce TrTypPieceIdExp -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/signup_text_margin_top"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/modifiedEditText"
+            app:errorEnabled="true" >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_TrTypPieceIdExp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_type_piece"
+                android:textSize="16sp"
+                app:jrs_title="Choose"
+                android:textStyle="bold"
+                app:jrs_multiple="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Numéro de la pièce TrPieceIdExp-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrPieceIdExp"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrPieceIdExp"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/numero_piece_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Domicile TrAdresseExp -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrAdresseExp"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrAdresseExp"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/adresse"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- TrCodeSecret -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrCodeSecret"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrCodeSecret"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_TrCodeSecret"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- TrDetailsExp -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrDetailsExp"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrDetailsExp"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/details"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="3- Bénéficiaire"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <!--- Liste destinataire   **  Champ de reférence pour relier à l'opération externe de reference-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_listDest"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sélectionner le bénéficiaire"
+                android:textSize="16sp" />
+            <Spinner
+                android:id="@+id/spn_list_nom_dest"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="@string/nom_dest" />
+
+        </LinearLayout>
+        <!-- TrNomDest-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrNomDest"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrNomDest"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/nom_dest"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- TrPrenomDest-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrPrenomDest"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrPrenomDest"
+                style="@style/modifiedEditText"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/prenom_dest"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Telephone TrTelDest-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_TrTelDest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_countryPreference="CM,GA"
+                app:ccp_defaultNameCode="CM"
+                app:ccp_defaultLanguage="FRENCH"
+                />
+
+            <EditText
+                android:id="@+id/editText_carrierTrTelDest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="@string/hint_telephone1"
+                android:inputType="phone"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <!-- Type de pièce TrTypPieceIdDest -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/signup_text_margin_top"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/modifiedEditText"
+            app:errorEnabled="true" >
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_TrTypPieceIdDest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_type_piece"
+                android:textSize="16sp"
+                app:jrs_title="Choose"
+                android:textStyle="bold"
+                app:jrs_multiple="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Numéro de la pièce TrPieceIdDest-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrPieceIdDest"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrPieceIdDest"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/numero_piece_adherent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Domicile TrAdresseDest -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrAdresseDest"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrAdresseDest"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/adresse"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- TrDetailsDest -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_TrDetailsDest"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/input_TrDetailsDest"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/details"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_4"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="4- Envoyer de:"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!--Pays-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_pays_exp"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Pays:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_pays_exp"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CAMEROUN"
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Ville/Guichet-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_guichet_exp"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Ville/Guichet:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_guichet_exp"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_5"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="5- Destination:"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!--Pays-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_pays_dest"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pays:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_pays_dest"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CAMEROUN"
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Ville/Guichet dest-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_guichet_dest"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Ville/Guichet:"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_guichet_dest"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="***"
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+<!--        -->
+<!--        &lt;!&ndash;- OdOperExterne/I   **  Champ de reférence pour relier à l'opération externe de reference&ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:layout_marginTop="@dimen/loginViewsMargin"-->
+<!--            android:orientation="horizontal">-->
+<!--            <TextView-->
+<!--                android:id="@+id/tv_OdOperExterne"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_width="205dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/menu_operation_externe"-->
+<!--                android:textSize="16sp" />-->
+<!--            <Spinner-->
+<!--                android:id="@+id/spn_list_OdOperExterne"-->
+<!--                style="@style/modifiedEditText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center_horizontal|center_vertical"-->
+<!--                android:hint="@string/menu_operation_externe" />-->
+
+<!--        </LinearLayout>-->
+<!--        &lt;!&ndash;- OdLibelle /A100  ** Pour renseigner le libellé de l'opération.&ndash;&gt;-->
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/input_layout_OdLibelle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:theme="@style/TextInputLayoutStyle"-->
+<!--            style="@style/parent"-->
+<!--            app:errorEnabled="true"-->
+<!--            android:layout_marginTop="@dimen/loginViewsMargin">-->
+<!--            <EditText-->
+<!--                android:id="@+id/input_txt_OdLibelle"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:singleLine="true"-->
+<!--                android:maxLength="100"-->
+<!--                android:hint="@string/hint_Libelle_operation_externe"-->
+<!--                style="@style/modifiedEditText"-->
+<!--                android:inputType="textPersonName"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="16sp"-->
+<!--                />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+    </LinearLayout>
+        <!-- End -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+
+            android:layout_below="@+id/input_layout_depot_min">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:layout_marginRight="12dp"
+                android:text="@string/btn_enregistrer" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                style="@style/loginButton"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

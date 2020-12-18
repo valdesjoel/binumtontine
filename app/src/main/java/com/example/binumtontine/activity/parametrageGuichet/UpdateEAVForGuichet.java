@@ -22,6 +22,7 @@ import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.ListPlageFCV;
 import com.example.binumtontine.activity.ListPlageTIV;
+import com.example.binumtontine.activity.ListPlageVIB;
 import com.example.binumtontine.activity.UpdateEAV;
 import com.example.binumtontine.activity.adherent.ModelPlageData;
 import com.example.binumtontine.controleur.MyData;
@@ -50,6 +51,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
     private static final String KEY_EAV_MIN_CPTE = "ev_min_cpte";
     private static final String KEY_EAV_IS_MIN_CPTE_OBLIG = "ev_is_min_cpte_oblig";
+    private static final String KEY_EvNatureTxInt = "EvNatureTxInt";
     private static final String KEY_EAV_TX_INTER_AN = "ev_tx_inter_an";
     private static final String KEY_EAV_IS_TX_INTER_AN_OBLIG = "ev_is_tx_inter_an_oblig";
     private static final String KEY_EAV_TYP_DAT_VAL = "ev_typ_dat_val";
@@ -211,6 +213,14 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
     private String EvValFraisCloture;
     private String EvBaseFraisCloture;
     //END 27/10/2020
+
+    //STRT 05/11/2020
+    private RadioButton rbEvNatureTxIntTaux;
+    private RadioButton rbEvNatureTxIntPlage;
+    private LinearLayout LL_bloc_Tx_Int_VIB; //Add at 05/11/2020
+    private String EvNatureTxInt;
+    private TextView tv_config_plage_vib;
+    //FIN 05/11/2020
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -284,6 +294,15 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
         });
 
         //END 27/10/2020
+
+
+        //START 05/11/2020
+        ev_tx_inter_anEditText.addTextChangedListener(MyData.onTextChangedListener(ev_tx_inter_anEditText));
+        LL_bloc_Tx_Int_VIB = (LinearLayout) findViewById(R.id.LL_bloc_Tx_Int_VIB);
+        rbEvNatureTxIntTaux = (RadioButton) findViewById(R.id.rbEvNatureTxIntTaux);
+        rbEvNatureTxIntPlage = (RadioButton) findViewById(R.id.rbEvNatureTxIntPlage);
+        tv_config_plage_vib = (TextView) findViewById(R.id.tv_plage_vib_eav);
+        //END 05/11/2020
 
 
         ev_mt_tx_agios_prelevEditText = (EditText) findViewById(R.id.input_txt_TauxAPreleveCpteEAV);
@@ -433,6 +452,27 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
 
             }
         });
+        //VIB
+        tv_config_plage_vib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'intérêt mensuel";
+                    ListPlageVIB.IS_TO_CREATE_OR_TO_UPDATE = false;
+                    Intent i = new Intent(UpdateEAVForGuichet.this,ListPlageVIB.class);
+
+                    i.putExtra(KEY_EAV_ID, eavId);
+                    startActivityForResult(i, 20);
+
+                } else {
+                    Toast.makeText(UpdateEAVForGuichet.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
 
 
     }
@@ -440,7 +480,6 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
         getSupportActionBar().setTitle("Mise à jour d'un produit EAV");
 
     }
-
 
     public void onSwitchButtonClicked(View view) {
 //        boolean checked1 = ((Switch) view).isChecked();
@@ -461,17 +500,20 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
             case R.id.SwitchTauxInteretAnnuelEAV:
                 if (ev_is_tx_inter_an_obligSwitch.isChecked()){
 //                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
-
+                    LL_bloc_Tx_Int_VIB.setVisibility(View.VISIBLE); //05/11/2020
+                    onRadioButtonClicked(rbEvNatureTxIntTaux);
                     layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
                     layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
                     layout_DateValeur.setVisibility(View.VISIBLE);
                     layout_DateRetrait.setVisibility(View.VISIBLE);
                 }else{
+                    LL_bloc_Tx_Int_VIB.setVisibility(View.GONE);
                     layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
                     layout_BaseInteretAnnuelEAV.setVisibility(View.GONE);
-
                     layout_DateValeur.setVisibility(View.GONE);
                     layout_DateRetrait.setVisibility(View.GONE);
+                    tv_config_plage_vib.setVisibility(View.GONE);
+
                 }
 
 
@@ -567,6 +609,23 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                     tv_config_plage_fcv.setVisibility(View.VISIBLE);
                 }
                 break;
+            case R.id.rbEvNatureTxIntTaux:
+                if (rbEvNatureTxIntTaux.isChecked()){
+                    EvNatureTxInt ="T";
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                    layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                    tv_config_plage_vib.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.rbEvNatureTxIntPlage:
+                if (rbEvNatureTxIntPlage.isChecked()) {
+                    EvNatureTxInt ="P";
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
+                    layout_BaseInteretAnnuelEAV.setVisibility(View.GONE);
+                    tv_config_plage_vib.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.rbEpTypTxInterFixe:
                 if (rbEpTypTxInterFixe.isChecked()) {
                     ev_typ_fr_agios ="F";
@@ -637,6 +696,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                     ev_min_cpte = jsonObject.getString(KEY_EAV_MIN_CPTE);
                     ev_is_min_cpte_oblig = jsonObject.getString(KEY_EAV_IS_MIN_CPTE_OBLIG);
 //                    Log.e("***KEY_EAV_IS_MIN_CPTE_OBLIG",ev_is_min_cpte_oblig+"");
+                EvNatureTxInt = jsonObject.getString(KEY_EvNatureTxInt);
                     ev_tx_inter_an = jsonObject.getString(KEY_EAV_TX_INTER_AN);
                 base_ev_tx_inter_an =ProduitEAV.decodeEvBaseTxInterAn(jsonObject.getString(KEY_EAV_BASE_TX_INTER_AN));
                     ev_is_tx_inter_an_oblig = jsonObject.getString(KEY_EAV_IS_TX_INTER_AN_OBLIG);
@@ -689,6 +749,15 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                         ev_is_min_cpte_obligSwitch.setChecked(false);
                     }
                     onSwitchButtonClicked(ev_is_min_cpte_obligSwitch);
+
+                    if (EvNatureTxInt.equals("T")){
+                        rbEvNatureTxIntTaux.setChecked(true);
+                        onRadioButtonClicked(rbEvNatureTxIntTaux);
+                    }else if (EvNatureTxInt.equals("P")){
+                        rbEvNatureTxIntPlage.setChecked(true);
+                        onRadioButtonClicked(rbEvNatureTxIntPlage);
+                    }
+
                     ev_tx_inter_anEditText.setText(ev_tx_inter_an);
                     mySpinnerBaseTxIntMensuel.setText(base_ev_tx_inter_an);
                     if (ev_is_tx_inter_an_oblig.equals("Y")){
@@ -880,7 +949,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                 ev_code = MyData.normalizeSymbolsAndAccents( ev_codeEditText.getText().toString());
                 ev_libelle = MyData.normalizeSymbolsAndAccents( ev_libelleEditText.getText().toString());
 
-                Double min_cpte, ev_cloture;
+                Double min_cpte, ev_cloture, ev_tx_inter;
 
 
                 if (!(ev_min_cpteEditText.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)) {
@@ -899,6 +968,11 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
                     ev_is_tx_inter_an_oblig = "Y";
                 } else {
                     ev_is_tx_inter_an_oblig = "N";
+                }
+                //05/11/2020
+                if (!(ev_tx_inter_anEditText.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)) {
+                    ev_tx_inter = Double.valueOf(ev_tx_inter_anEditText.getText().toString().replaceAll(",", "").trim());
+                    ev_tx_inter_anEditText.setText(ev_tx_inter + "");
                 }
                 ev_tx_inter_an = ev_tx_inter_anEditText.getText().toString();
                 ev_typ_dat_val = ev_typ_dat_valEditText.getText().toString();
@@ -1005,7 +1079,7 @@ public class UpdateEAVForGuichet extends AppCompatActivity implements SERVER_ADD
             httpParams.put(KEY_EAV_LIBELLE, ev_libelle);
             httpParams.put(KEY_EAV_MIN_CPTE, ev_min_cpte);
             httpParams.put(KEY_EAV_IS_MIN_CPTE_OBLIG, ev_is_min_cpte_oblig.toString());
-
+            httpParams.put(KEY_EvNatureTxInt, EvNatureTxInt);
             httpParams.put(KEY_EAV_TX_INTER_AN, ev_tx_inter_an);
             httpParams.put(KEY_EAV_BASE_TX_INTER_AN, base_ev_tx_inter_an);
             httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig.toString());

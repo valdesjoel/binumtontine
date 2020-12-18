@@ -8,6 +8,13 @@ import java.io.Serializable;
  */
 public class Adherent implements Serializable {
 
+
+    public static final String KEY_AD_AdNumero = "AdNumero";
+    public static final String KEY_AD_AdCode = "AdCode";
+    public static final String KEY_AD_AdNumManuel = "AdNumManuel";
+    public static final String KEY_AD_AdNom = "AdNom";
+    public static final String KEY_AD_AdPrenom = "AdPrenom";
+
     private String AdNumero;
     private String AdCode;
     private String AdNumManuel;

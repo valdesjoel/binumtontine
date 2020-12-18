@@ -172,6 +172,18 @@
                 />
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="1- INTERET NOMINAL"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!-- radiogroup -->
         <LinearLayout
@@ -675,6 +687,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
             android:gravity="center"
             android:textSize="18dp"
             android:text="2- PENALITE DE RETARD"
@@ -1307,6 +1320,17 @@
 
         </LinearLayout>
         <!--Fin intérêt de retard-->
+        <TextView
+            android:id="@+id/lbl_Avaliste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="AVALISTES"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!-- Nombre d’avalistes demandés (CrNbreAvalDmde/I)-->
          <com.google.android.material.textfield.TextInputLayout
@@ -1823,6 +1847,17 @@
                 />
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/lbl_CrIsFraisEtudDossOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="FRAIS D'ETUDE"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <!--Existe-t-il des frais d’étude de dossier ? (CrIsFraisEtudDossOn/A1)-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -1964,6 +1999,17 @@
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
 
+        <TextView
+            android:id="@+id/lbl_CrIsFraisDeblocCredOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="FRAIS DE DEBLOCAGE"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <!--Existe-t-il des frais de déblocage du crédit (CrIsFraisDeblocCredOn/A1))-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -2106,6 +2152,17 @@
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
 
+        <TextView
+            android:id="@+id/lbl_CrIsFraisDecaissCredOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="FRAIS DE DECAISSEMENT"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <!--Existe-t-il des frais de décaissement du crédit (CrIsFraisDecaissCredOn/A1)-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -2411,7 +2468,17 @@
 
         </LinearLayout>
 
-
+        <TextView
+            android:id="@+id/lbl_CrModeRemb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="REMBOURSEMENT CREDIT"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <!-- Mode de remboursement du crédit ; tel Intérêt puis capital,
          inverse, le capital est remboursé à terme/à la fin,..(CrModeRemb/A1) -->
         <com.google.android.material.textfield.TextInputLayout
@@ -2625,6 +2692,17 @@
                 android:textSize="18sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/lbl_CrPlanningRembCred"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="PLANNING DE REMBOURSEMENT"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <!--Nature du Planning de remboursement initial (manuel, proraté, etc..) (CrPlanningRembCred/A1) -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_CrPlanningRembCred"

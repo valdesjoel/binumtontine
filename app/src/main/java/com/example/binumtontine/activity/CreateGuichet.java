@@ -132,23 +132,23 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private String gx_tel3;
     private String gx_nom_pca;
     private String gx_nom_dg;
-    private Boolean gx_is_forcer_clot;
+    private String gx_is_forcer_clot;
     private String gx_heure_clot;
-    private Boolean gx_is_oper_apres_clot;
+    private String gx_is_oper_apres_clot;
     private String gx_nbre_rapp_by_jour;
     private String gx_nbre_jr_av_rapp;
-    private Boolean gx_is_jour8_on;
-    private Boolean gx_is_credit_by_objet;
+    private String gx_is_jour8_on;
+    private String gx_is_credit_by_objet;
     private String gx_first_jr_on;
     private String gx_freq_reun_com_cred;
-    private Boolean gx_is_rapp_net_msg_cred_on;
+    private String gx_is_rapp_net_msg_cred_on;
 
     private EditText GxMtPlafDecAutPCG;
     private String st_GxMtPlafDecAutPCG;
     private EditText GxNbMoisHistoDef;
     private String st_GxNbMoisHistoDef;
     private SwitchCompat GxIsPreComGesGuPGC,GxIsChefGuichCG,GxIsAgentGuichAG;
-    private Boolean bool_GxIsPreComGesGuPGC, bool_GxIsChefGuichCG,bool_GxIsAgentGuichAG;
+    private String bool_GxIsPreComGesGuPGC, bool_GxIsChefGuichCG,bool_GxIsAgentGuichAG;
 
     /* manage spinner*/
 
@@ -427,10 +427,10 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
 if (true){
             //gxCaisse = mySpinnerCaisse.getText().toString();
             //gxCaisse = "1";//gérer plutot dynamiquement
-            gxLocalite = mySpinnerLocalite.getText().toString();
-            gxDenomination = gx_denominationEditText.getText().toString();
+            gxLocalite = MyData.normalizeSymbolsAndAccents(mySpinnerLocalite.getText().toString());
+            gxDenomination = MyData.normalizeSymbolsAndAccents(gx_denominationEditText.getText().toString());
             gx_date_debut = gx_date_debutEditText.getText().toString();
-            gx_adresse = gx_adresseEditText.getText().toString();
+            gx_adresse = MyData.normalizeSymbolsAndAccents(gx_adresseEditText.getText().toString());
             gx_tel1 = ccp_phone1.getFullNumberWithPlus();
             gx_tel2 = ccp_phone2.getFullNumberWithPlus();
             gx_tel3 = ccp_phone3.getFullNumberWithPlus();
@@ -438,33 +438,75 @@ if (true){
             gx_tel2 = gx_tel2EditText.getText().toString();
             gx_tel3 = gx_tel3EditText.getText().toString();*/
 
-            gx_nom_pca = gx_nom_pcaEditText.getText().toString();
-            gx_nom_dg = gx_nom_dgEditText.getText().toString();
+            gx_nom_pca = MyData.normalizeSymbolsAndAccents(gx_nom_pcaEditText.getText().toString());
+            gx_nom_dg = MyData.normalizeSymbolsAndAccents(gx_nom_dgEditText.getText().toString());
            // gx_is_forcer_clot = Boolean.parseBoolean(gx_is_forcer_clotSwitch.isChecked());
-            gx_is_forcer_clot = gx_is_forcer_clotSwitch.isChecked();
+             if (gx_is_forcer_clotSwitch.isChecked()){
+                gx_is_forcer_clot = "Y";
+            }else{
+                gx_is_forcer_clot = "N";
+            }
             gx_heure_clot = gx_heure_clotEditText.getText().toString();
            // gx_is_oper_apres_clot = Boolean.parseBoolean(gx_is_oper_apres_clotSwitch.getText().toString());
-            gx_is_oper_apres_clot = gx_is_oper_apres_clotSwitch.isChecked();
+            if (gx_is_oper_apres_clotSwitch.isChecked()){
+                gx_is_oper_apres_clot = "Y";
+            }else{
+                gx_is_oper_apres_clot = "N";
+            }
             gx_nbre_rapp_by_jour = gx_nbre_rapp_by_jourEditText.getText().toString();
             gx_nbre_jr_av_rapp = gx_nbre_jr_av_rappEditText.getText().toString();
             gx_nbre_jr_av_rapp = gx_nbre_jr_av_rappEditText.getText().toString();
            // gx_is_jour8_on = Boolean.parseBoolean(gx_is_jour8_onSwitch.getText().toString());
-            gx_is_jour8_on = gx_is_jour8_onSwitch.isChecked();
+            if (gx_is_jour8_onSwitch.isChecked()){
+                gx_is_jour8_on = "Y";
+            }else{
+                gx_is_jour8_on = "N";
+            }
             //gx_is_credit_by_objet = Boolean.parseBoolean(gx_is_credit_by_objetSwitch.getText().toString());
-            gx_is_credit_by_objet = gx_is_credit_by_objetSwitch.isChecked();
+
+            if (gx_is_credit_by_objetSwitch.isChecked()){
+                gx_is_credit_by_objet = "Y";
+            }else{
+                gx_is_credit_by_objet = "N";
+            }
             gx_first_jr_on = gx_first_jr_onEditText.getText().toString();
            // gx_freq_reun_com_cred = gx_freq_reun_com_credEditText.getText().toString();
     gx_freq_reun_com_cred = mySpinnerFreqComCredit.getText().toString();
+    if (mySpinnerFreqComCredit.getText().toString().equals("HEBDOMADAIRE")){
+        gx_freq_reun_com_cred = "H";
+    }else if (mySpinnerFreqComCredit.getText().toString().equals("MENSUELLE")){
+        gx_freq_reun_com_cred = "M";
+    }else if (mySpinnerFreqComCredit.getText().toString().equals("TRIMESTRIELLE")){
+        gx_freq_reun_com_cred = "T";
+    }
            // gx_is_rapp_net_msg_cred_on = Boolean.parseBoolean(gx_is_rapp_net_msg_cred_onSwitch.getText().toString());
-            gx_is_rapp_net_msg_cred_on =gx_is_rapp_net_msg_cred_onSwitch.isChecked();
+
+    if (gx_is_rapp_net_msg_cred_onSwitch.isChecked()){
+        gx_is_rapp_net_msg_cred_on = "Y";
+    }else{
+        gx_is_rapp_net_msg_cred_on = "N";
+    }
 
 
     st_GxMtPlafDecAutPCG = GxMtPlafDecAutPCG.getText().toString();
     st_GxNbMoisHistoDef = GxNbMoisHistoDef.getText().toString();
+    if (GxIsPreComGesGuPGC.isChecked()){
+        bool_GxIsPreComGesGuPGC = "Y";
+    }else{
+        bool_GxIsPreComGesGuPGC = "N";
+    }
 
-    bool_GxIsPreComGesGuPGC=  GxIsPreComGesGuPGC.isChecked();
-    bool_GxIsChefGuichCG=  GxIsChefGuichCG.isChecked();
-    bool_GxIsAgentGuichAG=  GxIsAgentGuichAG.isChecked();
+    if (GxIsChefGuichCG.isChecked()){
+        bool_GxIsChefGuichCG = "Y";
+    }else{
+        bool_GxIsChefGuichCG = "N";
+    }
+
+    if (GxIsAgentGuichAG.isChecked()){
+        bool_GxIsAgentGuichAG = "Y";
+    }else{
+        bool_GxIsAgentGuichAG = "N";
+    }
 
     if (gx_is_jour8_onSwitch.isChecked()){
         joursVillage +=jv_jour_1_EditText.getText().toString().trim();

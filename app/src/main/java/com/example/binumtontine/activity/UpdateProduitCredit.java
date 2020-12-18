@@ -547,7 +547,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         rbCrNatFrEtudDossPlage = (RadioButton) findViewById(R.id.rbCrNatFrEtudDossPlage);
         ET_CrValTxFrEtudDoss = (EditText) findViewById(R.id.input_txt_CrNatFrEtudDoss);
         JR_CrBaseTxFrEtudDoss = (JRSpinner) findViewById(R.id.spn_my_spinner_base_tauxCrNatFrEtudDoss); //A revoir car c'est un JRSpinner
-        JR_CrBaseTxFrEtudDoss.setItems(getResources().getStringArray(R.array.array_base_taux_credit)); //this is important, you must set it to set the item list
+        JR_CrBaseTxFrEtudDoss.setItems(getResources().getStringArray(R.array.array_CrBaseTxFrEtudDoss)); //this is important, you must set it to set the item list
         JR_CrBaseTxFrEtudDoss.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         JR_CrBaseTxFrEtudDoss.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         JR_CrBaseTxFrEtudDoss.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -599,7 +599,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         });
 
         JR_CrBaseTxFraisDeblocCred = (JRSpinner) findViewById(R.id.spn_my_spinner_CrBaseTxFraisDeblocCred); //A revoir car c'est un JRSpinner
-        JR_CrBaseTxFraisDeblocCred.setItems(getResources().getStringArray(R.array.array_base_taux_credit)); //this is important, you must set it to set the item list
+        JR_CrBaseTxFraisDeblocCred.setItems(getResources().getStringArray(R.array.array_CrBaseTxFraisDeblocCred)); //this is important, you must set it to set the item list
         JR_CrBaseTxFraisDeblocCred.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         JR_CrBaseTxFraisDeblocCred.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         JR_CrBaseTxFraisDeblocCred.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -629,7 +629,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         rbCrNatFraisDecaissCredPlage = (RadioButton) findViewById(R.id.rbCrNatFraisDecaissCredPlage);
         ET_CrValTxFraisDecaissCred = (EditText) findViewById(R.id.input_txt_CrValTxFraisDecaissCred);
         JR_CrBaseTxFraisDecaissCred = (JRSpinner) findViewById(R.id.spn_my_spinner_CrBaseFraisDecaissCred); //A revoir car c'est un JRSpinner
-        JR_CrBaseTxFraisDecaissCred.setItems(getResources().getStringArray(R.array.array_base_taux_credit)); //this is important, you must set it to set the item list
+        JR_CrBaseTxFraisDecaissCred.setItems(getResources().getStringArray(R.array.array_CrBaseFraisDecaissCred)); //this is important, you must set it to set the item list
         JR_CrBaseTxFraisDecaissCred.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         JR_CrBaseTxFraisDecaissCred.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         JR_CrBaseTxFraisDecaissCred.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -1910,11 +1910,11 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 monProduitCredit.setCrIsJoursOuvresOnly(jsonObject.getString(KEY_CrIsJoursOuvresOnly));
                 monProduitCredit.setCrTypTxInter(jsonObject.getString(KEY_CREDIT_TypTxInter));
                 monProduitCredit.setCrValTxInter(jsonObject.getString(KEY_CREDIT_ValTxInter));
-                monProduitCredit.setCrBaseTxInter(jsonObject.getString(KEY_CREDIT_Base_TxInter));
+                monProduitCredit.setCrBaseTxInter(Credit.decodeCrBaseTxInter(jsonObject.getString(KEY_CREDIT_Base_TxInter)));
                 monProduitCredit.setCrIsTauxInteretAnOn(jsonObject.getString(KEY_CrIsTauxInteretAnOn));
                 monProduitCredit.setCrNatureTxIntAn(jsonObject.getString(KEY_CrNatureTxIntAn));
                 monProduitCredit.setCrTauxValTxIntAn(jsonObject.getString(KEY_CrTauxValTxIntAn));
-                monProduitCredit.setCrBaseTxIntAn(jsonObject.getString(KEY_CrBaseTxIntAn));
+                monProduitCredit.setCrBaseTxIntAn(Credit.decodeCrBaseTxIntAn(jsonObject.getString(KEY_CrBaseTxIntAn)));
                 monProduitCredit.setCrIsTxIntDegressif(jsonObject.getString(KEY_CrIsTxIntDegressif));
                 monProduitCredit.setCrModeCalcInteret(jsonObject.getString(KEY_CrModeCalcInteret));
                 monProduitCredit.setCrPeriodCalcInteret(jsonObject.getString(KEY_CrPeriodCalcInteret));
@@ -1923,7 +1923,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 monProduitCredit.setCrIsTxIntNeg(jsonObject.getString(KEY_CREDIT_IsTxIntNeg));
                 monProduitCredit.setCrNatureTxPenRet(jsonObject.getString(KEY_CrNatureTxPenRet));
                 monProduitCredit.setCrValTxPenRet(jsonObject.getString(KEY_CrValTxPenRet));
-                monProduitCredit.setCrBaseTxPenRet(jsonObject.getString(KEY_CrBaseTxPenRet));
+                monProduitCredit.setCrBaseTxPenRet(Credit.decodeCrBaseTxPenRet(jsonObject.getString(KEY_CrBaseTxPenRet)));
                 monProduitCredit.setCrPeriodNatureTxPenRet(jsonObject.getString(KEY_CrPeriodNatureTxPenRet));
                 monProduitCredit.setCrIsTxPenRetardOn(jsonObject.getString(KEY_CrIsTxPenRetardOn));
                 monProduitCredit.setCrNatureJrTxPenRet(jsonObject.getString(KEY_CrNatureJrTxPenRet));
@@ -1931,7 +1931,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 monProduitCredit.setCrIsIntRetCreditOn(jsonObject.getString(KEY_CrIsIntRetCreditOn));
                 monProduitCredit.setCrNatureTxInt_IntRetCred(jsonObject.getString(KEY_CrNatureTxInt_IntRetCred));
                 monProduitCredit.setCrTauxInt_IntRetCred(jsonObject.getString(KEY_CrTauxInt_IntRetCred));
-                monProduitCredit.setCrBasexInt_IntRetCred(jsonObject.getString(KEY_CrBasexInt_IntRetCred));
+                monProduitCredit.setCrBasexInt_IntRetCred(Credit.decodeCrBasexInt_IntRetCred(jsonObject.getString(KEY_CrBasexInt_IntRetCred)));
                 monProduitCredit.setCrPeriod_IntRetCred(jsonObject.getString(KEY_CrPeriod_IntRetCred));
                 monProduitCredit.setCrIsTxIntJrOn_IntRetCred(jsonObject.getString(KEY_CrIsTxIntJrOn_IntRetCred));
                 monProduitCredit.setCrNatJrTxIntJr_IntRetCred(jsonObject.getString(KEY_CrNatJrTxIntJr_IntRetCred));
@@ -1961,15 +1961,15 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 monProduitCredit.setCrIsFraisEtudDossOn(jsonObject.getString(KEY_CREDIT_IsFraisEtudDossOn));
                 monProduitCredit.setCrNatFrEtudDoss(jsonObject.getString(KEY_CREDIT_NatFrEtudDoss));
                 monProduitCredit.setCrValTxFrEtudDoss(jsonObject.getString(KEY_CREDIT_ValTxFrEtudDoss));
-                monProduitCredit.setCrBaseTxFrEtudDoss(jsonObject.getString(KEY_CREDIT_BaseTxFrEtudDoss));
+                monProduitCredit.setCrBaseTxFrEtudDoss(Credit.decodeCrBaseTxFrEtudDoss(jsonObject.getString(KEY_CREDIT_BaseTxFrEtudDoss)));
                 monProduitCredit.setCrIsFraisDeblocCredOn(jsonObject.getString(KEY_CREDIT_IsFraisDeblocCredOn));
                 monProduitCredit.setCrNatFraisDeblocCred(jsonObject.getString(KEY_CREDIT_NatFraisDeblocCred));
                 monProduitCredit.setCrValTxFraisDeblocCred(jsonObject.getString(KEY_CREDIT_ValTxFraisDeblocCred));
-                monProduitCredit.setCrBaseTxFraisDeblocCred(jsonObject.getString(KEY_CREDIT_BaseTxFraisDeblocCred));
+                monProduitCredit.setCrBaseTxFraisDeblocCred(Credit.decodeCrBaseTxFraisDeblocCred(jsonObject.getString(KEY_CREDIT_BaseTxFraisDeblocCred)));
                 monProduitCredit.setCrIsFraisDecaissCredOn(jsonObject.getString(KEY_CREDIT_IsFraisDecaissCredOn));
                 monProduitCredit.setCrNatFraisDecaissCred(jsonObject.getString(KEY_CREDIT_NatFraisDecaissCred));
                 monProduitCredit.setCrValTxFraisDecaissCred(jsonObject.getString(KEY_CREDIT_ValTxFraisDecaissCred));
-                monProduitCredit.setCrBaseFraisDecaissCred(jsonObject.getString(KEY_CREDIT_BaseFraisDecaissCred));
+                monProduitCredit.setCrBaseFraisDecaissCred(Credit.decodeCrBaseFraisDecaissCred(jsonObject.getString(KEY_CREDIT_BaseFraisDecaissCred)));
                 monProduitCredit.setCrIsFraisEtudByDAV(jsonObject.getString(KEY_CREDIT_IsFraisEtudByDAV));
                 monProduitCredit.setCrIsFraisDeblocByDAV(jsonObject.getString(KEY_CREDIT_IsFraisDeblocByDAV));
                 monProduitCredit.setCrIsFraisDecaissByDAV(jsonObject.getString(KEY_CREDIT_IsFraisDecaissByDAV));
@@ -1983,7 +1983,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 monProduitCredit.setCrIsCptEAPRemCredOn(jsonObject.getString(KEY_CREDIT_IsCptEAPRemCredOn));
                 monProduitCredit.setCrIsInterOffSiCapRembAnt(jsonObject.getString(KEY_CREDIT_IsInterOffSiCapRembAnt));
                 monProduitCredit.setCrTxInterEchNHon(jsonObject.getString(KEY_CREDIT_TxInterEchNHon));
-                monProduitCredit.setCrBaseInterEchNHon(jsonObject.getString(KEY_CREDIT_BaseInterEchNHon));
+                monProduitCredit.setCrBaseInterEchNHon(Credit.decodeCrBaseInterEchNHon(jsonObject.getString(KEY_CREDIT_BaseInterEchNHon)));
                 monProduitCredit.setCrPlanningRembCred(jsonObject.getString(KEY_CREDIT_PlanningRembCred));
                 monProduitCredit.setCrIsRappDatEchCred(jsonObject.getString(KEY_CREDIT_IsRappDatEchCred));
                 monProduitCredit.setCrModelTextRappEchRemb(jsonObject.getString(KEY_CREDIT_ModelTextRappEchRemb));
@@ -2618,11 +2618,11 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrIsJoursOuvresOnly(CrIsJoursOuvresOnly);
             monProduitCredit.setCrTypTxInter(CrTypTxInter);
             monProduitCredit.setCrValTxInter(ET_CrValTxInter.getText().toString());
-            monProduitCredit.setCrBaseTxInter(JR_CrBase_tauxInt.getText().toString());
+            monProduitCredit.setCrBaseTxInter(Credit.encodeCrBaseTxInter(JR_CrBase_tauxInt.getText().toString()));
             monProduitCredit.setCrIsTauxInteretAnOn(CrIsTauxInteretAnOn);
             monProduitCredit.setCrNatureTxIntAn(CrNatureTxIntAn);
             monProduitCredit.setCrTauxValTxIntAn(ET_CrTauxValTxIntAn.getText().toString());
-            monProduitCredit.setCrBaseTxIntAn(JR_CrBaseTxIntAn.getText().toString());
+            monProduitCredit.setCrBaseTxIntAn(Credit.encodeCrBaseTxIntAn(JR_CrBaseTxIntAn.getText().toString()));
             monProduitCredit.setCrIsTxIntDegressif(CrIsTxIntDegressif);
             monProduitCredit.setCrModeCalcInteret(CrModeCalcInteret);
             monProduitCredit.setCrPeriodCalcInteret(CrPeriodCalcInteret);
@@ -2631,7 +2631,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrIsTxIntNeg(CrIsTxIntNeg);
             monProduitCredit.setCrNatureTxPenRet(CrNatureTxPenRet);
             monProduitCredit.setCrValTxPenRet(ET_CrValTxInterPenRetard.getText().toString());
-            monProduitCredit.setCrBaseTxPenRet(JR_Crbase_tauxIntPenRetard.getText().toString());
+            monProduitCredit.setCrBaseTxPenRet(Credit.encodeCrBaseTxPenRet(JR_Crbase_tauxIntPenRetard.getText().toString()));
             monProduitCredit.setCrPeriodNatureTxPenRet(CrPeriodNatureTxPenRet);
             monProduitCredit.setCrIsTxPenRetardOn(CrIsTxPenRetardOn);
             monProduitCredit.setCrNatureJrTxPenRet(CrNatureJrTxPenRet);
@@ -2639,7 +2639,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrIsIntRetCreditOn(CrIsIntRetCreditOn);
             monProduitCredit.setCrNatureTxInt_IntRetCred(CrNatureTxInt_IntRetCred);
             monProduitCredit.setCrTauxInt_IntRetCred(ET_CrValTxInterRetard.getText().toString());
-            monProduitCredit.setCrBasexInt_IntRetCred(JR_Crbase_tauxIntRetard.getText().toString());
+            monProduitCredit.setCrBasexInt_IntRetCred(Credit.encodeCrBasexInt_IntRetCred(JR_Crbase_tauxIntRetard.getText().toString()));
             monProduitCredit.setCrPeriod_IntRetCred(CrPeriod_IntRetCred);
             monProduitCredit.setCrIsTxIntJrOn_IntRetCred(CrIsTxIntJrOn_IntRetCred);
             monProduitCredit.setCrNatJrTxIntJr_IntRetCred(CrNatJrTxIntJr_IntRetCred);
@@ -2669,15 +2669,15 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrIsFraisEtudDossOn(CrIsFraisEtudDossOn);
             monProduitCredit.setCrNatFrEtudDoss(CrNatFrEtudDoss);
             monProduitCredit.setCrValTxFrEtudDoss(ET_CrValTxFrEtudDoss.getText().toString());
-            monProduitCredit.setCrBaseTxFrEtudDoss(JR_CrBaseTxFrEtudDoss.getText().toString());
+            monProduitCredit.setCrBaseTxFrEtudDoss(Credit.encodeCrBaseTxFrEtudDoss(JR_CrBaseTxFrEtudDoss.getText().toString()));
             monProduitCredit.setCrIsFraisDeblocCredOn(CrIsFraisDeblocCredOn);
             monProduitCredit.setCrNatFraisDeblocCred(CrNatFraisDeblocCred);
             monProduitCredit.setCrValTxFraisDeblocCred(ET_CrValTxFraisDeblocCred.getText().toString());
-            monProduitCredit.setCrBaseTxFraisDeblocCred(JR_CrBaseTxFraisDeblocCred.getText().toString());
+            monProduitCredit.setCrBaseTxFraisDeblocCred(Credit.encodeCrBaseTxFraisDeblocCred(JR_CrBaseTxFraisDeblocCred.getText().toString()));
             monProduitCredit.setCrIsFraisDecaissCredOn(CrIsFraisDecaissCredOn);
             monProduitCredit.setCrNatFraisDecaissCred(CrNatFraisDecaissCred);
             monProduitCredit.setCrValTxFraisDecaissCred(ET_CrValTxFraisDecaissCred.getText().toString());
-            monProduitCredit.setCrBaseFraisDecaissCred(JR_CrBaseTxFraisDecaissCred.getText().toString());
+            monProduitCredit.setCrBaseFraisDecaissCred(Credit.encodeCrBaseFraisDecaissCred(JR_CrBaseTxFraisDecaissCred.getText().toString()));
             monProduitCredit.setCrIsFraisEtudByDAV(CrIsFraisEtudByDAV);
             monProduitCredit.setCrIsFraisDeblocByDAV(CrIsFraisDeblocByDAV);
             monProduitCredit.setCrIsFraisDecaissByDAV(CrIsFraisDecaissByDAV);
@@ -2691,7 +2691,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrIsCptEAPRemCredOn(CrIsCptEAPRemCredOn);
             monProduitCredit.setCrIsInterOffSiCapRembAnt(CrIsInterOffSiCapRembAnt);
             monProduitCredit.setCrTxInterEchNHon(ET_CrTxInterEchNHon.getText().toString());
-            monProduitCredit.setCrBaseInterEchNHon(JR_CrBaseInterEchNHon.getText().toString());
+            monProduitCredit.setCrBaseInterEchNHon(Credit.encodeCrBaseInterEchNHon(JR_CrBaseInterEchNHon.getText().toString()));
             monProduitCredit.setCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString());
             monProduitCredit.setCrIsRappDatEchCred(CrIsRappDatEchCred);
             monProduitCredit.setCrModelTextRappEchRemb(ET_CrModelTextRappEchRemb.getText().toString());

@@ -51,6 +51,7 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.ProduitEAP;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
@@ -170,7 +171,7 @@ public class PlageDataRAP extends AppCompatActivity implements  SERVER_ADDRESS {
 
         mySpinnerBaseTxTIV = (JRSpinner)findViewById(R.id.spn_my_spinner_base_taux);
 
-        mySpinnerBaseTxTIV.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        mySpinnerBaseTxTIV.setItems(getResources().getStringArray(R.array.array_EpBaseTxMtPenal)); //this is important, you must set it to set the item list
         mySpinnerBaseTxTIV.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         mySpinnerBaseTxTIV.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
 
@@ -277,7 +278,7 @@ public class PlageDataRAP extends AppCompatActivity implements  SERVER_ADDRESS {
                 valeurDebut = valeurDebutEditText.getText().toString();
                 valeurFin = valeurFinEditText.getText().toString();
                 // base = baseEditText.getText().toString();
-                base = mySpinnerBaseTxTIV.getText().toString();
+                base = ProduitEAP.encodeEpBaseTxMtPenal(mySpinnerBaseTxTIV.getText().toString());
 
 
                 new UpdatePlageDataAsyncTask().execute();
@@ -479,7 +480,7 @@ public class PlageDataRAP extends AppCompatActivity implements  SERVER_ADDRESS {
                         valeur = plageData.getString(KEY_PD_VAL_TAUX);
                         valeurDebut = plageData.getString(KEY_PD_VAL_DE);
                         valeurFin = plageData.getString(KEY_PD_VAL_A);
-                        base = plageData.getString(KEY_PD_BASE);
+                        base = ProduitEAP.decodeEpBaseTxMtPenal(plageData.getString(KEY_PD_BASE));
 
 
 
@@ -615,7 +616,7 @@ try {
                 valeurDebut = valeurDebutEditText.getText().toString();
                 valeurFin = valeurFinEditText.getText().toString();
                 // base = baseEditText.getText().toString();
-                base = mySpinnerBaseTxTIV.getText().toString();
+                base = ProduitEAP.encodeEpBaseTxMtPenal(mySpinnerBaseTxTIV.getText().toString());
 
                 new InitialisationCaisseGuichetAsyncTask().execute();
 

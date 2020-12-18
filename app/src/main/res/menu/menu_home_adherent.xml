@@ -32,21 +32,38 @@
         android:title="@string/action_nouveaux_adherent"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_cloturer_la_journee"
-        android:orderInCategory="100"
-        android:title="@string/action_cloturer_la_journee"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_transfert"
-        android:orderInCategory="100"
-        android:title="@string/action_transfert"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/action_transfert"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="@string/action_transfert"-->
+<!--        app:showAsAction="never" />-->
 <!--    <item-->
 <!--        android:id="@+id/action_operation_externe"-->
 <!--        android:orderInCategory="100"-->
 <!--        android:title="@string/action_operation_externe"-->
 <!--        app:showAsAction="never" />-->
+    <item
+        android:id="@+id/action_transfert"
+        android:visible="true"
+        android:orderInCategory="100"
+        android:titleCondensed="@string/action_transfert"
+        android:title="@string/action_transfert"
+        android:enabled="true">
+        <menu>
+            <item
+                android:id="@+id/action_transfert_envoie"
+                android:title="@string/action_transfert_envoie">
+            </item>
+            <item
+                android:id="@+id/action_transfert_retrait"
+                android:title="@string/action_transfert_retrait">
+            </item>
+            <item
+                android:id="@+id/action_transfert_transactions"
+                android:title="@string/action_transfert_transactions">
+            </item>
+        </menu>
+    </item>
     <item
         android:id="@+id/action_operation_externe"
         android:visible="true"
@@ -79,6 +96,12 @@
         android:id="@+id/action_collecte_journaliere"
         android:orderInCategory="100"
         android:title="@string/action_collecte_journaliere"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_cloturer_la_journee"
+        android:orderInCategory="100"
+        android:title="@string/action_cloturer_la_journee"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"

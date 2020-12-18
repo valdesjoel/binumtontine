@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -181,7 +182,8 @@ private class FetchProduitEAVAsyncTask extends AsyncTask<String, String, String>
             JSONObject jsonObject =(action_to_affect)? httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_etapes_demande_credit_by_caisse.php", "GET", httpParams): httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_etapes_demande_credit_not_affect_on_caisse.php", "GET", httpParams);
-
+        Log.e("httpParams",httpParams+"");
+        Log.e("jsonObject",jsonObject+"");
 
         try {
             int success = jsonObject.getInt(KEY_SUCCESS);
@@ -193,7 +195,7 @@ private class FetchProduitEAVAsyncTask extends AsyncTask<String, String, String>
                 for (int i = 0; i < movies.length(); i++) {
                     JSONObject movie = movies.getJSONObject(i);
                     Integer movieId = movie.getInt(KEY_ED_NUMERO);
-                    String movieName = movie.getString(KEY_ED_LIBELLE);
+                    String movieName = MyData.normalizeSymbolsAndAccents(movie.getString(KEY_ED_LIBELLE));
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put(KEY_ED_NUMERO, movieId.toString());
                     map.put(KEY_ED_LIBELLE, movieName);

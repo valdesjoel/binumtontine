@@ -244,6 +244,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_ValeurTauxInteretEAP"
             style="@style/parent"
+            app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/input_txt_ValeurTauxInteretEAP"
@@ -252,6 +253,29 @@
                 android:maxLines="1"
                 android:textSize="18dp"
                 android:hint="Valeur du taux d'interêt"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Base du EpBaseTxInter-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_EpBaseTxInter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+
+            <com.example.binumtontine.JRSpinner
+                android:id="@+id/input_txt_EpBaseTxInter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du taux d'intérêt"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
         </com.google.android.material.textfield.TextInputLayout>
         <!--plage tv_plageEpValTxInter-->
         <TextView
@@ -452,19 +476,7 @@ android:onClick="onSwitchButtonClicked"
                 android:hint="taux/montant pénalité rupture"/>
         </com.google.android.material.textfield.TextInputLayout>
 <!--        24- EpBaseTxPenal-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/input_layout_BaseTxPenalEAP"-->
-<!--            style="@style/parent"-->
-<!--            android:layout_marginTop="@dimen/loginViewsMargin">-->
-<!--            <EditText-->
-<!--                android:id="@+id/input_txt_BaseTxPenalEAP"-->
-<!--                style="@style/modifiedEditText"-->
-<!--                android:inputType="textPersonName"-->
-<!--                android:ems="2"-->
-<!--                android:maxLines="1"-->
-<!--                android:textSize="18dp"-->
-<!--                android:hint="Base du taux de pénalité"/>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
         <!-- Base du EpValTxMtRupture-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_BaseTxPenalEAP"
@@ -487,7 +499,7 @@ android:onClick="onSwitchButtonClicked"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
 
-        </com.google.android.material.textfield.TextInputLayout>txtBaseNewTxInteretEAP
+        </com.google.android.material.textfield.TextInputLayout>
         <!--plage tv_plageEpValTxMtRupture_ET-->
         <TextView
             android:id="@+id/tv_plageEpValTxMtRupture_ET"
@@ -991,19 +1003,7 @@ android:onClick="onSwitchButtonClicked"
                 android:hint="Valeur taux ou montant pénalié de rupture "/>
         </com.google.android.material.textfield.TextInputLayout>
 <!--44- EpBaseTxMtPenal-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/input_layout_EpBaseTxPenal"-->
-<!--            style="@style/parent"-->
-<!--            android:layout_marginTop="@dimen/loginViewsMargin">-->
-<!--            <EditText-->
-<!--                android:id="@+id/input_txt_EpBaseTxPenal"-->
-<!--                style="@style/modifiedEditText"-->
-<!--                android:inputType="textPersonName"-->
-<!--                android:ems="3"-->
-<!--                android:maxLines="1"-->
-<!--                android:textSize="18dp"-->
-<!--                android:hint="Base du taux de pénalité pour rupture anticipée"/>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_EpBaseTxPenal"
             android:layout_width="match_parent"

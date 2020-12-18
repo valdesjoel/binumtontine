@@ -44,7 +44,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
-import com.example.binumtontine.activity.CompteCourant;
+import com.example.binumtontine.modele.CompteCourant;
 import com.example.binumtontine.activity.ServiceHandler;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;

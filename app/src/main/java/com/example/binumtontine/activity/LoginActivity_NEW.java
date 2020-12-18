@@ -466,6 +466,7 @@ private boolean validatePassword() {
             MyData.USER_EMAIL = userEmail;
             try {
                 MyData.CAISSE_ID = Integer.parseInt(userCxNumero);//NEW
+                MyData.CAISSE_NAME = userCxDenomination;//NEW
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -1032,6 +1033,7 @@ populate();
                     userPrenom = user.getString(KEY_UX_PRENOM);
                     userEmail = user.getString(KEY_UX_EMAIL);
                     userCxNumero = user.getString(KEY_UX_CAISSE);//new
+                    userCxDenomination = user.getString(KEY_UX_CAISSE_DENOMINATION);//new
                     Log.d("username",userNom);
 
 

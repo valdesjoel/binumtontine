@@ -27,10 +27,18 @@ public class CreateProduitEAV extends AppCompatActivity {
 package com.example.binumtontine.activity.adherent;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,16 +50,44 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.Category;
+import com.example.binumtontine.activity.ClotureJourneeActivity;
+import com.example.binumtontine.activity.LoginActivity_NEW;
 import com.example.binumtontine.activity.ServiceHandler;
+import com.example.binumtontine.activity.convertisseur.FrenchNumberToWords;
+import com.example.binumtontine.activity.pdf.Common;
+import com.example.binumtontine.activity.pdf.MyEvent;
+import com.example.binumtontine.activity.pdf.PdfDocumentAdapter;
+import com.example.binumtontine.activity.pdf.RetraitEavPDFWriter;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 import com.google.android.material.textfield.TextInputLayout;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.pdf.draw.VerticalPositionMark;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -59,12 +95,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static java.lang.Double.parseDouble;
 
 public class OperationEAV extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
@@ -149,6 +196,8 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private int success;
     private ProgressDialog pDialog;
     private ProgressDialog pDialogFetchProduitEavList;
+    public Button btn_create_pdf; //NEW
+    private NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +273,10 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         spinnerListEAV.setOnItemSelectedListener(OperationEAV.this);
         new GetProduitEAVList().execute();
 */
+        /* START 25/11/2020*/
+        btn_create_pdf = findViewById(R.id.btn_create_pdf);
+        defaultFormat.setCurrency(Currency.getInstance("xaf"));
+        /* END 25/11/2020*/
         addButton = (Button) findViewById(R.id.btn_save_operation_eav);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {
@@ -496,14 +549,16 @@ if (true){
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (success == 1) {
+                        //Start building pdf
+                        avertissement();
                         //Display success message
-                        Toast.makeText(OperationEAV.this,
-                                "Opération réussie !", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(OperationEAV.this,
+//                                "Opération réussie !", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
                         setResult(20, i);
-                        //Finish ths activity and go back to listing activity
-                        finish();
+//                        //Finish ths activity and go back to listing activity
+//                        finish();
 
                     } else {
                         Toast.makeText(OperationEAV.this,
@@ -515,4 +570,313 @@ if (true){
             });
         }
     }
+
+/*START BLOC TO MANAGE PDF FILE*/
+    private void createPDFFile(String path) {
+        if (new File(path).exists()){
+            new File(path).delete();
+        }
+        try {
+            Document document = new Document();
+            //Save
+//            PdfWriter writer= PdfWriter.getInstance(document, new FileOutputStream(path)); //for logo
+           PdfWriter.getInstance(document, new FileOutputStream(path));
+            Rectangle headerBox = new Rectangle(36, 54, 559, 788);
+//            MyEvent event = new MyEvent(this);
+//            writer.setBoxSize("headerBox", headerBox);
+//            writer.setPageEvent(event);//for logo
+
+
+            //Open to write
+            document.open();
+
+            //Add image
+//            Image image = Image.getInstance("C:/logomifucam.png");
+//            image.setAbsolutePosition(100f, 500f);
+//            image.scaleAbsolute(200f, 200f);
+//            document.add(image);
+            // load image
+
+
+            //Setting
+            document.setPageSize(PageSize.A4);
+//            document.setPageSize(PageSize.A8);
+            document.addCreationDate();
+            document.addAuthor("MIFUCAM");
+            document.addCreator("Valdes FOTSO");
+
+            //Font Setting
+            BaseColor colorAccent = new BaseColor(0,153,204,255);
+            float fontSize = 20.0f;
+            float valueFontSize = 26.0f;
+
+            //Custom font
+//            BaseFont fontName = BaseFont.createFont("assets/fonts/brandon_medium.otf","UTF-8" , BaseFont.EMBEDDED );
+            BaseFont fontName = BaseFont.createFont("assets/fonts/brandon_medium.otf",BaseFont.IDENTITY_H , BaseFont.EMBEDDED );
+//            BaseFont bf = BaseFont.createFont("arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            //Create Title of document
+            Font titleFont = new Font(fontName,36.0f,Font.NORMAL, BaseColor.BLACK);
+            if (typeOperation.equals("depot")){
+                addNewItem(document, "BORDEREAU DE DEPOT", Element.ALIGN_CENTER, titleFont);
+            }else if (typeOperation.equals("retrait")){
+                addNewItem(document, "BORDEREAU DE RETRAIT", Element.ALIGN_CENTER, titleFont);
+            }
+
+            addNewItem(document, "N° "+ adNumDossier, Element.ALIGN_CENTER, titleFont);
+
+            //Add More
+            Font orderNumberFont = new Font(fontName, fontSize, Font.NORMAL, colorAccent);
+//            addNewItem(document, "Compagnie:", Element.ALIGN_LEFT, orderNumberFont);
+
+            Font orderNumberValueFont = new Font(fontName, valueFontSize, Font.NORMAL, BaseColor.BLACK);
+//            addNewItem(document, "MIFUCAM", Element.ALIGN_LEFT, orderNumberValueFont);
+
+//            addLineSeperator(document);
+//
+//            addNewItem(document, "CAISSE:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, MyData.CAISSE_NAME, Element.ALIGN_LEFT, orderNumberValueFont);
+////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
+//
+//            addLineSeperator(document);
+//
+//            addNewItem(document, "GUICHET:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, MyData.GUICHET_NAME, Element.ALIGN_LEFT, orderNumberValueFont);
+////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
+
+
+            //More 1
+            addNewItemWithLeftAndRight(document, "CAISSE:", MyData.CAISSE_NAME, orderNumberFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "GUICHET:", MyData.GUICHET_NAME, orderNumberFont, orderNumberValueFont);
+
+
+            addLineSeperator(document);
+            //More 2
+            String dateOperation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
+                    Locale.getDefault()).format(System.currentTimeMillis());
+            addNewItemWithLeftAndRight(document, "Date opération:", dateOperation, orderNumberFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Opérateur:", MyData.USER_NOM + " "+ MyData.USER_PRENOM, orderNumberFont, orderNumberValueFont);
+
+//
+//            addLineSeperator(document);
+//
+//            addNewItem(document, "Date opération:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, dateOperation, Element.ALIGN_LEFT, orderNumberValueFont);
+////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
+
+            addLineSeperator(document);
+
+//            addNewItem(document, "Opérateur:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, MyData.USER_NOM + " "+ MyData.USER_PRENOM, Element.ALIGN_LEFT, orderNumberValueFont);
+//
+//            addLineSeperator(document);
+////
+//            addNewItem(document, "Account Name:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, "Valdes FOTSO", Element.ALIGN_LEFT, orderNumberValueFont);
+//
+//            addLineSeperator(document);
+
+            addNewItem(document, "Détails Opération", Element.ALIGN_CENTER, titleFont);
+
+            addLineSeperator(document);
+
+            //Item 1
+            addNewItemWithLeftAndRight(document, "Type de compte:", "EAV", titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "N° de compte:", adNumManuel, titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Nom client:", adNom+" "+adPrenom, titleFont, orderNumberValueFont);
+
+            addLineSeperator(document);
+
+
+            //Item 2
+            try {
+                addNewItemWithLeftAndRight(document, "Montant opération:", defaultFormat.format(parseDouble(eavDepotMin))+" (" +
+                        ""+ FrenchNumberToWords.convert(Long.parseLong(eavDepotMin))+" )", titleFont, orderNumberValueFont);
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            addNewItemWithLeftAndRight(document, "Type opération:", typeOperation, titleFont, orderNumberValueFont);
+
+            addLineSeperator(document);
+
+            //Signatures
+            addLineSpace(document);
+            addLineSpace(document);
+
+            addNewItemWithLeftAndRight(document, "Signature Client:", "Signature Caissier:", titleFont, orderNumberValueFont);
+//            addNewItemWithLeftAndRight(document, "Signature Caissier:", "", titleFont, orderNumberValueFont);
+
+
+//            addNewItemWithLeftAndRight(document, "Total", "24000.0", titleFont, orderNumberValueFont);
+
+            document.close();
+
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+
+            printPDF();
+
+
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void printPDF() {
+        PrintManager printManager = (PrintManager)getSystemService(Context.PRINT_SERVICE);
+        try {
+            PrintDocumentAdapter printDocumentAdapter = new PdfDocumentAdapter(OperationEAV.this, Common.getAppPath(OperationEAV.this)+"bordereau_mifucam.pdf");
+            printManager.print("Document", printDocumentAdapter, new PrintAttributes.Builder().build());
+
+        }catch (Exception ex){
+            Log.e("VALDES",""+ex.getMessage());
+        }
+    }
+
+//    private void addNewItemWithLeftAndRight(Document document, String textLeft, String textRight, Font textLeftFont, Font textRightFont) throws DocumentException {
+//        Chunk chunkTextLeft = new Chunk(textLeft, textLeftFont);
+//        Chunk chunkTextRight= new Chunk(textRight, textRightFont);
+//        Paragraph p = new Paragraph(chunkTextLeft);
+//        p.add(new Chunk(new VerticalPositionMark()));
+//        p.add(chunkTextRight);
+//        document.add(p);
+//    }
+    private void addNewItemWithLeftAndRight(Document document, String textLeft, String textRight, Font textLeftFont, Font textRightFont) throws DocumentException {
+        Chunk chunkTextLeft = new Chunk(textLeft, textRightFont); //ce n'est pas une erreur
+        Chunk chunkTextRight= new Chunk(textRight, textRightFont);
+        Paragraph p = new Paragraph(chunkTextLeft);
+        p.add(new Chunk(new VerticalPositionMark()));
+        p.add(chunkTextRight);
+        document.add(p);
+    }
+
+    private void addLineSeperator(Document document) throws DocumentException {
+        LineSeparator lineSeparator = new LineSeparator();
+        lineSeparator.setLineColor(new BaseColor(0,0,0,68));
+        addLineSpace(document);
+        document.add(new Chunk(lineSeparator));
+        addLineSpace(document);
+    }
+
+    private void addLineSpace(Document document) throws DocumentException {
+        document.add(new Paragraph(""));
+    }
+
+    private void addNewItem(Document document, String text, int align, Font font) throws DocumentException {
+
+        Chunk chunk = new Chunk(text, font);
+        Paragraph paragraph = new Paragraph(chunk);
+        paragraph.setAlignment(align);
+        document.add(paragraph);
+
+
+    }
+    public void avertissement() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Impression du Bordereau !")
+                .setMessage(
+//                        "Montant Démarrage: " + tv_montant_demarrage.getText().toString()+
+//                        "\nTotal Dépôt: " + tv_depot.getText().toString()+
+//                        "\nTotal Retrait: " + tv_retrait.getText().toString()+
+//                        "\nSolde Théorique: " + tv_total.getText().toString()+
+//                        "\nSolde Réel: " + SoldeReelEditText.getText().toString().replaceAll(",", "").trim() +
+//                        "\nMontant écart: " + tv_montant_ecart.getText().toString()+
+//                        "\nTotal Billetage: " + tv_total_billetage.getText().toString()+
+                        "\t\t Voulez-vous imprimer le bordereau ?"
+                )
+                .setNegativeButton("Non", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        btn_create_pdf.performClick();
+                        Dexter.withActivity(OperationEAV.this)
+                                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                .withListener(new PermissionListener() {
+                                    @Override
+                                    public void onPermissionGranted(PermissionGrantedResponse response) {
+//                                        btn_create_pdf.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                createPDFFile(Common.getAppPath(OperationEAV.this)+"test_pdf25.pdf");
+//                                            }
+//                                        });
+                                        createPDFFile(Common.getAppPath(OperationEAV.this)+"bordereau_mifucam.pdf");
+                                    }
+
+                                    @Override
+                                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                                    }
+
+                                    @Override
+                                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                                    }
+                                })
+                                .check();
+                        EavDepotMinEditText.setText("");
+                        NumDossierEditText.setText("");
+
+//                        Intent intent = new Intent(getApplicationContext(), LoginActivity_NEW.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        intent.putExtra("LOGOUT", true);
+//                        startActivity(intent);
+
+                        //Display success message
+//                        Toast.makeText(OperationEAV.this,
+//                                "Opération réussie !", Toast.LENGTH_LONG).show();
+//                        Intent i = getIntent();
+//                        //send result code 20 to notify about movie update
+//                        setResult(20, i);
+//                        //Finish ths activity and go back to listing activity
+//                        finish();
+                    }
+
+                })
+                .show();
+
+    }
+    public void buildPdf(){
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        btn_create_pdf.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                createPDFFile(Common.getAppPath(OperationEAV.this)+"bordereau_mifucam.pdf");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    }
+                })
+                .check();
+    }
+    /*END BLOC TO MANAGE PDF FILE*/
 }

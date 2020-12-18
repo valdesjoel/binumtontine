@@ -175,6 +175,8 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
     public static LinearLayout ll_bloc_date_echeance;
     public static LinearLayout ll_bloc_duree_compte;
     public static LinearLayout ll_bloc_taux;
+    private TextView tvDateEcheance;
+    private TextView tvDureeCompte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,6 +222,18 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         tvTypeCompte.setText(typeCompte);
         tvTaux = (TextView) findViewById(R.id.tv_taux_compte_adherent);
         tvTaux.setText(taux+" %");
+
+        /*Start manage date échéance*/
+
+        tvDateEcheance = (TextView) findViewById(R.id.tv_date_echeance_compte_adherent);
+        tvDateEcheance.setText(dateCreation);
+        /**/
+
+        /*Start manage durée du compte*/
+
+        tvDureeCompte = (TextView) findViewById(R.id.tv_duree_compte_adherent);
+        tvDureeCompte.setText(dateCreation);
+        /**/
 //manage header activity and layout
         headerActivity = intent.getStringExtra(KEY_HEADER_ACTIVITY_CONSULTER_COMPTE);
         headerLayout = intent.getStringExtra(KEY_HEADER_LAYOUT_CONSULTER_COMPTE);

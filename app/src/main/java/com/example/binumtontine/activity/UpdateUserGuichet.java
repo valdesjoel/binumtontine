@@ -282,6 +282,8 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_user_guichet_details.php", "GET", httpParams);
             try {
+                Log.e("httpParams",httpParams+"");
+                Log.e("jsonObject",jsonObject+"");
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONObject user;
                 if (success == 1) {
@@ -315,17 +317,21 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
                     //Populate the Edit Texts once the network activity is finished executing
                    // uxGuichetIdSpinner.setText(uxGuichetDenomination);  //pas indispensable car on le fait directement dans populate
 //                     uxProfilEditText.setText(uxProfil); OLD
-                    spnNewProfil.setText(uxProfil);
-                    uxNomEditText.setText(uxNom);
-                    uxPrenomEditText.setText(uxPrenom);
-                    uxAdresseEditText.setText(uxAdresse);
-                    ccp_phone1.setFullNumber(uxTel1);
-                    ccp_phone2.setFullNumber(uxTel2);
-                    ccp_phone3.setFullNumber(uxTel3);
-                    uxLoginEditText.setText(uxLogin);
-                    uxPasswordEditText.setText(uxPassword);
-                    uxConfirmPasswordEditText.setText(uxConfirmPassword);
-                    uxEmailEditText.setText(uxEmail);
+                    try {
+                        spnNewProfil.setText(uxProfil);
+                        uxNomEditText.setText(uxNom);
+                        uxPrenomEditText.setText(uxPrenom);
+                        uxAdresseEditText.setText(uxAdresse);
+                        ccp_phone1.setFullNumber(uxTel1);
+                        ccp_phone2.setFullNumber(uxTel2);
+                        ccp_phone3.setFullNumber(uxTel3);
+                        uxLoginEditText.setText(uxLogin);
+                        uxPasswordEditText.setText(uxPassword);
+                        uxConfirmPasswordEditText.setText(uxConfirmPassword);
+                        uxEmailEditText.setText(uxEmail);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });

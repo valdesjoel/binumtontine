@@ -86,16 +86,8 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
             public void onClick(View v) {
                 //Check for network connectivity
                 if (CheckNetworkStatus.isNetworkAvailable(mCtx)) {
-                   /* String movieId = ((TextView) view.findViewById(R.id.movieId))
-                            .getText().toString();
-                    Intent intent = new Intent(mCtx,
-                            CaisseActivity.class);
-                    intent.putExtra(KEY_CAISSE_ID, movieId);
-                    //startActivityForResult(intent, 20);
 
-                    startActivity(intent); */
                     //handle menu0 click
-                    //Intent i = new Intent(mCtx, ListCompteAdherentActivity.class);
                     Intent i = new Intent(mCtx, ListCompteAdherentActivity_New.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(KEY_ADHERENT, (Serializable) myList);

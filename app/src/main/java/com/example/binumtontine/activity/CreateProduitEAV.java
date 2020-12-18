@@ -91,6 +91,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
     private static final String KEY_EAV_MIN_CPTE = "ev_min_cpte";
     private static final String KEY_EAV_IS_MIN_CPTE_OBLIG = "ev_is_min_cpte_oblig";
+    private static final String KEY_EvNatureTxInt = "EvNatureTxInt";
     private static final String KEY_EAV_TX_INTER_AN = "ev_tx_inter_an";
     private static final String KEY_EAV_BASE_TX_INTER_AN = "ev_base_tx_inter_an";
     private static final String KEY_EAV_IS_TX_INTER_AN_OBLIG = "ev_is_tx_inter_an_oblig";
@@ -131,6 +132,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
 
 
     private static String STRING_EMPTY = "";
+
 
     private EditText ev_codeEditText;
     private EditText ev_libelleEditText;
@@ -231,11 +233,13 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private String tabPlageBaseFCV ="";
     private String tabPlageNatureFCV ="";
     public static ArrayList<ModelPlageData> plageDataListFCV = new ArrayList<>(); //to manage plageData FCV
+
     private EditText ET_EvValFraisCloture;
     private JRSpinner JR_EvBaseFraisCloture; //pour gérer le spinner contenant les bases des taux pour les frais de clôture de compte
     private RadioButton rbEvNatureFraisClotFixe;
     private RadioButton rbEvNatureFraisClotTaux;
     private RadioButton rbEvNatureFraisClotPlage;
+
 
     private TextInputLayout layout_EvValFraisCloture;
     private TextInputLayout layout_EvBaseFraisCloture;
@@ -244,6 +248,27 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private String EvValFraisCloture;
     private String EvBaseFraisCloture;
     //END 27/10/2020
+    //STRT 05/11/2020
+    private RadioButton rbEvNatureTxIntTaux;
+    private RadioButton rbEvNatureTxIntPlage;
+    private LinearLayout LL_bloc_Tx_Int_VIB; //Add at 05/11/2020
+    private String EvNatureTxInt;
+    private TextView tv_config_plage_vib;
+    public static ArrayList<ModelPlageData> plageDataListVIB = new ArrayList<>(); //to manage plageData VIB
+
+    private static final String KEY_EAV_VIB_DEBUT = "EvVibDebut";
+    private static final String KEY_EAV_VIB_FIN = "EvVibFin";
+    private static final String KEY_EAV_VIB_VALEUR = "EvVibValeur";
+    private static final String KEY_EAV_VIB_BASE = "EvVibBase";
+    private static final String KEY_EAV_VIB_NATURE = "EvVibNature";
+
+
+    private String tabPlageDebutVIB ="";
+    private String tabPlageFinVIB ="";
+    private String tabPlageValeurVIB ="";
+    private String tabPlageBaseVIB ="";
+    private String tabPlageNatureVIB ="";
+    //FIN 05/11/2020
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,6 +280,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         setSupportActionBar(toolbar);
         setToolbarTitle(); */
         ll_bloc_chequier = (LinearLayout) findViewById(R.id.ll_bloc_chequier);
+
         bloc_cc2 = (LinearLayout) findViewById(R.id.ll_bloc_cc2);
         bloc_cc3 = (LinearLayout) findViewById(R.id.ll_bloc_cc3);
         CcIsChequierM1On=(Switch) findViewById(R.id.Switch_txtDisponibiliteChequier1CC);
@@ -303,6 +329,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         layout_EvValFraisCloture = (TextInputLayout) findViewById(R.id.input_layout_EvValFraisCloture);
         layout_EvBaseFraisCloture = (TextInputLayout) findViewById(R.id.input_layout_EvBaseFraisCloture);
         tv_config_plage_fcv = (TextView) findViewById(R.id.tv_plage_fcv_eav);
+
         onRadioButtonClicked(rbEvNatureFraisClotFixe);
         JR_EvBaseFraisCloture = (JRSpinner)findViewById(R.id.spn_my_spinner_EvBaseFraisCloture);
         JR_EvBaseFraisCloture.setItems(getResources().getStringArray(R.array.array_EvBaseFraisCloture)); //this is important, you must set it to set the item list
@@ -319,6 +346,14 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         });
 
         //END 27/10/2020
+
+        //START 05/11/2020
+        ev_tx_inter_anEditText.addTextChangedListener(MyData.onTextChangedListener(ev_tx_inter_anEditText));
+        LL_bloc_Tx_Int_VIB = (LinearLayout) findViewById(R.id.LL_bloc_Tx_Int_VIB);
+        rbEvNatureTxIntTaux = (RadioButton) findViewById(R.id.rbEvNatureTxIntTaux);
+        rbEvNatureTxIntPlage = (RadioButton) findViewById(R.id.rbEvNatureTxIntPlage);
+        tv_config_plage_vib = (TextView) findViewById(R.id.tv_plage_vib_eav);
+        //END 05/11/2020
 
         rbEpTypTxInterFixe = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
 
@@ -370,6 +405,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
 
 
         onRadioButtonClicked(rbEpTypTxInterFixe);
+
         onSwitchButtonClicked(ev_is_agios_onSwitch);
 
         onSwitchButtonClicked(CcIsChequierM1On);
@@ -421,6 +457,22 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
 //                    Intent i = new Intent(CreateProduitEAV.this,ListPlageDateActivity.class);
                     Intent i = new Intent(CreateProduitEAV.this,ListPlageTIV.class);
                     startActivityForResult(i,20);
+                } else {
+                    Toast.makeText(CreateProduitEAV.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        //FCV
+        tv_config_plage_fcv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Frais de clôture de compte";
+                    ListPlageFCV.IS_TO_CREATE_OR_TO_UPDATE = true;
+                    Intent i = new Intent(CreateProduitEAV.this,ListPlageFCV.class);
+                    startActivityForResult(i,20);
 
                 } else {
                     Toast.makeText(CreateProduitEAV.this,
@@ -431,12 +483,12 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
 
             }
         });
-        //FCV
-        tv_config_plage_fcv.setOnClickListener(new View.OnClickListener() {
+        //VIB
+        tv_config_plage_vib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Frais de clôture de compte";
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux d'intérêt mensuel";
                     ListPlageFCV.IS_TO_CREATE_OR_TO_UPDATE = true;
                     Intent i = new Intent(CreateProduitEAV.this,ListPlageFCV.class);
                     startActivityForResult(i,20);
@@ -472,17 +524,20 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
             case R.id.SwitchTauxInteretAnnuelEAV:
                 if (ev_is_tx_inter_an_obligSwitch.isChecked()){
 //                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
-
+                    LL_bloc_Tx_Int_VIB.setVisibility(View.VISIBLE); //05/11/2020
+                    onRadioButtonClicked(rbEvNatureTxIntTaux);
                     layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
                     layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
                     layout_DateValeur.setVisibility(View.VISIBLE);
                     layout_DateRetrait.setVisibility(View.VISIBLE);
                 }else{
+                    LL_bloc_Tx_Int_VIB.setVisibility(View.GONE);
                     layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
                     layout_BaseInteretAnnuelEAV.setVisibility(View.GONE);
-
                     layout_DateValeur.setVisibility(View.GONE);
                     layout_DateRetrait.setVisibility(View.GONE);
+                    tv_config_plage_vib.setVisibility(View.GONE);
+
                 }
 
 
@@ -578,6 +633,23 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                     tv_config_plage_fcv.setVisibility(View.VISIBLE);
                 }
                 break;
+            case R.id.rbEvNatureTxIntTaux:
+                if (rbEvNatureTxIntTaux.isChecked()){
+                    EvNatureTxInt ="T";
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                    layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
+                    tv_config_plage_vib.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.rbEvNatureTxIntPlage:
+                if (rbEvNatureTxIntPlage.isChecked()) {
+                    EvNatureTxInt ="P";
+                    layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
+                    layout_BaseInteretAnnuelEAV.setVisibility(View.GONE);
+                    tv_config_plage_vib.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.rbEpTypTxInterFixe:
                 if (rbEpTypTxInterFixe.isChecked()) {
                     ev_typ_fr_agios ="F";
@@ -629,8 +701,7 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
         ev_code = MyData.normalizeSymbolsAndAccents( ev_codeEditText.getText().toString());
         ev_libelle = MyData.normalizeSymbolsAndAccents( ev_libelleEditText.getText().toString());
 
-        Double min_cpte, ev_cloture;
-
+        Double min_cpte, ev_cloture, ev_tx_inter;
 
         if (!(ev_min_cpteEditText.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)) {
             min_cpte = Double.valueOf(ev_min_cpteEditText.getText().toString().replaceAll(",", "").trim());
@@ -648,6 +719,11 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             ev_is_tx_inter_an_oblig = "Y";
         } else {
             ev_is_tx_inter_an_oblig = "N";
+        }
+        //05/11/2020
+        if (!(ev_tx_inter_anEditText.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)) {
+            ev_tx_inter = Double.valueOf(ev_tx_inter_anEditText.getText().toString().replaceAll(",", "").trim());
+            ev_tx_inter_anEditText.setText(ev_tx_inter + "");
         }
         ev_tx_inter_an = ev_tx_inter_anEditText.getText().toString();
         ev_typ_dat_val = ev_typ_dat_valEditText.getText().toString();
@@ -722,6 +798,14 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             tabPlageBaseFCV += ";" + plageDataListFCV.get(i).getPdBase();
             tabPlageNatureFCV += ";" + plageDataListFCV.get(i).getPdNature();
         }
+        //VIB Taux d'intérêt
+        for (int i = 0; i < plageDataListVIB.size(); i++) {
+            tabPlageDebutVIB += ";" + plageDataListVIB.get(i).getPdValDe();
+            tabPlageFinVIB += ";" + plageDataListVIB.get(i).getPdValA();
+            tabPlageValeurVIB += ";" + plageDataListVIB.get(i).getPdValTaux();
+            tabPlageBaseVIB += ";" + plageDataListVIB.get(i).getPdBase();
+            tabPlageNatureVIB += ";" + plageDataListVIB.get(i).getPdNature();
+        }
 
         new AddEAVAsyncTask().execute();
     }catch (Exception e){
@@ -762,6 +846,7 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             httpParams.put(KEY_EAV_MIN_CPTE, ev_min_cpte);
             httpParams.put(KEY_EAV_IS_MIN_CPTE_OBLIG, ev_is_min_cpte_oblig);
 
+            httpParams.put(KEY_EvNatureTxInt, EvNatureTxInt);
             httpParams.put(KEY_EAV_TX_INTER_AN, ev_tx_inter_an);
             httpParams.put(KEY_EAV_BASE_TX_INTER_AN, base_ev_tx_inter_an);
             httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig.toString());
@@ -805,6 +890,13 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             httpParams.put(KEY_EAV_FCV_VALEUR, tabPlageValeurFCV);
             httpParams.put(KEY_EAV_FCV_BASE, tabPlageBaseFCV);
             httpParams.put(KEY_EAV_FCV_NATURE, tabPlageNatureFCV);
+
+            //VIB
+            httpParams.put(KEY_EAV_VIB_DEBUT, tabPlageDebutVIB);
+            httpParams.put(KEY_EAV_VIB_FIN, tabPlageFinVIB);
+            httpParams.put(KEY_EAV_VIB_VALEUR, tabPlageValeurVIB);
+            httpParams.put(KEY_EAV_VIB_BASE, tabPlageBaseVIB);
+            httpParams.put(KEY_EAV_VIB_NATURE, tabPlageNatureVIB);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_eav_new.php", "POST", httpParams);

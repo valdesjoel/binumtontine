@@ -23,6 +23,7 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.ProduitEAP;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
@@ -70,8 +71,9 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_EAP_NBRE_U_PAS = "EpNbreUPas";
     private static final String KEY_EAP_TYP_TX_INTER = "EpTypTxInter";
     private static final String KEY_EpValTxInter = "EpValTxInter";
-    private static final String KEY_EpPlageTxInterFrom = "EpPlageTxInterFrom";
-    private static final String KEY_EpPlageTxInterTo = "EpPlageTxInterTo";
+    private static final String KEY_EpBaseTxInter = "EpBaseTxInter";
+//    private static final String KEY_EpPlageTxInterFrom = "EpPlageTxInterFrom";
+//    private static final String KEY_EpPlageTxInterTo = "EpPlageTxInterTo";
     private static final String KEY_EpIsTxIntNeg = "EpIsTxIntNeg";
     private static final String KEY_EpIsPriseIntMiseOn = "EpIsPriseIntMiseOn";
     private static final String EP_IsPenalNRespMise = "EpIsPenalNRespMise";
@@ -79,8 +81,8 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
     private static final String EP_IsEchPenalSucces = "EpIsEchPenalSucces";
     private static final String EP_NatureRupAn = "EpNatureRupAn";
     private static final String EP_ValTxMtRupture = "EpValTxMtRupture";
-    private static final String EP_PlageTxMtRuptureFrom = "EpPlageTxMtRuptureFrom";
-    private static final String EP_PlageTxMtRuptureTo = "EpPlageTxMtRuptureTo";
+//    private static final String EP_PlageTxMtRuptureFrom = "EpPlageTxMtRuptureFrom";
+//    private static final String EP_PlageTxMtRuptureTo = "EpPlageTxMtRuptureTo";
     private static final String EP_BaseTxPenal = "EpBaseTxPenal";
 
 
@@ -121,6 +123,10 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
 
     private static String STRING_EMPTY = "";
 
+    private JRSpinner JR_EpBaseTxInter;
+    private TextInputLayout input_layout_EpBaseTxInter;
+    private TextInputLayout input_layout_ValeurTauxInteretEAP;
+    private String EpBaseTxInter;
 
     private EditText EpCode_ET;
     private EditText EpLibelle_ET;
@@ -195,6 +201,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
     private EditText EpPlageTxMtPenaliteTo_ET;
     private EditText EpPlageTxMtPenaliteValeur_ET;
     private TextInputLayout input_layout_BaseTxPenalEAP;
+
     private TextInputLayout input_layout_BaseNewTxInteretEAP;
     private TextInputLayout input_layout_EpBaseTxPenal;
     private JRSpinner EpBaseTxMtPenal_ET;
@@ -236,6 +243,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
     public static ArrayList<ModelPlageData> plageDataListTEP = new ArrayList<ModelPlageData>(); //to manage plageData TEP
     public static ArrayList<ModelPlageData> plageDataLisNTP = new ArrayList<ModelPlageData>(); //to manage plageData NTP
     public static ArrayList<ModelPlageData> plageDataLisRAP  = new ArrayList<ModelPlageData>(); //to manage plageData NTP
+
 
 
     @Override
@@ -294,6 +302,22 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
         rbEpTypTxInterFixe = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe); //11_a
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage); //11_b
         EpValTxInter_ET = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAP); //12
+
+        /*Base JR_EpBaseTxInter debut*/
+        JR_EpBaseTxInter = (JRSpinner) findViewById(R.id.input_txt_EpBaseTxInter); //Nouveau champ 04/11/2020
+        input_layout_EpBaseTxInter = (TextInputLayout) findViewById(R.id.input_layout_EpBaseTxInter);
+        input_layout_ValeurTauxInteretEAP = (TextInputLayout) findViewById(R.id.input_layout_ValeurTauxInteretEAP);
+
+        JR_EpBaseTxInter.setItems(getResources().getStringArray(R.array.array_EpBaseTxInter)); //this is important, you must set it to set the item list
+        JR_EpBaseTxInter.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
+        JR_EpBaseTxInter.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
+        JR_EpBaseTxInter.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
+            @Override
+            public void onItemClick(int position) {
+                //do what you want to the selected position
+            }
+        });
+        /*Base JR_EpBaseTxInter fin*/
         EpIsTxIntNeg_SW = (Switch) findViewById(R.id.SwitchTauxInteretNegocieEAP); //15
         EpIsPriseIntMiseOn_SW = (Switch) findViewById(R.id.SwitchPrendreInteretDesLaMiseEAP); //16
         EpIsPenalNRespMise_SW = (Switch) findViewById(R.id.SwitchPenaliteEnCasDeRuptureEAP); //17
@@ -308,7 +332,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
         input_layout_BaseTxPenalEAP = (TextInputLayout) findViewById(R.id.input_layout_BaseTxPenalEAP);
 
 
-        EpBaseTxPenal_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EpBaseTxPenal_ET.setItems(getResources().getStringArray(R.array.array_EpBaseTxPenal)); //this is important, you must set it to set the item list
         EpBaseTxPenal_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         EpBaseTxPenal_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         EpBaseTxPenal_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -342,7 +366,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
         input_layout_BaseNewTxInteretEAP = (TextInputLayout) findViewById(R.id.input_layout_BaseNewTxInteretEAP);
 
 
-        EpBaseTxIntRupant_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EpBaseTxIntRupant_ET.setItems(getResources().getStringArray(R.array.array_EpBaseTxIntRupant)); //this is important, you must set it to set the item list
         EpBaseTxIntRupant_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         EpBaseTxIntRupant_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         EpBaseTxIntRupant_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -368,7 +392,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
         input_layout_EpBaseTxPenal = (TextInputLayout) findViewById(R.id.input_layout_EpBaseTxPenal);
 
 
-        EpBaseTxMtPenal_ET.setItems(getResources().getStringArray(R.array.array_base_taux_int_avce_spec)); //this is important, you must set it to set the item list
+        EpBaseTxMtPenal_ET.setItems(getResources().getStringArray(R.array.array_EpBaseTxMtPenal)); //this is important, you must set it to set the item list
         EpBaseTxMtPenal_ET.setTitle("Sélectionner la base du taux"); //change title of spinner-dialog programmatically
         EpBaseTxMtPenal_ET.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         EpBaseTxMtPenal_ET.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
@@ -381,27 +405,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
         /*Base EpBaseTxMtPenal_ET fin*/
 
         //Plage
-        //TEP
-        tv_plageEpValTxMtRupture_ET = (TextView) findViewById(R.id.tv_plageEpValTxMtRupture_ET);
-        tv_plageEpValTxMtRupture_ET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux pénalité";
-                    ListPlageTEP.IS_TO_CREATE_OR_TO_UPDATE = true;
-//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
-                    Intent i = new Intent(CreateProduitEAP.this,ListPlageTEP.class);
-                    startActivityForResult(i,20);
 
-                } else {
-                    Toast.makeText(CreateProduitEAP.this,
-                            "Unable to connect to internet",
-                            Toast.LENGTH_LONG).show();
-
-                }
-
-            }
-        });
         //TIP
         tv_plageEpValTxInter = (TextView) findViewById(R.id.tv_plageEpValTxInter);
         tv_plageEpValTxInter.setOnClickListener(new View.OnClickListener() {
@@ -423,7 +427,28 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
 
             }
         });
-//        NTP
+        //TEP
+        tv_plageEpValTxMtRupture_ET = (TextView) findViewById(R.id.tv_plageEpValTxMtRupture_ET);
+        tv_plageEpValTxMtRupture_ET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
+                    MyData.TYPE_DE_FRAIS_PLAGE_DATA = "Taux pénalité";
+                    ListPlageTEP.IS_TO_CREATE_OR_TO_UPDATE = true;
+//                    Intent i = new Intent(CreateProduitEAT.this,ListPlageDataTASActivity.class);
+                    Intent i = new Intent(CreateProduitEAP.this,ListPlageTEP.class);
+                    startActivityForResult(i,20);
+
+                } else {
+                    Toast.makeText(CreateProduitEAP.this,
+                            "Unable to connect to internet",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+//NTP
         tv_plageEpValTxIntRupant = (TextView) findViewById(R.id.tv_plageEpValTxIntRupant);
         tv_plageEpValTxIntRupant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -552,6 +577,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
                 }else{
                     ll_DefinirNouveauTxInteretEAP.setVisibility(View.GONE);
                     EpValTxIntRupant_ET.setVisibility(View.GONE);
+                    input_layout_BaseNewTxInteretEAP.setVisibility(View.GONE);
                     ll_TypeNouveauTxInteretRuptureEAP.setVisibility(View.GONE);
                     ll_TxNewInteretNegociableEAP.setVisibility(View.GONE);
                 }
@@ -567,12 +593,14 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
                     ll_TypeNouveauTxInteretRuptureEAP.setVisibility(View.VISIBLE);
                     ll_TxNewInteretNegociableEAP.setVisibility(View.VISIBLE);
                     EpValTxIntRupant_ET.setVisibility(View.VISIBLE);
+                    input_layout_BaseNewTxInteretEAP.setVisibility(View.VISIBLE);
 
 
                 }else{
                     ll_TypeNouveauTxInteretRuptureEAP.setVisibility(View.GONE);
                     ll_TxNewInteretNegociableEAP.setVisibility(View.GONE);
                     EpValTxIntRupant_ET.setVisibility(View.GONE);
+                    input_layout_BaseNewTxInteretEAP.setVisibility(View.GONE);
                 }
 
                 break;
@@ -634,12 +662,14 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
                 if (rbEpTypTxInterFixe.isChecked()) {
                     EpTypTxInter ="F";
                     EpValTxInter_ET.setVisibility(View.VISIBLE);
+                    input_layout_EpBaseTxInter.setVisibility(View.VISIBLE);
                     tv_plageEpValTxInter.setVisibility(View.GONE);
                 }
                 break;
             case R.id.rbEpTypTxInterPlage:
                 if (rbEpTypTxInterPlage.isChecked()) {
                     EpTypTxInter ="P";
+                    input_layout_EpBaseTxInter.setVisibility(View.GONE);
                     EpValTxInter_ET.setVisibility(View.GONE);
                     tv_plageEpValTxInter.setVisibility(View.VISIBLE);
                 }
@@ -687,7 +717,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
                 if (rbEpTypNewTxIntRupAntPlage.isChecked()) {
                     EpTypNewTxIntRupAnt="P";
                     EpValTxIntRupant_ET.setVisibility(View.GONE);
-                    EpBaseTxIntRupant_ET.setVisibility(View.GONE);
+                    //EpBaseTxIntRupant_ET.setVisibility(View.GONE);
                     input_layout_BaseNewTxInteretEAP.setVisibility(View.GONE);
                     tv_plageEpValTxIntRupant.setVisibility(View.VISIBLE);
                 }
@@ -740,8 +770,8 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
                 !STRING_EMPTY.equals(Ep_MinMtMiseEAP_ET.getText().toString()) &&
                 !STRING_EMPTY.equals(EP_DureeMinEAP_ET.getText().toString())) {
 
-            EpCode = EpCode_ET.getText().toString();
-            EpLibelle = EpLibelle_ET.getText().toString();
+            EpCode = MyData.normalizeSymbolsAndAccents(EpCode_ET.getText().toString());
+            EpLibelle = MyData.normalizeSymbolsAndAccents(EpLibelle_ET.getText().toString());
             EpMinMtMise = Ep_MinMtMiseEAP_ET.getText().toString();
             EpDureeMin = EP_DureeMinEAP_ET.getText().toString();
             if (EpIsMtMultMise_SW.isChecked()){
@@ -759,6 +789,17 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
             EpDureeMax = EpDureeMax_ET.getText().toString();
             EpNbreUPas = EpNbreUPas_ET.getText().toString();
             EpValTxInter = EpValTxInter_ET.getText().toString();
+            EpBaseTxInter = ProduitEAP.encodeEpBaseTxInter(JR_EpBaseTxInter.getText().toString());
+            if (EpTypTxInter.equals("F") && EpValTxInter.equals(STRING_EMPTY)){
+                input_layout_ValeurTauxInteretEAP.setError("Entrez la valeur du taux d'intérêt");
+                input_layout_ValeurTauxInteretEAP.requestFocus();
+                return;
+            }
+            if (EpTypTxInter.equals("F") && EpValTxInter.equals(STRING_EMPTY)){
+                input_layout_ValeurTauxInteretEAP.setError("Entrez la valeur du taux d'intérêt");
+                input_layout_ValeurTauxInteretEAP.requestFocus();
+                return;
+            }
             if (EpIsTxIntNeg_SW.isChecked()){
                 EpIsTxIntNeg = "Y";
             }else{
@@ -787,6 +828,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
 //            EpIsEchPenalSucces = EpIsEchPenalSucces_SW.isChecked();
             EpValTxMtRupture = EpValTxMtRupture_ET.getText().toString();
             EpBaseTxPenal = EpBaseTxPenal_ET.getText().toString();
+            EpBaseTxPenal = ProduitEAP.encodeEpBaseTxPenal(EpBaseTxPenal_ET.getText().toString());
             if (EpIsEparRetireFin_SW.isChecked()){
                 EpIsEparRetireFin = "Y";
             }else{
@@ -833,7 +875,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
            // EpTypNewTxIntRupAnt;
             EpValTxIntRupant = EpValTxIntRupant_ET.getText().toString();
           //  EpPlageTxIntRupantFrom, EpPlageTxIntRupantTo;
-            EpBaseTxIntRupant = EpBaseTxIntRupant_ET.getText().toString();
+            EpBaseTxIntRupant = ProduitEAP.encodeEpBaseTxIntRupant(EpBaseTxIntRupant_ET.getText().toString());
             if (EpTxIntRupantNeg_SW.isChecked()){
                 EpTxIntRupantNeg = "Y";
             }else{
@@ -849,7 +891,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
            // EpNaturePenal;
             EpValTxMtPenalite = EpValTxMtPenalite_ET.getText().toString();
            // EpPlageTxMtPenaliteFrom, EpPlageTxMtPenaliteTo;
-            EpBaseTxMtPenal = EpBaseTxMtPenal_ET.getText().toString();
+            EpBaseTxMtPenal = ProduitEAP.encodeEpBaseTxMtPenal(EpBaseTxMtPenal_ET.getText().toString());
 
             new CreateProduitEAP.AddMovieAsyncTask().execute();
         } else {
@@ -894,6 +936,7 @@ public class CreateProduitEAP extends AppCompatActivity implements SERVER_ADDRES
             httpParams.put(KEY_EAP_NBRE_U_PAS, EpNbreUPas);
             httpParams.put(KEY_EAP_TYP_TX_INTER, EpTypTxInter);
             httpParams.put(KEY_EpValTxInter, EpValTxInter);
+            httpParams.put(KEY_EpBaseTxInter, EpBaseTxInter); //Add at 04/11/2020
             httpParams.put(KEY_EpIsTxIntNeg, String.valueOf(EpIsTxIntNeg));
             httpParams.put(KEY_EpIsPriseIntMiseOn, String.valueOf(EpIsPriseIntMiseOn));
             httpParams.put(EP_IsPenalNRespMise, String.valueOf(EpIsPenalNRespMise));

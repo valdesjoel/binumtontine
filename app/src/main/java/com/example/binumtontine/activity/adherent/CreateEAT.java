@@ -217,6 +217,8 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
         new GetProduitEATList().execute();
         EatTauxEditText = (EditText) findViewById(R.id.input_txt_taux);
         EatTauxEditText.setText(eatTaux+" %");
+
+        onRadioButtonClicked(rb_transfert_eav);
         addButton = (Button) findViewById(R.id.btn_save_compte_eat);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {
@@ -308,9 +310,6 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
 
         Ad_DateDelivranceEditText.setVisibility(View.VISIBLE);
         Ad_DateExpirationEditText.setVisibility(View.VISIBLE);
-
-
-
 
     }
 
@@ -548,7 +547,7 @@ public class CreateEAT extends AppCompatActivity implements AdapterView.OnItemSe
 
             if (parseEatMontantMise<EatMinMontantMise ||
                     parseEatMontantMise>EatMaxMontantMise) {
-                til_EatMontantMise.setError(getString(R.string.err_msg_montant_mise_invalide));
+                til_EatMontantMise.setError(getString(R.string.err_msg_montant_mise_invalide)+"\nLe montant de la mise doit être compris entre "+EatMinMontantMise+" et "+EatMaxMontantMise);
                 requestFocus(EatMontantMiseEditText);
 
             Toast.makeText(CreateEAT.this,

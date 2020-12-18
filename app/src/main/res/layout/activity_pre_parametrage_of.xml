@@ -831,6 +831,1026 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="PARAMETRAGE DES BORDEREAUX"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- PoBordOperGen Pour indiquer le mode de génération soir par Numeros de bordereau/B, soit par Opérations/O-->
+
+        <LinearLayout
+            android:id="@+id/ll_PoBordOperGen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lbl_PoBordOperGen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Indiquer le mode de génération des numéros de bordereaux"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_CrTypTxInter"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupPoBordOperGen" >
+
+                <RadioButton
+                    android:id="@+id/rbPoBordOperGenBordereau"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bordereau"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbPoBordOperGenOperation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Opération"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- PoPrefDepot/A3    **  Pour indiquer le préfixe à utiliser pour les Dépôts si par les N° de bordereau-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoPrefDepot"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoPrefDepot"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoPrefDepot"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoPrefRetrait/A3    **  Pour indiquer le préfixe à utiliser pour les Retraits si par les N° de bordereau-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoPrefRetrait"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoPrefRetrait"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoPrefRetrait"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--- PoSuffDepot/A3   **  Pour les Dépôts des opérations EAV, EAP, EAP, Compte courant-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffDepot"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffDepot"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffDepot"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--- PoSuffRetrait/A3   **  Pour les Retraitsdes opérations EAV, EAP, EAP, Compte courant-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffRetrait"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffRetrait"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffRetrait"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoSuffDecouv/A3   **  Pour les Decouverts des opérations sur Compte courant-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffDecouv"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffDecouv"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffDecouv"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- - PoSuffAvceSpec/A3   **  Pour les Avances spéciales sur Compte courant-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffAvceSpec"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffAvceSpec"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffAvceSpec"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- - PoSuffDecouvPerm/A3   **  Pour les découverts permanents sur Compte courant-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffDecouvPerm"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffDecouvPerm"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffDecouvPerm"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoSuffCredit/A3   **  Pour les opérations de Credit -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffCredit"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffCredit"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffCredit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoSuffPartSoc/A3   **  Pour les opérations de Part sociales -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffPartSoc"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffPartSoc"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffPartSoc"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoSuffFondSolid/A3   **  Pour les opérations de Fond de solidarité -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffFondSolid"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffFondSolid"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffFondSolid"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoSuffProduit/A3   **  Pour les opérations de Produits -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffProduit"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffProduit"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffProduit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoSuffCharge/A3   **  Pour les opérations de Charge -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffCharge"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffCharge"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffCharge"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoSuffTransfert/A3   **  Pour les opérations de Transfert -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoSuffTransfert"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoSuffTransfert"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="3"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoSuffTransfert"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="PARAMETRAGE DES FRAIS DE TRANSFERT"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- PoIsTransfIntOn/A1(Y/N)	** Pour indiquer si le  Transfert interne est activé sur OF -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblPoIsTransfIntOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="Le transfert interne est-il activé sur l'OF ?" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchPoIsTransfIntOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="true"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                android:onClick="onSwitchButtonClicked"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LL_PoIsTransfIntOn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+        <!-- PoCodTransfInt/A5			* Pour Renseigner le code ou abregé du Transfert Interne -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoCodTransfInt"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoCodTransfInt"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="5"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoCodTransfInt"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--PoLibelTransfInt/A100		* Libellé ou intitulé utilisé pour le transfert Interne-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoLibelTransfInt"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoLibelTransfInt"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="5"
+                android:maxLength="100"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoLibelTransfInt"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--PoNatureFraisTransfInt/A1	** Nature des Frais de Transfert, Fixe/F, Taux/T, Plage/P
+				** Dans le cas où c'est une plage, utiliser Plage_Data /TT0-->
+        <LinearLayout
+            android:id="@+id/ll_PoNatureFraisTransfInt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblPoNatureFraisTransfInt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature des Frais de Transfert"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoNatureFraisTransfInt"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupPoNatureFraisTransfInt" >
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureFraisTransfIntFixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+                <RadioButton
+                    android:id="@+id/rbPoNatureFraisTransfIntTaux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureFraisTransfIntPlage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- PoValTauxFrais/R		** Valeur ou Taux du Transfert Interne -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoValTauxFrais"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PoValTauxFrais"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoBaseFrais /A3		** Base utilisée pour le calcul du Frais-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoBaseFrais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_PoBaseFrais"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base calcul des frais"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--        Lien pour accéder à la plage data TT0-->
+        <TextView
+            android:id="@+id/tv_plage_TT0_transfert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+        </LinearLayout>
+<!--        Taxe 1-->
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="PARAMETRAGE DE LA TAXE N°1 DE TRANSFERT"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- PoIsTaxe1On/A1(Y/N)		** Pour indiquer si la Taxe N° 1 est activée sur OF -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblPoIsTaxe1On"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La taxe N°1 est-elle activée sur l'OF ?" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchPoIsTaxe1On"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="true"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                android:onClick="onSwitchButtonClicked"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LL_PoIsTaxe1On"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+        <!-- PoCodTaxe1/A5			** Pour Renseigner le code ou abregé de la taxe 1 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoCodTaxe1"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoCodTaxe1"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="5"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoCodTaxe1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--PoLibelTaxe1/A70		** Libellé ou intitulé utilisé pour la Taxe 1 sur Transfert int-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoLibelTaxe1"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoLibelTaxe1"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="5"
+                android:maxLength="70"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoLibelTaxe1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoNatureTaxe1/A1	²	** Nature des Taxes1 de Transfert, Fixe/F, Taux/T, Plage/P
+				** Dans le cas où c'est une plage, utiliser Plage_Data /TT1-->
+        <LinearLayout
+            android:id="@+id/ll_PoNatureTaxe1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblPoNatureTaxe1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature des Taxes 1 de Transfert"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoNatureTaxe1"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupPoNatureTaxe1" >
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe1Fixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe1Taux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe1Plage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- PoValTauxTaxe1/R		** Valeur ou Taux de la Taxe 1 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoValTauxTaxe1"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PoValTauxTaxe1"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoBaseTaxe1 /A3		** Base utilisée pour le calcul de la Taxe n°1-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoBaseTaxe1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_PoBaseTaxe1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base calcul Taxe N°1"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--        Lien pour accéder à la plage data TT1-->
+        <TextView
+            android:id="@+id/tv_plage_TT1_transfert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+        </LinearLayout>
+
+        <!--        Taxe 2-->
+        <TextView
+            android:id="@+id/tv_4"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="PARAMETRAGE DE LA TAXE N°2 DE TRANSFERT"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- PoIsTaxe2On/A1(Y/N)		** Pour indiquer si la Taxe N° 2 est activée sur OF -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblPoIsTaxe2On"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La taxe N°2 est-elle activée sur l'OF ?" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchPoIsTaxe2On"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="true"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                android:onClick="onSwitchButtonClicked"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LL_PoIsTaxe2On"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+        <!-- PoCodTaxe2/A5			** Pour Renseigner le code ou abregé de la taxe 2 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoCodTaxe2"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoCodTaxe2"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="5"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoCodTaxe2"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--PoLibelTaxe2/A70		** Libellé ou intitulé utilisé pour la Taxe 1 sur Transfert int-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoLibelTaxe2"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoLibelTaxe2"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="5"
+                android:maxLength="70"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoLibelTaxe2"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--PoNatureTaxe2/A1	²	** Nature des Taxes1 de Transfert, Fixe/F, Taux/T, Plage/P
+				** Dans le cas où c'est une plage, utiliser Plage_Data /TT2-->
+        <LinearLayout
+            android:id="@+id/ll_PoNatureTaxe2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblPoNatureTaxe2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature des Taxes 2 de Transfert"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoNatureTaxe1"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupPoNatureTaxe2" >
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe2Fixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe2Taux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe2Plage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- PoValTauxTaxe2/R		** Valeur ou Taux de la Taxe 2 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoValTauxTaxe2"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PoValTauxTaxe2"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoBaseTaxe2 /A3		** Base utilisée pour le calcul de la Taxe n°2-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoBaseTaxe2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_PoBaseTaxe2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base calcul Taxe N°2"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--        Lien pour accéder à la plage data TT2-->
+        <TextView
+            android:id="@+id/tv_plage_TT2_transfert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+
+        </LinearLayout>
+
+
+
+        <!--Taxe 3-->
+        <TextView
+            android:id="@+id/tv_5"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="PARAMETRAGE DE LA TAXE N°3 DE TRANSFERT"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- PoIsTaxe3On/A1(Y/N)		** Pour indiquer si la Taxe N° 3 est activée sur OF -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblPoIsTaxe3On"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La taxe N°3 est-elle activée sur l'OF ?" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchPoIsTaxe3On"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="true"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                android:onClick="onSwitchButtonClicked"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LL_PoIsTaxe3On"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+        <!-- PoCodTaxe3/A5			** Pour Renseigner le code ou abregé de la taxe 3 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoCodTaxe3"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoCodTaxe3"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:maxLength="5"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoCodTaxe3"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--PoLibelTaxe3/A70		** Libellé ou intitulé utilisé pour la Taxe 3 sur Transfert int-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoLibelTaxe3"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_PoLibelTaxe3"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                android:maxLines="5"
+                android:maxLength="70"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PoLibelTaxe3"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PoNatureTaxe3/A1	²	** Nature des Taxes1 de Transfert, Fixe/F, Taux/T, Plage/P
+				** Dans le cas où c'est une plage, utiliser Plage_Data /TT3-->
+        <LinearLayout
+            android:id="@+id/ll_PoNatureTaxe3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblPoNatureTaxe3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="Nature des Taxes 3 de Transfert"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPoNatureTaxe1"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radioGroupPoNatureTaxe3" >
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe3Fixe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fixe"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe3Taux"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taux"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/rbPoNatureTaxe3Plage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- PoValTauxTaxe3/R		** Valeur ou Taux de la Taxe 3 -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoValTauxTaxe3"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PoValTauxTaxe3"
+                style="@style/modifiedEditText"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="18dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- PoBaseTaxe3 /A3		** Base utilisée pour le calcul de la Taxe n°3-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PoBaseTaxe3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <com.example.binumtontine.JRSpinner
+
+                android:id="@+id/spn_my_spinner_PoBaseTaxe3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base calcul Taxe N°3"
+                app:jrs_title="Choose"
+                style="@style/modifiedEditText"
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--        Lien pour accéder à la plage data TT3-->
+        <TextView
+            android:id="@+id/tv_plage_TT3_transfert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

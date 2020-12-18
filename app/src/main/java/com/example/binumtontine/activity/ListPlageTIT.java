@@ -84,7 +84,7 @@ public class ListPlageTIT extends AppCompatActivity implements SERVER_ADDRESS {
                 //  Intent i = new Intent(ProduitEAVActivity.this, AddMovieActivity.class);
                 Intent i = new Intent(ListPlageTIT.this, Plage.class);
                 i.putExtra(KEY_Produit_ID, eatId);
-                System.out.println("ListproduitId"+ eatId);
+//                System.out.println("ListproduitId"+ eatId);
                 startActivityForResult(i, 20);
 
 
@@ -112,12 +112,12 @@ public class ListPlageTIT extends AppCompatActivity implements SERVER_ADDRESS {
                     Integer movieId = i;
                     String movieName ="";
                     if (CreateProduitEAT.plageDataListTIT.get(i).getPdNature().equals("F")){
-                        movieName = CreateProduitEAT.plageDataListTIT.get(i).getPdValDe()+
-                                CreateProduitEAT.plageDataListTIT.get(i).getPdValA()+
+                        movieName = CreateProduitEAT.plageDataListTIT.get(i).getPdValDe()+" "
+                                +CreateProduitEAT.plageDataListTIT.get(i).getPdValA()+
                                 " ( "+ defaultFormat.format(parseDouble(CreateProduitEAT.plageDataListTIT.get(i).getPdValTaux()))+" )";
                     }else{
                         movieName = CreateProduitEAT.plageDataListTIT.get(i).getPdValDe()+
-                                CreateProduitEAT.plageDataListTIT.get(i).getPdValA()+
+                                CreateProduitEAT.plageDataListTIT.get(i).getPdValA()+" "+
                                 " ( "+ parseDouble(CreateProduitEAT.plageDataListTIT.get(i).getPdValTaux())+" %)";
 
                     }

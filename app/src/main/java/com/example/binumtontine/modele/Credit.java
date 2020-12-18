@@ -1282,4 +1282,270 @@ public class Credit {
     public void setCrBaseTxIntAn(String crBaseTxIntAn) {
         CrBaseTxIntAn = crBaseTxIntAn;
     }
+
+
+    /**
+     * Permet d'encoder les bases CrBaseTxInter sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBaseTxInter(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Capital restant dû")){
+            base_encode = "DA1";
+        }else if (base_decode.equals("2- Mt restant dû(Capital + Intérêt échue + Pen. Retard + Intérêt Retard)")){
+            base_encode = "DA2";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBaseTxInter de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBaseTxInter(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DA1")){
+            base_decode = "1- Capital restant dû";
+        }else if (base_encode.equals("DA2")){
+            base_decode = "2- Mt restant dû(Capital + Intérêt échue + Pen. Retard + Intérêt Retard)";
+        }
+        return base_decode;
+    }
+    /**
+     * Permet d'encoder les bases CrBaseTxIntAn sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBaseTxIntAn(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Capital restant dû")){
+            base_encode = "DA1";
+        }else if (base_decode.equals("2- Mt restant dû(Capital + Intérêt échue + Pen. Retard + Intérêt Retard)")){
+            base_encode = "DA2";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBaseTxIntAn de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBaseTxIntAn(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DA1")){
+            base_decode = "1- Capital restant dû";
+        }else if (base_encode.equals("DA2")){
+            base_decode = "2- Mt restant dû(Capital + Intérêt échue + Pen. Retard + Intérêt Retard)";
+        }
+        return base_decode;
+    }
+
+
+    /**
+     * Permet d'encoder les bases CrBaseTxPenRet sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBaseTxPenRet(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Capital restant dû")){
+            base_encode = "DB1";
+        }else if (base_decode.equals("2- Mt restant dû 1 (Capital restant dû + Intérêt échu)")){
+            base_encode = "DB2";
+        }else if (base_decode.equals("3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)")){
+            base_encode = "DB3";
+        }else if (base_decode.equals("4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)")){
+            base_encode = "DB4";
+        }else if (base_decode.equals("5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)")){
+            base_encode = "DB5";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBaseTxPenRet de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBaseTxPenRet(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DB1")){
+            base_decode = "1- Capital restant dû";
+        }else if (base_encode.equals("DB2")){
+            base_decode = "2- Mt restant dû 1 (Capital restant dû + Intérêt échu)";
+        }else if (base_encode.equals("DB3")){
+            base_decode = "3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)";
+        }else if (base_encode.equals("DB4")){
+            base_decode = "4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)";
+        }else if (base_encode.equals("DB5")){
+            base_decode = "5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)";
+        }
+        return base_decode;
+    }
+
+    /**
+     * Permet d'encoder les bases CrBasexInt_IntRetCred sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBasexInt_IntRetCred(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Capital restant dû")){
+            base_encode = "DC1";
+        }else if (base_decode.equals("2- Mt restant dû 1 (Capital restant dû + Intérêt échu)")){
+            base_encode = "DC2";
+        }else if (base_decode.equals("3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)")){
+            base_encode = "DC3";
+        }else if (base_decode.equals("4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)")){
+            base_encode = "DC4";
+        }else if (base_decode.equals("5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)")){
+            base_encode = "DC5";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBasexInt_IntRetCred de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBasexInt_IntRetCred(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DC1")){
+            base_decode = "1- Capital restant dû";
+        }else if (base_encode.equals("DC2")){
+            base_decode = "2- Mt restant dû 1 (Capital restant dû + Intérêt échu)";
+        }else if (base_encode.equals("DC3")){
+            base_decode = "3- Mt restant dû 2 (Cap. Rest. Dû + Int. échu + Int. Retard)";
+        }else if (base_encode.equals("DC4")){
+            base_decode = "4- Mt restant dû 3 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard)";
+        }else if (base_encode.equals("DC5")){
+            base_decode = "5- Mt restant dû 4 (Cap. Rest. Dû + Int. échu + Int. Retard + Pen. Retard + Com. Ten. + Compte + Com échue)";
+        }
+        return base_decode;
+    }
+
+
+    /**
+     * Permet d'encoder les bases CrBaseTxFrEtudDoss sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBaseTxFrEtudDoss(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Montant du Crédit Sollicité")){
+            base_encode = "DD1";
+        }else if (base_decode.equals("2- Montant du Crédit Accordé")){
+            base_encode = "DD2";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBaseTxFrEtudDoss de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBaseTxFrEtudDoss(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DD1")){
+            base_decode = "1- Montant du Crédit Sollicité";
+        }else if (base_encode.equals("DD2")){
+            base_decode = "2- Montant du Crédit Accordé";
+        }
+        return base_decode;
+    }
+    /**
+     * Permet d'encoder les bases CrBaseTxFraisDeblocCred sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBaseTxFraisDeblocCred(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Montant du Crédit Sollicité")){
+            base_encode = "DE1";
+        }else if (base_decode.equals("2- Montant du Crédit Accordé")){
+            base_encode = "DE2";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBaseTxFraisDeblocCred de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBaseTxFraisDeblocCred(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DE1")){
+            base_decode = "1- Montant du Crédit Sollicité";
+        }else if (base_encode.equals("DE2")){
+            base_decode = "2- Montant du Crédit Accordé";
+        }
+        return base_decode;
+    }
+
+    /**
+     * Permet d'encoder les bases CrBaseFraisDecaissCred sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBaseFraisDecaissCred(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Montant du Crédit Sollicité")){
+            base_encode = "DF1";
+        }else if (base_decode.equals("2- Montant du Crédit Accordé")){
+            base_encode = "DF2";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBaseFraisDecaissCred de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBaseFraisDecaissCred(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DF1")){
+            base_decode = "1- Montant du Crédit Sollicité";
+        }else if (base_encode.equals("DF2")){
+            base_decode = "2- Montant du Crédit Accordé";
+        }
+        return base_decode;
+    }
+
+    /**
+     * Permet d'encoder les bases CrBaseInterEchNHon sur 3 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrBaseInterEchNHon(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("1- Cumul base")){
+            base_encode = "DG1";
+        }else if (base_decode.equals("2- Cumul base + Intérêt")){
+            base_encode = "DG2";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet de décoder les bases CrBaseInterEchNHon de 3 caractères venant de la base de données
+     * @param base_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrBaseInterEchNHon(String base_encode){
+        String base_decode ="";
+        if (base_encode.equals("DG1")){
+            base_decode = "1- Cumul base";
+        }else if (base_encode.equals("DG2")){
+            base_decode = "2- Cumul base + Intérêt";
+        }
+        return base_decode;
+    }
+
 }

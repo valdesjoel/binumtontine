@@ -219,7 +219,6 @@
 
             </RadioGroup>
         </LinearLayout>
-
         <!-- EtValTxInter-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_ValeurTauxInteretEAT"
@@ -233,8 +232,6 @@
                 android:textSize="18dp"
                 android:hint=""/>
         </com.google.android.material.textfield.TextInputLayout>
-
-
         <!-- Base du EtValTxInter-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_EtBaseTxInter"
@@ -261,7 +258,6 @@
         <!--plage EtValTxInter-->
         <TextView
             android:id="@+id/tv_plage_EtValTxInter"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -271,98 +267,6 @@
             android:padding="12dp"
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
-
-
-
-        <!-- EtPlageTxInterFrom && EtPlageTxInterTo-->
-        <LinearLayout
-            android:id="@+id/blk_EtPlageTxInter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-
-        <!--    <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_ValeulrTauxInteretEAT"
-                style="@style/parent"
-                android:layout_width="205dp"
-                android:layout_weight="1"> -->
-            <TextView
-                android:id="@+id/tv_EtValTxInterTo"
-                style="@style/modifiedEditText"
-                android:text="PLAGE 1"
-                android:maxLines="1"
-                android:textSize="18dp" />
-
-                <EditText
-                    android:id="@+id/txt_EtValTxInterFrom"
-                    style="@style/modifiedEditText"
-                    android:hint="De"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:textSize="18dp" />
-           <!-- </com.google.android.material.textfield.TextInputLayout> -->
-
-        <!--    <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_ValeunrTauxInteretEAT"
-                style="@style/parent"
-                android:layout_width="205dp"
-                android:layout_weight="1"> -->
-
-
-            <EditText
-                    android:id="@+id/txt_EtValTxInterTo"
-                    style="@style/modifiedEditText"
-                    android:hint="A"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:textSize="18dp" />
-                <EditText
-                    android:id="@+id/txt_EtValTxInterValeur"
-                    style="@style/modifiedEditText"
-                    android:hint="Valeur"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:textSize="18dp"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-
-
-        <!--    </com.google.android.material.textfield.TextInputLayout> -->
-        </LinearLayout>
-        <!--Block btn-->
-        <LinearLayout
-            android:id="@+id/blk_btn_EtPlageTxInter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/add_button"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:text="+"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/remove_button"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimary"
-                android:text="-"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-        </LinearLayout>
 
         <!--EtIsTxIntNeg-->
         <LinearLayout
@@ -456,29 +360,6 @@
                 />
 
         </LinearLayout>
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/lblNbreEcheancePenaliteEAP"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Nbre échéances pour appliquer pénalités " />
-
-            <Switch
-                android:id="@+id/SwitchNbreEcheancePenaliteEAP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:checked="false"
-
-                android:textOff="Non"
-                android:textOn="Oui"
-                />
-        </LinearLayout> -->
 
         <!--EtNatureRupAn-->
         <LinearLayout
@@ -549,60 +430,6 @@
                 android:hint="taux/montant pénalité rupture"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- EtPlageTxMtRuptureFrom && EtPlageTxMtRuptureTo-->
-        <!-- <LinearLayout
-            android:id="@+id/blk_plage_tx_penalite_eat"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_EtValTxMtRuptureForPlage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:inputType="numberDecimal"
-                android:text="De:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EtValTxMtRuptureFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAT"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-            <TextView
-                android:id="@+id/tv_EtValTxMtRuptureForPlageFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="A:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EtValTxMtRuptureTo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAT"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-        </LinearLayout> -->
         <TextView
             android:id="@+id/tv_plage_EtValTxMtRupture"
 
@@ -615,110 +442,8 @@
             android:padding="12dp"
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
-        <LinearLayout
-            android:id="@+id/blk_EtValTxMtRupture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-
-            <!--    <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_ValeulrTauxInteretEAT"
-                    style="@style/parent"
-                    android:layout_width="205dp"
-                    android:layout_weight="1"> -->
-            <TextView
-                android:id="@+id/tv_EtValTxMtRupture"
-                style="@style/modifiedEditText"
-                android:text="PLAGE 1"
-                android:maxLines="1"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/txt_EtValTxMtRuptureFrom"
-                style="@style/modifiedEditText"
-                android:hint="De"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp" />
-            <!-- </com.google.android.material.textfield.TextInputLayout> -->
-
-            <!--    <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_ValeunrTauxInteretEAT"
-                    style="@style/parent"
-                    android:layout_width="205dp"
-                    android:layout_weight="1"> -->
-
-
-            <EditText
-                android:id="@+id/txt_EtValTxMtRuptureTo"
-                style="@style/modifiedEditText"
-                android:hint="A"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp" />
-            <EditText
-                android:id="@+id/txt_EtValTxMtRuptureValeur"
-                style="@style/modifiedEditText"
-                android:hint="Valeur"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-
-
-            <!--    </com.google.android.material.textfield.TextInputLayout> -->
-        </LinearLayout>
-        <!--Block btn-->
-        <LinearLayout
-            android:id="@+id/blk_btn_EtValTxMtRupture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/add_button_EtValTxMtRupture"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:text="+"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/remove_button_EtValTxMtRupture"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimary"
-                android:text="-"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-        </LinearLayout>
 
         <!-- EtBaseTxPenal-->
-        <!--<com.google.android.material.textfield.TextInputLayout-->
-            <!--android:id="@+id/input_layout_BaseTxPenalEAT"-->
-            <!--style="@style/parent"-->
-            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
-            <!--<EditText-->
-                <!--android:id="@+id/input_txt_BaseTxPenalEAT"-->
-                <!--style="@style/modifiedEditText"-->
-                <!--android:inputType="textPersonName"-->
-                <!--android:ems="2"-->
-                <!--android:maxLines="1"-->
-                <!--android:textSize="18dp"-->
-                <!--android:hint="Base du taux de pénalité"/>-->
-        <!--</com.google.android.material.textfield.TextInputLayout>-->
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_BaseTxPenalEAT"
             android:layout_width="match_parent"
@@ -748,7 +473,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/lblPossibiliteRetirerEAT"
                 android:layout_width="0dp"
@@ -867,36 +591,6 @@
         </LinearLayout>
 
         <!--EtActionDefATerme-->
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/input_layout_ActionParDefautEAT"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="false"
-                android:maxLines="2"
-                android:scrollbars="vertical"
-                android:textSize="18dp"
-                android:text="Action par défaut sur l'EAT à terme" />
-
-            <Switch
-                android:id="@+id/SwitchActionParDefautEAT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:checked="false"
-
-                android:textOff="Non"
-                android:textOn="Oui"
-                />
-
-        </LinearLayout>
         <!--CtModRenouv-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -1127,165 +821,7 @@
                 android:hint="Valeur nouveau taux d'interêt"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--EtPlageTxIntPenalFrom && EtPlageTxIntPenalTo-->
-        <!--<LinearLayout
-            android:id="@+id/blk_plage_new_tx_eat"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_EtNewValTxInterForPlage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:inputType="numberDecimal"
-                android:text="De:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EtNewValTxInterFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAP"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-            <TextView
-                android:id="@+id/tv_EtNewValTxInterForPlageFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="A:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EtNewValTxInterTo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAT"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-        </LinearLayout> -->
-
-
-        <LinearLayout
-            android:id="@+id/blk_EtNewValTxInter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="vertical">
-
-            <!--    <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_ValeulrTauxInteretEAT"
-                    style="@style/parent"
-                    android:layout_width="205dp"
-                    android:layout_weight="1"> -->
-            <TextView
-                android:id="@+id/tv_EtNewValTxInter"
-                style="@style/modifiedEditText"
-                android:text="PLAGE 1"
-                android:maxLines="1"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/txt_EtNewValTxInterFrom"
-                style="@style/modifiedEditText"
-                android:hint="De"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp" />
-            <!-- </com.google.android.material.textfield.TextInputLayout> -->
-
-            <!--    <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_ValeunrTauxInteretEAT"
-                    style="@style/parent"
-                    android:layout_width="205dp"
-                    android:layout_weight="1"> -->
-
-
-            <EditText
-                android:id="@+id/txt_EtNewValTxInterTo"
-                style="@style/modifiedEditText"
-                android:hint="A"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp" />
-            <EditText
-                android:id="@+id/txt_EtNewValTxInterValeur"
-                style="@style/modifiedEditText"
-                android:hint="Valeur"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:textSize="18dp"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-
-
-            <!--    </com.google.android.material.textfield.TextInputLayout> -->
-        </LinearLayout>
-        <!--Block btn-->
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/blk_btn_EtNewValTxInter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/add_button_EtNewValTxInter"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:text="+"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/remove_button_EtNewValTxInter"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimary"
-                android:text="-"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-        </LinearLayout>
-
         <!--EtBaseTxIntPenal-->
-        <!--<com.google.android.material.textfield.TextInputLayout-->
-            <!--android:id="@+id/input_layout_BaseNewTxInteretEAT"-->
-            <!--style="@style/parent"-->
-            <!--android:layout_marginTop="@dimen/loginViewsMargin">-->
-            <!--<EditText-->
-                <!--android:id="@+id/txtBaseNewTxInteretEAT"-->
-                <!--style="@style/modifiedEditText"-->
-                <!--android:inputType="numberDecimal"-->
-                <!--android:maxLines="1"-->
-                <!--android:textSize="18dp"-->
-                <!--android:hint="Base du nouveau taux d'interêt "/>-->
-        <!--</com.google.android.material.textfield.TextInputLayout>-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_BaseNewTxInteretEAT"
             android:layout_width="match_parent"
@@ -1352,345 +888,148 @@
                 />
 
         </LinearLayout>
-<!--
+
+
+        <!--        39- EtIsPenalRupAnt-->
         <LinearLayout
+            android:id="@+id/ll_PenaliteDeblocageEnCasDeRuptureEAT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/lblPenaliteDeblocageEnCasDeRuptureEAP"
+                android:id="@+id/lblPenaliteDeblocageEnCasDeRuptureEAT"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Appliquer pénalités déblocage en cas de rupture de contrat" />
+                android:textSize="18dp"
+                android:text="Appliquer les pénalités de Déblocage ?" />
 
             <Switch
-                android:id="@+id/SwitchPenaliteDeblocageEnCasDeRuptureEAP"
+                android:id="@+id/SwitchPenaliteDeblocageEnCasDeRuptureEAT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:checked="false"
-
+                android:onClick="onSwitchButtonClicked"
                 android:textOff="Non"
                 android:textOn="Oui"
                 />
 
         </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_EtNaturePenalDeblocage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/loginViewsMargin"
+        android:orientation="vertical">
+        <!--        40- EtNaturePenalDeblocage-->
         <LinearLayout
+            android:id="@+id/ll_EtNaturePenalDeblocage1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/lblEpNaturePenal"
+                android:id="@+id/lblEtNaturePenalDeblocage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="Nature des frais en cas de rupture anticipée"
+                android:textSize="18dp"
+                android:text="Nature des frais de déblocage"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lblEpNaturePenal"
+                android:layout_below="@+id/lblEtNaturePenalDeblocage"
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal"
                 android:showDividers="beginning|middle|end"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:id="@+id/rg_EpNaturePenal" >
+                android:id="@+id/rg_EtNaturePenalDeblocage" >
 
                 <RadioButton
-                    android:id="@+id/rb_EpNaturePenalTaux"
+                    android:id="@+id/rbEtNaturePenalDeblocageTaux"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Taux"
-                    android:checked="true" />
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="false" />
 
                 <RadioButton
-                    android:id="@+id/rb_EpNaturePenalMontant"
+                    android:id="@+id/rbEtNaturePenalDeblocageMontant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Montant"
-                    android:checked="false" />
+                    android:onClick="onRadioButtonClicked"
+                    android:checked="true" />
                 <RadioButton
-                    android:id="@+id/rb_EpNaturePenalPlage"
+                    android:id="@+id/rbEtNaturePenalDeblocagePlage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Plage"
+                    android:onClick="onRadioButtonClicked"
                     android:checked="false" />
 
             </RadioGroup>
         </LinearLayout>
-
+        <!--41- EtValTxMtPenaliteDeblocage-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_EpValTxMtPenalite"
+            android:id="@+id/input_layout_EtValTxMtPenaliteDeblocage"
             style="@style/parent"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
-                android:id="@+id/txtEpValTxMtPenalite"
+                android:id="@+id/txtEtValTxMtPenaliteDeblocage"
                 style="@style/modifiedEditText"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="Valeur taux ou montant pénalié de rupture "/>
+                android:textSize="18dp"
+                android:hint="Valeur ou taux du Frais de déblocage:"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
-            android:id="@+id/blk_plage_EpValTxMtPenalite"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:orientation="horizontal">
+        <!--44- EtBaseTxMtPenalDeblocage-->
 
-            <TextView
-                android:id="@+id/tv_EpValTxMtPenaliteForPlage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:inputType="numberDecimal"
-                android:text="From:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EpValTxMtPenaliteFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAP"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-            <TextView
-                android:id="@+id/tv_EpValTxMtPenaliteForPlageFrom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="To:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <EditText
-                android:id="@+id/txt_EpValTxMtPenaliteTo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblNatureTauxInteretEAP"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:orientation="horizontal"
-                />
-
-        </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_EpBaseTxPenal"
+            android:id="@+id/input_layout_EtBaseTxMtPenalDeblocage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
+            app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_EpBaseTxPenal"
+
+            <com.example.binumtontine.JRSpinner
+                android:id="@+id/input_txt_EtBaseTxMtPenalDeblocage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Base du Frais de déblocage:"
+                app:jrs_title="Choose"
                 style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:ems="2"
-                android:maxLines="1"
-                android:hint="Base du taux de pénalité pour rupture anticipée"/>
-        </com.google.android.material.textfield.TextInputLayout> -->
-        <!--  <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="@dimen/loginViewsMargin"
-              android:orientation="horizontal">
+                app:jrs_multiple="false"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!--plage EtValTxMtPenaliteDeblocage-->
+        <TextView
+            android:id="@+id/tv_plageEtValTxMtPenaliteDeblocage"
 
-              <EditText
-                  android:id="@+id/txtNatureFraisRuptureAnticipeeEAP"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:ems="10"
-                  android:inputType="textPersonName"
-                  android:hint="Nature des frais en cas de rupture"
-                  />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:textColor="@color/colorAccent1"
+            android:text="@string/btn_config_plage_tiv" />
+    </LinearLayout>
 
-          </LinearLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="@dimen/loginViewsMargin"
-              android:orientation="horizontal">
-
-
-
-              <EditText
-                  android:id="@+id/txtValTxMtPenaliteRuptureEAP"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:ems="10"
-                  android:inputType="numberDecimal"
-                  android:hint="Valeur du taux/montant pénalité de rupture" />
-
-          </LinearLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="@dimen/loginViewsMargin"
-              android:orientation="horizontal">
-
-
-
-              <EditText
-                  android:id="@+id/txtBaseTxPenalRuptureEAP"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:ems="10"
-                  android:inputType="numberDecimal"
-                  android:hint="Base du taux de pénalité rupture" />
-
-          </LinearLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="@dimen/loginViewsMargin"
-              android:orientation="horizontal">
-
-              <EditText
-                  android:id="@+id/txtFraisClotureCpteEAP"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:ems="10"
-                  android:inputType="textPersonName"
-                  android:hint="Frais de clôture de compte" />
-
-          </LinearLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="@dimen/loginViewsMargin"
-              android:orientation="horizontal">
-
-              <TextView
-                  android:id="@+id/lblFraisTenuCpteOnEAV"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:text="Frais tenu de compte" />
-
-              <Switch
-                  android:id="@+id/SwitchFraisTenuCpteOnEAV"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center"
-                  android:checked="false"
-
-                  android:textOff="Non"
-                  android:textOn="Oui"
-                  />
-
-          </LinearLayout>
-          <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/input_layout_TypeFraisCpteEAV"
-              style="@style/parent"
-              android:layout_marginTop="@dimen/loginViewsMargin">
-              <EditText
-                  android:id="@+id/input_txt_TypeFraisCpteEAV"
-                  style="@style/modifiedEditText"
-                  android:inputType="textPersonName"
-                  android:maxLines="1"
-                  android:hint="Type de frais de tenu de compte"/>
-          </com.google.android.material.textfield.TextInputLayout>
-          <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/input_layout_TauxAPreleveCpteEAV"
-              style="@style/parent"
-              android:layout_marginTop="@dimen/loginViewsMargin">
-              <EditText
-                  android:id="@+id/input_txt_TauxAPreleveCpteEAV"
-                  style="@style/modifiedEditText"
-                  android:inputType="numberDecimal"
-                  android:maxLines="1"
-                  android:hint="Taux à préléver sur le compte"/>
-          </com.google.android.material.textfield.TextInputLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="@dimen/loginViewsMargin"
-              android:orientation="horizontal">
-
-              <TextView
-                  android:id="@+id/lblChequeOnEAV"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:text="Utiliser chèque" />
-
-              <Switch
-                  android:id="@+id/SwitchChequeOnEAV"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center"
-                  android:checked="false"
-
-                  android:textOff="Non"
-                  android:textOn="Oui"
-                  />
-
-          </LinearLayout>
-          <com.google.android.material.textfield.TextInputLayout
-              android:id="@+id/input_layout_FraisClotureCpteEAV"
-              style="@style/parent"
-              android:layout_marginTop="@dimen/loginViewsMargin">
-              <EditText
-                  android:id="@+id/input_txt_FraisClotureCpteEAV"
-                  style="@style/modifiedEditText"
-                  android:inputType="numberDecimal"
-                  android:maxLines="1"
-                  android:hint="Frais de clôture de compte"/>
-          </com.google.android.material.textfield.TextInputLayout> -->
-
-        <!-- <com.google.android.material.textfield.TextInputLayout
-             android:id="@+id/textInputPassword"
-             style="@style/parent"
-             android:layout_marginTop="@dimen/loginViewsMargin">
-             <EditText
-                 android:id="@+id/editTextPassword"
-                 style="@style/modifiedEditText"
-                 android:hint="@string/login_password_hint"
-                 android:maxLines="1"
-                 android:inputType="textPassword"/>
-         </com.google.android.material.textfield.TextInputLayout>
-
-         <TextView
-             style="@style/viewParent"
-             android:text="Forgot Password?"
-             android:textColor="@color/primaryTextColor"
-             android:textSize="@dimen/newsMoreTextSize"
-             android:layout_gravity="end"
-             android:onClick="viewForgotPAssword"
-             android:layout_marginTop="10dp"/> -->
-
-        <!--<br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/cirLoginButton"
-            style="@style/loginButton"
-            android:text="Login"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>-->
-     <!--   <Button
-            android:id="@+id/btn_save_eat1"
-            style="@style/loginButton"
-            android:text="ENREGISTRER"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>
-        -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -1698,7 +1037,7 @@
             android:paddingTop="30dp"
             android:paddingBottom="20dp"
 
-            android:layout_below="@+id/lblTxNewInteretNegociableEAT">
+            android:layout_below="@+id/tv_plageEtValTxMtPenaliteDeblocage">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save_eat"
@@ -1731,30 +1070,9 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 style="@style/cancelButton"
-
                 android:padding="12dp"
                 android:text="@string/btn_supprimer" />
 
         </LinearLayout>
-        <!--  <Button android:id="@+id/btn_save_eav"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:clickable="true"
-              android:text="ENREGISTRER"
-              android:background="@color/colorPrimary"
-              android:layout_marginTop="5dp"
-              android:textColor="@android:color/white"/> -->
-
-        <!-- <TextView
-             style="@style/parent"
-             android:textAlignment="center"
-             android:textStyle="bold"
-             android:textColor="@color/primaryTextColor"
-             android:text="@string/login_signup_hint"
-             android:onClick="viewRegisterClicked"
-             android:layout_marginTop="@dimen/loginViewsMargin"/> -->
-
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>
