@@ -906,7 +906,8 @@ avertissement(maDate.substring(0,10));
 
 
                 }
-            } catch (JSONException e) {
+//            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;

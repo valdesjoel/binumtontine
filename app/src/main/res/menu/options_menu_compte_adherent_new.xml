@@ -57,12 +57,10 @@
     <item
         android:id="@+id/menu_cloture"
         android:title="Clôture" />
+    <item
+        android:id="@+id/menu_cloture_eav"
+        android:title="Clôturer le compte" />
 
-    <!--<item-->
-        <!--android:title="CREDIT"-->
-        <!--android:enabled="false"-->
-        <!--android:checkable="false"-->
-        <!--/>-->
     <item
         android:id="@+id/menu_comite_credit"
         android:title="Etape suivante" />

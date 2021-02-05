@@ -313,7 +313,12 @@ private void getNumeroReferenceDialog(Context c) {
                     new CreateOperationTransfertRetrait.FetchTransactionByNumeroReferenceDetailsAsyncTask().execute();
                 }
             })
-            .setNegativeButton("Annuler", null)
+            .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+             finish();
+                }
+            })
             .create();
     dialog.show();
 }
@@ -482,7 +487,7 @@ private void getNumeroReferenceDialog(Context c) {
                             TrNomExp.setText(transfert.getTrNomExp());
                             TrPrenomExp.setText(transfert.getTrPrenomExp());
                             TrTelExp.setText(transfert.getTrTelExp());
-                            TrTypPieceIdExpTv.setText(transfert.getTrTypPieceIdExp());
+                            TrTypPieceIdExpTv.setText(Transfert.decodeTypePiece(transfert.getTrTypPieceIdExp()));
                             TrPieceIdExp.setText(transfert.getTrPieceIdExp());
                             TrAdresseExp.setText(transfert.getTrAdresseExp());
                             TrDetailsExp.setText(transfert.getTrDetailsExp());

@@ -13,6 +13,8 @@ package com.example.binumtontine.adapter;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.Button;
+        import android.widget.Filter;
+        import android.widget.Filterable;
         import android.widget.TextView;
         import android.widget.Toast;
 
@@ -33,6 +35,7 @@ package com.example.binumtontine.adapter;
         import com.example.binumtontine.helper.CheckNetworkStatus;
 
         import java.io.Serializable;
+        import java.util.ArrayList;
         import java.util.List;
 
 
@@ -40,11 +43,12 @@ package com.example.binumtontine.adapter;
  * Created by Valdès on 02/12/19.
  */
 
-public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapterListAdherent.ViewHolder> {
+public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapterListAdherent.ViewHolder> implements Filterable {
 
     //private List<MyList> list;
     private List<Adherent> list;
     private Context mCtx;
+    private List<Adherent> mMuaViewFull;
     private static final String KEY_ADHERENT_ID = "IpMembre";
     private static final String KEY_ADHERENT_NOM = "AdNom";
     private static final String KEY_ADHERENT_PRENOM = "AdPrenom";
@@ -59,6 +63,7 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
     public CustomAdapterListAdherent(List<Adherent> list, Context mCtx) {
         this.list = list;
         this.mCtx = mCtx;
+        mMuaViewFull = new ArrayList<>(list);
     }
 
     @Override
@@ -232,6 +237,43 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
 //        return this.list.size()+this.list.size();
         return list.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return MuaFilter;
+    }
+
+    private Filter MuaFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Adherent> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mMuaViewFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Adherent item : mMuaViewFull) {
+                    if ((item.getAdNom().toLowerCase()+" "+item.getAdPrenom()+" "+item.getAdProfess()+" "+item.getAdNumCarteID()+" "+item.getAdNumManuel()).toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+
+        }
+    };
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -75,6 +75,7 @@
     <string name="err_msg_montant_mise_invalide">Entrer le montant de la mise conforme au paramétrage du produit</string>
     <string name="err_msg_num_manuel">Entrer un numéro manuel</string>
     <string name="err_msg_num_dossier">Entrer un numéro de dossier</string>
+    <string name="err_msg_CpNbUnites">Entrer le nombre d\'échéances</string>
     <string name="err_msg_email">Entrer une adresse email valide!</string>
     <string name="err_msg_password">Entrer votre mot de passe</string>
     <string name="hint_localite_caisse">Localité</string>
@@ -347,6 +348,7 @@
     <string name="hint_date_fin">Date de fin: (*)</string>
     <string name="enter_number">saisissez un montant valide</string>
     <string name="hint_depot_minimum">Dépôt minimum</string>
+    <string name="hint_montant_mise">Montant de la mise</string>
     <string name="hint_CcaMtMaxDecouv">Plafond decouvert </string>
     <string name="hint_montant_demande_credit">Montant sollicité</string>
     <string name="hint_duree_emprunt">Durée emprunt (en mois)</string>
@@ -372,7 +374,7 @@
     <string name="produit_a_terme">Produit à terme</string>
     <string name="produit_a_periodicite">Produit à périodicité</string>
     <string name="duree_produit">Durée (en mois):</string>
-    <string name="hint_montant_mise">Montant mise</string>
+<!--    <string name="hint_montant_mise">Montant mise</string>-->
     <string name="hint_montant_dat">Montant DAT</string>
     <string name="hint_montant_initialisation">Montant d\'initialisation</string>
     <string name="hint_Tx_Int_min_autorise_decouvert">Tx Int min découvert</string>
@@ -888,6 +890,17 @@
         <item>BIMENSUELLE</item>
         <item>BIMESTRIELLE</item>
         <item>TRIMESTRIELLE</item>
+    </string-array>
+    <string-array name="array_CpPeriod">
+        <item>JOURNALIERE</item>
+        <item>HEBDOMADAIRE</item>
+<!--        <item>BIHEBDOMADAIRE</item>-->
+        <item>MENSUELLE</item>
+<!--        <item>BIMENSUELLE</item>-->
+<!--        <item>BIMESTRIELLE</item>-->
+<!--        <item>TRIMESTRIELLE</item>-->
+<!--        <item>SEMESTRIELLE</item>-->
+        <item>ANNUELLE</item>
     </string-array>
     <string-array name="array_GuFreqReunComCred">
         <item>HEBDOMADAIRE</item>

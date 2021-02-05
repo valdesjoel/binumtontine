@@ -97,6 +97,12 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
     private static final String KEY_MONTANT_COMPTE = "MtSolde";
     private static final String KEY_DATE_H_CREE = "DateHCree";
     private static final String KEY_TAUX = "Taux";
+    private static final String KEY_CtDateFin = "CtDateFin";
+    private static final String KEY_CtNbUnites = "CtNbUnites";
+    private static final String KEY_CtPeriod = "CtPeriod";
+    private static final String KEY_CpDateFin = "CpDateFin";
+    private static final String KEY_CpNbUnites = "CpNbUnites";
+    private static final String KEY_CpPeriod = "CpPeriod";
     private static final String KEY_TYPE_COMPTE = "TypeCompte";
     private static final String KEY_ADHERENT = "ADHERENT";
     public static Adherent adherent;
@@ -244,6 +250,9 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                         String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
                         String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
                         String compteTaux = compte.getString(KEY_TAUX);
+                        String compteDateFin = compte.getString(KEY_CtDateFin);
+                        String compteCtNbUnites = compte.getString(KEY_CtNbUnites);
+                        String compteCtPeriod = compte.getString(KEY_CtPeriod);
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put(KEY_COMPTE_ID, compteId.toString());
                         map.put(KEY_LIBELLE_PRODUIT, compteDetail);
@@ -256,6 +265,9 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                         ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
                                 compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
                                 "EAT",compteTaux);
+                        mesComptes.setDateFin(compteDateFin);
+                        mesComptes.setNbUnites(compteCtNbUnites);
+                        mesComptes.setPeriod(compteCtPeriod);
                         listComptesAdherent.add(mesComptes);
                     }
                     //list EAP
@@ -269,6 +281,10 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                         String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
                         String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
                         String compteTaux = compte.getString(KEY_TAUX);
+
+                        String compteDateFin = compte.getString(KEY_CpDateFin);
+                        String compteCtNbUnites = compte.getString(KEY_CpNbUnites);
+                        String compteCtPeriod = compte.getString(KEY_CpPeriod);
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put(KEY_COMPTE_ID, compteId.toString());
                         map.put(KEY_LIBELLE_PRODUIT, compteDetail);
@@ -282,6 +298,10 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                         ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
                                 compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
                                 "EAP",compteTaux);
+
+                        mesComptes.setDateFin(compteDateFin);
+                        mesComptes.setNbUnites(compteCtNbUnites);
+                        mesComptes.setPeriod(compteCtPeriod);
                         listComptesAdherent.add(mesComptes);
                     }
                     //list Demande de crédit

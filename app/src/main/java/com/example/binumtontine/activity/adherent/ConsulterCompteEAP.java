@@ -27,15 +27,20 @@ public class CreateProduitEAV extends AppCompatActivity {
 package com.example.binumtontine.activity.adherent;
 
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,23 +50,28 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.Category;
+import com.example.binumtontine.activity.ServiceHandler;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class OperationEAP extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
+public class ConsulterCompteEAP extends AppCompatActivity implements  View.OnClickListener, AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     /*Begin*/
@@ -76,7 +86,7 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
     private static final String KEY_CV_MEMBRE = "CvMembre";
     private static final String KEY_CV_GUICHET = "CvGuichet";
     private static final String KEY_CV_NUM_DOSSIER = "CvNumDossier";
-    private static final String KEY_CV_MT_SOLDE = "CpMtSolde";
+    private static final String KEY_CV_MT_SOLDE = "CvMtSolde";
     private static final String KEY_CV_NATURE_OPERATION = "NatureOp";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
     private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
@@ -87,8 +97,11 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
     /*Param for get extra*/
     private static final String KEY_ADHERENT_ID = "IpMembre";
     private static final String KEY_COMPTE_ID = "Numero";
-    private static final String KEY_CP_NUMERO = "CpNumero";
+    private static final String KEY_CV_NUMERO = "CvNumero";
     private static final String KEY_DATE_H_CREE = "DateHCree";
+    private static final String KEY_CtDateFin = "CtDateFin";
+    private static final String KEY_CtNbUnites = "CtNbUnites";
+    private static final String KEY_CtPeriod = "CtPeriod";
     private static final String KEY_TAUX = "Taux";
     private static final String KEY_LIBELLE_PRODUIT = "Libelle";
     private static final String KEY_ADHERENT_NOM = "AdNom";
@@ -96,8 +109,13 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
     private static final String KEY_ADHERENT_NUM_MANUEL = "AdNumManuel";
     private static final String KEY_ADHERENT_CODE = "AdCode";
 
-    private static final String KEY_CpNumDossier = "CpNumDossier";
-    private static final String KEY_CpDepotMin = "CpDepotMin";
+    private static final String KEY_HEADER_ACTIVITY_CONSULTER_COMPTE = "tvHeaderActivityConsulterCompte";
+    private static final String KEY_HEADER_LAYOUT_CONSULTER_COMPTE = "tvHeaderLayoutConsulterCompte";
+    private static final String KEY_TYPE_COMPTE = "TypeCompte";
+
+    private String headerActivity = "CONSULTATION DE COMPTE";
+    private String headerLayout = "Consultez votre compte";
+    private String typeCompte = "";
 
 
 
@@ -105,6 +123,7 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
 
     private EditText EavDepotMinEditText;
     private EditText NumDossierEditText;
+    private TextView tvLibelleProduit;
 
     private RadioButton rb_depot;
     private RadioButton rb_retrait;
@@ -121,7 +140,12 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
     private String dateCreation;
     private String taux;
     private String libelleProduit;
+    private String dateFin;
+    private String nbUnites;
+    private String period;
 
+    private String AdValideDu;
+    private String AdValideAu;
     private String natureOperation;
 
     /* manage spinner*/
@@ -136,27 +160,52 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
     private TextView tvCompteSolde;
     private TextView tvDateCreation;
     private TextView tvTaux;
-    private TextView tvLibelleProduit;
+    private TextView tvTypeCompte;
+
+    private EditText Ad_DateDelivranceEditText;
+    private EditText Ad_DateExpirationEditText;
     /*end manage*/
+
+    private DatePickerDialog Ad_DateDelivrance_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog Ad_DateExpiration_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+
+    private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
 
     private Button addButton;
     private Button annulerButton;
     private int success;
     private ProgressDialog pDialog;
     private ProgressDialog pDialogFetchProduitEavList;
+    public static TextView tvHeaderActivityConsulterCompte;
+    public static TextView tvHeaderLayoutConsulterCompte;
+    public static LinearLayout ll_bloc_date_echeance;
+    public static LinearLayout ll_bloc_duree_compte;
+    public static LinearLayout ll_bloc_taux;
+    private TextView tvDateEcheance;
+    private TextView tvDureeCompte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_operation_eap_adherent);
+        setContentView(R.layout.activity_consulter_compte_eap_adherent);
 
 
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
         dateCreation = intent.getStringExtra(KEY_DATE_H_CREE);
+        dateFin = intent.getStringExtra(KEY_CtDateFin);
+        nbUnites = intent.getStringExtra(KEY_CtNbUnites);
+        period = intent.getStringExtra(KEY_CtPeriod);
+
         compteSolde = intent.getStringExtra(KEY_MONTANT_COMPTE);
         taux = intent.getStringExtra(KEY_TAUX);
+        typeCompte = intent.getStringExtra(KEY_TYPE_COMPTE);
+
+
         libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
+//        libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
+
+
         Bundle bundle = intent.getExtras();
         adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
         adNom = adherent.getAdNom();
@@ -164,15 +213,11 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
         adNumManuel = adherent.getAdNumManuel();
         adCode = adherent.getAdCode();
 
-        //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
-
-        EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
-        EavDepotMinEditText.setFocusable(false);
-        EavDepotMinEditText.setClickable(false);
-        EavDepotMinEditText.setFocusableInTouchMode(false);
-        EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
-        NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
-
+        tvHeaderActivityConsulterCompte = (TextView) findViewById(R.id.header_consulter_compte);
+        tvHeaderLayoutConsulterCompte = (TextView) findViewById(R.id.header_operation_eat_adherent);
+        ll_bloc_date_echeance = (LinearLayout) findViewById(R.id.ll_bloc_date_echeance);
+        ll_bloc_duree_compte = (LinearLayout) findViewById(R.id.ll_bloc_duree_compte);
+        ll_bloc_taux = (LinearLayout) findViewById(R.id.ll_bloc_taux);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
         tvAdherentNom.setText(adNom+"\n"+adPrenom);
         tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
@@ -183,13 +228,49 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
         tvCompteSolde.setText(compteSolde);
         tvDateCreation = (TextView) findViewById(R.id.tv_date_creation_compte_adherent);
         tvDateCreation.setText(dateCreation);
+        tvTypeCompte = (TextView) findViewById(R.id.tv_type_compte_adherent);
+        tvTypeCompte.setText(typeCompte);
         tvTaux = (TextView) findViewById(R.id.tv_taux_compte_adherent);
         tvTaux.setText(taux+" %");
 
+        /*Start manage date échéance*/
+
+        tvDateEcheance = (TextView) findViewById(R.id.tv_date_echeance_compte_adherent);
+        tvDateEcheance.setText(dateFin);
+        /**/
+
+        /*Start manage durée du compte*/
+
+        tvDureeCompte = (TextView) findViewById(R.id.tv_duree_compte_adherent);
+        tvDureeCompte.setText(nbUnites+" "+period);
+        /**/
+//manage header activity and layout
+        headerActivity = intent.getStringExtra(KEY_HEADER_ACTIVITY_CONSULTER_COMPTE);
+        headerLayout = intent.getStringExtra(KEY_HEADER_LAYOUT_CONSULTER_COMPTE);
+        tvHeaderActivityConsulterCompte.setText(headerActivity);
+        tvHeaderLayoutConsulterCompte.setText(headerLayout);
+        //end manage header activity and layout
+
         tvLibelleProduit = (TextView) findViewById(R.id.tv_libelle_produit_adherent);
         tvLibelleProduit.setText(libelleProduit);
-        new OperationEAP.getParametreCompteAsyncTask().execute();
 
+        spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
+
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+
+        if (typeCompte.equals("DECOUVERT SIMPLE") || typeCompte.equals("AVANCE SPECIALE")){
+            libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
+        }
+        if (typeCompte.equals("EAV")){
+            typeCompte = "Epargne à vue";
+            ll_bloc_date_echeance.setVisibility(View.GONE);
+            ll_bloc_duree_compte.setVisibility(View.GONE);
+            ll_bloc_taux.setVisibility(View.GONE);
+        }else if (typeCompte.equals("EAP")){
+            typeCompte = "Epargne à périodicité";
+        }else if (typeCompte.equals("EAT")){
+            typeCompte = "Epargne à terme";
+        }
         addButton = (Button) findViewById(R.id.btn_save_operation_eav);
         annulerButton = (Button) findViewById(R.id.btn_clean);
         annulerButton.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +279,7 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     finish();
                 } else {
-                    Toast.makeText(OperationEAP.this,
+                    Toast.makeText(ConsulterCompteEAP.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
 
@@ -212,7 +293,7 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     addEavAdherent();
                 } else {
-                    Toast.makeText(OperationEAP.this,
+                    Toast.makeText(ConsulterCompteEAP.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
 
@@ -225,56 +306,148 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+    private void findViewsById() {
+
+        Ad_DateDelivranceEditText = (EditText) findViewById(R.id.input_txt_validite_debut_adherent);
+        Ad_DateDelivranceEditText.requestFocus();
+        Ad_DateDelivranceEditText.setInputType(InputType.TYPE_NULL);
+
+        Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_adherent);
+        Ad_DateExpirationEditText.requestFocus();
+        Ad_DateExpirationEditText.setInputType(InputType.TYPE_NULL);
+
+
+
+
+    }
+
+    private void setDateTimeField() {
+        Ad_DateDelivranceEditText.setOnClickListener(this);
+        Ad_DateExpirationEditText.setOnClickListener(this);
+
+
+        Calendar newCalendar = Calendar.getInstance();
+
+        Ad_DateDelivrance_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        Ad_DateExpiration_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+         if (v == Ad_DateDelivranceEditText){
+            Ad_DateDelivrance_PickerDialog.show();
+        }else if (v == Ad_DateExpirationEditText){
+            Ad_DateExpiration_PickerDialog.show();
+        }
+    }
+
+
+
     /**
-     * Get the ParametreCompte from the compte_eap table from the server
-     */
-    private class getParametreCompteAsyncTask extends AsyncTask<String, String, String> {
-        int successGetFrais;
+     * Adding spinner data
+     * */
+    private void populateSpinner() {
+        List<String> lables = new ArrayList<String>();
+
+        //tvCaisse.setText("");
+
+        for (int i = 0; i < eavList.size(); i++) {
+            lables.add(eavList.get(i).getName());//recupère les noms
+            eavListID.add(eavList.get(i).getId()); //recupère les Id
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(ConsulterCompteEAP.this,
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerListEAV.setAdapter(spinnerAdapter);
+    }
+
+    /**
+     * Async task to get all food categories
+     * */
+    private class GetProduitEAVList extends AsyncTask<Void, Void, Void> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //Display progress bar
-            pDialog = new ProgressDialog(OperationEAP.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+            pDialogFetchProduitEavList = new ProgressDialog(ConsulterCompteEAP.this);
+            pDialogFetchProduitEavList.setMessage("Fetching produits's list..");
+            pDialogFetchProduitEavList.setCancelable(false);
+            pDialogFetchProduitEavList.show();
+
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            HttpJsonParser httpJsonParser = new HttpJsonParser();
-            Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_CP_NUMERO, String.valueOf(compteId));
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "getCompteEapDetails.php", "GET", httpParams);
-            try {
-                successGetFrais = jsonObject.getInt(KEY_SUCCESS);
-                Log.e("getCompteEapDetails", jsonObject+"");
-                JSONArray movies;
-                if (successGetFrais == 1) {
-                    adNumDossier = jsonObject.getString(KEY_CpNumDossier);
-                    eavDepotMin = (jsonObject.getString(KEY_CpDepotMin));
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+            httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
+            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
+            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
+           // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
 
 
+
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray categories = jsonObj
+                                .getJSONArray(KEY_DATA);
+
+                        for (int i = 0; i < categories.length(); i++) {
+                            JSONObject catObj = (JSONObject) categories.get(i);
+                            Category cat = new Category(catObj.getInt(KEY_EAV_ID),
+                                    catObj.getString(KEY_EAV_LIBELLE));
+                            eavList.add(cat);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+            } else {
+                Log.e("JSON Data", "Didn't receive any data from server!");
             }
+
             return null;
         }
 
-        protected void onPostExecute(String result) {
-            pDialog.dismiss();
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (successGetFrais ==1){
-                        //     new OperationEAV.AddEavAdherentAsyncTask().execute();
-                        NumDossierEditText.setText(adNumDossier);
-                        EavDepotMinEditText.setText(eavDepotMin);
-                    }
-                }
-            });
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialogFetchProduitEavList.isShowing())
+                pDialogFetchProduitEavList.dismiss();
+            populateSpinner();
         }
 
     }
@@ -301,9 +474,8 @@ public class OperationEAP extends AppCompatActivity implements AdapterView.OnIte
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addEavAdherent() {
-        if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString())
-//                &&
-//            !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
+        if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString()) &&
+            !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
                  ) {
 //String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
 String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
@@ -322,8 +494,7 @@ if (true){
 //                        Toast.LENGTH_LONG).show();
 
 
-//    eavDepotMin = EavDepotMinEditText.getText().toString();
-    eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
+    eavDepotMin = EavDepotMinEditText.getText().toString();
     adNumDossier = NumDossierEditText.getText().toString();
 
     new AddEavAdherentAsyncTask().execute();
@@ -340,7 +511,7 @@ if (true){
 
 
         } else {
-            Toast.makeText(OperationEAP.this,
+            Toast.makeText(ConsulterCompteEAP.this,
                     "Un ou plusieurs champs sont vides!",
                     Toast.LENGTH_LONG).show();
 
@@ -357,7 +528,7 @@ if (true){
         protected void onPreExecute() {
             super.onPreExecute();
             //Display proggress bar
-            pDialog = new ProgressDialog(OperationEAP.this);
+            pDialog = new ProgressDialog(ConsulterCompteEAP.this);
             pDialog.setMessage("Transaction en cours. Veuillez patienter...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -371,7 +542,7 @@ if (true){
             //Populating request parameters
            // httpParams.put(KEY_EAV_ID, uxGuichetId);
 
-            httpParams.put(KEY_CP_NUMERO, compteId);
+            httpParams.put(KEY_CV_NUMERO, compteId);
 
             httpParams.put(KEY_CV_NUM_DOSSIER, adNumDossier);
             httpParams.put(KEY_CV_MT_SOLDE, eavDepotMin );
@@ -379,7 +550,7 @@ if (true){
             httpParams.put(KEY_CV_USER_CREE, String.valueOf(MyData.USER_ID));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "operation_eap_adherent.php", "POST", httpParams);
+                    BASE_URL + "operation_eav_adherent.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -394,7 +565,7 @@ if (true){
                 public void run() {
                     if (success == 1) {
                         //Display success message
-                        Toast.makeText(OperationEAP.this,
+                        Toast.makeText(ConsulterCompteEAP.this,
                                 "Opération réussie !", Toast.LENGTH_LONG).show();
                         Intent i = getIntent();
                         //send result code 20 to notify about movie update
@@ -403,7 +574,7 @@ if (true){
                         finish();
 
                     } else {
-                        Toast.makeText(OperationEAP.this,
+                        Toast.makeText(ConsulterCompteEAP.this,
                                 "Echec!\n Vérifiez votre solde ",
                                 Toast.LENGTH_LONG).show();
 

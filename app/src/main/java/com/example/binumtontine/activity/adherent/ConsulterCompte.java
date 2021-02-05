@@ -99,6 +99,9 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
     private static final String KEY_COMPTE_ID = "Numero";
     private static final String KEY_CV_NUMERO = "CvNumero";
     private static final String KEY_DATE_H_CREE = "DateHCree";
+    private static final String KEY_CtDateFin = "CtDateFin";
+    private static final String KEY_CtNbUnites = "CtNbUnites";
+    private static final String KEY_CtPeriod = "CtPeriod";
     private static final String KEY_TAUX = "Taux";
     private static final String KEY_LIBELLE_PRODUIT = "Libelle";
     private static final String KEY_ADHERENT_NOM = "AdNom";
@@ -137,6 +140,9 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
     private String dateCreation;
     private String taux;
     private String libelleProduit;
+    private String dateFin;
+    private String nbUnites;
+    private String period;
 
     private String AdValideDu;
     private String AdValideAu;
@@ -187,6 +193,10 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
         dateCreation = intent.getStringExtra(KEY_DATE_H_CREE);
+        dateFin = intent.getStringExtra(KEY_CtDateFin);
+        nbUnites = intent.getStringExtra(KEY_CtNbUnites);
+        period = intent.getStringExtra(KEY_CtPeriod);
+
         compteSolde = intent.getStringExtra(KEY_MONTANT_COMPTE);
         taux = intent.getStringExtra(KEY_TAUX);
         typeCompte = intent.getStringExtra(KEY_TYPE_COMPTE);
@@ -226,13 +236,13 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         /*Start manage date échéance*/
 
         tvDateEcheance = (TextView) findViewById(R.id.tv_date_echeance_compte_adherent);
-        tvDateEcheance.setText(dateCreation);
+        tvDateEcheance.setText(dateFin);
         /**/
 
         /*Start manage durée du compte*/
 
         tvDureeCompte = (TextView) findViewById(R.id.tv_duree_compte_adherent);
-        tvDureeCompte.setText(dateCreation);
+        tvDureeCompte.setText(nbUnites+" "+period);
         /**/
 //manage header activity and layout
         headerActivity = intent.getStringExtra(KEY_HEADER_ACTIVITY_CONSULTER_COMPTE);
@@ -351,37 +361,6 @@ public class ConsulterCompte extends AppCompatActivity implements  View.OnClickL
         }
     }
 
-
-    /**
-     * To manage Radio button
-     * @param view
-     */
-    /* public void onRadioButtonClicked(View view) {
-        boolean checked1 = ((RadioButton) view).isChecked();
-        String str="";
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-
-            case R.id.rb_nature_operation_depot:
-                if (rb_decision_accordee.isChecked()) {
-                    natureOperation = "D";
-                    //str = checked1?"Nature frais fixe":"";
-
-                }
-                break;
-            case R.id.rb_nature_operation_retrait:
-                if (rb_decision_refusee.isChecked()) {
-                    natureOperation = "R";
-                    // str = checked1?"Nature frais taux":"";
-
-                }
-
-                break;
-
-
-        }
-        // Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-    } */
 
 
     /**

@@ -20,6 +20,7 @@ import com.example.binumtontine.activity.adherent.Adherent;
 import com.example.binumtontine.activity.adherent.ComiteCredit;
 import com.example.binumtontine.activity.adherent.ComptesAdherent;
 import com.example.binumtontine.activity.adherent.ConsulterCompte;
+import com.example.binumtontine.activity.adherent.ConsulterCompteEAP;
 import com.example.binumtontine.activity.adherent.DeblocageCredit;
 import com.example.binumtontine.activity.adherent.DecaissementCredit;
 import com.example.binumtontine.activity.adherent.HistoriqueCpteCourant;
@@ -28,6 +29,7 @@ import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity_New
 import com.example.binumtontine.activity.adherent.ListCompteAvanceSpecialeAdherentActivity;
 import com.example.binumtontine.activity.adherent.ListCompteDecouvertAdherentActivity;
 import com.example.binumtontine.activity.adherent.ListCompteDecouvertPermanentAdherentActivity;
+import com.example.binumtontine.activity.adherent.OperationClotureEAV;
 import com.example.binumtontine.activity.adherent.OperationCompteCourant;
 import com.example.binumtontine.activity.adherent.OperationEAP;
 import com.example.binumtontine.activity.adherent.OperationEAT;
@@ -76,6 +78,9 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
     private static final String KEY_MONTANT_COMPTE = "MtSolde";
     private static final String KEY_DATE_H_CREE = "DateHCree";
     private static final String KEY_TAUX = "Taux";
+    private static final String KEY_CtDateFin = "CtDateFin";
+    private static final String KEY_CtNbUnites = "CtNbUnites";
+    private static final String KEY_CtPeriod = "CtPeriod";
     private static final String KEY_HEADER_ACTIVITY_CONSULTER_COMPTE = "tvHeaderActivityConsulterCompte";
     private static final String KEY_HEADER_LAYOUT_CONSULTER_COMPTE = "tvHeaderLayoutConsulterCompte";
 
@@ -230,6 +235,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_historique).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_eav).setVisible(true);
 
 
                     popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
@@ -268,6 +274,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_historique).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_eav).setVisible(false);
 
 
                     popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(true);
@@ -304,6 +311,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_historique).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_eav).setVisible(false);
 
 
                     popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
@@ -338,6 +346,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_historique).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_eav).setVisible(false);
 
 
                     popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
@@ -371,6 +380,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_historique).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_eav).setVisible(false);
 
 
                     popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
@@ -501,8 +511,14 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 //handle menu3 click
 
 
-                                intent = new Intent(mCtx,
-                                        ConsulterCompte.class);
+
+                                if (myList.getType_compte().equals("EAP")){
+                                    intent = new Intent(mCtx,
+                                            ConsulterCompteEAP.class);
+                                }else{
+                                    intent = new Intent(mCtx,
+                                            ConsulterCompte.class);
+                                }
 
                                 intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
 
@@ -513,6 +529,18 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 intent.putExtra(KEY_HEADER_ACTIVITY_CONSULTER_COMPTE, headerActivity);
                                 intent.putExtra(KEY_HEADER_LAYOUT_CONSULTER_COMPTE, headerLayout);
                                 intent.putExtra(KEY_TYPE_COMPTE, myList.getType_compte());
+                                if ( myList.getType_compte().equals("EAT") || myList.getType_compte().equals("EAP")){
+
+                                    intent.putExtra(KEY_CtDateFin, myList.getDateFin());
+                                    intent.putExtra(KEY_CtNbUnites, myList.getNbUnites());
+                                    intent.putExtra(KEY_CtPeriod, myList.getPeriod());
+                                }
+                                /*else  if ( myList.getType_compte().equals("EAP")){
+
+                                    intent.putExtra(KEY_CtDateFin, myList.getDateFin());
+                                    intent.putExtra(KEY_CtNbUnites, myList.getNbUnites());
+                                    intent.putExtra(KEY_CtPeriod, myList.getPeriod());
+                                }*/
 
                                 Bundle bundleConsulterCompte = new Bundle();
                                 bundleConsulterCompte.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
@@ -541,10 +569,39 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
                                 intent.putExtra(KEY_TAUX, myList.getTaux_compte());
 
+                                intent.putExtra(KEY_CtDateFin, myList.getDateFin());
+                                intent.putExtra(KEY_CtNbUnites, myList.getNbUnites());
+                                intent.putExtra(KEY_CtPeriod, myList.getPeriod());
+
                                 Bundle bundleEAT = new Bundle();
                                 bundleEAT.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
                                 // bundle.putSerializable(KEY_ADHERENT, adherent);
                                 intent.putExtras(bundleEAT);
+
+                            ((Activity) mCtx).startActivityForResult(intent, 20);
+
+                                break;
+                            case R.id.menu_cloture_eav:
+                                //handle menu3 click
+
+                                intent = new Intent(mCtx,
+                                        OperationClotureEAV.class);
+
+                                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+
+                                intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                                intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                                intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                                intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+
+//                                intent.putExtra(KEY_CtDateFin, myList.getDateFin());
+//                                intent.putExtra(KEY_CtNbUnites, myList.getNbUnites());
+//                                intent.putExtra(KEY_CtPeriod, myList.getPeriod());
+
+                                Bundle bundleEAV_cloturer = new Bundle();
+                                bundleEAV_cloturer.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intent.putExtras(bundleEAV_cloturer);
 
                             ((Activity) mCtx).startActivityForResult(intent, 20);
 

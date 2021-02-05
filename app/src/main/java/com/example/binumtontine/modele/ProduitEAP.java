@@ -173,7 +173,8 @@ public class ProduitEAP {
             base_decode = "2- Total de la mise périodique";
         }
         return base_decode;
-    }/**
+    }
+    /**
      * Permet d'encoder les bases EpBaseTxMtPenal sur 3 caractères avant de stocker en BD
      * @param base_decode chaine de caractères à encoder
      * @return
@@ -206,4 +207,24 @@ public class ProduitEAP {
         }
         return base_decode;
     }
+
+    /**
+     * Permet d'encoder les périodicités CpPeriod sur 1 caractère avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCpPeriod(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("JOURNALIERE")){
+            base_encode = "J";
+        }else if (base_decode.equals("HEBDOMADAIRE")){
+            base_encode = "H";
+        }else if (base_decode.equals("MENSUELLE")){
+            base_encode = "M";
+        }else if (base_decode.equals("ANNUELLE")){
+            base_encode = "A";
+        }
+        return base_encode;
+    }
+
 }

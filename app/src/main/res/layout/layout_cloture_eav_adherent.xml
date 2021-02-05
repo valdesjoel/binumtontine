@@ -18,9 +18,9 @@
         android:padding="@dimen/loginViewsMargin">
 
         <TextView
-            android:id="@+id/header_operation_eap_adherent"
+            android:id="@+id/header_operation_eat_adherent"
             style="@style/headerTextPrimary"
-            android:text="Effectuer une opération sur le compte à périodicité"
+            android:text="Effectuer une opération de clôture sur le compte"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
         <!-- Begin -->
@@ -144,7 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Epargne à périodicité"
+                android:text="Epargne à vue"
                 android:singleLine="false"
                 android:scrollHorizontally="false"
                 android:scrollbars="vertical"
@@ -215,7 +215,40 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
-        <!--Taux-->
+
+<!--        &lt;!&ndash;Date d'échéance&ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_bloc_date_echeance"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:layout_marginTop="@dimen/loginViewsMargin"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_title_date_echeance_compte_adherent"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_width="205dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Date d'échéance:"-->
+<!--                android:textSize="18sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_date_echeance_compte_adherent"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text=""-->
+<!--                android:singleLine="false"-->
+<!--                android:scrollHorizontally="false"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="18sp" />-->
+
+<!--        </LinearLayout>-->
+        <!--Durée du compte-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -224,22 +257,21 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_title_taux_compte_adherent"
+                android:id="@+id/tv_title_duree_compte"
                 style="@style/parent"
                 android:layout_width="205dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Taux:"
+                android:text="Durée du compte:"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_taux_compte_adherent"
+                android:id="@+id/tv_duree_compte"
                 style="@style/parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:textColor="@color/colorAccentNew"
                 android:singleLine="false"
                 android:scrollHorizontally="false"
                 android:scrollbars="vertical"
@@ -247,6 +279,7 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
+
         <!--Solde-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -266,6 +299,105 @@
 
             <TextView
                 android:id="@+id/tv_solde_compte"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@color/colorAccentNew"
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!--Taux-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:layout_marginTop="@dimen/loginViewsMargin"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_title_taux_compte_adherent"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_width="205dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Intérêt:"-->
+<!--                android:textSize="18sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_taux_compte_adherent"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text=""-->
+<!--                android:textColor="@color/colorAccentNew"-->
+<!--                android:singleLine="false"-->
+<!--                android:scrollHorizontally="false"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="18sp" />-->
+
+<!--        </LinearLayout>-->
+
+
+        <!--Frais de clôture-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_frais_de_cloture"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Frais de clôture:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_frais_de_cloture"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@color/colorAccentNew"
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--Montant total à rétirer-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_montant_total_a_retirer"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Montant à rétirer:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_montant_total_a_retirer"
                 style="@style/parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -391,7 +523,7 @@
 
           </LinearLayout> -->
         <!--Montant dépot-->
-         <com.google.android.material.textfield.TextInputLayout
+        <!-- <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_montant_operation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -407,20 +539,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:hint="@string/hint_montant_mise"
+                android:hint="@string/hint_montant_operation"
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout> -->
 
         <!-- End -->
 
 
         <!--Numero de bordereau-->
-         <com.google.android.material.textfield.TextInputLayout
-             android:visibility="gone"
+        <!-- <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_numero_bordereau_operation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -442,7 +573,67 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout> -->
+
+
+        <!--CtModRenouv-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_CtModRenouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Quelle action souhaitez-vous ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_CtModRenouv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_CtModRenouv"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_transfert_vers_eav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Transférer sur le compte à vue"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_renouveller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Rénouveller   "
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CtModRenouv_retirer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Retirer"
+                    android:textSize="16sp" />
+
+
+
+            </RadioGroup>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -454,6 +645,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save_operation_eav"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

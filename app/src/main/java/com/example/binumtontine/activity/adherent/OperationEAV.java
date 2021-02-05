@@ -32,8 +32,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.print.PrintAttributes;
@@ -55,14 +53,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.Category;
-import com.example.binumtontine.activity.ClotureJourneeActivity;
-import com.example.binumtontine.activity.LoginActivity_NEW;
+import com.example.binumtontine.activity.CreateOperationTransfertEnvoyer;
 import com.example.binumtontine.activity.ServiceHandler;
 import com.example.binumtontine.activity.convertisseur.FrenchNumberToWords;
 import com.example.binumtontine.activity.pdf.Common;
-import com.example.binumtontine.activity.pdf.MyEvent;
 import com.example.binumtontine.activity.pdf.PdfDocumentAdapter;
-import com.example.binumtontine.activity.pdf.RetraitEavPDFWriter;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -74,7 +69,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
@@ -95,17 +89,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -198,6 +189,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private ProgressDialog pDialogFetchProduitEavList;
     public Button btn_create_pdf; //NEW
     private NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+    public static String GxLastBordOperat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,7 +244,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
             rb_depot.setChecked(true);
             rb_retrait.setVisibility(View.GONE);
             rb_depot.setVisibility(View.VISIBLE);
-            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
+//            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
             onRadioButtonClicked(rb_depot);
             OcLibelleMvmEAV.setText("VERSEMENT EAV/"+adCode+ "DE "+adNom+" "+adPrenom);
         }else if(typeOperation.equals("retrait")){
@@ -262,7 +254,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
             onRadioButtonClicked(rb_retrait);
             rb_retrait.setVisibility(View.VISIBLE);
             rb_depot.setVisibility(View.GONE);
-            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
+//            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
         }
 
        /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
@@ -456,7 +448,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
      */
     private void addEavAdherent() {
         if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString().trim()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())&&
+//            !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())&&
             !STRING_EMPTY.equals(OcLibelleMvmEAV.getText().toString().trim())
                  ) {
 //String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
@@ -480,7 +472,8 @@ if (true){
     adNumDossier = NumDossierEditText.getText().toString();
     st_OcLibelleMvmEAV = OcLibelleMvmEAV.getText().toString();
 
-    new AddEavAdherentAsyncTask().execute();
+    new getGxLastBordOperatAsyncTask().execute();
+
             }else
             {
 //
@@ -503,6 +496,58 @@ if (true){
 
     }
 
+
+    /**
+     * Fetches the GxLastBordOperat from the guichet table from the server
+     */
+    private class getGxLastBordOperatAsyncTask extends AsyncTask<String, String, String> {
+        int successGetFrais;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog = new ProgressDialog(OperationEAV.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_OC_GUICHET, String.valueOf(MyData.GUICHET_ID));
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "getGxLastBordOperat.php", "GET", httpParams);
+            try {
+                successGetFrais = jsonObject.getInt(KEY_SUCCESS);
+                Log.e("getGxLastBordOperat", jsonObject+"");
+                JSONArray movies;
+                if (successGetFrais == 1) {
+                    GxLastBordOperat = jsonObject.getString("GxLastBordOperat");
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (successGetFrais ==1){
+                        adNumDossier = String.format("%05d", (Integer.parseInt(GxLastBordOperat)+1));
+                        new OperationEAV.AddEavAdherentAsyncTask().execute();
+                    }
+                }
+            });
+        }
+
+    }
     /**
      * AsyncTask for adding a compte eav
      */
@@ -550,13 +595,14 @@ if (true){
                 public void run() {
                     if (success == 1) {
                         //Start building pdf
+                        notificationSuccessAdd();
                         avertissement();
                         //Display success message
 //                        Toast.makeText(OperationEAV.this,
 //                                "Opération réussie !", Toast.LENGTH_LONG).show();
-                        Intent i = getIntent();
+                   //     Intent i = getIntent();
                         //send result code 20 to notify about movie update
-                        setResult(20, i);
+                     //   setResult(20, i);
 //                        //Finish ths activity and go back to listing activity
 //                        finish();
 
@@ -616,14 +662,27 @@ if (true){
 //            BaseFont bf = BaseFont.createFont("arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             //Create Title of document
             Font titleFont = new Font(fontName,36.0f,Font.NORMAL, BaseColor.BLACK);
-            if (typeOperation.equals("depot")){
-                addNewItem(document, "BORDEREAU DE DEPOT", Element.ALIGN_CENTER, titleFont);
-            }else if (typeOperation.equals("retrait")){
-                addNewItem(document, "BORDEREAU DE RETRAIT", Element.ALIGN_CENTER, titleFont);
+            try {
+//                            String value = String.format("{0:D5}", (Integer.parseInt(GxLastBordOperat)+1));
+                            String value = String.format("%05d", (Integer.parseInt(GxLastBordOperat)+1));
+//                String.format("%05d",number);
+//                            String value = (Integer.parseInt(GxLastBordOperat)+1)+"";
+                if (typeOperation.equals("depot")){
+                    addNewItem(document, "OPERATION DE VERSEMENT", Element.ALIGN_CENTER, titleFont);
+                    addNewItem(document, "N° "+ value + "-V", Element.ALIGN_CENTER, titleFont);
+
+                }else if (typeOperation.equals("retrait")){
+                    addNewItem(document, "OPERATION DE RETRAIT", Element.ALIGN_CENTER, titleFont);
+                    addNewItem(document, "N° Opération:"+ value+ "-R", Element.ALIGN_CENTER, titleFont);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-            addNewItem(document, "N° "+ adNumDossier, Element.ALIGN_CENTER, titleFont);
-
+//            addNewItem(document, "N° "+ (Integer.parseInt(GxLastBordOperat)+1) adNumDossier, Element.ALIGN_CENTER, titleFont);
+//            addNewItem(document, "N° "+ String.format("{0:D5}", (Integer.parseInt(GxLastBordOperat)+1)), Element.ALIGN_CENTER, titleFont);
+//            String value = String.format("{0:D5}", (Integer.parseInt(GxLastBordOperat)+1));
             //Add More
             Font orderNumberFont = new Font(fontName, fontSize, Font.NORMAL, colorAccent);
 //            addNewItem(document, "Compagnie:", Element.ALIGN_LEFT, orderNumberFont);
@@ -777,6 +836,27 @@ if (true){
         document.add(paragraph);
 
 
+    }
+
+    public void notificationSuccessAdd() {
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Opération réussie ")
+                .setMessage("L'enregistrement de votre opération s'est bien effectué !")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = getIntent();
+                        //send result code 20 to notify about movie update
+                        setResult(20, i);
+                        //Finish ths activity and go back to listing activity
+                        finish();
+                    }
+
+                })
+                .show();
     }
     public void avertissement() {
         new AlertDialog.Builder(this)

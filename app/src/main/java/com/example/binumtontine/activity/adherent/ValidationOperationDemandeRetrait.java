@@ -448,6 +448,9 @@ public class ValidationOperationDemandeRetrait extends AppCompatActivity impleme
 //            populateSpinner();
             runOnUiThread(new Runnable() {
                 public void run() {
+                    try {
+
+
 
                     EavDepotMinEditText.setText(DfMtDecouv);
 //                    NumDossierEditText.setText(DfNumDoss);
@@ -474,6 +477,9 @@ public class ValidationOperationDemandeRetrait extends AppCompatActivity impleme
                         header_validation_demande.setText("TRAITEMENT TRANSFERT SOLDE");
                     }
 
+                }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
         }

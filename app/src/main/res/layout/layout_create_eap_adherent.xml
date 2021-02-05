@@ -204,6 +204,7 @@
 
         <!--Spinner durée produit-->
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/loginViewsMargin"
@@ -248,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:hint="@string/hint_depot_minimum"
+                android:hint="@string/hint_montant_mise"
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:textStyle="bold"
@@ -285,6 +286,103 @@
                 android:textColor="@color/colorAccentNew"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--CpPeriod Périodicité durée produit-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_CpPeriod"
+                style="@style/parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:text="@string/hint_periodicite"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_CpPeriod"
+                style="@style/modifiedEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:entries="@array/array_CpPeriod"
+                android:gravity="center_horizontal|center_vertical"
+                 />
+
+        </LinearLayout>
+
+        <!--CpNbUnites Nombre échéances-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CpNbUnites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            >
+
+            <EditText
+                android:id="@+id/input_txt_CpNbUnites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_nombre_echeance"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <!-- Date Debut -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_validite_debut_eap_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_validite_debut_eap_adherent"
+                android:visibility="gone"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_date_debut"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Date Fin -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_validite_fin_eap_adherent"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_validite_fin_eap_adherent"
+                android:visibility="gone"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_date_fin"
+
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!--CtModRenouv-->
         <LinearLayout
@@ -344,49 +442,6 @@
 
             </RadioGroup>
         </LinearLayout>
-
-
-        <!-- Date Debut -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_validite_debut_eap_adherent"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_validite_debut_eap_adherent"
-                android:visibility="gone"
-                style="@style/modifiedEditText"
-                android:inputType="date"
-                android:maxLines="1"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:hint="@string/hint_date_debut"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <!-- Date Fin -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_validite_fin_eap_adherent"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
-                android:id="@+id/input_txt_validite_fin_eap_adherent"
-                android:visibility="gone"
-                style="@style/modifiedEditText"
-                android:inputType="date"
-                android:maxLines="1"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:hint="@string/hint_date_fin"
-
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-
         <!-- End -->
 
         <LinearLayout

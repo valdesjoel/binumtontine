@@ -18,7 +18,20 @@
         <activity android:name=".activity.adherent.DemandeCredit" />
         <activity android:name=".activity.TableActivity" />
         <activity android:name=".activity.CreateProduitCredit" />
-        <activity android:name=".activity.adherent.MainActivityUsager" />
+<!--        <activity android:name=".activity.adherent.MainActivityUsager" />-->
+        <activity
+            android:name=".activity.adherent.MainActivityUsager"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="stateHidden"
+            android:launchMode="singleTask"
+            >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable">
+            </meta-data>
+        </activity>
+
         <activity android:name=".activity.adherent.NextActivity" />
         <activity android:name=".activity.adherent.CreateEAV" />
         <activity android:name=".activity.adherent.CreateEAT" />
@@ -27,8 +40,10 @@
         <activity android:name=".activity.adherent.ListCompteAdherentActivity" />
         <activity android:name=".activity.adherent.ListCompteAdherentActivity_New" />
         <activity android:name=".activity.adherent.ConsulterCompte" />
+        <activity android:name=".activity.adherent.ConsulterCompteEAP" />
         <activity android:name=".activity.adherent.CalculFraisTenueCompteAnnuel" />
         <activity android:name=".activity.adherent.OperationEAV" />
+        <activity android:name=".activity.adherent.OperationClotureEAV" />
         <activity android:name=".activity.adherent.OperationEAT" />
         <activity android:name=".activity.adherent.OperationEAP" />
         <activity android:name=".activity.PlageData" />
@@ -198,7 +213,15 @@
         <activity android:name=".activity.parametreGenerauxCx.TypeMembreCxActivity" />
         <activity android:name=".activity.parametreGenerauxCx.ListTypeMembrePFActivity" />
         <activity android:name=".activity.jourOuvert.JourOuvert" />
-        <activity android:name=".activity.parametrageGuichet.ListGuichetActivity" />
+        <activity android:name=".activity.parametrageGuichet.ListGuichetActivity"
+            />
+        <activity android:name=".activity.ListGuichetCaisse"
+            android:theme="@style/MyCustomDialog"
+                />
+        <activity android:name=".activity.ListNomPrenomAdherentTransfert"
+            android:theme="@style/MyCustomDialog"
+            android:windowSoftInputMode="stateHidden"
+                />
         <activity android:name=".activity.parametrageGuichet.ProduitGuichetFragment" />
         <activity android:name=".activity.parametrageGuichet.ProduitEAVGuichetActivity" />
         <activity android:name=".activity.parametrageGuichet.ProduitCpteCourantGuichetActivity" />

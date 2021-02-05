@@ -27,16 +27,19 @@ public class CreateProduitEAV extends AppCompatActivity {
 package com.example.binumtontine.activity;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,7 +48,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -59,13 +61,34 @@ import androidx.appcompat.widget.AppCompatEditText;
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.adherent.Adherent;
-import com.example.binumtontine.activity.parametreGenerauxOF.ListEtapesDemandesCreditOF;
+import com.example.binumtontine.activity.convertisseur.FrenchNumberToWords;
+import com.example.binumtontine.activity.pdf.Common;
+import com.example.binumtontine.activity.pdf.PdfDocumentAdapter;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
 import com.example.binumtontine.modele.Transfert;
 import com.hbb20.CountryCodePicker;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.pdf.draw.VerticalPositionMark;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -73,6 +96,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,7 +148,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
 /*OperationExterneDetails operationExterneDetails = new OperationExterneDetails();
     private String OeType;*/
 
-    private Transfert transfert = new Transfert();
+    public static Transfert transfert = new Transfert();
     private AppCompatEditText acetStatus;
     private ListPopupWindow statusPopupList;
     private ArrayList<HashMap<String, String>> movieList;
@@ -134,31 +161,37 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
     private EditText TrMtFrais;
     private EditText TrMtTaxes;
     private TextView tv_total;
+    private TextView tv_2;
 
-    private CountryCodePicker ccp_phone1;
-    private CountryCodePicker ccp_phone2;
+    public static CountryCodePicker ccp_phone1;
+    public static CountryCodePicker ccp_phone2;
     private EditText editTextCarrierPhone1;
     private EditText editTextCarrierPhone2;
-    private EditText TrNomExp;
-    private EditText TrPrenomExp;
+    public static EditText TrNomExp;
+    public static EditText TrPrenomExp;
 
-    private JRSpinner TrTypPieceIdExpSpinner;
-    private EditText TrPieceIdExp;
-    private EditText TrAdresseExp;
+    public static JRSpinner TrTypPieceIdExpSpinner;
+    public static EditText TrPieceIdExp;
+    public static EditText TrAdresseExp;
     private EditText TrCodeSecret;
     private EditText TrDetailsExp;
     private String TrTypPieceIdExp;
-    private EditText TrNomDest;
-    private EditText TrPrenomDest;
+    public static EditText TrNomDest;
+    public static EditText TrPrenomDest;
 
-    private JRSpinner TrTypPieceIdDestSpinner;
-    private EditText TrPieceIdDest;
-    private EditText TrAdresseDest;
+    public static JRSpinner TrTypPieceIdDestSpinner;
+    public static EditText TrPieceIdDest;
+    public static EditText TrAdresseDest;
     private EditText TrDetailsDest;
     private String TrTypPieceIdDest;
     private String TrTypTransf;
     private TextView tv_guichet_exp;
     private LinearLayout ll_content;
+    private String PdNature;
+    private String PdValTaux;
+    private String MontantTotal;
+    private static final String KEY_GUICHET_ID = "gx_numero";
+    public static TextView tv_solde_eav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,13 +211,15 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         TrMontant = (EditText) findViewById(R.id.input_txt_TrMontant);
         TrMontant.addTextChangedListener(MyData.onTextChangedListener(TrMontant));
         try {
-            onEditTextClicked(TrMontant);
+//            onEditTextClicked(TrMontant);
         } catch (Exception e) {
             e.printStackTrace();
         }
         TrMtFrais = (EditText) findViewById(R.id.input_txt_TrMtFrais);
         TrMtTaxes = (EditText) findViewById(R.id.input_txt_TrMtTaxes);
         tv_total = (TextView) findViewById(R.id.tv_total);
+        tv_2 = (TextView) findViewById(R.id.tv_2);
+
 
         TrNomExp = (EditText) findViewById(R.id.input_TrNomExp);
 
@@ -226,6 +261,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         });
         TrPieceIdExp = (EditText) findViewById(R.id.input_TrPieceIdExp);
         TrAdresseExp = (EditText) findViewById(R.id.input_TrAdresseExp);
+        tv_solde_eav = (TextView) findViewById(R.id.tv_solde_eav);
         TrCodeSecret = (EditText) findViewById(R.id.input_TrCodeSecret);
         TrDetailsExp = (EditText) findViewById(R.id.input_TrDetailsExp);
 
@@ -257,7 +293,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                     TrTypPieceIdDest = "PP";
                 }
 
-
             }
         });
         TrPieceIdDest = (EditText) findViewById(R.id.input_TrPieceIdDest);
@@ -269,6 +304,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         ccp_phone2 = (CountryCodePicker) findViewById(R.id.ccp_TrTelDest);
         editTextCarrierPhone2 = (EditText) findViewById(R.id.editText_carrierTrTelDest);
         ccp_phone2.registerCarrierNumberEditText(editTextCarrierPhone2);
+
 /*
         ET_OdMontant = (EditText) findViewById(R.id.input_txt_OdMontant);
         ET_OdMontant.addTextChangedListener(MyData.onTextChangedListener(ET_OdMontant));
@@ -276,11 +312,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         rb_OdSensOper_Produits = (RadioButton) findViewById(R.id.rb_OdSensOper_Produits);
         rb_OdSensOper_Charges = (RadioButton) findViewById(R.id.rb_OdSensOper_Charges);
         onRadioButtonClicked(rb_OdSensOper_Produits);
-
-
         spinnerListOdOperExterne = (Spinner) findViewById(R.id.spn_list_OdOperExterne);
-
-
 
         // spinner item select listener
         spinnerListOdOperExterne.setOnItemSelectedListener(CreateOperationTransfertEnvoyer.this);*/
@@ -389,21 +421,20 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
 //                SoldeReelEditText.addTextChangedListener(MyData.onTextChangedListener(SoldeReelEditText));
 //                tv_montant_ecart.setText(defaultFormat.format((parseDouble(total_operation_bis) - parseDouble(SoldeReelEditText.getText().toString()))));
                             if ((TrMontant.getText().toString().trim()).equals("")){
-
-
                                 tv_total.setText(defaultFormat.format(parseDouble("0")));
 //                                TrMtFrais.setText(defaultFormat.format(parseDouble("0")));
 //                                et_nombre_10000.setText("0");
 
                             }else {
+                                new FetchFraisTransfertAsyncTask().execute();
+
+/*
                                String trMontant = TrMontant.getText().toString().replaceAll(",", "").trim();
                                 TrMtFrais.setText((parseDouble(trMontant)*0.03)+"");
                                 tv_total.setText(defaultFormat.format(parseDouble(trMontant+"")+parseDouble(TrMtFrais.getText().toString().trim()+"")));
-//                                solde10000 = parseDouble(et_nombre_10000.getText().toString().trim())*10000;
+//                                solde10000 = parseDouble(et_nombre_10000.getText().toString().trim())*10000;*/
                             }
                             // yourEditText...
-
-
                         }
 
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -440,6 +471,42 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                             Locale.getDefault()).format(System.currentTimeMillis());
                     long first14 = (long) (Math.random() * 10000L);
                     tv_TrRefOper.setText(TrTypTransf+dateOperation+first14);
+
+                    TrNomExp.setFocusable(false);
+                    TrPrenomExp.setFocusable(false);
+                    TrNomDest.setFocusable(false);
+                    TrPrenomDest.setFocusable(false);
+
+                    TrNomExp.setClickable(true);
+                    TrPrenomExp.setClickable(false);
+                    TrNomDest.setClickable(true);
+                    TrPrenomDest.setClickable(false);
+                    try {
+                        TrNomExp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+//                                Intent  i = new Intent(CreateOperationTransfertEnvoyer.this, ListGuichetCaisse.class);
+                                Intent  i = new Intent(CreateOperationTransfertEnvoyer.this, ListNomPrenomAdherentTransfert.class);
+                                i.putExtra(KEY_GUICHET_ID, MyData.GUICHET_ID+"");
+                                i.putExtra("sens", "exp");
+                                startActivity(i);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        TrNomDest.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent  i = new Intent(CreateOperationTransfertEnvoyer.this, ListGuichetCaisse.class);
+                                i.putExtra("sens", "dest");
+                                startActivity(i);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case R.id.rb_TrTypTransf_CE:
@@ -450,6 +517,31 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                             Locale.getDefault()).format(System.currentTimeMillis());
                     long first14 = (long) (Math.random() * 10000L);
                     tv_TrRefOper.setText(TrTypTransf+dateOperation+first14);
+                    TrNomExp.setFocusable(false);
+                    TrPrenomExp.setFocusable(false);
+                    TrNomDest.setFocusableInTouchMode(true);
+                    TrPrenomDest.setFocusableInTouchMode(true);
+
+                    TrNomExp.setClickable(true);
+                    TrPrenomExp.setClickable(false);
+                    TrNomDest.setClickable(false);
+                    TrPrenomDest.setClickable(false);
+
+                    try {
+
+                        TrNomDest.setOnClickListener(null);
+                        TrNomExp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent  i = new Intent(CreateOperationTransfertEnvoyer.this, ListNomPrenomAdherentTransfert.class);
+                                i.putExtra(KEY_GUICHET_ID, MyData.GUICHET_ID+"");
+                                i.putExtra("sens", "exp");
+                                startActivity(i);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case R.id.rb_TrTypTransf_EC:
@@ -460,6 +552,32 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                             Locale.getDefault()).format(System.currentTimeMillis());
                     long first14 = (long) (Math.random() * 10000L);
                     tv_TrRefOper.setText(TrTypTransf+dateOperation+first14);
+                    TrNomExp.setFocusableInTouchMode(true);
+                    TrPrenomExp.setFocusableInTouchMode(true);
+                    TrNomDest.setFocusable(false);
+                    TrPrenomDest.setFocusable(false);
+/*
+                    TrNomExp.setClickable(false);
+                    TrPrenomExp.setClickable(false);
+                    TrNomDest.setClickable(true);
+                    TrPrenomDest.setClickable(false);*/
+
+
+                    try {
+
+                        TrNomExp.setOnClickListener(null);
+                        TrNomExp.setClickable(false);
+                        TrNomDest.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent  i = new Intent(CreateOperationTransfertEnvoyer.this, ListGuichetCaisse.class);
+                                i.putExtra("sens", "dest");
+                                startActivity(i);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case R.id.rb_TrTypTransf_EE:
@@ -470,6 +588,20 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                             Locale.getDefault()).format(System.currentTimeMillis());
                     long first14 = (long) (Math.random() * 10000L);
                     tv_TrRefOper.setText(TrTypTransf+dateOperation+first14);
+                    try {
+                        TrNomDest.setOnClickListener(null);
+                        TrNomDest.setClickable(false);
+                        TrNomExp.setOnClickListener(null);
+                        TrNomExp.setClickable(false);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    TrNomExp.setFocusableInTouchMode(true);
+                    TrPrenomExp.setFocusableInTouchMode(true);
+                    TrNomDest.setFocusableInTouchMode(true);
+                    TrPrenomDest.setFocusableInTouchMode(true);
+
+
                 }
                 break;
         }
@@ -490,7 +622,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                 lables.add(AdherentExpediteursListNom.get(i).getName()+ " " +AdherentExpediteursListNom.get(i).getTaux());//recupère les noms
                 AdherentExpediteursListID.add(AdherentExpediteursListNom.get(i).getId()); //recupère les Id AdNumero
                 AdherentExpediteursListCvNumero.add(AdherentExpediteursListNom.get(i).getFk()); //recupère les Id des compte eav
-             lablesDest.add(AdherentExpediteursListNomDest.get(i).getName()+ " " +AdherentExpediteursListNomDest.get(i).getTaux());//recupère les noms
+                lablesDest.add(AdherentExpediteursListNomDest.get(i).getName()+ " " +AdherentExpediteursListNomDest.get(i).getTaux());//recupère les noms
                 AdherentExpediteursListIDDest.add(AdherentExpediteursListNomDest.get(i).getId()); //recupère les Id AdNumero
                 AdherentExpediteursListCvNumeroDest.add(AdherentExpediteursListNomDest.get(i).getFk()); //recupère les Id des compte eav
             }
@@ -519,7 +651,306 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         spinnerListNomExp.setAdapter(spinnerAdapter);
         spinnerListNomDest.setAdapter(spinnerAdapterDest);
     }
+    public void avertissement() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Impression du Bordereau !")
+                .setMessage(
+//                        "Montant Démarrage: " + tv_montant_demarrage.getText().toString()+
+//                        "\nTotal Dépôt: " + tv_depot.getText().toString()+
+//                        "\nTotal Retrait: " + tv_retrait.getText().toString()+
+//                        "\nSolde Théorique: " + tv_total.getText().toString()+
+//                        "\nSolde Réel: " + SoldeReelEditText.getText().toString().replaceAll(",", "").trim() +
+//                        "\nMontant écart: " + tv_montant_ecart.getText().toString()+
+//                        "\nTotal Billetage: " + tv_total_billetage.getText().toString()+
+                        "\t\t Voulez-vous imprimer le bordereau ?"
+                )
+                .setNegativeButton("Non", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
 
+                })
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        btn_create_pdf.performClick();
+                        Dexter.withActivity(CreateOperationTransfertEnvoyer.this)
+                                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                .withListener(new PermissionListener() {
+                                    @Override
+                                    public void onPermissionGranted(PermissionGrantedResponse response) {
+//                                        btn_create_pdf.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                createPDFFile(Common.getAppPath(OperationEAV.this)+"test_pdf25.pdf");
+//                                            }
+//                                        });
+                                        createPDFFile(Common.getAppPath(CreateOperationTransfertEnvoyer.this)+"transfert_mifucam.pdf");
+                                    }
+
+                                    @Override
+                                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                                    }
+
+                                    @Override
+                                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                                    }
+                                })
+                                .check();
+                        /*
+                        EavDepotMinEditText.setText("");
+                        NumDossierEditText.setText("");*/
+
+//                        Intent intent = new Intent(getApplicationContext(), LoginActivity_NEW.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        intent.putExtra("LOGOUT", true);
+//                        startActivity(intent);
+
+                        //Display success message
+//                        Toast.makeText(OperationEAV.this,
+//                                "Opération réussie !", Toast.LENGTH_LONG).show();
+//                        Intent i = getIntent();
+//                        //send result code 20 to notify about movie update
+//                        setResult(20, i);
+//                        //Finish ths activity and go back to listing activity
+//                        finish();
+                    }
+
+                })
+                .show();
+
+    }
+    /*START BLOC TO MANAGE PDF FILE*/
+    private void createPDFFile(String path) {
+        if (new File(path).exists()){
+            new File(path).delete();
+        }
+        try {
+            Document document = new Document();
+            //Save
+//            PdfWriter writer= PdfWriter.getInstance(document, new FileOutputStream(path)); //for logo
+            PdfWriter.getInstance(document, new FileOutputStream(path));
+            Rectangle headerBox = new Rectangle(36, 54, 559, 788);
+//            MyEvent event = new MyEvent(this);
+//            writer.setBoxSize("headerBox", headerBox);
+//            writer.setPageEvent(event);//for logo
+
+
+            //Open to write
+            document.open();
+
+            //Add image
+//            Image image = Image.getInstance("C:/logomifucam.png");
+//            image.setAbsolutePosition(100f, 500f);
+//            image.scaleAbsolute(200f, 200f);
+//            document.add(image);
+            // load image
+
+
+            //Setting
+            document.setPageSize(PageSize.A4);
+//            document.setPageSize(PageSize.A8);
+            document.addCreationDate();
+            document.addAuthor("MIFUCAM");
+            document.addCreator("Valdes FOTSO");
+
+            //Font Setting
+            BaseColor colorAccent = new BaseColor(0,153,204,255);
+            float fontSize = 15.0f;
+            float valueFontSize = 18.0f;
+
+            //Custom font
+//            BaseFont fontName = BaseFont.createFont("assets/fonts/brandon_medium.otf","UTF-8" , BaseFont.EMBEDDED );
+            BaseFont fontName = BaseFont.createFont("assets/fonts/brandon_medium.otf",BaseFont.IDENTITY_H , BaseFont.EMBEDDED );
+//            BaseFont bf = BaseFont.createFont("arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            //Create Title of document
+            Font titleFont = new Font(fontName,16.0f,Font.NORMAL, BaseColor.BLACK);
+            if (TrTypTransf.equals("CC")){
+                addNewItem(document, "TRANSFERT DE COMPTE A COMPTE", Element.ALIGN_CENTER, titleFont);
+            }else if (TrTypTransf.equals("CE")){
+                addNewItem(document, "TRANSFERT DE COMPTE A ESPECE", Element.ALIGN_CENTER, titleFont);
+            }else if (TrTypTransf.equals("EC")){
+                addNewItem(document, "TRANSFERT D'ESPECE A COMPTE", Element.ALIGN_CENTER, titleFont);
+            }else if (TrTypTransf.equals("EE")){
+                addNewItem(document, "TRANSFERT D'ESPECE A ESPECE", Element.ALIGN_CENTER, titleFont);
+            }
+
+            addNewItem(document, "Ref: "+ tv_TrRefOper.getText(), Element.ALIGN_CENTER, titleFont);
+
+            //Add More
+            Font orderNumberFont = new Font(fontName, fontSize, Font.NORMAL, colorAccent);
+//            addNewItem(document, "Compagnie:", Element.ALIGN_LEFT, orderNumberFont);
+
+            Font orderNumberValueFont = new Font(fontName, valueFontSize, Font.NORMAL, BaseColor.BLACK);
+//            addNewItem(document, "MIFUCAM", Element.ALIGN_LEFT, orderNumberValueFont);
+
+//            addLineSeperator(document);
+//
+//            addNewItem(document, "CAISSE:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, MyData.CAISSE_NAME, Element.ALIGN_LEFT, orderNumberValueFont);
+////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
+//
+//            addLineSeperator(document);
+//
+//            addNewItem(document, "GUICHET:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, MyData.GUICHET_NAME, Element.ALIGN_LEFT, orderNumberValueFont);
+////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
+
+
+            //More 1
+            addNewItemWithLeftAndRight(document, "CAISSE:", MyData.CAISSE_NAME, orderNumberFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "GUICHET:", MyData.GUICHET_NAME, orderNumberFont, orderNumberValueFont);
+
+
+            addLineSeperator(document);
+            //More 2
+            String dateOperation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
+                    Locale.getDefault()).format(System.currentTimeMillis());
+            addNewItemWithLeftAndRight(document, "Date opération:", dateOperation, orderNumberFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Opérateur:", MyData.USER_NOM + " "+ MyData.USER_PRENOM, orderNumberFont, orderNumberValueFont);
+
+//
+//            addLineSeperator(document);
+//
+//            addNewItem(document, "Date opération:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, dateOperation, Element.ALIGN_LEFT, orderNumberValueFont);
+////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
+
+            addLineSeperator(document);
+
+//            addNewItem(document, "Opérateur:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, MyData.USER_NOM + " "+ MyData.USER_PRENOM, Element.ALIGN_LEFT, orderNumberValueFont);
+//
+//            addLineSeperator(document);
+////
+//            addNewItem(document, "Account Name:", Element.ALIGN_LEFT, orderNumberFont);
+//            addNewItem(document, "Valdes FOTSO", Element.ALIGN_LEFT, orderNumberValueFont);
+//
+//            addLineSeperator(document);
+
+            addNewItem(document, "Détails Opération", Element.ALIGN_CENTER, titleFont);
+
+            addLineSeperator(document);
+
+            //Item 1
+
+
+            addNewItemWithLeftAndRight(document, "Nom expéditeur:", transfert.getTrNomExp()+" "+transfert.getTrPrenomExp(), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Téléphone Exp:", transfert.getTrTelExp(), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Adresse:", transfert.getTrAdresseExp(), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Type de pièce:", Transfert.decodeTypePiece(transfert.getTrTypPieceIdExp()), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "N° de la pièce:", transfert.getTrPieceIdExp(), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Code secret:", transfert.getTrCodeSecret(), titleFont, orderNumberValueFont);
+            addLineSeperator(document);
+            //Item 2
+            addNewItemWithLeftAndRight(document, "Nom destinataire:", transfert.getTrNomDest()+" "+transfert.getTrPrenomDest(), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Téléphone Dest:", transfert.getTrTelDest(), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Adresse Dest:", transfert.getTrAdresseDest(), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "Type de pièce:", Transfert.decodeTypePiece(transfert.getTrTypPieceIdDest()), titleFont, orderNumberValueFont);
+            addNewItemWithLeftAndRight(document, "N° de la pièce Dest:", transfert.getTrPieceIdDest(), titleFont, orderNumberValueFont);
+            addLineSeperator(document);
+
+
+            //Item 3
+            try {
+
+                /*addNewItemWithLeftAndRight(document, "Montant du transfert:", defaultFormat.format(parseDouble(transfert.getTrMontant()))+" (" +
+                        ""+ FrenchNumberToWords.convert(Long.parseLong(transfert.getTrMontant()))+" )", titleFont, orderNumberValueFont);
+                addNewItemWithLeftAndRight(document, "Frais du transfert:", defaultFormat.format(parseDouble(PdValTaux))+" (" +
+                        ""+ FrenchNumberToWords.convert(Long.parseLong(PdValTaux))+" )", titleFont, orderNumberValueFont);
+                addNewItemWithLeftAndRight(document, "Montant Total:", defaultFormat.format(parseDouble(MontantTotal))+" (" +
+                        ""+ FrenchNumberToWords.convert(Long.parseLong(MontantTotal))+" )", titleFont, orderNumberValueFont);
+
+//                addNewItemWithLeftAndRight(document, "Montant du transfert:", defaultFormat.format(parseDouble(transfert.getTrMontant())), titleFont, orderNumberValueFont); */
+                addNewItemWithLeftAndRight(document, "Montant du transfert:", defaultFormat.format(parseDouble(transfert.getTrMontant()))+" (" +
+                        ""+ FrenchNumberToWords.convert(Double.parseDouble(transfert.getTrMontant()))+" )", titleFont, orderNumberValueFont);
+                addNewItemWithLeftAndRight(document, "Frais du transfert:", defaultFormat.format(parseDouble(transfert.getTrMtFrais())), titleFont, orderNumberValueFont);
+                addNewItemWithLeftAndRight(document, "Montant Total:", defaultFormat.format(parseDouble(MontantTotal)), titleFont, orderNumberValueFont);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }/*catch (DocumentException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }*/
+            addNewItemWithLeftAndRight(document, "Type de transaction:", transfert.getTrTypTransf(), titleFont, orderNumberValueFont);
+
+            addLineSeperator(document);
+
+            //Signatures
+            addLineSpace(document);
+            addLineSpace(document);
+
+            addNewItemWithLeftAndRight(document, "Signature Client:", "Signature Caissier:", titleFont, orderNumberValueFont);
+//            addNewItemWithLeftAndRight(document, "Signature Caissier:", "", titleFont, orderNumberValueFont);
+
+
+//            addNewItemWithLeftAndRight(document, "Total", "24000.0", titleFont, orderNumberValueFont);
+
+            document.close();
+
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+
+            printPDF();
+
+
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void printPDF() {
+        PrintManager printManager = (PrintManager)getSystemService(Context.PRINT_SERVICE);
+        try {
+            PrintDocumentAdapter printDocumentAdapter = new PdfDocumentAdapter(CreateOperationTransfertEnvoyer.this, Common.getAppPath(CreateOperationTransfertEnvoyer.this)+"transfert_mifucam.pdf");
+            printManager.print("Document", printDocumentAdapter, new PrintAttributes.Builder().build());
+
+        }catch (Exception ex){
+            Log.e("VALDES",""+ex.getMessage());
+        }
+    }
+    private void addNewItemWithLeftAndRight(Document document, String textLeft, String textRight, Font textLeftFont, Font textRightFont) throws DocumentException {
+        Chunk chunkTextLeft = new Chunk(textLeft, textRightFont); //ce n'est pas une erreur
+        Chunk chunkTextRight= new Chunk(textRight, textRightFont);
+        Paragraph p = new Paragraph(chunkTextLeft);
+        p.add(new Chunk(new VerticalPositionMark()));
+        p.add(chunkTextRight);
+        document.add(p);
+    }
+
+    private void addLineSeperator(Document document) throws DocumentException {
+        LineSeparator lineSeparator = new LineSeparator();
+        lineSeparator.setLineColor(new BaseColor(0,0,0,68));
+        addLineSpace(document);
+        document.add(new Chunk(lineSeparator));
+        addLineSpace(document);
+    }
+
+    private void addLineSpace(Document document) throws DocumentException {
+        document.add(new Paragraph(""));
+    }
+
+    private void addNewItem(Document document, String text, int align, Font font) throws DocumentException {
+
+        Chunk chunk = new Chunk(text, font);
+        Paragraph paragraph = new Paragraph(chunk);
+        paragraph.setAlignment(align);
+        document.add(paragraph);
+
+
+    }
     /**
      * Async task to get all food categories
      * */
@@ -543,8 +974,8 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
 //            httpParams.add(new BasicNameValuePair(OperationExterne.KEY_OeType, OeType));
             String json = (String) jsonParser.makeServiceCall( BASE_URL + "get_adherents_expediteurs.php", ServiceHandler.GET, httpParams);
 
-            Log.e("Response: ", "> " + json);
-            Log.e("httpParams: ", "> " + httpParams);
+//            Log.e("Response: ", "> " + json);
+//            Log.e("httpParams: ", "> " + httpParams);
             AdherentExpediteursListNom = new ArrayList<Category>();
             AdherentExpediteursListNomDest = new ArrayList<Category>();
 
@@ -562,6 +993,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                             cat.setName(catObj.getString(Adherent.KEY_AD_AdNom));
                             cat.setTaux(catObj.getString(Adherent.KEY_AD_AdPrenom));
                             cat.setFk(catObj.getInt("TrCptEAVExp"));
+//                            cat.setMyDate(catObj.getString("CvMtSolde"));
                             /*Category cat = new Category(catObj.getInt(Adherent.KEY_AD_AdNumero),
                                     catObj.getString(Adherent.KEY_AD_AdNom), catObj.getString(Adherent.KEY_AD_AdPrenom));*/
                             AdherentExpediteursListNom.add(cat);
@@ -585,7 +1017,116 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
             super.onPostExecute(result);
             if (pDialogFetchProduitEavList.isShowing())
                 pDialogFetchProduitEavList.dismiss();
-            populateSpinner();
+//            populateSpinner();
+        }
+
+    }
+
+    public void recapitulatifTransfert() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Récapitulatif !")
+                .setMessage(
+                        "\nNom expéditeur: " + transfert.getTrNomExp()+
+                        "\nTéléphone Exp: " + transfert.getTrTelExp()+
+                        "\nAdresse Exp: " + transfert.getTrAdresseExp()+
+                        "\nType de pièce Exp: " + transfert.getTrTypPieceIdExp()+
+                        "\nN° de la pièce Exp: " + transfert.getTrPieceIdExp()+
+                        "\nCode secret: " + transfert.getTrCodeSecret()+
+                        "\nNom destinataire: " + transfert.getTrNomDest()+
+                        "\nTéléphone Dest: " + transfert.getTrTelDest()+
+                        "\nAdresse Dest: " + transfert.getTrAdresseDest()+
+                        "\nType de pièce Dest: " + transfert.getTrTypPieceIdDest()+
+                        "\nN° de la pièce Dest: " + transfert.getTrPieceIdDest()+
+                        "\nMontant du transfert: " + transfert.getTrMontant()+
+                        "\nFrais du transfert: " + transfert.getTrMtFrais()+
+                        "\nMontant total: " + MontantTotal+
+                        "\nType de transaction: " + transfert.getTrTypTransf()+
+                        /*"\nTotal Retrait: " + tv_retrait.getText().toString()+
+                        "\nSolde Théorique: " + tv_total.getText().toString()+
+                        "\nSolde Réel: " + SoldeReelEditText.getText().toString().replaceAll(",", "").trim() +
+                        "\nMontant écart: " + tv_montant_ecart.getText().toString()+
+                        "\nTotal Billetage: " + tv_total_billetage.getText().toString()+*/
+                        "\n\n\t\t Etes-vous sûr de vouloir effectuer ce transfert ?")
+                .setNegativeButton("Non", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+                    }
+
+                })
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new AddOperationEnvoyerTransfertAsyncTask().execute();
+                    }
+
+                })
+                .show();
+    }
+    /**
+     * Fetches the list of movies from the server
+     */
+    private class FetchFraisTransfertAsyncTask extends AsyncTask<String, String, String> {
+        int successGetFrais;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            pDialog = new ProgressDialog(CreateOperationTransfertEnvoyer.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+//            httpParams.put(Transfert.KEY_TrMontant, transfert.getTrMontant());
+            httpParams.put(Transfert.KEY_TrMontant, TrMontant.getText().toString().replaceAll(",", "").trim());
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "calcMontantTotalTransfert.php", "GET", httpParams);
+            try {
+                 successGetFrais = jsonObject.getInt(KEY_SUCCESS);
+                Log.e("calcMontantTotalTransfert", jsonObject+"");
+                JSONArray movies;
+                if (successGetFrais == 1) {
+                     PdNature = jsonObject.getString("PdNature");
+                     transfert.setTrMtFrais(jsonObject.getString("PdValTaux"));
+                     MontantTotal = jsonObject.getString("MontantTotal");
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (successGetFrais ==1){
+                        recapitulatifTransfert();
+//                        new AddOperationEnvoyerTransfertAsyncTask().execute();
+                        String trMontant = TrMontant.getText().toString().replaceAll(",", "").trim();
+//                        TrMtFrais.setText((parseDouble(trMontant)*0.03)+"");
+                        TrMtFrais.setText((parseDouble(MontantTotal))+"");
+                        tv_total.setText(defaultFormat.format(parseDouble(trMontant+"")+parseDouble(TrMtFrais.getText().toString().trim()+"")));
+//
+                        try {
+//                            onEditTextClicked(TrMontant);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
         }
 
     }
@@ -684,6 +1225,42 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                 })
                 .show();
     }
+    public void notificationCvMontant() {
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Solde Insuffisant ")
+                .setMessage("Le solde de votre compte EAV est insuffisant!"
+                        +"\n Veuillez recharger votre compte !"
+                )
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+
+                })
+                .show();
+    }
+    public void notificationCodeSecret() {
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Code secret absent ")
+                .setMessage("Le code secret est absent!"
+                        +"\n Veuillez renseigner le code secret !"
+                )
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+
+                })
+                .show();
+    }
     /**
      * Checks whether all files are filled. If so then calls AddOperationEnvoyerTransfertAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
@@ -692,8 +1269,9 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         try {
             if (!STRING_EMPTY.equals(TrMontant.getText().toString().trim()) &&
                     !STRING_EMPTY.equals(TrNomDest.getText().toString().trim())
-//                    &&                    operationExterneDetails.getOdOperExterne() !=0
+                    &&                   !STRING_EMPTY.equals((TrCodeSecret.getText().toString().trim())  )
             ) {
+
 
                 Double montantOperation;
 
@@ -703,13 +1281,19 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                 }
                 transfert.setTrRefOper(tv_TrRefOper.getText().toString().trim());
                 transfert.setTrTypTransf(TrTypTransf);
+                if ((TrTypTransf.equals("CC") || TrTypTransf.equals("CE") ) && (Double.parseDouble(TrMontant.getText().toString())>Double.parseDouble(transfert.getCvMtSolde())) ){
+                    notificationCvMontant();
+                    return;
+                }
 //                transfert.setTrCptEAVExp(TrCptEAVExp.getText().toString().trim());
 //                transfert.setTrCptEAVExp(TrCptEAVExp.getText().toString().trim());
                 transfert.setTrNomExp(TrNomExp.getText().toString().trim());
                 transfert.setTrPrenomExp(TrPrenomExp.getText().toString().trim());
                 transfert.setTrTelExp(ccp_phone1.getFullNumberWithPlus());
                 transfert.setTrPieceIdExp(TrPieceIdExp.getText().toString().trim());
-                transfert.setTrTypPieceIdExp(TrTypPieceIdExp);
+//                transfert.setTrTypPieceIdExp(TrTypPieceIdExp);
+//                transfert.setTrTypPieceIdExp(Transfert.encodeTypePiece(TrTypPieceIdExp));
+                transfert.setTrTypPieceIdExp(Transfert.encodeTypePiece(TrTypPieceIdExpSpinner.getText().toString()));
                 transfert.setTrAdresseExp(TrAdresseExp.getText().toString().trim());
                 transfert.setTrCodeSecret(TrCodeSecret.getText().toString().trim());
                 transfert.setTrDetailsExp(TrDetailsExp.getText().toString().trim());
@@ -721,6 +1305,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                 transfert.setTrTelDest(ccp_phone2.getFullNumberWithPlus());
                 transfert.setTrPieceIdDest(TrPieceIdDest.getText().toString().trim());
                 transfert.setTrTypPieceIdDest(TrTypPieceIdDest);
+                transfert.setTrTypPieceIdDest(Transfert.encodeTypePiece(TrTypPieceIdDestSpinner.getText().toString()));
                 transfert.setTrAdresseDest(TrAdresseDest.getText().toString().trim());
                 transfert.setTrDetailsDest(TrDetailsDest.getText().toString().trim());
                 transfert.setTrMontant(TrMontant.getText().toString().trim());
@@ -733,20 +1318,22 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
 //                operationExterneDetails.setOdLibelle(MyData.normalizeSymbolsAndAccents( ET_OdLibelle.getText().toString().trim()));
 
 
-                new AddOperationEnvoyerTransfertAsyncTask().execute();
+//                new AddOperationEnvoyerTransfertAsyncTask().execute();
+                new FetchFraisTransfertAsyncTask().execute();
 
 
             } else {
-                if (STRING_EMPTY.equals(TrMontant.getText().toString())){
+                if (STRING_EMPTY.equals(TrMontant.getText().toString().trim())){
                     TrMontant.setError("Remplissez le montant SVP! ");
                     TrMontant.requestFocus();
-                }else if (STRING_EMPTY.equals(TrNomDest.getText().toString())){
+                }else if (STRING_EMPTY.equals(TrNomDest.getText().toString().trim())){
                     TrNomDest.setError("Remplissez le nom de l'expéditeur  SVP! ");
                     TrNomDest.requestFocus();
-               }
-               /*else if (operationExterneDetails.getOdOperExterne() ==0){
-                    notificationChampsVides();
-                }*/
+               }else if (STRING_EMPTY.equals(TrCodeSecret.getText().toString().trim())){
+                    notificationCodeSecret();
+                    TrCodeSecret.setError("Remplissez le code secret à communiquer au destinataire  SVP! ");
+                    TrCodeSecret.requestFocus();
+                }
 
             }
         }catch (Exception e){
@@ -830,6 +1417,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
 //                        Toast.makeText(CreateOperationExterneDetails.this,
 //                                "Compte créé avec succès", Toast.LENGTH_LONG).show();
                         notificationSuccessAdd();
+                        avertissement();
 
 
                     } else  if (success == -1) {

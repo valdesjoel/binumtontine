@@ -215,8 +215,10 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
-        <!--Solde-->
+
+        <!--Date d'échéance-->
         <LinearLayout
+            android:id="@+id/ll_bloc_date_echeance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -224,22 +226,21 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_title_solde_compte"
+                android:id="@+id/tv_title_date_echeance_compte_adherent"
                 style="@style/parent"
                 android:layout_width="205dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Solde:"
+                android:text="Date d'échéance:"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_solde_compte"
+                android:id="@+id/tv_date_echeance_compte_adherent"
                 style="@style/parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:textColor="@color/colorAccentNew"
                 android:singleLine="false"
                 android:scrollHorizontally="false"
                 android:scrollbars="vertical"
@@ -271,6 +272,39 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!--Solde-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_solde_compte"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Solde:"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_solde_compte"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@color/colorAccentNew"
                 android:singleLine="false"
                 android:scrollHorizontally="false"
                 android:scrollbars="vertical"

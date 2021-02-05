@@ -64,6 +64,8 @@ public class Transfert {
     private String TrToken;
     private String TrIsPaye;
     private String TrDateHRetrait;
+    private String CvMtSolde;
+
 
     public Transfert() {
     }
@@ -316,9 +318,20 @@ public class Transfert {
         TrDateHRetrait = trDateHRetrait;
     }
 
+    public String getCvMtSolde() {
+        return CvMtSolde;
+    }
+
+    public void setCvMtSolde(String cvMtSolde) {
+        CvMtSolde = cvMtSolde;
+    }
 
     public static String decodeTypePiece(String encode){
         String decode="";
+        if (encode==null || encode.trim().isEmpty()){
+            return decode;
+        }
+
         if (encode.equals("CN")){
             decode = "Carte nationale d'identité";
         }else if (encode.equals("CS")){
@@ -335,6 +348,28 @@ public class Transfert {
             decode = "Passeport";
         }
         return decode;
+    }
+    public static String encodeTypePiece(String decode){
+        String encode="";
+        if (decode==null || decode.trim().isEmpty()){
+            return encode;
+        }
+        if (decode.equals("Carte nationale d'identité") || (decode.equals("Carte nationale d'identite"))|| (decode.equals("CN"))){
+            encode = "CN";
+        }else if (decode.equals("Carte de séjour") || (decode.equals("Carte de sejour"))|| (decode.equals("CS"))){
+            encode = "CS";
+        }else if (decode.equals("Carte consulaire") || (decode.equals("CC"))){
+            encode = "CC";
+        }else if (decode.equals("Carte militaire") || (decode.equals("CM"))){
+            encode = "CM";
+        }else if (decode.equals("Carte CNPS") || (decode.equals("PS"))){
+            encode = "PS";
+        }else if (decode.equals("Permis de conduire") || (decode.equals("PC"))){
+            encode = "PC";
+        }else if (decode.equals("Passeport") || (decode.equals("PP"))){
+            encode = "PP";
+        }
+        return encode;
     }
     public static String encodeBaseFraisTransfert(String decode){
         String encode="";

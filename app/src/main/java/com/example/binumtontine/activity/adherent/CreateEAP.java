@@ -97,6 +97,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     private static final String KEY_CP_DEPOT_MIN = "CpDepotMin";
     private static final String KEY_CP_TAUX = "CpTaux";
     private static final String KEY_CP_NBRE_UNITE = "CpNbUnites";
+    private static final String KEY_CP_PERIOD = "CpPeriod";
     private static final String KEY_CP_USER_CREE = "CpUserCree";
     private static final String KEY_CP_MOD_RENOUV = "CpModRenouv";
 
@@ -117,6 +118,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     private static String STRING_EMPTY = "";
 
     private EditText EapDepotMinEditText;
+    private EditText CpNbUnites;
     private EditText EapTauxEditText;
     private EditText NumDossierEditText;
 
@@ -130,6 +132,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     private String adCode;
     private String adNumDossier;
     private String eapNbreUnite;
+    private String CpPeriod;
     private String eapCtModRenouv;
 
     /* manage spinner*/
@@ -141,6 +144,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     private int eapID;
     private Spinner spinnerListEAP;
     private Spinner spinnerNbreUnite;
+    private Spinner spinnerCpPeriod;
     private TextView tvAdherentNom;
     private TextView tvAdherentNumManuel;
     private TextView tvAdherentCode;
@@ -167,6 +171,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     private DatePickerDialog Ad_DateDelivrance_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
     private DatePickerDialog Ad_DateExpiration_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
     private TextInputLayout til_EatNumDossier;
+    private TextInputLayout input_layout_CpNbUnites;
     private TextInputLayout til_EatDateDebut;
     private TextInputLayout til_EatDateFin;
     private TextInputLayout til_EatMontantMise;
@@ -186,6 +191,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
         //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
 
         EapDepotMinEditText = (EditText) findViewById(R.id.input_txt_montant_mise);
+        CpNbUnites = (EditText) findViewById(R.id.input_txt_CpNbUnites);
         EapDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EapDepotMinEditText));
         til_EatMontantMise = (TextInputLayout) findViewById(R.id.input_layout_montant_mise);
 
@@ -193,6 +199,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
         EapTauxEditText.setText(eapTaux+" %");
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_num_dossier_adherent);
         til_EatNumDossier = (TextInputLayout) findViewById(R.id.input_layout_num_dossier_adherent);
+        input_layout_CpNbUnites = (TextInputLayout) findViewById(R.id.input_layout_CpNbUnites);
         NumDossierEditText.addTextChangedListener(new CreateEAP.MyTextWatcher(NumDossierEditText));
         rb_transfert_vers_eav = (RadioButton) findViewById(R.id.rb_CtModRenouv_transfert_vers_eav);
         rb_renouveller = (RadioButton) findViewById(R.id.rb_CtModRenouv_renouveller);
@@ -201,6 +208,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
 
         spinnerListEAP = (Spinner) findViewById(R.id.spn_list_eap);
         spinnerNbreUnite = (Spinner) findViewById(R.id.spn_list_duree);
+        spinnerCpPeriod = (Spinner) findViewById(R.id.spn_list_CpPeriod);
         tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
         tvAdherentNom.setText(adNom+"\n"+adPrenom);
         tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
@@ -320,9 +328,17 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     }
 
     private void setDateTimeField() {
+      /*  if (validateCpNbreUnit()){
+
+            Ad_DateDelivranceEditText.setOnClickListener(this);
+            Ad_DateExpirationEditText.setOnClickListener(this);
+        }else{
+            return;
+        }
+        */
+
         Ad_DateDelivranceEditText.setOnClickListener(this);
         Ad_DateExpirationEditText.setOnClickListener(this);
-
 
         Calendar newCalendar = Calendar.getInstance();
 
@@ -333,7 +349,23 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
                 newDate.set(year, monthOfYear, dayOfMonth);
 
                 Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
-                newDate.add(Calendar.MONTH, Integer.parseInt(spinnerNbreUnite.getSelectedItem().toString()));
+//                newDate.add(Calendar.MONTH, Integer.parseInt(spinnerNbreUnite.getSelectedItem().toString()));
+                if (spinnerCpPeriod.getSelectedItem().toString().equals("JOURNALIERE")){
+                    newDate.add(Calendar.DAY_OF_WEEK, Integer.parseInt(CpNbUnites.getText().toString()));
+                }else if (spinnerCpPeriod.getSelectedItem().toString().equals("HEBDOMADAIRE")){
+                    newDate.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(CpNbUnites.getText().toString()));
+                }else if (spinnerCpPeriod.getSelectedItem().toString().equals("MENSUELLE")) {
+                    newDate.add(Calendar.MONTH, Integer.parseInt(CpNbUnites.getText().toString()));
+                }else if (spinnerCpPeriod.getSelectedItem().toString().equals("BIMENSUELLE")){
+                    newDate.add(Calendar.MONTH, Integer.parseInt(CpNbUnites.getText().toString()));
+                }else if (spinnerCpPeriod.getSelectedItem().toString().equals("TRIMESTRIELLE")){
+                    newDate.add(Calendar.MONTH, Integer.parseInt(CpNbUnites.getText().toString()));
+                }else if (spinnerCpPeriod.getSelectedItem().toString().equals("SEMESTRIELLE")){
+                    newDate.add(Calendar.MONTH, Integer.parseInt(CpNbUnites.getText().toString()));
+                }else if (spinnerCpPeriod.getSelectedItem().toString().equals("ANNUELLE")){
+                    newDate.add(Calendar.YEAR, Integer.parseInt(CpNbUnites.getText().toString()));
+                }
+//                newDate.add(Calendar.MONTH, Integer.parseInt(CpNbUnites.getText().toString()));
                 Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
             }
 
@@ -355,7 +387,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
 
     @Override
     public void onClick(View v) {
-        if (v == Ad_DateDelivranceEditText){
+        if (v == Ad_DateDelivranceEditText && validateCpNbreUnit()){
             Ad_DateDelivrance_PickerDialog.show();
         }else if (v == Ad_DateExpirationEditText){
             Ad_DateExpiration_PickerDialog.show();
@@ -652,6 +684,24 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
 
         return true;
     }
+    /**
+     * Method to validate CpNbreUnit input_layout_CpNbUnites
+     * @return
+     */
+    private boolean validateCpNbreUnit() {
+        if (CpNbUnites.getText().toString().trim().isEmpty()) {
+            input_layout_CpNbUnites.setError(getString(R.string.err_msg_CpNbUnites));
+            requestFocus(CpNbUnites);
+            // testError=false;
+            return false;
+        } else {
+
+            input_layout_CpNbUnites.setErrorEnabled(false);
+            // testError=true;
+        }
+
+        return true;
+    }
 
 
     /**
@@ -676,7 +726,8 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
                                 eapDepotMin = EapDepotMinEditText.getText().toString().replaceAll(",", "").trim();
                 adNumDossier = NumDossierEditText.getText().toString();
             eapTaux = (EapTauxEditText.getText().toString()).replace(" %","");
-                eapNbreUnite = spinnerNbreUnite.getSelectedItem().toString();
+                                CpPeriod = ProduitEAP.encodeCpPeriod(spinnerCpPeriod.getSelectedItem().toString());
+                eapNbreUnite = CpNbUnites.getText().toString();
          /*   if (rb_transfert_vers_eav.isChecked()) {
                 eapCtModRenouv = "T";
                 //str = checked1?"Nature frais fixe":"";
@@ -732,6 +783,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
             httpParams.put(KEY_CP_NUM_DOSSIER, adNumDossier);
             httpParams.put(KEY_CP_DEPOT_MIN, eapDepotMin);
             httpParams.put(KEY_CP_NBRE_UNITE, eapNbreUnite);
+            httpParams.put(KEY_CP_PERIOD, CpPeriod);
             httpParams.put(KEY_CP_USER_CREE, String.valueOf(MyData.USER_ID));
             httpParams.put(KEY_CP_TAUX, eapTaux);
             httpParams.put(KEY_CP_MOD_RENOUV, eapCtModRenouv);

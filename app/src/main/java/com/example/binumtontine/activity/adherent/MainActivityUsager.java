@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ import com.example.binumtontine.activity.ClotureJourneeActivity;
 import com.example.binumtontine.activity.CreateOperationExterneDetails;
 import com.example.binumtontine.activity.CreateOperationTransfertEnvoyer;
 import com.example.binumtontine.activity.CreateOperationTransfertRetrait;
+import com.example.binumtontine.activity.ListNomPrenomAdherentTransfert;
 import com.example.binumtontine.activity.ListOperationExterneDetails;
 import com.example.binumtontine.activity.SituationGuichet;
 import com.example.binumtontine.activity.collecte.ListCollecteurActivity;
@@ -64,7 +67,7 @@ import java.util.Map;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDRESS {
+public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDRESS, SearchView.OnQueryTextListener {
 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
@@ -118,7 +121,8 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
     //recyclerview objects
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
+//    private RecyclerView.Adapter adapter;
+    private CustomAdapterListAdherent adapter;
     private ProgressDialog pDialog;
     private ProgressDialog pDialogNewAdherent;
     private ProgressBar progressBar;
@@ -129,6 +133,8 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
     private List<Adherent> listAdherent;
     private boolean isNewAdherent=true;
     private int nbreAdherent= 0;
+    private MenuItem searchMenuItem;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -308,6 +314,19 @@ public void onBackPressed() {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home_adherent, menu);
+        /*Start manage searchable item*/
+
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchMenuItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setQueryHint("Rechercher un membre");
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        /*End manage searchable item*/
         return true;
     }
 
@@ -462,6 +481,19 @@ public void onBackPressed() {
 
 
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+//        MainActivityUsager.this.adapter.getFilter().filter(newText);
+        return true;
+    }
+
     public static class DatePickerFragment extends DialogFragment implements
             DatePickerDialog.OnDateSetListener {
         @Override

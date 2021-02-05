@@ -15,6 +15,9 @@ public class ComptesAdherent implements Serializable {
     private String taux_compte;
     private String nomAffilie;
     private String montantAccorde;
+    private String dateFin;
+    private String nbUnites;
+    private String period;
 
 
     public String getLibelleProduit() {
@@ -87,6 +90,44 @@ public class ComptesAdherent implements Serializable {
 
     public void setMontantAccorde(String montantAccorde) {
         this.montantAccorde = montantAccorde;
+    }
+
+    public String getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(String dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public String getNbUnites() {
+        return nbUnites;
+    }
+
+    public void setNbUnites(String nbUnites) {
+        this.nbUnites = nbUnites;
+    }
+
+    public String getPeriod() {
+        if (this.period.equals("J")){
+            return "Jours";
+        }else if (this.period.equals("M")){
+            return "Mois";
+        }else if (this.period.equals("T")){
+            return "Trimestres";
+        }else if (this.period.equals("S")){
+            return "Semestres";
+        }else {
+            return period;
+        }
+
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public ComptesAdherent() {
     }
 
     public ComptesAdherent(String libelle_produit, String numero_dossier, String dateHCree, String montant_solde) {
