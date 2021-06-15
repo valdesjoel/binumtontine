@@ -47,6 +47,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.Category;
 import com.example.binumtontine.activity.ServiceHandler;
+import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -133,20 +134,13 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_add_movie);
-      //  setContentView(R.layout.fragment_param_produit_eav);
         setContentView(R.layout.activity_pg_frais_to_payer_of);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
-
-
-
         FpCodeEditText = (EditText) findViewById(R.id.input_txt_CodeFrais_of);
         FpLibelleEditText = (EditText) findViewById(R.id.input_txt_LibelleFrais_of);
         rbNatureFraisFixe = (RadioButton) findViewById(R.id.rb_NatureFraisFixe_fp);
         rbNatureFraisTaux = (RadioButton) findViewById(R.id.rb_NatureFraisTaux_fp);
         FpValEditText = (EditText) findViewById(R.id.input_txt_ValeurFrais_fp);
+        FpValEditText.addTextChangedListener(MyData.onTextChangedListener(FpValEditText));
         FpNbrePartMinJEditText = (EditText) findViewById(R.id.input_txt_NbrePartMinJ_fp);
         FpNbrePartMinFEditText = (EditText) findViewById(R.id.input_txt_NbrePartMinF_fp);
         FpNbrePartMinHEditText = (EditText) findViewById(R.id.input_txt_NbrePartMinH_fp);
@@ -416,11 +410,6 @@ public class CreateFraisToPayerOf extends AppCompatActivity implements SERVER_AD
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addFraisToPayer() {
-       /* if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
-
-                !STRING_EMPTY.equals(ev_libelleEditText.getText().toString()) &&
-
-                !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
 if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
         !STRING_EMPTY.equals(FpLibelleEditText.getText().toString()) &&
         !STRING_EMPTY.equals(FpValEditText.getText().toString())){
@@ -438,26 +427,21 @@ if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
         FpBase = String.valueOf(baseFraisID);
     }
 
-            FpVal = FpValEditText.getText().toString();
+    Double  h3;
+    h3 = Double.valueOf(FpValEditText.getText().toString().replaceAll(",", "").trim());
+    FpValEditText.setText(h3+"");
+    FpVal = FpValEditText.getText().toString();
 
     if (rbTypeAdherentPhysique.isChecked()){
         FpTypeAdh ="P";
     }else FpTypeAdh="M";
-
-
-
-
-
 
             new AddFraisToPayerAsyncTask().execute();
         } else {
             Toast.makeText(CreateFraisToPayerOf.this,
                     "Un ou plusieurs champs sont vides!",
                     Toast.LENGTH_LONG).show();
-
         }
-
-
     }
 
     /**
@@ -491,9 +475,6 @@ if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
             httpParams.put(KEY_FP_NOMBRE_PART_MIN_H, FpNbrePartMinH);
             httpParams.put(KEY_FP_TYPE_ADH, FpTypeAdh);
             httpParams.put(KEY_FC_CAT_ADH, String.valueOf(FcTypeMembre));
-
-
-
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_frais_of.php", "POST", httpParams);
             try {
@@ -522,7 +503,6 @@ if (!STRING_EMPTY.equals(FpCodeEditText.getText().toString()) &&
                         Toast.makeText(CreateFraisToPayerOf.this,
                                 "Une erreur s'est produite lors de l'ajout du Frais",
                                 Toast.LENGTH_LONG).show();
-
                     }
                 }
             });

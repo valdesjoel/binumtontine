@@ -82,21 +82,16 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
     private static final String KEY_FC_Is_FRAIS_OBLIG = "FcIsOblig";
     private static final String KEY_FC_CAT_ADH = "FcTypeAdh";
     private static final String KEY_FC_CAT_ADH1 = "FcCategAdh";
-
-
     private static final String KEY_FC_FONCTION_FRAIS = "FcFonction";
     private static final String KEY_FC_NOMBRE_PART_MIN_J = "FcNbrePartMinJ";
     private static final String KEY_FC_NOMBRE_PART_MIN_F = "FcNbrePartMinF";
     private static final String KEY_FC_NOMBRE_PART_MIN_H = "FcNbrePartMinH";
-
-
-
-
     private static String STRING_EMPTY = "";
 
     private EditText FcLibelleEditText;
     private EditText FcCodeEditText;
     private EditText FcValEditText;
+    private TextView tv_ValeurFrais_fp;
     private EditText FcFonctionFraisEditText;
     private EditText FcNbrePartMinJEditText;
     private EditText FcNbrePartMinFEditText;
@@ -120,7 +115,8 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
     private String FcNbrePartMinJ;
     private String FcNbrePartMinF;
     private String FcNbrePartMinH;
-    private boolean FcIsPieceOblig;
+//    private boolean FcIsPieceOblig;
+    private String FcIsPieceOblig;
 
     /* manage spinner*/
     // array list for spinner adapter
@@ -137,12 +133,8 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
     private Spinner spinnerFrais;
     private Spinner spinnerBaseFrais;
     private Spinner spinnerFonctionFrais;
-
-
     private Spinner spinnerTypeMembre;
     private String FcTypeMembre;
-
-
     private String eavId;
     private Boolean action_to_affect;
     private TextView headerEAVTextView;
@@ -154,7 +146,6 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
     private Button annulerButton;
     private int success;
     private ProgressDialog pDialog;
-    private ProgressDialog pDialogFetchGuichetList;
     private ProgressDialog pDialogFetchFraisList;
     private String FcFraisPiece;
     private TextView tv_header_produit;
@@ -162,28 +153,16 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_add_movie);
-      //  setContentView(R.layout.fragment_param_produit_eav);
         setContentView(R.layout.activity_pg_frais_to_payer_cx);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
-
-
-
         Intent intent = getIntent();
 
         eavId = intent.getStringExtra(KEY_FP_PIECE_ID);
         action_to_affect = getIntent().getExtras().getBoolean(KEY_EXTRA_ACTION_TO_AFFECT);
         headerEAVTextView = (TextView) findViewById(R.id.header_eav);
-
-
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
         tv_header_produit.setText("Frais à payer\n"+"Type: "+MyData.TYPE_MEMBRE_NAME);
 
         new FetchFraisDetailsAsyncTask().execute();
-
-
         spinnerGuichet = (Spinner) findViewById(R.id.spn_select_guichet_fp);
         spinnerFrais = (Spinner) findViewById(R.id.spn_select_frais_fp);
         spinnerBaseFrais = (Spinner) findViewById(R.id.spn_baseFrais_fp);
@@ -210,7 +189,6 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
 
         });
         spinnerFrais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             public void onItemSelected(AdapterView<?> parent, View view, int position,
                                        long id) {
                 //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
@@ -220,16 +198,11 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub.
-
             }
-
         });
         spinnerFonctionFrais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             public void onItemSelected(AdapterView<?> parent, View view, int position,
                                        long id) {
-                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
-               // FcFonctionFrais = spinnerFonctionFrais.getSelectedItem().toString();//pour recuperer l'ID de la pièce selectionnée
                 // your stuff here
                 if (spinnerFonctionFrais.getSelectedItem().toString().equals("Part sociale")){
                     textInputLayoutFcNbrePartMin.setVisibility(View.VISIBLE);
@@ -260,76 +233,43 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
 
             public void onItemSelected(AdapterView<?> parent, View view, int position,
                                        long id) {
-                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
                 baseFraisID = baseFraisListID.get(position);//pour recuperer l'ID de la base des frais selectionnée
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub.
-
             }
-
         });
-
 
         spinnerTypeMembre = (Spinner) findViewById(R.id.spn_type_membre_fc);
         spinnerTypeMembre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent, View view, int position,
                                        long id) {
-                //   checkOffersSum(); // same method for first 4 spinners. for last 4 spinners is checkScoresSum()
-                // FcFonctionFrais = spinnerFonctionFrais.getSelectedItem().toString();//pour recuperer l'ID de la pièce selectionnée
                 // your stuff here
                 FcCategAdh = spinnerTypeMembre.getSelectedItem().toString();
-
-//                if (spinnerFonctionFrais.getSelectedItem().toString().equals("Part sociale")){
-//                    textInputLayoutFcNbrePartMin.setVisibility(View.VISIBLE);
-//                    FcFonctionFrais = "P";
-//
-//                }else{
-//                    textInputLayoutFcNbrePartMin.setVisibility(View.GONE);
-//                    if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais d'adhésion")){
-//                        FcFonctionFrais = "A";
-//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Fonds de solidarité")){
-//                        FcFonctionFrais = "S";
-//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Approvisionnement")){
-//                        FcFonctionFrais = "D";
-//                    }else if (spinnerFonctionFrais.getSelectedItem().toString().equals("Frais de fonctionnement")){
-//                        FcFonctionFrais = "F";
-//                    }
-//                }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub.
-
             }
-
         });
 
-        // spinner item select listener
-        //spinnerGuichet.setOnItemSelectedListener(CreatePieceToFournirCx.this);
-        //spinnerFrais.setOnItemSelectedListener(CreatePieceToFournirCx.this);
-
         new CreateFraisToPayerCx.GetCategories().execute(); //to get list of guichet & frais & base frais
-
 
         FcLibelleEditText = (EditText) findViewById(R.id.input_txt_LibelleFrais_cx);
         FcCodeEditText = (EditText) findViewById(R.id.input_txt_CodeFrais_cx);
         rbNatureFraisFixe = (RadioButton) findViewById(R.id.rb_NatureFraisFixe_fp);
         rbNatureFraisTaux = (RadioButton) findViewById(R.id.rb_NatureFraisTaux_fp);
+        tv_ValeurFrais_fp = findViewById(R.id.tv_ValeurFrais_fp); // pour gérer le format: Fcfa ou % si c'est un taux
         FcValEditText = (EditText) findViewById(R.id.input_txt_ValeurFrais_fp);
+        FcValEditText.addTextChangedListener(MyData.onTextChangedListener(FcValEditText));
         FcFonctionFraisEditText = (EditText) findViewById(R.id.input_txt_fonction_frais_cx);
         rbFcIsPieceObligOui = (RadioButton) findViewById(R.id.rb_isPieceObligatoire_fp_oui);
         rbFcIsPieceObligNon = (RadioButton) findViewById(R.id.rb_isPieceObligatoire_fp_non);
 
         textInputLayoutBlocBaseFrais = (LinearLayout) findViewById(R.id.ll_base_frais_cx);
         textInputLayoutFcNbrePartMin = (LinearLayout) findViewById(R.id.ll_NbrePartMin_cx);
-        if (rbNatureFraisFixe.isChecked())
-            textInputLayoutBlocBaseFrais.setVisibility(View.GONE);
-        //else textInputLayoutBlocBaseFrais.setVisibility(View.VISIBLE);
 
         annulerButton = (Button) findViewById(R.id.btn_clean);
         deleteButton = (Button) findViewById(R.id.btn_delete_eav);
@@ -523,15 +463,7 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
                         FcNbrePartMinF = eav.getString(KEY_FC_NOMBRE_PART_MIN_F);
                         FcNbrePartMinH = eav.getString(KEY_FC_NOMBRE_PART_MIN_H);
                         FcFraisPiece = eav.getString(KEY_FC_FRAIS_ID);
-                        if (!action_to_affect)FcIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_FRAIS_OBLIG));
-
-                  /*  }else{
-
-                    }*/
-//                    FpCode = eav.getString(KEY_FC_CODE);
-//                    FpLibelle = eav.getString(KEY_FC_LIBELLE);
-//                    FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
-//                  ev_is_min_cpte_oblig = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_MIN_CPTE_OBLIG));
+                        if (!action_to_affect)FcIsPieceOblig = (eav.getString(KEY_FC_Is_FRAIS_OBLIG));
 
 
                 }
@@ -546,11 +478,10 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-
-
                     FcCodeEditText.setText(FpCode);
                     FcLibelleEditText.setText(FcLibelle);
                     FcValEditText.setText(FcVal);
+
                     if (FcCategAdh!=null){
                         // Creating adapter for spinner piece
                         String[] mTestArray;
@@ -567,8 +498,10 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
                     //FcC.setText(FcCategAdh);
                     if (FcNature.equals("F")){
                         rbNatureFraisFixe.setChecked(true);
+                        onRadioButtonClicked(rbNatureFraisFixe);
                     }else if (FcNature.equals("T")){
                         rbNatureFraisTaux.setChecked(true);
+                        onRadioButtonClicked(rbNatureFraisTaux);
                     }
                     if (FcFonctionFrais.equals("P")){
                         textInputLayoutFcNbrePartMin.setVisibility(View.VISIBLE);
@@ -593,19 +526,15 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
                     FcNbrePartMinHEditText.setText(FcNbrePartMinH);
                     if (!action_to_affect){
 
-                        rbFcIsPieceObligOui.setChecked(FcIsPieceOblig);
-                        rbFcIsPieceObligNon.setChecked(!FcIsPieceOblig);
+                        if (FcIsPieceOblig.equals("Y")){
+                            rbFcIsPieceObligOui.setChecked(true);
+                        }else{
+                            rbFcIsPieceObligNon.setChecked(true);
+                        }
                     }
-                   /* if (action_to_affect){
-                        FpCodeEditText.setText(FpCode);
-                        FpLibelleEditText.setText(FpLibelle);
-                    }else{
-                        FpCodeEditText.setText(FpCode);
-                        FpLibelleEditText.setText(FpLibelle);
-                        rbFpIsPieceObligOui.setChecked(FpIsPieceOblig);
-                        rbFpIsPieceObligNon.setChecked(!FpIsPieceOblig);
+                    if (rbNatureFraisFixe.isChecked())
+                        textInputLayoutBlocBaseFrais.setVisibility(View.GONE);
 
-                    }*/
 
                 }
             });
@@ -671,13 +600,16 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
 //        if (FcBase!=null){
 //            spinnerBaseFrais.setSelection(spinnerBaseFraisAdapter.getPosition(FcBase));
 //        }
+        //Make uxCaisseDenomination as default Item in caisseList spinner
+        if (FcBase!=null){
+            spinnerBaseFrais.setSelection(spinnerBaseFraisAdapter.getPosition(FcBase));
+        }
     }
 
     /**
      * Async task to get all food categories
      * */
     private class GetCategories extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -685,64 +617,12 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
             pDialog.setMessage("Fetching parameters's list..");
             pDialog.setCancelable(false);
             pDialog.show();
-
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
             ServiceHandler jsonParser = new ServiceHandler();
-          //  String jsonGuichet = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
-           // String jsonFrais = jsonParser.makeServiceCall(URL_GET_FRAIS_OF, ServiceHandler.GET);
             String jsonBaseFrais = jsonParser.makeServiceCall(URL_BASE_FRAIS_OF, ServiceHandler.GET);
-/*
-            Log.e("Response: ", "> " + jsonGuichet);
-            //for manage list of guichet
-            if (jsonGuichet != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonGuichet);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray("categories");
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt("id"),
-                                    catObj.getString("name"));
-                            guichetList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data guichet", "Didn't receive any data from server!");
-            }
-            //for manage list of frais
-            if (jsonFrais != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonFrais);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray("categories");
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt("id"),
-                                    catObj.getString("name"));
-                            fraisList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data frais", "Didn't receive any data from server!");
-            }
-            */
             //for manage list of base frais
             if (jsonBaseFrais != null) {
                 try {
@@ -750,7 +630,6 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
                     if (jsonObj != null) {
                         JSONArray categories = jsonObj
                                 .getJSONArray("categories");
-
                         for (int i = 0; i < categories.length(); i++) {
                             JSONObject catObj = (JSONObject) categories.get(i);
                             Category cat = new Category(catObj.getInt("id"),
@@ -758,15 +637,12 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
                             baseFraisList.add(cat);
                         }
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             } else {
                 Log.e("JSON Data base frais", "Didn't receive any data from server!");
             }
-
             return null;
         }
 
@@ -779,10 +655,6 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
         }
 
     }
-
-
-
-
     public void onRadioButtonClicked(View view) {
         boolean checked1 = ((RadioButton) view).isChecked();
         String str="";
@@ -793,6 +665,7 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
                 if (rbNatureFraisFixe.isChecked()) {
                     FcNature ="F";
                     textInputLayoutBlocBaseFrais.setVisibility(View.GONE);
+                    tv_ValeurFrais_fp.setText("Fcfa");
                     str = checked1?"Nature frais fixe":"";
 
                 }
@@ -800,6 +673,7 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
             case R.id.rb_NatureFraisTaux_fp:
                 if (rbNatureFraisTaux.isChecked()) {
                     FcNature ="T";
+                    tv_ValeurFrais_fp.setText("%");
                     textInputLayoutBlocBaseFrais.setVisibility(View.VISIBLE);
                     str = checked1?"Nature frais taux":"";
 
@@ -836,8 +710,11 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
         if (!STRING_EMPTY.equals(FcLibelleEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(FcValEditText.getText().toString())){
 
-
-            FcIsPieceOblig = rbFcIsPieceObligOui.isChecked();
+            if (rbFcIsPieceObligOui.isChecked()){
+                FcIsPieceOblig = "Y";
+            }else{
+                FcIsPieceOblig = "N";
+            }
             FcLibelle = FcLibelleEditText.getText().toString();
             FcNbrePartMinJ = FcNbrePartMinJEditText.getText().toString();
             FcNbrePartMinF = FcNbrePartMinFEditText.getText().toString();
@@ -850,6 +727,9 @@ public class CreateFraisToPayerCx extends AppCompatActivity implements SERVER_AD
                 FcNature ="T";
                 FcBase = String.valueOf(baseFraisID);
             }
+            Double  h3;
+            h3 = Double.valueOf(FcValEditText.getText().toString().replaceAll(",", "").trim());
+            FcValEditText.setText(h3+"");
 
             FcVal = FcValEditText.getText().toString();
 

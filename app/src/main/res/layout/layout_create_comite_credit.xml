@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            android:id="@+id/tv_header_comite_credit"
+            style="@style/headerTextPrimary"
+            android:text="Ajout d'un comité de crédit"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+        <!--CmNom-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CmNom"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CmNom"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_CmNom"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--- CmType /I. ** ENUM('CA','DI', 'AG', 'IN') NOT NULL COMMENT 'Type du Comité de Crédit, qui sera.-->
+        <LinearLayout
+            android:id="@+id/ll_CmType"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CmType"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Type de comité:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_CmType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input_layout_PdStockMin"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_CmType_CA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Conseil d'Administration"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CmType_DI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Direction"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_CmType_AG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Agence ou Guichet"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_CmType_IN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Interne à l'agence"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--CmNbMembre-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_CmNbMembre"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_CmNbMembre"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_CmNbMembre"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Spinner CmGuichet-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_CmGuichet"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_CmGuichet"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_CmGuichet"
+                style="@style/modifiedEditText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                 />
+
+        </LinearLayout>
+
+
+        <!--- CmIsOn /I. ** ENUM('Y','N') NOT NULL COMMENT 'pour indiquer si ce comité de Crédit est actif ou non',.-->
+        <LinearLayout
+            android:id="@+id/ll_CmIsOn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_CmIsOn"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Etat du comité:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_CmIsOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input_layout_CmIsOn"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_CmIsOn_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Activé"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_CmIsOn_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Désactivé"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ll_CmIsOn"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:layout_marginTop="30dp">
+
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_save_comite_credit"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_enregistrer" />
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_clean"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_delete_comite_credit"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

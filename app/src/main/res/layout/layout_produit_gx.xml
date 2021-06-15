@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+        <TextView
+            android:id="@+id/tv_header_produit_credit"
+            style="@style/headerTextPrimary"
+            android:text="Ajout d'un produit de crédit"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+        <!--PdNom. /A70. **  Nom ou désignation du produit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PdNom"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PdNom"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PdNom"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PdPrixUnit /R **  Prix unitaire du produit-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PdPrixUnit"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PdPrixUnit"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PdPrixUnit"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PdPrixVtePubl  / R  **  pour y renseigner le prix de vente Public de chaque produit,
+         lors de sa création, dans l'Admin. Caisse, et réutilisable en exploitation par l'Agent de Guichet,
+         en cas de vente au Public, via une fonctions propre tel "Divers/ Vente Produits", dans le menu Principal-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PdPrixVtePubl"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PdPrixVtePubl"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PdPrixVtePubl"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--PdQteStock / I. **  Quantité en stock-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PdQteStock"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PdQteStock"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PdQteStock"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--PdStockMin /I. ** Pour saisir le stock minimum du Produit sur le Guichet-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_PdStockMin"
+            style="@style/parent"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_PdStockMin"
+                style="@style/modifiedEditText"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_PdStockMin"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--- PdIsOn /I. ** Pour indiquer si le produit est actif ou pas ".-->
+        <LinearLayout
+            android:id="@+id/PdIsOn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_PdIsOn"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Statut:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_PdIsOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input_layout_PdStockMin"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_PdIsOn_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Activé"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_PdIsOn_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Désactivé"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/PdIsOn"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:layout_marginTop="30dp">
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_save_produit"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_enregistrer" />
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_clean"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_annuler" />
+            <!--<androidx.appcompat.widget.AppCompatButton-->
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_delete_produit"
+                style="@style/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="@string/btn_supprimer" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

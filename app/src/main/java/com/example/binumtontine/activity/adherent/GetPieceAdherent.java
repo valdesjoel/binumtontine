@@ -3,6 +3,7 @@ package com.example.binumtontine.activity.adherent;
 
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
@@ -48,6 +50,7 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
 
     private static final String KEY_FC_NUMERO = "FcNumero";
     private static final String KEY_FC_NEW_LIBELLE = "FcNewLibelle";
+    private static final String KEY_FcIsOblig = "FcIsOblig";
     private static final String KEY_CAISSE_ID = "FcCaisse";
     private static final String KEY_GUICHET_ID = "FcGuichet";
     private static final String KEY_ADHERENT_ID = "IpMembre";
@@ -55,7 +58,7 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_ADHERENT_PIECE = "AD_PIECE";
     private static final String KEY_TYPE_MEMBRE = "FcCategAdh"; //pour l'id du type de membre
     private String adherentId;
-    private String typeMembreId;
+    private int typeMembreId;
     private String piecesListId="";
 
     public ArrayList<String> listPiecesAdherent = new ArrayList<>();
@@ -85,14 +88,9 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
         Bundle bundle = intent.getExtras();
         adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
         adherentId = intent.getStringExtra(KEY_ADHERENT_ID);
-        typeMembreId = intent.getStringExtra(KEY_TYPE_MEMBRE);
+        typeMembreId = intent.getIntExtra(KEY_TYPE_MEMBRE,0);
         new GetPieceAdherent.FetchPiecesGuichetAsyncTask().execute();
 
-//        checkBoxModelArrayList = getModel(false);
-////        Log.d("*******************",checkBoxModelArrayList.toString());
-////        Log.d("*******************",animallist.toString());
-//        customAdapterListViewCheckbox = new CustomAdapterListViewCheckbox(GetPieceAdherent.this,checkBoxModelArrayList);
-//        lvPieces.setAdapter(customAdapterListViewCheckbox);
 
         btnselect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +100,6 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
                 lvPieces.setAdapter(customAdapterListViewCheckbox);
             }
         });
-       // btnselect.performClick();
         btndeselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,43 +112,35 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
             @Override
             public void onClick(View v) {
                 addPieceAdherent();
-//                Intent intent = new Intent(GetPieceAdherent.this,GetFraisAdherent.class);
-//                startActivity(intent);
-                Intent i = getIntent();
-                //send result code 20 to notify about movie update
-                setResult(20, i);
-                //Finish ths activity and go back to listing activity
-                finish();
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 finish();
             }
         });
-
-
     }
+    private void quitter (){
 
+        Intent i = getIntent();
+        //send result code 20 to notify about movie update
+        setResult(20, i);
+        //Finish ths activity and go back to listing activity
+        finish();
+    }
     private ArrayList<CheckBoxModel> getModel(boolean isSelect){
         ArrayList<CheckBoxModel> list = new ArrayList<>();
-       // for(int i = 0; i <animallist.length; i++){
-        //for(int i = 0; i <MyData.animallist.length; i++){
-       // for(int i = 0; i <MyData.fruitList.size(); i++){
-        //for(int i = 0; i <piecesList.size(); i++){
         for(int i = 0; i <piecesList.size(); i++){
-
             CheckBoxModel checkBoxModel = new CheckBoxModel();
             checkBoxModel.setSelected(isSelect);
-            //checkBoxModel.setAnimal(animallist[i]);
-            //checkBoxModel.setAnimal(MyData.fruitList.get(i));
             checkBoxModel.setAnimal(piecesList.get(i).get(KEY_FC_NEW_LIBELLE));
             checkBoxModel.setPieceID(piecesList.get(i).get(KEY_FC_NUMERO));
-            //checkBoxModel.setPieceID(listPiecesAdherent.get(i));
-           // checkBoxModel.setAnimal("good");
-           // checkBoxModel.setAnimal(String.valueOf(piecesList.get(i).get(KEY_FC_NEW_LIBELLE)));
+            if(piecesList.get(i).get(KEY_FcIsOblig).equals("Y")){
+                checkBoxModel.setOblig(true);
+            }else{
+                checkBoxModel.setOblig(false);
+            }
             list.add(checkBoxModel);
         }
         return list;
@@ -179,7 +168,7 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
             httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
             httpParams.put(KEY_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
             httpParams.put(KEY_ADHERENT_ID, adherentId);
-            httpParams.put(KEY_TYPE_MEMBRE, typeMembreId);
+            httpParams.put(KEY_TYPE_MEMBRE, typeMembreId+"");
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_piece_by_guichet.php", "GET", httpParams);
             Log.e("Response: ", "> " + jsonObject+"");
@@ -198,21 +187,14 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
                         JSONObject guichet = movies.getJSONObject(i);
                         Integer guichetId = guichet.getInt(KEY_FC_NUMERO);
                         String guichetDenomination = guichet.getString(KEY_FC_NEW_LIBELLE);
+                        String guichetFcIsOblig = guichet.getString(KEY_FcIsOblig);
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put(KEY_FC_NUMERO, guichetId.toString());
                         map.put(KEY_FC_NEW_LIBELLE, guichetDenomination);
-                        //adding String Objects to fruitsList ArrayList
-                       // MyData.fruitList.add(guichetDenomination);
-                        //listPiecesAdherent.add(guichetDenomination);
+                        map.put(KEY_FcIsOblig, guichetFcIsOblig);
                         piecesList.add(map);
                     }
-                   // Log.d("convert to array","coucouuuuuuuuuuuuuuuuu"+fruitList.size());
-                    //String[] item = fruitList.toArray(new String[fruitList.size()]);
-                   // Log.d("*********item****",item.length+"");
-                    //MyData.animallist = item;
 
-                   // Log.d("********animallist",MyData.animallist.length+"");
-                    //Log.d("********animallist",MyData.animallist[0]+"");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -232,51 +214,49 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
 
 
     }
+    public void notificationPieceOblig() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Avertissement")
+                .setMessage("Toutes les pièces obligatoires doivent être sélectionnées !")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+
+                })
+                .show();
+    }
+    private boolean validatePieceOblig(){
+        boolean validate=true;
+        for (int i = 0; i < CustomAdapterListViewCheckbox.checkBoxModelArrayList.size(); i++) {
+            if (CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).isOblig() && !CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getSelected()) {
+
+                validate=false;
+                break;
+            }
+        }
+        return validate;
+    }
     /**
      * Checks whether all files are filled. If so then calls UpdateCaisseAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addPieceAdherent() {
-        if (true){
-/*
-
-        if (!STRING_EMPTY.equals(cx_denominationEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(mySpinnerLocalite.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_num_agremEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_date_agremEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_adresseEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
-                !STRING_EMPTY.equals(cx_nom_pcaEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_nom_dgEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_date_debutEditText.getText().toString())) {
-
-            cxDenomination = cx_denominationEditText.getText().toString();
-            cxLocalite = mySpinnerLocalite.getText().toString();
-            cx_num_agrem = cx_num_agremEditText.getText().toString();
-            cx_date_agrem = cx_date_agremEditText.getText().toString();
-            cx_date_debut = cx_date_debutEditText.getText().toString();
-            cx_adresse = cx_adresseEditText.getText().toString(); */
-
-          /*  cx_tel1 = cx_tel1EditText.getText().toString();
-            cx_tel2 = cx_tel2EditText.getText().toString();
-            cx_tel3 = cx_tel3EditText.getText().toString(); */
-/*
-            cx_tel1 = ccp_phone1.getFullNumberWithPlus();
-            cx_tel2 = ccp_phone2.getFullNumberWithPlus();
-            cx_tel3 = ccp_phone3.getFullNumberWithPlus();
-
-            cx_nom_pca = cx_nom_pcaEditText.getText().toString();
-            cx_nom_dg = cx_nom_dgEditText.getText().toString(); */
-
+        if (validatePieceOblig()){
+            adherent.setListPieceAdherent(new ArrayList<String>());
+            adherent.setListPieceNonFourniesAdherent(new ArrayList<String>());
             //to get pieces provide by Adherent
-
-            //String piecesj = "";
             for (int i = 0; i < CustomAdapterListViewCheckbox.checkBoxModelArrayList.size(); i++){
-                if(CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getSelected()) {
+               if(CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getSelected()) {
                     listPiecesAdherent.add(CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getPieceID());
                     piecesListId+=";"+CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getPieceID();
+                    adherent.addListPiecedherent(CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getAnimal());
                     //tv.setText(tv.getText() + " " + CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getAnimal());
+                }else{
+                    adherent.addListPieceNonFourniesAdherent(CustomAdapterListViewCheckbox.checkBoxModelArrayList.get(i).getAnimal());
                 }
             }
 
@@ -301,20 +281,17 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
             Bundle bundle = new Bundle();
             bundle.putSerializable(KEY_ADHERENT, (Serializable) adherent);
             bundle.putString(KEY_ADHERENT_PIECE,piecesListId);
+            bundle.putString(KEY_TYPE_MEMBRE,typeMembreId+"");
 
-            // bundle.putSerializable(KEY_ADHERENT, adherent);
             i.putExtras(bundle);
-            // i.putExtra(KEY_ADHERENT, adherent);
              startActivityForResult(i, 20);
-            //startActivity(i);
-            //finish();
 
-
-
-            //new AddPiecesAdherentAsyncTask().execute();
+            quitter();
         } else {
+            MyData.bipError();
+            notificationPieceOblig();
             Toast.makeText(GetPieceAdherent.this,
-                    "One or more fields left empty!",
+                    "Un ou plusieurs pièces obligatoires ne sont pas sélectionnées!",
                     Toast.LENGTH_LONG).show();
 
         }
@@ -372,67 +349,15 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
             }
             return null;
 
-
-/*
-
-
-            HttpJsonParser httpJsonParser = new HttpJsonParser();
-            Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
-            httpParams.put(KEY_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
-            httpParams.put(KEY_ADHERENT_ID, adherentId);
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_piece_by_guichet.php", "GET", httpParams);
-            //creating Arraylist
-            //List<String> fruitList = new ArrayList<>();
-            piecesList.clear();
-            try {
-                int success = jsonObject.getInt(KEY_SUCCESS);
-                JSONArray movies;
-                if (success == 1) {
-                    //piecesList = new ArrayList<>();
-                    movies = jsonObject.getJSONArray(KEY_DATA);
-                    //Iterate through the response and populate movies list
-                    for (int i = 0; i < movies.length(); i++) {
-                        JSONObject guichet = movies.getJSONObject(i);
-                        Integer guichetId = guichet.getInt(KEY_FC_NUMERO);
-                        String guichetDenomination = guichet.getString(KEY_FC_NEW_LIBELLE);
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put(KEY_FC_NUMERO, guichetId.toString());
-                        map.put(KEY_FC_NEW_LIBELLE, guichetDenomination);
-                        //adding String Objects to fruitsList ArrayList
-                       // MyData.fruitList.add(guichetDenomination);
-                        //listPiecesAdherent.add(guichetDenomination);
-                        piecesList.add(map);
-                    }
-                   // Log.d("convert to array","coucouuuuuuuuuuuuuuuuu"+fruitList.size());
-                    //String[] item = fruitList.toArray(new String[fruitList.size()]);
-                   // Log.d("*********item****",item.length+"");
-                    //MyData.animallist = item;
-
-                   // Log.d("********animallist",MyData.animallist.length+"");
-                    //Log.d("********animallist",MyData.animallist[0]+"");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return null; */
         }
 
         protected void onPostExecute(String result) {
             pDialogAddPiece.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
-                    //populateGuichetList();
-                    //finish();
                 }
             });
         }
-
-
-
     }
 
     @Override
@@ -445,63 +370,16 @@ public class GetPieceAdherent extends AppCompatActivity implements SERVER_ADDRES
             Intent intent = getIntent();
             setResult(20, intent);
             finish();
-           /* finish();
-            startActivity(intent);
-            */
         }
     }
-
 
         /**
          * Updating parsed JSON data into ListView
          * */
     private void populateGuichetList() {
-
         checkBoxModelArrayList = getModel(false);
-//        Log.d("*******************",checkBoxModelArrayList.toString());
-//        Log.d("*******************",animallist.toString());
         customAdapterListViewCheckbox = new CustomAdapterListViewCheckbox(GetPieceAdherent.this, checkBoxModelArrayList);
         lvPieces.setAdapter(customAdapterListViewCheckbox);
-/*
-        for (int i=0; i<piecesList.size();i++){
-            listPiecesAdherent.add(piecesList.get(i).get(KEY_FC_NEW_LIBELLE));
-        } */
-       /* ListAdapter adapter = new SimpleAdapter(
-                GetPieceAdherent.this, piecesList,
-                R.layout.list_view_checkbox_item, new String[]{KEY_FC_NUMERO,
-                KEY_FC_NEW_LIBELLE},
-                new int[]{R.id.pieceId, R.id.animal});
-
-        // updating listview
-        //lvPieces.setAdapter(adapter);
-        lvPieces.setAdapter(customAdapterListViewCheckbox); */
-        //Call MovieUpdateDeleteActivity when a movie is clicked
-      /*  lvPieces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Check for network connectivity
-                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    String guichetId = ((TextView) view.findViewById(R.id.movieId))
-                            .getText().toString();
-                    Intent intent = new Intent(getApplicationContext(),
-                            UpdateGuichet.class);
-                    intent.putExtra(KEY_GUICHET_ID, guichetId);
-                    startActivityForResult(intent, 20);
-
-                } else {
-                    Toast.makeText(GetPieceAdherent.this,
-                            "Unable to connect to internet",
-                            Toast.LENGTH_LONG).show();
-
-                }
-
-
-            }
-        }); */
-
     }
-
-
-
 
 }

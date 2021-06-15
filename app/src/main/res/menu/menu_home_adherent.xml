@@ -41,16 +41,6 @@
         android:title="@string/action_nouveaux_adherent"
         app:showAsAction="never" />
 
-<!--    <item-->
-<!--        android:id="@+id/action_transfert"-->
-<!--        android:orderInCategory="100"-->
-<!--        android:title="@string/action_transfert"-->
-<!--        app:showAsAction="never" />-->
-<!--    <item-->
-<!--        android:id="@+id/action_operation_externe"-->
-<!--        android:orderInCategory="100"-->
-<!--        android:title="@string/action_operation_externe"-->
-<!--        app:showAsAction="never" />-->
     <item
         android:id="@+id/action_transfert"
         android:visible="true"
@@ -108,6 +98,25 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_divers"
+        android:visible="true"
+        android:orderInCategory="100"
+        android:titleCondensed="@string/action_divers"
+        android:title="@string/action_divers"
+        android:enabled="true">
+        <menu>
+            <item
+                android:id="@+id/action_add_vente_produit"
+                android:title="@string/action_add_vente_produit">
+            </item>
+            <item
+                android:id="@+id/action_list_vente_produits"
+                android:title="@string/action_list_operation_externe">
+            </item>
+        </menu>
+    </item>
+
+    <item
         android:id="@+id/action_cloturer_la_journee"
         android:orderInCategory="100"
         android:title="@string/action_cloturer_la_journee"
@@ -117,6 +126,4 @@
         android:orderInCategory="100"
         android:title="@string/action_logout"
         app:showAsAction="never" />
-
-
 </menu>

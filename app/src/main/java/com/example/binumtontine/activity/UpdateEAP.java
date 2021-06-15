@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
@@ -36,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
+
 public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
     private static final String EP_CAISSE_ID = "EpCaisseId";
@@ -54,8 +57,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_EAP_TYP_TX_INTER = "EpTypTxInter";
     private static final String KEY_EpValTxInter = "EpValTxInter";
     private static final String KEY_EpBaseTxInter = "EpBaseTxInter";
-    private static final String KEY_EpPlageTxInterFrom = "EpPlageTxInterFrom";
-    private static final String KEY_EpPlageTxInterTo = "EpPlageTxInterTo";
     private static final String KEY_EpIsTxIntNeg = "EpIsTxIntNeg";
     private static final String KEY_EpIsPriseIntMiseOn = "EpIsPriseIntMiseOn";
     private static final String EP_IsPenalNRespMise = "EpIsPenalNRespMise";
@@ -63,8 +64,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String EP_IsEchPenalSucces = "EpIsEchPenalSucces";
     private static final String EP_NatureRupAn = "EpNatureRupAn";
     private static final String EP_ValTxMtRupture = "EpValTxMtRupture";
-    private static final String EP_PlageTxMtRuptureFrom = "EpPlageTxMtRuptureFrom";
-    private static final String EP_PlageTxMtRuptureTo = "EpPlageTxMtRuptureTo";
     private static final String EP_BaseTxPenal = "EpBaseTxPenal";
 
 
@@ -82,8 +81,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String EP_IsNewTxIntRupAnt = "EpIsNewTxIntRupAnt";
     private static final String EP_TypNewTxIntRupAnt = "EpTypNewTxIntRupAnt";
     private static final String EP_ValTxIntRupant = "EpValTxIntRupant";
-    private static final String EP_PlageTxIntRupantFrom = "EpPlageTxIntRupantFrom";
-    private static final String EP_PlageTxIntRupantTo = "EpPlageTxIntRupantTo";
     private static final String EP_BaseTxIntRupant = "EpBaseTxIntRupant";
 
 
@@ -96,11 +93,8 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String EP_IsPenalRupAnt = "EpIsPenalRupAnt";
     private static final String EP_NaturePenal = "EpNaturePenal";
     private static final String EP_ValTxMtPenalite = "EpValTxMtPenalite";
-    private static final String EP_PlageTxMtPenaliteFrom = "EpPlageTxMtPenaliteFrom";
-    private static final String EP_PlageTxMtPenaliteTo = "EpPlageTxMtPenaliteTo";
     private static final String EP_BaseTxMtPenal = "EpBaseTxMtPenal";
-    //private static final String ET_CAISSE_ID = "EpCaisseId";
-    //private static final String ET_GUICHET_ID = "EtGuichetId";
+    private static final String KEY_EpIsTVAOn = "EpIsTVAOn";
 
 
     private static String STRING_EMPTY = "";
@@ -140,10 +134,8 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private EditText EpNbreUPas_ET;
     private RadioButton rbEpTypTxInterFixe;
     private RadioButton rbEpTypTxInterPlage;
+    private RadioButton rbEpTypTxInterPlageMois; //pour gérer la plage des mois
     private EditText EpValTxInter_ET;
-    private EditText EpPlageTxInterFrom_ET;
-    private EditText EpPlageTxInterTo_ET;
-    private EditText EpPlageTxInterValeur_ET;
     private Switch EpIsTxIntNeg_SW;
     private Switch EpIsPriseIntMiseOn_SW;
     private Switch EpIsPenalNRespMise_SW;
@@ -166,9 +158,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private RadioButton rbEpNatureRupAnMontant;
     private RadioButton rbEpNatureRupAnPlage;
     private EditText EpValTxMtRupture_ET;
-    private EditText EpPlageTxMtRuptureFrom_ET;
-    private EditText EpPlageTxMtRuptureTo_ET;
-    private EditText EpPlageTxMtRuptureValeur_ET;
     private Switch EpIsEparRetireFin_SW;
     private Switch EpIsEparTransfFin_SW;
     private Switch EpIsOnlyTotTransf_SW;
@@ -180,9 +169,6 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private RadioButton rbEpTypNewTxIntRupAntFixe;
     private RadioButton rbEpTypNewTxIntRupAntPlage;
     private EditText EpValTxIntRupant_ET;
-    private EditText EpPlageTxIntRupanFrom_ET;
-    private EditText EpPlageTxIntRupanTo_ET;
-    private EditText EpPlageTxIntRupanValeur_ET;
     private JRSpinner EpBaseTxIntRupant_ET;
     private Switch EpTxIntRupantNeg_SW;
     private Switch EpIsPenalRupAnt_SW;
@@ -190,16 +176,13 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private RadioButton rbEpNaturePenalMontant;
     private RadioButton rbEpNaturePenalPlage;
     private EditText EpValTxMtPenalite_ET;
-    private EditText EpPlageTxMtPenaliteFrom_ET;
-    private EditText EpPlageTxMtPenaliteTo_ET;
-    private EditText EpPlageTxMtPenaliteValeur_ET;
     private JRSpinner EpBaseTxMtPenal_ET;
     private String EpIsMtMultMise;
     private String EpIsVersemAntic;
     private String EpDureeMax;
     private String EpNaturePas;
     private String EpNbreUPas;
-    private String EpTypTxInter;
+    private String EpTypTxInter; //F=Fixe; P = Plage de valeur; M=Plage de mois
     private String EpValTxInter;
     private String EpIsTxIntNeg;
     private String EpIsPriseIntMiseOn;
@@ -233,6 +216,9 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
     private TextView headerEAPTextView;
     private TextView tv_header_produit;
 
+
+    private SwitchCompat EpIsTVAOn;
+    private String st_EpIsTVAOn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -255,6 +241,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
 
         EpCode_ET = (EditText) findViewById(R.id.input_txt_Code_EAP);
         EpCode_ET.setEnabled(false);
+        alreadyUpperCase(EpCode_ET);
         EpLibelle_ET = (EditText) findViewById(R.id.input_txt_LibelleEAP);
         Ep_MinMtMiseEAP_ET = (EditText) findViewById(R.id.input_txt_MinMtMiseEAP);
         EpIsMtMultMise_SW = (Switch) findViewById(R.id.SwitchMtMultMiseEAP);
@@ -268,6 +255,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         EpNbreUPas_ET = (EditText) findViewById(R.id.input_txt_NbreUnitePasEAP);
         rbEpTypTxInterFixe = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
+        rbEpTypTxInterPlageMois = (RadioButton) findViewById(R.id.rbEpTypTxInterPlageMois); //11_c
         EpValTxInter_ET = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAP);
         /*Base JR_EpBaseTxInter debut*/
         JR_EpBaseTxInter = (JRSpinner) findViewById(R.id.input_txt_EpBaseTxInter); //Nouveau champ 04/11/2020
@@ -375,6 +363,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
         rb_CtModRenouv_retirer = (RadioButton) findViewById(R.id.rb_CtModRenouv_retirer); //29_c
         rb_CtModRenouv_ras = (RadioButton) findViewById(R.id.rb_CtModRenouv_ras); //29_d
 
+        EpIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchEpIsTVAOn);
         //Plage
         //TEP
         tv_plageEpValTxMtRupture_ET = (TextView) findViewById(R.id.tv_plageEpValTxMtRupture_ET);
@@ -590,11 +579,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
                     EpNaturePenal = jsonObject.getString(EP_NaturePenal);
                     EpValTxMtPenalite = jsonObject.getString(EP_ValTxMtPenalite);
                     EpBaseTxMtPenal = ProduitEAP.decodeEpBaseTxMtPenal(jsonObject.getString(EP_BaseTxMtPenal));
-
-
-
-
-
+                    st_EpIsTVAOn = jsonObject.getString(KEY_EpIsTVAOn);
 //                }
             } catch (Exception  e) {
                 e.printStackTrace();
@@ -607,11 +592,7 @@ public class UpdateEAP extends AppCompatActivity implements SERVER_ADDRESS {
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-
-
 try {
-
-
     EpCode_ET.setText(EpCode);
     EpLibelle_ET.setText(EpLibelle);
     Ep_MinMtMiseEAP_ET.setText(EpMinMtMise);
@@ -738,6 +719,9 @@ try {
     }else if (EpTypTxInter.equals("P")){
         rbEpTypTxInterPlage.setChecked(true);
         onRadioButtonClicked(rbEpTypTxInterPlage);
+    }else if (EpTypTxInter.equals("M")){
+        rbEpTypTxInterPlageMois.setChecked(true);
+        onRadioButtonClicked(rbEpTypTxInterPlageMois);
     }
     if (EpNatureRupAn.equals("T")){
         rbEpNatureRupAnTaux.setChecked(true);
@@ -767,12 +751,12 @@ try {
         onRadioButtonClicked(rbEpNaturePenalPlage);
     }
 
-
-/*
-    onRadioButtonClicked(rbEpNatureRupAnTaux);
-    onRadioButtonClicked(rbEpTypNewTxIntRupAntFixe);
-    onRadioButtonClicked(rbEpNaturePenalMontant);
-    onRadioButtonClicked(rb_CtModRenouv_transfert_vers_eav);*/
+    //TVA
+    if (st_EpIsTVAOn.equals("Y")){
+        EpIsTVAOn.setChecked(true);
+    }else {
+        EpIsTVAOn.setChecked(false);
+    }
 
     onSwitchButtonClicked(EpIsPenalNRespMise_SW);
     onSwitchButtonClicked(EpIsInterDusRupAnt_SW);
@@ -875,7 +859,7 @@ try {
     }
 
     public void onSwitchButtonClicked(View view) {
-        boolean checked1 = ((Switch) view).isChecked();
+      //  boolean checked1 = ((Switch) view).isChecked();
         String str="";
 
         // Check which checkbox was clicked
@@ -883,7 +867,7 @@ try {
 
             case R.id.SwitchPenaliteEnCasDeRuptureEAP:
                 if (EpIsPenalNRespMise_SW.isChecked()) {
-                    str = checked1?"Pénalité en cas de non respect des échéances activée":"Pénalité en cas de non respect des échéances désactivée";
+                    //str = checked1?"Pénalité en cas de non respect des échéances activée":"Pénalité en cas de non respect des échéances désactivée";
 
                     EpNbEchPenalOn_ET.setVisibility(View.VISIBLE);
                     ll_EcheancePenaliteSuccessiveEAP.setVisibility(View.VISIBLE);
@@ -902,7 +886,7 @@ try {
                 break;
             case R.id.SwitchInteretDusRuptureEAP:
                 if (EpIsInterDusRupAnt_SW.isChecked()) {
-                    str = checked1?"Intérêts dûs  en cas de rupture anticipée activé":"Intérêts dûs  en cas de rupture anticipée désactivé";
+                    //str = checked1?"Intérêts dûs  en cas de rupture anticipée activé":"Intérêts dûs  en cas de rupture anticipée désactivé";
                     ll_DefinirNouveauTxInteretEAP.setVisibility(View.VISIBLE);
                 }else{
                     ll_DefinirNouveauTxInteretEAP.setVisibility(View.GONE);
@@ -916,7 +900,7 @@ try {
 
             case R.id.SwitchDefinirNouveauTxInteretEAP:
                 if (EpIsNewTxIntRupAnt_SW.isChecked()) {
-                    str = checked1?"Pénalité en cas de non respect des échéances activée":"Pénalité en cas de non respect des échéances désactivée";
+                  //  str = checked1?"Pénalité en cas de non respect des échéances activée":"Pénalité en cas de non respect des échéances désactivée";
 
                     //LL_EtNatureRupAn.setVisibility(View.VISIBLE);
 
@@ -937,7 +921,7 @@ try {
 
             case R.id.SwitchPenaliteDeblocageEnCasDeRuptureEAP:
                 if (EpIsPenalRupAnt_SW.isChecked()) {
-                    str = checked1?"Pénalité en cas de non respect des échéances activée":"Pénalité en cas de non respect des échéances désactivée";
+                  //  str = checked1?"Pénalité en cas de non respect des échéances activée":"Pénalité en cas de non respect des échéances désactivée";
                     ll_EpNaturePenal.setVisibility(View.VISIBLE);
                     EpValTxMtPenalite_ET.setVisibility(View.VISIBLE);
 
@@ -999,6 +983,14 @@ try {
             case R.id.rbEpTypTxInterPlage:
                 if (rbEpTypTxInterPlage.isChecked()) {
                     EpTypTxInter ="P";
+                    input_layout_EpBaseTxInter.setVisibility(View.GONE);
+                    EpValTxInter_ET.setVisibility(View.GONE);
+                    tv_plageEpValTxInter.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.rbEpTypTxInterPlageMois:
+                if (rbEpTypTxInterPlageMois.isChecked()) {
+                    EpTypTxInter ="M";
                     input_layout_EpBaseTxInter.setVisibility(View.GONE);
                     EpValTxInter_ET.setVisibility(View.GONE);
                     tv_plageEpValTxInter.setVisibility(View.VISIBLE);
@@ -1226,6 +1218,13 @@ try {
             EpBaseTxMtPenal = EpBaseTxMtPenal_ET.getText().toString();
             EpBaseTxMtPenal = ProduitEAP.encodeEpBaseTxMtPenal(EpBaseTxMtPenal_ET.getText().toString());
 
+            //TVA
+            if (EpIsTVAOn.isChecked()) {
+                st_EpIsTVAOn = "Y";
+            }else {
+                st_EpIsTVAOn = "N";
+            }
+
             new UpdateEapAsyncTask().execute();
         } else {
             Toast.makeText(UpdateEAP.this,
@@ -1302,6 +1301,10 @@ try {
             httpParams.put(EP_ValTxMtPenalite, String.valueOf(EpValTxMtPenalite));
             httpParams.put(EP_BaseTxMtPenal, String.valueOf(EpBaseTxMtPenal));
             httpParams.put(EP_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
+
+
+            //TVA
+            httpParams.put(KEY_EpIsTVAOn, st_EpIsTVAOn);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_eap.php", "POST", httpParams);
 

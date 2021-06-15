@@ -3,7 +3,6 @@ package com.example.binumtontine.activity;
 
 
 import android.app.DatePickerDialog;
-import android.app.MediaRouteButton;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -13,10 +12,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,17 +31,14 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -60,6 +53,12 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private static final String KEY_GX_LOCALITE = "gx_localite";
     private static final String KEY_GX_DENOMINATION = "gx_denomination";
     private static final String KEY_GX_DATE_DEBUT = "gx_date_debut";
+
+    private static final String KEY_GxNumAgremCobac = "GxNumAgremCobac";
+    private static final String KEY_GxDatAgremCobac = "GxDatAgremCobac";
+    private static final String KEY_GxNumAgremCNC = "GxNumAgremCNC";
+    private static final String KEY_GxDatAgremCNC = "GxDatAgremCNC";
+
     private static final String KEY_GX_ADRESSE = "gx_adresse";
     private static final String KEY_GX_TEL1 = "gx_tel1";
     private static final String KEY_GX_TEL2 = "gx_tel2";
@@ -104,6 +103,11 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private JRSpinner mySpinnerFreqComCredit; //pour gérer le spinner contenant les localités
     private EditText gx_denominationEditText;
     private EditText gx_date_debutEditText;
+/*
+    private EditText GxNumAgremCobac;
+    private EditText GxDatAgremCobac;
+    private EditText GxNumAgremCNC;
+    private EditText GxDatAgremCNC;*/
     private EditText gx_adresseEditText;
     private EditText gx_tel1EditText;
     private EditText gx_tel2EditText;
@@ -126,6 +130,7 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     private String gxLocalite;
     private String gxDenomination;
     private String gx_date_debut;
+
     private String gx_adresse;
     private String gx_tel1;
     private String gx_tel2;
@@ -168,7 +173,10 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
 
 
     private DatePickerDialog gx_date_debut_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
-
+/*
+    private DatePickerDialog GxDatAgremCobacPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog GxDatAgremCNCPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+*/
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
     private LinearLayout block_Switch8jr_semaine_Gx, ll_getTodayDay;
     private EditText jv_jour_1_EditText;
@@ -213,37 +221,17 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         ccp_phone3 = (CountryCodePicker) findViewById(R.id.ccp_phone3);
         editTextCarrierPhone3 = (EditText) findViewById(R.id.editText_carrierPhone3);
         ccp_phone3.registerCarrierNumberEditText(editTextCarrierPhone3);
-
-
         /* End manage country*/
-
-
-
-
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         findViewsById();
 
         setDateTimeField();
-       // mySpinnerCaisse = (JRSpinner)findViewById(R.id.spn_my_spinner_select_caisse);
-       // textInputLayoutCaisse = (TextInputLayout) findViewById(R.id.til_caisse);
-       // textInputLayoutCaisse.setVisibility(View.GONE);
         mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_my_spinner_localite_guichet);
 
-       // mySpinnerCaisse.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
         mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_localite)); //this is important, you must set it to set the item list
-//        mySpinnerCaisse.setTitle("Sélectionner une caisse"); //change title of spinner-dialog programmatically
         mySpinnerLocalite.setTitle("Sélectionner une localité"); //change title of spinner-dialog programmatically
-       // mySpinnerCaisse.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerLocalite.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
-
-     /*   mySpinnerCaisse.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
-            @Override
-            public void onItemClick(int position) {
-                //do what you want to the selected position
-
-            }
-        });*/
         mySpinnerLocalite.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
@@ -251,8 +239,6 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
 
             }
         });
-
-
         mySpinnerFreqComCredit = (JRSpinner)findViewById(R.id.spn_GuFreqReunComCred);
 
         mySpinnerFreqComCredit.setItems(getResources().getStringArray(R.array.array_GuFreqReunComCred)); //this is important, you must set it to set the item list
@@ -262,9 +248,6 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         mySpinnerFreqComCredit.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
-                //do what you want to the selected position
-                //  cxLocalite = mySpinnerLocalite.getText().toString();
-                // Log.d("iddddddd***",caisseLocalite);
             }
         });
 
@@ -272,6 +255,9 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
         gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
         alreadyUpperCase(gx_denominationEditText);
         gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
+        /*GxNumAgremCobac = (EditText) findViewById(R.id.input_txt_GxNumAgremCobac);
+        GxNumAgremCNC = (EditText) findViewById(R.id.input_txt_GxNumAgremCNC);*/
+
         gx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseGx);
 
         gx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Gx);
@@ -415,18 +401,7 @@ public class CreateGuichet extends AppCompatActivity implements View.OnClickList
     }
 
     private void addGuichet() {
-       /* if (!STRING_EMPTY.equals(gx_denominationEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(mySpinnerLocalite.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_date_debutEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_adresseEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_tel2EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_tel3EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_is_forcer_clotSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_heure_clotEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_tel1EditText.getText().toString())) {*/
 if (true){
-            //gxCaisse = mySpinnerCaisse.getText().toString();
-            //gxCaisse = "1";//gérer plutot dynamiquement
             gxLocalite = MyData.normalizeSymbolsAndAccents(mySpinnerLocalite.getText().toString());
             gxDenomination = MyData.normalizeSymbolsAndAccents(gx_denominationEditText.getText().toString());
             gx_date_debut = gx_date_debutEditText.getText().toString();
@@ -434,20 +409,15 @@ if (true){
             gx_tel1 = ccp_phone1.getFullNumberWithPlus();
             gx_tel2 = ccp_phone2.getFullNumberWithPlus();
             gx_tel3 = ccp_phone3.getFullNumberWithPlus();
-            /*gx_tel1 = gx_tel1EditText.getText().toString();
-            gx_tel2 = gx_tel2EditText.getText().toString();
-            gx_tel3 = gx_tel3EditText.getText().toString();*/
 
             gx_nom_pca = MyData.normalizeSymbolsAndAccents(gx_nom_pcaEditText.getText().toString());
             gx_nom_dg = MyData.normalizeSymbolsAndAccents(gx_nom_dgEditText.getText().toString());
-           // gx_is_forcer_clot = Boolean.parseBoolean(gx_is_forcer_clotSwitch.isChecked());
              if (gx_is_forcer_clotSwitch.isChecked()){
                 gx_is_forcer_clot = "Y";
             }else{
                 gx_is_forcer_clot = "N";
             }
             gx_heure_clot = gx_heure_clotEditText.getText().toString();
-           // gx_is_oper_apres_clot = Boolean.parseBoolean(gx_is_oper_apres_clotSwitch.getText().toString());
             if (gx_is_oper_apres_clotSwitch.isChecked()){
                 gx_is_oper_apres_clot = "Y";
             }else{
@@ -456,13 +426,11 @@ if (true){
             gx_nbre_rapp_by_jour = gx_nbre_rapp_by_jourEditText.getText().toString();
             gx_nbre_jr_av_rapp = gx_nbre_jr_av_rappEditText.getText().toString();
             gx_nbre_jr_av_rapp = gx_nbre_jr_av_rappEditText.getText().toString();
-           // gx_is_jour8_on = Boolean.parseBoolean(gx_is_jour8_onSwitch.getText().toString());
             if (gx_is_jour8_onSwitch.isChecked()){
                 gx_is_jour8_on = "Y";
             }else{
                 gx_is_jour8_on = "N";
             }
-            //gx_is_credit_by_objet = Boolean.parseBoolean(gx_is_credit_by_objetSwitch.getText().toString());
 
             if (gx_is_credit_by_objetSwitch.isChecked()){
                 gx_is_credit_by_objet = "Y";
@@ -470,54 +438,52 @@ if (true){
                 gx_is_credit_by_objet = "N";
             }
             gx_first_jr_on = gx_first_jr_onEditText.getText().toString();
-           // gx_freq_reun_com_cred = gx_freq_reun_com_credEditText.getText().toString();
-    gx_freq_reun_com_cred = mySpinnerFreqComCredit.getText().toString();
-    if (mySpinnerFreqComCredit.getText().toString().equals("HEBDOMADAIRE")){
-        gx_freq_reun_com_cred = "H";
-    }else if (mySpinnerFreqComCredit.getText().toString().equals("MENSUELLE")){
-        gx_freq_reun_com_cred = "M";
-    }else if (mySpinnerFreqComCredit.getText().toString().equals("TRIMESTRIELLE")){
-        gx_freq_reun_com_cred = "T";
-    }
-           // gx_is_rapp_net_msg_cred_on = Boolean.parseBoolean(gx_is_rapp_net_msg_cred_onSwitch.getText().toString());
+            gx_freq_reun_com_cred = mySpinnerFreqComCredit.getText().toString();
+            if (mySpinnerFreqComCredit.getText().toString().equals("HEBDOMADAIRE")){
+                gx_freq_reun_com_cred = "H";
+            }else if (mySpinnerFreqComCredit.getText().toString().equals("MENSUELLE")){
+                gx_freq_reun_com_cred = "M";
+            }else if (mySpinnerFreqComCredit.getText().toString().equals("TRIMESTRIELLE")){
+                gx_freq_reun_com_cred = "T";
+            }
 
-    if (gx_is_rapp_net_msg_cred_onSwitch.isChecked()){
-        gx_is_rapp_net_msg_cred_on = "Y";
-    }else{
-        gx_is_rapp_net_msg_cred_on = "N";
-    }
+            if (gx_is_rapp_net_msg_cred_onSwitch.isChecked()){
+                gx_is_rapp_net_msg_cred_on = "Y";
+            }else{
+                gx_is_rapp_net_msg_cred_on = "N";
+            }
 
 
-    st_GxMtPlafDecAutPCG = GxMtPlafDecAutPCG.getText().toString();
-    st_GxNbMoisHistoDef = GxNbMoisHistoDef.getText().toString();
-    if (GxIsPreComGesGuPGC.isChecked()){
-        bool_GxIsPreComGesGuPGC = "Y";
-    }else{
-        bool_GxIsPreComGesGuPGC = "N";
-    }
+            st_GxMtPlafDecAutPCG = GxMtPlafDecAutPCG.getText().toString();
+            st_GxNbMoisHistoDef = GxNbMoisHistoDef.getText().toString();
+            if (GxIsPreComGesGuPGC.isChecked()){
+                bool_GxIsPreComGesGuPGC = "Y";
+            }else{
+                bool_GxIsPreComGesGuPGC = "N";
+            }
 
-    if (GxIsChefGuichCG.isChecked()){
-        bool_GxIsChefGuichCG = "Y";
-    }else{
-        bool_GxIsChefGuichCG = "N";
-    }
+            if (GxIsChefGuichCG.isChecked()){
+                bool_GxIsChefGuichCG = "Y";
+            }else{
+                bool_GxIsChefGuichCG = "N";
+            }
 
-    if (GxIsAgentGuichAG.isChecked()){
-        bool_GxIsAgentGuichAG = "Y";
-    }else{
-        bool_GxIsAgentGuichAG = "N";
-    }
+            if (GxIsAgentGuichAG.isChecked()){
+                bool_GxIsAgentGuichAG = "Y";
+            }else{
+                bool_GxIsAgentGuichAG = "N";
+            }
 
-    if (gx_is_jour8_onSwitch.isChecked()){
-        joursVillage +=jv_jour_1_EditText.getText().toString().trim();
-        joursVillage +=";"+jv_jour_2_EditText.getText().toString().trim();
-        joursVillage +=";"+jv_jour_3_EditText.getText().toString().trim();
-        joursVillage +=";"+jv_jour_4_EditText.getText().toString().trim();
-        joursVillage +=";"+jv_jour_5_EditText.getText().toString().trim();
-        joursVillage +=";"+jv_jour_6_EditText.getText().toString().trim();
-        joursVillage +=";"+jv_jour_7_EditText.getText().toString().trim();
-        joursVillage +=";"+jv_jour_8_EditText.getText().toString().trim();
-    }
+            if (gx_is_jour8_onSwitch.isChecked()){
+                joursVillage +=jv_jour_1_EditText.getText().toString().trim();
+                joursVillage +=";"+jv_jour_2_EditText.getText().toString().trim();
+                joursVillage +=";"+jv_jour_3_EditText.getText().toString().trim();
+                joursVillage +=";"+jv_jour_4_EditText.getText().toString().trim();
+                joursVillage +=";"+jv_jour_5_EditText.getText().toString().trim();
+                joursVillage +=";"+jv_jour_6_EditText.getText().toString().trim();
+                joursVillage +=";"+jv_jour_7_EditText.getText().toString().trim();
+                joursVillage +=";"+jv_jour_8_EditText.getText().toString().trim();
+            }
 
 
 
@@ -536,14 +502,22 @@ if (true){
         gx_date_debutEditText.requestFocus();
         gx_date_debutEditText.setInputType(InputType.TYPE_NULL);
 
+      /*  GxDatAgremCobac = (EditText) findViewById(R.id.input_txt_GxDatAgremCobac);
+        GxDatAgremCobac.setInputType(InputType.TYPE_NULL);
+        GxDatAgremCobac.requestFocus();
 
+        GxDatAgremCNC = (EditText) findViewById(R.id.input_txt_GxDatAgremCNC);
+        GxDatAgremCNC.setInputType(InputType.TYPE_NULL);
+        GxDatAgremCNC.requestFocus();*/
 
 
     }
 
     private void setDateTimeField() {
         gx_date_debutEditText.setOnClickListener(this);
-
+/*
+        GxDatAgremCobac.setOnClickListener(this);
+        GxDatAgremCNC.setOnClickListener(this);*/
 
         Calendar newCalendar = Calendar.getInstance();
         gx_date_debut_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -555,8 +529,28 @@ if (true){
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+/*
+        GxDatAgremCobacPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                GxDatAgremCobac.setText(dateFormatter.format(newDate.getTime()));
+            }
 
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        GxDatAgremCNCPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                GxDatAgremCNC.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+*/
 
     }
 
@@ -564,7 +558,11 @@ if (true){
     public void onClick(View v) {
         if(v == gx_date_debutEditText) {
             gx_date_debut_PickerDialog.show();
-        }
+        } /*else if(v == GxDatAgremCobac) {
+            GxDatAgremCobacPickerDialog.show();
+        } else if(v == GxDatAgremCNC) {
+            GxDatAgremCNCPickerDialog.show();
+        }*/
     }
 
 
@@ -597,29 +595,35 @@ if (true){
             httpParams.put(KEY_GX_LOCALITE, gxLocalite);
             httpParams.put(KEY_GX_DENOMINATION, gxDenomination);
             httpParams.put(KEY_GX_DATE_DEBUT, gx_date_debut);
+/*
+            httpParams.put(KEY_GxNumAgremCobac, GxNumAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_GxDatAgremCobac, GxDatAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_GxNumAgremCNC, GxNumAgremCNC.getText().toString().trim());
+            httpParams.put(KEY_GxDatAgremCNC, GxDatAgremCNC.getText().toString().trim());*/
+
             httpParams.put(KEY_GX_ADRESSE, gx_adresse);
             httpParams.put(KEY_GX_TEL1, gx_tel1);
             httpParams.put(KEY_GX_TEL2, gx_tel2);
             httpParams.put(KEY_GX_TEL3, gx_tel3);
             httpParams.put(KEY_GX_NOM_PCA, gx_nom_pca);
             httpParams.put(KEY_GX_NOM_DG, gx_nom_dg);
-            httpParams.put(KEY_GX_IS_FORCER_CLOT, gx_is_forcer_clot.toString());
+            httpParams.put(KEY_GX_IS_FORCER_CLOT, gx_is_forcer_clot);
             httpParams.put(KEY_GX_HEURE_CLOT, gx_heure_clot);
-            httpParams.put(KEY_GX_IS_OPER_APRES_CLOT, gx_is_oper_apres_clot.toString());
+            httpParams.put(KEY_GX_IS_OPER_APRES_CLOT, gx_is_oper_apres_clot);
             httpParams.put(KEY_GX_NBRE_RAPP_BY_JOUR, gx_nbre_rapp_by_jour);
             httpParams.put(KEY_GX_NBRE_JR_AV_RAPP, gx_nbre_jr_av_rapp);
-            httpParams.put(KEY_GX_IS_JOUR8_ON, gx_is_jour8_on.toString());
-            httpParams.put(KEY_GX_IS_CREDIT_BY_OBJET, gx_is_credit_by_objet.toString());
+            httpParams.put(KEY_GX_IS_JOUR8_ON, gx_is_jour8_on);
+            httpParams.put(KEY_GX_IS_CREDIT_BY_OBJET, gx_is_credit_by_objet);
             httpParams.put(KEY_GX_FIRST_JR_ON, gx_first_jr_on);
             httpParams.put(KEY_GX_FREQ_REUN_COM_CRED, gx_freq_reun_com_cred);
-            httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on.toString());
+            httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on);
 
 
             httpParams.put(KEY_GxMtPlafDecAutPCG, st_GxMtPlafDecAutPCG);
             httpParams.put(KEY_GxNbMoisHistoDef, st_GxNbMoisHistoDef);
-            httpParams.put(KEY_GxIsPreComGesGuPGC, bool_GxIsPreComGesGuPGC.toString());
-            httpParams.put(KEY_GxIsChefGuichCG, bool_GxIsChefGuichCG.toString());
-            httpParams.put(KEY_GxIsAgentGuichAG, bool_GxIsAgentGuichAG.toString());
+            httpParams.put(KEY_GxIsPreComGesGuPGC, bool_GxIsPreComGesGuPGC);
+            httpParams.put(KEY_GxIsChefGuichCG, bool_GxIsChefGuichCG);
+            httpParams.put(KEY_GxIsAgentGuichAG, bool_GxIsAgentGuichAG);
 
 
             httpParams.put(KEY_GxJoursVillage, joursVillage);

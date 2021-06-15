@@ -66,6 +66,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
@@ -83,6 +84,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
 
 public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
@@ -115,6 +118,10 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private static final String KEY_CcIsChequierM2On = "EvIsCheqTyp2On";
     private static final String KEY_CcNbPagesCheqM2 = "EvNbPageCheqT2";
     private static final String KEY_CcPrixVteCheqM2 = "EvMtCheqTyp2";
+
+    private static final String KEY_EvPeriodCalcTxInt = "EvPeriodCalcTxInt";
+    private static final String KEY_EvPeriodFrTenueCpte = "EvPeriodFrTenueCpte";
+    private static final String KEY_EvIsTVAOn = "EvIsTVAOn";
 
 
     private static final String KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_DEBUT = "EvTivDebut";
@@ -150,14 +157,9 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private LinearLayout ll_bloc_chequier;
     private LinearLayout bloc_cc2;
     private LinearLayout bloc_cc3;
-   // private EditText ev_typ_fr_agiosEditText;RadioButton
-    private RadioButton ev_typ_fr_agiosEditText;
     private EditText ev_mt_tx_agios_prelevEditText;
 
-//    private EditText ev_plage_agios_fromEditText;
-//    private EditText ev_plage_agios_toEditText;
     private Switch ev_is_cheque_onSwitch;
-//    private EditText ev_frais_clot_cptEditText;
 
     private String ev_code;
     private String ev_libelle;
@@ -174,14 +176,11 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private String ev_mt_tx_agios_prelev;
     private String base_ev_mt_tx_agios_prelev;
     private String base_ev_tx_inter_an;
-//    private String ev_plage_agios_from;
-//    private String ev_plage_agios_to;
     private String ev_is_cheque_on;
-//    private String ev_frais_clot_cpt;
     private int ev_caisse_id = MyData.CAISSE_ID;
 
-//    private LinearLayout blkPlageEav;
     private LinearLayout LL_TypeFraisCpteEAV;
+    private LinearLayout ll_EvPeriodFrTenueCpte;
 
     private RadioButton rbEpTypTxInterFixe;
     private RadioButton rbEpTypTxInterTaux;
@@ -240,15 +239,30 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private RadioButton rbEvNatureFraisClotTaux;
     private RadioButton rbEvNatureFraisClotPlage;
 
+    //EvPeriodCalcTxInt
+    private RadioButton rb_EvPeriodCalcTxInt_M;
+    private RadioButton rb_EvPeriodCalcTxInt_T;
+    private RadioButton rb_EvPeriodCalcTxInt_S;
+    private RadioButton rb_EvPeriodCalcTxInt_A;
+    private String EvPeriodCalcTxInt;
+
+    //EvPeriodFrTenueCpte
+    private RadioButton rb_EvPeriodFrTenueCpte_M;
+    private RadioButton rb_EvPeriodFrTenueCpte_T;
+    private RadioButton rb_EvPeriodFrTenueCpte_S;
+    private RadioButton rb_EvPeriodFrTenueCpte_A;
+    private String EvPeriodFrTenueCpte;
+
 
     private TextInputLayout layout_EvValFraisCloture;
     private TextInputLayout layout_EvBaseFraisCloture;
     private TextView tv_config_plage_fcv;
     private String EvNatureFraisClot;
+
     private String EvValFraisCloture;
     private String EvBaseFraisCloture;
     //END 27/10/2020
-    //STRT 05/11/2020
+    //START 05/11/2020
     private RadioButton rbEvNatureTxIntTaux;
     private RadioButton rbEvNatureTxIntPlage;
     private LinearLayout LL_bloc_Tx_Int_VIB; //Add at 05/11/2020
@@ -269,16 +283,13 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
     private String tabPlageBaseVIB ="";
     private String tabPlageNatureVIB ="";
     //FIN 05/11/2020
+    private SwitchCompat EvIsTVAOn;
+    private String st_EvIsTVAOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_add_movie);
-      //  setContentView(R.layout.fragment_param_produit_eav);
         setContentView(R.layout.activity_eav);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
         ll_bloc_chequier = (LinearLayout) findViewById(R.id.ll_bloc_chequier);
 
         bloc_cc2 = (LinearLayout) findViewById(R.id.ll_bloc_cc2);
@@ -296,6 +307,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         tv_config_plage_tiv = (TextView) findViewById(R.id.tv_plage_tiv_eav);
 
         ev_codeEditText = (EditText) findViewById(R.id.input_txt_Code_EAV);
+        alreadyUpperCase(ev_codeEditText);
         ev_libelleEditText = (EditText) findViewById(R.id.input_txt_LibelleEAV);
         ev_min_cpteEditText = (EditText) findViewById(R.id.input_txt_MinCompteEAV);
         ev_min_cpteEditText.addTextChangedListener(MyData.onTextChangedListener(ev_min_cpteEditText));
@@ -307,22 +319,28 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         ev_is_multi_eav_onSwitch = (Switch) findViewById(R.id.SwitchMultiEAV);
         ev_is_paie_ps_onSwitch = (Switch) findViewById(R.id.SwitchPayerPSOnEAV);
         ev_is_agios_onSwitch = (Switch) findViewById(R.id.SwitchFraisTenuCpteOnEAV);
-
-
-        //ev_typ_fr_agiosEditText = (EditText) findViewById(R.id.input_txt_TauxAPreleveCpteEAV);
-
         ev_mt_tx_agios_prelevEditText = (EditText) findViewById(R.id.input_txt_TauxAPreleveCpteEAV);
 
         ev_is_cheque_onSwitch = (Switch) findViewById(R.id.SwitchChequeOnEAV);
-//        ev_frais_clot_cptEditText = (EditText) findViewById(R.id.input_txt_FraisClotureCpteEAV);
 
-        //ev_frais_clot_cptEditText.addTextChangedListener(new DigitFormatWatcher(ev_frais_clot_cptEditText));
+        //START 07/05/2021
+        rb_EvPeriodCalcTxInt_M = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_M);
+        rb_EvPeriodCalcTxInt_T = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_T);
+        rb_EvPeriodCalcTxInt_S = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_S);
+        rb_EvPeriodCalcTxInt_A = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_A);
+        onRadioButtonClicked(rb_EvPeriodCalcTxInt_M);
 
-
+        rb_EvPeriodFrTenueCpte_M = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_M);
+        rb_EvPeriodFrTenueCpte_T = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_T);
+        rb_EvPeriodFrTenueCpte_S = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_S);
+        rb_EvPeriodFrTenueCpte_A = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_A);
+        onRadioButtonClicked(rb_EvPeriodFrTenueCpte_M);
 
         //START 27/10/2020
         ET_EvValFraisCloture = (EditText) findViewById(R.id.input_txt_EvValFraisCloture);
         ET_EvValFraisCloture.addTextChangedListener(MyData.onTextChangedListener(ET_EvValFraisCloture));
+
+
         rbEvNatureFraisClotFixe = (RadioButton) findViewById(R.id.rbEvNatureFraisClotFixe);
         rbEvNatureFraisClotTaux = (RadioButton) findViewById(R.id.rbEvNatureFraisClotTaux);
         rbEvNatureFraisClotPlage = (RadioButton) findViewById(R.id.rbEvNatureFraisClotPlage);
@@ -360,6 +378,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         rbEpTypTxInterTaux = (RadioButton) findViewById(R.id.rbEpTypTxInterTaux);
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
         LL_TypeFraisCpteEAV = (LinearLayout) findViewById(R.id.ll_TypeFraisCpteEAV);
+        ll_EvPeriodFrTenueCpte = (LinearLayout) findViewById(R.id.ll_EvPeriodFrTenueCpte);
 
         layout_MinCompteEAV = (TextInputLayout) findViewById(R.id.input_layout_MinCompteEAV);
         layout_TauxInteretAnnuelEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxInteretAnnuelEAV);
@@ -403,7 +422,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
         });
 
 
-
+        EvIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchEvIsTVAOn);
         onRadioButtonClicked(rbEpTypTxInterFixe);
 
         onSwitchButtonClicked(ev_is_agios_onSwitch);
@@ -544,67 +563,91 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                 break;
             case R.id.SwitchFraisTenuCpteOnEAV:
                 if (ev_is_agios_onSwitch.isChecked()){
-//                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
 
                     LL_TypeFraisCpteEAV.setVisibility(View.VISIBLE);
-                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
+                    ll_EvPeriodFrTenueCpte.setVisibility(View.VISIBLE);
                     onRadioButtonClicked(rbEpTypTxInterFixe);
-                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                 }else{
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
                     LL_TypeFraisCpteEAV.setVisibility(View.GONE);
+                    ll_EvPeriodFrTenueCpte.setVisibility(View.GONE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
                     tv_config_plage_tiv.setVisibility(View.GONE);
                 }
-
-
                 break;
 
             case R.id.SwitchChequeOnEAV:
                 if (ev_is_cheque_onSwitch.isChecked()) {
-//                    str = checked1 ? "Chèque disponible" : "Chèque non disponible";
-
                     ll_bloc_chequier.setVisibility(View.VISIBLE);
-                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
                 } else {
                     ll_bloc_chequier.setVisibility(View.GONE);
                 }
-
                 break;
-
             case R.id.Switch_txtDisponibiliteChequier1CC:
                 if (CcIsChequierM1On.isChecked()) {
-//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
-
                     bloc_cc2.setVisibility(View.VISIBLE);
-                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
                 } else {
                     bloc_cc2.setVisibility(View.GONE);
                 }
-
                 break;
             case R.id.Switch_txtDisponibiliteChequier2CC:
                 if (CcIsChequierM2On.isChecked()) {
-//                    str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
-
                     bloc_cc3.setVisibility(View.VISIBLE);
-                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
                 } else {
                     bloc_cc3.setVisibility(View.GONE);
                 }
-
                 break;
-
         }
-//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
     public void onRadioButtonClicked(View view) {
-//        boolean checked1 = ((RadioButton) view).isChecked();
-//        String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
 
+//            EvPeriodFrTenueCpte debut
+            case R.id.rb_EvPeriodFrTenueCpte_M:
+                if (rb_EvPeriodFrTenueCpte_M.isChecked()) {
+                    EvPeriodFrTenueCpte ="M";
+                }
+                break;
+            case R.id.rb_EvPeriodFrTenueCpte_T:
+                if (rb_EvPeriodFrTenueCpte_T.isChecked()) {
+                    EvPeriodFrTenueCpte ="T";
+                }
+                break;
+            case R.id.rb_EvPeriodFrTenueCpte_S:
+                if (rb_EvPeriodFrTenueCpte_S.isChecked()) {
+                    EvPeriodFrTenueCpte ="S";
+                }
+                break;
+            case R.id.rb_EvPeriodFrTenueCpte_A:
+                if (rb_EvPeriodFrTenueCpte_A.isChecked()) {
+                    EvPeriodFrTenueCpte ="A";
+                }
+                break;
+            //            EvPeriodFrTenueCpte fin
+//            EvPeriodCalcTxInt debut
+            case R.id.rb_EvPeriodCalcTxInt_M:
+                if (rb_EvPeriodCalcTxInt_M.isChecked()) {
+                    EvPeriodCalcTxInt ="M";
+                }
+                break;
+            case R.id.rb_EvPeriodCalcTxInt_T:
+                if (rb_EvPeriodCalcTxInt_T.isChecked()) {
+                    EvPeriodCalcTxInt ="T";
+                }
+                break;
+            case R.id.rb_EvPeriodCalcTxInt_S:
+                if (rb_EvPeriodCalcTxInt_S.isChecked()) {
+                    EvPeriodCalcTxInt ="S";
+                }
+                break;
+            case R.id.rb_EvPeriodCalcTxInt_A:
+                if (rb_EvPeriodCalcTxInt_A.isChecked()) {
+                    EvPeriodCalcTxInt ="A";
+                }
+                break;
+            //            EvPeriodCalcTxInt fin
             case R.id.rbEvNatureFraisClotFixe:
                 if (rbEvNatureFraisClotFixe.isChecked()) {
                     EvNatureFraisClot ="F";
@@ -668,9 +711,7 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                     layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     tv_config_plage_tiv.setVisibility(View.GONE);
-        }
-
-
+                }
                 break;
             case R.id.rbEpTypTxInterPlage:
                 if (rbEpTypTxInterPlage.isChecked()) {
@@ -681,7 +722,6 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
                 }
                 break;
         }
-//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -692,12 +732,10 @@ public class CreateProduitEAV extends AppCompatActivity implements SERVER_ADDRES
      */
     private void addEAV() {
 
-if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
+        if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
         !STRING_EMPTY.equals(ev_libelleEditText.getText().toString().trim())
-){
-    try {
-
-
+        ){
+            try {
         ev_code = MyData.normalizeSymbolsAndAccents( ev_codeEditText.getText().toString());
         ev_libelle = MyData.normalizeSymbolsAndAccents( ev_libelleEditText.getText().toString());
 
@@ -744,14 +782,9 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             ev_is_agios_on = "N";
         }
 
-        //ev_typ_fr_agios = ev_typ_fr_agiosEditText.getText().toString();
-
         ev_mt_tx_agios_prelev = ev_mt_tx_agios_prelevEditText.getText().toString();
         base_ev_mt_tx_agios_prelev = ProduitEAV.encodeEvBaseTxAgiosPrelev(mySpinnerLocalite.getText().toString()) ;
         base_ev_tx_inter_an = ProduitEAV.encodeEvBaseTxInterAn(mySpinnerBaseTxIntMensuel.getText().toString());
-//        ev_plage_agios_from = ev_plage_agios_fromEditText.getText().toString();
-//        ev_plage_agios_to = ev_plage_agios_toEditText.getText().toString();
-//        ev_frais_clot_cpt = ev_frais_clot_cptEditText.getText().toString();
         if (CcIsChequierM1On.isChecked()) {
             st_CcIsChequierM1On = "Y";
         } else {
@@ -775,13 +808,21 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
         st_CcPrixVteCheqM2 = CcPrixVteCheqM2.getText().toString();
 
 
+        //TVA
+        if (EvIsTVAOn.isChecked()) {
+            st_EvIsTVAOn = "Y";
+        }else {
+            st_EvIsTVAOn = "N";
+        }
+
         if (!(ET_EvValFraisCloture.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)) {
             ev_cloture = Double.valueOf(ET_EvValFraisCloture.getText().toString().replaceAll(",", "").trim());
             ET_EvValFraisCloture.setText(ev_cloture + "");
         }
         EvValFraisCloture = ET_EvValFraisCloture.getText().toString();
         EvBaseFraisCloture = ProduitEAV.encodeEvBaseFraisCloture(JR_EvBaseFraisCloture.getText().toString()) ;
-//to manage plage data
+
+        //to manage plage data
         //TIV Frais de tenue de compte
         for (int i = 0; i < plageDataListTIV.size(); i++) {
             tabPlageDebut += ";" + plageDataListTIV.get(i).getPdValDe();
@@ -806,7 +847,6 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             tabPlageBaseVIB += ";" + plageDataListVIB.get(i).getPdBase();
             tabPlageNatureVIB += ";" + plageDataListVIB.get(i).getPdNature();
         }
-
         new AddEAVAsyncTask().execute();
     }catch (Exception e){
         e.printStackTrace();
@@ -815,10 +855,7 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             Toast.makeText(CreateProduitEAV.this,
                     "Un ou plusieurs champs sont vides!",
                     Toast.LENGTH_LONG).show();
-
         }
-
-
     }
 
     /**
@@ -849,21 +886,22 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             httpParams.put(KEY_EvNatureTxInt, EvNatureTxInt);
             httpParams.put(KEY_EAV_TX_INTER_AN, ev_tx_inter_an);
             httpParams.put(KEY_EAV_BASE_TX_INTER_AN, base_ev_tx_inter_an);
-            httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig.toString());
+            //EvPeriodCalcTxInt
+            httpParams.put(KEY_EvPeriodCalcTxInt, EvPeriodCalcTxInt);
+            //EvPeriodFrTenueCpte
+            httpParams.put(KEY_EvPeriodFrTenueCpte, EvPeriodFrTenueCpte);
+
+            httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig);
             httpParams.put(KEY_EAV_TYP_DAT_VAL, ev_typ_dat_val);
             httpParams.put(KEY_EAV_TYP_DAT_RETRAIT_VAL, ev_typ_dat_retrait_val);
-            httpParams.put(KEY_EAV_IS_MULTI_EAV_ON, ev_is_multi_eav_on.toString());
-            httpParams.put(KEY_EAV_IS_PAIE_PS_ON, ev_is_paie_ps_on.toString());
-            httpParams.put(KEY_EAV_IS_AGIOS_ON, ev_is_agios_on.toString());
+            httpParams.put(KEY_EAV_IS_MULTI_EAV_ON, ev_is_multi_eav_on);
+            httpParams.put(KEY_EAV_IS_PAIE_PS_ON, ev_is_paie_ps_on);
+            httpParams.put(KEY_EAV_IS_AGIOS_ON, ev_is_agios_on);
             httpParams.put(KEY_EAV_TYP_FR_AGIOS, ev_typ_fr_agios);
             httpParams.put(KEY_EAV_MT_TX_AGIOS_PRELEV, ev_mt_tx_agios_prelev);
             httpParams.put(KEY_EAV_BASE_TX_AGIOS_PRELEV, base_ev_mt_tx_agios_prelev);
-//            httpParams.put(KEY_EAV_PLAGE_AGIOS_FROM, ev_plage_agios_from);
-//            httpParams.put(KEY_EAV_PLAGE_AGIOS_TO, ev_plage_agios_to);
-            httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on.toString());
-//            httpParams.put(KEY_EAV_FRAIS_CLOT_CPT, ev_frais_clot_cpt);
+            httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on);
             httpParams.put(KEY_EAV_CX_NUMERO, String.valueOf(ev_caisse_id));
-
 
             //TIV
             httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_DEBUT, tabPlageDebut);
@@ -872,13 +910,15 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
             httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_BASE, tabPlageBase);
             httpParams.put(KEY_EAV_PLAGE_FRAIS_DE_TENUE_DE_COMPTE_NATURE, tabPlageNature);
 
-
             httpParams.put(KEY_CcIsChequierM1On, st_CcIsChequierM1On);
             httpParams.put(KEY_CcNbPagesCheqM1, st_CcNbPagesCheqM1);
             httpParams.put(KEY_CcPrixVteCheqM1, st_CcPrixVteCheqM1);
             httpParams.put(KEY_CcIsChequierM2On, st_CcIsChequierM2On);
             httpParams.put(KEY_CcNbPagesCheqM2, st_CcNbPagesCheqM2);
             httpParams.put(KEY_CcPrixVteCheqM2, st_CcPrixVteCheqM2);
+
+            //TVA
+            httpParams.put(KEY_EvIsTVAOn, st_EvIsTVAOn);
 
             //FCV
             httpParams.put(KEY_EvNatureFraisClot, EvNatureFraisClot);
@@ -926,7 +966,6 @@ if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString().trim()) &&
                         Toast.makeText(CreateProduitEAV.this,
                                 "Some error occurred while adding EAV",
                                 Toast.LENGTH_LONG).show();
-
                     }
                 }
             });

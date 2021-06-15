@@ -1,6 +1,7 @@
 package com.example.binumtontine.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
+
 public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private static String STRING_EMPTY = "";
     private static final String KEY_SUCCESS = "success";
@@ -59,6 +62,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_EAV_IS_CHEQUE_ON = "ev_is_cheque_on";
     private static final String KEY_EAV_FRAIS_CLOT_CPT = "ev_frais_clot_cpt";
 
+
     private Switch CcIsChequierM1On;
     private Switch CcIsChequierM2On;
     private LinearLayout ll_bloc_chequier;
@@ -74,6 +78,11 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_CcIsChequierM2On = "EvIsCheqTyp2On";
     private static final String KEY_CcNbPagesCheqM2 = "EvNbPageCheqT2";
     private static final String KEY_CcPrixVteCheqM2 = "EvMtCheqTyp2";
+
+
+    private static final String KEY_EvPeriodCalcTxInt = "EvPeriodCalcTxInt";
+    private static final String KEY_EvPeriodFrTenueCpte = "EvPeriodFrTenueCpte";
+    private static final String KEY_EvIsTVAOn = "EvIsTVAOn";
 
 
     public static String eavId;
@@ -118,6 +127,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 
 //    private LinearLayout blkPlageEav;
     private LinearLayout LL_TypeFraisCpteEAV;
+    private LinearLayout ll_EvPeriodFrTenueCpte;
     private RadioButton rbEpTypTxInterFixe;
     private RadioButton rbEpTypTxInterTaux;
     private RadioButton rbEpTypTxInterPlage;
@@ -201,6 +211,22 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private String EvBaseFraisCloture;
     //END 27/10/2020
 
+    //START 12/05/2021
+    //EvPeriodCalcTxInt
+    private RadioButton rb_EvPeriodCalcTxInt_M;
+    private RadioButton rb_EvPeriodCalcTxInt_T;
+    private RadioButton rb_EvPeriodCalcTxInt_S;
+    private RadioButton rb_EvPeriodCalcTxInt_A;
+    private String EvPeriodCalcTxInt;
+
+    //EvPeriodFrTenueCpte
+    private RadioButton rb_EvPeriodFrTenueCpte_M;
+    private RadioButton rb_EvPeriodFrTenueCpte_T;
+    private RadioButton rb_EvPeriodFrTenueCpte_S;
+    private RadioButton rb_EvPeriodFrTenueCpte_A;
+    private String EvPeriodFrTenueCpte;
+    //END
+
     //STRT 05/11/2020
     private RadioButton rbEvNatureTxIntTaux;
     private RadioButton rbEvNatureTxIntPlage;
@@ -208,6 +234,10 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
     private String EvNatureTxInt;
     private TextView tv_config_plage_vib;
     //FIN 05/11/2020
+
+
+    private SwitchCompat EvIsTVAOn;
+    private String st_EvIsTVAOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +270,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         /*Begin*/
         ev_codeEditText = (EditText) findViewById(R.id.input_txt_Code_EAV);
         ev_codeEditText.setEnabled(false);
+        alreadyUpperCase(ev_codeEditText);
         ev_libelleEditText = (EditText) findViewById(R.id.input_txt_LibelleEAV);
         ev_min_cpteEditText = (EditText) findViewById(R.id.input_txt_MinCompteEAV);
         ev_min_cpteEditText.addTextChangedListener(MyData.onTextChangedListener(ev_min_cpteEditText));
@@ -260,6 +291,20 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 //        ev_plage_agios_toEditText = (EditText) findViewById(R.id.txt_EvTypTxInterTo);
         ev_is_cheque_onSwitch = (Switch) findViewById(R.id.SwitchChequeOnEAV);
 //        ev_frais_clot_cptEditText = (EditText) findViewById(R.id.input_txt_FraisClotureCpteEAV);
+
+        //START 07/05/2021
+        rb_EvPeriodCalcTxInt_M = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_M);
+        rb_EvPeriodCalcTxInt_T = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_T);
+        rb_EvPeriodCalcTxInt_S = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_S);
+        rb_EvPeriodCalcTxInt_A = (RadioButton) findViewById(R.id.rb_EvPeriodCalcTxInt_A);
+        //onRadioButtonClicked(rb_EvPeriodCalcTxInt_M);
+
+        rb_EvPeriodFrTenueCpte_M = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_M);
+        rb_EvPeriodFrTenueCpte_T = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_T);
+        rb_EvPeriodFrTenueCpte_S = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_S);
+        rb_EvPeriodFrTenueCpte_A = (RadioButton) findViewById(R.id.rb_EvPeriodFrTenueCpte_A);
+        //onRadioButtonClicked(rb_EvPeriodFrTenueCpte_M);
+
         //START 27/10/2020
         ET_EvValFraisCloture = (EditText) findViewById(R.id.input_txt_EvValFraisCloture);
         ET_EvValFraisCloture.addTextChangedListener(MyData.onTextChangedListener(ET_EvValFraisCloture));
@@ -304,6 +349,7 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         rbEpTypTxInterPlage = (RadioButton) findViewById(R.id.rbEpTypTxInterPlage);
 //        blkPlageEav = (LinearLayout) findViewById(R.id.blk_plage_eav);
         LL_TypeFraisCpteEAV = (LinearLayout) findViewById(R.id.ll_TypeFraisCpteEAV);
+        ll_EvPeriodFrTenueCpte = (LinearLayout) findViewById(R.id.ll_EvPeriodFrTenueCpte);
 
         layout_MinCompteEAV = (TextInputLayout) findViewById(R.id.input_layout_MinCompteEAV);
         layout_TauxInteretAnnuelEAV = (TextInputLayout) findViewById(R.id.input_layout_TauxInteretAnnuelEAV);
@@ -323,9 +369,6 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         mySpinnerLocalite.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
-                //do what you want to the selected position
-                //  cxLocalite = mySpinnerLocalite.getText().toString();
-                // Log.d("iddddddd***",caisseLocalite);
             }
         });
         mySpinnerBaseTxIntMensuel.setItems(getResources().getStringArray(R.array.array_ev_base_tx_inter_an)); //this is important, you must set it to set the item list
@@ -335,14 +378,11 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
         mySpinnerBaseTxIntMensuel.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
-                //do what you want to the selected position
-                //  cxLocalite = mySpinnerLocalite.getText().toString();
-                // Log.d("iddddddd***",caisseLocalite);
             }
         });
 
         /*End*/
-
+        EvIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchEvIsTVAOn);
 
         eavId = intent.getStringExtra(KEY_EAV_ID);
         new FetchEavDetailsAsyncTask().execute();
@@ -468,8 +508,6 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 
             case R.id.SwitchMinCpteEAVOblig:
                 if (ev_is_min_cpte_obligSwitch.isChecked()) {
-//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
-
                     layout_MinCompteEAV.setVisibility(View.VISIBLE);
                 }else{
                     layout_MinCompteEAV.setVisibility(View.GONE);
@@ -502,12 +540,14 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 //                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
 
                     LL_TypeFraisCpteEAV.setVisibility(View.VISIBLE);
+                    ll_EvPeriodFrTenueCpte.setVisibility(View.VISIBLE);
                     //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                     onRadioButtonClicked(rbEpTypTxInterFixe);
                     //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
                 }else{
                     layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
                     LL_TypeFraisCpteEAV.setVisibility(View.GONE);
+                    ll_EvPeriodFrTenueCpte.setVisibility(View.GONE);
                     layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
                     tv_config_plage_tiv.setVisibility(View.GONE);
                 }
@@ -559,6 +599,51 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 //        String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
+
+//            EvPeriodFrTenueCpte debut
+            case R.id.rb_EvPeriodFrTenueCpte_M:
+                if (rb_EvPeriodFrTenueCpte_M.isChecked()) {
+                    EvPeriodFrTenueCpte ="M";
+                }
+                break;
+            case R.id.rb_EvPeriodFrTenueCpte_T:
+                if (rb_EvPeriodFrTenueCpte_T.isChecked()) {
+                    EvPeriodFrTenueCpte ="T";
+                }
+                break;
+            case R.id.rb_EvPeriodFrTenueCpte_S:
+                if (rb_EvPeriodFrTenueCpte_S.isChecked()) {
+                    EvPeriodFrTenueCpte ="S";
+                }
+                break;
+            case R.id.rb_EvPeriodFrTenueCpte_A:
+                if (rb_EvPeriodFrTenueCpte_A.isChecked()) {
+                    EvPeriodFrTenueCpte ="A";
+                }
+                break;
+            //            EvPeriodFrTenueCpte fin
+//            EvPeriodCalcTxInt debut
+            case R.id.rb_EvPeriodCalcTxInt_M:
+                if (rb_EvPeriodCalcTxInt_M.isChecked()) {
+                    EvPeriodCalcTxInt ="M";
+                }
+                break;
+            case R.id.rb_EvPeriodCalcTxInt_T:
+                if (rb_EvPeriodCalcTxInt_T.isChecked()) {
+                    EvPeriodCalcTxInt ="T";
+                }
+                break;
+            case R.id.rb_EvPeriodCalcTxInt_S:
+                if (rb_EvPeriodCalcTxInt_S.isChecked()) {
+                    EvPeriodCalcTxInt ="S";
+                }
+                break;
+            case R.id.rb_EvPeriodCalcTxInt_A:
+                if (rb_EvPeriodCalcTxInt_A.isChecked()) {
+                    EvPeriodCalcTxInt ="A";
+                }
+                break;
+            //            EvPeriodCalcTxInt fin
 
             case R.id.rbEvNatureFraisClotFixe:
                 if (rbEvNatureFraisClotFixe.isChecked()) {
@@ -672,12 +757,11 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                     //Parse the JSON response
                     eav = jsonObject.getJSONObject(KEY_DATA);
 */
-                ev_code = MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_EAV_CODE));
-                ev_libelle = MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_EAV_LIBELLE));
+                ev_code = (jsonObject.getString(KEY_EAV_CODE));
+                ev_libelle = (jsonObject.getString(KEY_EAV_LIBELLE));
 
                 ev_min_cpte = jsonObject.getString(KEY_EAV_MIN_CPTE);
                 ev_is_min_cpte_oblig = jsonObject.getString(KEY_EAV_IS_MIN_CPTE_OBLIG);
-//                    Log.e("***KEY_EAV_IS_MIN_CPTE_OBLIG",ev_is_min_cpte_oblig+"");
                 EvNatureTxInt = jsonObject.getString(KEY_EvNatureTxInt);
                 ev_tx_inter_an = jsonObject.getString(KEY_EAV_TX_INTER_AN);
                 base_ev_tx_inter_an =ProduitEAV.decodeEvBaseTxInterAn(jsonObject.getString(KEY_EAV_BASE_TX_INTER_AN));
@@ -691,7 +775,6 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                 ev_mt_tx_agios_prelev = jsonObject.getString(KEY_EAV_MT_TX_AGIOS_PRELEV);
                 base_ev_mt_tx_agios_prelev = ProduitEAV.decodeEvBaseTxAgiosPrelev(jsonObject.getString(KEY_EAV_BASE_TX_AGIOS_PRELEV));
                 ev_is_cheque_on = jsonObject.getString(KEY_EAV_IS_CHEQUE_ON);
-//                    ev_frais_clot_cpt = jsonObject.getString(KEY_EAV_FRAIS_CLOT_CPT);
 
                 st_CcIsChequierM1On = jsonObject.getString(KEY_CcIsChequierM1On);
                 st_CcNbPagesCheqM1 = jsonObject.getString(KEY_CcNbPagesCheqM1);
@@ -704,6 +787,11 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                 EvNatureFraisClot = jsonObject.getString(KEY_EvNatureFraisClot);
                 EvValFraisCloture = jsonObject.getString(KEY_EvValFraisCloture);
                 EvBaseFraisCloture = ProduitEAV.decodeEvBaseFraisCloture(jsonObject.getString(KEY_EvBaseFraisCloture));
+
+                EvPeriodCalcTxInt = jsonObject.getString(KEY_EvPeriodCalcTxInt);
+                EvPeriodFrTenueCpte = jsonObject.getString(KEY_EvPeriodFrTenueCpte);
+                st_EvIsTVAOn = jsonObject.getString(KEY_EvIsTVAOn);
+
                 //}
             } catch (Exception e) {
                 e.printStackTrace();
@@ -765,18 +853,13 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                             onRadioButtonClicked(rbEpTypTxInterPlage);}
                         onSwitchButtonClicked(ev_is_agios_onSwitch);
 
-                        //ev_typ_fr_agiosEditText.setText(ev_typ_fr_agios);
                         ev_mt_tx_agios_prelevEditText.setText(ev_mt_tx_agios_prelev);
                         mySpinnerLocalite.setText(base_ev_mt_tx_agios_prelev);
-//                    ev_plage_agios_fromEditText.setText(ev_plage_agios_from);
-//                    ev_plage_agios_toEditText.setText(ev_plage_agios_to);
-
                         if (ev_is_cheque_on.equals("Y")){
                             ev_is_cheque_onSwitch.setChecked(true);
                         }else{
                             ev_is_cheque_onSwitch.setChecked(false);
                         }
-//                    ev_frais_clot_cptEditText.setText(ev_frais_clot_cpt);
 
                         if (st_CcIsChequierM1On.equals("Y") || st_CcIsChequierM1On.equals("y")){
                             CcIsChequierM1On.setChecked(true);
@@ -820,6 +903,44 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
 
                         ET_EvValFraisCloture.setText(EvValFraisCloture);
                         JR_EvBaseFraisCloture.setText(EvBaseFraisCloture);
+
+
+                        //EvPeriodCalcTxInt
+                        if (EvPeriodCalcTxInt.equals("M")){
+                            rb_EvPeriodCalcTxInt_M.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodCalcTxInt_M);
+                        }else if (EvPeriodCalcTxInt.equals("T")){
+                            rb_EvPeriodCalcTxInt_T.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodCalcTxInt_T);
+                        }else if (EvPeriodCalcTxInt.equals("S")){
+                            rb_EvPeriodCalcTxInt_S.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodCalcTxInt_S);
+                        }else if (EvPeriodCalcTxInt.equals("A")){
+                            rb_EvPeriodCalcTxInt_A.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodCalcTxInt_A);
+                        }
+                        //EvPeriodFrTenueCpte
+                        if (EvPeriodFrTenueCpte.equals("M")){
+                            rb_EvPeriodFrTenueCpte_M.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodFrTenueCpte_M);
+                        }else if (EvPeriodFrTenueCpte.equals("T")){
+                            rb_EvPeriodFrTenueCpte_T.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodFrTenueCpte_T);
+                        }else if (EvPeriodFrTenueCpte.equals("S")){
+                            rb_EvPeriodFrTenueCpte_S.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodFrTenueCpte_S);
+                        }else if (EvPeriodFrTenueCpte.equals("A")){
+                            rb_EvPeriodFrTenueCpte_A.setChecked(true);
+                            onRadioButtonClicked(rb_EvPeriodFrTenueCpte_A);
+                        }
+                        //TVA
+                        if (st_EvIsTVAOn.equals("Y")){
+                            EvIsTVAOn.setChecked(true);
+                        }else {
+                            EvIsTVAOn.setChecked(false);
+                        }
+                       // onSwitchButtonClicked(EvIsTVAOn);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1007,7 +1128,12 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
                 }
                 EvValFraisCloture = ET_EvValFraisCloture.getText().toString();
                 EvBaseFraisCloture = ProduitEAV.encodeEvBaseFraisCloture(JR_EvBaseFraisCloture.getText().toString()) ;
-
+                //TVA
+                if (EvIsTVAOn.isChecked()) {
+                    st_EvIsTVAOn = "Y";
+                }else {
+                    st_EvIsTVAOn = "N";
+                }
 
                 new UpdateEAV.UpdateEavAsyncTask().execute();
             }catch (Exception e){
@@ -1048,23 +1174,27 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
             httpParams.put(KEY_EAV_CODE, ev_code);
             httpParams.put(KEY_EAV_LIBELLE, ev_libelle);
             httpParams.put(KEY_EAV_MIN_CPTE, ev_min_cpte);
-            httpParams.put(KEY_EAV_IS_MIN_CPTE_OBLIG, ev_is_min_cpte_oblig.toString());
+            httpParams.put(KEY_EAV_IS_MIN_CPTE_OBLIG, ev_is_min_cpte_oblig);
             httpParams.put(KEY_EvNatureTxInt, EvNatureTxInt);
             httpParams.put(KEY_EAV_TX_INTER_AN, ev_tx_inter_an);
             httpParams.put(KEY_EAV_BASE_TX_INTER_AN, base_ev_tx_inter_an);
-            httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig.toString());
+
+            //EvPeriodCalcTxInt
+            httpParams.put(KEY_EvPeriodCalcTxInt, EvPeriodCalcTxInt);
+            //EvPeriodFrTenueCpte
+            httpParams.put(KEY_EvPeriodFrTenueCpte, EvPeriodFrTenueCpte);
+
+            httpParams.put(KEY_EAV_IS_TX_INTER_AN_OBLIG, ev_is_tx_inter_an_oblig);
             httpParams.put(KEY_EAV_TYP_DAT_VAL, ev_typ_dat_val);
             httpParams.put(KEY_EAV_TYP_DAT_RETRAIT_VAL, ev_typ_dat_retrait_val);
-            httpParams.put(KEY_EAV_IS_MULTI_EAV_ON, ev_is_multi_eav_on.toString());
-            httpParams.put(KEY_EAV_IS_PAIE_PS_ON, ev_is_paie_ps_on.toString());
-            httpParams.put(KEY_EAV_IS_AGIOS_ON, ev_is_agios_on.toString());
+            httpParams.put(KEY_EAV_IS_MULTI_EAV_ON, ev_is_multi_eav_on);
+            httpParams.put(KEY_EAV_IS_PAIE_PS_ON, ev_is_paie_ps_on);
+            httpParams.put(KEY_EAV_IS_AGIOS_ON, ev_is_agios_on);
             httpParams.put(KEY_EAV_TYP_FR_AGIOS, ev_typ_fr_agios);
             httpParams.put(KEY_EAV_MT_TX_AGIOS_PRELEV, ev_mt_tx_agios_prelev);
             httpParams.put(KEY_EAV_BASE_TX_AGIOS_PRELEV, base_ev_mt_tx_agios_prelev);
-//            httpParams.put(KEY_EAV_PLAGE_AGIOS_FROM, ev_plage_agios_from);
-//            httpParams.put(KEY_EAV_PLAGE_AGIOS_TO, ev_plage_agios_to);
-            httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on.toString());
-//            httpParams.put(KEY_EAV_FRAIS_CLOT_CPT, ev_frais_clot_cpt);
+            httpParams.put(KEY_EAV_IS_CHEQUE_ON, ev_is_cheque_on);
+
 
             httpParams.put(KEY_CcIsChequierM1On, st_CcIsChequierM1On);
             httpParams.put(KEY_CcNbPagesCheqM1, st_CcNbPagesCheqM1);
@@ -1076,6 +1206,8 @@ public class UpdateEAV extends AppCompatActivity implements SERVER_ADDRESS {
             httpParams.put(KEY_EvNatureFraisClot, EvNatureFraisClot);
             httpParams.put(KEY_EvValFraisCloture, EvValFraisCloture);
             httpParams.put(KEY_EvBaseFraisCloture, EvBaseFraisCloture);
+
+            httpParams.put(KEY_EvIsTVAOn, st_EvIsTVAOn);
             /**/
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(

@@ -136,6 +136,108 @@
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
+            <!--        OfNumAgremCobac-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_OfNumAgremCobac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_OfNumAgremCobac"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:hint="@string/hint_NumAgremCobac"
+
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--        OfDatAgremCobac-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_OfDatAgremCobac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_OfDatAgremCobac"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/hint_DatAgremCobac"
+                    style="@style/modifiedEditText"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--        OfNumAgremCNC-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_OfNumAgremCNC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_OfNumAgremCNC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    style="@style/modifiedEditText"
+                    android:hint="@string/hint_NumAgremCNC"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--        OfDatAgremCNC-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_OfDatAgremCNC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/input_txt_OfDatAgremCNC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/hint_DatAgremCNC"
+                    style="@style/modifiedEditText"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_BP_OF"
                 android:layout_width="match_parent"

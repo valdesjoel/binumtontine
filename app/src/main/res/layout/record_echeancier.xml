@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/echeancier_numero"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="12"
+        android:textColor="#000"
+        android:text="N°"/>
+    <TextView
+        android:id="@+id/EcCredit"
+        android:textColor="#000"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="20.5"
+        android:text="Libelle crédit"/>
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/EcDateRemb"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="20"
+        android:text="Date Remb"/>
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/EcMtCapital"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="20"
+        android:text="Mt capital"/>
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/EcMtInteret"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="17.5"
+        android:text="Mt intérêt"/>
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/EcTotalEcheance"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="17.5"
+        android:text="Total écheance"/>
+</LinearLayout>

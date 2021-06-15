@@ -43,6 +43,7 @@ import com.example.binumtontine.activity.CreateOperationTransfertEnvoyer;
 import com.example.binumtontine.activity.CreateOperationTransfertRetrait;
 import com.example.binumtontine.activity.ListNomPrenomAdherentTransfert;
 import com.example.binumtontine.activity.ListOperationExterneDetails;
+import com.example.binumtontine.activity.LoginActivity_NEW;
 import com.example.binumtontine.activity.SituationGuichet;
 import com.example.binumtontine.activity.collecte.ListCollecteurActivity;
 import com.example.binumtontine.adapter.CustomAdapterListAdherent;
@@ -273,6 +274,30 @@ public class MainActivityUsager extends AppCompatActivity implements SERVER_ADDR
         System.out.println("dateFin ********:       " + dateFin);
     }
 
+    public void avertissement() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Avertissement !")
+                .setMessage("Vous êtes en mode consultation unique !")
+                .setNegativeButton("Non", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+                    }
+
+                })
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+
+                })
+                .show();
+    }
+
 //    boolean doubleBackToExitPressedOnce = false;
 //
 //    @Override
@@ -337,17 +362,17 @@ public void onBackPressed() {
 
                 return true;
             case R.id.action_person_add:
-                Intent i = new Intent(MainActivityUsager.this, CreateAdherent.class);
-                startActivityForResult(i,20);
-                // new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
-                // startActivity(new Intent(this, About.class));
+                if (MyData.USER_PROFIL.equals("Administrateur caisse")){
+                    avertissement();
+                }else if (MyData.USER_PROFIL.equals("Agent de guichet")){
+
+                    Intent i = new Intent(MainActivityUsager.this, CreateAdherent.class);
+                    startActivityForResult(i,20);
+                }
                 return true;
             case R.id.action_situation_guichet:
                 Intent intent_situation_guichet = new Intent(MainActivityUsager.this, SituationGuichet.class);
                 startActivityForResult(intent_situation_guichet,20);
-                //action_to_affect = false;
-                //new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
-                // startActivity(new Intent(this, Help.class));
                 return true;
             case R.id.action_brouillard_de_caisse:
                 //action_to_affect = true;
@@ -356,10 +381,6 @@ public void onBackPressed() {
                 startActivityForResult(intent_brouillard,20);
                 return true;
             case R.id.action_nouveaux_adherent:
-                //action_to_affect = true;
-                /*ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(recyclerView.getLayoutParams());
-                marginLayoutParams.setMargins(0, 120, 0, 10);
-                recyclerView.setLayoutParams(marginLayoutParams);*/
                 try {
                     if (isNewAdherent){
                         lanceur();
@@ -384,39 +405,46 @@ public void onBackPressed() {
 
                     Intent intent_cloture_journee = new Intent(MainActivityUsager.this, ClotureJourneeActivity.class);
                     startActivityForResult(intent_cloture_journee,20);
-               // action_to_affect = true;
-             //   new ProduitEAVGuichetActivity.FetchMoviesAsyncTask().execute();
-                // startActivity(new Intent(this, Help.class));
                 return true;
                 case R.id.action_operation_externe:
 
                 return true;
                 case R.id.action_add_operation_externe:
-
-                    Intent intent_OperationExterneDetails = new Intent(MainActivityUsager.this, CreateOperationExterneDetails.class);
-                    startActivityForResult(intent_OperationExterneDetails,20);
+                    if (MyData.USER_PROFIL.equals("Administrateur caisse")){
+                        avertissement();
+                    }else if (MyData.USER_PROFIL.equals("Agent de guichet")){
+                        Intent intent_OperationExterneDetails = new Intent(MainActivityUsager.this, CreateOperationExterneDetails.class);
+                        startActivityForResult(intent_OperationExterneDetails,20);
+                    }
 
                 return true;
                 case R.id.action_list_operation_externe:
 
                     Intent intent_list_OperationExterneDetails = new Intent(MainActivityUsager.this, ListOperationExterneDetails.class);
                     startActivityForResult(intent_list_OperationExterneDetails,20);
-//                    Intent intent_OperationExterneDetails = new Intent(MainActivityUsager.this, CreateOperationExterneDetails.class);
-//                    startActivityForResult(intent_OperationExterneDetails,20);
 
                 return true;
                 case R.id.action_transfert:
 
                 return true;
                 case R.id.action_transfert_envoie:
-                    Intent intent_transfert_envoie = new Intent(MainActivityUsager.this, CreateOperationTransfertEnvoyer.class);
-                    startActivityForResult(intent_transfert_envoie,20);
+
+                    if (MyData.USER_PROFIL.equals("Administrateur caisse")){
+                        avertissement();
+                    }else if (MyData.USER_PROFIL.equals("Agent de guichet")){
+                        Intent intent_transfert_envoie = new Intent(MainActivityUsager.this, CreateOperationTransfertEnvoyer.class);
+                        startActivityForResult(intent_transfert_envoie,20);
+                    }
 
                 return true;
                 case R.id.action_transfert_retrait:
 
-                    Intent intent_transfert_retrait = new Intent(MainActivityUsager.this, CreateOperationTransfertRetrait.class);
-                    startActivityForResult(intent_transfert_retrait,20);
+                    if (MyData.USER_PROFIL.equals("Administrateur caisse")){
+                        avertissement();
+                    }else if (MyData.USER_PROFIL.equals("Agent de guichet")){
+                        Intent intent_transfert_retrait = new Intent(MainActivityUsager.this, CreateOperationTransfertRetrait.class);
+                        startActivityForResult(intent_transfert_retrait,20);
+                    }
 
                 return true;
                 case R.id.action_cotisations_annuelle:
@@ -646,6 +674,7 @@ public void onBackPressed() {
                         String adherentPartiLe = guichet.getString(KEY_AD_AdPartiLe);
                         String adherentRemplacePar = guichet.getString(KEY_AD_AdRemplacePar);
                         String adherentNbreCompte = guichet.getString(KEY_AD_NBRE_COMPTE);
+                        String adherentAdTotNbPartSoc = guichet.getString(Adherent.KEY_AdTotNbPartSoc);
                         //MyList myList = new MyList(
                         Adherent myList = new Adherent(
                                 adherentID ,
@@ -679,6 +708,7 @@ public void onBackPressed() {
                                 adherentNbreCompte
 
                         );
+                        myList.setAdTotNbPartSoc(adherentAdTotNbPartSoc);
 
                         listAdherent.add(myList);
                     }
@@ -776,6 +806,7 @@ public void onBackPressed() {
                         String adherentPartiLe = guichet.getString(KEY_AD_AdPartiLe);
                         String adherentRemplacePar = guichet.getString(KEY_AD_AdRemplacePar);
                         String adherentNbreCompte = guichet.getString(KEY_AD_NBRE_COMPTE);
+                        String adherentAdTotNbPartSoc = guichet.getString(Adherent.KEY_AdTotNbPartSoc);
                         //MyList myList = new MyList(
                         Adherent myList = new Adherent(
                                 adherentID ,
@@ -809,7 +840,7 @@ public void onBackPressed() {
                                 adherentNbreCompte
 
                         );
-
+                        myList.setAdTotNbPartSoc(adherentAdTotNbPartSoc);
                         listAdherent.add(myList);
                     }
                     nbreAdherent = listAdherent.size();

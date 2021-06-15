@@ -1,10 +1,16 @@
 package com.example.binumtontine.controleur;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.binumtontine.R;
 
@@ -45,6 +51,22 @@ public class MyData {
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCOMBINING_DIACRITICAL_MARKS}+");
         return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
+
+    public static void avertissement(Context context) {
+        new AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Avertissement !")
+                .setMessage("Vous êtes en mode consultation unique !")
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+
+                })
+                .show();
     }
     /**
      * To format number in edittext after real time editing and
@@ -97,6 +119,42 @@ public class MyData {
                 et_filed.addTextChangedListener(this);
             }
         };
+    }
+
+
+    /**
+     * To make a beep error if a mandadory field left empty
+     */
+    public static void bipError(){
+
+        ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+        toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP,150);
+    }
+
+
+    public static void alreadyUpperCase(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable et) {
+                String s = et.toString();
+                if (!s.equals(s.toUpperCase())) {
+                    s = s.toUpperCase();
+                    editText.setText(s);
+                    editText.setSelection(editText.length()); //fix reverse texting
+                }
+            }
+        });
     }
 
 

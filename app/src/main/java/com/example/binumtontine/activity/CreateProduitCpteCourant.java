@@ -61,6 +61,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
+
 public class CreateProduitCpteCourant extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
 
@@ -424,6 +426,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
     private static final String KEY_CC_PLAGE_TAUX_INT_PENAL_AVANC_SPEC_VALEUR = "CcPasValeur";
     private static final String KEY_CC_PLAGE_TAUX_INT_PENAL_AVANC_SPEC_BASE = "CcPasBase";
     private static final String KEY_CC_PLAGE_TAUX_INT_PENAL_AVANC_SPEC_NATURE = "CcPasNature";
+    private static final String KEY_CcIsTVAOn = "CcIsTVAOn";
 
     private String tabPlageDebutPAS ="";
     private String tabPlageFinPAS ="";
@@ -432,6 +435,8 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
     private String tabPlageNaturePAS ="";
 
 
+    private SwitchCompat CcIsTVAOn;
+    private String st_CcIsTVAOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -439,17 +444,12 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
 
         setContentView(R.layout.activity_cpte_courant);
 
-
-//        plageDataListCTP = new ArrayList<ModelPlageData>();
         bloc_cc1 = (LinearLayout) findViewById(R.id.ll_bloc_cc1);
         bloc_cc_avance_speciale = (LinearLayout) findViewById(R.id.ll_bloc_ccAvancement);
         bloc_cc2 = (LinearLayout) findViewById(R.id.ll_bloc_cc2);
         bloc_cc3 = (LinearLayout) findViewById(R.id.ll_bloc_cc3);
         bloc_cc4 = (LinearLayout) findViewById(R.id.ll_bloc_cc4);
         bloc_cc5 = (LinearLayout) findViewById(R.id.ll_bloc_cc5);
-//        blk_plage_cc = (LinearLayout) findViewById(R.id.blk_plage_cc);
-//        blk_plage_agios_cc = (LinearLayout) findViewById(R.id.blk_plage_agios_cc);
-//        blk_plage_CcValTxCommMvm = (LinearLayout) findViewById(R.id.blk_plage_CcValTxCommMvm);
         input_layout_CcValTxMtAgio = (TextInputLayout) findViewById(R.id.input_layout_CcValTxMtAgio);
         input_layout_CcTauxIntPenRetard = (TextInputLayout) findViewById(R.id.input_layout_CcTauxIntPenRetard);
         input_layout_CcTauxInt_IntRetDecouv = (TextInputLayout) findViewById(R.id.input_layout_CcTauxInt_IntRetDecouv);
@@ -468,6 +468,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
         input_layout_CcValTxCommMvm = (TextInputLayout) findViewById(R.id.input_layout_CcValTxCommMvm);
 
         CcCode = (EditText) findViewById(R.id.input_txtCodeCC);
+        alreadyUpperCase(CcCode);
         CcLibelle = (EditText) findViewById(R.id.input_txt_LibelleCC);
         CcIsDecouvOn= (Switch) findViewById(R.id.SwitchAutoriserDecouvertCC);
         CcIsAvanceSpecialOn= (Switch) findViewById(R.id.SwitchCcIsAvanceSpecialOn);
@@ -746,7 +747,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
         CcMaxMontantDecouvertPermanentAutorise= (EditText) findViewById(R.id.input_txt_MaxMontantDecouvertPermanentAutoriseCC);
         CcMaxDureeDecouvertPermanentAutorise= (EditText) findViewById(R.id.input_txt_MaxDureeDecouvertPermanentAutoriseCC);
         /*END START*/
-
+        CcIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchCcIsTVAOn);
 
         deleteButton = (Button) findViewById(R.id.btn_delete_cc);
         deleteButton.setVisibility(View.GONE);
@@ -978,7 +979,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
 
     public void onSwitchButtonClicked(View view) {
         // boolean checked1 = ((Switch) view).isChecked();
-        String str = "";
+       // String str = "";
         // Check which checkbox was clicked
         switch (view.getId()) {
 
@@ -1762,9 +1763,7 @@ public class CreateProduitCpteCourant extends AppCompatActivity implements SERVE
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addCompteCourant() {
-
-
-if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
+        if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
         !STRING_EMPTY.equals(CcLibelle.getText().toString().trim())
         ){
 
@@ -1774,9 +1773,6 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
                     h1 = Double.valueOf(CcMtMaxDecouv.getText().toString().replaceAll(",", "").trim());
                     CcMtMaxDecouv.setText(h1+"");
                 }
-
-
-
                 if (!(CcValTxIntDecouv.getText().toString().replaceAll(",", "").trim()).equals(STRING_EMPTY)){
                     h2 = Double.valueOf(CcValTxIntDecouv.getText().toString().replaceAll(",", "").trim());
                     CcValTxIntDecouv.setText(h2+"");
@@ -1837,16 +1833,9 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
                 st_CcValTxIntDecouv=  CcValTxIntDecouv.getText().toString();
                 baseCcTxIntDecouv = CompteCourant.encodeCcBaseTxIntDecouv(mySpinnerBaseTxIntDecouv.getText().toString());
                 baseCcTxIntPenRetard = CompteCourant.encodeCcBaseTxIntPenRetard(mySpinnerCcBaseTxIntPenRetard.getText().toString());
-//    st_CcPlageTxIntDecouvFrom=  CcPlageTxIntDecouvFrom.getText().toString();
-//    st_CcPlageTxIntDecouvTo=  CcPlageTxIntDecouvTo.getText().toString();
                 st_CcDureeMaxDecouv=  CcDureeMaxDecouv.getText().toString();
-                // st_CcNatureTypDureDecouv=  CcNatureTypDureDecouv.getText().toString();
-                //st_CcNatureTxMtAgio=  CcNatureTxMtAgio.getText().toString();
                 st_CcValTxMtAgio=  CcValTxMtAgio.getText().toString();
                 st_CcNatBaseAgio = CompteCourant.encodeCcNatBaseAgio(mySpinnerBaseTxMtAgio.getText().toString());
-//    st_CcPlageTxMtAgioFrom=  CcPlageTxMtAgioFrom.getText().toString();
-//            st_CcPlageTxMtAgioTo=  CcPlageTxMtAgioTo.getText().toString();
-                //st_CcNatBaseAgio=  CcNatBaseAgio.getText().toString();
                 if (CcIsChequierM1On.isChecked()){
                     st_CcIsChequierM1On = "Y";
                 }else{
@@ -1878,25 +1867,16 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
                 }else{
                     st_CcIsTxCommMvmOper = "N";
                 }
-//    st_CcIsChequierM1On=  CcIsChequierM1On.isChecked();
-//    st_CcIsPlafAvceSpecNegoc=  CcIsPlafAvceSpecNegoc.isChecked();
-//    st_CcIsTxIntDegressif=  CcIsTxIntDegressif.isChecked();
                 st_CcNbPagesCheqM1=  CcNbPagesCheqM1.getText().toString();
                 st_CcPrixVteCheqM1=  CcPrixVteCheqM1.getText().toString();
-//    st_CcIsChequierM2On=  CcIsChequierM2On.isChecked();
                 st_CcNbPagesCheqM2=  CcNbPagesCheqM2.getText().toString();
                 st_CcPrixVteCheqM2=  CcPrixVteCheqM2.getText().toString();
-//    st_CcIsChequierM3On=  CcIsChequierM3On.isChecked();
                 st_CcNbPagesCheqM3=  CcNbPagesCheqM3.getText().toString();
                 st_CcPrixVteCheqM3=  CcPrixVteCheqM3.getText().toString();
                 st_CcDureeValidCheq=  CcDureeValidCheq.getText().toString();
                 st_CcNbMinSignatChq=  CcNbMinSignatChq.getText().toString();
-//    st_CcIsTxCommMvmOper=  CcIsTxCommMvmOper.isChecked();
-                //st_CcNatTxComm=  CcNatTxComm.getText().toString();
                 st_CcValTxCommMvm=  CcValTxCommMvm.getText().toString();
                 baseCcTxCommMvm  = CompteCourant.encodeCcBaseTxCommMvm(mySpinnerBaseTxCommMvm.getText().toString());
-//    st_CcPlageTxCommMvmFrom=  CcPlageTxCommMvmFrom.getText().toString();
-//    st_CcPlageTxCommMvmTo=  CcPlageTxCommMvmTo.getText().toString();
 
                 st_CcTauxIntAvceSpec=  CcTauxIntAvceSpec.getText().toString();
                 baseTxIntAvceSpec  = CompteCourant.encodeCcBaseTxIntAvceSpec(mySpinnerCcBaseTxIntAvceSpec.getText().toString());
@@ -2008,7 +1988,12 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
 
 
 
-
+                //TVA
+                if (CcIsTVAOn.isChecked()) {
+                    st_CcIsTVAOn = "Y";
+                }else {
+                    st_CcIsTVAOn = "N";
+                }
 
                 new AddCpteCourantAsyncTask().execute();
 
@@ -2198,6 +2183,9 @@ if (!STRING_EMPTY.equals(CcCode.getText().toString().trim()) &&
             httpParams.put(KEY_CC_PLAGE_TAUX_INT_PENAL_AVANC_SPEC_VALEUR, tabPlageValeurPAS);
             httpParams.put(KEY_CC_PLAGE_TAUX_INT_PENAL_AVANC_SPEC_BASE, tabPlageBasePAS);
             httpParams.put(KEY_CC_PLAGE_TAUX_INT_PENAL_AVANC_SPEC_NATURE, tabPlageNaturePAS);
+
+            //TVA
+            httpParams.put(KEY_CcIsTVAOn, st_CcIsTVAOn);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_cpte_courant_new.php", "POST", httpParams);
             try {

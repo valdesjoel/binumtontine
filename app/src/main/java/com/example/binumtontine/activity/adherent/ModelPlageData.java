@@ -16,6 +16,7 @@ public class ModelPlageData implements Serializable {
     private String PdValA;
     private String PdBase;
     private String PdProduit;
+    private String PdMtMinimum;
 
 
     public ModelPlageData(){}
@@ -106,5 +107,19 @@ public class ModelPlageData implements Serializable {
         this.PdProduit = pdProduit;
     }
 
+    /**
+     * Fonction permettant de recupérer le montant minimum pour une plage donnée
+     * @return PdMtMinimum: montant minimum
+     */
+    public String getPdMtMinimum() {
+        return PdMtMinimum;
+    }
 
+    /**
+     * Fonction permettant de modifier le montant minimum pour une plage donnée
+     * @param pdMtMinimum
+     */
+    public void setPdMtMinimum(String pdMtMinimum) {
+        PdMtMinimum = pdMtMinimum;
+    }
 }

@@ -90,6 +90,19 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     private static final String KEY_EpMtMinMisePer = "EpMtMinMisePer";
     private static final String KEY_EpIsTxIntNeg = "EpIsTxIntNeg";
 
+    private static final String KEY_EpTypTxInter = "EpTypTxInter";
+    private static final String KEY_EpBaseTxInter = "EpBaseTxInter";
+    private static final String KEY_EpNatureRupAn = "EpNatureRupAn";
+    private static final String KEY_EpValTxMtRupture = "EpValTxMtRupture";
+    private static final String KEY_EpBaseTxPenal = "EpBaseTxPenal";
+    private static final String KEY_EpIsPenalNRespMise = "EpIsPenalNRespMise";
+    private static final String KEY_EpNbEchPenalOn = "EpNbEchPenalOn";
+    private static final String KEY_EpIsEchPenalSucces = "EpIsEchPenalSucces";
+    private static final String KEY_EpIsPenalRupAnt = "EpIsPenalRupAnt";
+    private static final String KEY_EpNaturePenal = "EpNaturePenal";
+    private static final String KEY_EpValTxMtPenalite = "EpValTxMtPenalite";
+    private static final String KEY_EpBaseTxMtPenal = "EpBaseTxMtPenal";
+
     private static final String KEY_CP_PRODUIT = "CpProduit";
     private static final String KEY_CP_MEMBRE = "CpMembre";
     private static final String KEY_CP_GUICHET = "CpGuichet";
@@ -228,7 +241,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
         eapList = new ArrayList<ProduitEAP>();
         // spinner item select listener
         spinnerListEAP.setOnItemSelectedListener(CreateEAP.this);
-        new GetProduitEATList().execute();
+        new GetProduitEAPList().execute();
         onRadioButtonClicked(rb_transfert_vers_eav);
 
         addButton = (Button) findViewById(R.id.btn_save_compte_eap);
@@ -468,7 +481,7 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     /**
      * Async task to get all food categories
      * */
-    private class GetProduitEATList extends AsyncTask<Void, Void, Void> {
+    private class GetProduitEAPList extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -512,6 +525,26 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
                                     catObj.getString(KEY_EpMtMinMisePer),
                                     catObj.getString(KEY_EpIsTxIntNeg)
                             );
+                            ProduitEAP pdEAP1 = new ProduitEAP();
+                            pdEAP1.setEpNumero(catObj.getInt(KEY_EAP_ID));
+                            pdEAP1.setEpLibelle(catObj.getString(KEY_EAP_LIBELLE));
+                            pdEAP1.setEpValTxInter(catObj.getString(KEY_EAP_TAUX));
+                            pdEAP1.setEpDureeMin(catObj.getString(KEY_EpDureeMin));
+                            pdEAP1.setEpMtMinMisePer(catObj.getString(KEY_EpMtMinMisePer));
+                            pdEAP1.setEpIsTxIntNeg(catObj.getString(KEY_EpIsTxIntNeg));
+
+                            pdEAP1.setEpTypTxInter(catObj.getString(KEY_EpTypTxInter));
+                            pdEAP1.setEpBaseTxInter(catObj.getString(KEY_EpBaseTxInter));
+                            pdEAP1.setEpNatureRupAn(catObj.getString(KEY_EpNatureRupAn));
+                            pdEAP1.setEpValTxMtRupture(catObj.getString(KEY_EpValTxMtRupture));
+                            pdEAP1.setEpBaseTxPenal(catObj.getString(KEY_EpBaseTxPenal));
+                            pdEAP1.setEpIsPenalNRespMise(catObj.getString(KEY_EpIsPenalNRespMise));
+                            pdEAP1.setEpNbEchPenalOn(catObj.getString(KEY_EpNbEchPenalOn));
+                            pdEAP1.setEpIsEchPenalSucces(catObj.getString(KEY_EpIsEchPenalSucces));
+                            pdEAP1.setEpIsPenalRupAnt(catObj.getString(KEY_EpIsPenalRupAnt));
+                            pdEAP1.setEpNaturePenal(catObj.getString(KEY_EpNaturePenal));
+                            pdEAP1.setEpValTxMtPenalite(catObj.getString(KEY_EpValTxMtPenalite));
+                            pdEAP1.setEpBaseTxMtPenal(catObj.getString(KEY_EpBaseTxMtPenal));
 //                            eapList.add(cat);
                             eapList.add(pdEAP);
                         }
@@ -565,17 +598,10 @@ public class CreateEAP extends AppCompatActivity implements AdapterView.OnItemSe
     private boolean validateLogin() {
 
         if (EapDepotMinEditText.getText().toString().trim().isEmpty()){
-
-
             til_EatMontantMise.setError(getString(R.string.err_msg_montant_mise));
             requestFocus(EapDepotMinEditText);
             // testError=false;
             return false;
-
-
-
-
-
         } else {
             EapDepotMinEditText.setText(EapDepotMinEditText.getText().toString().replaceAll(",", "").trim());
             parseEatMontantMise = Double.valueOf(EapDepotMinEditText.getText().toString().replaceAll(",", "").trim());

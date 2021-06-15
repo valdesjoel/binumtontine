@@ -133,15 +133,15 @@ public class CreateEtapeDemandeCreditOf extends AppCompatActivity implements SER
 
                 }else{
 //                    textInputLayoutFcNbrePartMin.setVisibility(View.GONE);
-                    if (spinnerTypeEtape.getSelectedItem().toString().equals("Comité de crédit")){
+                    if (spinnerTypeEtape.getSelectedItem().toString().equals("Analyse technique")){
+                        EdTypEtape = "ANT";
+                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Comité de crédit")){
                         EdTypEtape = "CCR";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Déblocage du crédit")){
                         EdTypEtape = "DBC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Décaissement du crédit")){
                         EdTypEtape = "DEC";
-                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement ou paiement échéance du crédit")){
-                        EdTypEtape = "REC";
-                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement des échéances du crédit")){
+                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement du crédit")){
                         EdTypEtape = "REC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Clôture du crédit")){
                         EdTypEtape = "CLC";

@@ -21,13 +21,9 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
 
     private Context context;
     public static ArrayList<CheckBoxModel> checkBoxModelArrayList;
-
-
     public CustomAdapterListViewCheckbox(Context context, ArrayList<CheckBoxModel> checkBoxModelArrayList) {
-
         this.context = context;
         this.checkBoxModelArrayList = checkBoxModelArrayList;
-
     }
 /*
     @Override
@@ -76,6 +72,7 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
             holder.tvId = (TextView) convertView.findViewById(R.id.pieceId);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.cb);
             holder.tvAnimal = (TextView) convertView.findViewById(R.id.animal);
+            holder.tvIsOblig = (TextView) convertView.findViewById(R.id.isOblig);
 
             convertView.setTag(holder);
         }else {
@@ -87,6 +84,12 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
       //  holder.checkBox.setText("Checkbox "+position); //I put it in comment
         holder.tvAnimal.setText(checkBoxModelArrayList.get(position).getAnimal());
         holder.tvId.setText(checkBoxModelArrayList.get(position).getPieceID());
+
+        if(checkBoxModelArrayList.get(position).isOblig()){
+            holder.tvIsOblig.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvIsOblig.setVisibility(View.INVISIBLE);
+        }
 
         holder.checkBox.setChecked(checkBoxModelArrayList.get(position).getSelected());
 
@@ -101,7 +104,7 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
                 TextView tvIdPiece = (TextView) tempview.findViewById(R.id.pieceId); // It's me who added it
                 Integer pos = (Integer)  holder.checkBox.getTag();
                // Toast.makeText(context, "Checkbox "+pos+" clicked!", Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, tv.getText()+" "+tvIdPiece.getText()+" "+pos+" clicked!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, tv.getText()+" "+tvIdPiece.getText()+" "+pos+" clicked!", Toast.LENGTH_SHORT).show();
 
                 if(checkBoxModelArrayList.get(pos).getSelected()){
                     checkBoxModelArrayList.get(pos).setSelected(false);
@@ -120,6 +123,7 @@ public class CustomAdapterListViewCheckbox extends BaseAdapter {
         protected CheckBox checkBox;
         private TextView tvAnimal;
         private TextView tvId;
+        private TextView tvIsOblig;
 
     }
 

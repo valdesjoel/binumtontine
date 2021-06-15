@@ -116,13 +116,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
     private static final String KEY_DATA = "data";
     private static String STRING_EMPTY = "";
     private NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
-/*
-    private EditText ET_OdMontant;
-    private EditText ET_OdLibelle;
 
-    private RadioButton rb_OdSensOper_Produits;
-    private RadioButton rb_OdSensOper_Charges;
-*/
     /* manage spinner*/
     // array list for spinner adapter
     private ArrayList<Category> AdherentExpediteursListNom;
@@ -138,15 +132,11 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
     private Spinner spinnerListNomDest;
 
     /*end manage*/
-
-
     private Button addButton;
     private Button annulerButton;
     private int success;
     private ProgressDialog pDialog;
     private ProgressDialog pDialogFetchProduitEavList;
-/*OperationExterneDetails operationExterneDetails = new OperationExterneDetails();
-    private String OeType;*/
 
     public static Transfert transfert = new Transfert();
     private AppCompatEditText acetStatus;
@@ -198,9 +188,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_operation_transfert_envoyer);
         acetStatus = findViewById(R.id.acet_status);
-//        setPopupList();
-//        //we need to show the list when clicking on the field
-//        setListeners();
         defaultFormat.setCurrency(Currency.getInstance("XAF"));
         ll_content = (LinearLayout) findViewById(R.id.ll_content);
         tv_TrRefOper = (TextView)findViewById(R.id.tv_TrRefOper);
@@ -210,16 +197,11 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         rb_TrTypTransf_EE = (RadioButton) findViewById(R.id.rb_TrTypTransf_EE);
         TrMontant = (EditText) findViewById(R.id.input_txt_TrMontant);
         TrMontant.addTextChangedListener(MyData.onTextChangedListener(TrMontant));
-        try {
-//            onEditTextClicked(TrMontant);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         TrMtFrais = (EditText) findViewById(R.id.input_txt_TrMtFrais);
         TrMtTaxes = (EditText) findViewById(R.id.input_txt_TrMtTaxes);
         tv_total = (TextView) findViewById(R.id.tv_total);
         tv_2 = (TextView) findViewById(R.id.tv_2);
-
 
         TrNomExp = (EditText) findViewById(R.id.input_TrNomExp);
 
@@ -255,8 +237,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                 }else if (TrTypPieceIdExpSpinner.getText().toString().equals("Passeport")){
                     TrTypPieceIdExp = "PP";
                 }
-
-
             }
         });
         TrPieceIdExp = (EditText) findViewById(R.id.input_TrPieceIdExp);
@@ -304,18 +284,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
         ccp_phone2 = (CountryCodePicker) findViewById(R.id.ccp_TrTelDest);
         editTextCarrierPhone2 = (EditText) findViewById(R.id.editText_carrierTrTelDest);
         ccp_phone2.registerCarrierNumberEditText(editTextCarrierPhone2);
-
-/*
-        ET_OdMontant = (EditText) findViewById(R.id.input_txt_OdMontant);
-        ET_OdMontant.addTextChangedListener(MyData.onTextChangedListener(ET_OdMontant));
-        ET_OdLibelle = (EditText) findViewById(R.id.input_txt_OdLibelle);
-        rb_OdSensOper_Produits = (RadioButton) findViewById(R.id.rb_OdSensOper_Produits);
-        rb_OdSensOper_Charges = (RadioButton) findViewById(R.id.rb_OdSensOper_Charges);
-        onRadioButtonClicked(rb_OdSensOper_Produits);
-        spinnerListOdOperExterne = (Spinner) findViewById(R.id.spn_list_OdOperExterne);
-
-        // spinner item select listener
-        spinnerListOdOperExterne.setOnItemSelectedListener(CreateOperationTransfertEnvoyer.this);*/
         new GetAdherentListExp().execute();
 
         addButton = (Button) findViewById(R.id.btn_save);
@@ -330,7 +298,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
                 }
-
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -364,31 +331,17 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
             map.put("KEY_ED_LIBELLE", AdherentExpediteursListNom.get(i).getName()+" "+AdherentExpediteursListNom.get(i).getTaux());
             movieList.add(map);
         }
-        /*status.add("Status 1");
-        status.add("Status 2");
-        status.add("Status 3");
-        status.add("Status 4");*/
-
         statusPopupList = new ListPopupWindow(CreateOperationTransfertEnvoyer.this);
         ListAdapter adapter = new SimpleAdapter(
                 CreateOperationTransfertEnvoyer.this, movieList,
                 R.layout.list_item, new String[]{"KEY_ED_NUMERO",
                 "KEY_ED_LIBELLE"},
                 new int[]{R.id.movieId, R.id.movieName});
-        // updating listview
-//        movieListView.setAdapter(adapter);
-//        ArrayAdapter adapter = new ArrayAdapter<>(CreateOperationTransfertEnvoyer.this, R.layout.item_simple_status, R.id.tv_element, status);
-    /*    ArrayAdapter adapter = new ArrayAdapter<>(CreateOperationTransfertEnvoyer.this, R.layout.item_simple_status,
-                new int[]{R.id.movieId, R.id.movieName},status);
-        new ArrayAdapter<>();*/
         statusPopupList.setAnchorView(acetStatus); //this let as set the popup below the EditText
         statusPopupList.setAdapter(adapter);
         statusPopupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                acetStatus.setText(AdherentExpediteursListNom.get(position).getName());//we set the selected element in the EditText
-
-//                acetStatus.setText(status.get(position));//we set the selected element in the EditText
                 String movieId = ((TextView) view.findViewById(R.id.movieName))
                         .getText().toString();
                 acetStatus.setText(movieId);//we set the selected element in the EditText
@@ -396,10 +349,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
             }
         });
     }
-//    public void loadOperationExterneList(){
-//        new GetAdherentListExp().execute();
-//    }
-
     /**
      * To manage Edit Text
      * @param view
@@ -416,39 +365,19 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                     TrMontant.addTextChangedListener(new TextWatcher() {
 
                         public void afterTextChanged(Editable s) {
-
-                            // you can call or do what you want with your EditText here
-//                SoldeReelEditText.addTextChangedListener(MyData.onTextChangedListener(SoldeReelEditText));
-//                tv_montant_ecart.setText(defaultFormat.format((parseDouble(total_operation_bis) - parseDouble(SoldeReelEditText.getText().toString()))));
-                            if ((TrMontant.getText().toString().trim()).equals("")){
+                           if ((TrMontant.getText().toString().trim()).equals("")){
                                 tv_total.setText(defaultFormat.format(parseDouble("0")));
-//                                TrMtFrais.setText(defaultFormat.format(parseDouble("0")));
-//                                et_nombre_10000.setText("0");
-
                             }else {
                                 new FetchFraisTransfertAsyncTask().execute();
-
-/*
-                               String trMontant = TrMontant.getText().toString().replaceAll(",", "").trim();
-                                TrMtFrais.setText((parseDouble(trMontant)*0.03)+"");
-                                tv_total.setText(defaultFormat.format(parseDouble(trMontant+"")+parseDouble(TrMtFrais.getText().toString().trim()+"")));
-//                                solde10000 = parseDouble(et_nombre_10000.getText().toString().trim())*10000;*/
                             }
                             // yourEditText...
                         }
-
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
                         public void onTextChanged(CharSequence s, int start, int before, int count) {}
                     });
                     break;
-
-
             }
-
-
-//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-//            Toast.makeText(getApplicationContext(), TotalBilletge+"", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             e.printStackTrace();
             Log.e("Memory exceptions","exceptions"+e);
@@ -485,7 +414,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                         TrNomExp.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-//                                Intent  i = new Intent(CreateOperationTransfertEnvoyer.this, ListGuichetCaisse.class);
                                 Intent  i = new Intent(CreateOperationTransfertEnvoyer.this, ListNomPrenomAdherentTransfert.class);
                                 i.putExtra(KEY_GUICHET_ID, MyData.GUICHET_ID+"");
                                 i.putExtra("sens", "exp");
@@ -556,15 +484,7 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                     TrPrenomExp.setFocusableInTouchMode(true);
                     TrNomDest.setFocusable(false);
                     TrPrenomDest.setFocusable(false);
-/*
-                    TrNomExp.setClickable(false);
-                    TrPrenomExp.setClickable(false);
-                    TrNomDest.setClickable(true);
-                    TrPrenomDest.setClickable(false);*/
-
-
                     try {
-
                         TrNomExp.setOnClickListener(null);
                         TrNomExp.setClickable(false);
                         TrNomDest.setOnClickListener(new View.OnClickListener() {
@@ -600,69 +520,15 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                     TrPrenomExp.setFocusableInTouchMode(true);
                     TrNomDest.setFocusableInTouchMode(true);
                     TrPrenomDest.setFocusableInTouchMode(true);
-
-
                 }
                 break;
         }
-//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Adding spinner data
-     * */
-    private void populateSpinner() {
-        List<String> lables = new ArrayList<String>();
-        List<String> lablesDest = new ArrayList<String>();
-
-        //tvCaisse.setText("");
-
-        try {
-            for (int i = 0; i < AdherentExpediteursListNom.size(); i++) {
-                lables.add(AdherentExpediteursListNom.get(i).getName()+ " " +AdherentExpediteursListNom.get(i).getTaux());//recupère les noms
-                AdherentExpediteursListID.add(AdherentExpediteursListNom.get(i).getId()); //recupère les Id AdNumero
-                AdherentExpediteursListCvNumero.add(AdherentExpediteursListNom.get(i).getFk()); //recupère les Id des compte eav
-                lablesDest.add(AdherentExpediteursListNomDest.get(i).getName()+ " " +AdherentExpediteursListNomDest.get(i).getTaux());//recupère les noms
-                AdherentExpediteursListIDDest.add(AdherentExpediteursListNomDest.get(i).getId()); //recupère les Id AdNumero
-                AdherentExpediteursListCvNumeroDest.add(AdherentExpediteursListNomDest.get(i).getFk()); //recupère les Id des compte eav
-            }
-            setPopupList();
-            //we need to show the list when clicking on the field
-            setListeners();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(CreateOperationTransfertEnvoyer.this,
-                android.R.layout.simple_spinner_item, lables);
-
-        // Drop down layout style - list view with radio button
-        spinnerAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ArrayAdapter<String> spinnerAdapterDest = new ArrayAdapter<String>(CreateOperationTransfertEnvoyer.this,
-                android.R.layout.simple_spinner_item, lablesDest);
-
-        // Drop down layout style - list view with radio button
-        spinnerAdapterDest
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinnerListNomExp.setAdapter(spinnerAdapter);
-        spinnerListNomDest.setAdapter(spinnerAdapterDest);
     }
     public void avertissement() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Impression du Bordereau !")
                 .setMessage(
-//                        "Montant Démarrage: " + tv_montant_demarrage.getText().toString()+
-//                        "\nTotal Dépôt: " + tv_depot.getText().toString()+
-//                        "\nTotal Retrait: " + tv_retrait.getText().toString()+
-//                        "\nSolde Théorique: " + tv_total.getText().toString()+
-//                        "\nSolde Réel: " + SoldeReelEditText.getText().toString().replaceAll(",", "").trim() +
-//                        "\nMontant écart: " + tv_montant_ecart.getText().toString()+
-//                        "\nTotal Billetage: " + tv_total_billetage.getText().toString()+
                         "\t\t Voulez-vous imprimer le bordereau ?"
                 )
                 .setNegativeButton("Non", new DialogInterface.OnClickListener()
@@ -677,18 +543,11 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        btn_create_pdf.performClick();
                         Dexter.withActivity(CreateOperationTransfertEnvoyer.this)
                                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 .withListener(new PermissionListener() {
                                     @Override
                                     public void onPermissionGranted(PermissionGrantedResponse response) {
-//                                        btn_create_pdf.setOnClickListener(new View.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(View v) {
-//                                                createPDFFile(Common.getAppPath(OperationEAV.this)+"test_pdf25.pdf");
-//                                            }
-//                                        });
                                         createPDFFile(Common.getAppPath(CreateOperationTransfertEnvoyer.this)+"transfert_mifucam.pdf");
                                     }
 
@@ -703,23 +562,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                                     }
                                 })
                                 .check();
-                        /*
-                        EavDepotMinEditText.setText("");
-                        NumDossierEditText.setText("");*/
-
-//                        Intent intent = new Intent(getApplicationContext(), LoginActivity_NEW.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        intent.putExtra("LOGOUT", true);
-//                        startActivity(intent);
-
-                        //Display success message
-//                        Toast.makeText(OperationEAV.this,
-//                                "Opération réussie !", Toast.LENGTH_LONG).show();
-//                        Intent i = getIntent();
-//                        //send result code 20 to notify about movie update
-//                        setResult(20, i);
-//                        //Finish ths activity and go back to listing activity
-//                        finish();
                     }
 
                 })
@@ -1390,13 +1232,6 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
             httpParams.put(Transfert.KEY_TrCodeSecret , String.valueOf(transfert.getTrCodeSecret()));
             httpParams.put(Transfert.KEY_TrToken , String.valueOf(transfert.getTrToken()));
             httpParams.put(Transfert.KEY_TrIsPaye , String.valueOf(transfert.getTrIsPaye()));
-//            httpParams.put(Transfert.KEY_TrToken , String.valueOf(transfert.getTrToken()));
-           /* httpParams.put(OperationExterneDetails.KEY_OdLibelle , String.valueOf(operationExterneDetails.getOdLibelle()));
-            httpParams.put(OperationExterneDetails.KEY_OdMontant , String.valueOf(operationExterneDetails.getOdMontant()));
-            httpParams.put(OperationExterneDetails.KEY_OdSensOper , String.valueOf(operationExterneDetails.getOdSensOper()));
-            httpParams.put(OperationExterneDetails.KEY_OdGuichet , String.valueOf(MyData.GUICHET_ID));
-            httpParams.put(OperationExterneDetails.KEY_OdUserCree , String.valueOf(MyData.USER_ID));
-*/
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_operation_envoyer_transfert.php", "POST", httpParams);
             try {
@@ -1414,21 +1249,14 @@ public class CreateOperationTransfertEnvoyer extends AppCompatActivity implement
                 public void run() {
                     if (success == 1) {
                         //Display success message
-//                        Toast.makeText(CreateOperationExterneDetails.this,
-//                                "Compte créé avec succès", Toast.LENGTH_LONG).show();
                         notificationSuccessAdd();
                         avertissement();
-
-
                     } else  if (success == -1) {
-
                         notificationEchecAdd();
-
                     } else {
                         Toast.makeText(CreateOperationTransfertEnvoyer.this,
                                 "Erreur lors du transfert !",
                                 Toast.LENGTH_LONG).show();
-
                     }
                 }
             });

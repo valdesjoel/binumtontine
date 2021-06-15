@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.binumtontine.R;
-import com.example.binumtontine.adapter.CustomAdapterListViewCheckbox;
 import com.example.binumtontine.adapter.CustomeAdapter;
 
 public class NextActivity extends AppCompatActivity {
@@ -29,7 +28,7 @@ public class NextActivity extends AppCompatActivity {
 
         for (int i = 0; i < CustomeAdapter.editModelArrayList.size(); i++){
 
-            tv.setText(tv.getText() + " " + CustomeAdapter.editModelArrayList.get(i).getEditTextValue() +System.getProperty("line.separator"));
+            tv.setText(tv.getText() + " " + CustomeAdapter.editModelArrayList.get(i).getFcValeur() +System.getProperty("line.separator"));
 
         }
     }

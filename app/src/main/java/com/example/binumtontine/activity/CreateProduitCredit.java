@@ -59,6 +59,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
+
 public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADDRESS {
     private Credit monProduitCredit;
     private static final String KEY_SUCCESS = "success";
@@ -71,6 +73,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_VALEUR = "CcFecValeur";
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_BASE = "CcFecBase";
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_NATURE = "CcFecNature";
+    private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_PdMtMinimum = "CcFecPdMtMinimum";
 
 
     private String tabPlageDebutFEC ="";
@@ -78,6 +81,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private String tabPlageValeurFEC ="";
     private String tabPlageBaseFEC ="";
     private String tabPlageNatureFEC ="";
+    private String tabPlagePdMtMinimumFEC ="";
 
     private static final String KEY_CREDIT_PLAGE_FRAIS_DEBLOCAGE_DEBUT = "CcFdbDebut";
     private static final String KEY_CREDIT_PLAGE_FRAIS_DEBLOCAGE_FIN = "CcFdbFin";
@@ -366,13 +370,12 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private String CrIsTauxInteretAnOn;
     private String CrNatureTxIntAn;
 
+    private String st_CrIsTVAOn;
+    private SwitchCompat CrIsTVAOn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credit);
-
-
-
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
         tv_header_produit.setText("Produit Crédit\n"+"Caisse: "+MyData.CAISSE_NAME);
 
@@ -384,13 +387,11 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
         tv_plage_CrNatFraisDecaissCred = (TextView) findViewById(R.id.tv_plage_CrNatFraisDecaissCred);
         tv_plage_tia_cc = (TextView) findViewById(R.id.tv_plage_tia_cc);
         ET_CrCode = (EditText) findViewById(R.id.input_txt_Code_credit);
+        alreadyUpperCase(ET_CrCode);
         ET_CrLibelle = (EditText) findViewById(R.id.input_txt_LibelleCredit);
         ET_CrDureeMax = (EditText) findViewById(R.id.input_txt_CrDureeMax);
         ET_CrDureeMin = (EditText) findViewById(R.id.input_txt_CrDureeMin);
         ET_CrNbreJrDelaiGrace = (EditText) findViewById(R.id.input_txt_CrNbreJrDelaiGrace);
-//        rbCrNaturePasFixe = (RadioButton)findViewById(R.id.rbCrNaturePasFixe);
-//        rbCrNaturePasSaut = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
-//        ET_CrNbreUPas = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
         rbCrTypTxInterFixe = (RadioButton)findViewById(R.id.rbCrTypTxInterFixe);
         rbCrTypTxInterPlage = (RadioButton)findViewById(R.id.rbCrTypTxInterPlage);
         rbCrTypTxInterPenRetardFixe = (RadioButton)findViewById(R.id.rbCrTypTxInterPenRetardFixe);
@@ -401,10 +402,6 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
         rbCrNatureTxIntAnFixe = (RadioButton)findViewById(R.id.rbCrNatureTxIntAnFixe);
         rbCrNatureTxIntAnTaux = (RadioButton)findViewById(R.id.rbCrNatureTxIntAnTaux);
         rbCrNatureTxIntAnPlage = (RadioButton)findViewById(R.id.rbCrNatureTxIntAnPlage);
-        /*rbCrTypTxInterDuree = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
-        rbCrTypTxInterMontant = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
-        rbCrTypTxInterMontantDuree = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
-        */
         rbCrModeCalcInteretSimple = (RadioButton)findViewById(R.id.rbCrModeCalcInteretSimple);
         rbCrModeCalcInteretCompose = (RadioButton)findViewById(R.id.rbCrModeCalcInteretCompose);
         rbCrModeCalcInteretDegressif = (RadioButton)findViewById(R.id.rbCrModeCalcInteretDegressif);
@@ -635,7 +632,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
         layout_TauxCrNatFrEtudDoss = (TextInputLayout) findViewById(R.id.input_layout_TauxCrNatFrEtudDoss);
         layout_TauxCrValTxFraisDeblocCred = (TextInputLayout) findViewById(R.id.input_layout_TauxCrValTxFraisDeblocCred);
         input_layout_CrTauxValTxIntAn = (TextInputLayout) findViewById(R.id.input_layout_CrTauxValTxIntAn);
-
+        CrIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchCrIsTVAOn);
         //TIC
         tv_plage_CrTypTxInter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -707,9 +704,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     Toast.makeText(CreateProduitCredit.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
         //FEC
@@ -726,9 +721,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     Toast.makeText(CreateProduitCredit.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
 
@@ -741,14 +734,11 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     ListPlageFDB.IS_TO_CREATE_OR_TO_UPDATE = true;
                     Intent i = new Intent(CreateProduitCredit.this, ListPlageFDB.class);
                     startActivityForResult(i,20);
-
                 } else {
                     Toast.makeText(CreateProduitCredit.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
         //FCX
@@ -760,17 +750,13 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     ListPlageFCX.IS_TO_CREATE_OR_TO_UPDATE = true;
                     Intent i = new Intent(CreateProduitCredit.this, ListPlageFCX.class);
                     startActivityForResult(i,20);
-
                 } else {
                     Toast.makeText(CreateProduitCredit.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
-//
 
         onRadioButtonClicked(rbCrTypTxInterFixe);
         onRadioButtonClicked(rbCrTypTxInterPenRetardFixe);
@@ -827,9 +813,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
         onSwitchButtonClicked(SW_CrIsInterOffSiCapRembAnt);
         onSwitchButtonClicked(SW_CrIsRappDatEchCred);
         onSwitchButtonClicked(SW_CrIsIntRetCreditOn);
-
-
-
+        onSwitchButtonClicked(CrIsTVAOn);
 
         deleteButton = (Button) findViewById(R.id.btn_delete_eav);
         deleteButton.setVisibility(View.GONE);
@@ -845,7 +829,6 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     Toast.makeText(CreateProduitCredit.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
-
                 }
 
             }
@@ -854,27 +837,30 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
             @Override
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    addEAV();
+                    addProduitCredit();
                 } else {
                     Toast.makeText(CreateProduitCredit.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
-
-
     }
 
     public void onSwitchButtonClicked(View view) {
 //        boolean checked1 = ((Switch) view).isChecked();
-        String str="";
+        //String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
 //
 
+            case R.id.SwitchCrIsTVAOn:
+                if (CrIsTVAOn.isChecked()) {
+                    st_CrIsTVAOn = "Y";
+                }else{
+                    st_CrIsTVAOn = "N";
+                }
+                break;
             case R.id.SwitchCrIsSoldIntRetObligSiNewEchCred:
                 if (SW_CrIsSoldIntRetObligSiNewEchCred.isChecked()) {
                     CrIsSoldIntRetObligSiNewEchCred = "Y";
@@ -1132,7 +1118,6 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
 //
             case R.id.SwitchCrIsTxIntDegressif:
                 if (SW_CrIsTxIntDegressif.isChecked()) {
-//                    str = checked1?"Minimum en compte obligatoire":"le minimum en compte n'est pas obligatoire";
                     CrIsTxIntDegressif = "Y";
                     rbCrModeCalcInteretCompose.setChecked(true);
                     onRadioButtonClicked(rbCrModeCalcInteretCompose);
@@ -1161,16 +1146,6 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     ET_CrTxCouvPSOblig.setVisibility(View.GONE);
                 }
                 break;
-
-//            case R.id.SwitchCrIsAffCollCredOn:
-//                if (SW_CrIsAffCollCredOn.isChecked()) {
-//
-//                    ET_CrNbreAnAncMinCred.setVisibility(View.VISIBLE);
-//                }else{
-//                    ET_CrNbreAnAncMinCred.setVisibility(View.GONE);
-//                }
-//
-//                break;
             case R.id.SwitchCrIsFraisEtudDossOn:
                 if (SW_CrIsFraisEtudDossOn.isChecked()) {
                     CrIsFraisEtudDossOn = "Y";
@@ -1223,43 +1198,8 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 }
 
                 break;
-//            case R.id.SwitchTauxInteretAnnuelEAV:
-//                if (ev_is_tx_inter_an_obligSwitch.isChecked()){
-//                    str = checked1?"Taux interêt obligatoire":"Taux interêt non obligatoire";
-//
-//                    layout_TauxInteretAnnuelEAV.setVisibility(View.VISIBLE);
-//                    layout_BaseInteretAnnuelEAV.setVisibility(View.VISIBLE);
-//                    layout_DateValeur.setVisibility(View.VISIBLE);
-//                    layout_DateRetrait.setVisibility(View.VISIBLE);
-//                }else{
-//                    layout_TauxInteretAnnuelEAV.setVisibility(View.GONE);
-//                    layout_BaseInteretAnnuelEAV.setVisibility(View.GONE);
-//
-//                    layout_DateValeur.setVisibility(View.GONE);
-//                    layout_DateRetrait.setVisibility(View.GONE);
-//                }
-//
-//
-//                break;
-//            case R.id.SwitchFraisTenuCpteOnEAV:
-//                if (ev_is_agios_onSwitch.isChecked()){
-//                    str = checked1?"Frais de tenue de compte activés":"Frais de tenue de compte désactivés";
-//
-//                    LL_CrNatFrEtudDoss.setVisibility(View.VISIBLE);
-//                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-//                    onRadioButtonClicked(rbEpTypTxInterFixe);
-//                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-//                }else{
-//                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    LL_CrNatFrEtudDoss.setVisibility(View.GONE);
-//                    blkPlageEav.setVisibility(View.GONE);
-//                }
-//
-//
-//                break;
-//
+
         }
-//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
     public void onRadioButtonClicked(View view) {
@@ -1498,92 +1438,35 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     JR_CrBaseTxFrEtudDoss.setVisibility(View.GONE);
                     tv_plage_CrNatFrEtudDoss.setVisibility(View.GONE);
                     ET_CrValTxFrEtudDoss.setHint("Montant des frais d'étude");
-//                    }
-                   /* else{
-//                        layout_TauxCrNatFrEtudDoss.setVisibility(View.GONE);
-                        ET_CrValTxFrEtudDoss.setVisibility(View.GONE);
-                        JR_CrBaseTxFrEtudDoss.setVisibility(View.GONE);
-                        tv_plage_CrNatFrEtudDoss.setVisibility(View.GONE);
-                    }*/
 //
                 }
 //
                 break;
             case R.id.rbCrNatFrEtudDossTaux:
                 if (rbCrNatFrEtudDossTaux.isChecked()){
-//                    str = checked1?"Type Taux sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     CrNatFrEtudDoss ="T";
                     if(SW_CrIsFraisEtudDossOn.isChecked()) {
-//                        layout_TauxCrNatFrEtudDoss.setVisibility(View.VISIBLE);
                         ET_CrValTxFrEtudDoss.setVisibility(View.VISIBLE);
                         JR_CrBaseTxFrEtudDoss.setVisibility(View.VISIBLE);
                         tv_plage_CrNatFrEtudDoss.setVisibility(View.GONE);
                         ET_CrValTxFrEtudDoss.setHint("Taux des frais d'étude");
-                    }/*
-                    else{
-
-//                        layout_TauxCrNatFrEtudDoss.setVisibility(View.GONE);
-                        ET_CrValTxFrEtudDoss.setVisibility(View.GONE);
-                        JR_CrBaseTxFrEtudDoss.setVisibility(View.GONE);
-                        tv_plage_CrNatFrEtudDoss.setVisibility(View.GONE);
-                    }*/
-//                    blkPlageEav.setVisibility(View.GONE);
-//                    ev_mt_tx_agios_prelevEditText.setHint("Taux mensuel à préléver");
-//                    layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-//                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-//                    tv_config_plage_tiv.setVisibility(View.GONE);
+                    }
                 }
 //
 //
                 break;
             case R.id.rbCrNatFrEtudDossPlage:
                 if (rbCrNatFrEtudDossPlage.isChecked()) {
-//
-//                    str = checked1?"Type Plage sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-//                    ev_typ_fr_agios ="P";
                     if(SW_CrIsFraisEtudDossOn.isChecked()) {
                         CrNatFrEtudDoss ="P";
-
                         JR_CrBaseTxFrEtudDoss.setVisibility(View.GONE);
-//                        layout_TauxCrNatFrEtudDoss.setVisibility(View.GONE);
                         ET_CrValTxFrEtudDoss.setVisibility(View.GONE);
                         tv_plage_CrNatFrEtudDoss.setVisibility(View.VISIBLE);
-                    }/*
-                    else{
-
-                        tv_plage_CrNatFrEtudDoss.setVisibility(View.GONE);
-                        JR_CrBaseTxFrEtudDoss.setVisibility(View.GONE);
-//                        layout_TauxCrNatFrEtudDoss.setVisibility(View.GONE);
-                        ET_CrValTxFrEtudDoss.setVisibility(View.GONE);
-                    }*/
-//                   // blkPlageEav.setVisibility(View.VISIBLE);
-//                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    tv_config_plage_tiv.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
 
             case R.id.rbCrNatureTxIntAnFixe:
-              /*  if (rbCrNatureTxIntAnFixe.isChecked()) {
-                    CrNatureTxIntAn ="F";
-                    if(SW_CrIsTauxInteretAnOn.isChecked()) {
-                        input_layout_CrTauxValTxIntAn.setVisibility(View.VISIBLE);
-                        ET_CrTauxValTxIntAn.setVisibility(View.VISIBLE);
-                        JR_CrBaseTxIntAn.setVisibility(View.GONE);
-                        tv_plage_tia_cc.setVisibility(View.GONE);
-                        input_layout_CrTauxValTxIntAn.setHint("Montant en FCFA");
-                    }else{
-                        input_layout_CrTauxValTxIntAn.setVisibility(View.GONE);
-                        ET_CrTauxValTxIntAn.setVisibility(View.GONE);
-                        JR_CrBaseTxIntAn.setVisibility(View.GONE);
-                        tv_plage_tia_cc.setVisibility(View.GONE);
-                    }
-
-
-                }
-                break;*/
                 if (rbCrNatureTxIntAnFixe.isChecked()) {
                     CrNatureTxIntAn ="F";
                     tv_plage_tia_cc.setVisibility(View.GONE);
@@ -1630,11 +1513,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.rbCrNatFraisDeblocCredFixe:
                 if (rbCrNatFraisDeblocCredFixe.isChecked()) {
-//                    str = checked1?"Type Fixe sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     CrNatFraisDeblocCred ="F";
-
-//                    blkPlageEav.setVisibility(View.GONE);
                     if(SW_CrIsFraisDeblocCredOn.isChecked()) {
                         layout_TauxCrValTxFraisDeblocCred.setVisibility(View.VISIBLE);
                         ET_CrValTxFraisDeblocCred.setVisibility(View.VISIBLE);
@@ -1653,8 +1532,6 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.rbCrNatFraisDeblocCredTaux:
                 if (rbCrNatFraisDeblocCredTaux.isChecked()){
-//                    str = checked1?"Type Taux sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     CrNatFraisDeblocCred ="T";
                     if(SW_CrIsFraisDeblocCredOn.isChecked()) {
                         layout_TauxCrValTxFraisDeblocCred.setVisibility(View.VISIBLE);
@@ -1670,15 +1547,9 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                         tv_plage_CrNatFraisDeblocCred.setVisibility(View.GONE);
                     }
                 }
-//
-//
                 break;
             case R.id.rbCrNatFraisDeblocCredPlage:
                 if (rbCrNatFraisDeblocCredPlage.isChecked()) {
-//
-//                    str = checked1?"Type Plage sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-//                    ev_typ_fr_agios ="P";
                     CrNatFraisDeblocCred ="P";
                     if(SW_CrIsFraisDeblocCredOn.isChecked()) {
                         JR_CrBaseTxFraisDeblocCred.setVisibility(View.GONE);
@@ -1686,94 +1557,62 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
                         ET_CrValTxFraisDeblocCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDeblocCred.setVisibility(View.VISIBLE);
                     }else{
-
                         JR_CrBaseTxFraisDeblocCred.setVisibility(View.GONE);
                         layout_TauxCrValTxFraisDeblocCred.setVisibility(View.GONE);
                         ET_CrValTxFraisDeblocCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDeblocCred.setVisibility(View.GONE);
                     }
-//                   // blkPlageEav.setVisibility(View.VISIBLE);
-//                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    tv_config_plage_tiv.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.rbCrNatFraisDecaissCredFixe:
                 if (rbCrNatFraisDecaissCredFixe.isChecked()) {
-//                    str = checked1?"Type Fixe sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     CrNatFraisDecaissCred ="F";
-
-//                    blkPlageEav.setVisibility(View.GONE);
                     if(SW_CrIsFraisDecaissCredOn.isChecked()) {
-//                        layout_TauxCrValTxFraisDeblocCred.setVisibility(View.VISIBLE);
                         ET_CrValTxFraisDecaissCred.setVisibility(View.VISIBLE);
                         JR_CrBaseTxFraisDecaissCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDecaissCred.setVisibility(View.GONE);
                         ET_CrValTxFraisDecaissCred.setHint("Montant des frais de décaissement");
                     }else{
-
-//                        layout_TauxCrValTxFraisDeblocCred.setVisibility(View.GONE);
                         ET_CrValTxFraisDecaissCred.setVisibility(View.GONE);
                         JR_CrBaseTxFraisDecaissCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDecaissCred.setVisibility(View.GONE);
                     }
-//                    layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-//                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    tv_config_plage_tiv.setVisibility(View.GONE);
-//
                 }
 //
                 break;
             case R.id.rbCrNatFraisDecaissCredTaux:
                 if (rbCrNatFraisDecaissCredTaux.isChecked()){
-//                    str = checked1?"Type Taux sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     CrNatFraisDecaissCred ="T";
                     if(SW_CrIsFraisDecaissCredOn.isChecked()) {
-//                        layout_TauxCrValTxFraisDeblocCred.setVisibility(View.VISIBLE);
+
                         ET_CrValTxFraisDecaissCred.setVisibility(View.VISIBLE);
                         JR_CrBaseTxFraisDecaissCred.setVisibility(View.VISIBLE);
                         tv_plage_CrNatFraisDecaissCred.setVisibility(View.GONE);
                         ET_CrValTxFraisDecaissCred.setHint("Taux des frais de décaissement");
                     }else{
 
-//                        layout_TauxCrValTxFraisDeblocCred.setVisibility(View.GONE);
                         ET_CrValTxFraisDecaissCred.setVisibility(View.GONE);
                         JR_CrBaseTxFraisDecaissCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDecaissCred.setVisibility(View.GONE);
                     }
                 }
-//
-//
+
                 break;
             case R.id.rbCrNatFraisDecaissCredPlage:
                 if (rbCrNatFraisDecaissCredPlage.isChecked()) {
-//
-//                    str = checked1?"Type Plage sélectionné":"";
-//                    ev_typ_fr_agiosEditText = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-//                    ev_typ_fr_agios ="P";
                     CrNatFraisDecaissCred ="P";
                     if(SW_CrIsFraisDecaissCredOn.isChecked()) {
                         JR_CrBaseTxFraisDecaissCred.setVisibility(View.GONE);
-//                        layout_TauxCrValTxFraisDeblocCred.setVisibility(View.GONE);
                         ET_CrValTxFraisDecaissCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDecaissCred.setVisibility(View.VISIBLE);
                     }else{
-
                         JR_CrBaseTxFraisDecaissCred.setVisibility(View.GONE);
-//                        layout_TauxCrValTxFraisDeblocCred.setVisibility(View.GONE);
                         ET_CrValTxFraisDecaissCred.setVisibility(View.GONE);
                         tv_plage_CrNatFraisDecaissCred.setVisibility(View.GONE);
                     }
-//                   // blkPlageEav.setVisibility(View.VISIBLE);
-//                    layout_TauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    layout_BaseTauxAPreleveCpteEAV.setVisibility(View.GONE);
-//                    tv_config_plage_tiv.setVisibility(View.VISIBLE);
                 }
                 break;
         }
-//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -1782,7 +1621,7 @@ public class CreateProduitCredit extends AppCompatActivity implements SERVER_ADD
      * Checks whether all files are filled. If so then calls AddEAVAsyncTask.
      * Otherwise displays Toast message informing one or more fields left empty
      */
-    private void addEAV() {
+    private void addProduitCredit() {
 
 if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
         !STRING_EMPTY.equals(ET_CrLibelle.getText().toString().trim()) &&
@@ -1867,7 +1706,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrIsModDecaissByObjet(CrIsModDecaissByObjet);
     monProduitCredit.setCrIsDeblocTransfDAVOn(CrIsDeblocTransfDAVOn);
     monProduitCredit.setCrIsMtPlafByObjet(CrIsMtPlafByObjet);
-    monProduitCredit.setCrModeRemb(JR_CrModeRemb.getText().toString());
+    monProduitCredit.setCrModeRemb(Credit.encodeCrModeRemb(JR_CrModeRemb.getText().toString()));
     monProduitCredit.setCrIsCpteEAVOnRembCred(CrIsCpteEAVOnRembCred);
     monProduitCredit.setCrIsCpteCourantOnRembCred(CrIsCpteCourantOnRembCred);
     monProduitCredit.setCrIsCptEATRemCredOn(CrIsCptEATRemCredOn);
@@ -1875,7 +1714,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrIsInterOffSiCapRembAnt(CrIsInterOffSiCapRembAnt);
     monProduitCredit.setCrTxInterEchNHon(ET_CrTxInterEchNHon.getText().toString());
     monProduitCredit.setCrBaseInterEchNHon(Credit.encodeCrBaseInterEchNHon(JR_CrBaseInterEchNHon.getText().toString()));
-    monProduitCredit.setCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString());
+    monProduitCredit.setCrPlanningRembCred(Credit.encodeCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString()));
     monProduitCredit.setCrIsRappDatEchCred(CrIsRappDatEchCred);
     monProduitCredit.setCrModelTextRappEchRemb(ET_CrModelTextRappEchRemb.getText().toString());
     monProduitCredit.setCrNbreJrAvantDatEch(ET_CrNbreJrAvantDatEch.getText().toString());
@@ -1886,6 +1725,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
     monProduitCredit.setCrDatHModif(null);
     monProduitCredit.setCrCaisseId(MyData.CAISSE_ID+"");
     monProduitCredit.setCrGuichetId(null);
+    monProduitCredit.setCrIsTVAOn(st_CrIsTVAOn);
 
 
 //to manage plage data
@@ -1896,6 +1736,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
         tabPlageValeurFEC +=";"+plageDataListFEC.get(i).getPdValTaux().replaceAll(",", "").trim();
         tabPlageBaseFEC +=";"+plageDataListFEC.get(i).getPdBase().replaceAll(",", "").trim();
         tabPlageNatureFEC +=";"+plageDataListFEC.get(i).getPdNature().replaceAll(",", "").trim();
+        tabPlagePdMtMinimumFEC +=";"+plageDataListFEC.get(i).getPdMtMinimum().replaceAll(",", "").trim();
     }
 //Déblocage FDB
     for (int i=0; i<plageDataListFDB.size();i++){
@@ -2059,7 +1900,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
             httpParams.put(monProduitCredit.KEY_CREDIT_DatHModif, monProduitCredit.getCrDatHModif());//96
             httpParams.put(monProduitCredit.KEY_CREDIT_CaisseId, monProduitCredit.getCrCaisseId());//97
             httpParams.put(monProduitCredit.KEY_CREDIT_GuichetId, monProduitCredit.getCrGuichetId());//98
-
+            httpParams.put(monProduitCredit.KEY_CrIsTVAOn, monProduitCredit.getCrIsTVAOn());
 
 
 
@@ -2070,6 +1911,7 @@ if (!STRING_EMPTY.equals(ET_CrCode.getText().toString().trim()) &&
             httpParams.put(KEY_CREDIT_PLAGE_FRAIS_ETUDE_VALEUR, tabPlageValeurFEC);
             httpParams.put(KEY_CREDIT_PLAGE_FRAIS_ETUDE_BASE, tabPlageBaseFEC);
             httpParams.put(KEY_CREDIT_PLAGE_FRAIS_ETUDE_NATURE, tabPlageNatureFEC);
+            httpParams.put(KEY_CREDIT_PLAGE_FRAIS_ETUDE_PdMtMinimum, tabPlagePdMtMinimumFEC);
 
             httpParams.put(KEY_CREDIT_PLAGE_FRAIS_DEBLOCAGE_DEBUT, tabPlageDebutFDB);
             httpParams.put(KEY_CREDIT_PLAGE_FRAIS_DEBLOCAGE_FIN, tabPlageFinFDB);

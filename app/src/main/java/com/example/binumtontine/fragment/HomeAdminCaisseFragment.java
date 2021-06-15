@@ -23,6 +23,8 @@ import com.example.binumtontine.activity.parametreGenerauxCx.ListObjetCreditCx;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListStatutEtapeCreditCx;
 import com.example.binumtontine.activity.parametreGenerauxCx.ListTypeMembrePFActivity;
 import com.example.binumtontine.activity.parametreGenerauxCx.TypeMembreCxActivity;
+import com.example.binumtontine.activity.parametreGenerauxCx.comiteDeCredit.ListComiteCredit;
+import com.example.binumtontine.activity.parametreGenerauxCx.membreComiteCredit.ListMembreComiteCredit;
 import com.example.binumtontine.activity.parametreGenerauxCx.operationExterne.ListOperationExterneCx;
 import com.example.binumtontine.activity.parametreGenerauxOF.operationExternes.ListOperationExterneOF;
 import com.example.binumtontine.activity.pdf.ItextPDF;
@@ -43,6 +45,8 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
     private  CardView etapesDemandeCreditCard;
     private  CardView statutEtapesDemandeCreditCard;
     private  CardView operationExterneCard;
+    private  CardView comiteCreditCard;
+    private  CardView membreComiteCreditCard;
 
 
     public HomeAdminCaisseFragment() {
@@ -72,6 +76,8 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
         etapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.etapes_demande_credit_cx_card);
         statutEtapesDemandeCreditCard = (CardView) rootView.findViewById(R.id.statut_etape_demande_credit_cx_card);
         operationExterneCard = (CardView) rootView.findViewById(R.id.operation_externe_cx_card);
+        comiteCreditCard = (CardView) rootView.findViewById(R.id.comite_credit_card);
+        membreComiteCreditCard = (CardView) rootView.findViewById(R.id.membre_comite_credit_card);
 
         guichetCard.setOnClickListener(this);
         paramProduitCard.setOnClickListener(this);
@@ -84,6 +90,8 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
         etapesDemandeCreditCard.setOnClickListener(this);
         statutEtapesDemandeCreditCard.setOnClickListener(this);
         operationExterneCard.setOnClickListener(this);
+        comiteCreditCard.setOnClickListener(this);
+        membreComiteCreditCard.setOnClickListener(this);
 
 
         // Inflate the layout for this fragment
@@ -194,6 +202,14 @@ public class HomeAdminCaisseFragment extends Fragment implements View.OnClickLis
                 break;
             case R.id.operation_externe_cx_card:
                 i = new Intent(getActivity(), ListOperationExterneCx.class);
+                startActivity(i);
+                break;
+            case R.id.comite_credit_card:
+                i = new Intent(getActivity(), ListComiteCredit.class);
+                startActivity(i);
+                break;
+            case R.id.membre_comite_credit_card:
+                i = new Intent(getActivity(), ListMembreComiteCredit.class);
                 startActivity(i);
                 break;
 

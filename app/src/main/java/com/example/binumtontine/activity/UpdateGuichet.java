@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.app.assist.AssistStructure;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -31,10 +30,12 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.adherent.DemandeCredit;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.DemandeCreditModele;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
@@ -55,7 +56,6 @@ import java.util.Map;
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
 public class UpdateGuichet extends AppCompatActivity implements  View.OnClickListener,  AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
-    private static String STRING_EMPTY = "";
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
 
@@ -73,6 +73,11 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private static final String KEY_GX_LOCALITE = "gx_localite";
     private static final String KEY_GX_DENOMINATION = "gx_denomination";
     private static final String KEY_GX_DATE_DEBUT = "gx_date_debut";
+/*
+    private static final String KEY_GxNumAgremCobac = "GxNumAgremCobac";
+    private static final String KEY_GxDatAgremCobac = "GxDatAgremCobac";
+    private static final String KEY_GxNumAgremCNC = "GxNumAgremCNC";
+    private static final String KEY_GxDatAgremCNC = "GxDatAgremCNC";*/
     private static final String KEY_GX_ADRESSE = "gx_adresse";
     private static final String KEY_GX_TEL1 = "gx_tel1";
     private static final String KEY_GX_TEL2 = "gx_tel2";
@@ -120,6 +125,11 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private JRSpinner mySpinnerFreqComCredit; //pour gérer le spinner contenant les localités
     private EditText gx_denominationEditText;
     private EditText gx_date_debutEditText;
+/*
+    private EditText GxNumAgremCobac;
+    private EditText GxDatAgremCobac;
+    private EditText GxNumAgremCNC;
+    private EditText GxDatAgremCNC;*/
     private EditText gx_adresseEditText;
     private EditText gx_tel1EditText;
     private EditText gx_tel2EditText;
@@ -141,6 +151,11 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     private String gxLocalite;
     private String gxDenomination;
     private String gx_date_debut;
+/*
+    private String GxNumAgremCobac_st;
+    private String GxDatAgremCobac_st;
+    private String GxNumAgremCNC_st;
+    private String GxDatAgremCNC_st;*/
     private String gx_adresse;
     private String gx_tel1;
     private String gx_tel2;
@@ -191,7 +206,10 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
 
     private DatePickerDialog gx_date_debut_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
-
+/*
+    private DatePickerDialog GxDatAgremCobacPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog GxDatAgremCNCPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+*/
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
 
     private br.com.simplepass.loadingbutton.customViews.CircularProgressButton updateButton;
@@ -207,71 +225,47 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_guichet);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_caisse);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
         Intent intent = getIntent();
-        headerGuichetTextView = (TextView) findViewById(R.id.header_user_guichet);
+        guichetId = intent.getStringExtra(KEY_GUICHET_ID);
+        headerGuichetTextView = findViewById(R.id.header_user_guichet);
         headerGuichetTextView.setText("Mise à jour Guichet");
 
         /* Begin manage country*/
-        cxTitle = (TextView) findViewById(R.id.tv_caisse_name);
+        cxTitle = findViewById(R.id.tv_caisse_name);
         cxName= MyData.CAISSE_NAME.toUpperCase();
         cxTitle.setTypeface(null, Typeface.BOLD);
         cxTitle.setText(cxTitle.getText()+" "+ cxName);
 
-        ccp_phone1 = (CountryCodePicker) findViewById(R.id.ccp_phone1);
-        editTextCarrierPhone1 = (EditText) findViewById(R.id.editText_carrierPhone1);
+        ccp_phone1 =  findViewById(R.id.ccp_phone1);
+        editTextCarrierPhone1 = findViewById(R.id.editText_carrierPhone1);
         ccp_phone1.registerCarrierNumberEditText(editTextCarrierPhone1);
-        ccp_phone1.getFullNumberWithPlus();
-
-        ccp_phone2 = (CountryCodePicker) findViewById(R.id.ccp_phone2);
-        editTextCarrierPhone2 = (EditText) findViewById(R.id.editText_carrierPhone2);
+//        ccp_phone1.getFullNumberWithPlus();
+        ccp_phone2 =  findViewById(R.id.ccp_phone2);
+        editTextCarrierPhone2 = findViewById(R.id.editText_carrierPhone2);
         ccp_phone2.registerCarrierNumberEditText(editTextCarrierPhone2);
-        ccp_phone2.getFullNumberWithPlus();
-        ccp_phone3 = (CountryCodePicker) findViewById(R.id.ccp_phone3);
-        editTextCarrierPhone3 = (EditText) findViewById(R.id.editText_carrierPhone3);
+//        ccp_phone2.getFullNumberWithPlus();
+        ccp_phone3 =  findViewById(R.id.ccp_phone3);
+        editTextCarrierPhone3 = findViewById(R.id.editText_carrierPhone3);
         ccp_phone3.registerCarrierNumberEditText(editTextCarrierPhone3);
-        ccp_phone3.getFullNumberWithPlus();
+//        ccp_phone3.getFullNumberWithPlus();
 
         /* End manage country*/
-
-
-
-
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         findViewsById();
-
         setDateTimeField();
-        // mySpinnerCaisse = (JRSpinner)findViewById(R.id.spn_my_spinner_select_caisse);
-        // textInputLayoutCaisse = (TextInputLayout) findViewById(R.id.til_caisse);
-        // textInputLayoutCaisse.setVisibility(View.GONE);
-        mySpinnerLocalite = (JRSpinner)findViewById(R.id.spn_my_spinner_localite_guichet);
-
-        // mySpinnerCaisse.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
+        mySpinnerLocalite = findViewById(R.id.spn_my_spinner_localite_guichet);
         mySpinnerLocalite.setItems(getResources().getStringArray(R.array.array_localite)); //this is important, you must set it to set the item list
-//        mySpinnerCaisse.setTitle("Sélectionner une caisse"); //change title of spinner-dialog programmatically
         mySpinnerLocalite.setTitle("Sélectionner une localité"); //change title of spinner-dialog programmatically
-        // mySpinnerCaisse.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
         mySpinnerLocalite.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
-
-     /*   mySpinnerCaisse.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
-            @Override
-            public void onItemClick(int position) {
-                //do what you want to the selected position
-
-            }
-        });*/
         mySpinnerLocalite.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
                 //do what you want to the selected position
-
             }
         });
 
-        mySpinnerFreqComCredit = (JRSpinner)findViewById(R.id.spn_GuFreqReunComCred);
+        mySpinnerFreqComCredit = findViewById(R.id.spn_GuFreqReunComCred);
 
         mySpinnerFreqComCredit.setItems(getResources().getStringArray(R.array.array_GuFreqReunComCred)); //this is important, you must set it to set the item list
         mySpinnerFreqComCredit.setTitle("Sélectionner la fréquence des réunions"); //change title of spinner-dialog programmatically
@@ -280,24 +274,19 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
         mySpinnerFreqComCredit.setOnItemClickListener(new JRSpinner.OnItemClickListener() { //set it if you want the callback
             @Override
             public void onItemClick(int position) {
-                //do what you want to the selected position
-                //  cxLocalite = mySpinnerLocalite.getText().toString();
-                // Log.d("iddddddd***",caisseLocalite);
             }
         });
-
-
-        gx_denominationEditText = (EditText) findViewById(R.id.input_denomination_guichet);
+        gx_denominationEditText =  findViewById(R.id.input_denomination_guichet);
         alreadyUpperCase(gx_denominationEditText);
-        gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
-        gx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseGx);
+        gx_date_debutEditText =findViewById(R.id.input_txt_dateDebut_guichet);
+        gx_adresseEditText =findViewById(R.id.input_txt_AdresseGx);
 
-        gx_nom_pcaEditText = (EditText) findViewById(R.id.input_txt_NomPCA_Gx);
+        gx_nom_pcaEditText =findViewById(R.id.input_txt_NomPCA_Gx);
         alreadyUpperCase(gx_nom_pcaEditText);
-        gx_nom_dgEditText = (EditText) findViewById(R.id.input_txt_NomDG_Gx);
+        gx_nom_dgEditText =findViewById(R.id.input_txt_NomDG_Gx);
         alreadyUpperCase(gx_nom_dgEditText);
-        gx_is_forcer_clotSwitch = (Switch) findViewById(R.id.SwitchForcer_la_clotureGx);
-        gx_heure_clotEditText = (EditText) findViewById(R.id.input_txt_heure_cloture_Gx);
+        gx_is_forcer_clotSwitch =findViewById(R.id.SwitchForcer_la_clotureGx);
+        gx_heure_clotEditText =findViewById(R.id.input_txt_heure_cloture_Gx);
         gx_heure_clotEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -315,41 +304,33 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                 picker.show();
             }
         });
-        gx_is_oper_apres_clotSwitch = (Switch) findViewById(R.id.Switch_gx_is_oper_apres_clot);
-        gx_nbre_rapp_by_jourEditText = (EditText) findViewById(R.id.input_txt_Nombre_de_rappel_par_jour);
-        gx_nbre_jr_av_rappEditText = (EditText) findViewById(R.id.input_txt_Nombre_jour_av_rappel);
-        gx_is_jour8_onSwitch = (Switch) findViewById(R.id.Switch8jr_semaine_Gx);
-        block_Switch8jr_semaine_Gx = (LinearLayout) findViewById(R.id.block_Switch8jr_semaine_Gx);
-        SW_GuIsJrSemInit = (Switch) findViewById(R.id.Switch_GuIsJrSemInit);
-        ll_getTodayDay = (LinearLayout) findViewById(R.id.ll_getTodayDay);
-        gx_is_credit_by_objetSwitch = (Switch) findViewById(R.id.Switch_credit_par_objet_Gx);
-        gx_first_jr_onEditText = (EditText) findViewById(R.id.input_txt_GuFirstJrOn);
-        gx_freq_reun_com_credEditText = (EditText) findViewById(R.id.input_txt_GuFreqReunComCred);
-        gx_is_rapp_net_msg_cred_onSwitch = (Switch) findViewById(R.id.Switch_GuIsRappNetMsgCredOn);
+        gx_is_oper_apres_clotSwitch = findViewById(R.id.Switch_gx_is_oper_apres_clot);
+        gx_nbre_rapp_by_jourEditText = findViewById(R.id.input_txt_Nombre_de_rappel_par_jour);
+        gx_nbre_jr_av_rappEditText =findViewById(R.id.input_txt_Nombre_jour_av_rappel);
+        gx_is_jour8_onSwitch =findViewById(R.id.Switch8jr_semaine_Gx);
+        block_Switch8jr_semaine_Gx =findViewById(R.id.block_Switch8jr_semaine_Gx);
+        SW_GuIsJrSemInit =findViewById(R.id.Switch_GuIsJrSemInit);
+        ll_getTodayDay =  findViewById(R.id.ll_getTodayDay);
+        gx_is_credit_by_objetSwitch =findViewById(R.id.Switch_credit_par_objet_Gx);
+        gx_first_jr_onEditText =findViewById(R.id.input_txt_GuFirstJrOn);
+        gx_freq_reun_com_credEditText =findViewById(R.id.input_txt_GuFreqReunComCred);
+        gx_is_rapp_net_msg_cred_onSwitch =findViewById(R.id.Switch_GuIsRappNetMsgCredOn);
 
-
-        GxIsPreComGesGuPGC= (SwitchCompat) findViewById(R.id.SwitchGxIsPreComGesGuPGC);
-        GxIsChefGuichCG= (SwitchCompat) findViewById(R.id.SwitchGxIsChefGuichCG);
-        GxIsAgentGuichAG= (SwitchCompat) findViewById(R.id.SwitchGxIsAgentGuichAG);
-        GxMtPlafDecAutPCG = (EditText) findViewById(R.id.input_txt_GxMtPlafDecAutPCG);
-
-        GxNbMoisHistoDef = (EditText) findViewById(R.id.input_txt_GxNbMoisHistoDef);
-
-
-
-        guichetId = intent.getStringExtra(KEY_GUICHET_ID);
+        GxIsPreComGesGuPGC=  findViewById(R.id.SwitchGxIsPreComGesGuPGC);
+        GxIsChefGuichCG= findViewById(R.id.SwitchGxIsChefGuichCG);
+        GxIsAgentGuichAG= findViewById(R.id.SwitchGxIsAgentGuichAG);
+        GxMtPlafDecAutPCG =findViewById(R.id.input_txt_GxMtPlafDecAutPCG);
+        GxNbMoisHistoDef = findViewById(R.id.input_txt_GxNbMoisHistoDef);
 
         /*debut*/
-
-
-        LL_default_eav = (LinearLayout) findViewById(R.id.ll_default_eav);
+        LL_default_eav = findViewById(R.id.ll_default_eav);
         LL_default_eav.setVisibility(View.VISIBLE);
-        LL_default_eav_for_collecte = (LinearLayout) findViewById(R.id.ll_default_eav_for_collecte);
+        LL_default_eav_for_collecte =findViewById(R.id.ll_default_eav_for_collecte);
         LL_default_eav_for_collecte.setVisibility(View.VISIBLE);
 
-        spinnerDefaultEAV = (Spinner) findViewById(R.id.spinner_default_eav);
-        spinnerDefaultEAVForCollecte = (Spinner) findViewById(R.id.spinner_default_eav_for_collecte);
-        spinnerJoursVillage = (Spinner) findViewById(R.id.spinner_getTodayDay);
+        spinnerDefaultEAV = findViewById(R.id.spinner_default_eav);
+        spinnerDefaultEAVForCollecte = findViewById(R.id.spinner_default_eav_for_collecte);
+        spinnerJoursVillage =findViewById(R.id.spinner_getTodayDay);
 
         defaultEavList = new ArrayList<Category>();
         defaultEavForCollecteList = new ArrayList<Category>();
@@ -358,11 +339,13 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
         spinnerDefaultEAV.setOnItemSelectedListener(UpdateGuichet.this);
         spinnerDefaultEAVForCollecte.setOnItemSelectedListener(UpdateGuichet.this);
         spinnerJoursVillage.setOnItemSelectedListener(UpdateGuichet.this);
-        new GetDefaultEAV().execute();
-        new GetTodayDay().execute();
-
-        /*fin*/
         new FetchGuichetDetailsAsyncTask().execute();
+        new GetDefaultEAV().execute();
+        new GetGxCptCollecteDefAsyncTask().execute();
+        new GetTodayDay().execute();
+        /*fin*/
+
+
         deleteButton = (CircularProgressButton) findViewById(R.id.btn_delete_guichet);
         deleteButton.setVisibility(View.VISIBLE);
         annulerButton = (CircularProgressButton) findViewById(R.id.btn_clean);
@@ -380,12 +363,10 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     updateGuichet();
-
                 } else {
                     Toast.makeText(UpdateGuichet.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
 
             }
@@ -395,40 +376,27 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                    finish();
-
                 } else {
                     Toast.makeText(UpdateGuichet.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
-
-
-
-    }
-
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Mise à jour d'une guichet");
-
     }
 
     private void findViewsById() {
-        gx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebut_guichet);
+        gx_date_debutEditText = findViewById(R.id.input_txt_dateDebut_guichet);
         gx_date_debutEditText.requestFocus();
         gx_date_debutEditText.setInputType(InputType.TYPE_NULL);
-
-
-
-
     }
 
     private void setDateTimeField() {
         gx_date_debutEditText.setOnClickListener(this);
-
-
+/*
+        GxDatAgremCobac.setOnClickListener(this);
+        GxDatAgremCNC.setOnClickListener(this);
+*/
         Calendar newCalendar = Calendar.getInstance();
         gx_date_debut_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -439,19 +407,13 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-
-
     }
 
     private void alreadyUpperCase(final EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
             }
-
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
                                           int arg3) {
@@ -479,15 +441,12 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     str = checked1 ? "Minimum en compte obligatoire" : "le minimum en compte n'est pas obligatoire";
 
                     block_Switch8jr_semaine_Gx.setVisibility(View.VISIBLE);
-                    //onRadioButtonClicked(rbCrNatFrEtudDossFixe);
                 } else {
                     block_Switch8jr_semaine_Gx.setVisibility(View.GONE);
                 }
-
                 break;
             case R.id.Switch_GuIsJrSemInit:
                 if (SW_GuIsJrSemInit.isChecked()) {
-
                     ll_getTodayDay.setVisibility(View.VISIBLE);
                 } else {
                     ll_getTodayDay.setVisibility(View.GONE);
@@ -498,19 +457,16 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
         }
     }
 
-
-
-
     @Override
     public void onClick(View v) {
         if(v == gx_date_debutEditText) {
             gx_date_debut_PickerDialog.show();
-        }
+        }/*else if(v == GxDatAgremCobac) {
+            GxDatAgremCobacPickerDialog.show();
+        } else if(v == GxDatAgremCNC) {
+            GxDatAgremCNCPickerDialog.show();
+        }*/
     }
-
-
-
-
     /**
      * Fetches single movie details from the server
      */
@@ -523,7 +479,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             pDialog.setMessage("Loading Guichet Details. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
-            pDialog.show();
+//            pDialog.show();
         }
 
         @Override
@@ -533,6 +489,8 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             httpParams.put(KEY_GUICHET_ID, guichetId);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_guichet_details.php", "GET", httpParams);
+            Log.e("get_guichet_details", String.valueOf(jsonObject));
+            Log.e("httpParams", String.valueOf(httpParams));
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONObject guichet;
@@ -541,9 +499,13 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     guichet = jsonObject.getJSONObject(KEY_DATA);
 
                     gxCaisse = guichet.getString(KEY_GX_CX_NUMERO);
-                    gxLocalite = MyData.normalizeSymbolsAndAccents(guichet.getString(KEY_GX_LOCALITE));
-                    gxDenomination = MyData.normalizeSymbolsAndAccents(guichet.getString(KEY_GX_DENOMINATION));
+                    gxLocalite = (guichet.getString(KEY_GX_LOCALITE));
+                    gxDenomination = (guichet.getString(KEY_GX_DENOMINATION));
                     gx_date_debut = guichet.getString(KEY_GX_DATE_DEBUT);
+                /*    GxNumAgremCobac_st = guichet.getString(KEY_GxNumAgremCobac);
+                    GxDatAgremCobac_st = guichet.getString(KEY_GxDatAgremCobac);
+                    GxNumAgremCNC_st = guichet.getString(KEY_GxNumAgremCNC);
+                    GxDatAgremCNC_st = guichet.getString(KEY_GxDatAgremCNC);*/
                     gx_adresse = guichet.getString(KEY_GX_ADRESSE);
                     gx_tel1 = guichet.getString(KEY_GX_TEL1);
                     gx_tel2 = guichet.getString(KEY_GX_TEL2);
@@ -570,8 +532,8 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     bool_GxIsAgentGuichAG = guichet.getString(KEY_GxIsAgentGuichAG);
 
                     bool_GxIsJrSemInit = guichet.getString(KEY_GxIsJrSemInit);
-                    gxDefaultEavForCollecteDenomination = guichet.getString(KEY_GxCptCollecteDef);
-
+//                    gxDefaultEavForCollecteDenomination = guichet.getString(KEY_GxCptCollecteDef);
+//
 
                 }
             } catch (JSONException e) {
@@ -581,17 +543,19 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
         }
 
         protected void onPostExecute(String result) {
-            pDialog.dismiss();
+//            pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-
-                    //mySpinnerCaisse.setText(gxCaisse);
-
                     try {
                         mySpinnerLocalite.setText(gxLocalite);
                         gx_denominationEditText.setText(gxDenomination);
                         gx_date_debutEditText.setText(gx_date_debut);
+/*
+                        GxNumAgremCobac.setText(GxNumAgremCobac_st);
+                        GxDatAgremCobac.setText(GxDatAgremCobac_st);
+                        GxNumAgremCNC.setText(GxNumAgremCNC_st);
+                        GxDatAgremCNC.setText(GxDatAgremCNC_st);*/
                         gx_adresseEditText.setText(gx_adresse);
 
                         ccp_phone1.setFullNumber(gx_tel1);
@@ -629,8 +593,6 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                             gx_is_credit_by_objetSwitch.setChecked(false);
                         }
                         gx_first_jr_onEditText.setText(gx_first_jr_on);
-                        //gx_freq_reun_com_credEditText.setText(gx_freq_reun_com_cred);
-                      //  mySpinnerFreqComCredit.setText(gx_freq_reun_com_cred);
                         if (gx_freq_reun_com_cred.equals("H")){
                             mySpinnerFreqComCredit.setText("HEBDOMADAIRE");
                         }else if (gx_freq_reun_com_cred.equals("M")){
@@ -677,13 +639,9 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
                 }
             });
         }
-
-
     }
 
     /**
@@ -704,7 +662,6 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
                             Toast.makeText(UpdateGuichet.this,
                                     "Unable to connect to internet",
                                     Toast.LENGTH_LONG).show();
-
                         }
                     }
                 });
@@ -777,21 +734,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void updateGuichet() {
-
-        /*
-
-        if (!STRING_EMPTY.equals(cx_denominationEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(mySpinnerLocalite.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_num_agremEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_date_agremEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_adresseEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_tel1EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_nom_pcaEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_nom_dgEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(cx_date_debutEditText.getText().toString())) {
-            */
             if (true){
-                //gxCaisse = "1";//gérer plutot dynamiquement
                 gxLocalite = mySpinnerLocalite.getText().toString();
                 gxDenomination = MyData.normalizeSymbolsAndAccents(gx_denominationEditText.getText().toString());
                 gx_date_debut = gx_date_debutEditText.getText().toString();
@@ -888,7 +831,7 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
             super.onPreExecute();
             //Display progress bar
             pDialog = new ProgressDialog(UpdateGuichet.this);
-            pDialog.setMessage("Updating Caisse. Please wait...");
+            pDialog.setMessage("Updating Guichet. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -903,40 +846,42 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
            // httpParams.put(KEY_GUICHET_ID, guichetId);
             httpParams.put(KEY_GUICHET_ID, String.valueOf(guichetId));
             httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
-            //httpParams.put(KEY_GX_CX_NUMERO, gxCaisse);
-
             httpParams.put(KEY_GX_LOCALITE, gxLocalite);
             httpParams.put(KEY_GX_DENOMINATION, gxDenomination);
             httpParams.put(KEY_GX_DATE_DEBUT, gx_date_debut);
+/*
+            httpParams.put(KEY_GxNumAgremCobac, GxNumAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_GxDatAgremCobac, GxDatAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_GxNumAgremCNC, GxNumAgremCNC.getText().toString().trim());
+            httpParams.put(KEY_GxDatAgremCNC, GxDatAgremCNC.getText().toString().trim());*/
             httpParams.put(KEY_GX_ADRESSE, gx_adresse);
             httpParams.put(KEY_GX_TEL1, gx_tel1);
             httpParams.put(KEY_GX_TEL2, gx_tel2);
             httpParams.put(KEY_GX_TEL3, gx_tel3);
             httpParams.put(KEY_GX_NOM_PCA, gx_nom_pca);
             httpParams.put(KEY_GX_NOM_DG, gx_nom_dg);
-            httpParams.put(KEY_GX_IS_FORCER_CLOT, gx_is_forcer_clot.toString());
+            httpParams.put(KEY_GX_IS_FORCER_CLOT, gx_is_forcer_clot);
             httpParams.put(KEY_GX_HEURE_CLOT, gx_heure_clot);
-            httpParams.put(KEY_GX_IS_OPER_APRES_CLOT, gx_is_oper_apres_clot.toString());
+            httpParams.put(KEY_GX_IS_OPER_APRES_CLOT, gx_is_oper_apres_clot);
             httpParams.put(KEY_GX_NBRE_RAPP_BY_JOUR, gx_nbre_rapp_by_jour);
             httpParams.put(KEY_GX_NBRE_JR_AV_RAPP, gx_nbre_jr_av_rapp);
-            httpParams.put(KEY_GX_IS_JOUR8_ON, gx_is_jour8_on.toString());
-            httpParams.put(KEY_GX_IS_CREDIT_BY_OBJET, gx_is_credit_by_objet.toString());
+            httpParams.put(KEY_GX_IS_JOUR8_ON, gx_is_jour8_on);
+            httpParams.put(KEY_GX_IS_CREDIT_BY_OBJET, gx_is_credit_by_objet);
             httpParams.put(KEY_GX_FIRST_JR_ON, gx_first_jr_on);
             httpParams.put(KEY_GX_FREQ_REUN_COM_CRED, gx_freq_reun_com_cred);
-            httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on.toString());
+            httpParams.put(KEY_GX_IS_RAPP_NET_MSG_CRED_ON, gx_is_rapp_net_msg_cred_on);
             httpParams.put(KEY_GX_DEFAULT_EAV_NUMERO, String.valueOf(defaultEavId));
             httpParams.put(KEY_GxCptCollecteDef, String.valueOf(defaultEavForCollecteId));//New
 
             httpParams.put(KEY_GxMtPlafDecAutPCG, st_GxMtPlafDecAutPCG);
-            httpParams.put(KEY_GxIsPreComGesGuPGC, bool_GxIsPreComGesGuPGC.toString());
-            httpParams.put(KEY_GxIsChefGuichCG, bool_GxIsChefGuichCG.toString());
-            httpParams.put(KEY_GxIsAgentGuichAG, bool_GxIsAgentGuichAG.toString());
-            httpParams.put(KEY_GxIsJrSemInit, bool_GxIsJrSemInit.toString());
+            httpParams.put(KEY_GxIsPreComGesGuPGC, bool_GxIsPreComGesGuPGC);
+            httpParams.put(KEY_GxIsChefGuichCG, bool_GxIsChefGuichCG);
+            httpParams.put(KEY_GxIsAgentGuichAG, bool_GxIsAgentGuichAG);
+            httpParams.put(KEY_GxIsJrSemInit, bool_GxIsJrSemInit);
             httpParams.put(KEY_GxNbMoisHistoDef, st_GxNbMoisHistoDef);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_guichet.php", "POST", httpParams);
-
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
             } catch (JSONException e) {
@@ -1004,14 +949,10 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
      * */
     private void populateSpinnerEAVCollecte() {
         List<String> lables = new ArrayList<String>();
-
-        //tvCaisse.setText("");
-
         for (int i = 0; i < defaultEavForCollecteList.size(); i++) {
             lables.add(defaultEavForCollecteList.get(i).getName());//recupère les noms
             defaultEavForCollecteListID.add(defaultEavForCollecteList.get(i).getId()); //recupère les Id
         }
-
         // Creating adapter for spinner
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(UpdateGuichet.this,
                 android.R.layout.simple_spinner_item, lables);
@@ -1062,6 +1003,59 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
 
     }
 
+    /**
+     * Fetches the details adherent who want to make demande credit from the server
+     */
+    private class GetGxCptCollecteDefAsyncTask extends AsyncTask<String, String, String> {
+        int successGetFrais;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+            /*pDialogDmdeCredit = new ProgressDialog(DemandeCredit.this);
+            pDialogDmdeCredit.setMessage("Please wait...");
+            pDialogDmdeCredit.setIndeterminate(false);
+            pDialogDmdeCredit.setCancelable(false);
+            pDialogDmdeCredit.show();*/
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            httpParams.put(KEY_GUICHET_ID, guichetId);
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_GxCptCollecteDef.php", "GET", httpParams);
+            Log.e("get_GxCptCollecteDef", jsonObject+"");
+            try {
+                successGetFrais = jsonObject.getInt(KEY_SUCCESS);
+                JSONObject movies;
+                if (successGetFrais == 1) {
+                    movies = jsonObject.getJSONObject(KEY_DATA);
+                    gxDefaultEavForCollecteDenomination = movies.getString(KEY_GxCptCollecteDef);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (successGetFrais ==1){
+                        try {
+                            populateSpinnerEAVCollecte();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            });
+        }
+
+    }
     /**
      * Async task to get all EAV on a current guichet for select default's eav
      * */
@@ -1120,10 +1114,10 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+            /*if (pDialog.isShowing())
+                pDialog.dismiss();*/
             populateSpinner();
-            populateSpinnerEAVCollecte();
+
         }
 
     }
@@ -1192,10 +1186,6 @@ public class UpdateGuichet extends AppCompatActivity implements  View.OnClickLis
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-//        Toast.makeText(
-//                getApplicationContext(),
-//                parent.getItemAtPosition(position).toString() + " Selected" ,
-//                Toast.LENGTH_LONG).show();
         int idSpinner = parent.getId();
         switch (idSpinner) {
             case R.id.spinner_default_eav:

@@ -6,6 +6,7 @@ package com.example.binumtontine.activity.adherent;
 public class CheckBoxModel {
 
     private boolean isSelected;
+    private boolean isOblig;
     private String animal;
     private String pieceID;
 
@@ -31,5 +32,13 @@ public class CheckBoxModel {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public boolean isOblig() {
+        return isOblig;
+    }
+
+    public void setOblig(boolean oblig) {
+        isOblig = oblig;
     }
 }

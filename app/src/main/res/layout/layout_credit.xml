@@ -2805,7 +2805,33 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- CrIsTVAOn / A1   **  Pour indiquer si la TVA est activée sur le Produit de Crédit, , "N" par défaut -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblCrIsTVAOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La TVA est-elle activée sur le Produit de Crédit ?" />
 
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchCrIsTVAOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                android:onClick="onSwitchButtonClicked"
+                />
+
+        </LinearLayout>
 
 
         <!--Pénalité de retard-->
@@ -3349,6 +3375,7 @@
             <!--android:text="ENREGISTRER"-->
             <!--android:layout_gravity="center_horizontal"-->
             <!--android:layout_marginTop="@dimen/loginViewsMargin"/>&ndash;&gt;-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

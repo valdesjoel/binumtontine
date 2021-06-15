@@ -25,23 +25,51 @@
         android:id="@+id/menu3"
         android:title="Compte courant" />
 
-<item
+    <item
         android:id="@+id/menu7"
         android:title="Demande de crédit" />
-<item
+    <item
         android:id="@+id/menu8"
         android:title="Cotisation annuelle" />
-<item
+    <item
         android:id="@+id/menu9"
         android:title="Envoyer un message" />
-<item
+    <item
         android:id="@+id/menu10"
         android:title="Messages envoyés" />
 
     <item
-        android:id="@+id/menu12"
-        android:title="Substitution de l'adhérent" />
-
-
-
+        android:id="@+id/action_autres_operations_sur_adherent"
+        android:visible="true"
+        android:orderInCategory="100"
+        android:titleCondensed="@string/action_autres_operations_sur_adherent_titleCondensed"
+        android:title="@string/action_autres_operations_sur_adherent"
+        android:enabled="true">
+        <menu>
+            <item
+                android:id="@+id/action_add_parts_sociales"
+                android:title="@string/action_increase_parts_sociales">
+            </item>
+            <item
+                android:id="@+id/action_decrease_parts_sociales"
+                android:title="@string/action_decrease_parts_sociales">
+            </item>
+            <item
+                android:id="@+id/action_payer_parts_sociales"
+                android:title="@string/action_payer_parts_sociales">
+            </item>
+            <item
+                android:id="@+id/action_historique_parts_sociales"
+                android:title="@string/action_historique_parts_sociales">
+            </item>
+            <item
+                android:id="@+id/action_reimprimer_contrat"
+                android:title="@string/action_reimprimer_contrat">
+            </item>
+            <item
+                android:id="@+id/menu12"
+                android:title="Substitution de l'adhérent" >
+            </item>
+        </menu>
+    </item>
 </menu>

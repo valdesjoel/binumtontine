@@ -53,6 +53,10 @@ public class AccesDistant implements AsyncResponse, SERVER_ADDRESS {
                         String libelle = info.getString("OfNom");
                         String num_agrement = info.getString("OfNumAgrem");
                         String date_agrement= info.getString("OfDateAgrem");
+                        String OfNumAgremCobac= info.getString("OfNumAgremCobac");
+                        String OfDatAgremCobac= info.getString("OfDatAgremCobac");
+                        String OfNumAgremCNC= info.getString("OfNumAgremCNC");
+                        String OfDatAgremCNC= info.getString("OfDatAgremCNC");
                         Integer boite_postale = info.getInt("OfBP");
                         String ville_of= info.getString("OfVille");
                         String pays_of = info.getString("OfPays");
@@ -66,7 +70,7 @@ public class AccesDistant implements AsyncResponse, SERVER_ADDRESS {
                         String nom_dg_of = info.getString("OfNomDG");
 
                         OrganeFaitier_modele organeFaitier_modele = new OrganeFaitier_modele(numero_of,
-                                sigle,libelle,num_agrement,date_agrement,boite_postale,ville_of,
+                                sigle,libelle,num_agrement,date_agrement,OfNumAgremCobac, OfDatAgremCobac, OfNumAgremCNC,OfDatAgremCNC,  boite_postale,ville_of,
                                 pays_of, adresse_of, telephone1_of,telephone2_of,telephone3_of, siege_of, nom_pca_of, nom_vpca_of, nom_dg_of
                         );
                         organeFaitierControler.setOrganeFaitier_modele(organeFaitier_modele);

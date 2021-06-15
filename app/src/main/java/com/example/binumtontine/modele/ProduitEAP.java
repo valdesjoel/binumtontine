@@ -9,6 +9,20 @@ public class ProduitEAP {
     private String EpDureeMin;
     private String EpIsTxIntNeg;
 
+    private String EpTypTxInter;
+    private String EpBaseTxInter;
+    private String EpNatureRupAn;
+    private String EpValTxMtRupture;
+    private String EpBaseTxPenal;
+    private String EpIsPenalNRespMise;
+    private String EpNbEchPenalOn;
+    private String EpIsEchPenalSucces;
+    private String EpIsPenalRupAnt;
+    private String EpNaturePenal;
+    private String EpValTxMtPenalite;
+    private String EpBaseTxMtPenal;
+
+
     //Constructor
 
 
@@ -22,6 +36,7 @@ public class ProduitEAP {
         EpMtMinMisePer = epMtMinMisePer;
         EpDureeMin = epDureeMin;
         EpIsTxIntNeg = epIsTxIntNeg;
+
     }
 
     //Getters and Setters
@@ -72,6 +87,102 @@ public class ProduitEAP {
 
     public void setEpIsTxIntNeg(String epIsTxIntNeg) {
         EpIsTxIntNeg = epIsTxIntNeg;
+    }
+
+    public String getEpTypTxInter() {
+        return EpTypTxInter;
+    }
+
+    public void setEpTypTxInter(String epTypTxInter) {
+        EpTypTxInter = epTypTxInter;
+    }
+
+    public String getEpBaseTxInter() {
+        return EpBaseTxInter;
+    }
+
+    public void setEpBaseTxInter(String epBaseTxInter) {
+        EpBaseTxInter = epBaseTxInter;
+    }
+
+    public String getEpNatureRupAn() {
+        return EpNatureRupAn;
+    }
+
+    public void setEpNatureRupAn(String epNatureRupAn) {
+        EpNatureRupAn = epNatureRupAn;
+    }
+
+    public String getEpValTxMtRupture() {
+        return EpValTxMtRupture;
+    }
+
+    public void setEpValTxMtRupture(String epValTxMtRupture) {
+        EpValTxMtRupture = epValTxMtRupture;
+    }
+
+    public String getEpBaseTxPenal() {
+        return EpBaseTxPenal;
+    }
+
+    public void setEpBaseTxPenal(String epBaseTxPenal) {
+        EpBaseTxPenal = epBaseTxPenal;
+    }
+
+    public String getEpIsPenalNRespMise() {
+        return EpIsPenalNRespMise;
+    }
+
+    public void setEpIsPenalNRespMise(String epIsPenalNRespMise) {
+        EpIsPenalNRespMise = epIsPenalNRespMise;
+    }
+
+    public String getEpNbEchPenalOn() {
+        return EpNbEchPenalOn;
+    }
+
+    public void setEpNbEchPenalOn(String epNbEchPenalOn) {
+        EpNbEchPenalOn = epNbEchPenalOn;
+    }
+
+    public String getEpIsEchPenalSucces() {
+        return EpIsEchPenalSucces;
+    }
+
+    public void setEpIsEchPenalSucces(String epIsEchPenalSucces) {
+        EpIsEchPenalSucces = epIsEchPenalSucces;
+    }
+
+    public String getEpIsPenalRupAnt() {
+        return EpIsPenalRupAnt;
+    }
+
+    public void setEpIsPenalRupAnt(String epIsPenalRupAnt) {
+        EpIsPenalRupAnt = epIsPenalRupAnt;
+    }
+
+    public String getEpNaturePenal() {
+        return EpNaturePenal;
+    }
+
+    public void setEpNaturePenal(String epNaturePenal) {
+        EpNaturePenal = epNaturePenal;
+    }
+
+    public String getEpValTxMtPenalite() {
+        return EpValTxMtPenalite;
+    }
+
+    public void setEpValTxMtPenalite(String epValTxMtPenalite) {
+        EpValTxMtPenalite = epValTxMtPenalite;
+    }
+
+    public String getEpBaseTxMtPenal() {
+        return EpBaseTxMtPenal;
+    }
+
+    public void setEpBaseTxMtPenal(String epBaseTxMtPenal) {
+        EpBaseTxMtPenal = epBaseTxMtPenal;
     }
 
     /**

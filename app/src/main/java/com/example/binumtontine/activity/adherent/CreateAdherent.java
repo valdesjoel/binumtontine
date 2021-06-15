@@ -242,7 +242,9 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onItemClick(int position) {
                 //do what you want to the selected position
-                if (Ad_TypePieceSpinner.getText().toString().equals("Carte nationale d'identité")){
+                AdTypCarteID = Adherent.encodeAdTypCarteID(Ad_TypePieceSpinner.getText().toString());
+
+                /*if (Ad_TypePieceSpinner.getText().toString().equals("Carte nationale d'identité")){
                     AdTypCarteID = "CN";
                 }else if (Ad_TypePieceSpinner.getText().toString().equals("Carte de séjour")){
                     AdTypCarteID = "CS";
@@ -256,7 +258,7 @@ public class CreateAdherent extends AppCompatActivity implements View.OnClickLis
                     AdTypCarteID = "PC";
                 }else if (Ad_TypePieceSpinner.getText().toString().equals("Passeport")){
                     AdTypCarteID = "PP";
-                }
+                }*/
 
 
             }
@@ -637,11 +639,13 @@ private void getEditText(){
     AdDateNaiss = Ad_DateNaissEditText.getText().toString();
     AdLieuNaiss = Ad_LieuNaissEditText.getText().toString();
     // AdSexe = Ad_SexeSpinner.getSelectedItem().toString();
-    if (Ad_SexeSpinner.getSelectedItem().toString().equals("Masculin")) {
+     AdSexe = Adherent.encodeAdSexe(Ad_SexeSpinner.getSelectedItem().toString());
+
+    /*if (Ad_SexeSpinner.getSelectedItem().toString().equals("Masculin")) {
         AdSexe = "M";
     }else {
         AdSexe = "F";
-    }
+    }*/
     AdNationalite = Ad_NationaliteSpinner.getSelectedCountryName();
 //    AdSitFam = Ad_SituationMatSpinner.getSelectedItem().toString();
     AdNbreEnfACh = Ad_NombreEnfantEditText.getText().toString();
@@ -659,80 +663,31 @@ private void getEditText(){
     AdValideAu = Ad_DateExpirationEditText.getText().toString();
     AdDetailsTypeNature = Ad_DetailsTypeNatureEditText.getText().toString();
 
+    AdTypHabite = Adherent.encodeAdTypHabite(Ad_TypeLocationSpinner.getSelectedItem().toString());
+    /*
     if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Propriétaire")) {
         AdTypHabite = "P";
     }else if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Locataire")){
-
         AdTypHabite = "L";
-
     } else {
         AdTypHabite = "C";
     }
-
+*/
+    AdSitFam = Adherent.encodeAdSitFam(Ad_SituationMatSpinner.getSelectedItem().toString());
+    /*
     if (Ad_SituationMatSpinner.getSelectedItem().toString().equals("Célibataire")) {
         AdSitFam = "C";
     }else if (Ad_SituationMatSpinner.getSelectedItem().toString().equals("Marié")){
-
         AdSitFam = "M";
-
     }else if (Ad_SituationMatSpinner.getSelectedItem().toString().equals("Divorcé")){
-
         AdSitFam = "D";
-
     } else {
-        AdSitFam = "V"; //V: veuf
-    }
+        AdSitFam = "V"; //V: Veuf
+    }*/
 }
 
     private void addAdherent() {
-       /* if (!STRING_EMPTY.equals(gx_denominationEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(Ad_ProfessionSpinner.getText().toString()) &&
-                !STRING_EMPTY.equals(Ad_DateNaissEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_adresseEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_tel2EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_tel3EditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_is_forcer_clotSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_heure_clotEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(gx_tel1EditText.getText().toString())) {*/
         if (!cxName.equals("") && typeMembreID!=0) {
-            //gxCaisse = mySpinnerCaisse.getText().toString();
-            //gxCaisse = "1";//gérer plutot dynamiquement
-           /* AdNumManuel = Ad_NumManuelEditText.getText().toString();
-            AdNom = Ad_NomEditText.getText().toString();
-            AdPrenom = Ad_PrenomEditText.getText().toString();
-            AdDateNaiss = Ad_DateNaissEditText.getText().toString();
-            AdLieuNaiss = Ad_LieuNaissEditText.getText().toString();
-           // AdSexe = Ad_SexeSpinner.getSelectedItem().toString();
-            if (Ad_SexeSpinner.getSelectedItem().toString().equals("Masculin")) {
-                AdSexe = "M";
-            }else {
-                AdSexe = "F";
-            }
-            AdNationalite = Ad_NationaliteSpinner.getSelectedCountryName();
-            AdSitFam = Ad_SituationMatSpinner.getSelectedItem().toString();
-            AdNbreEnfACh = Ad_NombreEnfantEditText.getText().toString();
-            AdTel1 = ccp_phone1.getFullNumberWithPlus();
-            AdTel2 = ccp_phone2.getFullNumberWithPlus();
-            AdTel3 = ccp_phone3.getFullNumberWithPlus();
-            AdEMail = Ad_EmailEditText.getText().toString();
-            AdProfess = Ad_ProfessionSpinner.getText().toString();
-            AdDomicile = Ad_DomicileEditText.getText().toString();
-            AdLieuTrav = Ad_LieuTravailEditText.getText().toString();
-            AdActivitePr = Ad_ActivitePrincipaleEditText.getText().toString();
-            AdTypCarteID = Ad_TypePieceSpinner.getText().toString();
-            AdNumCarteID = Ad_NumPieceEditText.getText().toString();
-            AdValideDu = Ad_DateDelivranceEditText.getText().toString();
-            AdValideAu = Ad_DateExpirationEditText.getText().toString();
-
-            if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Propriétaire")) {
-                AdTypHabite = "P";
-            }else if (Ad_TypeLocationSpinner.getSelectedItem().toString().equals("Locataire")){
-
-                AdTypHabite = "L";
-
-            } else {
-                AdTypHabite = "C";
-            }*/
            getEditText();
             adherent = new Adherent(
                     AdSexe+AdDateNaiss+AdNumCarteID,
@@ -765,6 +720,7 @@ private void getEditText(){
 
 
             );
+            adherent.setAdDetailsTypeMembre(AdDetailsTypeNature);
             if (to_update_adherent){
                 new AddAdherentAsyncTask().execute();
             }else{

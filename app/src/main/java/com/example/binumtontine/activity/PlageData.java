@@ -168,7 +168,7 @@ public class PlageData extends AppCompatActivity implements  SERVER_ADDRESS {
         valeurEditText = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAT);
         valeurDebutEditText = (EditText) findViewById(R.id.txt_EtValTxInterFrom);
         valeurFinEditText = (EditText) findViewById(R.id.txt_EtValTxInterTo);
-        baseEditText = (EditText) findViewById(R.id.input_txt_ValeurTkauxInteretEAT);
+        baseEditText = (EditText) findViewById(R.id.input_txt_PdMtMinimum);
         rbEtTypTxInterFixe = (RadioButton) findViewById(R.id.rb_EtTypTxInterFixe);
         tv_type_frais = (TextView) findViewById(R.id.tv_type_frais_plage_data_body);
         tv_type_frais.setText(MyData.TYPE_DE_FRAIS_PLAGE_DATA);

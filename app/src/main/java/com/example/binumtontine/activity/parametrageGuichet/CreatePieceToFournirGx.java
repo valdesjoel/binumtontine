@@ -93,7 +93,8 @@ public class CreatePieceToFournirGx extends AppCompatActivity implements SERVER_
     private String FpCode;
     private String FcCategAdh;
     private String FcTypeMembre;
-    private boolean FpIsPieceOblig;
+//    private boolean FpIsPieceOblig;
+    private String FpIsPieceOblig;
 
     /* manage spinner*/
     // array list for spinner adapter
@@ -326,23 +327,13 @@ public class CreatePieceToFournirGx extends AppCompatActivity implements SERVER_
                     //Parse the JSON response
                     eav = jsonObject.getJSONObject(KEY_DATA);
 
-
-//                    if (action_to_affect){
-
-//                        FpCode = eav.getString(KEY_FC_CODE);
-//                        FpLibelle = eav.getString(KEY_FC_LIBELLE);
-//                    }else{
                         FpCode = eav.getString(KEY_FC_CODE);
                         FpLibelle = eav.getString(KEY_FC_LIBELLE);
-                        FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
+
+//                        FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
+                        FpIsPieceOblig = (eav.getString(KEY_FC_Is_PIECE_OBLIG));
                         FcCategAdh = eav.getString(KEY_FC_CAT_ADH);
                         FcFraisPiece = eav.getString(KEY_FC_PIECE_ID);
-//
-//                    }
-//                    FpCode = eav.getString(KEY_FC_CODE);
-//                    FpLibelle = eav.getString(KEY_FC_LIBELLE);
-//                    FpIsPieceOblig = Boolean.parseBoolean(eav.getString(KEY_FC_Is_PIECE_OBLIG));
-//                  ev_is_min_cpte_oblig = Boolean.parseBoolean(eav.getString(KEY_EAV_IS_MIN_CPTE_OBLIG));
 
 
                 }
@@ -361,14 +352,16 @@ public class CreatePieceToFournirGx extends AppCompatActivity implements SERVER_
 
                     FpCodeEditText.setText(FpCode);
                     FpLibelleEditText.setText(FpLibelle);
-//if (action_to_affect){
-//    FpCodeEditText.setText(FpCode);
-//    FpLibelleEditText.setText(FpLibelle);
-//}else{
+
     FpCodeEditText.setText(FpCode);
     FpLibelleEditText.setText(FpLibelle);
-    rbFpIsPieceObligOui.setChecked(FpIsPieceOblig);
-    rbFpIsPieceObligNon.setChecked(!FpIsPieceOblig);
+    if (FpIsPieceOblig.equals("Y")){
+        rbFpIsPieceObligOui.setChecked(true);
+    }else{
+        rbFpIsPieceObligNon.setChecked(true);
+    }
+
+    /*
                     if (FcCategAdh!=null){
                         // Creating adapter for spinner piece
                         String[] mTestArray;
@@ -381,31 +374,10 @@ public class CreatePieceToFournirGx extends AppCompatActivity implements SERVER_
                                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                         spinnerFonctionFrais.setSelection(spinnerFraisAdapter.getPosition(FcCategAdh));
-                    }
+                    }*/
 
 //}
-                    /*
-                    ev_libelleEditText.setText(ev_libelle);
-                    ev_min_cpteEditText.setText(ev_min_cpte);
-                    ev_is_min_cpte_obligSwitch.setChecked(ev_is_min_cpte_oblig);
-                    ev_tx_inter_anEditText.setText(ev_tx_inter_an);
-                    ev_is_tx_inter_an_obligSwitch.setChecked(ev_is_tx_inter_an_oblig);
-                    ev_typ_dat_valEditText.setText(ev_typ_dat_val);
-                    ev_is_multi_eav_onSwitch.setChecked(ev_is_multi_eav_on);
-                    ev_is_paie_ps_onSwitch.setChecked(ev_is_paie_ps_on);
-                    ev_is_agios_onSwitch.setChecked(ev_is_agios_on);
-                    if (ev_typ_fr_agios.equals("F")){
-                        rbEpTypTxInterFixe.setChecked(true);
-                    }else if (ev_typ_fr_agios.equals("T")){
-                        rbEpTypTxInterTaux.setChecked(true);
-                    }else rbEpTypTxInterPlage.setChecked(true);
-                    //ev_typ_fr_agiosEditText.setText(ev_typ_fr_agios);
-                    ev_mt_tx_agios_prelevEditText.setText(ev_mt_tx_agios_prelev);
-                    ev_plage_agios_fromEditText.setText(ev_plage_agios_from);
-                    ev_plage_agios_toEditText.setText(ev_plage_agios_to);
-                    ev_is_cheque_onSwitch.setChecked(ev_is_cheque_on);
-                    ev_frais_clot_cptEditText.setText(ev_frais_clot_cpt);
-                    */
+
                 }
             });
         }
@@ -538,122 +510,6 @@ public class CreatePieceToFournirGx extends AppCompatActivity implements SERVER_
         spinnerPiece.setAdapter(spinnerPieceAdapter);
     }
 
-    /**
-     * Async task to get all food categories
-     * */
-    private class GetCategories extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(CreatePieceToFournirGx.this);
-            pDialog.setMessage("Fetching guichet's list..");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            String jsonGuichet = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
-            String jsonPiece = jsonParser.makeServiceCall(URL_GET_PIECE_OF, ServiceHandler.GET);
-
-            Log.e("Response: ", "> " + jsonGuichet);
-            //for manage list of guichet
-            if (jsonGuichet != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonGuichet);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray("categories");
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt("id"),
-                                    catObj.getString("name"));
-                            guichetList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data guichet", "Didn't receive any data from server!");
-            }
-            //for manage list of piece
-            if (jsonPiece != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonPiece);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray("categories");
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt("id"),
-                                    catObj.getString("name"));
-                            pieceList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data piece", "Didn't receive any data from server!");
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-            populateSpinner();
-        }
-
-    }
-/*
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
-        //guichetID = guichetListID.get(position);//pour recuperer l'ID de la caisse selectionnée
-        int idSpinner = view.getId();
-
-        if(idSpinner==R.id.spn_select_guichet_fp ){
-
-            // do this
-            guichetID = guichetListID.get(position);//pour recuperer l'ID de la caisse selectionnée
-        }
-
-        else{
-            //do this
-            pieceID = fraisListID.get(position);//pour recuperer l'ID de la caisse selectionnée
-        }
-
-        Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        guichetID = guichetListID.get(position);//pour recuperer l'ID de la caisse selectionnée
-
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }*/
-
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("Ajout d'une pièce");
-
-    }
 
     public void onRadioButtonClicked(View view) {
         boolean checked1 = ((RadioButton) view).isChecked();
@@ -688,50 +544,19 @@ public class CreatePieceToFournirGx extends AppCompatActivity implements SERVER_
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addEAV() {
-       /* if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
 
-                !STRING_EMPTY.equals(ev_libelleEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_tx_inter_anEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_tx_inter_an_obligSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_typ_dat_valEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_multi_eav_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_paie_ps_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_agios_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_typ_fr_agiosEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_mt_tx_agios_prelevEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_fromEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_plage_agios_toEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_cheque_onSwitch.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_frais_clot_cptEditText.getText().toString()) &&
+        if (!STRING_EMPTY.equals(FpLibelleEditText.getText().toString()) &&
+            (rbFpIsPieceObligOui.isChecked() || rbFpIsPieceObligNon.isChecked() )
+        ){
 
-                !STRING_EMPTY.equals(ev_min_cpteEditText.getText().toString()) &&
-                !STRING_EMPTY.equals(ev_is_min_cpte_obligSwitch.getText().toString())) { */
-if (!STRING_EMPTY.equals(FpLibelleEditText.getText().toString()) &&
-        (rbFpIsPieceObligOui.isChecked() || rbFpIsPieceObligNon.isChecked() )
-){
-
-
-FpIsPieceOblig = rbFpIsPieceObligOui.isChecked();
-    FpLibelle = FpLibelleEditText.getText().toString();
-           /* ev_code = ev_codeEditText.getText().toString();
-            ev_libelle = ev_libelleEditText.getText().toString();
-            ev_min_cpte = ev_min_cpteEditText.getText().toString();
-            ev_is_min_cpte_oblig = ev_is_min_cpte_obligSwitch.isChecked();
-            ev_tx_inter_an = ev_tx_inter_anEditText.getText().toString();
-            ev_is_tx_inter_an_oblig = ev_is_tx_inter_an_obligSwitch.isChecked();
-            ev_typ_dat_val = ev_typ_dat_valEditText.getText().toString();
-            ev_is_multi_eav_on = ev_is_multi_eav_onSwitch.isChecked();
-            ev_is_paie_ps_on = ev_is_paie_ps_onSwitch.isChecked();
-            ev_is_agios_on = ev_is_agios_onSwitch.isChecked();
-
-            //ev_typ_fr_agios = ev_typ_fr_agiosEditText.getText().toString();
-
-            ev_mt_tx_agios_prelev = ev_mt_tx_agios_prelevEditText.getText().toString();
-            ev_plage_agios_from = ev_plage_agios_fromEditText.getText().toString();
-            ev_plage_agios_to = ev_plage_agios_toEditText.getText().toString();
-            ev_is_cheque_on = ev_is_cheque_onSwitch.isChecked();
-            ev_frais_clot_cpt = ev_frais_clot_cptEditText.getText().toString();*/
-            new AddEAVAsyncTask().execute();
+                if (rbFpIsPieceObligOui.isChecked()){
+                FpIsPieceOblig = "Y";
+                }else{
+                FpIsPieceOblig = "N";
+                }
+                //FpIsPieceOblig = rbFpIsPieceObligOui.isChecked();
+                FpLibelle = FpLibelleEditText.getText().toString();
+                    new AddEAVAsyncTask().execute();
         } else {
             Toast.makeText(CreatePieceToFournirGx.this,
                     "Un ou plusieurs champs sont vides!",
@@ -769,14 +594,14 @@ FpIsPieceOblig = rbFpIsPieceObligOui.isChecked();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
             httpParams.put(KEY_FC_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)); // A modifier
-            //httpParams.put(KEY_FC_GUICHET_ID, String.valueOf(guichetID));
             httpParams.put(KEY_FC_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)); //I fix it to 0 to indicate that it's only for caisse
             //httpParams.put(KEY_FC_PIECE_ID, String.valueOf(pieceID)); // A modifier
             httpParams.put(KEY_FC_PIECE_ID, FcFraisPiece); // A modifier
             httpParams.put(KEY_FC_LIBELLE, FpLibelle);
             httpParams.put(KEY_FC_Is_PIECE_OBLIG, String.valueOf(FpIsPieceOblig));
            // httpParams.put(KEY_FC_CAT_ADH, String.valueOf(MyData.GUICHET_ID)); // A modifier
-            httpParams.put(KEY_FC_CAT_ADH, String.valueOf(FcCategAdh));
+//            httpParams.put(KEY_FC_CAT_ADH, String.valueOf(FcCategAdh));
+            httpParams.put(KEY_FC_CAT_ADH, String.valueOf(MyData.TYPE_MEMBRE_ID));
             httpParams.put(KEY_FP_PIECE_ID, String.valueOf(eavId)); // A modifier car les noms sont un peu inversés
 
 //            JSONObject jsonObject = httpJsonParser.makeHttpRequest(

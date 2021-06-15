@@ -69,6 +69,11 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_CX_NUM_AGREM = "cx_num_agrem";
     private static final String KEY_CX_DATE_AGREM = "cx_date_agrem";
     private static final String KEY_CX_DATE_DEBUT = "cx_date_debut";
+    private static final String KEY_CxNumAgremCobac = "CxNumAgremCobac";
+    private static final String KEY_CxDatAgremCobac = "CxDatAgremCobac";
+    private static final String KEY_CxNumAgremCNC = "CxNumAgremCNC";
+    private static final String KEY_CxDatAgremCNC = "CxDatAgremCNC";
+
     private static final String KEY_CX_ADRESSE = "cx_adresse";
     private static final String KEY_CX_TEL1 = "cx_tel1";
     private static final String KEY_CX_TEL2 = "cx_tel2";
@@ -92,6 +97,11 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
     private EditText cx_date_agremEditText;
     private EditText cx_date_debutEditText;
     private EditText cx_adresseEditText;
+
+    private EditText CxNumAgremCobac;
+    private EditText CxDatAgremCobac;
+    private EditText CxNumAgremCNC;
+    private EditText CxDatAgremCNC;
 
     private CountryCodePicker ccp_phone1;
     private CountryCodePicker ccp_phone2;
@@ -137,6 +147,9 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
 
     private DatePickerDialog cx_date_agrem_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
     private DatePickerDialog cx_date_debut_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog CxDatAgremCobacPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog CxDatAgremCNCPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+
     // private DatePickerDialog toDatePickerDialog;
 
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
@@ -179,7 +192,11 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
         cx_siegeEditText = (EditText) findViewById(R.id.input_siegeCx);
         alreadyUpperCase(cx_denominationEditText);
         alreadyUpperCase(cx_siegeEditText);
-        cx_num_agremEditText = (EditText) findViewById(R.id.input_txt_AdresseCx);
+        cx_num_agremEditText = (EditText) findViewById(R.id.input_txt_num_agrement_cx);
+        CxNumAgremCobac = (EditText) findViewById(R.id.input_txt_CxNumAgremCobac);
+
+        CxNumAgremCNC = (EditText) findViewById(R.id.input_txt_CxNumAgremCNC);
+
        // cx_date_agremEditText = (EditText) findViewById(R.id.input_txt_num_agrement_cx);
         //cx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateAgrementCx);
         cx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseCx);
@@ -367,12 +384,23 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
         cx_date_debutEditText.setInputType(InputType.TYPE_NULL);
         cx_date_debutEditText.requestFocus();
 
+        CxDatAgremCobac = (EditText) findViewById(R.id.input_txt_CxDatAgremCobac);
+        CxDatAgremCobac.setInputType(InputType.TYPE_NULL);
+        CxDatAgremCobac.requestFocus();
+
+        CxDatAgremCNC = (EditText) findViewById(R.id.input_txt_CxDatAgremCNC);
+        CxDatAgremCNC.setInputType(InputType.TYPE_NULL);
+        CxDatAgremCNC.requestFocus();
+
+
 
     }
 
     private void setDateTimeField() {
         cx_date_agremEditText.setOnClickListener(this);
         cx_date_debutEditText.setOnClickListener(this);
+        CxDatAgremCobac.setOnClickListener(this);
+        CxDatAgremCNC.setOnClickListener(this);
 
 
         Calendar newCalendar = Calendar.getInstance();
@@ -396,6 +424,26 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
+        CxDatAgremCobacPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                CxDatAgremCobac.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        CxDatAgremCNCPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                CxDatAgremCNC.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
     @Override
@@ -404,6 +452,10 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             cx_date_agrem_PickerDialog.show();
         }  else if(v == cx_date_debutEditText) {
             cx_date_debut_PickerDialog.show();
+        } else if(v == CxDatAgremCobac) {
+            CxDatAgremCobacPickerDialog.show();
+        } else if(v == CxDatAgremCNC) {
+            CxDatAgremCNCPickerDialog.show();
         }
     }
 
@@ -433,6 +485,12 @@ public class CreateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CX_NUM_AGREM, cx_num_agrem);
             httpParams.put(KEY_CX_DATE_AGREM, cx_date_agrem);
             httpParams.put(KEY_CX_DATE_DEBUT, cx_date_debut);
+
+            httpParams.put(KEY_CxNumAgremCobac, CxNumAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_CxDatAgremCobac, CxDatAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_CxNumAgremCNC, CxNumAgremCNC.getText().toString().trim());
+            httpParams.put(KEY_CxDatAgremCNC, CxDatAgremCNC.getText().toString().trim());
+
             httpParams.put(KEY_CX_ADRESSE, cx_adresse);
             httpParams.put(KEY_CX_TEL1, cx_tel1);
             httpParams.put(KEY_CX_TEL2, cx_tel2);

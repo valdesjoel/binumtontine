@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
 import static com.example.binumtontine.modele.Credit.KEY_CREDIT_Code;
 import static com.example.binumtontine.modele.Credit.KEY_CREDIT_Libelle;
 import static com.example.binumtontine.modele.Credit.*;
@@ -47,14 +48,8 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     private static final String KEY_CREDIT_ID = "CrNumero";
-
-
-
-
     public static String creditId;
     private TextView headerCreditTextView;
-
-
     private Button deleteButton;
     private Button updateButton;
     private Button cancelButton;
@@ -66,8 +61,6 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     public static ArrayList<ModelPlageData> plageDataList; //to manage plageData
 
 //BEGIN
-
-
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_DEBUT = "CcFecDebut";
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_FIN = "CcFecFin";
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_VALEUR = "CcFecValeur";
@@ -148,12 +141,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private RadioButton rbCrModeCalcInteretDegressif;
     private RadioButton rbCrPeriodCalcInteretJournalier;
     private RadioButton rbCrPeriodCalcInteretMensuel;
-    private RadioButton rbCrTypTxInterMontant;
-    private RadioButton rbCrTypTxInterDuree;
-    private RadioButton rbCrTypTxInterMontantDuree;
     private String CrTypTxInter;
-    private String CrTypTxInterPenRetard;
-    private String CrTypTxInterRetard;
     private EditText ET_CrValTxInter;
     private EditText ET_CrValTxInterPenRetard;
     private EditText ET_CrValTxInterRetard;
@@ -228,15 +216,6 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private Switch SW_CrIsTxIntDegressif;
     private Switch SW_CrIsDelaiGraceNegoc;
     private Switch SW_CrIsJoursOuvresOnly;
-//    private String CrUser;
-//    private String CrDateHCree;
-//    private String CrUserModif;
-//    private String CrDatHModif;
-//    private String CrCaisseId;
-//    private String CrGuichetId;
-
-
-
     private LinearLayout LL_CrNatFrEtudDoss;
     private LinearLayout LL_CrNatFraisDeblocCred;
     private LinearLayout LL_CrNatFraisDecaissCred;
@@ -430,26 +409,19 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
     private String CrIsTauxInteretAnOn;
     private String CrNatureTxIntAn;
 
+    private String st_CrIsTVAOn;
+    private SwitchCompat CrIsTVAOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.fragment_param_produit_eav);
         setContentView(R.layout.activity_credit);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
         plageDataList = new ArrayList<>();
         Intent intent = getIntent();
-
         headerCreditTextView = (TextView) findViewById(R.id.header_credit);
         headerCreditTextView.setText("Mise à jour Crédit");
-
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
-
         tv_header_produit.setText("Produit Crédit\n"+"Caisse: "+MyData.CAISSE_NAME);
-
-
         tv_plage_CrTypTxInter = (TextView) findViewById(R.id.tv_plage_tic_cc);
         tv_plage_cr_PenRetard = (TextView) findViewById(R.id.tv_plage_cr_PenRetard);
         tv_plage_cr_IntRetard = (TextView) findViewById(R.id.tv_plage_cr_IntRetard);
@@ -459,6 +431,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         tv_plage_tia_cc = (TextView) findViewById(R.id.tv_plage_tia_cc);
         ET_CrCode = (EditText) findViewById(R.id.input_txt_Code_credit);
         ET_CrCode.setEnabled(false);
+        alreadyUpperCase(ET_CrCode);
         ET_CrLibelle = (EditText) findViewById(R.id.input_txt_LibelleCredit);
         ET_CrDureeMax = (EditText) findViewById(R.id.input_txt_CrDureeMax);
         ET_CrDureeMin = (EditText) findViewById(R.id.input_txt_CrDureeMin);
@@ -710,66 +683,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
         layout_TauxCrNatFrEtudDoss = (TextInputLayout) findViewById(R.id.input_layout_TauxCrNatFrEtudDoss);
         layout_TauxCrValTxFraisDeblocCred = (TextInputLayout) findViewById(R.id.input_layout_TauxCrValTxFraisDeblocCred);
         input_layout_CrTauxValTxIntAn = (TextInputLayout) findViewById(R.id.input_layout_CrTauxValTxIntAn);
-
-//provisoire
-/*
-        onRadioButtonClicked(rbCrTypTxInterFixe);
-        onRadioButtonClicked(rbCrTypTxInterPenRetardFixe);
-        onRadioButtonClicked(rbCrTypTxInterRetardFixe);
-        onRadioButtonClicked(rbCrNatureTxIntAnFixe);
-        onRadioButtonClicked(rbCrNatFrEtudDossFixe);
-        onRadioButtonClicked(rbCrNatFraisDeblocCredFixe);
-        onRadioButtonClicked(rbCrNatFraisDecaissCredFixe);
-        onRadioButtonClicked(rbCrModeCalcInteretSimple);
-        onRadioButtonClicked(rbCrPeriodCalcInteretMensuel);
-        onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardMensuel);
-        onRadioButtonClicked(rbCrPeriodCalcInteretRetardMensuel);
-        onRadioButtonClicked(rbCrNatureJrTxIntJrTous);
-        onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrTous);
-        onRadioButtonClicked(rbCrNatureJrTxIntRetardJrTous);
-        onSwitchButtonClicked(SW_CrIsTxGarMemObl);
-        onSwitchButtonClicked(SW_CrIsCouvPartSOn);
-//        onSwitchButtonClicked(SW_CrIsAffCollCredOn);
-        onSwitchButtonClicked(SW_CrIsFraisEtudDossOn);
-        onSwitchButtonClicked(SW_CrIsFraisDeblocCredOn);
-        onSwitchButtonClicked(SW_CrIsFraisDecaissCredOn);
-        onSwitchButtonClicked(SW_CrIsTxIntDegressif);
-        onSwitchButtonClicked(SW_CrIsDelaiGraceNegoc);
-        onSwitchButtonClicked(SW_CrIsJoursOuvresOnly);
-        onSwitchButtonClicked(SW_CrIsTxIntNeg);
-        onSwitchButtonClicked(SW_CrIsTxInteretJrOn);
-        onSwitchButtonClicked(SW_CrIsSoldPenRetObligSiNewEchCred);
-        onSwitchButtonClicked(SW_CrIsSoldIntRetObligSiNewEchCred);
-        onSwitchButtonClicked(SW_CrIsTxPenRetardOn);
-        onSwitchButtonClicked(SW_CrIsTxIntJrOn_IntRetCred);
-        onSwitchButtonClicked(SW_CrIsTauxInteretAnOn);
-        onSwitchButtonClicked(SW_CrIsTxCouvAvalOblig);
-        onSwitchButtonClicked(SW_CrIsCautionMorAvalAcc);
-        onSwitchButtonClicked(SW_CrIsGarBloqCptOblig);
-        onSwitchButtonClicked(SW_CrIsGarCptEAVOn);
-        onSwitchButtonClicked(SW_CrIsGarCptEATOn);
-        onSwitchButtonClicked(SW_CrIsGarCptEAPOn);
-        onSwitchButtonClicked(SW_CrIsAvalSansCredOn);
-        onSwitchButtonClicked(SW_CrIsPersMorAvalOn);
-        onSwitchButtonClicked(SW_CrIsAffCollCredOn);
-        onSwitchButtonClicked(SW_CrNbAnAncNeg);
-        onSwitchButtonClicked(SW_CrIsMtPlafCredLeve);
-        onSwitchButtonClicked(SW_CrIsGarMatExige);
-        onSwitchButtonClicked(SW_CrIsFraisEtudByDAV);
-        onSwitchButtonClicked(SW_CrIsFraisDeblocByDAV);
-        onSwitchButtonClicked(SW_CrIsFraisDecaissByDAV);
-        onSwitchButtonClicked(SW_CrIsModDecaissByObjet);
-        onSwitchButtonClicked(SW_CrIsDeblocTransfDAVOn);
-        onSwitchButtonClicked(SW_CrIsMtPlafByObjet);
-        onSwitchButtonClicked(SW_CrIsCpteEAVOnRembCred);
-        onSwitchButtonClicked(SW_CrIsCpteCourantOnRembCred);
-        onSwitchButtonClicked(SW_CrIsCptEATRemCredOn);
-        onSwitchButtonClicked(SW_CrIsCptEAPRemCredOn);
-        onSwitchButtonClicked(SW_CrIsInterOffSiCapRembAnt);
-        onSwitchButtonClicked(SW_CrIsRappDatEchCred);
-        onSwitchButtonClicked(SW_CrIsIntRetCreditOn);
-
-*/
+        CrIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchCrIsTVAOn);
         creditId = intent.getStringExtra(KEY_CREDIT_ID);
         new FetchCreditDetailsAsyncTask().execute();
         deleteButton = (Button) findViewById(R.id.btn_delete_eav);
@@ -787,14 +701,11 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     finish();
-
                 } else {
                     Toast.makeText(UpdateProduitCredit.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -802,14 +713,11 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             public void onClick(View view) {
                 if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                     updateCredit();
-
                 } else {
                     Toast.makeText(UpdateProduitCredit.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
 
@@ -825,14 +733,11 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     Intent i = new Intent(UpdateProduitCredit.this, ListPlageTIC.class);
                     i.putExtra(KEY_CREDIT_ID, creditId);
                     startActivityForResult(i,20);
-
                 } else {
                     Toast.makeText(UpdateProduitCredit.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
         //TIA
@@ -845,7 +750,6 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                     Intent i = new Intent(UpdateProduitCredit.this, ListPlageTIA.class);
                     i.putExtra(KEY_CREDIT_ID, creditId);
                     startActivityForResult(i,20);
-
                 } else {
                     Toast.makeText(UpdateProduitCredit.this,
                             "Unable to connect to internet",
@@ -962,11 +866,18 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
 
     public void onSwitchButtonClicked(View view) {
 //        boolean checked1 = ((Switch) view).isChecked();
-        String str="";
+      //  String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
 //
 
+            case R.id.SwitchCrIsTVAOn:
+                if (CrIsTVAOn.isChecked()) {
+                    st_CrIsTVAOn = "Y";
+                }else{
+                    st_CrIsTVAOn = "N";
+                }
+                break;
             case R.id.SwitchCrIsSoldIntRetObligSiNewEchCred:
                 if (SW_CrIsSoldIntRetObligSiNewEchCred.isChecked()) {
                     CrIsSoldIntRetObligSiNewEchCred = "Y";
@@ -1989,20 +1900,13 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                 monProduitCredit.setCrModelTextRappEchRemb(jsonObject.getString(KEY_CREDIT_ModelTextRappEchRemb));
                 monProduitCredit.setCrNbreJrAvantDatEch(jsonObject.getString(KEY_CREDIT_NbreJrAvantDatEch));
                 monProduitCredit.setCrNbreJrApreEchSiNHon(jsonObject.getString(KEY_CREDIT_NbreJrApreEchSiNHon));
+                monProduitCredit.setCrIsTVAOn(jsonObject.getString(KEY_CrIsTVAOn));
 
-               /* monProduitCredit.setCrUser(MyData.USER_ID+"");
-                monProduitCredit.setCrDateHCree(null);
-                monProduitCredit.setCrUserModif(MyData.USER_ID+"");
-                monProduitCredit.setCrDatHModif(null);
-                monProduitCredit.setCrCaisseId(MyData.CAISSE_ID+"");
-                monProduitCredit.setCrGuichetId(null);*/
 //
 
             } catch (Exception e) {
                 e.printStackTrace();
-            } /*catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }*/
+            }
             return null;
         }
 
@@ -2081,8 +1985,6 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                             rbCrModeCalcInteretDegressif.setChecked(true);
                             onRadioButtonClicked(rbCrModeCalcInteretDegressif);
                         }
-
-
                         if (monProduitCredit.getCrPeriodCalcInteret().equals("M")){
                             rbCrPeriodCalcInteretMensuel.setChecked(true);
                             onRadioButtonClicked(rbCrPeriodCalcInteretMensuel);
@@ -2445,7 +2347,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                         }
                         onSwitchButtonClicked(SW_CrIsMtPlafByObjet);
 
-                        JR_CrModeRemb.setText(monProduitCredit.getCrModeRemb());
+                        JR_CrModeRemb.setText(Credit.decodeCrModeRemb(monProduitCredit.getCrModeRemb()));
 
                         if (monProduitCredit.getCrIsCpteEAVOnRembCred().equals("Y")){
                             SW_CrIsCpteEAVOnRembCred.setChecked(true);
@@ -2483,7 +2385,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
 
                         ET_CrTxInterEchNHon.setText(monProduitCredit.getCrTxInterEchNHon());
                         JR_CrBaseInterEchNHon.setText(monProduitCredit.getCrBaseInterEchNHon());
-                        JR_CrPlanningRembCred.setText(monProduitCredit.getCrPlanningRembCred());
+                        JR_CrPlanningRembCred.setText(Credit.decodeCrPlanningRembCred(monProduitCredit.getCrPlanningRembCred()));
 
                         if (monProduitCredit.getCrIsRappDatEchCred().equals("Y")){
                             SW_CrIsRappDatEchCred.setChecked(true);
@@ -2495,9 +2397,16 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
                         ET_CrModelTextRappEchRemb.setText(monProduitCredit.getCrModelTextRappEchRemb());
                         ET_CrNbreJrAvantDatEch.setText(monProduitCredit.getCrNbreJrAvantDatEch());
                         ET_CrNbreJrApreEchSiNHon.setText(monProduitCredit.getCrNbreJrApreEchSiNHon());
+
+
+                        if (monProduitCredit.getCrIsTVAOn().equals("Y")){
+                            CrIsTVAOn.setChecked(true);
+                        }else{
+                            CrIsTVAOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(CrIsTVAOn);
                         monProduitCredit= null; //a revoir
 
-//                    } catch (UnsupportedEncodingException e) {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -2684,7 +2593,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrIsModDecaissByObjet(CrIsModDecaissByObjet);
             monProduitCredit.setCrIsDeblocTransfDAVOn(CrIsDeblocTransfDAVOn);
             monProduitCredit.setCrIsMtPlafByObjet(CrIsMtPlafByObjet);
-            monProduitCredit.setCrModeRemb(JR_CrModeRemb.getText().toString());
+            monProduitCredit.setCrModeRemb(Credit.encodeCrModeRemb(JR_CrModeRemb.getText().toString()));
             monProduitCredit.setCrIsCpteEAVOnRembCred(CrIsCpteEAVOnRembCred);
             monProduitCredit.setCrIsCpteCourantOnRembCred(CrIsCpteCourantOnRembCred);
             monProduitCredit.setCrIsCptEATRemCredOn(CrIsCptEATRemCredOn);
@@ -2692,7 +2601,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrIsInterOffSiCapRembAnt(CrIsInterOffSiCapRembAnt);
             monProduitCredit.setCrTxInterEchNHon(ET_CrTxInterEchNHon.getText().toString());
             monProduitCredit.setCrBaseInterEchNHon(Credit.encodeCrBaseInterEchNHon(JR_CrBaseInterEchNHon.getText().toString()));
-            monProduitCredit.setCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString());
+            monProduitCredit.setCrPlanningRembCred(Credit.encodeCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString()));
             monProduitCredit.setCrIsRappDatEchCred(CrIsRappDatEchCred);
             monProduitCredit.setCrModelTextRappEchRemb(ET_CrModelTextRappEchRemb.getText().toString());
             monProduitCredit.setCrNbreJrAvantDatEch(ET_CrNbreJrAvantDatEch.getText().toString());
@@ -2703,6 +2612,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             monProduitCredit.setCrDatHModif(null);
             monProduitCredit.setCrCaisseId(MyData.CAISSE_ID+"");
             monProduitCredit.setCrGuichetId(null);
+            monProduitCredit.setCrIsTVAOn(st_CrIsTVAOn);
 //to manage plage data
             //Frais d'étude
             for (int i=0; i<plageDataListFEC.size();i++){
@@ -2872,7 +2782,7 @@ public class UpdateProduitCredit extends AppCompatActivity implements SERVER_ADD
             httpParams.put(monProduitCredit.KEY_CREDIT_DatHModif, monProduitCredit.getCrDatHModif());//96
             httpParams.put(monProduitCredit.KEY_CREDIT_CaisseId, monProduitCredit.getCrCaisseId());//97
             httpParams.put(monProduitCredit.KEY_CREDIT_GuichetId, monProduitCredit.getCrGuichetId());//98
-
+            httpParams.put(monProduitCredit.KEY_CrIsTVAOn, monProduitCredit.getCrIsTVAOn());
 
 
 

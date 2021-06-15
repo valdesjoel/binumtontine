@@ -9,20 +9,15 @@
     android:layout_marginTop="@dimen/loginViewsMargin"
     android:layout_marginBottom="@dimen/loginViewsMargin"
     android:background="@color/whiteCardColor">
-
-
-
     <LinearLayout
         style="@style/linearParent"
         android:layout_gravity="center"
         android:padding="@dimen/loginViewsMargin">
-
         <TextView
             android:id="@+id/header_operation_eav_adherent"
             style="@style/headerTextPrimary"
             android:text="Opération de décaissement de crédit"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
-
         <!-- Begin -->
 
         <!--Nom Adherent-->
@@ -32,18 +27,14 @@
             android:gravity="center"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/tv_title_nom_adherent"
                 style="@style/parent"
                 android:layout_width="205dp"
                 android:layout_height="wrap_content"
-
                 android:layout_weight="1"
                 android:text="Adhérent:"
-
                 android:textSize="18sp" />
-
             <TextView
                 android:id="@+id/tv_nom_adherent"
                 style="@style/parent"
@@ -128,7 +119,6 @@
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/tv_title_libelle_produit_adherent"
                 style="@style/parent"
@@ -137,7 +127,6 @@
                 android:layout_weight="1"
                 android:text="Produit:"
                 android:textSize="18sp" />
-
             <TextView
                 android:id="@+id/tv_libelle_produit_adherent"
                 style="@style/parent"
@@ -159,16 +148,14 @@
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/tv_title_solde_compte"
                 style="@style/parent"
                 android:layout_width="205dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Solde:"
+                android:text="Montant à décaisser:"
                 android:textSize="18sp" />
-
             <TextView
                 android:id="@+id/tv_solde_compte"
                 style="@style/parent"
@@ -244,10 +231,10 @@
                 android:orientation="vertical"
                 android:showDividers="beginning|middle|end">
                 <RadioButton
-                    android:id="@+id/rb_nature_operation_depot"
+                    android:id="@+id/rb_DcModeDecaissEspece"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:onClick="onRadioButtonClicked"
                     android:text="Retrait espèce"
                     android:textSize="16sp" />
@@ -260,7 +247,7 @@
                     android:onClick="onRadioButtonClicked"
                     android:text="Virement EAV"
                     android:textSize="16sp" />
-                <RadioButton
+        <!--        <RadioButton
                     android:id="@+id/rb_DcModeDecaissEAP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -275,49 +262,12 @@
                     android:checked="false"
                     android:onClick="onRadioButtonClicked"
                     android:text="Virement EAT"
-                    android:textSize="16sp" />
-
-
-
-
+                    android:textSize="16sp" />-->
             </RadioGroup>
         </LinearLayout>
 
-        <!--Spinner mode paiement-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:layout_marginTop="@dimen/loginViewsMargin"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/tv_title_eav"-->
-                <!--style="@style/parent"-->
-                <!--android:layout_width="205dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="@string/motif_decision"-->
-                <!--android:textSize="16sp" />-->
-
-            <!--<Spinner-->
-                <!--android:id="@+id/spn_mode_paiement"-->
-                <!--style="@style/modifiedEditText"-->
-
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center_horizontal|center_vertical"-->
-                <!--android:entries="@array/motif_decision"/>-->
-
-        <!--</LinearLayout>-->
-
-
-        <!-- End -->
-
-
         <!--Numéro Bordereau DcNumBordDecaiss-->
-        <com.google.android.material.textfield.TextInputLayout
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_DcNumBordDecaiss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -325,9 +275,7 @@
             style="@style/parent"
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin"
-
             >
-
             <EditText
                 android:id="@+id/input_txt_DcNumBordDecaiss"
                 android:layout_width="match_parent"
@@ -339,7 +287,32 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>-->
+        <!--Code DcCodeDebl-->
+        <com.google.android.material.textfield.TextInputLayout
+              android:id="@+id/input_layout_DcCodeDebl"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:theme="@style/TextInputLayoutStyle"
+              style="@style/parent"
+              app:errorEnabled="true"
+              android:layout_marginTop="@dimen/loginViewsMargin"
+              >
+              <EditText
+                  android:id="@+id/input_txt_DcCodeDebl"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:singleLine="true"
+                  android:hint="@string/hint_code_deblocage"
+                  style="@style/modifiedEditText"
+                  android:inputType="textPersonName"
+                  android:textStyle="bold"
+                  android:textSize="16sp"
+                  android:focusable="false"
+                  android:editable="false"
+                  android:textColor="@color/green"
+                  />
+          </com.google.android.material.textfield.TextInputLayout>
         <!--Detail DcDetailsDecaiss-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_DcDetailsDecaiss"
@@ -349,9 +322,7 @@
             style="@style/parent"
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin"
-
             >
-
             <EditText
                 android:id="@+id/input_txt_DcDetailsDecaiss"
                 android:layout_width="match_parent"
@@ -359,7 +330,7 @@
                 android:singleLine="true"
                 android:hint="@string/hint_detail_decaissement"
                 style="@style/modifiedEditText"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />
@@ -370,9 +341,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:paddingTop="30dp"
-
             android:layout_below="@+id/input_txt_numero_bordereau_operation">
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save_operation_eav"
                 android:layout_width="match_parent"
@@ -393,14 +362,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 style="@style/loginButton"
-
                 android:padding="12dp"
                 android:text="@string/btn_annuler" />
-
-
         </LinearLayout>
-
-
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

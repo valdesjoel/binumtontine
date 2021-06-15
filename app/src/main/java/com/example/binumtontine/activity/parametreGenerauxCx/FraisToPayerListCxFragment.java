@@ -158,8 +158,6 @@ public class FraisToPayerListCxFragment extends Fragment implements View.OnClick
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
-//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-//                    BASE_URL + "fetch_all_frais_of.php", "GET", null);
 
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));

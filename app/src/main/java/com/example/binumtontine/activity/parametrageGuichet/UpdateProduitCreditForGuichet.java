@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
 import static com.example.binumtontine.modele.Credit.KEY_CREDIT_Code;
 import static com.example.binumtontine.modele.Credit.KEY_CREDIT_Libelle;
 import static com.example.binumtontine.modele.Credit.*;
@@ -52,14 +53,8 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     private static final String KEY_CREDIT_ID = "CrNumero";
-
-
-
-
     public static String creditId;
     private TextView headerCreditTextView;
-
-
     private Button deleteButton;
     private Button updateButton;
     private Button cancelButton;
@@ -71,8 +66,6 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
     public static ArrayList<ModelPlageData> plageDataList; //to manage plageData
 
 //BEGIN
-
-
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_DEBUT = "CcFecDebut";
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_FIN = "CcFecFin";
     private static final String KEY_CREDIT_PLAGE_FRAIS_ETUDE_VALEUR = "CcFecValeur";
@@ -104,8 +97,6 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
     private static final String KEY_CREDIT_PLAGE_FRAIS_DECAISSEMENT_VALEUR = "CcFcxValeur";
     private static final String KEY_CREDIT_PLAGE_FRAIS_DECAISSEMENT_BASE = "CcFcxBase";
     private static final String KEY_CREDIT_PLAGE_FRAIS_DECAISSEMENT_NATURE = "CcFcxNature";
-
-
     private String tabPlageDebutFCX ="";
     private String tabPlageFinFCX ="";
     private String tabPlageValeurFCX ="";
@@ -118,8 +109,6 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
     private static final String KEY_CREDIT_PLAGE_TAUX_INETERET_VALEUR = "CcTicValeur";
     private static final String KEY_CREDIT_PLAGE_TAUX_INETERET_BASE = "CcTicBase";
     private static final String KEY_CREDIT_PLAGE_TAUX_INETERET_NATURE = "CcTicNature";
-
-
     private String tabPlageDebutTIC ="";
     private String tabPlageFinTIC ="";
     private String tabPlageValeurTIC ="";
@@ -132,13 +121,10 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
 
     private static final String KEY_CC_CAISSE_NUMERO = "CcCaisseId";
     private Credit monProduitCredit;
-    //    private String CrNumero;
     private EditText ET_CrCode;
     private EditText ET_CrLibelle;
     private EditText ET_CrDureeMin;
     private EditText ET_CrDureeMax;
-    private RadioButton rbCrNaturePasFixe;
-    private RadioButton rbCrNaturePasSaut;
     //    private String CrNaturePas;
     private EditText ET_CrNbreUPas;
     private EditText ET_CrNbreJrDelaiGrace;
@@ -153,12 +139,7 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
     private RadioButton rbCrModeCalcInteretDegressif;
     private RadioButton rbCrPeriodCalcInteretJournalier;
     private RadioButton rbCrPeriodCalcInteretMensuel;
-    private RadioButton rbCrTypTxInterMontant;
-    private RadioButton rbCrTypTxInterDuree;
-    private RadioButton rbCrTypTxInterMontantDuree;
     private String CrTypTxInter;
-    private String CrTypTxInterPenRetard;
-    private String CrTypTxInterRetard;
     private EditText ET_CrValTxInter;
     private EditText ET_CrValTxInterPenRetard;
     private EditText ET_CrValTxInterRetard;
@@ -421,15 +402,6 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
     private SwitchCompat SW_CrIsSoldPenRetObligSiNewEchCred;
     private SwitchCompat SW_CrIsSoldIntRetObligSiNewEchCred;
     private SwitchCompat SW_CrIsTauxInteretAnOn;
-//    private String CrUser;
-//    private String CrDateHCree;
-//    private String CrUserModif;
-//    private String CrDatHModif;
-//    private String CrCaisseId;
-//    private String CrGuichetId;
-
-
-
     private LinearLayout ll_CrNatureJrTxIntJr;
     private LinearLayout ll_CrNatureJrTxIntPenRetardJr;
     private LinearLayout ll_CrNatureJrTxIntRetardJr;
@@ -437,34 +409,20 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
     private LinearLayout ll_InteretDeRetard;
 
     private TextInputLayout input_layout_CrTauxValTxIntAn;
-
-
-
-
     /*END 23/11/2020*/
-
+    private String st_CrIsTVAOn;
+    private SwitchCompat CrIsTVAOn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.fragment_param_produit_eav);
         setContentView(R.layout.activity_credit);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
         plageDataList = new ArrayList<>();
         Intent intent = getIntent();
-
         headerCreditTextView = (TextView) findViewById(R.id.header_credit);
         headerCreditTextView.setText("Mise à jour Crédit");
-
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
-
         tv_header_produit.setText("Produit Crédit\n"+"Caisse: "+MyData.CAISSE_NAME);
-
-
         action_to_affect = getIntent().getExtras().getBoolean(KEY_EXTRA_ACTION_TO_AFFECT);
-
-
         tv_plage_CrTypTxInter = (TextView) findViewById(R.id.tv_plage_tic_cc);
         tv_plage_cr_PenRetard = (TextView) findViewById(R.id.tv_plage_cr_PenRetard);
         tv_plage_cr_IntRetard = (TextView) findViewById(R.id.tv_plage_cr_IntRetard);
@@ -474,13 +432,11 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
         tv_plage_tia_cc = (TextView) findViewById(R.id.tv_plage_tia_cc);
         ET_CrCode = (EditText) findViewById(R.id.input_txt_Code_credit);
         ET_CrCode.setEnabled(false);
+        alreadyUpperCase(ET_CrCode);
         ET_CrLibelle = (EditText) findViewById(R.id.input_txt_LibelleCredit);
         ET_CrDureeMax = (EditText) findViewById(R.id.input_txt_CrDureeMax);
         ET_CrDureeMin = (EditText) findViewById(R.id.input_txt_CrDureeMin);
         ET_CrNbreJrDelaiGrace = (EditText) findViewById(R.id.input_txt_CrNbreJrDelaiGrace);
-//        rbCrNaturePasFixe = (RadioButton)findViewById(R.id.rbCrNaturePasFixe);
-//        rbCrNaturePasSaut = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
-//        ET_CrNbreUPas = (RadioButton)findViewById(R.id.rbCrNaturePasSaut);
         rbCrTypTxInterFixe = (RadioButton)findViewById(R.id.rbCrTypTxInterFixe);
         rbCrTypTxInterPlage = (RadioButton)findViewById(R.id.rbCrTypTxInterPlage);
         rbCrTypTxInterPenRetardFixe = (RadioButton)findViewById(R.id.rbCrTypTxInterPenRetardFixe);
@@ -725,7 +681,7 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
         layout_TauxCrNatFrEtudDoss = (TextInputLayout) findViewById(R.id.input_layout_TauxCrNatFrEtudDoss);
         layout_TauxCrValTxFraisDeblocCred = (TextInputLayout) findViewById(R.id.input_layout_TauxCrValTxFraisDeblocCred);
         input_layout_CrTauxValTxIntAn = (TextInputLayout) findViewById(R.id.input_layout_CrTauxValTxIntAn);
-
+        CrIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchCrIsTVAOn);
 //provisoire
 
         onRadioButtonClicked(rbCrTypTxInterFixe);
@@ -926,11 +882,18 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
 
     public void onSwitchButtonClicked(View view) {
 //        boolean checked1 = ((Switch) view).isChecked();
-        String str="";
+       // String str="";
         // Check which checkbox was clicked
         switch(view.getId()) {
 //
 
+            case R.id.SwitchCrIsTVAOn:
+                if (CrIsTVAOn.isChecked()) {
+                    st_CrIsTVAOn = "Y";
+                }else{
+                    st_CrIsTVAOn = "N";
+                }
+                break;
             case R.id.SwitchCrIsSoldIntRetObligSiNewEchCred:
                 if (SW_CrIsSoldIntRetObligSiNewEchCred.isChecked()) {
                     CrIsSoldIntRetObligSiNewEchCred = "Y";
@@ -1864,103 +1827,9 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
 //                    creditJson = jsonObject.getJSONObject(KEY_DATA);
 
 
-  /*              monProduitCredit = new Credit(
-
-                        URLEncoder.encode(jsonObject.getString(KEY_CREDIT_Code),"UTF-8"),
-                        jsonObject.getString(KEY_CREDIT_Libelle),
-                        jsonObject.getString(KEY_CREDIT_DureeMin),
-                        jsonObject.getString(KEY_CREDIT_DureeMax),
-                        jsonObject.getString(KEY_CREDIT_NaturePas),
-                        jsonObject.getString(KEY_CREDIT_NbreUPas),
-                        jsonObject.getString(KEY_CREDIT_TypTxInter),
-                        jsonObject.getString(KEY_CREDIT_ValTxInter),
-                        jsonObject.getString(KEY_CREDIT_Base_TxInter),
-                        jsonObject.getString(KEY_CREDIT_IsTxIntNeg),
-                        jsonObject.getString(KEY_CREDIT_NbreAvalDmde),
-                        jsonObject.getString(KEY_CREDIT_NbreMinAvalExig),
-                        jsonObject.getString(KEY_CREDIT_TxCouvCrAval),
-                        jsonObject.getString(KEY_CREDIT_IsTxCouvAvalOblig),
-                        jsonObject.getString(KEY_CREDIT_IsCautionMorAvalAcc),
-                        jsonObject.getString(KEY_CREDIT_IsGarBloqCptOblig),
-                        jsonObject.getString(KEY_CREDIT_IsGarCptEAVOn),
-                        jsonObject.getString(KEY_CREDIT_IsGarCptEATOn),
-                        jsonObject.getString(KEY_CREDIT_IsGarCptEAPOn),
-                        jsonObject.getString(KEY_CREDIT_MtMaxSansAval),
-                        jsonObject.getString(KEY_CREDIT_IsAvalSansCredOn),
-                        jsonObject.getString(KEY_CREDIT_IsTxGarMemObl),
-                        jsonObject.getString(KEY_CREDIT_TauxGarMemb),
-                        jsonObject.getString(KEY_CREDIT_IsPersMorAvalOn),
-                        jsonObject.getString(KEY_CREDIT_IsCouvPartSOn),
-                        jsonObject.getString(KEY_CREDIT_TxCouvPSOblig),
-                        jsonObject.getString(KEY_CREDIT_IsAffCollCredOn),
-                        jsonObject.getString(KEY_CREDIT_NbreAnAncMinCred),
-                        jsonObject.getString(KEY_CREDIT_NbAnAncNeg),
-                        jsonObject.getString(KEY_CREDIT_MtPlafondMax),
-                        jsonObject.getString(KEY_CREDIT_IsMtPlafCredLeve),
-                        jsonObject.getString(KEY_CREDIT_IsGarMatExige),
-                        jsonObject.getString(KEY_CREDIT_IsFraisEtudDossOn),
-                        jsonObject.getString(KEY_CREDIT_NatFrEtudDoss),
-                        jsonObject.getString(KEY_CREDIT_ValTxFrEtudDoss),
-                        jsonObject.getString(KEY_CREDIT_BaseTxFrEtudDoss),
-                        jsonObject.getString(KEY_CREDIT_IsFraisDeblocCredOn),
-                        jsonObject.getString(KEY_CREDIT_NatFraisDeblocCred),
-                        jsonObject.getString(KEY_CREDIT_ValTxFraisDeblocCred),
-                        jsonObject.getString(KEY_CREDIT_BaseTxFraisDeblocCred),
-                        jsonObject.getString(KEY_CREDIT_IsFraisDecaissCredOn),
-                        jsonObject.getString(KEY_CREDIT_NatFraisDecaissCred),
-                        jsonObject.getString(KEY_CREDIT_ValTxFraisDecaissCred),
-                        jsonObject.getString(KEY_CREDIT_BaseFraisDecaissCred),
-                        jsonObject.getString(KEY_CREDIT_IsFraisEtudByDAV),
-                        jsonObject.getString(KEY_CREDIT_IsFraisDeblocByDAV),
-                        jsonObject.getString(KEY_CREDIT_IsFraisDecaissByDAV),
-                        jsonObject.getString(KEY_CREDIT_IsModDecaissByObjet),
-                        jsonObject.getString(KEY_CREDIT_IsDeblocTransfDAVOn),
-                        jsonObject.getString(KEY_CREDIT_IsMtPlafByObjet),
-                        jsonObject.getString(KEY_CREDIT_ModeRemb),
-                        jsonObject.getString(KEY_CREDIT_IsCptEATRemCredOn),
-                        jsonObject.getString(KEY_CREDIT_IsCptEAPRemCredOn),
-                        jsonObject.getString(KEY_CREDIT_IsInterOffSiCapRembAnt),
-                        jsonObject.getString(KEY_CREDIT_TxInterEchNHon),
-                        jsonObject.getString(KEY_CREDIT_BaseInterEchNHon),
-                        jsonObject.getString(KEY_CREDIT_PlanningRembCred),
-                        jsonObject.getString(KEY_CREDIT_IsRappDatEchCred),
-                        jsonObject.getString(KEY_CREDIT_ModelTextRappEchRemb),
-                        jsonObject.getString(KEY_CREDIT_NbreJrAvantDatEch),
-                        jsonObject.getString(KEY_CREDIT_NbreJrApreEchSiNHon),
-                        jsonObject.getString(KEY_CREDIT_User),
-                        null,
-                        MyData.USER_ID+"",
-                        null,
-                        MyData.CAISSE_ID+"",
-                        null,
-                        jsonObject.getString(KEY_CrIsTxIntDegressif),
-                        jsonObject.getString(KEY_CrModeCalcInteret),
-                        jsonObject.getString(KEY_CrPeriodCalcInteret),
-                        jsonObject.getString(KEY_CrNbreJrDelaiGrace),
-                        jsonObject.getString(KEY_CrIsDelaiGraceNegoc),
-                        jsonObject.getString(KEY_CrIsJoursOuvresOnly),
-                        jsonObject.getString(KEY_CrIsTxInteretJrOn),
-                        jsonObject.getString(KEY_CrNatureJrTxIntJr),
-                        jsonObject.getString(KEY_CrNatureTxPenRet),
-                        jsonObject.getString(KEY_CrValTxPenRet),
-                        jsonObject.getString(KEY_CrBaseTxPenRet),
-                        jsonObject.getString(KEY_CrPeriodNatureTxPenRet),
-                        jsonObject.getString(KEY_CrIsTxPenRetardOn),
-                        jsonObject.getString(KEY_CrNatureJrTxPenRet),
-                        jsonObject.getString(KEY_CrNatureTxInt_IntRetCred),
-                        jsonObject.getString(KEY_CrTauxInt_IntRetCred),
-                        jsonObject.getString(KEY_CrBasexInt_IntRetCred),
-                        jsonObject.getString(KEY_CrPeriod_IntRetCred),
-                        jsonObject.getString(KEY_CrIsTxIntJrOn_IntRetCred),
-                        jsonObject.getString(KEY_CrNatJrTxIntJr_IntRetCred),
-                        jsonObject.getString(KEY_CrIsCpteEAVOnRembCred),
-                        jsonObject.getString(KEY_CrIsCpteCourantOnRembCred),
-                        jsonObject.getString(KEY_CrIsIntRetCreditOn)
-                );
-*/
                 monProduitCredit = new Credit();
-                monProduitCredit.setCrCode(MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_CREDIT_Code)));
-                monProduitCredit.setCrLibelle(MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_CREDIT_Libelle)));
+                monProduitCredit.setCrCode(jsonObject.getString(KEY_CREDIT_Code));
+                monProduitCredit.setCrLibelle(jsonObject.getString(KEY_CREDIT_Libelle));
                 monProduitCredit.setCrDureeMin(jsonObject.getString(KEY_CREDIT_DureeMin));
                 monProduitCredit.setCrDureeMax(jsonObject.getString(KEY_CREDIT_DureeMax));
                 monProduitCredit.setCrNaturePas(jsonObject.getString(KEY_CREDIT_NaturePas));
@@ -2049,6 +1918,7 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
                 monProduitCredit.setCrModelTextRappEchRemb(jsonObject.getString(KEY_CREDIT_ModelTextRappEchRemb));
                 monProduitCredit.setCrNbreJrAvantDatEch(jsonObject.getString(KEY_CREDIT_NbreJrAvantDatEch));
                 monProduitCredit.setCrNbreJrApreEchSiNHon(jsonObject.getString(KEY_CREDIT_NbreJrApreEchSiNHon));
+                monProduitCredit.setCrIsTVAOn(jsonObject.getString(KEY_CrIsTVAOn));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -2060,6 +1930,497 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
             pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
+                    try {
+//                        ET_CrCode.setText(URLEncoder.encode(monProduitCredit.getCrCode(), "UTF-8"));
+                        ET_CrCode.setText(monProduitCredit.getCrCode());
+                        ET_CrLibelle.setText(monProduitCredit.getCrLibelle());
+                        ET_CrDureeMin.setText(monProduitCredit.getCrDureeMin());
+                        ET_CrDureeMax.setText(monProduitCredit.getCrDureeMax());
+//                        CrNaturePas
+//                        CrNbreUPas
+                        ET_CrNbreJrDelaiGrace.setText(monProduitCredit.getCrNbreJrDelaiGrace());
+                        if (monProduitCredit.getCrIsDelaiGraceNegoc().equals("Y")){
+                            SW_CrIsDelaiGraceNegoc.setChecked(true);
+                        }else{
+                            SW_CrIsDelaiGraceNegoc.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsDelaiGraceNegoc);
+
+                        if (monProduitCredit.getCrIsJoursOuvresOnly().equals("Y")){
+                            SW_CrIsJoursOuvresOnly.setChecked(true);
+                        }else{
+                            SW_CrIsJoursOuvresOnly.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsJoursOuvresOnly);
+
+                        if (monProduitCredit.getCrTypTxInter().equals("F")){
+                            rbCrTypTxInterFixe.setChecked(true);
+                            onRadioButtonClicked(rbCrTypTxInterFixe);
+                        }else if (monProduitCredit.getCrTypTxInter().equals("P")){
+                            rbCrTypTxInterPlage.setChecked(true);
+                            onRadioButtonClicked(rbCrTypTxInterPlage);
+                        }
+                        ET_CrValTxInter.setText(monProduitCredit.getCrValTxInter());
+                        JR_CrBase_tauxInt.setText(monProduitCredit.getCrBaseTxInter());
+
+                        if (monProduitCredit.getCrIsTauxInteretAnOn().equals("Y")){
+                            SW_CrIsTauxInteretAnOn.setChecked(true);
+                        }else{
+                            SW_CrIsTauxInteretAnOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTauxInteretAnOn);
+
+                        if (monProduitCredit.getCrNatureTxIntAn().equals("F")){
+                            rbCrNatureTxIntAnFixe.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureTxIntAnFixe);
+                        }else if (monProduitCredit.getCrTypTxInter().equals("T")){
+                            rbCrNatureTxIntAnTaux.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureTxIntAnTaux);
+                        }else if (monProduitCredit.getCrTypTxInter().equals("P")){
+                            rbCrNatureTxIntAnPlage.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureTxIntAnPlage);
+                        }
+                        ET_CrTauxValTxIntAn.setText(monProduitCredit.getCrTauxValTxIntAn());
+                        JR_CrBaseTxIntAn.setText(monProduitCredit.getCrBaseTxIntAn());
+                        if (monProduitCredit.getCrIsTxIntDegressif().equals("Y")){
+                            SW_CrIsTxIntDegressif.setChecked(true);
+                        }else{
+                            SW_CrIsTxIntDegressif.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTxIntDegressif);
+
+
+                        if (monProduitCredit.getCrModeCalcInteret().equals("S")){
+                            rbCrModeCalcInteretSimple.setChecked(true);
+                            onRadioButtonClicked(rbCrModeCalcInteretSimple);
+                        }else if (monProduitCredit.getCrModeCalcInteret().equals("C")){
+                            rbCrModeCalcInteretCompose.setChecked(true);
+                            onRadioButtonClicked(rbCrModeCalcInteretCompose);
+                        }else if (monProduitCredit.getCrModeCalcInteret().equals("D")){
+                            rbCrModeCalcInteretDegressif.setChecked(true);
+                            onRadioButtonClicked(rbCrModeCalcInteretDegressif);
+                        }
+
+
+                        if (monProduitCredit.getCrPeriodCalcInteret().equals("M")){
+                            rbCrPeriodCalcInteretMensuel.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretMensuel);
+                        }else if (monProduitCredit.getCrPeriodCalcInteret().equals("J")){
+                            rbCrPeriodCalcInteretJournalier.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretJournalier);
+                        }else if (monProduitCredit.getCrPeriodCalcInteret().equals("T")){
+                            rbCrPeriodCalcInteretTrimestre.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretTrimestre);
+                        }else if (monProduitCredit.getCrPeriodCalcInteret().equals("A")){
+                            rbCrPeriodCalcInteretAnnee.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretAnnee);
+                        }
+
+                        if (monProduitCredit.getCrIsTxInteretJrOn().equals("Y")){
+                            SW_CrIsTxInteretJrOn.setChecked(true);
+                        }else{
+                            SW_CrIsTxInteretJrOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTxInteretJrOn);
+
+                        if (monProduitCredit.getCrNatureJrTxIntJr().equals("V")){
+                            rbCrNatureJrTxIntJrLunVen.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntJrLunVen);
+                        }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("S")){
+                            rbCrNatureJrTxIntJrLunSam.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntJrLunSam);
+                        }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("G")){
+                            rbCrNatureJrTxIntJrJrOuvertGu.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntJrJrOuvertGu);
+                        }else if (monProduitCredit.getCrNatureJrTxIntJr().equals("T")){
+                            rbCrNatureJrTxIntJrTous.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntJrTous);
+                        }
+
+                        if (monProduitCredit.getCrIsTxIntNeg().equals("Y")){
+                            SW_CrIsTxIntNeg.setChecked(true);
+                        }else{
+                            SW_CrIsTxIntNeg.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTxIntNeg);
+
+                        if (monProduitCredit.getCrNatureTxPenRet().equals("F")){
+                            rbCrTypTxInterPenRetardFixe.setChecked(true);
+                            onRadioButtonClicked(rbCrTypTxInterPenRetardFixe);
+                        }else if (monProduitCredit.getCrNatureTxPenRet().equals("P")){
+                            rbCrTypTxInterPenRetardPlage.setChecked(true);
+                            onRadioButtonClicked(rbCrTypTxInterPenRetardPlage);
+                        }
+                        ET_CrValTxInterPenRetard.setText(monProduitCredit.getCrValTxPenRet());
+                        JR_Crbase_tauxIntPenRetard.setText(monProduitCredit.getCrBaseTxPenRet());
+
+                        if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("M")){
+                            rbCrPeriodCalcInteretPenRetardMensuel.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardMensuel);
+                        }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("J")){
+                            rbCrPeriodCalcInteretPenRetardJournalier.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardJournalier);
+                        }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("T")){
+                            rbCrPeriodCalcInteretPenRetardTrimestre.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardTrimestre);
+                        }else if (monProduitCredit.getCrPeriodNatureTxPenRet().equals("A")){
+                            rbCrPeriodCalcInteretPenRetardAnnee.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretPenRetardAnnee);
+                        }
+                        if (monProduitCredit.getCrIsTxPenRetardOn().equals("Y")){
+                            SW_CrIsTxPenRetardOn.setChecked(true);
+                        }else{
+                            SW_CrIsTxPenRetardOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTxPenRetardOn);
+
+                        if (monProduitCredit.getCrNatureJrTxPenRet().equals("V")){
+                            rbCrNatureJrTxIntPenRetardJrLunVen.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunVen);
+                        }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("S")){
+                            rbCrNatureJrTxIntPenRetardJrLunSam.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrLunSam);
+                        }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("J")){
+                            rbCrNatureJrTxIntPenRetardJrJrOuvertGu.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrJrOuvertGu);
+                        }else if (monProduitCredit.getCrNatureJrTxPenRet().equals("T")){
+                            rbCrNatureJrTxIntPenRetardJrTous.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntPenRetardJrTous);
+                        }
+                        if (monProduitCredit.getCrIsSoldPenRetObligSiNewEchCred().equals("Y")){
+                            SW_CrIsSoldPenRetObligSiNewEchCred.setChecked(true);
+                        }else{
+                            SW_CrIsSoldPenRetObligSiNewEchCred.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsSoldPenRetObligSiNewEchCred);
+
+                        if (monProduitCredit.getCrIsIntRetCreditOn().equals("Y")){
+                            SW_CrIsIntRetCreditOn.setChecked(true);
+                        }else{
+                            SW_CrIsIntRetCreditOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsIntRetCreditOn);
+
+                        if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("F")){
+                            rbCrTypTxInterRetardFixe.setChecked(true);
+                            onRadioButtonClicked(rbCrTypTxInterRetardFixe);
+                        }else if (monProduitCredit.getCrNatureTxInt_IntRetCred().equals("P")){
+                            rbCrTypTxInterRetardPlage.setChecked(true);
+                            onRadioButtonClicked(rbCrTypTxInterRetardPlage);
+                        }
+                        ET_CrValTxInterRetard.setText(monProduitCredit.getCrTauxInt_IntRetCred());
+                        JR_Crbase_tauxIntRetard.setText(monProduitCredit.getCrBasexInt_IntRetCred());
+//
+                        if (monProduitCredit.getCrPeriod_IntRetCred().equals("M")){
+                            rbCrPeriodCalcInteretRetardMensuel.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretRetardMensuel);
+                        }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("J")){
+                            rbCrPeriodCalcInteretRetardJournalier.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretRetardJournalier);
+                        }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("T")){
+                            rbCrPeriodCalcInteretRetardTrimestre.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretRetardTrimestre);
+                        }else if (monProduitCredit.getCrPeriod_IntRetCred().equals("A")){
+                            rbCrPeriodCalcInteretRetardAnnee.setChecked(true);
+                            onRadioButtonClicked(rbCrPeriodCalcInteretRetardAnnee);
+                        }
+                        if (monProduitCredit.getCrIsTxIntJrOn_IntRetCred().equals("Y")){
+                            SW_CrIsTxIntJrOn_IntRetCred.setChecked(true);
+                        }else{
+                            SW_CrIsTxIntJrOn_IntRetCred.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTxIntJrOn_IntRetCred);
+
+                        if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("V")){
+                            rbCrNatureJrTxIntRetardJrLunVen.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunVen);
+                        }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("S")){
+                            rbCrNatureJrTxIntRetardJrLunSam.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntRetardJrLunSam);
+                        }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("G")){
+                            rbCrNatureJrTxIntRetardJrJrOuvertGu.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntRetardJrJrOuvertGu);
+                        }else if (monProduitCredit.getCrNatJrTxIntJr_IntRetCred().equals("T")){
+                            rbCrNatureJrTxIntRetardJrTous.setChecked(true);
+                            onRadioButtonClicked(rbCrNatureJrTxIntRetardJrTous);
+                        }
+                        if (monProduitCredit.getCrIsSoldIntRetObligSiNewEchCred().equals("Y")){
+                            SW_CrIsSoldIntRetObligSiNewEchCred.setChecked(true);
+                        }else{
+                            SW_CrIsSoldIntRetObligSiNewEchCred.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsSoldIntRetObligSiNewEchCred);
+
+                        ET_CrNbreAvalDmde.setText(monProduitCredit.getCrNbreAvalDmde());
+                        ET_CrNbreMinAvalExig.setText(monProduitCredit.getCrNbreMinAvalExig());
+                        ET_CrTxCouvCrAval.setText(monProduitCredit.getCrTxCouvCrAval());
+
+                        if (monProduitCredit.getCrIsTxCouvAvalOblig().equals("Y")){
+                            SW_CrIsTxCouvAvalOblig.setChecked(true);
+                        }else{
+                            SW_CrIsTxCouvAvalOblig.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTxCouvAvalOblig);
+
+                        if (monProduitCredit.getCrIsCautionMorAvalAcc().equals("Y")){
+                            SW_CrIsCautionMorAvalAcc.setChecked(true);
+                        }else{
+                            SW_CrIsCautionMorAvalAcc.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsCautionMorAvalAcc);
+
+                        if (monProduitCredit.getCrIsGarBloqCptOblig().equals("Y")){
+                            SW_CrIsGarBloqCptOblig.setChecked(true);
+                        }else{
+                            SW_CrIsGarBloqCptOblig.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsGarBloqCptOblig);
+                        if (monProduitCredit.getCrIsGarCptEAVOn().equals("Y")){
+                            SW_CrIsGarCptEAVOn.setChecked(true);
+                        }else{
+                            SW_CrIsGarCptEAVOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsGarCptEAVOn);
+
+                        if (monProduitCredit.getCrIsGarCptEATOn().equals("Y")){
+                            SW_CrIsGarCptEATOn.setChecked(true);
+                        }else{
+                            SW_CrIsGarCptEATOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsGarCptEATOn);
+                        if (monProduitCredit.getCrIsGarCptEAPOn().equals("Y")){
+                            SW_CrIsGarCptEAPOn.setChecked(true);
+                        }else{
+                            SW_CrIsGarCptEAPOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsGarCptEAPOn);
+
+                        ET_CrMtMaxSansAval.setText(monProduitCredit.getCrMtMaxSansAval());
+
+                        if (monProduitCredit.getCrIsAvalSansCredOn().equals("Y")){
+                            SW_CrIsAvalSansCredOn.setChecked(true);
+                        }else{
+                            SW_CrIsAvalSansCredOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsAvalSansCredOn);
+
+                        if (monProduitCredit.getCrIsTxGarMemObl().equals("Y")){
+                            SW_CrIsTxGarMemObl.setChecked(true);
+                        }else{
+                            SW_CrIsTxGarMemObl.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsTxGarMemObl);
+
+                        ET_CrTauxGarMemb.setText(monProduitCredit.getCrTauxGarMemb());
+
+                        if (monProduitCredit.getCrIsPersMorAvalOn().equals("Y")){
+                            SW_CrIsPersMorAvalOn.setChecked(true);
+                        }else{
+                            SW_CrIsPersMorAvalOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsPersMorAvalOn);
+
+                        if (monProduitCredit.getCrIsCouvPartSOn().equals("Y")){
+                            SW_CrIsCouvPartSOn.setChecked(true);
+                        }else{
+                            SW_CrIsCouvPartSOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsCouvPartSOn);
+                        ET_CrTxCouvPSOblig.setText(monProduitCredit.getCrTxCouvPSOblig());
+
+                        if (monProduitCredit.getCrIsAffCollCredOn().equals("Y")){
+                            SW_CrIsAffCollCredOn.setChecked(true);
+                        }else{
+                            SW_CrIsAffCollCredOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsAffCollCredOn);
+
+                        ET_CrNbreAnAncMinCred.setText(monProduitCredit.getCrNbreAnAncMinCred());
+
+                        if (monProduitCredit.getCrNbAnAncNeg().equals("Y")){
+                            SW_CrNbAnAncNeg.setChecked(true);
+                        }else{
+                            SW_CrNbAnAncNeg.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrNbAnAncNeg);
+
+                        ET_CrMtPlafondMax.setText(monProduitCredit.getCrMtPlafondMax());
+
+                        if (monProduitCredit.getCrIsMtPlafCredLeve().equals("Y")){
+                            SW_CrIsMtPlafCredLeve.setChecked(true);
+                        }else{
+                            SW_CrIsMtPlafCredLeve.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsMtPlafCredLeve);
+
+                        if (monProduitCredit.getCrIsGarMatExige().equals("Y")){
+                            SW_CrIsGarMatExige.setChecked(true);
+                        }else{
+                            SW_CrIsGarMatExige.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsGarMatExige);
+
+                        if (monProduitCredit.getCrIsFraisEtudDossOn().equals("Y")){
+                            SW_CrIsFraisEtudDossOn.setChecked(true);
+                        }else{
+                            SW_CrIsFraisEtudDossOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsFraisEtudDossOn);
+                        if (monProduitCredit.getCrNatFrEtudDoss().equals("F")){
+                            rbCrNatFrEtudDossFixe.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFrEtudDossFixe);
+                        }else if (monProduitCredit.getCrNatFrEtudDoss().equals("T")){
+                            rbCrNatFrEtudDossTaux.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFrEtudDossTaux);
+                        }else if (monProduitCredit.getCrNatFrEtudDoss().equals("P")){
+                            rbCrNatFrEtudDossPlage.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFrEtudDossPlage);
+                        }
+
+                        ET_CrValTxFrEtudDoss.setText(monProduitCredit.getCrValTxFrEtudDoss());
+                        JR_CrBaseTxFrEtudDoss.setText(monProduitCredit.getCrBaseTxFrEtudDoss());
+
+                        if (monProduitCredit.getCrIsFraisDeblocCredOn().equals("Y")){
+                            SW_CrIsFraisDeblocCredOn.setChecked(true);
+                        }else{
+                            SW_CrIsFraisDeblocCredOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsFraisDeblocCredOn);
+
+                        if (monProduitCredit.getCrNatFraisDeblocCred().equals("F")){
+                            rbCrNatFraisDeblocCredFixe.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFraisDeblocCredFixe);
+                        }else if (monProduitCredit.getCrNatFraisDeblocCred().equals("T")){
+                            rbCrNatFraisDeblocCredTaux.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFraisDeblocCredTaux);
+                        }else if (monProduitCredit.getCrNatFraisDeblocCred().equals("P")){
+                            rbCrNatFraisDeblocCredPlage.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFraisDeblocCredPlage);
+                        }
+
+                        ET_CrValTxFraisDeblocCred.setText(monProduitCredit.getCrValTxFraisDeblocCred());
+                        JR_CrBaseTxFraisDeblocCred.setText(monProduitCredit.getCrBaseTxFraisDeblocCred());
+
+                        if (monProduitCredit.getCrIsFraisDecaissCredOn().equals("Y")){
+                            SW_CrIsFraisDecaissCredOn.setChecked(true);
+                        }else{
+                            SW_CrIsFraisDecaissCredOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsFraisDecaissCredOn);
+
+                        if (monProduitCredit.getCrNatFraisDecaissCred().equals("F")){
+                            rbCrNatFraisDecaissCredFixe.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFraisDecaissCredFixe);
+                        }else if (monProduitCredit.getCrNatFraisDecaissCred().equals("T")){
+                            rbCrNatFraisDecaissCredTaux.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFraisDecaissCredTaux);
+                        }else if (monProduitCredit.getCrNatFraisDecaissCred().equals("P")){
+                            rbCrNatFraisDecaissCredPlage.setChecked(true);
+                            onRadioButtonClicked(rbCrNatFraisDecaissCredPlage);
+                        }
+
+                        ET_CrValTxFraisDecaissCred.setText(monProduitCredit.getCrValTxFraisDecaissCred());
+                        JR_CrBaseTxFraisDecaissCred.setText(monProduitCredit.getCrBaseFraisDecaissCred());
+
+                        if (monProduitCredit.getCrIsFraisEtudByDAV().equals("Y")){
+                            SW_CrIsFraisEtudByDAV.setChecked(true);
+                        }else{
+                            SW_CrIsFraisEtudByDAV.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsFraisEtudByDAV);
+
+                        if (monProduitCredit.getCrIsFraisDeblocByDAV().equals("Y")){
+                            SW_CrIsFraisDeblocByDAV.setChecked(true);
+                        }else{
+                            SW_CrIsFraisDeblocByDAV.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsFraisDeblocByDAV);
+
+                        if (monProduitCredit.getCrIsFraisDecaissByDAV().equals("Y")){
+                            SW_CrIsFraisDecaissByDAV.setChecked(true);
+                        }else{
+                            SW_CrIsFraisDecaissByDAV.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsFraisDecaissByDAV);
+
+                        if (monProduitCredit.getCrIsModDecaissByObjet().equals("Y")){
+                            SW_CrIsModDecaissByObjet.setChecked(true);
+                        }else{
+                            SW_CrIsModDecaissByObjet.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsModDecaissByObjet);
+
+                        if (monProduitCredit.getCrIsDeblocTransfDAVOn().equals("Y")){
+                            SW_CrIsDeblocTransfDAVOn.setChecked(true);
+                        }else{
+                            SW_CrIsDeblocTransfDAVOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsDeblocTransfDAVOn);
+
+                        if (monProduitCredit.getCrIsMtPlafByObjet().equals("Y")){
+                            SW_CrIsMtPlafByObjet.setChecked(true);
+                        }else{
+                            SW_CrIsMtPlafByObjet.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsMtPlafByObjet);
+
+                        JR_CrModeRemb.setText(Credit.decodeCrModeRemb(monProduitCredit.getCrModeRemb()));
+
+                        if (monProduitCredit.getCrIsCpteEAVOnRembCred().equals("Y")){
+                            SW_CrIsCpteEAVOnRembCred.setChecked(true);
+                        }else{
+                            SW_CrIsCpteEAVOnRembCred.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsCpteEAVOnRembCred);
+
+                        if (monProduitCredit.getCrIsCpteCourantOnRembCred().equals("Y")){
+                            SW_CrIsCpteCourantOnRembCred.setChecked(true);
+                        }else{
+                            SW_CrIsCpteCourantOnRembCred.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsCpteCourantOnRembCred);
+                        if (monProduitCredit.getCrIsCptEATRemCredOn().equals("Y")){
+                            SW_CrIsCptEATRemCredOn.setChecked(true);
+                        }else{
+                            SW_CrIsCptEATRemCredOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsCptEATRemCredOn);
+
+                        if (monProduitCredit.getCrIsCptEAPRemCredOn().equals("Y")){
+                            SW_CrIsCptEAPRemCredOn.setChecked(true);
+                        }else{
+                            SW_CrIsCptEAPRemCredOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsCptEAPRemCredOn);
+
+                        if (monProduitCredit.getCrIsInterOffSiCapRembAnt().equals("Y")){
+                            SW_CrIsInterOffSiCapRembAnt.setChecked(true);
+                        }else{
+                            SW_CrIsInterOffSiCapRembAnt.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsInterOffSiCapRembAnt);
+
+                        ET_CrTxInterEchNHon.setText(monProduitCredit.getCrTxInterEchNHon());
+                        JR_CrBaseInterEchNHon.setText(monProduitCredit.getCrBaseInterEchNHon());
+                        JR_CrPlanningRembCred.setText(Credit.decodeCrPlanningRembCred(monProduitCredit.getCrPlanningRembCred()));
+
+                        if (monProduitCredit.getCrIsRappDatEchCred().equals("Y")){
+                            SW_CrIsRappDatEchCred.setChecked(true);
+                        }else{
+                            SW_CrIsRappDatEchCred.setChecked(false);
+                        }
+                        onSwitchButtonClicked(SW_CrIsRappDatEchCred);
+
+                        ET_CrModelTextRappEchRemb.setText(monProduitCredit.getCrModelTextRappEchRemb());
+                        ET_CrNbreJrAvantDatEch.setText(monProduitCredit.getCrNbreJrAvantDatEch());
+                        ET_CrNbreJrApreEchSiNHon.setText(monProduitCredit.getCrNbreJrApreEchSiNHon());
+                        monProduitCredit= null; //a revoir
+
+//                    } catch (UnsupportedEncodingException e) {
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     //Populate the Edit Texts once the network activity is finished executing
 //
 //
@@ -2607,7 +2968,7 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
             monProduitCredit.setCrIsModDecaissByObjet(CrIsModDecaissByObjet);
             monProduitCredit.setCrIsDeblocTransfDAVOn(CrIsDeblocTransfDAVOn);
             monProduitCredit.setCrIsMtPlafByObjet(CrIsMtPlafByObjet);
-            monProduitCredit.setCrModeRemb(JR_CrModeRemb.getText().toString());
+            monProduitCredit.setCrModeRemb(Credit.encodeCrModeRemb(JR_CrModeRemb.getText().toString()));
             monProduitCredit.setCrIsCpteEAVOnRembCred(CrIsCpteEAVOnRembCred);
             monProduitCredit.setCrIsCpteCourantOnRembCred(CrIsCpteCourantOnRembCred);
             monProduitCredit.setCrIsCptEATRemCredOn(CrIsCptEATRemCredOn);
@@ -2615,7 +2976,7 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
             monProduitCredit.setCrIsInterOffSiCapRembAnt(CrIsInterOffSiCapRembAnt);
             monProduitCredit.setCrTxInterEchNHon(ET_CrTxInterEchNHon.getText().toString());
             monProduitCredit.setCrBaseInterEchNHon(Credit.encodeCrBaseInterEchNHon(JR_CrBaseInterEchNHon.getText().toString()));
-            monProduitCredit.setCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString());
+            monProduitCredit.setCrPlanningRembCred(Credit.encodeCrPlanningRembCred(JR_CrPlanningRembCred.getText().toString()));
             monProduitCredit.setCrIsRappDatEchCred(CrIsRappDatEchCred);
             monProduitCredit.setCrModelTextRappEchRemb(ET_CrModelTextRappEchRemb.getText().toString());
             monProduitCredit.setCrNbreJrAvantDatEch(ET_CrNbreJrAvantDatEch.getText().toString());
@@ -2626,6 +2987,7 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
             monProduitCredit.setCrDatHModif(null);
             monProduitCredit.setCrCaisseId(MyData.CAISSE_ID+"");
             monProduitCredit.setCrGuichetId(MyData.GUICHET_ID+"");
+            monProduitCredit.setCrIsTVAOn(st_CrIsTVAOn);
 
 //to manage plage data
             //Frais d'étude
@@ -2795,6 +3157,7 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
             httpParams.put(monProduitCredit.KEY_CREDIT_DatHModif, monProduitCredit.getCrDatHModif());//96
             httpParams.put(monProduitCredit.KEY_CREDIT_CaisseId, monProduitCredit.getCrCaisseId());//97
             httpParams.put(monProduitCredit.KEY_CREDIT_GuichetId, monProduitCredit.getCrGuichetId());//98
+            httpParams.put(monProduitCredit.KEY_CrIsTVAOn, monProduitCredit.getCrIsTVAOn());
 
 
             httpParams.put(KEY_CREDIT_PLAGE_FRAIS_ETUDE_DEBUT, tabPlageDebutFEC);
@@ -2820,9 +3183,6 @@ public class UpdateProduitCreditForGuichet extends AppCompatActivity implements 
             httpParams.put(KEY_CREDIT_PLAGE_TAUX_INETERET_VALEUR, tabPlageValeurTIC);
             httpParams.put(KEY_CREDIT_PLAGE_TAUX_INETERET_BASE, tabPlageBaseTIC);
             httpParams.put(KEY_CREDIT_PLAGE_TAUX_INETERET_NATURE, tabPlageNatureTIC);
-
-//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-//                    BASE_URL + "update_credit.php", "POST", httpParams);
 
             JSONObject jsonObject =(action_to_affect)?
                     httpJsonParser.makeHttpRequest(

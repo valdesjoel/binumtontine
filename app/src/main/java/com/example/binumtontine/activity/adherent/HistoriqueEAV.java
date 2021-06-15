@@ -58,6 +58,7 @@ public class HistoriqueEAV extends AppCompatActivity {
     private static final String KEY_OC_NEW_SOLDE = "OcNewSolde";
     private static final String KEY_OC_DATE_DEBUT = "OcDateDebut";
     private static final String KEY_OC_DATE_FIN = "OcDateFin";
+    private static final String KEY_ADHERENT = "ADHERENT";
 
     private List<Record> listOperationCompteAdherent;
 //    private ListView recordsView;
@@ -73,6 +74,7 @@ public class HistoriqueEAV extends AppCompatActivity {
     private static CircularProgressButton btnHistorique;
 //    private String maDate = "" ;
     private static String endDate ="";
+    public static Adherent adherent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,9 @@ public class HistoriqueEAV extends AppCompatActivity {
         Intent intent = getIntent();
         compteId = intent.getStringExtra(KEY_COMPTE_ID);
 
+        Bundle bundle = intent.getExtras();
+        adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
+
 //        Toast.makeText(HistoriqueEAV.this,
 //                compteId,
 //                Toast.LENGTH_LONG).show();
@@ -99,14 +104,6 @@ public class HistoriqueEAV extends AppCompatActivity {
         ((DecimalFormat) defaultFormat).setDecimalFormatSymbols(decimalFormatSymbols);
         /*END
         To manage format number with currency symbol*/
-
-//        defaultFormat.setCurrency(Currency.getInstance("XAF"));
-//        defaultFormat.setCurrency(Currency.getInstance("Fcf"));
-//        listOperationCompteAdherent = new ArrayList<>();
-//new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();
-//        final ListView recordsView = (ListView) findViewById(R.id.records_view);
-//        recordAdapter= new RecordAdapter(this, new ArrayList<Record>());
-//        recordsView.setAdapter(recordAdapter);
 
 
         fromdate = (EditText) findViewById(R.id.input_txt_fromDate);
@@ -133,8 +130,6 @@ public class HistoriqueEAV extends AppCompatActivity {
         //SimpleDateFormat formatterInint = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatterInint = new SimpleDateFormat("dd/MM/yyyy");
         maDate = formatterInint.format(todayDateInit);
-//        fromdate.setText(maDate);
-//        fromdate.performClick();
 
         fromdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,52 +223,8 @@ public class HistoriqueEAV extends AppCompatActivity {
         System.out.println("dateFin ********:       " + dateFin);
     }
     private  void loadByIntervalle(){
- /*       // get today and clear time of day
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
-        cal.clear(Calendar.MINUTE);
-        cal.clear(Calendar.SECOND);
-        cal.clear(Calendar.MILLISECOND);
-
-// get start of the month
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        System.out.println("Start of the month:       " + cal1.getTime());
-        System.out.println("... in milliseconds:      " + cal1.getTimeInMillis());
-
-// get start of the next month
-        cal.add(Calendar.MONTH, 1);
-        System.out.println("Start of the next month:  " + cal.getTime());
-        System.out.println("... in milliseconds:      " + cal.getTimeInMillis()); */
         new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();
-/*
-// Create a Calendar instance
-// and set it to the date of interest
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(cal1.getTime());
-//        cal.setTime(date);
-
-// Set the day of the month to the first day of the month
-
-        cal.set(Calendar.DAY_OF_MONTH,
-                cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-
-// Extract the Date from the Calendar instance
-
-        Date firstDayOfTheMonth = cal.getTime();
-        System.out.println("Start of the month ********firstDayOfTheMonth:       " + firstDayOfTheMonth);
-        Date todayDateInit = Calendar.getInstance().getTime();
-        //SimpleDateFormat formatterInint = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatterInint = new SimpleDateFormat("dd/MM/yyyy");
-//        SimpleDateFormat formatterEnd = new SimpleDateFormat("dd/MM/yyyy");
-        String maDate = formatterInint.format(firstDayOfTheMonth);
-        String endDate = formatterInint.format(todayDateInit);
-        System.out.println("Start of the month ********maDate:       " + maDate);
-        System.out.println("End of the month ********endDate:       " + endDate);
-        fromdate.setText(maDate);
-        todate.setText(endDate);
-//        String maDate = formatterInint.format(todayDateInit);
-                new HistoriqueEAV.FetchListOperationsOnCompteAdherentAsyncTask().execute();*/
     }
     public void showTruitonDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
@@ -292,15 +243,6 @@ public class HistoriqueEAV extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-       /*     final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog datePickerDialog;
-            datePickerDialog = new DatePickerDialog(getActivity(),this, year,
-                    month,day);
-            return datePickerDialog;
-            */
 
             String getfrom[] = (fromdate.getText().toString().trim()).split("/");
             int year,month,day;
@@ -340,17 +282,6 @@ public class HistoriqueEAV extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-//            String getfromdate = fromdate.getText().toString().trim();
-//            String getfrom[] = getfromdate.split("/");
-//            int year,month,day;
-//            year= Integer.parseInt(getfrom[2]);
-//            month = Integer.parseInt(getfrom[1])-1;
-//            day = Integer.parseInt(getfrom[0]);
-//            final Calendar c = Calendar.getInstance();
-//            c.set(year,month,day+1);
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),this, year,month,day);
-//            datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
-//            return datePickerDialog;
 
             String getTo[] = (todate.getText().toString().trim()).split("/");
 
@@ -440,9 +371,10 @@ public class HistoriqueEAV extends AppCompatActivity {
 //                        Record record = new Record("12","jurhdd","bfbfb","cbbbfb");
                         Record record = new Record(typeOperation,dateOperation,defaultFormat.format(parseDouble(montantOperation)),
                                 defaultFormat.format(parseDouble(nouveauSolde)));
-                        if (typeOperation.equals("D")){
+                        if (typeOperation.equals("D") || typeOperation.equals("I")){
                             total_depot += parseDouble(montantOperation);
-                        }else if (typeOperation.equals("R")){
+//                        }else if (typeOperation.equals("R")){
+                        }else{
                             total_retait += parseDouble(montantOperation);
                         }
 //                        ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
@@ -459,13 +391,9 @@ public class HistoriqueEAV extends AppCompatActivity {
                     Record recordTotal = new Record(defaultFormat.format(total_depot),title_total,defaultFormat.format(total_retait),
                             defaultFormat.format((body_total)));
                     listOperationCompteAdherent.add(recordTotal);
-
                     //To make a empty row after recording and total
-//                    listOperationCompteAdherent.add(recordTotal);
-
                 }
             } catch (JSONException e) {
-//            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -475,53 +403,14 @@ public class HistoriqueEAV extends AppCompatActivity {
             pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
-                    //populateGuichetList();
                     loadRecyclerViewItem();
                 }
             });
         }
-
     }
     private void loadRecyclerViewItem() {
-        //you can fetch the data from server or some apis
-        //for this tutorial I am adding some dummy data directly
-     /*   for (int i = 1; i <= 5; i++) {
-            MyList myList = new MyList(
-                    "Dummy Heading " + i,
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi molestie nisi dui."
-            );
-            listAdherent.add(myList);
-        }
-        */
-
-        //adapter = new CustomAdapterListAdherent(listAdherent, this);
-
         final ListView recordsView = (ListView) findViewById(R.id.records_view);
-//        recordAdapter= new RecordAdapter(this, new ArrayList<Record>());
         recordAdapter= new RecordAdapter(this, listOperationCompteAdherent);
         recordsView.setAdapter(recordAdapter);
-        //Call MovieUpdateDeleteActivity when a movie is clicked
-       /* recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Check for network connectivity
-                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-                    String movieId = ((TextView) view.findViewById(R.id.movieId))
-                            .getText().toString();
-                    Intent intent = new Intent(getApplicationContext(),
-                            UpdateCaisse.class);
-                    intent.putExtra(KEY_CAISSE_ID, movieId);
-                    startActivityForResult(intent, 20);
-
-                } else {
-                    Toast.makeText(CaisseActivity.this,
-                            "Unable to connect to internet",
-                            Toast.LENGTH_LONG).show();
-
-                }
-
-
-            }
-        }); */
     }
 }

@@ -17,6 +17,10 @@ public class OrganeFaitier_modele implements Serializable {
     private String libelle;
     private String num_agrement;
     private String date_agrement;
+    private String OfNumAgremCobac;
+    private String OfDatAgremCobac;
+    private String OfNumAgremCNC;
+    private String OfDatAgremCNC;
     private Integer boite_postale;
     private String ville_of;
     private String pays_of;
@@ -30,13 +34,19 @@ public class OrganeFaitier_modele implements Serializable {
     private String nom_dg_of;
 
     public OrganeFaitier_modele(String sigle, String libelle, String num_agrement,
-                                String date_agrement, Integer boite_postale, String ville_of,
+                                String date_agrement, String OfNumAgremCobac, String OfDatAgremCobac,String OfNumAgremCNC,String OfDatAgremCNC, Integer boite_postale, String ville_of,
                                 String pays_of, String adresse_of, String telephone1_of,String telephone2_of,String telephone3_of,
                                 String siege_of, String nom_pca_of, String nom_vpca_of, String nom_dg_of) {
         this.sigle = sigle;
         this.libelle = libelle;
         this.num_agrement = num_agrement;
         this.date_agrement = date_agrement;
+
+        this.OfNumAgremCobac = OfNumAgremCobac;
+        this.OfDatAgremCobac = OfDatAgremCobac;
+        this.OfNumAgremCNC = OfNumAgremCNC;
+        this.OfDatAgremCNC = OfDatAgremCNC;
+
         this.boite_postale = boite_postale;
         this.ville_of = ville_of;
         this.pays_of = pays_of;
@@ -51,7 +61,7 @@ public class OrganeFaitier_modele implements Serializable {
     }
 
     public OrganeFaitier_modele(Integer numero_of, String sigle, String libelle, String num_agrement,
-                                String date_agrement, Integer boite_postale, String ville_of,
+                                String date_agrement, String OfNumAgremCobac, String OfDatAgremCobac,String OfNumAgremCNC,String OfDatAgremCNC, Integer boite_postale, String ville_of,
                                 String pays_of, String adresse_of, String telephone1_of,String telephone2_of,String telephone3_of,
                                 String siege_of, String nom_pca_of, String nom_vpca_of, String nom_dg_of) {
         this.numero = numero_of;
@@ -59,6 +69,12 @@ public class OrganeFaitier_modele implements Serializable {
         this.libelle = libelle;
         this.num_agrement = num_agrement;
         this.date_agrement = date_agrement;
+
+        this.OfNumAgremCobac = OfNumAgremCobac;
+        this.OfDatAgremCobac = OfDatAgremCobac;
+        this.OfNumAgremCNC = OfNumAgremCNC;
+        this.OfDatAgremCNC = OfDatAgremCNC;
+
         this.boite_postale = boite_postale;
         this.ville_of = ville_of;
         this.pays_of = pays_of;
@@ -89,6 +105,22 @@ public class OrganeFaitier_modele implements Serializable {
 
     public String getDate_agrement() {
         return date_agrement;
+    }
+
+    public String getOfNumAgremCobac() {
+        return OfNumAgremCobac;
+    }
+
+    public String getOfDatAgremCobac() {
+        return OfDatAgremCobac;
+    }
+
+    public String getOfNumAgremCNC() {
+        return OfNumAgremCNC;
+    }
+
+    public String getOfDatAgremCNC() {
+        return OfDatAgremCNC;
     }
 
     public Integer getBoite_postale() {
@@ -161,6 +193,11 @@ public class OrganeFaitier_modele implements Serializable {
         laListe.add(nom_vpca_of);
         laListe.add(nom_dg_of);
         laListe.add(numero);
+
+        laListe.add(OfNumAgremCobac);
+        laListe.add(OfDatAgremCobac);
+        laListe.add(OfNumAgremCNC);
+        laListe.add(OfDatAgremCNC);
 
         return new JSONArray(laListe) ;
 

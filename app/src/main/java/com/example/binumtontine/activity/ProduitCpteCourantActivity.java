@@ -48,7 +48,6 @@ public class ProduitCpteCourantActivity extends AppCompatActivity implements SER
         super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_produit_cpte_courant);
 /* begin */
-      //  setContentView(R.layout.activity_movie_listing);
         cpteCourantListView = (ListView) findViewById(R.id.movieList);
         new FetchCpteCourantAsyncTask().execute();
 
@@ -66,9 +65,7 @@ public class ProduitCpteCourantActivity extends AppCompatActivity implements SER
             public void onClick(View view) {
                 Snackbar.make(view, "Ajouter un produit Compte courant", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-              //  Intent i = new Intent(ProduitEAVActivity.this, AddMovieActivity.class);
                 Intent i = new Intent(ProduitCpteCourantActivity.this, CreateProduitCpteCourant.class);
-               // startActivity(i);
                 startActivityForResult(i, 20);
 
 

@@ -53,8 +53,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.Category;
-import com.example.binumtontine.activity.CreateOperationTransfertEnvoyer;
-import com.example.binumtontine.activity.ServiceHandler;
 import com.example.binumtontine.activity.convertisseur.FrenchNumberToWords;
 import com.example.binumtontine.activity.pdf.Common;
 import com.example.binumtontine.activity.pdf.PdfDocumentAdapter;
@@ -62,7 +60,6 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.google.android.material.textfield.TextInputLayout;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -83,8 +80,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,49 +101,28 @@ import static java.lang.Double.parseDouble;
 
 public class OperationEAV extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
-    private static final String KEY_DATA = "data";
     /*Begin*/
          //to fetchProduitList by caisse and guichet ID
-    private static final String KEY_EV_CAISSE_ID = "ev_caisse_id";
-    private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
     /* end*/
-    private static final String KEY_EAV_ID = "ev_numero";
-    private static final String KEY_EAV_LIBELLE = "ev_libelle";
-
-    private static final String KEY_CV_PRODUIT = "CvProduit";
-    private static final String KEY_CV_MEMBRE = "CvMembre";
-    private static final String KEY_CV_GUICHET = "CvGuichet";
     private static final String KEY_CV_NUM_DOSSIER = "CvNumDossier";
     private static final String KEY_OcLibelleMvmEAV = "OcLibelleMvmEAV";
     private static final String KEY_CV_MT_SOLDE = "CvMtSolde";
     private static final String KEY_CV_NATURE_OPERATION = "NatureOp";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
     private static final String KEY_OC_GUICHET = "OcGuichet";
-    private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
-
     private static final String KEY_MONTANT_COMPTE = "MtSolde";
     private static final String KEY_TYPE_OPERATION = "TypeOperation";
     private static final String KEY_ADHERENT = "ADHERENT";
     private static final String KEY_LIBELLE_PRODUIT = "Libelle";
     private Adherent adherent;
     /*Param for get extra*/
-    private static final String KEY_ADHERENT_ID = "IpMembre";
     private static final String KEY_COMPTE_ID = "Numero";
     private static final String KEY_CV_NUMERO = "CvNumero";
-
-    private static final String KEY_ADHERENT_NOM = "AdNom";
-    private static final String KEY_ADHERENT_PRENOM = "AdPrenom";
-    private static final String KEY_ADHERENT_NUM_MANUEL = "AdNumManuel";
-    private static final String KEY_ADHERENT_CODE = "AdCode";
-
-
-
     private static String STRING_EMPTY = "";
 
     private EditText EavDepotMinEditText;
     private EditText NumDossierEditText;
     private EditText OcLibelleMvmEAV;
-    private TextInputLayout input_layout_numero_bordereau_operation;
 
     public static RadioButton rb_depot;
     public static RadioButton rb_retrait;
@@ -210,18 +184,13 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         adNumManuel = adherent.getAdNumManuel();
         adCode = adherent.getAdCode();
 
-        //adNumDossier = intent.getStringExtra(KEY_ADHERENT_NUM_DOSSIER);
-
         EavDepotMinEditText = (EditText) findViewById(R.id.input_txt_depot_min);
         EavDepotMinEditText.addTextChangedListener(MyData.onTextChangedListener(EavDepotMinEditText));
 
         NumDossierEditText = (EditText) findViewById(R.id.input_txt_numero_bordereau_operation);
-        input_layout_numero_bordereau_operation = (TextInputLayout) findViewById(R.id.input_layout_numero_bordereau_operation);
         OcLibelleMvmEAV = (EditText) findViewById(R.id.input_txt_OcLibelleMvmEAV);
 
         rb_depot = (RadioButton) findViewById(R.id.rb_nature_operation_depot);
-        //rb_decision_accordee.performClick();
-        //onRadioButtonClicked(rb_decision_accordee);
         rb_retrait = (RadioButton) findViewById(R.id.rb_nature_operation_retrait);
         tvHeaderOperationEAV = (TextView) findViewById(R.id.header_operation_eav_adherent);
         spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
@@ -244,7 +213,6 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
             rb_depot.setChecked(true);
             rb_retrait.setVisibility(View.GONE);
             rb_depot.setVisibility(View.VISIBLE);
-//            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
             onRadioButtonClicked(rb_depot);
             OcLibelleMvmEAV.setText("VERSEMENT EAV/"+adCode+ "DE "+adNom+" "+adPrenom);
         }else if(typeOperation.equals("retrait")){
@@ -254,17 +222,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
             onRadioButtonClicked(rb_retrait);
             rb_retrait.setVisibility(View.VISIBLE);
             rb_depot.setVisibility(View.GONE);
-//            input_layout_numero_bordereau_operation.setVisibility(View.VISIBLE);
         }
-
-       /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
-        tvAdherentNumDossier.setText(adNumDossier);*/
-/*
-        eavList = new ArrayList<Category>();
-        // spinner item select listener
-        spinnerListEAV.setOnItemSelectedListener(OperationEAV.this);
-        new GetProduitEAVList().execute();
-*/
         /* START 25/11/2020*/
         btn_create_pdf = findViewById(R.id.btn_create_pdf);
         defaultFormat.setCurrency(Currency.getInstance("xaf"));
@@ -280,9 +238,7 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
                     Toast.makeText(OperationEAV.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -294,15 +250,10 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
                     Toast.makeText(OperationEAV.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
-
-
     }
-
 
     /**
      * To manage Radio button
@@ -342,8 +293,6 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
     private void populateSpinner() {
         List<String> lables = new ArrayList<String>();
 
-        //tvCaisse.setText("");
-
         for (int i = 0; i < eavList.size(); i++) {
             lables.add(eavList.get(i).getName());//recupère les noms
             eavListID.add(eavList.get(i).getId()); //recupère les Id
@@ -361,78 +310,9 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
         spinnerListEAV.setAdapter(spinnerAdapter);
     }
 
-    /**
-     * Async task to get all food categories
-     * */
-    private class GetProduitEAVList extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialogFetchProduitEavList = new ProgressDialog(OperationEAV.this);
-            pDialogFetchProduitEavList.setMessage("Fetching produits's list..");
-            pDialogFetchProduitEavList.setCancelable(false);
-            pDialogFetchProduitEavList.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-            httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
-            httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
-            String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
-           // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
-
-
-
-            Log.e("Response: ", "> " + json);
-
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null) {
-                        JSONArray categories = jsonObj
-                                .getJSONArray(KEY_DATA);
-
-                        for (int i = 0; i < categories.length(); i++) {
-                            JSONObject catObj = (JSONObject) categories.get(i);
-                            Category cat = new Category(catObj.getInt(KEY_EAV_ID),
-                                    catObj.getString(KEY_EAV_LIBELLE));
-                            eavList.add(cat);
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data", "Didn't receive any data from server!");
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialogFetchProduitEavList.isShowing())
-                pDialogFetchProduitEavList.dismiss();
-            populateSpinner();
-        }
-
-    }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-     /*   Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        */
         eavID = eavListID.get(position);//pour recuperer l'ID du guichet selectionnée
 
     }
@@ -448,43 +328,20 @@ public class OperationEAV extends AppCompatActivity implements AdapterView.OnIte
      */
     private void addEavAdherent() {
         if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString().trim()) &&
-//            !STRING_EMPTY.equals(NumDossierEditText.getText().toString().trim())&&
             !STRING_EMPTY.equals(OcLibelleMvmEAV.getText().toString().trim())
                  ) {
-//String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
-String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
-
-            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
-            nf.setGroupingUsed(false);
-            //nf.format(rr);
-//if (natureOperation.equals("R")&&
-//                    (Double.parseDouble(EavDepotMinEditText.getText().toString())<Double.parseDouble(rr))){
 if (true){
-//                Toast.makeText(OperationEAV.this,
-//                        "Solde insuffisant!",
-//                        Toast.LENGTH_LONG).show();
-//                Toast.makeText(OperationEAV.this,
-//                        rr.trim()+ "\n"+rr.length(),
-//                        Toast.LENGTH_LONG).show();
 
    eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
-//    eavDepotMin = EavDepotMinEditText.getText().toString();
-    adNumDossier = NumDossierEditText.getText().toString();
-    st_OcLibelleMvmEAV = OcLibelleMvmEAV.getText().toString();
+   adNumDossier = NumDossierEditText.getText().toString();
+   st_OcLibelleMvmEAV = OcLibelleMvmEAV.getText().toString();
 
     new getGxLastBordOperatAsyncTask().execute();
 
             }else
             {
-//
-//                eavDepotMin = EavDepotMinEditText.getText().toString();
-//                adNumDossier = NumDossierEditText.getText().toString();
-//
-//                new AddEavAdherentAsyncTask().execute();
+
             }
-
-
-
 
         } else {
             Toast.makeText(OperationEAV.this,
@@ -625,25 +482,10 @@ if (true){
         try {
             Document document = new Document();
             //Save
-//            PdfWriter writer= PdfWriter.getInstance(document, new FileOutputStream(path)); //for logo
            PdfWriter.getInstance(document, new FileOutputStream(path));
             Rectangle headerBox = new Rectangle(36, 54, 559, 788);
-//            MyEvent event = new MyEvent(this);
-//            writer.setBoxSize("headerBox", headerBox);
-//            writer.setPageEvent(event);//for logo
-
-
             //Open to write
             document.open();
-
-            //Add image
-//            Image image = Image.getInstance("C:/logomifucam.png");
-//            image.setAbsolutePosition(100f, 500f);
-//            image.scaleAbsolute(200f, 200f);
-//            document.add(image);
-            // load image
-
-
             //Setting
             document.setPageSize(PageSize.A4);
 //            document.setPageSize(PageSize.A8);
@@ -663,10 +505,7 @@ if (true){
             //Create Title of document
             Font titleFont = new Font(fontName,36.0f,Font.NORMAL, BaseColor.BLACK);
             try {
-//                            String value = String.format("{0:D5}", (Integer.parseInt(GxLastBordOperat)+1));
                             String value = String.format("%05d", (Integer.parseInt(GxLastBordOperat)+1));
-//                String.format("%05d",number);
-//                            String value = (Integer.parseInt(GxLastBordOperat)+1)+"";
                 if (typeOperation.equals("depot")){
                     addNewItem(document, "OPERATION DE VERSEMENT", Element.ALIGN_CENTER, titleFont);
                     addNewItem(document, "N° "+ value + "-V", Element.ALIGN_CENTER, titleFont);
@@ -679,30 +518,11 @@ if (true){
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-//            addNewItem(document, "N° "+ (Integer.parseInt(GxLastBordOperat)+1) adNumDossier, Element.ALIGN_CENTER, titleFont);
-//            addNewItem(document, "N° "+ String.format("{0:D5}", (Integer.parseInt(GxLastBordOperat)+1)), Element.ALIGN_CENTER, titleFont);
-//            String value = String.format("{0:D5}", (Integer.parseInt(GxLastBordOperat)+1));
             //Add More
             Font orderNumberFont = new Font(fontName, fontSize, Font.NORMAL, colorAccent);
 //            addNewItem(document, "Compagnie:", Element.ALIGN_LEFT, orderNumberFont);
 
             Font orderNumberValueFont = new Font(fontName, valueFontSize, Font.NORMAL, BaseColor.BLACK);
-//            addNewItem(document, "MIFUCAM", Element.ALIGN_LEFT, orderNumberValueFont);
-
-//            addLineSeperator(document);
-//
-//            addNewItem(document, "CAISSE:", Element.ALIGN_LEFT, orderNumberFont);
-//            addNewItem(document, MyData.CAISSE_NAME, Element.ALIGN_LEFT, orderNumberValueFont);
-////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
-//
-//            addLineSeperator(document);
-//
-//            addNewItem(document, "GUICHET:", Element.ALIGN_LEFT, orderNumberFont);
-//            addNewItem(document, MyData.GUICHET_NAME, Element.ALIGN_LEFT, orderNumberValueFont);
-////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
-
-
             //More 1
             addNewItemWithLeftAndRight(document, "CAISSE:", MyData.CAISSE_NAME, orderNumberFont, orderNumberValueFont);
             addNewItemWithLeftAndRight(document, "GUICHET:", MyData.GUICHET_NAME, orderNumberFont, orderNumberValueFont);
@@ -715,24 +535,7 @@ if (true){
             addNewItemWithLeftAndRight(document, "Date opération:", dateOperation, orderNumberFont, orderNumberValueFont);
             addNewItemWithLeftAndRight(document, "Opérateur:", MyData.USER_NOM + " "+ MyData.USER_PRENOM, orderNumberFont, orderNumberValueFont);
 
-//
-//            addLineSeperator(document);
-//
-//            addNewItem(document, "Date opération:", Element.ALIGN_LEFT, orderNumberFont);
-//            addNewItem(document, dateOperation, Element.ALIGN_LEFT, orderNumberValueFont);
-////            addNewItem(document, "24/11/2020", Element.ALIGN_LEFT, orderNumberValueFont);
-
             addLineSeperator(document);
-
-//            addNewItem(document, "Opérateur:", Element.ALIGN_LEFT, orderNumberFont);
-//            addNewItem(document, MyData.USER_NOM + " "+ MyData.USER_PRENOM, Element.ALIGN_LEFT, orderNumberValueFont);
-//
-//            addLineSeperator(document);
-////
-//            addNewItem(document, "Account Name:", Element.ALIGN_LEFT, orderNumberFont);
-//            addNewItem(document, "Valdes FOTSO", Element.ALIGN_LEFT, orderNumberValueFont);
-//
-//            addLineSeperator(document);
 
             addNewItem(document, "Détails Opération", Element.ALIGN_CENTER, titleFont);
 
@@ -764,21 +567,12 @@ if (true){
             addLineSpace(document);
 
             addNewItemWithLeftAndRight(document, "Signature Client:", "Signature Caissier:", titleFont, orderNumberValueFont);
-//            addNewItemWithLeftAndRight(document, "Signature Caissier:", "", titleFont, orderNumberValueFont);
-
-
-//            addNewItemWithLeftAndRight(document, "Total", "24000.0", titleFont, orderNumberValueFont);
 
             document.close();
 
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
 
             printPDF();
-
-
-
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (DocumentException e) {
@@ -798,15 +592,6 @@ if (true){
             Log.e("VALDES",""+ex.getMessage());
         }
     }
-
-//    private void addNewItemWithLeftAndRight(Document document, String textLeft, String textRight, Font textLeftFont, Font textRightFont) throws DocumentException {
-//        Chunk chunkTextLeft = new Chunk(textLeft, textLeftFont);
-//        Chunk chunkTextRight= new Chunk(textRight, textRightFont);
-//        Paragraph p = new Paragraph(chunkTextLeft);
-//        p.add(new Chunk(new VerticalPositionMark()));
-//        p.add(chunkTextRight);
-//        document.add(p);
-//    }
     private void addNewItemWithLeftAndRight(Document document, String textLeft, String textRight, Font textLeftFont, Font textRightFont) throws DocumentException {
         Chunk chunkTextLeft = new Chunk(textLeft, textRightFont); //ce n'est pas une erreur
         Chunk chunkTextRight= new Chunk(textRight, textRightFont);
@@ -863,13 +648,6 @@ if (true){
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Impression du Bordereau !")
                 .setMessage(
-//                        "Montant Démarrage: " + tv_montant_demarrage.getText().toString()+
-//                        "\nTotal Dépôt: " + tv_depot.getText().toString()+
-//                        "\nTotal Retrait: " + tv_retrait.getText().toString()+
-//                        "\nSolde Théorique: " + tv_total.getText().toString()+
-//                        "\nSolde Réel: " + SoldeReelEditText.getText().toString().replaceAll(",", "").trim() +
-//                        "\nMontant écart: " + tv_montant_ecart.getText().toString()+
-//                        "\nTotal Billetage: " + tv_total_billetage.getText().toString()+
                         "\t\t Voulez-vous imprimer le bordereau ?"
                 )
                 .setNegativeButton("Non", new DialogInterface.OnClickListener()
@@ -884,53 +662,27 @@ if (true){
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        btn_create_pdf.performClick();
                         Dexter.withActivity(OperationEAV.this)
                                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 .withListener(new PermissionListener() {
                                     @Override
                                     public void onPermissionGranted(PermissionGrantedResponse response) {
-//                                        btn_create_pdf.setOnClickListener(new View.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(View v) {
-//                                                createPDFFile(Common.getAppPath(OperationEAV.this)+"test_pdf25.pdf");
-//                                            }
-//                                        });
                                         createPDFFile(Common.getAppPath(OperationEAV.this)+"bordereau_mifucam.pdf");
                                     }
-
                                     @Override
                                     public void onPermissionDenied(PermissionDeniedResponse response) {
-
                                     }
-
                                     @Override
                                     public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-
                                     }
                                 })
                                 .check();
                         EavDepotMinEditText.setText("");
                         NumDossierEditText.setText("");
-
-//                        Intent intent = new Intent(getApplicationContext(), LoginActivity_NEW.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        intent.putExtra("LOGOUT", true);
-//                        startActivity(intent);
-
-                        //Display success message
-//                        Toast.makeText(OperationEAV.this,
-//                                "Opération réussie !", Toast.LENGTH_LONG).show();
-//                        Intent i = getIntent();
-//                        //send result code 20 to notify about movie update
-//                        setResult(20, i);
-//                        //Finish ths activity and go back to listing activity
-//                        finish();
                     }
 
                 })
                 .show();
-
     }
     public void buildPdf(){
         Dexter.withActivity(this)

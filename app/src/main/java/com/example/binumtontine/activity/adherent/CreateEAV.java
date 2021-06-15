@@ -166,9 +166,7 @@ public class CreateEAV extends AppCompatActivity implements AdapterView.OnItemSe
                     Toast.makeText(CreateEAV.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -180,13 +178,9 @@ public class CreateEAV extends AppCompatActivity implements AdapterView.OnItemSe
                     Toast.makeText(CreateEAV.this,
                             "Impossible de se connecter à Internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
-
-
     }
 
 
@@ -282,11 +276,6 @@ public class CreateEAV extends AppCompatActivity implements AdapterView.OnItemSe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-     /*   Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();
-        */
         eavID = eavListID.get(position);//pour recuperer l'ID du guichet selectionnée
 
     }
@@ -304,8 +293,6 @@ public class CreateEAV extends AppCompatActivity implements AdapterView.OnItemSe
         if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString()) &&
             !STRING_EMPTY.equals(NumDossierEditText.getText().toString()) &&
                 eavID !=0 ) {
-
-
                 eavDepotMin = EavDepotMinEditText.getText().toString();
                 adNumDossier = NumDossierEditText.getText().toString();
 

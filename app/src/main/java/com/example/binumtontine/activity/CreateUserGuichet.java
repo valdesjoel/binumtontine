@@ -48,6 +48,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.convertisseur.BCrypt;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -79,6 +80,7 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
     private static final String KEY_USER_TEL3 = "ux_tel3";
     private static final String KEY_USER_LOGIN = "ux_login";
     private static final String KEY_USER_PASSWORD = "ux_password";
+    private static final String KEY_USER_BCRYPT_PASSWORD = "password";
     private static final String KEY_USER_EMAIL = "ux_email";
     private static final String KEY_PROFIL_CAISSE_OR_GUICHET = "profilCaisseOrGuichet";
 
@@ -114,6 +116,7 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
 
     private String uxLogin;
     private String uxPassword;
+    private String uxBcryptPassword;
     private String uxConfirmPassword;
     private String uxEmail;
 
@@ -434,18 +437,14 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
                 !STRING_EMPTY.equals(uxPrenomEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxAdresseEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
-//                !STRING_EMPTY.equals(uxTel2EditText.getText().toString()) &&
-//                !STRING_EMPTY.equals(uxTel3EditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxLoginEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxPasswordEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxConfirmPasswordEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxEmailEditText.getText().toString())) {
 
             if ((uxPasswordEditText.getText().toString()).equals(uxConfirmPasswordEditText.getText().toString())){
-                //uxGuichetId = uxGuichetIdSpinner.getText().toString();
-              //  uxGuichetId = "2"; /* ***** A MODIFIER DYNAMIQUEMENT */
+
                 uxProfil = spnNewProfil.getText().toString();
-//                uxProfil = uxProfilEditText.getText().toString();
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
                 uxAdresse = uxAdresseEditText.getText().toString();
@@ -456,6 +455,7 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
                 uxTel3 = ccp_phone3.getFullNumberWithPlus();
                 uxLogin = uxLoginEditText.getText().toString();
                 uxPassword = uxPasswordEditText.getText().toString();
+                uxBcryptPassword = BCrypt.hashpw(uxPassword, BCrypt.gensalt(12));
                 //uxConfirmPassword = uxConfirmPasswordEditText.getText().toString();
                 uxEmail = uxEmailEditText.getText().toString();
                 new AddUserAsyncTask().execute();
@@ -511,6 +511,7 @@ public class CreateUserGuichet extends AppCompatActivity implements AdapterView.
             httpParams.put(KEY_USER_TEL3, uxTel3);
             httpParams.put(KEY_USER_LOGIN, uxLogin);
             httpParams.put(KEY_USER_PASSWORD, uxPassword);
+            httpParams.put(KEY_USER_BCRYPT_PASSWORD, uxBcryptPassword);
             httpParams.put(KEY_USER_EMAIL, uxEmail);
             httpParams.put(KEY_PROFIL_CAISSE_OR_GUICHET, UserGuichetActivity.profilCaisseOrGuichet);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(

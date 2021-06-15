@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +49,7 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
     private static final String KEY_GUICHET_ID = "FcGuichet";
     private static final String KEY_FP_PIECE_ID = "FpNumero";
     private static final String KEY_FP_PIECE_LIBELLE = "FpLibelle";
+    private static final String KEY_TM_NUMERO = "TmNumero";
 
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
@@ -62,9 +64,6 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true); //to notify the fragment that it should participate in options menu handling.
-
-
-
     }
 
     @Override
@@ -76,9 +75,7 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
         //  setContentView(R.layout.activity_movie_listing);
         movieListView = (ListView)rootView.findViewById(R.id.movieList);
         new FetchPiecesAsyncTask().execute();
-
         /* end*/
-
 
         FloatingActionButton fab = rootView.findViewById(R.id.fab_add_piece_to_fournir_cx);
         fab.hide();
@@ -90,15 +87,9 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
                 //  Intent i = new Intent(ProduitEAVActivity.this, AddMovieActivity.class);
                 Intent i = new Intent(getActivity(), CreatePieceToFournirCx.class);
                 startActivityForResult(i, 20);
-
-
             }
         });
-
-
-
-
-        // Inflate the layout for this fragment
+       // Inflate the layout for this fragment
         return rootView;
     }
     /* To manage Menu*/
@@ -118,10 +109,8 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.action_to_affect_piece:
                 action_to_affect = false;
-
                 Toast.makeText(getContext(),
                         "Liste des pièces à affecter au guichet",
                         Toast.LENGTH_LONG).show();
@@ -168,13 +157,11 @@ public class PieceToFournirListGxFragment extends Fragment implements View.OnCli
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
             httpParams.put(KEY_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
+            httpParams.put(KEY_TM_NUMERO, String.valueOf(MyData.TYPE_MEMBRE_ID));
             //httpParams.put(KEY_GX_NUMERO, String.valueOf(MyData.GUICHET_ID));
             JSONObject jsonObject =(action_to_affect)? httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_piece_gx.php", "GET", httpParams): httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_piece_cx_not_affect_on_guichet.php", "GET", httpParams);
-
-
-
 
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);

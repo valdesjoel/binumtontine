@@ -46,6 +46,11 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private static final String KEY_CX_NUM_AGREM = "cx_num_agrem";
     private static final String KEY_CX_DATE_AGREM = "cx_date_agrem";
     private static final String KEY_CX_DATE_DEBUT = "cx_date_debut";
+
+    private static final String KEY_CxNumAgremCobac = "CxNumAgremCobac";
+    private static final String KEY_CxDatAgremCobac = "CxDatAgremCobac";
+    private static final String KEY_CxNumAgremCNC = "CxNumAgremCNC";
+    private static final String KEY_CxDatAgremCNC = "CxDatAgremCNC";
     private static final String KEY_CX_ADRESSE = "cx_adresse";
     private static final String KEY_CX_TEL1 = "cx_tel1";
     private static final String KEY_CX_TEL2 = "cx_tel2";
@@ -73,6 +78,11 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private EditText cx_date_debutEditText;
     private EditText cx_adresseEditText;
 
+    private EditText CxNumAgremCobac;
+    private EditText CxDatAgremCobac;
+    private EditText CxNumAgremCNC;
+    private EditText CxDatAgremCNC;
+
     private EditText cx_siegeEditText;
     private String cxSiege;
 
@@ -95,6 +105,10 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
     private String cx_num_agrem;
     private String cx_date_agrem;
     private String cx_date_debut;
+    private String CxNumAgremCobac_st;
+    private String CxDatAgremCobac_st;
+    private String CxNumAgremCNC_st;
+    private String CxDatAgremCNC_st;
     private String cx_adresse;
     private String cx_tel1;
     private String cx_tel2;
@@ -122,6 +136,9 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
 
     private DatePickerDialog cx_date_agrem_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
     private DatePickerDialog cx_date_debut_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+
+    private DatePickerDialog CxDatAgremCobacPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog CxDatAgremCNCPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
 
     @Override
@@ -131,6 +148,9 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_caisse);
         setSupportActionBar(toolbar);
         setToolbarTitle();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         findViewsById();
 
@@ -158,6 +178,10 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
         mySpinnerLocalite = (JRSpinner) findViewById(R.id.spn_my_spinner_localite_caisse);
         cx_num_agremEditText = (EditText) findViewById(R.id.input_txt_num_agrement_cx);
         cx_date_agremEditText = (EditText) findViewById(R.id.input_txt_dateAgrementCx);
+
+        CxNumAgremCobac = (EditText) findViewById(R.id.input_txt_CxNumAgremCobac);
+        CxNumAgremCNC = (EditText) findViewById(R.id.input_txt_CxNumAgremCNC);
+
         cx_date_debutEditText = (EditText) findViewById(R.id.input_txt_dateDebutCx);
         cx_adresseEditText = (EditText) findViewById(R.id.input_txt_AdresseCx);
 //        cx_tel1EditText = (EditText) findViewById(R.id.input_txt_Tel1_Cx);
@@ -236,6 +260,11 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Mise à jour d'une caisse");
 
@@ -249,12 +278,21 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
         cx_date_debutEditText.setInputType(InputType.TYPE_NULL);
         cx_date_debutEditText.requestFocus();
 
+        CxDatAgremCobac = (EditText) findViewById(R.id.input_txt_CxDatAgremCobac);
+        CxDatAgremCobac.setInputType(InputType.TYPE_NULL);
+        CxDatAgremCobac.requestFocus();
 
+        CxDatAgremCNC = (EditText) findViewById(R.id.input_txt_CxDatAgremCNC);
+        CxDatAgremCNC.setInputType(InputType.TYPE_NULL);
+        CxDatAgremCNC.requestFocus();
     }
 
     private void setDateTimeField() {
         cx_date_agremEditText.setOnClickListener(this);
         cx_date_debutEditText.setOnClickListener(this);
+
+        CxDatAgremCobac.setOnClickListener(this);
+        CxDatAgremCNC.setOnClickListener(this);
 
 
         Calendar newCalendar = Calendar.getInstance();
@@ -278,6 +316,26 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
+        CxDatAgremCobacPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                CxDatAgremCobac.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        CxDatAgremCNCPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                CxDatAgremCNC.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
     @Override
@@ -286,6 +344,10 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             cx_date_agrem_PickerDialog.show();
         }  else if(v == cx_date_debutEditText) {
             cx_date_debut_PickerDialog.show();
+        } else if(v == CxDatAgremCobac) {
+            CxDatAgremCobacPickerDialog.show();
+        } else if(v == CxDatAgremCNC) {
+            CxDatAgremCNCPickerDialog.show();
         }
     }
 
@@ -310,41 +372,45 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_CAISSE_ID, caisseId);
+            /*JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_caisse_details.php", "GET", httpParams);*/
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "get_caisse_details.php", "GET", httpParams);
+                    BASE_URL + "get_caisse_details_new.php", "GET", httpParams);
             try {
-                int success = jsonObject.getInt(KEY_SUCCESS);
+              /*  int success = jsonObject.getInt(KEY_SUCCESS);
                 JSONObject caisse;
                 if (success == 1) {
                     //Parse the JSON response
-                    caisse = jsonObject.getJSONObject(KEY_DATA);
-                    cxDenomination = caisse.getString(KEY_CX_DENOMINATION);
-                    cxSiege = caisse.getString(KEY_CX_SIEGE);
-                    cxLocalite = caisse.getString(KEY_CX_LOCALITE);
-                    cx_num_agrem = caisse.getString(KEY_CX_NUM_AGREM);
-                    cx_date_agrem = caisse.getString(KEY_CX_DATE_AGREM);
-                    cx_date_debut = caisse.getString(KEY_CX_DATE_DEBUT);
-                    cx_adresse = caisse.getString(KEY_CX_ADRESSE);
-                    cx_tel1 = caisse.getString(KEY_CX_TEL1);
-                    cx_tel2 = caisse.getString(KEY_CX_TEL2);
-                    cx_tel3 = caisse.getString(KEY_CX_TEL3);
-                    cx_nom_pca = caisse.getString(KEY_CX_NOM_PCA);
-                    cx_nom_dg = caisse.getString(KEY_CX_NOM_DG);
 
-//                    bool_CxIsPrConsAdmPCA = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrConsAdmPCA));
-//                    bool_CxIsPrComCredPCC = Boolean.parseBoolean(caisse.getString(KEY_CxIsPrComCredPCC));
-//                    bool_CxIsDirCredDC = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirCredDC));
-//                    bool_CxIsAgentCredAC = Boolean.parseBoolean(caisse.getString(KEY_CxIsAgentCredAC));
-//                    bool_CxIsDirGenCxDG = Boolean.parseBoolean(caisse.getString(KEY_CxIsDirGenCxDG));
-//                    bool_CxIsMultiCpteCourByMemb = Boolean.parseBoolean(caisse.getString(KEY_CxIsMultiCpteCourByMemb));
-                    bool_CxIsPrConsAdmPCA = caisse.getString(KEY_CxIsPrConsAdmPCA);
-                    bool_CxIsPrComCredPCC = caisse.getString(KEY_CxIsPrComCredPCC);
-                    bool_CxIsDirCredDC = caisse.getString(KEY_CxIsDirCredDC);
-                    bool_CxIsAgentCredAC = caisse.getString(KEY_CxIsAgentCredAC);
-                    bool_CxIsDirGenCxDG = caisse.getString(KEY_CxIsDirGenCxDG);
-                    bool_CxIsMultiCpteCourByMemb = caisse.getString(KEY_CxIsMultiCpteCourByMemb);
+                    caisse = jsonObject.getJSONObject(KEY_DATA);*/
+                //monProduitCredit.setCrCode(MyData.normalizeSymbolsAndAccents(jsonObject.getString(KEY_CREDIT_Code)));
+                    cxDenomination = jsonObject.getString(KEY_CX_DENOMINATION);
+                    cxSiege = jsonObject.getString(KEY_CX_SIEGE);
+                    cxLocalite = jsonObject.getString(KEY_CX_LOCALITE);
+                    cx_num_agrem = jsonObject.getString(KEY_CX_NUM_AGREM);
+                    cx_date_agrem = jsonObject.getString(KEY_CX_DATE_AGREM);
+                    cx_date_debut = jsonObject.getString(KEY_CX_DATE_DEBUT);
 
-                }
+                    CxNumAgremCobac_st = jsonObject.getString(KEY_CxNumAgremCobac);
+                    CxDatAgremCobac_st = jsonObject.getString(KEY_CxDatAgremCobac);
+                    CxNumAgremCNC_st = jsonObject.getString(KEY_CxNumAgremCNC);
+                    CxDatAgremCNC_st = jsonObject.getString(KEY_CxDatAgremCNC);
+
+                    cx_adresse = jsonObject.getString(KEY_CX_ADRESSE);
+                    cx_tel1 = jsonObject.getString(KEY_CX_TEL1);
+                    cx_tel2 = jsonObject.getString(KEY_CX_TEL2);
+                    cx_tel3 = jsonObject.getString(KEY_CX_TEL3);
+                    cx_nom_pca = jsonObject.getString(KEY_CX_NOM_PCA);
+                    cx_nom_dg = jsonObject.getString(KEY_CX_NOM_DG);
+
+                    bool_CxIsPrConsAdmPCA = jsonObject.getString(KEY_CxIsPrConsAdmPCA);
+                    bool_CxIsPrComCredPCC = jsonObject.getString(KEY_CxIsPrComCredPCC);
+                    bool_CxIsDirCredDC = jsonObject.getString(KEY_CxIsDirCredDC);
+                    bool_CxIsAgentCredAC = jsonObject.getString(KEY_CxIsAgentCredAC);
+                    bool_CxIsDirGenCxDG = jsonObject.getString(KEY_CxIsDirGenCxDG);
+                    bool_CxIsMultiCpteCourByMemb = jsonObject.getString(KEY_CxIsMultiCpteCourByMemb);
+
+//                } //end if
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -363,6 +429,12 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
                         cx_num_agremEditText.setText(cx_num_agrem);
                         cx_date_agremEditText.setText(cx_date_agrem);
                         cx_date_debutEditText.setText(cx_date_debut);
+
+                        CxNumAgremCobac.setText(CxNumAgremCobac_st);
+                        CxDatAgremCobac.setText(CxDatAgremCobac_st);
+                        CxNumAgremCNC.setText(CxNumAgremCNC_st);
+                        CxDatAgremCNC.setText(CxDatAgremCNC_st);
+
                         cx_adresseEditText.setText(cx_num_agrem);
                    /* cx_tel1EditText.setText(cx_tel1);
                     cx_tel2EditText.setText(cx_tel2);
@@ -613,6 +685,12 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CX_NUM_AGREM, cx_num_agrem);
             httpParams.put(KEY_CX_DATE_AGREM, cx_date_agrem);
             httpParams.put(KEY_CX_DATE_DEBUT, cx_date_debut);
+
+            httpParams.put(KEY_CxNumAgremCobac, CxNumAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_CxDatAgremCobac, CxDatAgremCobac.getText().toString().trim());
+            httpParams.put(KEY_CxNumAgremCNC, CxNumAgremCNC.getText().toString().trim());
+            httpParams.put(KEY_CxDatAgremCNC, CxDatAgremCNC.getText().toString().trim());
+
             httpParams.put(KEY_CX_ADRESSE, cx_adresse);
             httpParams.put(KEY_CX_TEL1, cx_tel1);
             httpParams.put(KEY_CX_TEL2, cx_tel2);
@@ -621,12 +699,12 @@ public class UpdateCaisse extends AppCompatActivity implements View.OnClickListe
             httpParams.put(KEY_CX_NOM_DG, cx_nom_dg);
 
 
-            httpParams.put(KEY_CxIsPrConsAdmPCA, bool_CxIsPrConsAdmPCA.toString());
-            httpParams.put(KEY_CxIsPrComCredPCC, bool_CxIsPrComCredPCC.toString());
-            httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC.toString());
-            httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC.toString());
-            httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG.toString());
-            httpParams.put(KEY_CxIsMultiCpteCourByMemb, bool_CxIsMultiCpteCourByMemb.toString());
+            httpParams.put(KEY_CxIsPrConsAdmPCA, bool_CxIsPrConsAdmPCA);
+            httpParams.put(KEY_CxIsPrComCredPCC, bool_CxIsPrComCredPCC);
+            httpParams.put(KEY_CxIsDirCredDC, bool_CxIsDirCredDC);
+            httpParams.put(KEY_CxIsAgentCredAC, bool_CxIsAgentCredAC);
+            httpParams.put(KEY_CxIsDirGenCxDG, bool_CxIsDirGenCxDG);
+            httpParams.put(KEY_CxIsMultiCpteCourByMemb, bool_CxIsMultiCpteCourByMemb);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_caisse.php", "POST", httpParams);
             try {

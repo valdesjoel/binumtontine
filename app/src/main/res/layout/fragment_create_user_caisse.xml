@@ -37,23 +37,6 @@
             android:paddingTop="5dp"
             >
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextInputLayoutStyle"
-                style="@style/parent"
-                android:visibility="gone"
-                app:errorEnabled="true" >
-                <com.example.binumtontine.JRSpinner
-
-                    android:id="@+id/spn_my_spinner_caisse"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/my_hint"
-                    style="@style/modifiedEditText"
-                    app:jrs_title="Choose"
-                    app:jrs_multiple="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
             <!-- TextView and Spinner caisse -->
             <TextView android:id="@+id/txtCategory"
                 android:layout_width="fill_parent"
@@ -73,30 +56,6 @@
                     style="@style/modifiedEditText"
                     android:textSize="16sp"
                     android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Profil User-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_NewProfil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextInputLayoutStyle"
-                style="@style/parent"
-                app:errorEnabled="true"
-                android:layout_marginTop="@dimen/loginViewsMargin">
-                <com.example.binumtontine.JRSpinner
-
-                    android:id="@+id/spnNewProfil"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_profil_user"
-                    app:jrs_title="Choose"
-                    style="@style/modifiedEditText"
-                    app:jrs_multiple="false"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -154,9 +113,7 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/TextInputLayoutStyle"
                 style="@style/parent"
-
                 app:errorEnabled="true">
-
                 <EditText
                     android:id="@+id/input_txt_Prenom_user"
                     android:layout_width="match_parent"
@@ -175,9 +132,7 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/TextInputLayoutStyle"
                 style="@style/parent"
-
                 app:errorEnabled="true">
-
                 <EditText
                     android:id="@+id/input_txt_Adresse_user"
                     android:layout_width="match_parent"
@@ -186,7 +141,6 @@
                     android:hint="@string/hint_adresse"
                     style="@style/modifiedEditText"
                     android:inputType="textPostalAddress"
-
                     android:textStyle="bold"
                     android:textSize="16sp"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -196,7 +150,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 >
-
                 <com.hbb20.CountryCodePicker
                     android:id="@+id/ccp_phone1"
                     android:layout_width="wrap_content"
@@ -219,9 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-
                 >
-
                 <com.hbb20.CountryCodePicker
                     android:id="@+id/ccp_phone2"
                     android:layout_width="wrap_content"
@@ -245,7 +196,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 >
-
                 <com.hbb20.CountryCodePicker
                     android:id="@+id/ccp_phone3"
                     android:layout_width="wrap_content"
@@ -253,7 +203,6 @@
                     app:ccp_countryPreference="CM,GA,GQ,CG,CD"
                     app:ccp_defaultNameCode="CM"
                     app:ccp_defaultLanguage="FRENCH"
-
                     />
 
                 <EditText
@@ -266,7 +215,7 @@
 
                     android:singleLine="true" />
             </LinearLayout>
-
+            <!-- Login-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_login_user"
                 android:layout_width="match_parent"
@@ -275,7 +224,6 @@
                 style="@style/parent"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 app:errorEnabled="true">
-
                 <EditText
                     android:id="@+id/input_txt_Login_user"
                     android:layout_width="match_parent"
@@ -284,10 +232,10 @@
                     android:hint="@string/hint_login_user"
                     style="@style/modifiedEditText"
                     android:inputType="textPersonName"
-
                     android:textStyle="bold"
                     android:textSize="16sp"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <!--Password-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_pwd_user"
                 android:layout_width="match_parent"
@@ -296,7 +244,6 @@
                 style="@style/parent"
                 app:passwordToggleEnabled="true"
                 app:errorEnabled="true">
-
                 <EditText
                     android:id="@+id/input_txt_pwd_user"
                     android:layout_width="match_parent"
@@ -309,6 +256,7 @@
                     android:textStyle="bold"
                     android:textSize="16sp"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <!--Confirm Password-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_confirm_pwd_user"
                 android:layout_width="match_parent"
@@ -317,7 +265,6 @@
                 style="@style/parent"
                 app:passwordToggleEnabled="true"
                 app:errorEnabled="true">
-
                 <EditText
                     android:id="@+id/input_txt_confirm_pwd_user"
                     android:layout_width="match_parent"
@@ -326,20 +273,17 @@
                     style="@style/modifiedEditText"
                     android:inputType="textPassword"
                     android:hint="@string/hint_confirm_password"
-
-
                     android:textStyle="bold"
                     android:textSize="16sp"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <!--E-mail-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_email_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/TextInputLayoutStyle"
                 style="@style/parent"
-
                 app:errorEnabled="true">
-
                 <EditText
                     android:id="@+id/input_txt_email_user"
                     android:layout_width="match_parent"
@@ -348,19 +292,16 @@
                     android:inputType="textEmailAddress"
                     android:hint="@string/hint_email"
                     style="@style/modifiedEditText"
-
-
                     android:textStyle="bold"
                     android:textSize="16sp"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <!--Boutons-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="70dp"
-
                 android:layout_below="@+id/input_txt_email_user">
-
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save_Ux"
                     android:layout_width="match_parent"

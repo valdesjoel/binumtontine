@@ -70,6 +70,7 @@ public class JourOuvertCollecteur extends AppCompatActivity implements  View.OnC
     private static final String KEY_CM_NATURE = "CmNature";
     private static final String KEY_CM_USER = "CmUser";
     private static final String KEY_RA_USER = "RaUser";
+    private static final String KEY_JoDate = "JoDate";
 
 
     private EditText JoMtDemarrEditText;
@@ -337,11 +338,6 @@ public class JourOuvertCollecteur extends AppCompatActivity implements  View.OnC
             Ad_JourneeAnterieure_PickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
             Ad_JourneeAnterieure_PickerDialog.show();
         }
-//        else if (v == Ad_DateDelivranceEditText){
-//            Ad_DateDelivrance_PickerDialog.show();
-//        }else if (v == Ad_DateExpirationEditText){
-//            Ad_DateExpiration_PickerDialog.show();
-//        }
     }
 
     private void requestFocus(View view) {
@@ -540,18 +536,6 @@ public class JourOuvertCollecteur extends AppCompatActivity implements  View.OnC
      * Otherwise displays Toast message informing one or more fields left empty
      */
     private void addJourOuvert() {
-       /* if (!STRING_EMPTY.equals(ev_codeEditText.getText().toString()) &&
-
-               */
-        // now let's use Double.valueOf() method to get double from String
-        //submitForm();
-       // validateLogin();
-        //String str = JoMtDemarrEditText.getText().toString();
-       // if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
-//        double valueNew = Double.valueOf(str);
-//        double valueLAst = Double.valueOf(CgLastSolde);
-        //System.out.println("String to double conversion using valueOf : " + valueNew);
-//if (!STRING_EMPTY.equals(JoMtDemarrEditText.getText().toString())){
 if (validateLogin() && valueNew<=valueLAst){
             JoMtDemarr = JoMtDemarrEditText.getText().toString();
             JoMtPMonnaie = JoMtPMonnaieEditText.getText().toString();
@@ -603,30 +587,29 @@ if (validateLogin() && valueNew<=valueLAst){
             //Populating request parameters
             httpParams.put(KEY_JO_MT_DEMARRAGE, JoMtDemarr);
             httpParams.put(KEY_JO_MT_PIECE_MONNAIE, JoMtPMonnaie);
-            httpParams.put(KEY_JO_IS_CLOSED, JoIsClosed.toString());
+//            httpParams.put(KEY_JO_IS_CLOSED, JoIsClosed.toString());
+            httpParams.put(KEY_JO_IS_CLOSED, "N");
 //            httpParams.put(KEY_JO_GUICHET, String.valueOf(MyData.GUICHET_ID));
             httpParams.put(KEY_JO_GUICHET, String.valueOf(MyData.COLLECTEUR_ID));
             httpParams.put(KEY_JO_TYPE, JoType);
 
-            httpParamsCaisseMvt.put(KEY_CM_NUMERO, CgNumero);
-            httpParamsCaisseMvt.put(KEY_CM_SENS, CmSens);
-            httpParamsCaisseMvt.put(KEY_CM_MONTANT, JoMtDemarr);
+//            httpParamsCaisseMvt updated to httpParams
+            httpParams.put(KEY_CM_NUMERO, CgNumero);
+            httpParams.put(KEY_CM_SENS, CmSens);
+            httpParams.put(KEY_CM_MONTANT, JoMtDemarr);
            // httpParamsCaisseMvt.put(KEY_CM_NEW_SOLDE,(parseDouble(CgLastSolde)-parseDouble(JoMtDemarr))+"");
-            httpParamsCaisseMvt.put(KEY_CM_NEW_SOLDE,(valueLAst-valueNew+""));
-            httpParamsCaisseMvt.put(KEY_CM_NATURE, CmNature);
-            httpParamsCaisseMvt.put(KEY_CM_USER, String.valueOf(MyData.USER_ID));
-
-
-
-
+            httpParams.put(KEY_CM_NEW_SOLDE,(valueLAst-valueNew+""));
+            httpParams.put(KEY_CM_NATURE, CmNature);
+            httpParams.put(KEY_CM_USER, String.valueOf(MyData.USER_ID));
+            httpParams.put(KEY_JoDate, Ad_JourneeAnterieureEditText.getText().toString().concat(" 00:00:00"));
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_jour_ouvert.php", "POST", httpParams);
-            JSONObject jsonObjectCxMvt = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "add_caisse_guichet_mouvement.php", "POST", httpParamsCaisseMvt);
+                    BASE_URL + "add_jour_ouvert_collecte.php", "POST", httpParams);
+            /*JSONObject jsonObjectCxMvt = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "add_caisse_guichet_mouvement.php", "POST", httpParamsCaisseMvt);*/
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
-                successCxGxMvt = jsonObjectCxMvt.getInt(KEY_SUCCESS);
+//                successCxGxMvt = jsonObjectCxMvt.getInt(KEY_SUCCESS);
                 Log.e("*********","success "+success+" "+"successCxGxMvt "+successCxGxMvt+" New solde "+valueNew+ " JoMt "+JoMtDemarr);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -639,19 +622,21 @@ if (validateLogin() && valueNew<=valueLAst){
             runOnUiThread(new Runnable() {
                 public void run() {
 //                    if (success == 1 && successCxGxMvt == 1) { // à revoir pourquoi success renvoie 0 au lieu de 1
-                    if (successCxGxMvt == 1) {
+//                    if (successCxGxMvt == 1) {
+                    if (success == 1) {
                         //Display success message
                         Toast.makeText(JourOuvertCollecteur.this,
                                 "Journée ouverte", Toast.LENGTH_LONG).show();
-                      /*  Intent i = getIntent();*/
+                      Intent i = getIntent();
                         //send result code 20 to notify about movie update
-                        /* setResult(20, i); */
+                        setResult(20, i);
                         //Finish ths activity and go back to listing activity
+                        finish();
 
                         //Intent i = new Intent(this, CreateAdherent.class);
-                        Intent i = new Intent(JourOuvertCollecteur.this, MainActivityUsager.class);
+                       /* Intent i = new Intent(JourOuvertCollecteur.this, MainActivityUsager.class);
                         startActivity(i);
-                        finish();
+                        finish();*/
 
                     } else {
                         Toast.makeText(JourOuvertCollecteur.this,

@@ -20,6 +20,7 @@ package com.example.binumtontine.adapter;
 
         import com.example.binumtontine.R;
         import com.example.binumtontine.activity.CaisseActivity;
+        import com.example.binumtontine.activity.CreateOperationTransfertRetrait;
         import com.example.binumtontine.activity.adherent.CreateAdherent;
         import com.example.binumtontine.activity.adherent.CreateCpteCourant;
         import com.example.binumtontine.activity.adherent.CreateEAP;
@@ -29,10 +30,13 @@ package com.example.binumtontine.adapter;
         import com.example.binumtontine.activity.adherent.GetPieceAdherent;
         //  import com.example.binumtontine.activity.adherent.MyList;
         import com.example.binumtontine.activity.adherent.Adherent;
+        import com.example.binumtontine.activity.adherent.IncreasePartSocAdhActivity;
         import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity;
         import com.example.binumtontine.activity.adherent.ListCompteAdherentActivity_New;
         import com.example.binumtontine.activity.adherent.MainActivityUsager;
+        import com.example.binumtontine.controleur.MyData;
         import com.example.binumtontine.helper.CheckNetworkStatus;
+        import com.example.binumtontine.modele.MvmPartSocAdh;
 
         import java.io.Serializable;
         import java.util.ArrayList;
@@ -86,149 +90,180 @@ public class CustomAdapterListAdherent extends RecyclerView.Adapter<CustomAdapte
         }
       //  holder.tvNumDossier.setText("2 comptes");
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Check for network connectivity
-                if (CheckNetworkStatus.isNetworkAvailable(mCtx)) {
+        if (MyData.USER_PROFIL.equals("Administrateur caisse")){
+            MyData.avertissement(this.mCtx);
+        }else if (MyData.USER_PROFIL.equals("Agent de guichet")){
+            //debut
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Check for network connectivity
+                    if (CheckNetworkStatus.isNetworkAvailable(mCtx)) {
 
-                    //handle menu0 click
-                    Intent i = new Intent(mCtx, ListCompteAdherentActivity_New.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(KEY_ADHERENT, (Serializable) myList);
-                    // bundle.putSerializable(KEY_ADHERENT, adherent);
-                    i.putExtras(bundle);
-                    i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
-                    ((Activity) mCtx).startActivityForResult(i, 20);
+                        //handle menu0 click
+                        Intent i = new Intent(mCtx, ListCompteAdherentActivity_New.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(KEY_ADHERENT, (Serializable) myList);
+                        // bundle.putSerializable(KEY_ADHERENT, adherent);
+                        i.putExtras(bundle);
+                        i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
+                        ((Activity) mCtx).startActivityForResult(i, 20);
 
+                    } else {
+                        Toast.makeText(mCtx,
+                                "Unable to connect to internet",
+                                Toast.LENGTH_LONG).show();
 
-                    //mCtx.startActivity(i);
-//                    Toast.makeText(mCtx,
-//                            "Liste des comptes de l'adhérent en construction!!!",
-//                            Toast.LENGTH_LONG).show();
-
-                } else {
-                    Toast.makeText(mCtx,
-                            "Unable to connect to internet",
-                            Toast.LENGTH_LONG).show();
-
+                    }
                 }
-            }
-        });
+            });
 
 
-        holder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            holder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                //will show popup menu here
-                //creating a popup menu
-                //PopupMenu popup = new PopupMenu(mCtx, holder.buttonViewOption);
-                PopupMenu popup = new PopupMenu(mCtx, holder.buttonViewOption); // i made holer final
-                //inflating menu from xml resource
-                popup.inflate(R.menu.options_menu_adherent);
-                //adding click listener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
+                    //will show popup menu here
+                    //creating a popup menu
+                    //PopupMenu popup = new PopupMenu(mCtx, holder.buttonViewOption);
+                    PopupMenu popup = new PopupMenu(mCtx, holder.buttonViewOption); // i made holer final
+                    //inflating menu from xml resource
+                    popup.inflate(R.menu.options_menu_adherent);
+                    //adding click listener
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
 
-                            case R.id.menu0:
-                                //handle menu0 click
-                                  Intent i = new Intent(mCtx, GetPieceAdherent.class);
-                                i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
-                               // startActivityForResult(intent, 20);
-                                mCtx.startActivity(i);
+                                case R.id.menu0:
+                                    //handle menu0 click
+                                    Intent i = new Intent(mCtx, GetPieceAdherent.class);
+                                    i.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
+                                    // startActivityForResult(intent, 20);
+                                    mCtx.startActivity(i);
 
-                                break;
-                            case R.id.menu1:
-                                //handle menu1 click
+                                    break;
+                                case R.id.menu1:
+                                    //handle menu1 click
 
-                                Intent ii = new Intent(mCtx, CreateAdherent.class);
-                                CreateAdherent.to_update_adherent = true;
-                                ii.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
-                                ((Activity) mCtx).startActivityForResult(ii, 20);
-                               // CreateAdherent.to_update_adherent = false; //to reset default value
+                                    Intent ii = new Intent(mCtx, CreateAdherent.class);
+                                    CreateAdherent.to_update_adherent = true;
+                                    ii.putExtra(KEY_ADHERENT_ID, holder.textViewId.getText());
+                                    ((Activity) mCtx).startActivityForResult(ii, 20);
+                                    // CreateAdherent.to_update_adherent = false; //to reset default value
 
 
 //                                Toast.makeText(mCtx,
 //                                        "ID adhérent "+holder.textViewId.getText(), Toast.LENGTH_LONG).show();
-                                break;
-                            case R.id.menu2:
-                                //handle menu2 click
-                                Intent intentCreateEAV = new Intent(mCtx, CreateEAV.class);
-                                intentCreateEAV.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAV.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                                //mCtx.startActivity(intentCreateEAV);
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAV, 20);
-                                break;
+                                    break;
+                                case R.id.menu2:
+                                    //handle menu2 click
+                                    Intent intentCreateEAV = new Intent(mCtx, CreateEAV.class);
+                                    intentCreateEAV.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                    intentCreateEAV.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                    intentCreateEAV.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                    intentCreateEAV.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                    intentCreateEAV.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                    //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+                                    // startActivityForResult(intent, 20);
+                                    //mCtx.startActivity(intentCreateEAV);
+                                    ((Activity) mCtx).startActivityForResult(intentCreateEAV, 20);
+                                    break;
                                 //menu3 => compte cournt
-                            case R.id.menu3:
-                                //handle menu3 click
-                                Intent intentCreateCpteCourant = new Intent(mCtx, CreateCpteCourant.class);
-                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateCpteCourant.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                                //mCtx.startActivity(intentCreateEAV);
-                                ((Activity) mCtx).startActivityForResult(intentCreateCpteCourant, 20);
-                                break;
-                            case R.id.menu4:
-                                //handle menu3 click
-                                Intent intentCreateEAT = new Intent(mCtx, CreateEAT.class);
-                                intentCreateEAT.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAT.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                               // mCtx.startActivity(intentCreateEAT);
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAT, 20);
-                                break;
-                            case R.id.menu5:
-                                //handle menu3 click
-                                Intent intentCreateEAP = new Intent(mCtx, CreateEAP.class);
-                                intentCreateEAP.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateEAP.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                               // mCtx.startActivity(intentCreateEAP);
-                                ((Activity) mCtx).startActivityForResult(intentCreateEAP, 20);
-                                break;
-                            case R.id.menu7:
-                                //handle menu3 click
-                                Intent intentCreateDemandeCredit = new Intent(mCtx, DemandeCredit.class);
-                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
-                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
-                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
-                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
-                                intentCreateDemandeCredit.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
-                                //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
-                                // startActivityForResult(intent, 20);
-                               // mCtx.startActivity(intentCreateEAP);
-                                ((Activity) mCtx).startActivityForResult(intentCreateDemandeCredit, 20);
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                //displaying the popup
-                popup.show();
+                                case R.id.menu3:
+                                    //handle menu3 click
+                                    Intent intentCreateCpteCourant = new Intent(mCtx, CreateCpteCourant.class);
+                                    intentCreateCpteCourant.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                    intentCreateCpteCourant.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                    intentCreateCpteCourant.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                    intentCreateCpteCourant.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                    intentCreateCpteCourant.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                    //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+                                    // startActivityForResult(intent, 20);
+                                    //mCtx.startActivity(intentCreateEAV);
+                                    ((Activity) mCtx).startActivityForResult(intentCreateCpteCourant, 20);
+                                    break;
+                                case R.id.menu4:
+                                    //handle menu3 click
+                                    Intent intentCreateEAT = new Intent(mCtx, CreateEAT.class);
+                                    intentCreateEAT.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                    intentCreateEAT.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                    intentCreateEAT.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                    intentCreateEAT.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                    intentCreateEAT.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                    //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+                                    // startActivityForResult(intent, 20);
+                                    // mCtx.startActivity(intentCreateEAT);
+                                    ((Activity) mCtx).startActivityForResult(intentCreateEAT, 20);
+                                    break;
+                                case R.id.menu5:
+                                    //handle menu3 click
+                                    Intent intentCreateEAP = new Intent(mCtx, CreateEAP.class);
+                                    intentCreateEAP.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                    intentCreateEAP.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                    intentCreateEAP.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                    intentCreateEAP.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                    intentCreateEAP.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                    //intentCreateEAV.putExtra(KEY_ADHERENT_NUM_DOSSIER, "");
+                                    // startActivityForResult(intent, 20);
+                                    // mCtx.startActivity(intentCreateEAP);
+                                    ((Activity) mCtx).startActivityForResult(intentCreateEAP, 20);
+                                    break;
+                                case R.id.menu7:
+                                    //handle menu3 click
+                                    Intent intentCreateDemandeCredit = new Intent(mCtx, DemandeCredit.class);
+                                    intentCreateDemandeCredit.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                    intentCreateDemandeCredit.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                    intentCreateDemandeCredit.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                    intentCreateDemandeCredit.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                    intentCreateDemandeCredit.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                    ((Activity) mCtx).startActivityForResult(intentCreateDemandeCredit, 20);
+                                    break;
+                                case R.id.action_add_parts_sociales:
+                                    //handle menu3 click
+                                    Intent increasePartSociale = new Intent(mCtx, IncreasePartSocAdhActivity.class);
+                                    increasePartSociale.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                    increasePartSociale.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                    increasePartSociale.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                    increasePartSociale.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                    increasePartSociale.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                    increasePartSociale.putExtra(MvmPartSocAdh.KEY_MpTypOper, "A");
 
-            }
-        });
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable(KEY_ADHERENT, (Serializable) myList);
+                                    increasePartSociale.putExtras(bundle);
+                                    ((Activity) mCtx).startActivityForResult(increasePartSociale, 20);
+                                    break;
+                                case R.id.action_decrease_parts_sociales:
+                                    //handle menu3 click
+                                    Intent decreasePartSociale = new Intent(mCtx, IncreasePartSocAdhActivity.class);
+                                    decreasePartSociale.putExtra(KEY_ADHERENT_ID, myList.getAdNumero());
+                                    decreasePartSociale.putExtra(KEY_ADHERENT_NOM, myList.getAdNom());
+                                    decreasePartSociale.putExtra(KEY_ADHERENT_PRENOM, myList.getAdPrenom());
+                                    decreasePartSociale.putExtra(KEY_ADHERENT_NUM_MANUEL, myList.getAdNumManuel());
+                                    decreasePartSociale.putExtra(KEY_ADHERENT_CODE, myList.getAdCode());
+                                    decreasePartSociale.putExtra(MvmPartSocAdh.KEY_MpTypOper, "R");
+
+
+                                    Bundle decreasebundle = new Bundle();
+                                    decreasebundle.putSerializable(KEY_ADHERENT, (Serializable) myList);
+                                    decreasePartSociale.putExtras(decreasebundle);
+                                    ((Activity) mCtx).startActivityForResult(decreasePartSociale, 20);
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    //displaying the popup
+                    popup.show();
+
+                }
+            });
+
+//        fin
+        }
+
     }
 
 

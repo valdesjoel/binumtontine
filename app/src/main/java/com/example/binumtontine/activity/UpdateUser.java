@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.convertisseur.BCrypt;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -51,10 +52,11 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
     private static final String KEY_USER_TEL3 = "ux_tel3";
     private static final String KEY_USER_LOGIN = "ux_login";
     private static final String KEY_USER_PASSWORD = "ux_password";
+    private static final String KEY_USER_BCRYPT_PASSWORD = "password";
     private static final String KEY_USER_EMAIL = "ux_email";
 
     private String userId;
-    private JRSpinner uxCaisseIdSpinner; //pour gérer le spinner contenant les caisses
+//    private JRSpinner uxCaisseIdSpinner; //pour gérer le spinner contenant les caisses
     //private EditText uxCaisseIdEditText;
     private EditText uxProfilEditText;
     private EditText uxNomEditText;
@@ -88,6 +90,7 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
     private String uxTel3;
     private String uxLogin;
     private String uxPassword;
+    private String uxBcryptPassword;
     private String uxConfirmPassword;
     private String uxEmail;
 
@@ -114,7 +117,7 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
         setToolbarTitle();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+/*
         uxCaisseIdSpinner = (JRSpinner) findViewById(R.id.spn_my_spinner_caisse);
 
         uxCaisseIdSpinner.setItems(getResources().getStringArray(R.array.array_caisse)); //this is important, you must set it to set the item list
@@ -127,7 +130,7 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
                 //do what you want to the selected position
 
             }
-        });
+        });*/
 
 
 
@@ -374,7 +377,7 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
                     try {
-                        uxCaisseIdSpinner.setText(uxCaisseDenomination); //pas indispensable car on le fait directement dans populate
+//                        uxCaisseIdSpinner.setText(uxCaisseDenomination); //pas indispensable car on le fait directement dans populate
                         uxProfilEditText.setText(uxProfil);
                         uxNomEditText.setText(uxNom);
                         uxPrenomEditText.setText(uxPrenom);
@@ -501,7 +504,7 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
                 !STRING_EMPTY.equals(uxEmailEditText.getText().toString())) {
 
             if ((uxPasswordEditText.getText().toString()).equals(uxConfirmPasswordEditText.getText().toString())){
-                uxCaisseDenomination = uxCaisseIdSpinner.getText().toString();
+//                uxCaisseDenomination = uxCaisseIdSpinner.getText().toString();
                 uxProfil = uxProfilEditText.getText().toString();
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
@@ -511,6 +514,7 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
                 uxTel3 = ccp_phone3.getFullNumberWithPlus();
                 uxLogin = uxLoginEditText.getText().toString();
                 uxPassword = uxPasswordEditText.getText().toString();
+                uxBcryptPassword = BCrypt.hashpw(uxPassword, BCrypt.gensalt(12));
                 //uxConfirmPassword = uxConfirmPasswordEditText.getText().toString();
                 uxEmail = uxEmailEditText.getText().toString();
                 new UpdateUser.UpdateMovieAsyncTask().execute();
@@ -563,6 +567,7 @@ public class UpdateUser extends AppCompatActivity implements AdapterView.OnItemS
             httpParams.put(KEY_USER_TEL3, uxTel3);
             httpParams.put(KEY_USER_LOGIN, uxLogin);
             httpParams.put(KEY_USER_PASSWORD, uxPassword);
+            httpParams.put(KEY_USER_BCRYPT_PASSWORD, uxBcryptPassword);
             httpParams.put(KEY_USER_EMAIL, uxEmail);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_user.php", "POST", httpParams);

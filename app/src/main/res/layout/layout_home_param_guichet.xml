@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <!--
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,139 +17,46 @@
     tools:showIn="@layout/activity_home_param_guichet"
     android:gravity="center"
     android:isScrollContainer="true"
-    android:layout_marginTop="80dp">    <!--tools:context="com.example.binumtontine.activity.AboutUsActivity" -->
-
-
-
-    <!--android:id="@+id/linearLayout3"
-        android:layout_width="354dp"
-        android:layout_height="668dp"
-        android:clipToPadding="false"
+    android:layout_marginTop="80dp"
+> -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.parametrageGuichet.ParamGuichetActivity"
+    tools:showIn="@layout/activity_home_param_guichet"
+    android:gravity="center"
+    android:isScrollContainer="true"
+    android:layout_marginTop="80dp"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/colorBackground"
+>
+   <!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@color/colorBackground"
         android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"-->
-    <!--<LinearLayout
 
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+        tools:context="com.example.binumtontine.fragment.HomeAdminCaisseFragment"
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/init_caisse_guichet_card"
-            android:layout_width="160dp"
-            android:layout_height="190dp"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="onButtonClick">
+        > --><!--tools:context="com.example.binumtontine.activity.AboutUsActivity" -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/cerclebackgroundpurple"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_attach_money_black_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:text="CAISSE GUICHET"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorLightGray" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Initialiser la caisse du guichet"
-                    android:textColor="@android:color/darker_gray" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/type_membre_guichet_card"
-            android:layout_width="160dp"
-            android:layout_height="190dp"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="onButtonClick">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/cerclebackgroundpink"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_lightbulb_outline_black_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="TYPE DE MEMBRE"
-
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorLightGray" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Affecter un type de membre au guichet"
-                    android:textColor="@android:color/darker_gray" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout> -->
+<!--    linearLayout2-->
     <LinearLayout
         android:id="@+id/linearLayout2"
-
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/produit_guichet_card"
@@ -247,11 +155,10 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
+<!--    linearLayout4-->
     <LinearLayout
         android:id="@+id/linearLayout4"
-
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:gravity="center"
@@ -361,12 +268,10 @@
 
     </LinearLayout>
 
-    <!--android:layout_width="354dp"-->
-    <!--android:layout_height="668dp"-->
+<!--    linearLayout3-->
     <LinearLayout
         android:id="@+id/linearLayout3"
-
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:gravity="center"
@@ -450,15 +355,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="TYPE DE MEMBRE"
-
                     android:textStyle="bold" />
-
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:layout_margin="5dp"
                     android:background="@color/colorLightGray" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -472,17 +374,67 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+<!--    linearLayout5-->
+<!--        android:layout_width="0dp"-->
     <LinearLayout
         android:id="@+id/linearLayout5"
-
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/produit_credit_card"
+            android:layout_width="160dp"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="onButtonClick">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/cerclebackgroundpurple"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/ic_wifi_tethering_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:text="PRODUIT CREDIT"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/colorLightGray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Ajouter des produits de crédit"
+                    android:textColor="@android:color/darker_gray" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/collector_card"
@@ -534,114 +486,182 @@
 
 
     </LinearLayout>
-    <!--<LinearLayout-->
-    <!--android:id="@+id/linearLayout4"-->
-    <!--android:layout_width="354dp"-->
-    <!--android:layout_height="668dp"-->
-    <!--android:clipToPadding="false"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="horizontal"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent">-->
+    <!--    linearLayout1_mvm_stock-->
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
-    <!--<androidx.cardview.widget.CardView-->
-    <!--android:id="@+id/add_user_guichet_card"-->
-    <!--android:layout_width="160dp"-->
-    <!--android:layout_height="190dp"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:clickable="true"-->
-    <!--android:foreground="?android:attr/selectableItemBackground"-->
-    <!--android:onClick="onButtonClick">-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_mvm_stock_produit_card"
+            android:layout_width="160dp"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="onButtonClick">
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="vertical">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
-    <!--<ImageView-->
-    <!--android:layout_width="64dp"-->
-    <!--android:layout_height="64dp"-->
-    <!--android:background="@drawable/cerclebackgroundpurple"-->
-    <!--android:padding="10dp"-->
-    <!--app:srcCompat="@drawable/ic_wifi_tethering_black_24dp" />-->
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/cerclebackgroundpurple"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/ic_attach_money_black_24dp" />
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:text="UTILISATEURS DU GUICHET"-->
-    <!--android:text="Ajouter des profils utilisateurs au guichet"-->
-    <!--android:textStyle="bold" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
 
-    <!--<View-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:background="@color/colorLightGray" />-->
+                    android:text="MOUVEMENT STOCK"
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:gravity="center"-->
-    <!--android:padding="5dp"-->
-    <!--android:text="Ajouter des profils utilisateurs au guichet"-->
-    <!--android:textColor="@android:color/darker_gray" />-->
+                    android:textStyle="bold" />
 
-    <!--</LinearLayout>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Ajouter des mouvements de stock"
+                    android:textColor="@android:color/darker_gray" />
 
-    <!--</androidx.cardview.widget.CardView>-->
-    <!--<androidx.cardview.widget.CardView-->
-    <!--android:id="@+id/workflow_guichet_card"-->
-    <!--android:layout_width="160dp"-->
-    <!--android:layout_height="190dp"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:clickable="true"-->
-    <!--android:foreground="?android:attr/selectableItemBackground"-->
-    <!--android:onClick="onButtonClick">-->
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/colorLightGray" />
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="vertical">-->
+            </LinearLayout>
 
-    <!--<ImageView-->
-    <!--android:layout_width="64dp"-->
-    <!--android:layout_height="64dp"-->
-    <!--android:background="@drawable/cerclebackgroundpurple"-->
-    <!--android:padding="10dp"-->
-    <!--app:srcCompat="@drawable/ic_wifi_tethering_black_24dp" />-->
+        </androidx.cardview.widget.CardView>
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:id="@+id/workflow_guichet_card"-->
-    <!--android:text="WORKFLOW DU GUICHET"-->
-    <!--android:text="Paramétrer le processus de la chaîne des autorisations sur le guichet"-->
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/workflow_guichet_card"-->
+<!--            android:layout_width="160dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:layout_margin="5dp"-->
+<!--            android:clickable="true"-->
+<!--            android:foreground="?android:attr/selectableItemBackground"-->
+<!--            android:onClick="onButtonClick">-->
 
-    <!--android:textStyle="bold" />-->
 
-    <!--<View-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:background="@color/colorLightGray" />-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="vertical">-->
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:gravity="center"-->
-    <!--android:padding="5dp"-->
-    <!--android:text="Paramétrer le processus de la chaîne des autorisations sur le guichet"-->
-    <!--android:textColor="@android:color/darker_gray" />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="32dp"-->
+<!--                    android:layout_height="32dp"-->
+<!--                    android:background="@drawable/cerclebackgroundpink"-->
+<!--                    android:padding="2dp"-->
+<!--                    app:srcCompat="@drawable/ic_lightbulb_outline_black_24dp" />-->
 
-    <!--</LinearLayout>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="WORKFLOW DU GUICHET"-->
+<!--                    android:textStyle="bold" />-->
 
-    <!--</androidx.cardview.widget.CardView>-->
+<!--                <View-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:background="@color/colorLightGray" />-->
 
-    <!--</LinearLayout>-->
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:padding="2dp"-->
+<!--                    android:text="Paramétrer le processus de la chaîne des autorisations"-->
+<!--                    android:textColor="@android:color/darker_gray" />-->
+
+<!--            </LinearLayout>-->
+
+<!--        </androidx.cardview.widget.CardView>-->
+
+    </LinearLayout>
+    <!--    linearLayout0_blank-->
+    <LinearLayout
+        android:id="@+id/linearLayout0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_blank_card"
+            android:layout_width="160dp"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="onButtonClick">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/cerclebackgroundpurple"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/ic_attach_money_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+
+                    android:text=""
+
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textColor="@android:color/darker_gray" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/colorLightGray" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</LinearLayout>
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 </ScrollView>

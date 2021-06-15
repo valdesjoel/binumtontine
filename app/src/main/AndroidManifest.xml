@@ -2,36 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.binumtontine">
-
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/banklogo_icon"
         android:supportsRtl="true"
-        android:theme="@style/MyMaterialTheme">
-        <activity android:name=".activity.pdf.PDFWriterDemo"></activity>
-        <activity android:name=".activity.pdf.RetraitEavPDFWriter"></activity>
+        android:theme="@style/MyMaterialTheme"
+        android:name=".activity.parametrageGuichet.MyApplicationSingleton"
+        android:icon="@drawable/ic_launcher"
+        >
+        <activity android:name=".activity.parametrageGuichet.MvmStockProduit"></activity>
+        <activity android:name=".activity.parametrageGuichet.MvmStockProduitActivity"></activity>
+        <activity android:name=".activity.pdf.PDFWriterDemo" />
+        <activity android:name=".activity.pdf.RetraitEavPDFWriter" />
         <activity android:name=".activity.pdf.PdfActivity" />
         <activity android:name=".activity.pdf.ItextPDF" />
         <activity android:name=".activity.adherent.HistoriqueEAV" />
         <activity android:name=".activity.adherent.DemandeCredit" />
         <activity android:name=".activity.TableActivity" />
         <activity android:name=".activity.CreateProduitCredit" />
-<!--        <activity android:name=".activity.adherent.MainActivityUsager" />-->
         <activity
             android:name=".activity.adherent.MainActivityUsager"
-            android:screenOrientation="portrait"
             android:configChanges="orientation"
-            android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask"
-            >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
+                android:resource="@xml/searchable"></meta-data>
         </activity>
-
         <activity android:name=".activity.adherent.NextActivity" />
         <activity android:name=".activity.adherent.CreateEAV" />
         <activity android:name=".activity.adherent.CreateEAT" />
@@ -46,6 +46,8 @@
         <activity android:name=".activity.adherent.OperationClotureEAV" />
         <activity android:name=".activity.adherent.OperationEAT" />
         <activity android:name=".activity.adherent.OperationEAP" />
+        <activity android:name=".activity.adherent.EcheancierCredit" />
+        <activity android:name=".activity.adherent.CreateProduitDmdeCredit" />
         <activity android:name=".activity.PlageData" />
         <activity android:name=".activity.PlageDataTPT" />
         <activity android:name=".activity.PlageDataRAT" />
@@ -140,9 +142,12 @@
         <activity android:name=".activity.adherent.ControleOperationCompteCourant" />
         <activity android:name=".activity.adherent.ValidationOperationCompteCourant" />
         <activity android:name=".activity.adherent.ComiteCredit" />
+        <activity android:name=".activity.adherent.AnalyseTechniqueCredit" />
+        <activity android:name=".activity.adherent.ComiteCreditNew" />
         <activity android:name=".activity.adherent.DeblocageCredit" />
         <activity android:name=".activity.adherent.DecaissementCredit" />
         <activity android:name=".activity.adherent.MiseAJourCaisseGuichet" />
+        <activity android:name=".activity.adherent.IncreasePartSocAdhActivity" />
         <activity android:name=".activity.GuichetNewActivity" />
         <activity android:name=".activity.UserGuichetActivity" />
         <activity android:name=".activity.CreateUser" />
@@ -160,6 +165,10 @@
         <activity android:name=".activity.parametrageGuichet.ListTypeMembrePFgxActivity" />
         <activity android:name=".activity.parametrageGuichet.UpdateEATForGuichet" />
         <activity android:name=".activity.parametrageGuichet.UpdateEAPForGuichet" />
+        <activity android:name=".activity.parametrageGuichet.ListProduitGx" />
+        <activity android:name=".activity.parametrageGuichet.CreateProduitGx" />
+        <activity android:name=".activity.parametrageGuichet.UpdateProduitGx" />
+        <activity android:name=".activity.parametrageGuichet.ListGuichetToConnectWithAdminCaisse" />
         <activity android:name=".activity.UpdateEAP" />
         <activity android:name=".activity.UpdateCaisse" />
         <activity android:name=".activity.UpdateGuichet" />
@@ -210,18 +219,28 @@
         <activity android:name=".activity.parametreGenerauxCx.CreateFraisToPayerCx" />
         <activity android:name=".activity.parametreGenerauxCx.operationExterne.ListOperationExterneCx" />
         <activity android:name=".activity.parametreGenerauxCx.operationExterne.AffectOperationExterneCx" />
+        <activity android:name=".activity.parametreGenerauxCx.comiteDeCredit.CreateComiteCredit" />
+        <activity android:name=".activity.parametreGenerauxCx.comiteDeCredit.ListComiteCredit" />
+        <activity android:name=".activity.parametreGenerauxCx.comiteDeCredit.UpdateComiteCredit" />
+        <activity android:name=".activity.parametreGenerauxCx.membreComiteCredit.ListMembreComiteCredit" />
+        <activity android:name=".activity.parametreGenerauxCx.membreComiteCredit.CreateMembreComiteCredit" />
+        <activity android:name=".activity.adherent.GetMembreComiteCredit" />
         <activity android:name=".activity.parametreGenerauxCx.TypeMembreCxActivity" />
         <activity android:name=".activity.parametreGenerauxCx.ListTypeMembrePFActivity" />
         <activity android:name=".activity.jourOuvert.JourOuvert" />
-        <activity android:name=".activity.parametrageGuichet.ListGuichetActivity"
-            />
-        <activity android:name=".activity.ListGuichetCaisse"
+        <activity android:name=".activity.ListProduitDmdeCredit" />
+        <activity android:name=".activity.parametrageGuichet.ListGuichetActivity" />
+        <activity
+            android:name=".activity.ListGuichetCaisse"
+            android:theme="@style/MyCustomDialog" />
+        <activity
+            android:name=".activity.ListNomPrenomAdherentTransfert"
             android:theme="@style/MyCustomDialog"
-                />
-        <activity android:name=".activity.ListNomPrenomAdherentTransfert"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.ListNomPrenomAvalisteDemandeCredit"
             android:theme="@style/MyCustomDialog"
-            android:windowSoftInputMode="stateHidden"
-                />
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.parametrageGuichet.ProduitGuichetFragment" />
         <activity android:name=".activity.parametrageGuichet.ProduitEAVGuichetActivity" />
         <activity android:name=".activity.parametrageGuichet.ProduitCpteCourantGuichetActivity" />
@@ -237,14 +256,6 @@
         <activity android:name=".remotemysqlconnection.MovieUpdateDeleteActivity" />
         <activity android:name=".remotemysqlconnection.MovieListingActivity" />
         <activity android:name=".remotemysqlconnection.RemoteMySQLActivity">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity android:name=".activity.CreateProduitEAV" />
         <activity
@@ -275,17 +286,9 @@
             android:theme="@style/MyMaterialTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- <activity -->
-        <!-- android:name=".activity.LoginActivity" -->
-        <!-- android:theme="@style/MyMaterialTheme.NoActionBar"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+        </activity>
         <activity
             android:name=".activity.UsersCaisseActivity"
             android:label="@string/title_activity_users_caisse"
@@ -296,28 +299,24 @@
             android:theme="@style/MyMaterialTheme.NoActionBar" />
         <activity android:name=".activity.PreParametrageOFActivity" />
         <activity android:name=".activity.AboutUsActivity" />
-        <activity android:name=".activity.MainActivity" /> <!-- <activity android:name=".activity.MainActivityBackup"></activity> -->
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.MainActivityAdminCaisse" />
         <activity android:name=".activity.ParametrageProduitCaisseActivity" />
         <activity android:name=".activity.GuichetActivity" />
-
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="edmt.dev.androidpdfprint.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider> <!-- Bloc to create pdf and print with wifi printer -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-<!--        Bloc to create pdf and print with wifi printer-->
-        <provider
-            android:authorities="edmt.dev.androidpdfprint.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            android:name="androidx.core.content.FileProvider">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
-        </provider>
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

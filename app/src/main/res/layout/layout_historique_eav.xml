@@ -178,6 +178,14 @@
                         android:layout_width="0dp"
                         android:layout_weight="15"
                         android:text="Solde"/>
+                    <TextView
+                        android:textColor="#000"
+                        android:id="@+id/action"
+                        android:fontFamily="serif"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="15"
+                        android:text="Actions"/>
 
                 </TableRow>
                 <View

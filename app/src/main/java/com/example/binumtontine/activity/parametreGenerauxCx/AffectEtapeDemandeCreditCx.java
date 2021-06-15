@@ -131,15 +131,15 @@ public class AffectEtapeDemandeCreditCx extends AppCompatActivity implements  SE
 
                 }else{
 //                    textInputLayoutFcNbrePartMin.setVisibility(View.GONE);
-                    if (spinnerTypeEtape.getSelectedItem().toString().equals("Comité de crédit")){
+                    if (spinnerTypeEtape.getSelectedItem().toString().equals("Analyse technique")){
+                        EdTypEtape = "ANT";
+                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Comité de crédit")){
                         EdTypEtape = "CCR";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Déblocage du crédit")){
                         EdTypEtape = "DBC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Décaissement du crédit")){
                         EdTypEtape = "DEC";
-                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement ou paiement échéance du crédit")){
-                        EdTypEtape = "REC";
-                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement des échéances du crédit")){
+                    }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Remboursement du crédit")){
                         EdTypEtape = "REC";
                     }else if (spinnerTypeEtape.getSelectedItem().toString().equals("Clôture du crédit")){
                         EdTypEtape = "CLC";
@@ -331,14 +331,16 @@ public class AffectEtapeDemandeCreditCx extends AppCompatActivity implements  SE
                             EdTypEtape = "Demande et mise en place du crédit";
 
                         }else{
-                            if (EdTypEtape.equals("CCR")){
+                            if (EdTypEtape.equals("ANT")){
+                                EdTypEtape = "Analyse technique";
+                            }else if (EdTypEtape.equals("CCR")){
                                 EdTypEtape = "Comité de crédit";
                             }else if (EdTypEtape.equals("DBC")){
                                 EdTypEtape = "Déblocage du crédit";
                             }else if (EdTypEtape.equals("DEC")){
                                 EdTypEtape = "Décaissement du crédit";
                             }else if (EdTypEtape.equals("REC")){
-                                EdTypEtape = "Remboursement des échéances du crédit";
+                                EdTypEtape = "Remboursement du crédit";
                             }else if (EdTypEtape.equals("CLC")){
                                 EdTypEtape = "Clôture du crédit";
                             }

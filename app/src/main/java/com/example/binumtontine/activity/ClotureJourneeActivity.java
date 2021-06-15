@@ -102,38 +102,13 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
     private static final String KEY_EAV_ID = "ev_numero";
     private static final String KEY_EAV_LIBELLE = "ev_libelle";
 
-    private static final String KEY_CV_PRODUIT = "CvProduit";
-    private static final String KEY_CV_MEMBRE = "CvMembre";
     private static final String KEY_CgLastSolde = "CgLastSolde";
     private static final String KEY_CV_GUICHET = "CvGuichet";
     private static final String KEY_CV_NUM_DOSSIER = "CvNumDossier";
     private static final String KEY_CV_MT_SOLDE = "CvMtSolde";
     private static final String KEY_CV_NATURE_OPERATION = "NatureOp";
     private static final String KEY_CV_USER_CREE = "CvUserCree";
-    private static final String KEY_ADHERENT_NUM_DOSSIER = "CvNumDossier";
-
-    private static final String KEY_MONTANT_COMPTE = "MtSolde";
-    private static final String KEY_ADHERENT = "ADHERENT";
-    private Adherent adherent;
-    /*Param for get extra*/
-    private static final String KEY_ADHERENT_ID = "IpMembre";
-    private static final String KEY_COMPTE_ID = "Numero";
     private static final String KEY_CV_NUMERO = "CvNumero";
-    private static final String KEY_DATE_H_CREE = "DateHCree";
-    private static final String KEY_TAUX = "Taux";
-    private static final String KEY_LIBELLE_PRODUIT = "Libelle";
-    private static final String KEY_ADHERENT_NOM = "AdNom";
-    private static final String KEY_ADHERENT_PRENOM = "AdPrenom";
-    private static final String KEY_ADHERENT_NUM_MANUEL = "AdNumManuel";
-    private static final String KEY_ADHERENT_CODE = "AdCode";
-
-    private static final String KEY_HEADER_ACTIVITY_CONSULTER_COMPTE = "tvHeaderActivityConsulterCompte";
-    private static final String KEY_HEADER_LAYOUT_CONSULTER_COMPTE = "tvHeaderLayoutConsulterCompte";
-    private static final String KEY_TYPE_COMPTE = "TypeCompte";
-
-    private String headerActivity = "CONSULTATION DE COMPTE";
-    private String headerLayout = "Consultez votre compte";
-    private String typeCompte = "";
     private String total_operation = "";
     private String total_operation_bis = "";
 
@@ -306,9 +281,6 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
 
         SoldeReelEditText.addTextChangedListener(MyData.onTextChangedListener(SoldeReelEditText));
 
-
-
-
         try {
             onEditTextClicked(SoldeReelEditText);
             onEditTextClicked(et_nombre_10000);
@@ -329,76 +301,6 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
             Log.e("Memory exceptions","exceptions"+e);
             return ;
         }
-
-
-  /*      compteId = intent.getStringExtra(KEY_COMPTE_ID);
-        dateCreation = intent.getStringExtra(KEY_DATE_H_CREE);
-        compteSolde = intent.getStringExtra(KEY_MONTANT_COMPTE);
-        taux = intent.getStringExtra(KEY_TAUX);
-        typeCompte = intent.getStringExtra(KEY_TYPE_COMPTE);
-        if (typeCompte.equals("EAV")){
-            typeCompte = "Epargne à vue";
-        }else if (typeCompte.equals("EAP")){
-            typeCompte = "Epargne à périodicité";
-        }else if (typeCompte.equals("EAT")){
-            typeCompte = "Epargne à terme";
-        }
-
-        libelleProduit = intent.getStringExtra(KEY_LIBELLE_PRODUIT);
-//        libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
-
-        if (typeCompte.equals("DECOUVERT SIMPLE") || typeCompte.equals("AVANCE SPECIALE")){
-                    libelleProduit = MyData.LIBELLE_PRODUIT_CPTE_COURANT;
-        }
-        Bundle bundle = intent.getExtras();
-        adherent = (Adherent) bundle.getSerializable(KEY_ADHERENT);
-        adNom = adherent.getAdNom();
-        adPrenom = adherent.getAdPrenom();
-        adNumManuel = adherent.getAdNumManuel();
-        adCode = adherent.getAdCode();
-
-        tvHeaderActivityConsulterCompte = (TextView) findViewById(R.id.header_consulter_compte);
-        tvHeaderLayoutConsulterCompte = (TextView) findViewById(R.id.header_situation_guichet);
-        tvAdherentNom = (TextView) findViewById(R.id.tv_nom_adherent);
-        tvAdherentNom.setText(adNom+"\n"+adPrenom);
-        tvAdherentNumManuel = (TextView) findViewById(R.id.tv_num_manuel_adherent);
-        tvAdherentNumManuel.setText(adNumManuel);
-        tvAdherentCode = (TextView) findViewById(R.id.tv_code_adherent);
-        tvAdherentCode.setText(adCode);
-        tvCompteSolde = (TextView) findViewById(R.id.tv_solde_compte);
-        tvCompteSolde.setText(compteSolde);
-        tvDateCreation = (TextView) findViewById(R.id.tv_date_creation_compte_adherent);
-        tvDateCreation.setText(dateCreation);
-        tvTypeCompte = (TextView) findViewById(R.id.tv_type_compte_adherent);
-        tvTypeCompte.setText(typeCompte);
-        tvTaux = (TextView) findViewById(R.id.tv_taux_compte_adherent);
-        tvTaux.setText(taux+" %");
-//manage header activity and layout
-        headerActivity = intent.getStringExtra(KEY_HEADER_ACTIVITY_CONSULTER_COMPTE);
-        headerLayout = intent.getStringExtra(KEY_HEADER_LAYOUT_CONSULTER_COMPTE);
-        tvHeaderActivityConsulterCompte.setText(headerActivity);
-        tvHeaderLayoutConsulterCompte.setText(headerLayout);
-        //end manage header activity and layout
-
-        tvLibelleProduit = (TextView) findViewById(R.id.tv_libelle_produit_adherent);
-        tvLibelleProduit.setText(libelleProduit);
-
-        spinnerListEAV = (Spinner) findViewById(R.id.spn_mode_paiement);
-
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-*/
-//        findViewsById();
-//
-//        setDateTimeField();
-
-       /* tvAdherentNumDossier = (TextView) findViewById(R.id.tv_num_dossier_adherent);
-        tvAdherentNumDossier.setText(adNumDossier);*/
-/*
-        eavList = new ArrayList<Category>();
-        // spinner item select listener
-        spinnerListEAV.setOnItemSelectedListener(OperationEAV.this);
-        new GetProduitEAVList().execute();
-*/
 
         addButton = (Button) findViewById(R.id.btn_save_operation_eav);
         annulerButton = (Button) findViewById(R.id.btn_clean);
@@ -833,13 +735,8 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
                     });
 
                     break;
-
-
             }
 
-
-//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-//            Toast.makeText(getApplicationContext(), TotalBilletge+"", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             e.printStackTrace();
             Log.e("Memory exceptions","exceptions"+e);
@@ -847,52 +744,6 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
         }
 
     }
-    private void findViewsById() {
-
-        Ad_DateDelivranceEditText = (EditText) findViewById(R.id.input_txt_validite_debut_adherent);
-        Ad_DateDelivranceEditText.requestFocus();
-        Ad_DateDelivranceEditText.setInputType(InputType.TYPE_NULL);
-
-        Ad_DateExpirationEditText = (EditText) findViewById(R.id.input_txt_validite_fin_adherent);
-        Ad_DateExpirationEditText.requestFocus();
-        Ad_DateExpirationEditText.setInputType(InputType.TYPE_NULL);
-
-
-
-
-    }
-
-    private void setDateTimeField() {
-        Ad_DateDelivranceEditText.setOnClickListener(this);
-        Ad_DateExpirationEditText.setOnClickListener(this);
-
-
-        Calendar newCalendar = Calendar.getInstance();
-
-        Ad_DateDelivrance_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                Ad_DateDelivranceEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        Ad_DateExpiration_PickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                Ad_DateExpirationEditText.setText(dateFormatter.format(newDate.getTime()));
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-
-
-    }
-
     @Override
     public void onClick(View v) {
          if (v == Ad_DateDelivranceEditText){
@@ -1360,10 +1211,6 @@ public class ClotureJourneeActivity extends AppCompatActivity implements  View.O
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-           // httpParams.put(KEY_EAV_ID, uxGuichetId);
-
-            httpParams.put(KEY_CV_NUMERO, compteId);
-
             httpParams.put(KEY_CV_NUM_DOSSIER, adNumDossier);
             httpParams.put(KEY_CV_MT_SOLDE, eavDepotMin );
             httpParams.put(KEY_CV_NATURE_OPERATION, natureOperation );

@@ -26,6 +26,9 @@
     <string name="title_friends">Friends</string>
     <string name="title_home">Home</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="liste_des_entrees_fragment">Liste des mouvements en entrée</string>
+    <string name="liste_des_sorties_fragment">Liste des mouvements en sortie</string>
+    <string name="liste_des_regulations_fragment">Liste des mouvements en regulation</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -79,8 +82,12 @@
     <string name="err_msg_email">Entrer une adresse email valide!</string>
     <string name="err_msg_password">Entrer votre mot de passe</string>
     <string name="hint_localite_caisse">Localité</string>
-    <string name="hint_num_agrement">Numéro d\'agrément</string>
-    <string name="hint_date_agrement">Date d\'agrément:</string>
+    <string name="hint_num_agrement">Numéro d\'agrément Minfi</string>
+    <string name="hint_NumAgremCobac">Numéro de Décision Cobac</string>
+    <string name="hint_NumAgremCNC">Numéro CNC</string>
+    <string name="hint_date_agrement">Date d\'agrément Minfi:</string>
+    <string name="hint_DatAgremCobac">Date de Décision Cobac:</string>
+    <string name="hint_DatAgremCNC">Date CNC:</string>
     <string name="hint_date_debut_caisse">Date de debut des activités</string>
     <string name="hint_adresse">Adresse: (*)</string>
     <string name="hint_telephone1">Téléphone 1*</string>
@@ -127,9 +134,10 @@
     <string name="produit_dat">Produit DAT</string>
     <string name="produit_cc">Produit compte courant</string>
     <string name="objet_credit">Objet crédit</string>
+    <string name="comite_credit">Comité de crédit</string>
     <string name="produit_credit">Produit Crédit</string>
 
-    <string name="produit_transfert_classique">Produit Transfert classique</string>
+    <string name="produit_transfert_classique">Produit Transfert interne</string>
     <string name="produit_transfert_to_mtn">Produit Transfert vers MTN</string>
     <string name="produit_transfert_to_orange">Produit Transfert vers ORANGE</string>
     <!-- Il serait mieux de gérer ces types plutot en BD pour faciliter la maintenance -->
@@ -148,10 +156,15 @@
     <string name="tab_title_create_guichet">Créer un guichet</string>
     <string name="tab_title_list_pieces">Pièces à fournir</string>
     <string name="tab_title_list_frais">Frais à payer</string>
+    <string name="tab_title_list_mvm_stock_approvisionnement">Mouvements stock : Approvisionner</string>
+    <string name="tab_title_list_mvm_stock_entree">Mouvements stock : Entrées</string>
+    <string name="tab_title_list_mvm_stock_sortie">Mouvements stock : Sorties</string>
+    <string name="tab_title_list_mvm_stock_regularisation">Mouvements stock : Regularisations</string>
     <string name="tab_title_param1">Paramètres 1</string>
     <string name="tab_title_param2">Paramètres 2</string>
     <string name="tab_title_list_guichet">Liste des guichets</string>
     <string name="tab_title_param_generaux">PIECES ET FRAIS</string>
+    <string name="tab_title_mvm_stock_produit">Mouvement en stock</string>
     <string name="nav_create_guichet">Menu</string>
     <string name="nav_create_produit">Mise en place des produits</string>
 
@@ -176,6 +189,8 @@
     <string name="hint_Libelle_piece">Libellé de la pièce:</string>
     <string name="hint_Libelle_frais">Libellé du frais:</string>
     <string name="hint_Libelle_objet_credit">Libellé Objet de crédit:</string>
+    <string name="hint_PdPrixUnit">Prix unitaire du produit:</string>
+    <string name="hint_PdPrixVtePubl">Prix de vente public:</string>
     <!--    DEBUT BASE EAV-->
     <string name="hint_Libelle_etape_demande_credit">Libellé étape demande de crédit:</string>
     <string name="hint_Libelle_operation_externe"> Libellé opération externe:</string>
@@ -184,8 +199,13 @@
     <!--    DEBUT BASE EAP-->
     <string name="hint_Libelle_statut_etape_demande_credit">Libellé statut étape demande de crédit:</string>
     <string name="tv_statut_etape_demande_credit">Etape demande de crédit:</string>
+    <string name="tv_CmGuichet">Liste des guichets:</string>
+    <string name="tv_McComiteCredit">Liste des comités de crédits:</string>
+    <string name="tv_PcProduit">Liste des produits de crédits:</string>
+    <string name="tv_McUser">Liste des utilisateurs:</string>
     <string name="hint_Num_ordre_etape_demande_credit">Numéro d\'ordre de l\'étape:</string>
     <string name="hint_Num_ordre_statut_etape_demande_credit">Numéro d\'ordre du statut:</string>
+    <string name="hint_CmNbMembre">Nombre de membres du Comité de Crédit:</string>
     <!--    FIN BASE EAP-->
 
 
@@ -222,6 +242,7 @@
     <string name="delete">Delete</string>
     <string name="add">Add</string>
     <string name="btn_enregistrer">ENREGISTRER</string>
+    <string name="btn_show_echeancier">VISUALISER ECHEANCIERS</string>
     <string name="btn_afficher">OK</string>
 
     <string name="meat">meat</string>
@@ -246,7 +267,15 @@
     <string name="hint_code_piece">Code de la pièce:</string>
     <string name="hint_code_frais">Code du frais:</string>
     <string name="hint_code_objet_credit">Code objet de crédit:</string>
+    <string name="hint_PdNom">Désignation du produit:</string>
+    <string name="hint_PdQteStock">Quantité produit en stock:</string>
+    <string name="hint_PdStockMin">Stock minimum du Produit sur le Guichet:</string>
     <string name="hint_code_statut_credit">Code statut de crédit:</string>
+    <string name="hint_CmNom">Nom du Comité de Crédit:</string>
+    <string name="hint_PcDesign">Désignation du produit:</string>
+    <string name="hint_McNom">Nom du membre du comité:</string>
+    <string name="hint_PcQuantite">Quantité:</string>
+    <string name="hint_McPrenom">Prenom du membre du comité:</string>
     <string name="hint_code_etape_demande_credit">Code étape demande de crédit:</string>
     <string name="hint_code_operation_externe">Code opération Externe:</string>
     <string name="btn_annuler">ANNULER</string>
@@ -283,10 +312,16 @@
     <string name="produit_name">DAV ORDINAIRE</string>
     <string name="hint_TrRefOper">Saisir le numéro de la transaction (*)</string>
     <string name="nom_exp">Nom expéditeur (*)</string>
+    <string name="DcNomAval1">Nom avaliste 1 (*)</string>
+    <string name="DcNomAval2">Nom avaliste 2 (*)</string>
+    <string name="DcNomAval3">Nom avaliste 3 (*)</string>
     <string name="nom_dest">Nom bénéficiaire (*)</string>
     <string name="nom_adherent">Nom adhérent (*)</string>
     <string name="prenom_adherent">Prénom adherent</string>
     <string name="prenom_exp">Prénom expéditeur</string>
+    <string name="DcPrenomAval2">Prénom avaliste 2</string>
+    <string name="DcPrenomAval3">Prénom avaliste 3</string>
+    <string name="DcPrenomAval1">Prénom avaliste 1</string>
     <string name="prenom_dest">Prénom bénéficiaire</string>
     <string name="lieu_naiss_adherent">Lieu de naissance (*)</string>
     <string name="nom_conjoint_adherent">Nom complet du conjoint</string>
@@ -319,6 +354,20 @@
     <string name="action_transfert_retrait">Retirer de l\'argent</string>
     <string name="action_transfert_transactions">Les transactions</string>
     <string name="action_operation_externe">Opérations externes</string>
+    <string name="action_divers">Opérations diverses</string>
+<!--    Autres opérations sur membre-->
+    <string name="action_autres_operations_sur_adherent_titleCondensed">Autres opérations</string>
+    <string name="action_autres_operations_sur_adherent">Autres opérations sur membre</string>
+    <string name="action_increase_parts_sociales">Augmenter Parts sociales</string>
+    <string name="action_decrease_parts_sociales">Réduire parts sociales</string>
+    <string name="action_payer_parts_sociales">Payer Parts sociales</string>
+    <string name="action_historique_parts_sociales">Historique Parts sociales</string>
+    <string name="action_reimprimer_contrat">Réimprimer contrat</string>
+    <string name="hint_MpDetails">Détails opération sur les Parts sociales</string>
+    <string name="hint_MpMtPartsSoc">Montant des Parts sociales</string>
+
+    <string name="action_add_vente_produit">Vente Produits</string>
+    <string name="action_list_vente_produits">Liste des Factures de Vente</string>
     <string name="action_add_operation_externe">Nouvelle Opération</string>
     <string name="action_list_operation_externe">Liste des Opérations</string>
     <string name="action_cotisations_annuelle">Cotisations annuelle</string>
@@ -345,13 +394,28 @@
     <string name="hint_validite_fin_adherent">Date d\'expiration: (*)</string>
     <string name="hint_validite_debut_adherent">Date de délivrance: (*)</string>
     <string name="hint_date_debut">Date de début: (*)</string>
+    <string name="hint_date_enregistrement">Date d\'enregistrement: (*)</string>
+    <string name="hint_DcDateSignat">Date de signature du document</string>
+    <string name="hint_DcDatePremEch">Date de la première échéance du Prêt</string>
+    <string name="hint_DcDateDecisiion">Date de siège du Comité de gestion</string>
     <string name="hint_date_fin">Date de fin: (*)</string>
     <string name="enter_number">saisissez un montant valide</string>
     <string name="hint_depot_minimum">Dépôt minimum</string>
     <string name="hint_montant_mise">Montant de la mise</string>
     <string name="hint_CcaMtMaxDecouv">Plafond decouvert </string>
     <string name="hint_montant_demande_credit">Montant sollicité</string>
-    <string name="hint_duree_emprunt">Durée emprunt (en mois)</string>
+    <string name="hint_montant_part_social">Montant parts socials adhérent</string>
+    <string name="hint_DcMtEpargnOblig">Montant épargne bloqué</string>
+    <string name="hint_duree_emprunt">Durée remboursement (en mois)</string>
+    <string name="hint_DcDureeAccord">Durée Accord (en mois)</string>
+    <string name="hint_DcPeriodRemb">Périodicité remboursement</string>
+    <string name="tv_EvPeriodCalcTxInt">Périodicité de calcul du taux d\'intérêt</string>
+    <string name="tv_EvPeriodFrTenueCpte">Périodicité calcul Frais tenue de compte:</string>
+    <string name="hint_DcNbJrDiffere">Différé éventuel (jours)</string>
+    <string name="hint_DcIsPhotocopieCNI">Y\'a t\'il une photocopie de la CNI remise ?</string>
+    <string name="hint_DcIsCpteExploit">Y\'a t\'il un compte d\'exploitation remis ?</string>
+    <string name="hint_DcIsDmdeManuscr">Y\'a t\'il une demande manuscrite remise ?</string>
+    <string name="hint_DcIsPceGarantie">Y\'a t\'il une pièce de garantie principale remise ?</string>
     <string name="hint_credit_anterieur1">Crédit antérieur N°1</string>
     <string name="hint_credit_anterieur2">Crédit antérieur N°2</string>
     <string name="hint_credit_anterieur3">Crédit antérieur N°3</string>
@@ -359,22 +423,36 @@
     <string name="hint_mt_bloque">Montant bloqué</string>
     <string name="hint_moyenne_epargne_mensuelle">Moyenne epargne mensuelle</string>
     <string name="hint_total_epargne">Total épargne</string>
+    <string name="hint_annees_experience">Années Expérience</string>
+    <string name="hint_autres_activites">Autres Activités</string>
     <string name="hint_montant_autre_revenus">Montant Autres Revenus</string>
     <string name="hint_epargne1">Epargne</string>
     <string name="hint_montant_revenus_fixes">Montant revenus fixes</string>
     <string name="produit_a_vue">Produit à vue:</string>
     <string name="pd_type_data">Type frais</string>
     <string name="hint_numero_dossier">Numéro de dossier</string>
+    <string name="hint_activite_principale">Activité principale</string>
     <string name="hint_dc_description">Description de la demande</string>
+    <string name="hint_DcGarantiesProp">Garanties proposées</string>
+    <string name="hint_DcMotivationPret">Détails des motivations du Prêt</string>
     <string name="hint_nature_activite">Nature activité (revenus)</string>
     <string name="hint_frequence_revenus">Fréquence revenus</string>
     <string name="hint_nomAval1_1">Nom avaliste 1</string>
+    <string name="hint_lieu_emprunt">Lieu de l\'emprunt</string>
+    <string name="hint_DcPourqRembSiNon">Pourquoi ?</string>
+    <string name="hint_DcMtTotalBesoins">Montant total des besoins à financer</string>
+    <string name="hint_DcAutresDocum">Liste des autres documents remis</string>
+    <string name="hint_DcDetails">Détails sur le produit de Crédit</string>
+    <string name="hint_DcPretInstit">Dans quelle institution ?</string>
+    <string name="hint_DcNaturePret">De quelle nature est ce prêt ?</string>
+    <string name="hint_DcMtPrincPret">Quel était le montant principal ?</string>
+    <string name="hint_DcMtRestARemb">Combien reste t-il à rembourser ?</string>
     <string name="hint_numCompte1">Numéro de compte</string>
     <string name="hint_nomAval1_2">Nom avaliste 2</string>
     <string name="produit_a_terme">Produit à terme</string>
     <string name="produit_a_periodicite">Produit à périodicité</string>
     <string name="duree_produit">Durée (en mois):</string>
-<!--    <string name="hint_montant_mise">Montant mise</string>-->
+    <!--    <string name="hint_montant_mise">Montant mise</string>-->
     <string name="hint_montant_dat">Montant DAT</string>
     <string name="hint_montant_initialisation">Montant d\'initialisation</string>
     <string name="hint_Tx_Int_min_autorise_decouvert">Tx Int min découvert</string>
@@ -392,6 +470,7 @@
     <string name="motif_decision">Motif:</string>
     <string name="hint_numero_bordereau">Numéro de bordereau</string>
     <string name="hint_detail_motif">Détails motif</string>
+    <string name="hint_DcMotivations">Détails motivations décision</string>
     <string name="hint_detail_deblocage">Détails déblocage</string>
     <string name="hint_detail_decaissement">Détails décaissement</string>
     <string name="hint_montant_operation">Montant</string>
@@ -449,6 +528,8 @@
     <string name="action_membre_to_affect_gx">Membre à affecter au guichet</string>
     <string name="action_membre_already_affect_gx">Membres déjà affectés au guichet</string>
     <string name="btn_config_plage_tiv">Cliquer ici pour paramétrer les plages</string>
+    <string name="btn_config_membres_comite_dmde_cred">Cliquer ici pour Renseigner les membres ayant pris part au comité de crédit</string>
+    <string name="btn_config_list_produit_dmde_credit">Cliquer ici pour Renseigner les produits à financer</string>
     <string name="hint_journee_anterieure">Journee anterieure</string>
     <string name="hint_journee_ouverture">Journee d\'ouverture</string>
     <string name="hint_nombre_echeance">Nombre Echéances</string>
@@ -456,6 +537,13 @@
     <string name="hint_garanties_acceptees">Garanties acceptées</string>
     <string name="hint_periodicite">Périodicité</string>
     <string name="hint_code_deblocage">Code déblocage</string>
+
+    <!--    08/03/2021 https://www.androidhive.info/2017/12/android-working-with-bottom-navigation/-->
+    <string name="title_mvm_stock_approvisionnements">Approvisionnements</string>
+    <string name="title_mvm_stock_entrees">Entrées</string>
+    <string name="title_mvm_stock_sorties">Sorties</string>
+    <string name="title_mvm_stock_regularisations">Regularisations</string>
+
     <string-array name="nav_drawer_labels">
         <item>@string/menu_network</item>
         <item>@string/menu_produit</item>
@@ -520,19 +608,6 @@
     </string-array>
     <string-array name="type_membre">
 
-        <!--<string name="action_membre">MEMBRE</string>-->
-        <!--<string name="action_usager">USAGER</string>-->
-        <!--<string name="action_salarie">SALARIE</string>-->
-        <!--<string name="action_affilie">AFFILIE COLLECTE</string>-->
-        <!--<string name="action_entreprise">ENTREPRISE</string>-->
-        <!--<string name="action_gic">GIC</string>-->
-        <!--<string name="action_cooperative">COOPERATIVE</string>-->
-        <!--<string name="action_association">ASSOCIATION</string>-->
-        <!--<string name="action_groupe_jeune">GROUPE JEUNE</string>-->
-        <!--<string name="action_groupe_femme">GROUPE FEMME</string>-->
-        <!--<string name="action_groupe_homme">GROUPE HOMME</string>-->
-        <!--<string name="action_groupe_mixte">GROUPE MIXTE</string>-->
-        <!--<string name="action_organisation_paysanne">ORGANISATION PAYSANNE</string>-->
         <item>MEMBRE</item>
         <item>USAGER</item>
         <item>SALARIE</item>
@@ -559,10 +634,11 @@
     </string-array>
     <string-array name="EdTypEtape">
         <item>Demande et mise en place du crédit</item>
+        <item>Analyse technique</item>
         <item>Comité de crédit</item>
         <item>Déblocage du crédit</item>
         <item>Décaissement du crédit</item>
-        <item>Remboursement des échéances du crédit</item>
+        <item>Remboursement du crédit</item>
         <item>Clôture du crédit</item>
     </string-array>
     <string-array name="OeType">
@@ -627,6 +703,10 @@
         <item>BANSOA-CHEFFERIE</item>
         <item>BATCHAM</item>
         <item>GALIM</item>
+        <item>GAROUA</item>
+        <item>GAROUA 1</item>
+        <item>GAROUA 2</item>
+        <item>GAROUA 3</item>
         <item>MBOUDA</item>
         <item>BAFANG</item>
         <item>BAFANG CENTRE</item>
@@ -894,12 +974,12 @@
     <string-array name="array_CpPeriod">
         <item>JOURNALIERE</item>
         <item>HEBDOMADAIRE</item>
-<!--        <item>BIHEBDOMADAIRE</item>-->
+        <!--        <item>BIHEBDOMADAIRE</item>-->
         <item>MENSUELLE</item>
-<!--        <item>BIMENSUELLE</item>-->
-<!--        <item>BIMESTRIELLE</item>-->
-<!--        <item>TRIMESTRIELLE</item>-->
-<!--        <item>SEMESTRIELLE</item>-->
+        <!--        <item>BIMENSUELLE</item>-->
+        <!--        <item>BIMESTRIELLE</item>-->
+        <!--        <item>TRIMESTRIELLE</item>-->
+        <!--        <item>SEMESTRIELLE</item>-->
         <item>ANNUELLE</item>
     </string-array>
     <string-array name="array_GuFreqReunComCred">

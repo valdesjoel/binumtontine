@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.convertisseur.BCrypt;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -46,6 +47,7 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
     private static final String KEY_USER_ID = "ux_numero";
     private static final String KEY_USER_GUICHET_ID = "gx_numero";
     private static final String KEY_USER_GUICHET_DENOMINATION = "gx_denomination";
+    private static final String KEY_USER_CAISSE_DENOMINATION = "cx_denomination";
     private static final String KEY_CAISSE_ID = "cx_numero"; //to fetchGuichetList by caisse ID
     private static final String KEY_USER_PROFIL = "ux_profil";
     private static final String KEY_USER_NOM = "ux_nom";
@@ -56,6 +58,7 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
     private static final String KEY_USER_TEL3 = "ux_tel3";
     private static final String KEY_USER_LOGIN = "ux_login";
     private static final String KEY_USER_PASSWORD = "ux_password";
+    private static final String KEY_USER_BCRYPT_PASSWORD = "password";
     private static final String KEY_USER_EMAIL = "ux_email";
     private static final String KEY_PROFIL_CAISSE_OR_GUICHET = "profilCaisseOrGuichet";
 
@@ -94,6 +97,7 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
     private String uxTel3;
     private String uxLogin;
     private String uxPassword;
+    private String uxBcryptPassword;
     private String uxConfirmPassword;
     private String uxEmail;
 
@@ -290,7 +294,12 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
                     //Parse the JSON response
                     user = jsonObject.getJSONObject(KEY_DATA);
                     //uxGuichetId = user.getString(KEY_USER_GUICHET_ID);
-                    uxGuichetDenomination = user.getString(KEY_USER_GUICHET_DENOMINATION);
+                    if (UserGuichetActivity.profilCaisseOrGuichet.equals("caisse")){
+                        uxGuichetDenomination = user.getString(KEY_USER_CAISSE_DENOMINATION);
+                    }else{
+                        uxGuichetDenomination = user.getString(KEY_USER_GUICHET_DENOMINATION);
+                    }
+
                     uxProfil = user.getString(KEY_USER_PROFIL);
                     uxNom = user.getString(KEY_USER_NOM);
                     uxPrenom = user.getString(KEY_USER_PRENOM);
@@ -535,8 +544,6 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
 
 
         if (!STRING_EMPTY.equals(uxNomEditText.getText().toString()) &&
-//                guichetID!=0 &&
-//                !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxAdresseEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
                 !STRING_EMPTY.equals(uxLoginEditText.getText().toString()) &&
@@ -545,9 +552,6 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
                 !STRING_EMPTY.equals(uxEmailEditText.getText().toString())) {
 
             if ((uxPasswordEditText.getText().toString()).equals(uxConfirmPasswordEditText.getText().toString())){
-              //  uxGuichetId = uxGuichetIdSpinner.getText().toString();
-//                uxGuichetDenomination = uxGuichetIdSpinner.getText().toString(); //pas nécessaire
-//                uxProfil = uxProfilEditText.getText().toString();//OLD
                 uxProfil = spnNewProfil.getText().toString();//NEW
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
@@ -557,6 +561,7 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
                 uxTel3 = ccp_phone3.getFullNumberWithPlus();
                 uxLogin = uxLoginEditText.getText().toString();
                 uxPassword = uxPasswordEditText.getText().toString();
+                uxBcryptPassword = BCrypt.hashpw(uxPassword, BCrypt.gensalt(12));
                 //uxConfirmPassword = uxConfirmPasswordEditText.getText().toString();
                 uxEmail = uxEmailEditText.getText().toString();
                 new UpdateUserGuichetAsyncTask().execute();
@@ -599,11 +604,9 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
             if (UserGuichetActivity.profilCaisseOrGuichet.equals("caisse")){
                 httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(MyData.CAISSE_ID));
             }else if (UserGuichetActivity.profilCaisseOrGuichet.equals("guichet")){
-//                httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(guichetID));
                 httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
             }
             httpParams.put(KEY_USER_ID, userGuichetId);
-//            httpParams.put(KEY_USER_GUICHET_ID, String.valueOf(guichetID));
             httpParams.put(KEY_USER_PROFIL, uxProfil);
             httpParams.put(KEY_USER_NOM, uxNom);
             httpParams.put(KEY_USER_PRENOM, uxPrenom);
@@ -613,6 +616,7 @@ public class UpdateUserGuichet extends AppCompatActivity implements AdapterView.
             httpParams.put(KEY_USER_TEL3, uxTel3);
             httpParams.put(KEY_USER_LOGIN, uxLogin);
             httpParams.put(KEY_USER_PASSWORD, uxPassword);
+            httpParams.put(KEY_USER_BCRYPT_PASSWORD, uxBcryptPassword);
             httpParams.put(KEY_USER_EMAIL, uxEmail);
             httpParams.put(KEY_PROFIL_CAISSE_OR_GUICHET, UserGuichetActivity.profilCaisseOrGuichet);//NEW
 

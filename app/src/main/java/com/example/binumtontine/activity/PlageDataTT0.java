@@ -50,7 +50,6 @@ import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
-import com.example.binumtontine.modele.ProduitEAV;
 import com.example.binumtontine.modele.Transfert;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -152,7 +151,7 @@ public class PlageDataTT0 extends AppCompatActivity implements  SERVER_ADDRESS {
         valeurDebutEditText.addTextChangedListener(MyData.onTextChangedListener(valeurDebutEditText));
         valeurFinEditText = (EditText) findViewById(R.id.txt_EtValTxInterTo);
         valeurFinEditText.addTextChangedListener(MyData.onTextChangedListener(valeurFinEditText));
-        baseEditText = (EditText) findViewById(R.id.input_txt_ValeurTkauxInteretEAT);
+        baseEditText = (EditText) findViewById(R.id.input_txt_PdMtMinimum);
         rbEtTypTxInterFixe = (RadioButton) findViewById(R.id.rb_EtTypTxInterFixe);
         tv_type_frais = (TextView) findViewById(R.id.tv_type_frais_plage_data_body);
         tv_type_frais.setText(MyData.TYPE_DE_FRAIS_PLAGE_DATA);

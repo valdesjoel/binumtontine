@@ -20,6 +20,7 @@ import com.example.binumtontine.adapter.CustomAdapterListComptesAdherent;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.HttpJsonParser;
+import com.example.binumtontine.modele.DemandeCreditModele;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,7 +110,6 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
 
 
     private static final String KEY_ADHERENT_ID = "IpMembre";
-
     private String adherentId;
 
     private ArrayList<HashMap<String, String>> compteAdherentList;
@@ -123,11 +123,8 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_compte_adherent_new);
-        //Toolbar toolbar = findViewById(R.id.toolbar_list_adherent);
         Toolbar toolbar = findViewById(R.id.toolbar_list_adherent);
         setSupportActionBar(toolbar);
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -138,8 +135,6 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
 
         listAdherent = new ArrayList<>();
         listComptesAdherent = new ArrayList<>();
-
-
         defaultFormat.setCurrency(Currency.getInstance("Fcf"));
 
         Intent intent = getIntent();
@@ -155,14 +150,10 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
         onBackPressed();
         return true;
     }
-
-
     private void loadRecyclerViewItem() {
         //you can fetch the data from server or some apis
-
         adapter = new CustomAdapterListComptesAdherent(listComptesAdherent, this);
         recyclerView.setAdapter(adapter);
-
     }
     /**
      * Fetches the list of accounts adherent from the server
@@ -178,7 +169,6 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
             pDialog.setCancelable(false);
             pDialog.show();
         }
-
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
@@ -315,6 +305,7 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                         String compteMontant = compte.getString(KEY_MONTANT_COMPTE);
                         String compteDateCreation = compte.getString(KEY_DATE_H_CREE);
                         String compteTaux = compte.getString(KEY_TAUX);
+                        String DcEtapeCredit = compte.getString(DemandeCreditModele.KEY_DcEtapeCredit);
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put(KEY_COMPTE_ID, compteId.toString());
                         map.put(KEY_LIBELLE_PRODUIT, compteDetail);
@@ -322,12 +313,13 @@ public class ListCompteAdherentActivity_New extends AppCompatActivity implements
                         map.put(KEY_MONTANT_COMPTE, defaultFormat.format(parseDouble(compteMontant))+CgDevise);
                         map.put(KEY_DATE_H_CREE, compteDateCreation.substring(0,10));
                         map.put(KEY_TAUX, compteTaux);
+                        map.put(DemandeCreditModele.KEY_DcEtapeCredit, DcEtapeCredit);
                         map.put(KEY_TYPE_COMPTE, "CREDIT");
                         compteAdherentList.add(map);
 
                         ComptesAdherent mesComptes = new ComptesAdherent(compteId,compteDetail,compteNumDossier,
                                 compteDateCreation.substring(0,10),defaultFormat.format(parseDouble(compteMontant))+CgDevise,
-                                "CREDIT",compteTaux);
+                                "CREDIT",compteTaux, DcEtapeCredit);
                         listComptesAdherent.add(mesComptes);
                     }
                 }

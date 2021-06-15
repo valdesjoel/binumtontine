@@ -219,6 +219,72 @@
             android:padding="12dp"
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
+
+        <!--  `EvPeriodCalcTxInt` ENUM('M','T','S','A') -->
+        <LinearLayout
+            android:id="@+id/ll_EvPeriodCalcTxInt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_EvPeriodCalcTxInt"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="@string/tv_EvPeriodCalcTxInt"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_EvPeriodCalcTxInt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_EvPeriodCalcTxInt"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodCalcTxInt_M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Mensuelle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodCalcTxInt_T"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Trimestrielle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodCalcTxInt_S"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Semestrielle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodCalcTxInt_A"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Annuelle"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+        </LinearLayout>
         <!--Type date-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_type_de_date"
@@ -441,7 +507,72 @@
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
 
+        <!--  `EvPeriodFrTenueCpte` ENUM('M','T','S','A') -->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_EvPeriodFrTenueCpte"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_EvPeriodFrTenueCpte"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="@string/tv_EvPeriodFrTenueCpte"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
 
+            <RadioGroup
+                android:id="@+id/rg_EvPeriodFrTenueCpte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_EvPeriodFrTenueCpte"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodFrTenueCpte_M"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Mensuelle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodFrTenueCpte_T"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Trimestrielle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodFrTenueCpte_S"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Semestrielle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_EvPeriodFrTenueCpte_A"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Annuelle"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -722,6 +853,35 @@ donc ayant une base, ou de Plage, avec code "FCV" pour "Frais de Clôture EAV" d
             android:textColor="@color/colorAccent1"
             android:text="@string/btn_config_plage_tiv" />
 
+
+        <!-- EvIsTVAOn / A1   **  Pour indiquer si la TVA est activée sur le Produit EAV, "N" par défaut -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblEvIsTVAOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:text="La TVA est-elle activée sur le Produit EAV ?" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SwitchEvIsTVAOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                app:showText="true"
+                android:textOff="Non"
+                android:textOn="Oui"
+                android:onClick="onSwitchButtonClicked"
+                />
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -765,24 +925,6 @@ donc ayant une base, ou de Plage, avec code "FCV" pour "Frais de Clôture EAV" d
                 android:padding="12dp"
                 android:text="@string/btn_supprimer" />
         </LinearLayout>
-      <!--  <Button android:id="@+id/btn_save_eav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:text="ENREGISTRER"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="5dp"
-            android:textColor="@android:color/white"/> -->
-
-       <!-- <TextView
-            style="@style/parent"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:textColor="@color/primaryTextColor"
-            android:text="@string/login_signup_hint"
-            android:onClick="viewRegisterClicked"
-            android:layout_marginTop="@dimen/loginViewsMargin"/> -->
 
 
     </LinearLayout>

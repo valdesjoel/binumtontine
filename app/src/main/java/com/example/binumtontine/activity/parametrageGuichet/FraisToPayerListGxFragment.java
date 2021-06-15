@@ -47,6 +47,7 @@ public class FraisToPayerListGxFragment extends Fragment implements View.OnClick
     private static final String KEY_FP_PIECE_LIBELLE = "FpLibelle";
     private static final String KEY_CAISSE_ID = "FcCaisse";
     private static final String KEY_GUICHET_ID = "FcGuichet";
+    private static final String KEY_TM_NUMERO = "TmNumero";
     private static final String KEY_EXTRA_ACTION_TO_AFFECT = "ACTION_TO_AFFECT"; //to push intent.extra
     private Boolean action_to_affect=false; // to manage menuItem ACTION_TO_AFFECT and ACTION_NOT_ALREADY_AFFECT
 
@@ -164,6 +165,7 @@ public class FraisToPayerListGxFragment extends Fragment implements View.OnClick
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
             httpParams.put(KEY_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
+            httpParams.put(KEY_TM_NUMERO, String.valueOf(MyData.TYPE_MEMBRE_ID));
             JSONObject jsonObject =(action_to_affect)? httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_frais_gx.php", "GET", httpParams): httpJsonParser.makeHttpRequest(
                     BASE_URL + "fetch_all_frais_cx_not_affect_on_guichet.php", "GET", httpParams);

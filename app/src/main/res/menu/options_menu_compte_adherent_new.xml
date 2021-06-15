@@ -62,8 +62,11 @@
         android:title="Clôturer le compte" />
 
     <item
+        android:id="@+id/menu_analyse_technique"
+        android:title="Analyse Technique" />
+    <item
         android:id="@+id/menu_comite_credit"
-        android:title="Etape suivante" />
+        android:title="Comité de crédit" />
     <!--android:title="Comité de crédit" />-->
     <item
 

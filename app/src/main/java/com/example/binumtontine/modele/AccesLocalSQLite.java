@@ -48,7 +48,7 @@ public class AccesLocalSQLite {
         if (!curseur.isAfterLast()){
             Date date = new Date();
             String sigle = curseur.getString(0);
-            organeFaitier_modele = new OrganeFaitier_modele(sigle,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+            organeFaitier_modele = new OrganeFaitier_modele(sigle,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
         }
         curseur.close();
         return organeFaitier_modele;

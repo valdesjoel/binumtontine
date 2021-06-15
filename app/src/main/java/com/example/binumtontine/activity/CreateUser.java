@@ -48,6 +48,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
+import com.example.binumtontine.activity.convertisseur.BCrypt;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
 import com.example.binumtontine.helper.HttpJsonParser;
@@ -79,6 +80,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     private static final String KEY_USER_TEL3 = "ux_tel3";
     private static final String KEY_USER_LOGIN = "ux_login";
     private static final String KEY_USER_PASSWORD = "ux_password";
+    private static final String KEY_USER_BCRYPT_PASSWORD = "password";
     private static final String KEY_USER_EMAIL = "ux_email";
 
 
@@ -117,6 +119,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     private String uxTel3;
     private String uxLogin;
     private String uxPassword;
+    private String uxBcryptPassword;
     private String uxConfirmPassword;
     private String uxEmail;
 
@@ -133,7 +136,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
     List<Integer> caisseListID = new ArrayList<Integer>();
     private int caisseID;
     private Spinner spinnerCaisse;
-    private JRSpinner spnNewProfil;
+//    private JRSpinner spnNewProfil;
     private Button btnAddNewCategory;
     private TextView txtCategory ;
     // API urls
@@ -158,7 +161,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
 
         btnAddNewCategory = (Button) findViewById(R.id.btn_save_Ux);
         spinnerCaisse = (Spinner) findViewById(R.id.spn_my_spinner_caisse1);
-        spnNewProfil = (JRSpinner) findViewById(R.id.spnNewProfil);
+      /*  spnNewProfil = (JRSpinner) findViewById(R.id.spnNewProfil);
         spnNewProfil.setItems(getResources().getStringArray(R.array.array_profil)); //this is important, you must set it to set the item list
         spnNewProfil.setTitle("Sélectionner un profil"); //change title of spinner-dialog programmatically
         spnNewProfil.setExpandTint(R.color.jrspinner_color_default); //change expand icon tint programmatically
@@ -168,7 +171,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
                 //do what you want to the selected position
 
             }
-        });
+        });*/
 
 
 
@@ -366,79 +369,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
 
     }
 
-    /**
-     * Async task to create a new food category
-     * */
-    private class AddNewCategory extends AsyncTask<String, Void, Void> {
 
-        boolean isNewCategoryCreated = false;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialogCreateUserCaisse = new ProgressDialog(CreateUser.this);
-            pDialogCreateUserCaisse.setMessage("Creating new category..");
-            pDialogCreateUserCaisse.setCancelable(false);
-            pDialogCreateUserCaisse.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(String... arg) {
-
-            String newCategory = arg[0];
-
-            // Preparing post params
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("name", newCategory));
-
-            ServiceHandler serviceClient = new ServiceHandler();
-
-            String json = serviceClient.makeServiceCall(URL_NEW_CATEGORY,
-                    ServiceHandler.POST, params);
-
-            Log.d("Create Response: ", "> " + json);
-
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    boolean error = jsonObj.getBoolean("error");
-                    // checking for error node in json
-                    if (!error) {
-                        // new category created successfully
-                        isNewCategoryCreated = true;
-                    } else {
-                        Log.e("Create Category Error: ", "> " + jsonObj.getString("message"));
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.e("JSON Data", "Didn't receive any data from server!");
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialogCreateUserCaisse.isShowing())
-                pDialogCreateUserCaisse.dismiss();
-            if (isNewCategoryCreated) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // fetching all categories
-                        new GetCategories().execute();
-                    }
-                });
-            }
-        }
-
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
@@ -467,11 +398,8 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
         if (!STRING_EMPTY.equals(uxNomEditText.getText().toString()) &&
                 caisseID!=0 &&
                 !STRING_EMPTY.equals(uxProfilEditText.getText().toString()) &&
-               // !STRING_EMPTY.equals(uxPrenomEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxAdresseEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(ccp_phone1.getFullNumberWithPlus()) &&
-                //!STRING_EMPTY.equals(uxTel2EditText.getText().toString()) &&
-                //!STRING_EMPTY.equals(uxTel3EditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxLoginEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxPasswordEditText.getText().toString()) &&
                 !STRING_EMPTY.equals(uxConfirmPasswordEditText.getText().toString()) &&
@@ -483,10 +411,6 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
                 uxNom = uxNomEditText.getText().toString();
                 uxPrenom = uxPrenomEditText.getText().toString();
                 uxAdresse = uxAdresseEditText.getText().toString();
-//                uxTel1 = uxTel1EditText.getText().toString();
-//                uxTel2 = uxTel2EditText.getText().toString();
-//                uxTel3 = uxTel3EditText.getText().toString();
-
 
                 uxTel1 = ccp_phone1.getFullNumberWithPlus();
                 uxTel2 = ccp_phone2.getFullNumberWithPlus();
@@ -494,7 +418,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
 
                 uxLogin = uxLoginEditText.getText().toString();
                 uxPassword = uxPasswordEditText.getText().toString();
-                //uxConfirmPassword = uxConfirmPasswordEditText.getText().toString();
+                uxBcryptPassword = BCrypt.hashpw(uxPassword, BCrypt.gensalt(12));
                 uxEmail = uxEmailEditText.getText().toString();
                 new AddUserCaisseAsyncTask().execute();
             }else{
@@ -544,6 +468,7 @@ public class CreateUser extends AppCompatActivity implements OnItemSelectedListe
             httpParams.put(KEY_USER_TEL3, uxTel3);
             httpParams.put(KEY_USER_LOGIN, uxLogin);
             httpParams.put(KEY_USER_PASSWORD, uxPassword);
+            httpParams.put(KEY_USER_BCRYPT_PASSWORD, uxBcryptPassword);
             httpParams.put(KEY_USER_EMAIL, uxEmail);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_user.php", "POST", httpParams);

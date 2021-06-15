@@ -53,6 +53,7 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
     private static final String KEY_PD_BASE ="PdBase" ;
     private static final String KEY_PD_TYPE_DATA ="PdTypeData" ;
     private static final String KEY_PD_PRODUIT ="PdProduit" ;
+    private static final String KEY_PdMtMinimum ="PdMtMinimum" ;
 
 
     private static String STRING_EMPTY = "";
@@ -60,7 +61,8 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
     private EditText valeurEditText;
     private EditText valeurDebutEditText;
     private EditText valeurFinEditText;
-    private EditText baseEditText;
+    private EditText PdMtMinimumEditText;
+    private TextInputLayout tilPdMtMinimum;
    // public static ArrayList<ModelPlageData> plageDataListIRA;
 
     private String guichetId;
@@ -68,6 +70,7 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
     private String valeurDebut;
     private String valeurFin;
     private String base;
+    private String PdMtMinimum;
     private String guichetDenomination;
 
     private RadioButton rbEtTypTxInterFixe;
@@ -118,8 +121,6 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
         plageDataId = intent.getStringExtra(KEY_ID);
         produitId = intent.getStringExtra(KEY_Produit_ID);
 
-
-
         LL_blk_EtValeur = (LinearLayout) findViewById(R.id.input_layout_ValeurTauxInteretEAT);
         LL_blk_EtValeur.setVisibility(View.GONE);
         valeurEditText = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAT);
@@ -128,7 +129,12 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
         valeurDebutEditText.addTextChangedListener(MyData.onTextChangedListener(valeurDebutEditText));
         valeurFinEditText = (EditText) findViewById(R.id.txt_EtValTxInterTo);
         valeurFinEditText.addTextChangedListener(MyData.onTextChangedListener(valeurFinEditText));
-        baseEditText = (EditText) findViewById(R.id.input_txt_ValeurTkauxInteretEAT);
+
+        PdMtMinimumEditText = (EditText) findViewById(R.id.input_txt_PdMtMinimum);
+        PdMtMinimumEditText.addTextChangedListener(MyData.onTextChangedListener(PdMtMinimumEditText));
+        tilPdMtMinimum = (TextInputLayout) findViewById(R.id.input_layout_PdMtMinimum);
+
+
         rbEtTypTxInterFixe = (RadioButton) findViewById(R.id.rb_EtTypTxInterFixe);
         tv_type_frais = (TextView) findViewById(R.id.tv_type_frais_plage_data_body);
         tv_type_frais.setText(MyData.TYPE_DE_FRAIS_PLAGE_DATA);
@@ -197,32 +203,20 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
                 public void onClick(View view) {
                     if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
                         updatePlageData();
-
                     } else {
                         Toast.makeText(PlageDataFEC_NEW.this,
                                 "Impossible de se connecter à Internet",
                                 Toast.LENGTH_LONG).show();
-
                     }
-
                 }
             });
         }
-
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
                     confirmDelete();
-
             }
         });
-
-
-
-
     }
 
     /**
@@ -236,7 +230,7 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
                     !STRING_EMPTY.equals(valeurDebutEditText.getText().toString())&&
                     !STRING_EMPTY.equals(valeurFinEditText.getText().toString())&&
                     (!STRING_EMPTY.equals(mySpinnerBaseTxTIV.getText().toString()) || EtTypTxInter.equals("F") )) {
-                Double h1, h2, h3;
+                Double h1, h2, h3, h4;
 
                 h1 = Double.valueOf(valeurEditText.getText().toString().replaceAll(",", "").trim());
                 valeurEditText.setText(h1+"");
@@ -244,14 +238,15 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
                 valeurDebutEditText.setText(h2+"");
                 h3 = Double.valueOf(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
                 valeurFinEditText.setText(h3+"");
+                h4 = Double.valueOf(PdMtMinimumEditText.getText().toString().replaceAll(",", "").trim());
+                PdMtMinimumEditText.setText(h4+"");
 
                 valeur = valeurEditText.getText().toString();
                 valeurDebut = valeurDebutEditText.getText().toString();
                 valeurFin = valeurFinEditText.getText().toString();
+                PdMtMinimum = PdMtMinimumEditText.getText().toString();
                 // base = baseEditText.getText().toString();
                 base = Credit.encodeCrBaseTxFrEtudDoss(mySpinnerBaseTxTIV.getText().toString());
-
-
                 new UpdatePlageDataAsyncTask().execute();
             } else {
                 Toast.makeText(PlageDataFEC_NEW.this,
@@ -262,10 +257,6 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-
-
     }
     /**
      * AsyncTask for updating a plage data details
@@ -311,7 +302,6 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
                         Toast.makeText(PlageDataFEC_NEW.this,
                                 "Some error occurred while updating",
                                 Toast.LENGTH_LONG).show();
-
                     }
                 }
             });
@@ -451,10 +441,8 @@ public class PlageDataFEC_NEW extends AppCompatActivity implements  SERVER_ADDRE
                         valeur = plageData.getString(KEY_PD_VAL_TAUX);
                         valeurDebut = plageData.getString(KEY_PD_VAL_DE);
                         valeurFin = plageData.getString(KEY_PD_VAL_A);
+                        PdMtMinimum = plageData.getString(KEY_PdMtMinimum);
                         base = Credit.decodeCrBaseTxFrEtudDoss(plageData.getString(KEY_PD_BASE));
-
-
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -474,6 +462,7 @@ try {
     valeurEditText.setText(valeur);
     valeurDebutEditText.setText(valeurDebut);
     valeurFinEditText.setText(valeurFin);
+    PdMtMinimumEditText.setText(PdMtMinimum);
 //                    baseEditText.setText(base);
     mySpinnerBaseTxTIV.setText(base);
     if (EtTypTxInter.equals("F")){
@@ -486,13 +475,9 @@ try {
 }catch (Exception e){
     e.printStackTrace();
 }
-
-
                 }
             });
         }
-
-
     }
 
 
@@ -504,29 +489,15 @@ try {
 
             case R.id.rb_EtTypTxInterFixe:
                 if (rbEtTypTxInterFixe.isChecked()) {
-
-                    //EtNaturePas ="F";
-                    //ET_input_layout_ValeurTaluxInteretEAT = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
                     LL_blk_EtPlageTxInter.setVisibility(View.GONE);
                     ET_input_layout_ValeurTaluxInteretEAT.setVisibility(View.GONE);
-                    //layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-
                 }
-
                 break;
             case R.id.rb_EtTypTxInterTaux:
                 if (rbEtTypTxInterTaux.isChecked()){
                     LL_blk_EtPlageTxInter.setVisibility(View.GONE);
                     ET_input_layout_ValeurTaluxInteretEAT.setVisibility(View.VISIBLE);
-                   // EtNaturePas ="S";
-               /*     ET_input_layout_ValeurTaluxInteretEAT = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="T";
-                    LL_blk_EtPlageTxInter.setVisibility(View.INVISIBLE);
-                layout_TauxAPreleveCpteEAV.setVisibility(View.VISIBLE);
-                */
                 }
-
-
                 break;
             case R.id.rb_EtTypTxInterPlageFixe:
                 if (rbEtTypTxInterPlageFixe.isChecked()) {
@@ -535,12 +506,7 @@ try {
                     ET_input_layout_ValeurTaluxInteretEAT.setVisibility(View.GONE);
 
                     EtTypTxInter ="F";
-                    /*
-                    ET_input_layout_ValeurTaluxInteretEAT = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-
-                    LL_blk_EtPlageTxInter.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+                    tilPdMtMinimum.setVisibility(View.GONE);
                 }
                 break;
             case R.id.rb_EtTypTxInterPlageTaux:
@@ -549,16 +515,10 @@ try {
                     LL_blk_EtPlageTxInter.setVisibility(View.VISIBLE);
                     ET_input_layout_ValeurTaluxInteretEAT.setVisibility(View.VISIBLE);
                     EtTypTxInter ="P";
-                    /*
-                    ET_input_layout_ValeurTaluxInteretEAT = (RadioButton) findViewById(R.id.rbEpTypTxInterFixe);
-                    ev_typ_fr_agios ="P";
-                    LL_blk_EtPlageTxInter.setVisibility(View.VISIBLE);
-                    layout_TauxAPreleveCpteEAV.setVisibility(View.INVISIBLE);
-                    */
+                    tilPdMtMinimum.setVisibility(View.VISIBLE);
                 }
                 break;
         }
-        // Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -573,7 +533,7 @@ try {
                     !STRING_EMPTY.equals(valeurFinEditText.getText().toString())&&
                     (!STRING_EMPTY.equals(mySpinnerBaseTxTIV.getText().toString()) || EtTypTxInter.equals("F") )) {
 
-                Double h1, h2, h3;
+                Double h1, h2, h3, h4;
 
                 h1 = Double.valueOf(valeurEditText.getText().toString().replaceAll(",", "").trim());
                 valeurEditText.setText(h1+"");
@@ -581,39 +541,30 @@ try {
                 valeurDebutEditText.setText(h2+"");
                 h3 = Double.valueOf(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
                 valeurFinEditText.setText(h3+"");
-
-
+                h4 = Double.valueOf(PdMtMinimumEditText.getText().toString().replaceAll(",", "").trim());
+                PdMtMinimumEditText.setText(h4+"");
                 valeur = valeurEditText.getText().toString();
                 valeurDebut = valeurDebutEditText.getText().toString();
                 valeurFin = valeurFinEditText.getText().toString();
+                PdMtMinimum = PdMtMinimumEditText.getText().toString();
                 // base = baseEditText.getText().toString();
                 base = Credit.encodeCrBaseTxFrEtudDoss(mySpinnerBaseTxTIV.getText().toString());
 
                 new InitialisationCaisseGuichetAsyncTask().execute();
-
-
             } else {
                 Toast.makeText(PlageDataFEC_NEW.this,
                         "Un ou plusieurs champs sont vides!",
                         Toast.LENGTH_LONG).show();
-
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-//        valeurEditText.setText(valeurEditText.getText().toString().replaceAll(",", "").trim());
-//        valeurDebutEditText.setText(valeurDebutEditText.getText().toString().replaceAll(",", "").trim());
-//        valeurFinEditText.setText(valeurFinEditText.getText().toString().replaceAll(",", "").trim());
-
-
-
     }
 
     private void savePlageForCreateTAS(){
         ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
                 valeur,valeurDebut,valeurFin,base,"");
+        maPlage.setPdMtMinimum(PdMtMinimum);
         CreateProduitCredit.plageDataListFEC.add(maPlage);
         try {
             //success = jsonObject.getInt(KEY_SUCCESS);
@@ -625,7 +576,7 @@ try {
     private void updatePlageForCreate(){
         ModelPlageData maPlage = new ModelPlageData(PdTypeData,EtTypTxInter,
                 valeur,valeurDebut,valeurFin,base,"");
-        //CreateProduitEAV.plageDataListIRA.add(maPlage);
+        maPlage.setPdMtMinimum(PdMtMinimum);
         CreateProduitCredit.plageDataListFEC.set(Integer.parseInt(plageDataId),maPlage);
         try {
             //success = jsonObject.getInt(KEY_SUCCESS);
@@ -635,11 +586,12 @@ try {
         }
     }
     private void fetchPlageForCreate(){
-            EtTypTxInter = CreateProduitCredit.plageDataListFEC.get(Integer.parseInt(plageDataId)).getPdNature();
+        EtTypTxInter = CreateProduitCredit.plageDataListFEC.get(Integer.parseInt(plageDataId)).getPdNature();
         valeur = CreateProduitCredit.plageDataListFEC.get(Integer.parseInt(plageDataId)).getPdValTaux();
         valeurDebut = CreateProduitCredit.plageDataListFEC.get(Integer.parseInt(plageDataId)).getPdValDe();
         valeurFin = CreateProduitCredit.plageDataListFEC.get(Integer.parseInt(plageDataId)).getPdValA();
         base = CreateProduitCredit.plageDataListFEC.get(Integer.parseInt(plageDataId)).getPdBase();
+        PdMtMinimum = CreateProduitCredit.plageDataListFEC.get(Integer.parseInt(plageDataId)).getPdMtMinimum();
 
         try {
             //success = jsonObject.getInt(KEY_SUCCESS);
@@ -649,13 +601,10 @@ try {
         }
     }
     private void savePlageForUpdateTAS(){
-
-
         try {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-            // httpParams.put(KEY_TAS_ID, uxGuichetId);
 
             httpParams.put(KEY_PD_NATURE, EtTypTxInter);
             httpParams.put(KEY_PD_VAL_TAUX, valeur);
@@ -663,8 +612,8 @@ try {
             httpParams.put(KEY_PD_VAL_A, valeurFin);
             httpParams.put(KEY_PD_BASE, base);
             httpParams.put(KEY_PD_TYPE_DATA, PdTypeData); //A mettre à jour pour les autres plages
-//        httpParams.put(KEY_PD_PRODUIT, UpdateProduitCpteCourant.cpteCourantId );
             httpParams.put(KEY_PD_PRODUIT, produitId ); //Utile suurtout pour la maj sur guichet
+            httpParams.put(KEY_PdMtMinimum, PdMtMinimum ); //pour mettre à jour le montant minimum d'une plage de taux
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_plage_data.php", "POST", httpParams);
@@ -685,6 +634,7 @@ try {
             httpParams.put(KEY_PD_VAL_A, valeurFin);
             httpParams.put(KEY_PD_BASE, base);
             httpParams.put(KEY_PD_NUMERO, plageDataId);
+            httpParams.put(KEY_PdMtMinimum, PdMtMinimum ); //pour mettre à jour le montant minimum d'une plage de taux
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_tiv_plage_data.php", "POST", httpParams); //Idem pour les plages FCX
@@ -734,12 +684,10 @@ try {
                         setResult(20, i);
                         //Finish ths activity and go back to listing activity
                         finish();
-
                     } else {
                         Toast.makeText(PlageDataFEC_NEW.this,
                                 "Une erreur est survenue lors de l'enregistrement de la plage",
                                 Toast.LENGTH_LONG).show();
-
                     }
                 }
             });

@@ -41,11 +41,11 @@ public final class OrganeFaitierControler {
     }
 
     public void creerOrganeFaitier(Integer numero, String sigle, String libelle, String num_agrement,
-                                   String date_agrement, Integer boite_postale, String ville_of,
+                                   String date_agrement,String OfNumAgremCobac, String OfDatAgremCobac,String OfNumAgremCNC,String OfDatAgremCNC, Integer boite_postale, String ville_of,
                                    String pays_of, String adresse_of, String telephone1_of,String telephone2_of,String telephone3_of,
                                    String siege_of, String nom_pca_of, String nom_vpca_of, String nom_dg_of, Context context){
         //organeFaitier_modele = new OrganeFaitier_modele(sigle, libelle, num_agrement, date_agrement, boite_postale, ville_of, pays_of, adresse_of, telephone1_of, siege_of, nom_pca_of, nom_vpca_of, nom_dg_of);
-        organeFaitier_modele = new OrganeFaitier_modele(numero, sigle, libelle, num_agrement, date_agrement, boite_postale, ville_of, pays_of, adresse_of, telephone1_of,telephone2_of,telephone3_of, siege_of, nom_pca_of, nom_vpca_of, nom_dg_of);
+        organeFaitier_modele = new OrganeFaitier_modele(numero, sigle, libelle, num_agrement, date_agrement,OfNumAgremCobac, OfDatAgremCobac, OfNumAgremCNC,OfDatAgremCNC, boite_postale, ville_of, pays_of, adresse_of, telephone1_of,telephone2_of,telephone3_of, siege_of, nom_pca_of, nom_vpca_of, nom_dg_of);
         // Serializer.serialize(nomFichier, organeFaitier_modele, context); //serialise un OF
         //accesLocalSQLite.ajout(organeFaitier_modele); //insertion dans SQL
         accesDistant.envoi("enreg",organeFaitier_modele.convertTOJSONArray());
@@ -87,6 +87,34 @@ public final class OrganeFaitierControler {
             return null;
         }else {
             return organeFaitier_modele.getDate_agrement();
+        }
+    }
+    public String getOfNumAgremCobac(){
+        if (organeFaitier_modele==null){
+            return null;
+        }else {
+            return organeFaitier_modele.getOfNumAgremCobac();
+        }
+    }
+    public String getOfDatAgremCobac(){
+        if (organeFaitier_modele==null){
+            return null;
+        }else {
+            return organeFaitier_modele.getOfDatAgremCobac();
+        }
+    }
+    public String getOfNumAgremCNC(){
+        if (organeFaitier_modele==null){
+            return null;
+        }else {
+            return organeFaitier_modele.getOfNumAgremCNC();
+        }
+    }
+    public String getOfDatAgremCNC(){
+        if (organeFaitier_modele==null){
+            return null;
+        }else {
+            return organeFaitier_modele.getOfDatAgremCNC();
         }
     }
     public Integer getBoite_postale(){

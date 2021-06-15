@@ -18,7 +18,15 @@ public class ComptesAdherent implements Serializable {
     private String dateFin;
     private String nbUnites;
     private String period;
+    private String DcEtapeCredit;
 
+    public String getDcEtapeCredit() {
+        return DcEtapeCredit;
+    }
+
+    public void setDcEtapeCredit(String dcEtapeCredit) {
+        DcEtapeCredit = dcEtapeCredit;
+    }
 
     public String getLibelleProduit() {
         return libelle_produit;
@@ -146,6 +154,17 @@ public class ComptesAdherent implements Serializable {
         this.montant_solde = montant_solde;
         this.type_compte = type_compte;
         this.taux_compte = taux_compte;
+    }
+    public ComptesAdherent(int numero_compte, String libelle_produit, String numero_dossier,
+                           String dateHCree, String montant_solde, String type_compte, String taux_compte, String DcEtapeCredit) {
+        this.numero_compte = numero_compte;
+        this.libelle_produit = libelle_produit;
+        this.numero_dossier = numero_dossier;
+        this.dateHCree = dateHCree;
+        this.montant_solde = montant_solde;
+        this.type_compte = type_compte;
+        this.taux_compte = taux_compte;
+        this.DcEtapeCredit = DcEtapeCredit;
     }
     public ComptesAdherent(int numero_compte, String libelle_produit, String numero_dossier,
                            String dateHCree, String montant_solde, String type_compte,

@@ -1,6 +1,13 @@
 package com.example.binumtontine.activity.adherent;
 
+import com.example.binumtontine.modele.InscripAdherentFrais;
+
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Create a class file named Adherent.java
@@ -14,9 +21,13 @@ public class Adherent implements Serializable {
     public static final String KEY_AD_AdNumManuel = "AdNumManuel";
     public static final String KEY_AD_AdNom = "AdNom";
     public static final String KEY_AD_AdPrenom = "AdPrenom";
+    public static final String KEY_AD_AdEMail = "AdEMail";
+    public static final String KEY_AdTel1 = "AdTel1";
+    public static final String KEY_AdTotNbPartSoc = "AdTotNbPartSoc";
 
     private String AdNumero;
     private String AdCode;
+    private String AdDetailsTypeMembre;
     private String AdNumManuel;
     private String AdNom;
     private String AdPrenom;
@@ -44,12 +55,18 @@ public class Adherent implements Serializable {
     private String AdRemplacePar;
     private int AdGuichet;
     private String  AdNbreCompte;
+    private String  AdTotNbPartSoc;
 
     //for manage accounts's adherent
     private String libelle_produit="";
     private String numero_dossier="";
     private String dateHCree="";
     private String montant_solde="";
+
+    private ArrayList<String> listPieceAdherent = new ArrayList<>();
+    private ArrayList<String> listPieceNonFourniesAdherent = new ArrayList<>();
+//    private ArrayList<InscripAdherentFrais> listFraisAdherent = new ArrayList<>();
+    private ArrayList<EditModel> listFraisAdherent = new ArrayList<>();
 
 
     public String getLibelleProduit() {
@@ -82,6 +99,14 @@ public class Adherent implements Serializable {
 
     public void setMontantSolde(String montant_solde) {
         this.montant_solde = montant_solde;
+    }
+
+    public String getAdDetailsTypeMembre() {
+        return AdDetailsTypeMembre;
+    }
+
+    public void setAdDetailsTypeMembre(String adDetailsTypeMembre) {
+        this.AdDetailsTypeMembre = adDetailsTypeMembre;
     }
 
     public Adherent(){}
@@ -421,7 +446,48 @@ public class Adherent implements Serializable {
         this.AdGuichet = adGuichet;
     }
 
+    public String getAdTotNbPartSoc() {
+        return AdTotNbPartSoc;
+    }
 
+    public void setAdTotNbPartSoc(String adTotNbPartSoc) {
+        AdTotNbPartSoc = adTotNbPartSoc;
+    }
+
+    public ArrayList<String> getListPieceAdherent() {
+        return listPieceAdherent;
+    }
+    public void addListPiecedherent (String libelle_piece){
+        this.listPieceAdherent.add(libelle_piece);
+    }
+
+    public void setListPieceAdherent(ArrayList<String> listPieceAdherent) {
+        this.listPieceAdherent = listPieceAdherent;
+    }
+
+    public ArrayList<String> getListPieceNonFourniesAdherent() {
+        return listPieceNonFourniesAdherent;
+    }
+
+    public void setListPieceNonFourniesAdherent(ArrayList<String> listPieceNonFourniesAdherent) {
+        this.listPieceNonFourniesAdherent = listPieceNonFourniesAdherent;
+    }
+
+    public void addListPieceNonFourniesAdherent (String libelle_piece){
+        this.listPieceNonFourniesAdherent.add(libelle_piece);
+    }
+
+    public ArrayList<EditModel> getListFraisAdherent() {
+        return listFraisAdherent;
+    }
+
+    public void setListFraisAdherent(ArrayList<EditModel> listFraisAdherent) {
+        this.listFraisAdherent = listFraisAdherent;
+    }
+
+    public void addListFraisAdherent (EditModel inscripAdherentFrais){
+        this.listFraisAdherent.add(inscripAdherentFrais);
+    }
 
     public String getAdNbreCompte() {
         return this.AdNbreCompte;
@@ -430,4 +496,225 @@ public class Adherent implements Serializable {
     public void setAdNbreCompte(String adNbreCompte) {
         this.AdNbreCompte = adNbreCompte;
     }
+
+
+
+    public String getFullName() {
+        return this.AdNom+ " "+this.AdPrenom ;
+    }
+
+    /**
+     * Permet de calculer l'âge d'un adhérent à partir de sa date de naissance
+     * @param year: represente l'année de naissance de l'adhérent
+     * @param month: represente le mois de naissance de l'adhérent
+     * @param day: represente le jour de naissance de l'adhérent
+     * @return
+     */
+    /*private String getAge(int year, int month, int day){
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+
+        Integer ageInt = new Integer(age);
+        String ageS = ageInt.toString();
+
+        return ageS;
+    }*/
+    /*public int getAge(int year, int month, int dayOfMonth) {
+        return Period.between(
+                LocalDate.of(year, month, dayOfMonth),
+                LocalDate.now()
+        ).getYears();
+    }*/
+
+    /**
+     * Permet de calculer l'âge d'un adhérent à partir de sa date de naissance
+     * @return retourne son age en entier
+     */
+    public int getAge(){
+
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            date = sdf.parse(this.getAdDateNaiss());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(date == null) return 0;
+
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.setTime(date);
+
+        int year = dob.get(Calendar.YEAR);
+        int month = dob.get(Calendar.MONTH);
+        int day = dob.get(Calendar.DAY_OF_MONTH);
+
+        dob.set(year, month+1, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+
+
+
+        return age;
+    }
+
+    /**
+     * To get libelle sexe
+     * @return return libelle sexe (Masculin for M or Féminin for F)
+     */
+    public String getSexeLibelle(){
+        String sexeLibelle = "";
+        if (this.AdSexe!=null && this.AdSexe.equals("M") ){
+            sexeLibelle = "Masculin";
+        }else{
+            sexeLibelle = "Féminin";
+        }
+        return sexeLibelle;
+    }
+    /**
+     * To get libelle Type Location
+     * @return return libelle Type Location (Propriétaire = P ; Locataire = L ; Crédit bail = C )
+     */
+    public String getLibelleTypeLocation(){
+        String typeLocation = "";
+        if (this.AdTypHabite!=null && this.AdTypHabite.equals("P") ){
+            typeLocation = "Propriétaire";
+        }else if (this.AdTypHabite!=null && this.AdTypHabite.equals("L") ){
+            typeLocation = "Locataire";
+        }else{
+            typeLocation = "Crédit bail";
+        }
+        return typeLocation;
+    }
+    /**
+     * To get libelle Situation Matrimoniale
+     * @return return libelle Situation Matrimoniale (Célibataire = C or Marié for M; Divorcé = D; Veuf = V )
+     */
+    public String getLibelleSituationMat(){
+        String situationMatrimoniale = "";
+        if (this.AdSitFam!=null && this.AdSitFam.equals("C") ){
+            situationMatrimoniale = "Célibataire";
+        }else if (this.AdSitFam!=null && this.AdSitFam.equals("M") ){
+            situationMatrimoniale = "Marié";
+        }else if (this.AdSitFam!=null && this.AdSitFam.equals("D") ){
+            situationMatrimoniale = "Divorcé";
+        }else{ //Veuf = V
+            situationMatrimoniale = "Veuf";
+        }
+        return situationMatrimoniale;
+    }
+    /**
+     * To get libelle Type Piece
+     * @return return libelle Type Piece ()
+     */
+    public String getLibelleTypePiece(){
+        String libelleTypePiece = "";
+         if (this.AdTypCarteID!=null && this.AdTypCarteID.equals("CN") ){
+            libelleTypePiece = "Carte nationale d'identité";
+        }else if (this.AdTypCarteID!=null && this.AdTypCarteID.equals("CS") ){
+            libelleTypePiece = "Carte de séjour";
+        }else if (this.AdTypCarteID!=null && this.AdTypCarteID.equals("CC") ){
+            libelleTypePiece = "Carte consulaire";
+        }else if (this.AdTypCarteID!=null && this.AdTypCarteID.equals("CM") ){
+            libelleTypePiece = "Carte militaire";
+        }else if (this.AdTypCarteID!=null && this.AdTypCarteID.equals("PS") ){
+            libelleTypePiece = "Carte CNPS";
+        }else if (this.AdTypCarteID!=null && this.AdTypCarteID.equals("PC") ){
+            libelleTypePiece = "Permis de conduire";
+        }else if (this.AdTypCarteID!=null && this.AdTypCarteID.equals("PP") ){
+            libelleTypePiece = "Passeport";
+        }
+        return libelleTypePiece;
+    }
+
+    /**
+     * Permet d'encoder les Type Piece sur 2 caractères avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeAdTypCarteID(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("Carte nationale d'identité")){
+            base_encode = "CN";
+        }else if (base_decode.equals("Carte de séjour")){
+            base_encode = "CS";
+        }else if (base_decode.equals("Carte consulaire")){
+            base_encode = "CC";
+        }else if (base_decode.equals("Carte militaire")){
+            base_encode = "CM";
+        }else if (base_decode.equals("Carte CNPS")){
+            base_encode = "PS";
+        }else if (base_decode.equals("Permis de conduire")){
+            base_encode = "PC";
+        }else if (base_decode.equals("Passeport")){
+            base_encode = "PP";
+        }
+        return base_encode;
+    }
+    /**
+     * Permet d'encoder les Type de location sur 1 caractère avant de stocker en BD
+     * @param base_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeAdTypHabite(String base_decode){
+        String base_encode ="";
+        if (base_decode.equals("Propriétaire")){
+            base_encode = "P";
+        }else if (base_decode.equals("Locataire")){
+            base_encode = "L";
+        }else if (base_decode.equals("Crédit bail")){
+            base_encode = "C";
+        }
+        return base_encode;
+    }
+
+    /**
+     * Permet d'encoder la situation matrimoniale sur 1 caractère avant de stocker en BD
+     * @param adSitFam_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeAdSitFam(String adSitFam_decode){
+        String base_encode ="";
+        if (adSitFam_decode.equals("Célibataire")){
+            base_encode = "C";
+        }else if (adSitFam_decode.equals("Marié")){
+            base_encode = "M";
+        }else if (adSitFam_decode.equals("Divorcé")){
+            base_encode = "D";
+        }else if (adSitFam_decode.equals("Veuf")){
+            base_encode = "V";
+        }
+        return base_encode;
+    }
+
+
+    /**
+     * Permet d'encoder le sexe sur 1 caractère avant de stocker en BD
+     * @param adSexe_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeAdSexe(String adSexe_decode){
+        String base_encode ="";
+        if (adSexe_decode.equals("Masculin")){
+            base_encode = "M";
+        }else if (adSexe_decode.equals("Féminin")){
+            base_encode = "F";
+        }
+        return base_encode;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.binumtontine.adapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.adherent.Adherent;
-import com.example.binumtontine.activity.adherent.ComiteCredit;
+import com.example.binumtontine.activity.adherent.AnalyseTechniqueCredit;
+import com.example.binumtontine.activity.adherent.ComiteCreditNew;
 import com.example.binumtontine.activity.adherent.ComptesAdherent;
 import com.example.binumtontine.activity.adherent.ConsulterCompte;
 import com.example.binumtontine.activity.adherent.ConsulterCompteEAP;
@@ -178,55 +181,6 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                 //inflating menu from xml resource
 //                popup.inflate(R.menu.options_menu_compte_adherent);
                 popup.inflate(R.menu.options_menu_compte_adherent_new);
-         /*       if ((holder.tvTypeCompte.getText()).equals("EAV")){
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
-                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(false);
-                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(false);
-                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(false);
-
-
-                }else if((holder.tvTypeCompte.getText()).equals("EAP")){
-
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-
-                }else if((holder.tvTypeCompte.getText()).equals("COMPTE COURANT")){
-
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, true);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
-                    popup.getMenu().findItem(R.id.menu_decouvert).setVisible(true);
-                    popup.getMenu().findItem(R.id.menu_avance_speciale).setVisible(true);
-                    popup.getMenu().findItem(R.id.menu_decouvert_permanent).setVisible(true);
-                    popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE COURANT");
-
-                }else if((holder.tvTypeCompte.getText()).equals("EAT")){
-
-
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, true);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, false);
-                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
-                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
-                }else if((holder.tvTypeCompte.getText()).equals("CREDIT")){
-
-
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eav_group, false);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.eap_group, false);
-                    popup.getMenu().findItem(R.id.menu_group).getSubMenu().setGroupVisible (R.id.credit_group, true);
-                    popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
-
-//                    popup.getMenu().findItem(R.id.eav_group).setVisible(false);
-//                    popup.getMenu().findItem(R.id.eap_group).setVisible(true);
-//                    popup.getMenu().findItem(R.id.menu_payer_mise).setVisible(false);
-//                    popup.getMenu().findItem(R.id.menu_historique_mise).setVisible(false);
-                }
-                */
 
                 if ((holder.tvTypeCompte.getText()).equals("EAV")){
                     popup.getMenu().findItem(R.id.menu_depot).setVisible(true);
@@ -245,6 +199,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_cloture).setVisible(false);
 
                     popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
@@ -285,6 +240,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE EAP");
 
                     popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
@@ -322,6 +278,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE COURANT");
 
                     popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
@@ -357,6 +314,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.title_group_eav).setTitle("COMPTE EAT");
 
                     popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
@@ -388,28 +346,91 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                     popup.getMenu().findItem(R.id.menu_consulter_compte).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_cloture_anticipee).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_cloture).setVisible(false);
+                    if (myList.getDcEtapeCredit().equals("1")){
+                        /*holder.tvLibelleProduit.setText("En attente de controle");
+                        holder.tvLibelleProduit.setBackgroundColor(Color.parseColor("#FFFF00"));*/
+                        popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(true);
+                        popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
 
-                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(true);
+                        /* START PROVISOIRE*/
+                        popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+                        /* END PROVISOIRE*/
+                    }else if (myList.getDcEtapeCredit().equals("2")){
+
+                        popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(true);
+
+                        popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+                    }else if (myList.getDcEtapeCredit().equals("3")){
+
+                        popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+
+                        popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(true);
+                        popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+                    }else if (myList.getDcEtapeCredit().equals("4")){
+
+                        popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+
+                        popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(true);
+                        popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+                    }else if (myList.getDcEtapeCredit().equals("5")){
+
+                        popup.getMenu().findItem(R.id.menu_analyse_technique).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
+
+                        popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(true);
+                        popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
+                        popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+                    }
+                   /* popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(true);****
                     popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(true);
                     popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(true);
-                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(true);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(true);*/
                     popup.getMenu().findItem(R.id.title_group_eav).setTitle("CREDIT");
 
 
 
                     /* START PROVISOIRE*/
 //                    popup.getMenu().findItem(R.id.menu_comite_credit).setVisible(false);
-                    popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
+             /*       popup.getMenu().findItem(R.id.menu_deblocge_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_decaissement_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_remboursement_credit).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_validation_dette_hors_bilan).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_paiement_dette_hors_bilan).setVisible(false);
                     popup.getMenu().findItem(R.id.menu_remboursement_anticipe).setVisible(false);
-                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);
+                    popup.getMenu().findItem(R.id.menu_cloture_credit).setVisible(false);*/
                     /* END PROVISOIRE*/
                 }
 
@@ -481,6 +502,11 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                             HistoriqueEAV.class);
                                     intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
                                 }
+
+                                Bundle bundleHistorique = new Bundle();
+                                bundleHistorique.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intent.putExtras(bundleHistorique);
                                 ((Activity) mCtx).startActivityForResult(intent, 20);
                                 break;
                             case R.id.menu_payer_mise:
@@ -606,11 +632,36 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                             ((Activity) mCtx).startActivityForResult(intent, 20);
 
                                 break;
+                            case R.id.menu_analyse_technique:
+                                //handle menu3 click
+
+//                                intent = new Intent(mCtx,
+//                                        ComiteCredit.class);
+                                intent = new Intent(mCtx,
+                                        AnalyseTechniqueCredit.class);
+
+                                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+
+                                intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                                intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                                intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                                intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+
+                                Bundle bundleAnalyseTechnique = new Bundle();
+                                bundleAnalyseTechnique.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intent.putExtras(bundleAnalyseTechnique);
+
+                            ((Activity) mCtx).startActivityForResult(intent, 20);
+
+                                break;
                             case R.id.menu_comite_credit:
                                 //handle menu3 click
 
+//                                intent = new Intent(mCtx,
+//                                        ComiteCredit.class);
                                 intent = new Intent(mCtx,
-                                        ComiteCredit.class);
+                                        ComiteCreditNew.class);
 
                                 intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
 
@@ -646,6 +697,7 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                                 intent.putExtras(bundleDeblocageCredit);
 
                             ((Activity) mCtx).startActivityForResult(intent, 20);
+                                break;
                             case R.id.menu_decaissement_credit:
                                 //handle menu3 click
 
@@ -667,6 +719,28 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
                             ((Activity) mCtx).startActivityForResult(intent, 20);
 
                                 break;
+                            case R.id.menu_remboursement_credit:
+                                //handle menu3 click
+                                notificationFonctionnaliteEnCours();
+/*
+                                intent = new Intent(mCtx,
+                                        DecaissementCredit.class);
+
+                                intent.putExtra(KEY_COMPTE_ID, myList.getNumero_compte()+"");
+
+                                intent.putExtra(KEY_MONTANT_COMPTE, myList.getMontantSolde());
+                                intent.putExtra(KEY_LIBELLE_PRODUIT, myList.getLibelleProduit());
+                                intent.putExtra(KEY_DATE_H_CREE, myList.getDateHCree());
+                                intent.putExtra(KEY_TAUX, myList.getTaux_compte());
+
+                                Bundle bundleDecaissementCredit = new Bundle();
+                                bundleDecaissementCredit.putSerializable(KEY_ADHERENT, (Serializable) ListCompteAdherentActivity_New.adherent);
+                                // bundle.putSerializable(KEY_ADHERENT, adherent);
+                                intent.putExtras(bundleDecaissementCredit);
+
+                            ((Activity) mCtx).startActivityForResult(intent, 20);
+*/
+                                break;
                         }
                         return false;
                     }
@@ -678,7 +752,23 @@ public class CustomAdapterListComptesAdherent extends RecyclerView.Adapter<Custo
         });
     }
 
+    public void notificationFonctionnaliteEnCours() {
+        MyData.bipError();
+        new AlertDialog.Builder((Activity) mCtx)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Fonctionnalité en modification !")
+                .setMessage(" Nous sommes entrain de perfectionner cette fonctionnalité\n Veuillez réessayer ultérieurement !"
+                )
+                .setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+
+                })
+                .show();
+    }
     @Override
     public int getItemCount() {
         return list.size();

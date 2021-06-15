@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
@@ -43,6 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
+
 public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_EAT_CODE = "EtCode";
     private static final String KEY_EAT_LIBELLE = "EtLibelle";
@@ -55,22 +59,12 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private static final String KEY_EAT_TYPE_TX_INTER = "EtTypTxInter";
     private static final String KEY_EAT_VAL_TX_INTER = "EtValTxInter";
     private static final String KEY_EAT_BaseTxInter = "EtBaseTxInter";
-//    private static final String KEY_EAT_PLAGE_TX_INTER_FROM = "EtPlageTxInterFrom";
-//    private static final String KEY_EAT_PLAGE_TX_INTER_TO = "EtPlageTxInterTo";
     private static final String ET_IS_TX_INT_NEG = "EtIsTxIntNeg";
     private static final String ET_IS_PRISE_INT_MISE_ON = "EtIsPriseIntMiseOn";
     private static final String ET_IS_PENAL_RUP_ANT = "EtIsPenalRupAnt";
     private static final String ET_NATURE_RUP_AN = "EtNatureRupAn";
     private static final String ET_VAL_TX_MT_RUPTURE = "EtValTxMtRupture";
-//    private static final String ET_PLAGE_TX_MT_RUPTURE_FROM = "EtPlageTxMtRuptureFrom";
-//    private static final String ET_PLAGE_TX_MT_RUPTURE_TO = "EtPlageTxMtRuptureTo";
     private static final String ET_BASE_TX_PENAL = "EtBaseTxPenal";
-
-
-    private static final String KEY_EAT_PLAGE_TX_MT_RUPTURE_DEBUT = "EtTptDebut";
-    private static final String KEY_EAT_PLAGE_TX_MT_RUPTURE_FIN = "EtTptFin";
-    private static final String KEY_EAT_PLAGE_TX_MT_RUPTURE_VALEUR = "EtTptValeur";
-
     private static final String ET_IS_EPAR_RETIRE_FIN = "EtIsEparRetireFin";
     private static final String ET_IS_EPAR_TRANSF_FIN = "EtIsEparTransfFin";
     private static final String ET_IS_ONLY_TOT_TRANSF = "EtIsOnlyTotTransf";
@@ -81,33 +75,20 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private static final String ET_IS_NEW_TX_INT_RUP_ANT = "EtIsNewTxIntRupAnt";
     private static final String ET_TYP_NEW_TX_INT_RUP_ANT = "EtTypNewTxIntRupAnt";
     private static final String ET_VAL_TX_INT_PENAL = "EtValTxIntPenal";
-//    private static final String ET_PLAGE_TX_INT_PENAL_FROM = "EtPlageTxIntPenalFrom";
-//    private static final String ET_PLAGE_TX_INT_PENAL_TO = "EtPlageTxIntPenalTo";
     private static final String ET_BASE_TX_INT_PENAL = "EtBaseTxIntPenal";
 
     private static final String KEY_EtIsPenalDeblocageRupAnt = "EtIsPenalDeblocageRupAnt";
     private static final String KEY_EtNaturePenalDeblocage = "EtNaturePenalDeblocage";
     private static final String KEY_EtValTxMtPenaliteDeblocage = "EtValTxMtPenaliteDeblocage";
     private static final String KEY_EtBaseTxMtPenalDeblocage = "EtBaseTxMtPenalDeblocage";
-
-/*
-    private static final String KEY_EAT_PLAGE_TX_INT_PENAL_DEBUT = "EtRatDebut";
-    private static final String KEY_EAT_PLAGE_TX_INT_PENAL_FIN = "EtRatFin";
-    private static final String KEY_EAT_PLAGE_TX_INT_PENAL_VALEUR = "EtRatValeur";
-*/
     private static final String ET_TX_INT_PENAL_NEG = "EtTxIntPenalNeg";
     private static final String ET_CAISSE_ID = "EtCaisseId";
     private static final String ET_GUICHET_ID = "EtGuichetId";
 
+    private static final String KEY_EtIsTVAOn = "EtIsTVAOn";
+
 
     private static String STRING_EMPTY = "";
-
-    private LinearLayout ll;
-//    private LinearLayout ll_btn;
-//    private LinearLayout ll_EtValTxMtRupture;
-//    private LinearLayout ll_btn_EtValTxMtRupture;
-//    private LinearLayout ll_EtValTxIntPenal;
-//    private LinearLayout ll_btn_EtValTxIntPenal;
     private EditText EtCode_ET;
     private EditText EtLibelleET;
     private EditText EtMtMinMise_ET;
@@ -120,9 +101,6 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private RadioButton rbEtTypTxInterFixe;
     private RadioButton rbEtTypTxInterPlage;
     private EditText EtValTxInter_ET;
-//    private EditText EtPlageTxInterFrom_ET;
-//    private EditText EtPlageTxInterTo_ET;
-//    private EditText EtPlageTxInterValeur_ET;
 
     private Switch EtIsTxIntNeg_SW;
     private Switch EtIsPriseIntMiseOn_SW;
@@ -131,16 +109,12 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private RadioButton rbEtNatureRupAnMontant;
     private RadioButton rbEtNatureRupAnPlage;
     private EditText EtValTxMtRupture_ET;
-//    private EditText EtPlageTxMtRuptureFrom_ET;
-//    private EditText EtPlageTxMtRuptureTo_ET;
-//    private EditText EtPlageTxMtRuptureValeur_ET;
     private JRSpinner EtBaseTxPenal_ET;
 
     private Switch EtIsEparRetireFin_SW;
     private Switch EtIsEparTransfFin_SW;
     private Switch EtIsOnlyTotTransf_SW;
     private Switch EtIsEparRenouvFin_SW;
-//    private Switch EtActionDefATerme_SW;
 
     private RadioButton rb_CtModRenouv_transfert_vers_eav;
     private RadioButton rb_CtModRenouv_renouveller;
@@ -150,11 +124,10 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private Switch EtIsInterDusRupAnt_SW;
     private Switch EtIsNewTxIntRupAnt_SW;
     private RadioButton rbEtTypNewTxIntRupAntFixe;
+    private RadioButton rbEtTypNewTxIntRupAntTaux;
     private RadioButton rbEtTypNewTxIntRupAntPlage;
+    private RadioButton rbEtTypNewTxIntRupAntPlageMois;
     private EditText EtValTxIntPenal_ET;
-//    private EditText EtPlageTxIntPenalFrom_ET;
-//    private EditText EtPlageTxIntPenalTo_ET;
-//    private EditText EtPlageTxIntPenalValeur_ET;
     private JRSpinner EtBaseTxIntPenal_ET;
     private Switch EtTxIntPenalNeg_SW;
 
@@ -171,15 +144,11 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private String EtTypTxInter;
     private String EtValTxInter;
     private String EtBaseTxInter;
-    private String EtPlageTxInterFrom;
-    private String EtPlageTxInterTo;
     private String EtIsTxIntNeg ;
     private String EtIsPriseIntMiseOn;
     private String EtIsPenalRupAnt ;
     private String EtNatureRupAn ;
     private String EtValTxMtRupture;
-    private String EtPlageTxMtRuptureFrom;
-    private String EtPlageTxMtRuptureTo ;
     private String EtBaseTxPenal ;
     private String EtIsEparRetireFin;
     private String EtIsEparTransfFin;
@@ -191,8 +160,6 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
     private String EtIsNewTxIntRupAnt ;
     private String EtTypNewTxIntRupAnt;
     private String EtValTxIntPenal;
-    private String EtPlageTxIntPenalFrom;
-    private String EtPlageTxIntPenalTo;
     private String EtBaseTxIntPenal ;
     private String EtTxIntPenalNeg ;
 
@@ -256,7 +223,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
     /*START*/
     private RadioButton rbEtTypTxInterTaux;
-    private RadioButton rbEtTypNewTxIntRupAntTaux;
+
 
     private TextInputLayout input_layout_EtBaseTxInter;
     private JRSpinner mySpinnerEtBaseTxInter; //pour gérer le spinner contenant les bases du Tx Int avance spéciale
@@ -317,16 +284,13 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
 
     //END
-
+    private SwitchCompat EtIsTVAOn;
+    private String st_EtIsTVAOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.fragment_param_produit_eav);
         setContentView(R.layout.activity_eat);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_produit_eav);
-        setSupportActionBar(toolbar);
-        setToolbarTitle(); */
 
         Intent intent = getIntent();
         action_to_affect = getIntent().getExtras().getBoolean(KEY_EXTRA_ACTION_TO_AFFECT);
@@ -348,12 +312,12 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         tabPlageDebutList2 = new ArrayList<>();
         tabPlageFinList2 = new ArrayList<>();
         tabPlageValeurList2 = new ArrayList<>();
-        ll = (LinearLayout)findViewById(R.id.blk_EtPlageTxInter);
         LL_EtNatureRupAn = (LinearLayout)findViewById(R.id.ll_EtNatureRupAn);
         LL_EtTypNewTxIntRupAnt = (LinearLayout)findViewById(R.id.ll_EtTypNewTxIntRupAnt);
 
         EtCode_ET = (EditText) findViewById(R.id.input_txt_Code_EAT);
         EtCode_ET.setEnabled(false);
+        alreadyUpperCase(EtCode_ET);
         EtLibelleET = (EditText) findViewById(R.id.input_txt_LibelleEAT);
         EtMtMinMise_ET = (EditText) findViewById(R.id.input_txt_MinMtMiseEAT);
         EtMtMaxMise_ET = (EditText) findViewById(R.id.input_txt_MaxMtMiseEAT);
@@ -409,6 +373,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         rbEtTypNewTxIntRupAntFixe = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATFixe);
         rbEtTypNewTxIntRupAntTaux = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATTaux);
         rbEtTypNewTxIntRupAntPlage = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATPlage);
+        rbEtTypNewTxIntRupAntPlageMois = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATPlageMois);
         EtValTxIntPenal_ET = (EditText) findViewById(R.id.txtValeurNewTxInteretRuptureEAT);
 
         /*Base EtBaseTxIntPenal_ET debut*/
@@ -475,6 +440,8 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
         onRadioButtonClicked(rbEtNaturePenalDeblocageMontant);
         onSwitchButtonClicked(EtIsPenalDeblocageRupAnt_SW);
         //FIN 06/11/2020
+
+        EtIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchEtIsTVAOn);
 
         tv_plageEtValTxInter = (TextView) findViewById(R.id.tv_plage_EtValTxInter);
         //TIT
@@ -644,7 +611,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
 
     public void onSwitchButtonClicked(View view) {
-        boolean checked1 = ((Switch) view).isChecked();
+       // boolean checked1 = ((Switch) view).isChecked();
         String str="";
 
         // Check which checkbox was clicked
@@ -667,7 +634,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
             case R.id.SwitchPenaliteEnCasDeRuptureEAT:
                 if (EtIsPenalRupAnt_SW.isChecked()) {
-                    str = checked1?"Pénalité en cas de rupture anticipéé activée":"Pénalité en cas de rupture anticipéé désactivée";
+                   // str = checked1?"Pénalité en cas de rupture anticipéé activée":"Pénalité en cas de rupture anticipéé désactivée";
 
                     LL_EtNatureRupAn.setVisibility(View.VISIBLE);
 
@@ -685,7 +652,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                 break;
             case R.id.SwitchDefinirNouveauTxInteretEAT:
                 if (EtIsNewTxIntRupAnt_SW.isChecked()) {
-                    str = checked1?"Nouveau taux d'interêt activé":"Nouveau taux d'interêt désactivé";
+                    //str = checked1?"Nouveau taux d'interêt activé":"Nouveau taux d'interêt désactivé";
 
                     LL_EtTypNewTxIntRupAnt.setVisibility(View.VISIBLE);
 
@@ -872,6 +839,15 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                     tv_plage_EtValTxIntPenal.setVisibility(View.VISIBLE);
                 }
                 break;
+
+            case R.id.rbEtTypeNouveauTxInteretRuptureEATPlageMois:
+                if (rbEtTypNewTxIntRupAntPlageMois.isChecked()) {
+                    EtTypNewTxIntRupAnt = "M";
+                    EtValTxIntPenal_ET.setVisibility(View.GONE);
+                    EtBaseTxIntPenal_ET.setVisibility(View.GONE);
+                    tv_plage_EtValTxIntPenal.setVisibility(View.VISIBLE);
+                }
+                break;
         }
         // Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
@@ -931,8 +907,6 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
 
                 EtValTxMtRupture = jsonObject.getString(ET_VAL_TX_MT_RUPTURE);
-//                    EtPlageTxMtRuptureFrom = jsonObject.getString(ET_PLAGE_TX_MT_RUPTURE_FROM);
-//                    EtPlageTxMtRuptureTo = jsonObject.getString(ET_PLAGE_TX_MT_RUPTURE_TO);
                 EtBaseTxPenal = ProduitEAT.decodeEtBaseTxPenal(jsonObject.getString(ET_BASE_TX_PENAL));
                 EtIsEparRetireFin = jsonObject.getString(ET_IS_EPAR_RETIRE_FIN);
                 EtIsEparTransfFin = jsonObject.getString(ET_IS_EPAR_TRANSF_FIN);
@@ -948,8 +922,6 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
 
                 EtValTxIntPenal = jsonObject.getString(ET_VAL_TX_INT_PENAL);
-//                    EtPlageTxIntPenalFrom = jsonObject.getString(ET_PLAGE_TX_INT_PENAL_FROM);
-//                    EtPlageTxIntPenalTo = jsonObject.getString(ET_PLAGE_TX_INT_PENAL_TO);
                 EtBaseTxIntPenal = ProduitEAT.decodeEtBaseTxIntPenal(jsonObject.getString(ET_BASE_TX_INT_PENAL));
                 EtTxIntPenalNeg =jsonObject.getString(ET_TX_INT_PENAL_NEG);
 
@@ -957,7 +929,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                 EtNaturePenalDeblocage =jsonObject.getString(KEY_EtNaturePenalDeblocage);
                 EtValTxMtPenaliteDeblocage =jsonObject.getString(KEY_EtValTxMtPenaliteDeblocage);
                 EtBaseTxMtPenalDeblocage = ProduitEAT.decodeEtBaseTxMtPenalDeblocage(jsonObject.getString(KEY_EtBaseTxMtPenalDeblocage));
-
+                st_EtIsTVAOn = jsonObject.getString(KEY_EtIsTVAOn);
 
                 //}
             } catch (Exception e) {
@@ -1103,6 +1075,9 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
 
                             rbEtTypNewTxIntRupAntPlage.setChecked(true);
                             onRadioButtonClicked(rbEtTypNewTxIntRupAntPlage);
+                        }else if (EtTypNewTxIntRupAnt.equals("M")){
+                            rbEtTypNewTxIntRupAntPlageMois.setChecked(true);
+                            onRadioButtonClicked(rbEtTypNewTxIntRupAntPlageMois);
                         }
 
                         if (EtIsNewTxIntRupAnt.equals("Y")){
@@ -1145,6 +1120,13 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                         EtValTxMtPenaliteDeblocage_ET.setText(EtValTxMtPenaliteDeblocage);
 
                         EtBaseTxMtPenalDeblocage_JR.setText(EtBaseTxMtPenalDeblocage);
+
+                        //TVA
+                        if (st_EtIsTVAOn.equals("Y")){
+                            EtIsTVAOn.setChecked(true);
+                        }else {
+                            EtIsTVAOn.setChecked(false);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1340,6 +1322,13 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
             EtValTxMtPenaliteDeblocage = EtValTxMtPenaliteDeblocage_ET.getText().toString();
             EtBaseTxMtPenalDeblocage   = ProduitEAT.encodeEtBaseTxMtPenalDeblocage(EtBaseTxMtPenalDeblocage_JR.getText().toString());
 
+
+            //TVA
+            if (EtIsTVAOn.isChecked()) {
+                st_EtIsTVAOn = "Y";
+            }else {
+                st_EtIsTVAOn = "N";
+            }
             new UpdateEatAsyncTask().execute();
         } else {
             Toast.makeText(UpdateEATForGuichet.this,
@@ -1418,6 +1407,9 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
             httpParams.put(ET_CAISSE_ID, String.valueOf(MyData.CAISSE_ID));
             httpParams.put(ET_GUICHET_ID, String.valueOf(MyData.GUICHET_ID));
 
+            //TVA
+            httpParams.put(KEY_EtIsTVAOn, st_EtIsTVAOn);
+
             JSONObject jsonObject =(action_to_affect)?
                     httpJsonParser.makeHttpRequest(
                             BASE_URL + "assign_eat_to_guichet.php", "POST", httpParams)
@@ -1426,6 +1418,7 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                             BASE_URL + "update_eat.php", "POST", httpParams);
             try {
                 success = jsonObject.getInt(KEY_SUCCESS);
+                Log.e("jsonObject",jsonObject+"");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1456,9 +1449,15 @@ public class UpdateEATForGuichet extends AppCompatActivity implements SERVER_ADD
                         }
 
                     } else {
-                        Toast.makeText(UpdateEATForGuichet.this,
+                        /*Toast.makeText(UpdateEATForGuichet.this,
+                                "Error", Toast.LENGTH_LONG).show();*/
+                        Intent i = getIntent();
+                        //send result code 20 to notify about movie update
+                        setResult(20, i);
+                        finish();
+                        /*Toast.makeText(UpdateEATForGuichet.this,
                                 "Some error occurred while updating",
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_LONG).show();*/
 
                     }
                 }

@@ -24,7 +24,19 @@
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
         <!-- Begin -->
-
+<!--        TV Identification demandeur-->
+        <TextView
+            android:id="@+id/tv_identification_du_demandeur"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="1- Identification du demandeur"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         <!--Nom Adherent-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,87 +132,702 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
-        <!--Tv Numero de dossier-->
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_title_num_dossier_adherent"
-                style="@style/parent"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/loginViewsMargin"
-                android:layout_weight="1"
-                android:text="N° du dossier"
-                android:textSize="18sp" />
+        <!-- Date d'enregistrement -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcDate"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_DcDate"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_date_enregistrement"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tv_num_dossier_adherent"
-                style="@style/parent"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/loginViewsMargin"
-                android:layout_weight="1"
-                android:text=""
-                android:textSize="18sp" />
-
-        </LinearLayout> -->
         <!--Numéro dossier-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcNumDoss"
+            android:id="@+id/input_layout_DcNumDossier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
             app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
+            android:layout_marginTop="@dimen/signup_text_margin_top"
             >
-
             <EditText
-                android:id="@+id/input_txt_DcNumDoss"
+                android:id="@+id/input_txt_DcNumDossier"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:hint="@string/hint_numero_dossier"
+                android:maxLength="30"
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <!--Spinner produitCreditList by guichet-->
+
+        <!--  Bloc Compte Epargne-->
+        <!-- Numero compte eav-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_title_credit"
+                android:id="@+id/tv_title_DcCpteEAVPrinc"
                 style="@style/parent"
                 android:layout_width="205dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/produit_credit"
-                android:textSize="16sp" />
+                android:text="N° Compte EAV:"
+                android:textSize="18sp" />
 
-            <Spinner
-                android:id="@+id/spn_list_credit"
-                style="@style/modifiedEditText"
-
+            <TextView
+                android:id="@+id/tv_DcCpteEAVPrinc"
+                style="@style/parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:hint="Produit crédit" />
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
 
         </LinearLayout>
-       <!--Spinner objetCreditList by guichet-->
+        <!--Date ouverture compte eav-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_date_ouverture"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Date ouverture \n Compte EAV:"
+                android:singleLine="false"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_date_ouverture"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--DcMtSoldeEAV Montant du Solde EAV Principal membre.-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_DcMtSoldeEAV"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Montant du Solde EAV Principal membre"
+                android:singleLine="false"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_DcMtSoldeEAV"
+                style="@style/parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:singleLine="false"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <!--DcMtPartSocial Montant des parts sociales du membre-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginTop="@dimen/loginViewsMargin"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_title_DcMtPartSocial"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_width="205dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Montant des parts sociales du membre"-->
+<!--                android:singleLine="false"-->
+<!--                android:textSize="18sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_DcMtPartSocial"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text=""-->
+<!--                android:singleLine="false"-->
+<!--                android:scrollHorizontally="false"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="18sp" />-->
+
+<!--        </LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtEpargnOblig"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcMtEpargnOblig"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/hint_DcMtEpargnOblig"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberSigned"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtPartSocial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcMtPartSocial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/hint_montant_part_social"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberSigned"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:focusable="false"
+                    android:editable="false"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!--        TV Activités économiques-->
+        <TextView
+            android:id="@+id/tv_activites_economiques"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="2- Activités économiques"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!--        DcActivitePrinc Désignation de l'activité principale-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcActivitePrinc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/signup_text_margin_top"
+            >
+            <EditText
+                android:id="@+id/input_txt_DcActivitePrinc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:maxLength="70"
+                android:hint="@string/hint_activite_principale"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--DcNbAnneeExper. /R. **  Nombre d'années d'expérience-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcNbAnneeExper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+            <EditText
+                android:id="@+id/input_txt_DcNbAnneeExper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_annees_experience"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--    DcAutresActivite /A150-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcAutresActivite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+            <EditText
+                android:id="@+id/input_txt_DcAutresActivite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:maxLength="150"
+                android:hint="@string/hint_autres_activites"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--        TV Prêt précédent et actuel-->
+        <TextView
+            android:id="@+id/tv_pret_precedent_et_actuel"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="3- Prêt précédent et actuel"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!--- DcIsEmpruntPasse. /A1. ** Pour dire si le membre a eu un emprunt dans le passé.-->
+        <LinearLayout
+            android:id="@+id/DcIsEmpruntPasse"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcIsEmpruntPasse"
+                android:layout_width="379dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Avez-vous un emprunt dans le passé ?:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsEmpruntPasse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsEmpruntPasse"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsEmpruntPasse_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcIsEmpruntPasse_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_DcEmpruntPasseOu"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <!--- DcEmpruntPasseOu. /A100. **  Pour dire le lieu de l'emprunt.-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcEmpruntPasseOu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcEmpruntPasseOu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint="@string/hint_lieu_emprunt"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <!--- DcIsEchRembResp /A1,  pour dire si oui/Y ou non/N les échéances ont été respectées.-->
+        <LinearLayout
+            android:id="@+id/ll_DcIsEchRembResp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcIsEchRembResp"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Avez-vous respecté les échéances ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsEchRembResp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsEchRembResp"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsEchRembResp_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcIsEchRembResp_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+<!--        DcPourqRembSiNon /A150. ** Pour dire pourquoi les échéances n'ont pas été respectées.-->
+        <LinearLayout
+            android:id="@+id/ll_DcPourqRembSiNon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <!--- - DcPourqRembSiNon /A150. ** Pour dire pourquoi les échéances n'ont pas été respectées -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcPourqRembSiNon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcPourqRembSiNon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint="@string/hint_DcPourqRembSiNon"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!-- DcPretEnCours /A1. **  Pour dire si oui ou Non l'on a un prêt en cours.-->
+        <LinearLayout
+            android:id="@+id/ll_DcPretEnCours"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcPretEnCours"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Avez-vous un prêt en cours ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcPretEnCours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsEchRembResp"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcPretEnCours_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcPretEnCours_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_DcPretInstit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+            <!--        - DcPretInstit. /A100. **  Dire dans quelle institution l'on a le prêt..-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcPretInstit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/signup_text_margin_top"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcPretInstit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint="@string/hint_DcPretInstit"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--        - DcNaturePret. /A100. ** Dire de quelle nature est ce prêt.-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcNaturePret"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcNaturePret"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint="@string/hint_DcNaturePret"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- DcMtPrincPret. /R. **  Dire quel était le montant du Principal du Prêt.-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtPrincPret"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+
+                <EditText
+                    android:id="@+id/input_txt_DcMtPrincPret"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/hint_DcMtPrincPret"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberSigned"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- - DcMtRestARemb /R. **  Dire combien il reste à rembourser sur ce prêt.-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtRestARemb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcMtRestARemb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/hint_DcMtRestARemb"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberSigned"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <!--        TV Détails du prêt sollicité-->
+        <TextView
+            android:id="@+id/tv_details_du_pret_sollicite"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="4- Détails du prêt sollicité"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- DcMtPretSollicite /R. **  Montant sollicité pour le prêt.-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcMtPretSollicite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+            <EditText
+                android:id="@+id/input_txt_DcMtPretSollicite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_montant_demande_credit"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--- DcObjetPret. /I. **  Objet du prêt: Spinner objetCreditList by guichet-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -229,24 +856,51 @@
 
         </LinearLayout>
 
-        <!--Description du dossier de crédit-->
+        <!--Spinner produitCreditList by guichet-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title_credit"
+                style="@style/parent"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/produit_credit"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_list_credit"
+                style="@style/modifiedEditText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:hint="Produit crédit" />
+
+        </LinearLayout>
+
+        <!-- DcDescriptPret /A200. Description du prêt: Description du dossier de crédit-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcDescription"
+            android:id="@+id/input_layout_DcDescriptPret"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin"
-
             >
-
             <EditText
-                android:id="@+id/input_txt_DcDescription"
+                android:id="@+id/input_txt_DcDescriptPret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
-                android:maxLength="50"
+                android:maxLength="200"
                 android:hint="@string/hint_dc_description"
                 style="@style/modifiedEditText"
                 android:inputType="textPersonName"
@@ -254,69 +908,19 @@
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <!--Montant sollicité-->
+
+        <!--- DcDureeRemb. /I. **  Durée du remboursement en mois-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcMtDmde"
+            android:id="@+id/input_layout_DcDureeRemb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin"
-
             >
-
             <EditText
-                android:id="@+id/input_txt_DcMtDmde"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_montant_demande_credit"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Taux Interet-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcTauxInter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcTauxInter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_taux_interet"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--Durée emprunt (mois)-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcDureeMois"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcDureeMois"
+                android:id="@+id/input_txt_DcDureeRemb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -327,291 +931,232 @@
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <!--Crédits antérieurs 1-->
+
+        <!-- - DcDatePremEch /D. **  Date de la première échéance du Prêt -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcCreditAnterieur1"
+            android:id="@+id/input_layout_DcDatePremEch"
+            style="@style/parent"
+            android:layout_marginTop="@dimen/loginViewsMargin">
+            <EditText
+                android:id="@+id/input_txt_DcDatePremEch"
+                style="@style/modifiedEditText"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="@string/hint_DcDatePremEch"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- DcPeriodRemb. /I. Périodicité de remboursement -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:visibility="gone"
+            android:id="@+id/input_layout_DcPeriodRemb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/TextInputLayoutStyle"
             style="@style/parent"
             app:errorEnabled="true"
             android:layout_marginTop="@dimen/loginViewsMargin"
-
             >
-
             <EditText
-                android:id="@+id/input_txt_DcCreditAnterieur1"
+                android:id="@+id/input_txt_DcPeriodRemb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:hint="@string/hint_credit_anterieur1"
+                android:hint="@string/hint_DcPeriodRemb"
                 style="@style/modifiedEditText"
                 android:inputType="numberSigned"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <!--Crédits antérieurs 2-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcCreditAnterieur2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcCreditAnterieur2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_credit_anterieur2"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Crédits antérieurs 3-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcCreditAnterieur3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcCreditAnterieur3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_credit_anterieur3"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Cumul Dette Encours-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcCumulDetteEncours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcCumulDetteEncours"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_cumul_dette_encours"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!--Nature activité (6 derniers mois) -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcNatActiv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcNatActiv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:maxLength="70"
-                android:hint="@string/hint_nature_activite"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!--Moyenne Epargne Mensuelle-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcMtMoyEpargne"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcMtMoyEpargne"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_moyenne_epargne_mensuelle"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Total Epargne-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcMtSoldeEpargne"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcMtSoldeEpargne"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_total_epargne"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--Fréquence Revenus -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcFreqRevenus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcFreqRevenus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:maxLength="70"
-                android:hint="@string/hint_frequence_revenus"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--Montant Revenus Fixes-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcMtRevenusFixe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcMtRevenusFixe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_montant_revenus_fixes"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--Montant Autres revenus-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_DcMtAutreRevenus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_DcMtAutreRevenus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_montant_autre_revenus"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!--Avaliste 1-->
+        <!--  DcPeriodRemb. /A3. Périodicité de remboursement -->
         <LinearLayout
-            android:id="@+id/AvalisteCredit"
+            android:id="@+id/ll_DcPeriodRemb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/loginViewsMargin"
             android:orientation="horizontal">
-
             <TextView
-                android:id="@+id/tv_avaliste_credit"
+                android:id="@+id/tv_DcPeriodRemb"
                 android:layout_width="179dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:scrollbars="vertical"
-
                 android:scrollHorizontally="false"
                 android:singleLine="false"
-                android:text="Ajouter des avalistes ?:"
+                android:text="@string/hint_DcPeriodRemb"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textStyle="bold" />
 
             <RadioGroup
-                android:id="@+id/rg_avaliste_credit"
+                android:id="@+id/rg_DcPeriodRemb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_avaliste_credit"
+                android:layout_below="@+id/tv_DcPeriodRemb"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:showDividers="beginning|middle|end">
                 <RadioButton
-                    android:id="@+id/rb_avaliste_credit_oui"
+                    android:id="@+id/rb_DcPeriodRemb_HEB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Hebdomadaire"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_DcPeriodRemb_QUI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Quinzaine "
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_DcPeriodRemb_MEN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Mensuelle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_DcPeriodRemb_BIM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Bimestrielle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_DcPeriodRemb_TRI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Trimestrielle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_DcPeriodRemb_SEM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Semestrielle"
+                    android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/rb_DcPeriodRemb_ANN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Annuelle"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <!-- - DcNbJrDiffere /I. **  Nombre de jours de diffèré. -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcNbJrDiffere"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+            <EditText
+                android:id="@+id/input_txt_DcNbJrDiffere"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_DcNbJrDiffere"
+                style="@style/modifiedEditText"
+                android:inputType="numberSigned"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--  DcGarantiesProp. /A200 ou MemoText. ** Garanties proposées par le membre -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcGarantiesProp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+            <EditText
+                android:id="@+id/input_txt_DcGarantiesProp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLength="200"
+                android:hint="@string/hint_DcGarantiesProp"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        TV Avalistes-->
+        <TextView
+            android:id="@+id/tv_avalistes"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="5- Avalistes"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- DcIsAvaliste1. /A1. **  Y'a t'il un avaliste 1? (kok) -->
+        <LinearLayout
+            android:id="@+id/ll_DcIsAvaliste1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcIsAvaliste1"
+                android:layout_width="379dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Avaliste 1 ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsAvaliste1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsAvaliste1"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsAvaliste1_oui"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
@@ -620,161 +1165,717 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/rb_avaliste_credit_non"
+                    android:id="@+id/rb_DcIsAvaliste1_non"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:onClick="onRadioButtonClicked"
                     android:text="NON"
                     android:textSize="16sp" />
-
-
-
             </RadioGroup>
         </LinearLayout>
-        <!--<TextView-->
-            <!--android:id="@+id/tv_avaliste_credit_plage"-->
 
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginRight="12dp"-->
-            <!--android:layout_marginBottom="5dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:padding="12dp"-->
-            <!--android:textColor="@color/colorAccent1"-->
-            <!--android:text="@string/btn_config_plage_tiv" />-->
+        <LinearLayout
+            android:id="@+id/ll_DcMtSoldAvalist1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
 
+
+            <!-- DcNomAval1-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcNomAval1"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/signup_text_margin_top">
+                <EditText
+                    android:id="@+id/input_DcNomAval1"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textAllCaps="true"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:hint="@string/DcNomAval1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- DcPrenomAval1-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcPrenomAval1"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/signup_text_margin_top">
+                <EditText
+                    android:id="@+id/input_DcPrenomAval1"
+                    style="@style/modifiedEditText"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:hint="@string/DcPrenomAval1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- DcMtSoldAvalist1. /R **  Montant du Solde EAV Principal de l'Avaliste 1 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtSoldAvalist1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcMtSoldAvalist1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint=" Montant du Solde EAV Principal de l'Avaliste 1"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <!-- DcIsAvaliste2. /A1. **  Y'a t'il un avaliste 2? (kok) -->
+        <LinearLayout
+            android:id="@+id/ll_DcIsAvaliste2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcIsAvaliste2"
+                android:layout_width="379dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Avaliste 2 ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsAvaliste2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsAvaliste2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsAvaliste2_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcIsAvaliste2_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_DcMtSoldAvalist2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+
+            <!-- TrNomExp-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcNomAval2"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/signup_text_margin_top">
+                <EditText
+                    android:id="@+id/input_DcNomAval2"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textAllCaps="true"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:hint="@string/DcNomAval2"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- DcPrenomAval2-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcPrenomAval2"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/signup_text_margin_top">
+                <EditText
+                    android:id="@+id/input_DcPrenomAval2"
+                    style="@style/modifiedEditText"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:hint="@string/DcPrenomAval2"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- DcMtSoldAvalist2. /R **  Montant du Solde EAV Principal de l'Avaliste 2 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtSoldAvalist2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcMtSoldAvalist2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint="Montant du Solde EAV Principal de l'Avaliste 2"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <!-- DcIsAvaliste3. /A1. **  Y'a t'il un avaliste 3 ? (kok) -->
+        <LinearLayout
+            android:id="@+id/ll_DcIsAvaliste3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcIsAvaliste3"
+                android:layout_width="379dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Avaliste 3 ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsAvaliste3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsAvaliste3"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsAvaliste3_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcIsAvaliste3_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_DcMtSoldAvalist3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+
+            <!-- DcNomAval3-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcNomAval3"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/signup_text_margin_top">
+                <EditText
+                    android:id="@+id/input_DcNomAval3"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textAllCaps="true"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:hint="@string/DcNomAval3"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- DcPrenomAval3-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcPrenomAval3"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/signup_text_margin_top">
+                <EditText
+                    android:id="@+id/input_DcPrenomAval3"
+                    style="@style/modifiedEditText"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:hint="@string/DcPrenomAval3"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- DcMtSoldAvalist3. /R **  Montant du Solde EAV Principal de l'Avaliste 3 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtSoldAvalist3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcMtSoldAvalist3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint="Montant du Solde EAV Principal de l'Avaliste 3"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <!--        TV Details des besoins à financier-->
+        <TextView
+            android:id="@+id/tv_details_des_besoins_a_financier"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="6- Détails des besoins à financier"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+        <!--- - DcIsBesoinsAFin. /  A1 "?  **  Y'a t'il des besoins ou Produits à financer ?.-->
+        <LinearLayout
+            android:id="@+id/ll_DcIsBesoinsAFin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcIsBesoinsAFin"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Y'a t'il des besoins ou Produits à financer ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsBesoinsAFin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsBesoinsAFin"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsBesoinsAFin_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcIsBesoinsAFin_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+        <!--       DcMtTotalBesoins /R. **  Montant total des besoins à financer.-->
+        <LinearLayout
+            android:id="@+id/ll_DcMtTotalBesoins"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcMtTotalBesoins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcMtTotalBesoins"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="70"
+                    android:hint="@string/hint_DcMtTotalBesoins"
+                    style="@style/modifiedEditText"
+                    android:inputType="numberDecimal"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--        Lien pour accéder à la liste des produits-->
+            <TextView
+                android:id="@+id/tv_list_produit_dmde_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:textColor="@color/colorAccent1"
+                android:text="@string/btn_config_list_produit_dmde_credit" />
+
+        </LinearLayout>
+
+        <!--  - DcMotivationPret. /A200 ou MemeText. **  Détails des motivations du Prêt. -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_DcMotivationPret"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            style="@style/parent"
+            app:errorEnabled="true"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            >
+            <EditText
+                android:id="@+id/input_txt_DcMotivationPret"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLength="200"
+                android:hint="@string/hint_DcMotivationPret"
+                style="@style/modifiedEditText"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--        TV Pièces fournies-->
+        <TextView
+            android:id="@+id/tv_pieces_fournies"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="7- Pièces fournies"
+            android:background="@color/colorAccent1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     <LinearLayout
-        android:id="@+id/tv_avaliste_credit_plage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/loginViewsMargin"
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:layout_marginTop="15dp"
         android:orientation="vertical">
-        <!--Fréquence Revenus -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_nomAval1"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/DcIsPhotocopieCNICheckBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/hint_DcIsPhotocopieCNI"
+            android:textSize="15sp"
+            style="@style/modifiedEditText"
+            android:textStyle="bold"
+            android:onClick="onCheckboxClicked"/>
 
-            >
-
-            <EditText
-                android:id="@+id/input_txt_nomAval1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:maxLength="70"
-                android:hint="@string/hint_nomAval1_1"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Num compte1 -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_numCompte1"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/DcIsCpteExploitCheckBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/hint_DcIsCpteExploit"
+            android:textSize="15sp"
+            style="@style/modifiedEditText"
+            android:textStyle="bold"
+            android:onClick="onCheckboxClicked"/>
 
-            >
-
-            <EditText
-                android:id="@+id/input_txt_numCompte1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:maxLength="70"
-                android:hint="@string/hint_numCompte1"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--Epargne-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_epargne1"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/DcIsDmdeManuscrCheckBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
 
-            >
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/hint_DcIsDmdeManuscr"
+            android:textSize="15sp"
+            style="@style/modifiedEditText"
+            android:textStyle="bold"
+            android:onClick="onCheckboxClicked"/>
 
-            <EditText
-                android:id="@+id/input_txt_epargne1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_epargne1"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Epargne-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_detteEncours1"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/DcIsPceGarantieCheckBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:padding="15dp"
+            android:text="@string/hint_DcIsPceGarantie"
+            android:textSize="15sp"
+            style="@style/modifiedEditText"
+            android:textStyle="bold"
+            android:onClick="onCheckboxClicked"/>
 
-            >
-
-            <EditText
-                android:id="@+id/input_txt_detteEncours1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_cumul_dette_encours"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Montant bloqué-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_mtBloque"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/TextInputLayoutStyle"
-            style="@style/parent"
-            app:errorEnabled="true"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-
-            >
-
-            <EditText
-                android:id="@+id/input_txt_mtBloque"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/hint_mt_bloque"
-                style="@style/modifiedEditText"
-                android:inputType="numberSigned"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
+        <!--  DcIsAutresDocum. /A1(N). **  Y'a t'il d'autres documents ?-->
+        <LinearLayout
+            android:id="@+id/ll_DcIsAutresDocum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_DcIsAutresDocum"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="Y'a t'il d'autres documents ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsAutresDocum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsAutresDocum"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsAutresDocum_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcIsAutresDocum_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+        <!--     DcAutresDocum. /A200. **  Liste des autres documents remis.-->
+        <LinearLayout
+            android:id="@+id/ll_DcAutresDocum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcAutresDocum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcAutresDocum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="200"
+                    android:hint="@string/hint_DcAutresDocum"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!--  DcIsSignatAdh. /A1(N). **  l'adhérent ou membre a t'il signé le document ? -->
+        <LinearLayout
+            android:id="@+id/ll_DcIsSignatAdh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_DcIsSignatAdh"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="L'adhérent a t'il signé le document ?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rg_DcIsSignatAdh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_DcIsSignatAdh"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+                <RadioButton
+                    android:id="@+id/rb_DcIsSignatAdh_oui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="OUI"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_DcIsSignatAdh_non"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="NON"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+        <!--     - DcDateSignat /D. **  Date de signature du document.-->
+        <LinearLayout
+            android:id="@+id/ll_DcDateSignat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcDateSignat"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+                <EditText
+                    android:id="@+id/input_txt_DcDateSignat"
+                    style="@style/modifiedEditText"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:hint="@string/hint_DcDateSignat"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+        <!-- DcDetails. /A200. Ou MemoText. ** Pour enregistrer des commentaires ou détails sur le produit de Crédit.-->
+        <LinearLayout
+            android:id="@+id/tv_DcDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_DcDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                style="@style/parent"
+                app:errorEnabled="true"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                >
+                <EditText
+                    android:id="@+id/input_txt_DcDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:maxLength="200"
+                    android:hint="@string/hint_DcDetails"
+                    style="@style/modifiedEditText"
+                    android:inputType="textPersonName"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
         <com.shuhart.stepview.StepView
             android:id="@+id/step_view"
             android:layout_width="match_parent"

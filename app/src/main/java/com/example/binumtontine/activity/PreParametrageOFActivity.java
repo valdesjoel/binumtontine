@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Notification;
 import android.app.ProgressDialog;
-import android.app.assist.AssistStructure;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -111,6 +109,8 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
     private static final String KEY_PoNatureTaxe3 = "PoNatureTaxe3";
     private static final String KEY_PoValTauxTaxe3 = "PoValTauxTaxe3";
     private static final String KEY_PoBaseTaxe3 = "PoBaseTaxe3";
+    private static final String KEY_PoIsTVAOn = "PoIsTVAOn";
+    private static final String KEY_PoTxTVA = "PoTxTVA";
 
     private static String STRING_EMPTY = "";
 
@@ -229,7 +229,9 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
             st_PoLibelTaxe3,
             st_PoNatureTaxe3,
             st_PoValTauxTaxe3,
-            st_PoBaseTaxe3;
+            st_PoBaseTaxe3,
+            st_PoIsTVAOn,
+            st_PoTxTVA;
 
 
     private Boolean bool_PoIsMultiCpteCourByMemb;
@@ -303,6 +305,12 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
     private JRSpinner PoBaseTaxe3;
     private TextView tv_plage_TT3_transfert;
     private TextInputLayout input_layout_PoValTauxTaxe3;
+    //TVA
+
+    private SwitchCompat PoIsTVAOn;
+    private LinearLayout LL_PoIsTVAOn;
+//    private CurrencyEditText etPoTxTVA;
+    private EditText etPoTxTVA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -466,6 +474,7 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
         //Taxe3
         PoIsTaxe3On = (SwitchCompat) findViewById(R.id.SwitchPoIsTaxe3On);
         LL_PoIsTaxe3On = (LinearLayout) findViewById(R.id.LL_PoIsTaxe3On);
+
         PoCodTaxe3 = (EditText) findViewById(R.id.input_PoCodTaxe3);
         PoLibelTaxe3 = (EditText) findViewById(R.id.input_PoLibelTaxe3);
         rbPoNatureTaxe3Fixe = (RadioButton) findViewById(R.id.rbPoNatureTaxe3Fixe);
@@ -487,6 +496,9 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
         });
         tv_plage_TT3_transfert = (TextView) findViewById(R.id.tv_plage_TT3_transfert);
 
+        PoIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchPoIsTVAOn);
+        LL_PoIsTVAOn = (LinearLayout) findViewById(R.id.LL_PoIsTVAOn);
+        etPoTxTVA =  findViewById(R.id.etPoTxTVA);
 //        TTO
         tv_plage_TT0_transfert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -503,9 +515,7 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
                     Toast.makeText(PreParametrageOFActivity.this,
                             "Unable to connect to internet",
                             Toast.LENGTH_LONG).show();
-
                 }
-
             }
         });
 //        TT1
@@ -894,8 +904,14 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
                     LL_PoIsTaxe3On.setVisibility(View.GONE);
                 }
                 break;
+            case R.id.SwitchPoIsTVAOn:
+                if (PoIsTVAOn.isChecked()){
 
-
+                    LL_PoIsTVAOn.setVisibility(View.VISIBLE);
+                }else{
+                    LL_PoIsTVAOn.setVisibility(View.GONE);
+                }
+                break;
         }
 //        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
@@ -920,12 +936,6 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_PRE_PARAM_ID, preParamId);
-
-          //  HttpJsonParser httpJsonParser = new HttpJsonParser();
-            /*JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "fetch_all_user.php", "GET", null);*/
-            /*JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "get_pre_parametrage_details.php", "GET", null);*/
 
 
             try {
@@ -1007,6 +1017,9 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
                     st_PoNatureTaxe3 = preParamProduit.getString(KEY_PoNatureTaxe3);
                     st_PoValTauxTaxe3 = preParamProduit.getString(KEY_PoValTauxTaxe3);
                     st_PoBaseTaxe3 = decodeBaseFraisTransfert(preParamProduit.getString(KEY_PoBaseTaxe3));
+
+                    st_PoIsTVAOn = preParamProduit.getString(KEY_PoIsTVAOn);
+                    st_PoTxTVA = preParamProduit.getString(KEY_PoTxTVA);
 
 
 
@@ -1208,6 +1221,15 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
                         onSwitchButtonClicked(PoIsTaxe3On);
                         PoValTauxTaxe3.setText(st_PoValTauxTaxe3);
                         PoBaseTaxe3.setText(st_PoBaseTaxe3);
+
+                        if (st_PoIsTVAOn.equals("Y")){
+                            PoIsTVAOn.setChecked(true);
+                        }else{
+                            PoIsTVAOn.setChecked(false);
+                        }
+                        onSwitchButtonClicked(PoIsTVAOn);
+                        etPoTxTVA.setText(st_PoTxTVA);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1236,12 +1258,6 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
                 preTransfertEU = transfert_eu.isChecked();
                 preOperationExterne = op_externe.isChecked();
                 preAppellationProduitEpargne = appellationProduitEpargne.isChecked();
-
-//                st_PoAppellationMemAdhAss = PoAppellationMemAdhAss.getText().toString();
-//                st_PoPeriodDefTxIntCCour = PoPeriodDefTxIntCCour.getText().toString();
-//                st_PoPeriodDefTxIntCred = PoPeriodDefTxIntCred.getText().toString();
-//                st_PoOrdreRembDecouv = PoOrdreRembDecouv.getText().toString();
-//                st_PoOrdreRembCredit = PoOrdreRembCredit.getText().toString();
                 st_PoTxIntMinAutorDecouv = PoTxIntMinAutorDecouv.getText().toString();
                 st_PoTxIntMaxAutorDecouv = PoTxIntMaxAutorDecouv.getText().toString();
                 st_PoTxIntMinAutorAvceSpec = PoTxIntMinAutorAvceSpec.getText().toString();
@@ -1308,8 +1324,15 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
         st_PoLibelTaxe3 = PoLibelTaxe3.getText().toString().trim();
         st_PoValTauxTaxe3 = PoValTauxTaxe3.getText().toString().trim();
         st_PoBaseTaxe3 = encodeBaseFraisTransfert(PoBaseTaxe3.getText().toString().trim());
+        //        TVA
+        if (PoIsTVAOn.isChecked()){
+            st_PoIsTVAOn = "Y";
+        }else{
+            st_PoIsTVAOn = "N";
+        }
+        st_PoTxTVA = etPoTxTVA.getText().toString().trim();
 
-                new PreParametrageOFActivity.UpdateMovieAsyncTask().execute();
+        new PreParametrageOFActivity.UpdateMovieAsyncTask().execute();
 
     }
 
@@ -1423,6 +1446,10 @@ public class PreParametrageOFActivity extends AppCompatActivity implements SERVE
             httpParams.put(KEY_PoNatureTaxe3, st_PoNatureTaxe3);
             httpParams.put(KEY_PoValTauxTaxe3, st_PoValTauxTaxe3);
             httpParams.put(KEY_PoBaseTaxe3, st_PoBaseTaxe3);
+
+            //TVA
+            httpParams.put(KEY_PoIsTVAOn, st_PoIsTVAOn);
+            httpParams.put(KEY_PoTxTVA, st_PoTxTVA);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "update_pre_parametrage.php", "POST", httpParams);

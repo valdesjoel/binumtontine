@@ -69,7 +69,7 @@ public class ComiteCredit extends AppCompatActivity implements AdapterView.OnIte
     private static final String KEY_SUCCESS = "success";
     private static final String KEY_DATA = "data";
     /*Begin*/
-         //to fetchProduitList by caisse and guichet ID
+    //to fetchProduitList by caisse and guichet ID
     private static final String KEY_EV_CAISSE_ID = "ev_caisse_id";
     private static final String KEY_EV_GUICHET_ID = "ev_gx_numero";
     /* end*/
@@ -330,7 +330,7 @@ public class ComiteCredit extends AppCompatActivity implements AdapterView.OnIte
             httpParams.add(new BasicNameValuePair(KEY_EV_CAISSE_ID, String.valueOf(MyData.CAISSE_ID)));
             httpParams.add(new BasicNameValuePair(KEY_EV_GUICHET_ID, String.valueOf(MyData.GUICHET_ID)));
             String json = (String) jsonParser.makeServiceCall( BASE_URL + "fetch_all_eav_by_guichet.php", ServiceHandler.GET, httpParams);
-           // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
+            // String json = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET);
 
 
 
@@ -395,17 +395,17 @@ public class ComiteCredit extends AppCompatActivity implements AdapterView.OnIte
      */
     private void addEavAdherent() {
         if (!STRING_EMPTY.equals(EavDepotMinEditText.getText().toString()) &&
-            !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
-                 ) {
+                !STRING_EMPTY.equals(NumDossierEditText.getText().toString())
+        ) {
 //String rr = compteSolde.replace(" FCFA","").replaceAll(",","\\.");
-String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
+            String rr = compteSolde.replace("FCFA","").trim().replaceAll(",","\\.").replaceAll(" ","");
 
             NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
             nf.setGroupingUsed(false);
             //nf.format(rr);
 //if (natureOperation.equals("R")&&
 //                    (Double.parseDouble(EavDepotMinEditText.getText().toString())<Double.parseDouble(rr))){
-if (true){
+            if (true){
 //                Toast.makeText(OperationEAV.this,
 //                        "Solde insuffisant!",
 //                        Toast.LENGTH_LONG).show();
@@ -413,9 +413,9 @@ if (true){
 //                        rr.trim()+ "\n"+rr.length(),
 //                        Toast.LENGTH_LONG).show();
 
-   eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
+                eavDepotMin = EavDepotMinEditText.getText().toString().replaceAll(",", "").trim();
 //    eavDepotMin = EavDepotMinEditText.getText().toString();
-    adNumDossier = NumDossierEditText.getText().toString();
+                adNumDossier = NumDossierEditText.getText().toString();
 
 //    new AddEavAdherentAsyncTask().execute();
             }else
@@ -460,7 +460,7 @@ if (true){
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             //Populating request parameters
-           // httpParams.put(KEY_EAV_ID, uxGuichetId);
+            // httpParams.put(KEY_EAV_ID, uxGuichetId);
 
             httpParams.put(KEY_CV_NUMERO, compteId);
 

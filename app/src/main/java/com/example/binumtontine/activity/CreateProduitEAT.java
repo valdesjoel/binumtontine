@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.binumtontine.JRSpinner;
 import com.example.binumtontine.R;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.binumtontine.controleur.MyData.alreadyUpperCase;
 
 public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRESS {
     private static final String KEY_SUCCESS = "success";
@@ -78,17 +81,12 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
 
     private static final String ET_TX_INT_PENAL_NEG = "EtTxIntPenalNeg";
     private static final String ET_CAISSE_ID = "EtCaisseId";
-    //private static final String ET_GUICHET_ID = "EtGuichetId";
+    private static final String KEY_EtIsTVAOn = "EtIsTVAOn";
+
+
 
 
     private static String STRING_EMPTY = "";
-
-//    private LinearLayout ll;
-//    private LinearLayout ll_btn;
-//    private LinearLayout ll_EtValTxMtRupture;
-//    private LinearLayout ll_btn_EtValTxMtRupture;
-//    private LinearLayout ll_EtValTxIntPenal;
-//    private LinearLayout ll_btn_EtValTxIntPenal;
     private EditText EtCode_ET;
     private EditText EtLibelleET;
     private EditText EtMtMinMise_ET;
@@ -102,8 +100,6 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private RadioButton rbEtTypTxInterTaux;
     private RadioButton rbEtTypTxInterPlage;
     private EditText EtValTxInter_ET;
-    private EditText EtPlageTxInterFrom_ET;
-    private EditText EtPlageTxInterTo_ET;
 //    private EditText EtPlageTxInterValeur_ET;
 
     private Switch EtIsTxIntNeg_SW;
@@ -113,9 +109,6 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private RadioButton rbEtNatureRupAnMontant;
     private RadioButton rbEtNatureRupAnPlage;
     private EditText EtValTxMtRupture_ET;
-//    private EditText EtPlageTxMtRuptureFrom_ET;
-//    private EditText EtPlageTxMtRuptureTo_ET;
-//    private EditText EtPlageTxMtRuptureValeur_ET;
     private JRSpinner EtBaseTxPenal_ET; //pour gérer le spinner contenant les bases du EtBaseTxPenal
 
     private Switch EtIsEparRetireFin_SW;
@@ -134,10 +127,8 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private RadioButton rbEtTypNewTxIntRupAntFixe;
     private RadioButton rbEtTypNewTxIntRupAntTaux;
     private RadioButton rbEtTypNewTxIntRupAntPlage;
+    private RadioButton rbEtTypNewTxIntRupAntPlageMois;
     private EditText EtValTxIntPenal_ET;
-//    private EditText EtPlageTxIntPenalFrom_ET;
-//    private EditText EtPlageTxIntPenalTo_ET;
-//    private EditText EtPlageTxIntPenalValeur_ET;
     private JRSpinner EtBaseTxIntPenal_ET;
     private Switch EtTxIntPenalNeg_SW;
 
@@ -187,28 +178,6 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private Button cancelButton;
     private int success;
     private ProgressDialog pDialog;
-
-//    public int numberOfLinesDebut = 0;
-//    public int numberOfLinesDebut_EtValTxMtRupture = 0;
-//    public int numberOfLinesDebut_EtTypNewTxIntRupAnt = 0;
-    private List<String> tabPlageDebutList;
-    private List<String> tabPlageDebutList1;
-    private List<String> tabPlageDebutList2;
-    private List<String> tabPlageFinList;
-    private List<String> tabPlageFinList1;
-    private List<String> tabPlageFinList2;
-    private List<String> tabPlageValeurList;
-    private List<String> tabPlageValeurList1;
-    private List<String> tabPlageValeurList2;
-    public int numberOfLinesFin = 0;
-    public int numberOfLinesFin_EtValTxMtRupture = 0;
-    public int numberOfLinesFin_EtTypNewTxIntRupAnt = 0;
-    public int numberOfLinesValeur = 0;
-    public int numberOfLinesValeur_EtValTxMtRupture = 0;
-    public int numberOfLinesValeur_EtTypNewTxIntRupAnt = 0;
-//    private Button remove_button;
-//    private Button remove_button_EtValTxMtRupture;
-//    private Button remove_button_EtTypNewTxIntRupAnt;
 
 
     private TextView tv_header_produit;
@@ -288,6 +257,9 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
     private String EtIsPenalDeblocageRupAnt;
     private String EtBaseTxMtPenalDeblocage;
 
+    private SwitchCompat EtIsTVAOn;
+    private String st_EtIsTVAOn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -297,19 +269,11 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         tv_header_produit = (TextView) findViewById(R.id.header_produit);
         tv_header_produit.setText("Produit EAT\n"+"Caisse: "+ MyData.CAISSE_NAME);
 
-        tabPlageDebutList = new ArrayList<>();
-        tabPlageFinList = new ArrayList<>();
-        tabPlageValeurList = new ArrayList<>();
-        tabPlageDebutList1 = new ArrayList<>();
-        tabPlageFinList1 = new ArrayList<>();
-        tabPlageValeurList1 = new ArrayList<>();
-        tabPlageDebutList2 = new ArrayList<>();
-        tabPlageFinList2 = new ArrayList<>();
-        tabPlageValeurList2 = new ArrayList<>();
         LL_EtNatureRupAn = (LinearLayout)findViewById(R.id.ll_EtNatureRupAn);
         LL_EtTypNewTxIntRupAnt = (LinearLayout)findViewById(R.id.ll_EtTypNewTxIntRupAnt);
 
         EtCode_ET = (EditText) findViewById(R.id.input_txt_Code_EAT);
+        alreadyUpperCase(EtCode_ET);
         EtLibelleET = (EditText) findViewById(R.id.input_txt_LibelleEAT);
         EtMtMinMise_ET = (EditText) findViewById(R.id.input_txt_MinMtMiseEAT);
         EtMtMaxMise_ET = (EditText) findViewById(R.id.input_txt_MaxMtMiseEAT);
@@ -323,10 +287,6 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         rbEtTypTxInterTaux = (RadioButton) findViewById(R.id.rbEtTypTxInterTaux);
         rbEtTypTxInterPlage = (RadioButton) findViewById(R.id.rbEtTypTxInterPlage);
         EtValTxInter_ET = (EditText) findViewById(R.id.input_txt_ValeurTauxInteretEAT);
-
-
-        EtPlageTxInterFrom_ET = (EditText) findViewById(R.id.txt_EtValTxInterFrom);
-        EtPlageTxInterTo_ET = (EditText) findViewById(R.id.txt_EtValTxInterTo);
 
         EtIsTxIntNeg_SW = (Switch) findViewById(R.id.SwitchTauxInteretNegocieEAT);
         EtIsPriseIntMiseOn_SW = (Switch) findViewById(R.id.SwitchPrendreInteretDesLaMiseEAT);
@@ -368,6 +328,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         rbEtTypNewTxIntRupAntFixe = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATFixe);
         rbEtTypNewTxIntRupAntTaux = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATTaux);
         rbEtTypNewTxIntRupAntPlage = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATPlage);
+        rbEtTypNewTxIntRupAntPlageMois = (RadioButton) findViewById(R.id.rbEtTypeNouveauTxInteretRuptureEATPlageMois);
         EtValTxIntPenal_ET = (EditText) findViewById(R.id.txtValeurNewTxInteretRuptureEAT);
 
         /*Base EtBaseTxIntPenal_ET debut*/
@@ -433,6 +394,8 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
         onRadioButtonClicked(rbEtNaturePenalDeblocageMontant);
         onSwitchButtonClicked(EtIsPenalDeblocageRupAnt_SW);
         //FIN 06/11/2020
+
+        EtIsTVAOn = (SwitchCompat) findViewById(R.id.SwitchEtIsTVAOn);
 
         tv_plageEtValTxInter = (TextView) findViewById(R.id.tv_plage_EtValTxInter);
         //TIT
@@ -567,8 +530,8 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
 
 
     public void onSwitchButtonClicked(View view) {
-        boolean checked1 = ((Switch) view).isChecked();
-        String str="";
+       /* boolean checked1 = ((Switch) view).isChecked();
+        String str="";*/
 
         // Check which checkbox was clicked
         switch(view.getId()) {
@@ -590,7 +553,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
 
             case R.id.SwitchPenaliteEnCasDeRuptureEAT:
                 if (EtIsPenalRupAnt_SW.isChecked()) {
-                    str = checked1?"Pénalité en cas de rupture anticipéé activée":"Pénalité en cas de rupture anticipéé désactivée";
+                   // str = checked1?"Pénalité en cas de rupture anticipéé activée":"Pénalité en cas de rupture anticipéé désactivée";
 
                     LL_EtNatureRupAn.setVisibility(View.VISIBLE);
 
@@ -608,7 +571,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
                 break;
             case R.id.SwitchDefinirNouveauTxInteretEAT:
                 if (EtIsNewTxIntRupAnt_SW.isChecked()) {
-                    str = checked1?"Nouveau taux d'interêt activé":"Nouveau taux d'interêt désactivé";
+                    //str = checked1?"Nouveau taux d'interêt activé":"Nouveau taux d'interêt désactivé";
 
                     LL_EtTypNewTxIntRupAnt.setVisibility(View.VISIBLE);
 
@@ -627,7 +590,7 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
                 break;
 
         }
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
 
     }
     public void onRadioButtonClicked(View view) {
@@ -761,7 +724,6 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
                     EtValTxMtRupture_ET.setVisibility(View.GONE);
                     EtBaseTxPenal_ET.setVisibility(View.GONE);
                     tv_plage_EtValTxMtRupture.setVisibility(View.VISIBLE);
-
                 }
                 break;
             case R.id.rbEtTypeNouveauTxInteretRuptureEATFixe:
@@ -770,26 +732,27 @@ public class CreateProduitEAT extends AppCompatActivity implements SERVER_ADDRES
                     EtValTxIntPenal_ET.setVisibility(View.VISIBLE);
                     EtBaseTxIntPenal_ET.setVisibility(View.GONE);
                     tv_plage_EtValTxIntPenal.setVisibility(View.GONE);
-
-
                 }
-
                 break;
             case R.id.rbEtTypeNouveauTxInteretRuptureEATTaux:
                 if (rbEtTypNewTxIntRupAntTaux.isChecked()) {
-
                     EtTypNewTxIntRupAnt = "T";
                     EtValTxIntPenal_ET.setVisibility(View.VISIBLE);
                     EtBaseTxIntPenal_ET.setVisibility(View.VISIBLE);
                     tv_plage_EtValTxIntPenal.setVisibility(View.GONE);
-
                 }
-
                 break;
             case R.id.rbEtTypeNouveauTxInteretRuptureEATPlage:
                 if (rbEtTypNewTxIntRupAntPlage.isChecked()) {
                     EtTypNewTxIntRupAnt = "P";
-
+                    EtValTxIntPenal_ET.setVisibility(View.GONE);
+                    EtBaseTxIntPenal_ET.setVisibility(View.GONE);
+                    tv_plage_EtValTxIntPenal.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.rbEtTypeNouveauTxInteretRuptureEATPlageMois:
+                if (rbEtTypNewTxIntRupAntPlageMois.isChecked()) {
+                    EtTypNewTxIntRupAnt = "M";
                     EtValTxIntPenal_ET.setVisibility(View.GONE);
                     EtBaseTxIntPenal_ET.setVisibility(View.GONE);
                     tv_plage_EtValTxIntPenal.setVisibility(View.VISIBLE);
@@ -920,6 +883,13 @@ if (!STRING_EMPTY.equals(EtCode_ET.getText().toString()) &&
     }
     EtValTxMtPenaliteDeblocage = EtValTxMtPenaliteDeblocage_ET.getText().toString();
     EtBaseTxMtPenalDeblocage   = ProduitEAT.encodeEtBaseTxMtPenalDeblocage(EtBaseTxMtPenalDeblocage_JR.getText().toString());
+
+    //TVA
+    if (EtIsTVAOn.isChecked()) {
+        st_EtIsTVAOn = "Y";
+    }else {
+        st_EtIsTVAOn = "N";
+    }
 
     //#TIT
     for (int i=0; i<plageDataListTIT.size();i++){
@@ -1052,6 +1022,10 @@ if (!STRING_EMPTY.equals(EtCode_ET.getText().toString()) &&
             httpParams.put(KEY_EAT_PLAGE_DBT_VALEUR, tabPlageValeurDBT);
             httpParams.put(KEY_EAT_PLAGE_DBT_BASE, tabPlageBaseDBT);
             httpParams.put(KEY_EAT_PLAGE_DBT_NATURE, tabPlageNatureDBT);
+
+
+            //TVA
+            httpParams.put(KEY_EtIsTVAOn, st_EtIsTVAOn);
 
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "add_eat.php", "POST", httpParams);

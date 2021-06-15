@@ -45,7 +45,13 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
     private EditText txt_sigle;
     private EditText txt_libelle;
     private EditText txt_num_agrement;
-//  private Date date_agrement;
+
+    private EditText OfNumAgremCobac;
+    private EditText OfDatAgremCobac;
+    private EditText OfNumAgremCNC;
+    private EditText OfDatAgremCNC;
+
+    //  private Date date_agrement;
     private EditText txt_boite_postale;
 
     private EditText txt_ville_of;
@@ -64,6 +70,11 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
     private String sigle ;
     private String libelle ;
     private String num_agrement ;
+
+    private String OfNumAgremCobac_st;
+    private String OfDatAgremCobac_st;
+    private String OfNumAgremCNC_st;
+    private String OfDatAgremCNC_st;
     //      String boite_postale = txt_boite_postale.getText().toString();
     private Integer boite_postale;
     private String ville;
@@ -86,6 +97,9 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
 
     private ProgressDialog pDialog;
     private DatePickerDialog dateAgrementOF_PickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+
+    private DatePickerDialog OfDatAgremCobacPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
+    private DatePickerDialog OfDatAgremCNCPickerDialog; //propriété qui permet d'avoir une pop on afin de selectionner une date
  // private DatePickerDialog toDatePickerDialog;
 
     private SimpleDateFormat dateFormatter; //propriété permettant de gérer le format de la date
@@ -98,12 +112,21 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
         setSupportActionBar(toolbar);
         setToolbarTitle();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         findViewsById();
 
         setDateTimeField();
         init();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     private void setToolbarTitle() {
         getSupportActionBar().setTitle("Mise à jour Organe faitier");
@@ -115,6 +138,10 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
         txt_sigle = (EditText)findViewById(R.id.input_txt_sigle_of);
         txt_libelle = (EditText)findViewById(R.id.input_txt_denominationOF);
         txt_num_agrement = (EditText)findViewById(R.id.input_num_agrement_OF);
+
+        OfNumAgremCobac = (EditText) findViewById(R.id.input_txt_OfNumAgremCobac);
+
+        OfNumAgremCNC = (EditText) findViewById(R.id.input_txt_OfNumAgremCNC);
 //    private Date date_agrement;
         txt_boite_postale = (EditText)findViewById(R.id.input_txt_BP_OF);
         //txt_ville_of = (EditText)findViewById(R.id.input_txt_Ville_OF);
@@ -182,6 +209,12 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
                 sigle = txt_sigle.getText().toString() ;
                 libelle = txt_libelle.getText().toString();
                 num_agrement = txt_num_agrement.getText().toString();
+
+                OfNumAgremCobac_st = OfNumAgremCobac.getText().toString();
+                OfDatAgremCobac_st = OfDatAgremCobac.getText().toString();
+                OfNumAgremCNC_st = OfNumAgremCNC.getText().toString();
+                OfDatAgremCNC_st = OfDatAgremCNC.getText().toString();
+
           //      String boite_postale = txt_boite_postale.getText().toString();
                 boite_postale = Integer.parseInt(txt_boite_postale.getText().toString());
                // ville = txt_ville_of.getText().toString();
@@ -248,10 +281,19 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
         dateAgrementOF_txt.requestFocus();
 
 
+        OfDatAgremCobac = (EditText) findViewById(R.id.input_txt_OfDatAgremCobac);
+        OfDatAgremCobac.setInputType(InputType.TYPE_NULL);
+        OfDatAgremCobac.requestFocus();
+
+        OfDatAgremCNC = (EditText) findViewById(R.id.input_txt_OfDatAgremCNC);
+        OfDatAgremCNC.setInputType(InputType.TYPE_NULL);
+        OfDatAgremCNC.requestFocus();
     }
 
     private void setDateTimeField() {
         dateAgrementOF_txt.setOnClickListener(this);
+        OfDatAgremCobac.setOnClickListener(this);
+        OfDatAgremCNC.setOnClickListener(this);
 
 
         Calendar newCalendar = Calendar.getInstance();
@@ -265,16 +307,27 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-       /* toDatePickerDialog = new DatePickerDialog(this, new OnDateSetListener() {
+
+        OfDatAgremCobacPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                toDateEtxt.setText(dateFormatter.format(newDate.getTime()));
+                OfDatAgremCobac.setText(dateFormatter.format(newDate.getTime()));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-        */
+
+        OfDatAgremCNCPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                OfDatAgremCNC.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
    /* @Override
@@ -288,9 +341,11 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         if(view == dateAgrementOF_txt) {
             dateAgrementOF_PickerDialog.show();
-        } /* else if(view == toDateEtxt) {
-            toDatePickerDialog.show();
-        }*/
+        } else if(view == OfDatAgremCobac) {
+            OfDatAgremCobacPickerDialog.show();
+        } else if(view == OfDatAgremCNC) {
+            OfDatAgremCNCPickerDialog.show();
+        }
     }
 
 
@@ -304,6 +359,12 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
             txt_libelle.setText(controle.getLibelle());
             txt_num_agrement.setText(controle.getNum_agrement());
             dateAgrementOF_txt.setText(controle.getDate_agrement());
+
+            OfNumAgremCobac.setText(controle.getOfNumAgremCobac());
+            OfDatAgremCobac.setText(controle.getOfDatAgremCobac());
+            OfNumAgremCNC.setText(controle.getOfNumAgremCNC());
+            OfDatAgremCNC.setText(controle.getOfDatAgremCNC());
+
             txt_boite_postale.setText(controle.getBoite_postale().toString());
             //txt_ville_of.setText(controle.getVille_of());
             mySpinnerVille.setText(controle.getVille_of());
@@ -349,7 +410,7 @@ public class UpdateOrganeFaitier extends AppCompatActivity implements View.OnCli
 
             try {
 
-                controle.creerOrganeFaitier(num_of, sigle,libelle,num_agrement,dateAgrementOF,boite_postale,ville,
+                controle.creerOrganeFaitier(num_of, sigle,libelle,num_agrement,dateAgrementOF, OfNumAgremCobac_st, OfDatAgremCobac_st, OfNumAgremCNC_st, OfDatAgremCNC_st,boite_postale,ville,
                         pays,adresse,telephone1,telephone2,telephone3,siege,nom_pca,nom_vpca,nom_dg, UpdateOrganeFaitier.this);
 
                 success=1;

@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.binumtontine.R;
 import com.example.binumtontine.activity.adherent.MainActivityUsager;
 import com.example.binumtontine.activity.jourOuvert.JourOuvert;
+import com.example.binumtontine.activity.parametrageGuichet.ListGuichetToConnectWithAdminCaisse;
 import com.example.binumtontine.controleur.MyData;
 import com.example.binumtontine.dao.SERVER_ADDRESS;
 import com.example.binumtontine.helper.CheckNetworkStatus;
@@ -353,11 +354,7 @@ private boolean validatePassword() {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                                tv_guichet.setVisibility(View.VISIBLE);
-                        spinnerGuichet.setVisibility(View.VISIBLE);
-                        fetchGuichetSpinner();
-                        spinnerGuichet.setOnItemSelectedListener(LoginActivity_NEW.this);
-//                        finish();
+                        new LoginActivity_NEW.GetUserGuichetNew().execute();
                     }
 
                 })
@@ -372,8 +369,6 @@ private boolean validatePassword() {
                 .show();
     }
     private void populateUser(){
-        //userFound=true;
-
         MyData.USER_ID = userId;
         MyData.USER_NOM = userNom;
         MyData.USER_PRENOM = userPrenom;
@@ -386,7 +381,6 @@ private boolean validatePassword() {
 
             if (userProfil.equals("Administrateur OF")){
                 Intent i = new Intent(this, MainActivity.class);
-
                 startActivity(i);
             }else if(userProfil.equals("Administrateur caisse")){
 
@@ -394,9 +388,6 @@ private boolean validatePassword() {
                 MyData.CAISSE_ID = Integer.parseInt(userCxNumero);
                 MyData.CAISSE_NAME = userCxDenomination;
                 avertissement();
-//                        new LoginActivity_NEW.GetUserCaisse().execute();
-
-
             }else if(userProfil.equals("Agent de guichet")){
                 uxProfil = "Agent de guichet";
                 MyData.GUICHET_ID = Integer.parseInt(userGxNumero);
@@ -404,23 +395,12 @@ private boolean validatePassword() {
                 new LoginActivity_NEW.GetUserGuichet().execute();
 
             }
-//            else{
-//                attemptConnection--;
-//                warningInfo.setVisibility(View.VISIBLE);
-//                warningInfo.setText("Number of attempts remaining: "+String.valueOf(attemptConnection));
-//                if (attemptConnection<=0)
-//                    connect.setEnabled(false);
-//
-//            }
-
-
         }else{
             attemptConnection--;
             warningInfo.setVisibility(View.VISIBLE);
             warningInfo.setText("Number of attempts remaining: "+String.valueOf(attemptConnection));
             if (attemptConnection<=0){
                 connect.setEnabled(false);
-                //connect.setStyle;
             }
 
         }
@@ -440,6 +420,30 @@ private boolean validatePassword() {
             attemptConnection=3;
 
             Intent i = new Intent(this, MainActivityAdminCaisse.class);
+            startActivity(i);
+        }else{
+            attemptConnection--;
+            warningInfo.setVisibility(View.VISIBLE);
+            warningInfo.setText("Number of attempts remaining: "+String.valueOf(attemptConnection));
+            if (attemptConnection<=0){
+                connect.setEnabled(false);
+                //connect.setStyle;
+            }
+
+        }
+    }
+    private void populateGuichet(){
+        //userFound=true;
+
+        MyData.USER_ID = userId;
+        MyData.USER_NOM = userNom;
+        MyData.USER_PRENOM = userPrenom;
+        MyData.USER_EMAIL = userEmail;
+        if (userFound){
+            warningInfo.setVisibility(View.GONE);
+            attemptConnection=3;
+
+            Intent i = new Intent(this, ListGuichetToConnectWithAdminCaisse.class);
             startActivity(i);
         }else{
             attemptConnection--;
@@ -525,13 +529,12 @@ private boolean validatePassword() {
             startActivity(i);
 
         }else if (!Boolean.valueOf(jourIsClosed) && !(maDate.substring(0,10).equals(todayString))){
-            Toast.makeText(LoginActivity_NEW.this,
-                    "Que voulez-vous faire ?", Toast.LENGTH_LONG).show();
+
 //            //warningInfo.setText("SQL: "+maDate+"  NOW: "+new Date()+" Isclosed: "+jourIsClosed);
 //
 //            Intent i = new Intent(this, JourOuvert.class);
 //            startActivity(i);
-avertissement(maDate.substring(0,10));
+            avertissement(maDate.substring(0,10));
 
         }else{
             Toast.makeText(LoginActivity_NEW.this,
@@ -596,7 +599,6 @@ avertissement(maDate.substring(0,10));
         // Drop down layout style - list view with radio button
         spinnerGuichetAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // attaching data adapter to spinner
         spinnerGuichet.setAdapter(spinnerGuichetAdapter);
 //        spinnerGuichet.performClick();
@@ -611,8 +613,6 @@ avertissement(maDate.substring(0,10));
             }else{
                 jourIsClosed="FALSE";
             }
-
-
         }
         populateJourOuvert();
 
@@ -877,14 +877,10 @@ avertissement(maDate.substring(0,10));
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             userFound = false;
-//            httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
-//            httpParams.put(KEY_UX_PROFIL, uxProfil);
             httpParams.put(KEY_UX_LOGIN, pseudo);
             httpParams.put(KEY_UX_PASSWORD, password);
             JSONObject jsonObject = httpJsonParser.makeHttpRequest(
                     BASE_URL + "get_user_by_login_and_password.php", "GET", httpParams);
-//            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-//                    BASE_URL + "get_user_by_login_and_password.php", "GET", httpParams);
             Log.e("get to user: ", "> " + jsonObject);
             try {
                 int success = jsonObject.getInt(KEY_SUCCESS);
@@ -981,13 +977,65 @@ avertissement(maDate.substring(0,10));
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
-populate();
-                    //mySpinnerCaisse.setText(gxCaisse);
-//                    userFound=true;
-//                    MyData.USER_ID = userId;
-//                    MyData.USER_NOM = userNom;
-//                    MyData.USER_PRENOM = userPrenom;
-//                    MyData.USER_EMAIL = userEmail;
+            populate();
+
+                }
+            });
+        }
+
+
+    }
+    private class GetUserGuichetNew extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //Display progress bar
+
+            pDialogFectchUserDetails = new ProgressDialog(LoginActivity_NEW.this);
+            pDialogFectchUserDetails.setMessage("Checking. Please wait...");
+            pDialogFectchUserDetails.setIndeterminate(false);
+            pDialogFectchUserDetails.setCancelable(false);
+            pDialogFectchUserDetails.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpJsonParser httpJsonParser = new HttpJsonParser();
+            Map<String, String> httpParams = new HashMap<>();
+            userFound = false;
+            httpParams.put(KEY_GX_CX_NUMERO, String.valueOf(MyData.CAISSE_ID));
+            httpParams.put(KEY_UX_PROFIL, uxProfil);
+            httpParams.put(KEY_UX_LOGIN, pseudo);
+            httpParams.put(KEY_UX_PASSWORD, password);
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_user_by_caisse_id_and_pseudo.php", "GET", httpParams);
+            try {
+                int success = jsonObject.getInt(KEY_SUCCESS);
+                JSONObject user;
+                if (success == 1) {
+                    //Parse the JSON response
+                    user = jsonObject.getJSONObject(KEY_DATA);
+                    userFound = true;
+                    userId = user.getInt(KEY_UX_NUMERO);
+                    userNom = user.getString(KEY_UX_NOM);
+                    userPrenom = user.getString(KEY_UX_PRENOM);
+                    userEmail = user.getString(KEY_UX_EMAIL);
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            pDialogFectchUserDetails.dismiss();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    //Populate the Edit Texts once the network activity is finished executing
+                    populateGuichet();
 
                 }
             });
@@ -1008,14 +1056,12 @@ populate();
             pDialogFectchUserDetails.show();
 
         }
-
         @Override
         protected String doInBackground(String... params) {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             userFound = false;
             httpParams.put(KEY_UX_GUICHET, String.valueOf(MyData.GUICHET_ID));
-            //httpParams.put(KEY_UX_GUICHET, String.valueOf(16));
             httpParams.put(KEY_UX_PROFIL, uxProfil);
             httpParams.put(KEY_UX_LOGIN, pseudo);
             httpParams.put(KEY_UX_PASSWORD, password);
@@ -1094,9 +1140,6 @@ populate();
             //String jsonGuichet = jsonParser.makeServiceCall(URL_GUICHETS, ServiceHandler.GET,httpParams);
             String jsonJourOuvert = (String) jsonParser.makeServiceCall( BASE_URL + "get_jour_ouvert_by_guichet_id.php", ServiceHandler.GET, httpParams);
 
-
-
-
             Log.e("Response: ", "> " + jsonJourOuvert);
 
             jourOuvertList.clear(); //pour vider la liste
@@ -1108,20 +1151,13 @@ populate();
                     if (jsonObj != null) {
                         JSONArray categories = jsonObj.getJSONArray("categories");
 
-
                         for (int i = 0; i < categories.length(); i++) {
                             JSONObject catObj = (JSONObject) categories.get(i);
-                           /* maDate = catObj.getString("id");
-                            jourIsClosed  = catObj.getString("name");
-                            //Log.e("SQL: ", "> " + maDate);
-                            jourOuvertList.add(maDate);
-                            jourOuvertList.add(jourIsClosed);*/
 
                             Category cat = new Category(catObj.getString("id"),
                                     catObj.getString("name"));
                             jourOuvertList.add(cat);
-//                            Log.d("list1*******",jourOuvertList.get(i).getMyDate());
-//                            Log.d("list1*******",jourOuvertList.get(i).getName());
+
                             MyData.JOUR_OUVERT_DATE = jourOuvertList.get(i).getMyDate() ;
                             MyData.JOUR_OUVERT_IS_CLOSED = jourOuvertList.get(i).getName() ;
                         }
@@ -1142,10 +1178,7 @@ populate();
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-           /* if (pDialogFectchGuichet !=null && pDialogFectchGuichet.isShowing()){
-                pDialogFectchGuichet.dismiss();
-                populateJourOuvertFields();
-            }*/
+
             populateJourOuvertFields();
 
         }
@@ -1155,10 +1188,7 @@ populate();
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-       /* Toast.makeText(
-                getApplicationContext(),
-                parent.getItemAtPosition(position).toString() + " Selected" ,
-                Toast.LENGTH_LONG).show();*/
+
         int idSpinner = parent.getId();
 
         switch (idSpinner)

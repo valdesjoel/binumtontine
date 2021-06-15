@@ -250,8 +250,6 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
                             Toast.LENGTH_LONG).show();
 
                 }
-
-
             }
         });
 
@@ -286,14 +284,6 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
         return true;
     }*/
 
-
-
-
-
-
-
-
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -306,12 +296,9 @@ public class PieceToFournirListCxFragment extends Fragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-
-
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
     }
 }

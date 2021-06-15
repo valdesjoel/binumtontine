@@ -2,8 +2,11 @@ package com.example.binumtontine.modele;
 
 public class Credit {
     //Attributes Start
+
    private String CrNumero;
+
    private String CrCode;
+
     private String CrLibelle;
     private String CrDureeMin;
     private String CrDureeMax;
@@ -100,6 +103,7 @@ public class Credit {
     private String CrNatureTxIntAn;
     private String CrTauxValTxIntAn;
     private String CrBaseTxIntAn;
+    private String CrIsTVAOn;
 
     //Attributes END
 //JSON Parameters START
@@ -201,6 +205,7 @@ public class Credit {
     public static final String KEY_CrIsCpteEAVOnRembCred ="CrIsCpteEAVOnRembCred";
     public static final String KEY_CrIsCpteCourantOnRembCred ="CrIsCpteCourantOnRembCred";
     public static final String KEY_CrIsIntRetCreditOn ="CrIsIntRetCreditOn";
+    public static final String KEY_CrIsTVAOn = "CrIsTVAOn";
 // JSON Parameters END
 
 
@@ -1283,6 +1288,13 @@ public class Credit {
         CrBaseTxIntAn = crBaseTxIntAn;
     }
 
+    public String getCrIsTVAOn() {
+        return CrIsTVAOn;
+    }
+
+    public void setCrIsTVAOn(String crIsTVAOn) {
+        CrIsTVAOn = crIsTVAOn;
+    }
 
     /**
      * Permet d'encoder les bases CrBaseTxInter sur 3 caractères avant de stocker en BD
@@ -1547,5 +1559,67 @@ public class Credit {
         }
         return base_decode;
     }
+    /**
+     * Permet d'encoder les array_mode_remboursement_credit CrModeRemb sur 3 caractères avant de stocker en BD
+     * @param CrModeRemb_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrModeRemb(String CrModeRemb_decode){
+        String CrModeRemb_encode ="";
+        if (CrModeRemb_decode.equals("Interet puis capital")){
+            CrModeRemb_encode = "IPC";
+        }else if (CrModeRemb_decode.equals("Capital puis interet")){
+            CrModeRemb_encode = "CPI";
+        }else if (CrModeRemb_decode.equals("Capital et interet ensemble")){
+            CrModeRemb_encode = "CIE";
+        }
+        return CrModeRemb_encode;
+    }
 
+    /**
+     * Permet de décoder les array_mode_remboursement_credit CrModeRemb de 3 caractères venant de la base de données
+     * @param CrModeRemb_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrModeRemb(String CrModeRemb_encode){
+        String CrModeRemb_decode ="";
+        if (CrModeRemb_encode.equals("IPC")){
+            CrModeRemb_decode = "Interet puis capital";
+        }else if (CrModeRemb_encode.equals("CPI")){
+            CrModeRemb_decode = "Capital puis interet";
+        }else if (CrModeRemb_encode.equals("CIE")){
+            CrModeRemb_decode = "Capital et interet ensemble";
+        }
+        return CrModeRemb_decode;
+    }
+    /**
+     * Permet d'encoder les array_nature_planning_remboursement CrPlanningRembCred sur 3 caractères avant de stocker en BD
+     * @param CrPlanningRembCred_decode chaine de caractères à encoder
+     * @return
+     */
+    public static String encodeCrPlanningRembCred(String CrPlanningRembCred_decode){
+        String CrPlanningRembCred_encode ="";
+        if (CrPlanningRembCred_decode.equals("Manuel")){
+            CrPlanningRembCred_encode = "MAN";
+        }else if (CrPlanningRembCred_decode.equals("Prorate")){
+            CrPlanningRembCred_encode = "PRO";
+        }
+        return CrPlanningRembCred_encode;
+    }
+
+    /**
+     * Permet de décoder les array_nature_planning_remboursement CrPlanningRembCred de 3 caractères venant de la base de données
+     * @param CrPlanningRembCred_encode chaine de 3 caractères
+     * @return
+     */
+    public static String decodeCrPlanningRembCred(String CrPlanningRembCred_encode){
+        String CrPlanningRembCred_decode ="";
+        if (CrPlanningRembCred_encode.equals("MAN")){
+            CrPlanningRembCred_decode = "Manuel";
+        }else if(CrPlanningRembCred_encode.equals("PRO")) {
+            CrPlanningRembCred_decode = "Prorate";
+        }
+        return CrPlanningRembCred_decode;
+    }
 }
+

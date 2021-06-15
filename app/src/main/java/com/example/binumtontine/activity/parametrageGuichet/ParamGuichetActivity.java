@@ -126,10 +126,19 @@ public class ParamGuichetActivity extends AppCompatActivity {
                 Intent collector_intent = new Intent(getBaseContext(),   ListDemandeRetraitAffilierActivity.class);
                 startActivity(collector_intent);
                 break;
+            case R.id.produit_credit_card:
+                // do your code
+                Intent produit_credit_intent = new Intent(getBaseContext(),   ListProduitGx.class);
+                startActivity(produit_credit_intent);
+                break;
+            case R.id.add_mvm_stock_produit_card:
+                // do your code
+                Intent mvm_stock_produit_intent = new Intent(getBaseContext(),   MvmStockProduit.class);
+                startActivity(mvm_stock_produit_intent);
+                break;
             case R.id.init_caisse_guichet_card:
                 // do your code
                 new ParamGuichetActivity.FetchLastSoldeGuichetDetailsAsyncTask().execute();
-
 /*
 
                 // When click the open input popup dialog button.
